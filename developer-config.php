@@ -139,6 +139,23 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 // Only allow the MOST READABLE characters for use in captcha image 
 // (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
+
+
+// Config category keys to ALLOW cached config RESETS on (during upgrades)
+// (can manipulate later on, by app version number / user input / etc)
+$ct['dev']['config_allow_resets'] = array();
+
+
+// Config category keys to DENY cached config settings ADDITIONS on (during upgrades)
+// (can manipulate later on, by app version number / user input / etc)
+$ct['dev']['config_deny_additions'] = array();
+
+
+// Config category keys to DENY cached config settings REMOVALS on (during upgrades)
+// (can manipulate later on, by app version number / user input / etc)
+$ct['dev']['config_deny_removals'] = array(
+                                        'assets',
+                                       );
      
      
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
@@ -157,9 +174,9 @@ $ct['dev']['location_blocked_servers'] = array(
                                                'binance.com',
                                                'bybit.com',
                                               );
+
      
-     
-// List of BUNDLED plugins (that we allow config upgrades on)
+// List of BUNDLED plugins (that we allow cached config upgrades on)
 $ct['dev']['bundled_plugins'] = array(
                                       // 'plugin-name-here',
                                       'debt-interest-tracker',
@@ -241,8 +258,21 @@ $ct['dev']['script_injection_checks'] = array(
                            
 
 }
-// Runs in /app-lib/php/inline/init/config-init.php
-elseif ( $dev_only_configs_mode == 'config-init' ) {
+// Runs in /app-lib/php/inline/init/config-init.php, within the logic that runs during upgrade checks
+elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
+
+
+     // v6.00.29 should RESET the 'assets' cached config category
+     // (as we have added jupiter aggregator markets, that assist tracking Solana (SPL) subtokens crypto address
+     // balance's primary currency value (USD / EUR / etc), in the 'address-balance-tracker' plugin [when privacy mode is on])
+     if ( $ct['app_version'] == '6.00.29' ) {
+     $ct['dev']['config_allow_resets'][] = 'assets';
+     }
+     
+                                     
+}
+// Runs in /app-lib/php/inline/config/after-load-config.php (because user config values are used)
+elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 
 
 // Obfuscate these matches in ALL error / debugging logs

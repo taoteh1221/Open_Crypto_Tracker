@@ -170,8 +170,8 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
                      // Make sure local storage data is parsed as an integer (for javascript to run math on it)
                      var upgrade_cache_refresh_last_notice = parseInt( localStorage.getItem(refresh_cache_upgrade_notice_storage) , 10);
                      
-                         // If it's been 3 days since last notice (or never), then show it    
-                         if ( Date.now() >= (upgrade_cache_refresh_last_notice + 259200000) ) {
+                         // If it's been 3 days since last notice (or never), then show it / set time shown to local storage  
+                         if ( isNaN(upgrade_cache_refresh_last_notice) || Date.now() >= (upgrade_cache_refresh_last_notice + 259200000) ) {
                          $('#refresh_cache_upgrade_message').show();
                          localStorage.setItem(refresh_cache_upgrade_notice_storage, Date.now() );
                          }

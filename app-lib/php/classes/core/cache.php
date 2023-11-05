@@ -159,7 +159,7 @@ var $ct_array = array();
                    
                    $ct['gen']->log(
                    			'conf_debug',
-                   			'checking for SUBARRAY ('.$mode.') upgrades'
+                   			'checking for SUBARRAY ('.$mode.') upgrades on: ct[conf][' . $cat_key . '][' . $conf_key . ']'
                    			);
                    			
         }
@@ -196,9 +196,10 @@ var $ct_array = array();
                    
                    foreach ( $default_ct_conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
+                      // Uses === / !== for PHPv7.4 support
                       if (
                       !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
-                      || isset($conf['plug_conf'][$this_plug][$plug_setting_key]) && $conf['plug_conf'][$this_plug][$plug_setting_key] == null && $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != null // CHECKING FOR CORRUPTED VALUES
+                      || isset($conf['plug_conf'][$this_plug][$plug_setting_key]) && $conf['plug_conf'][$this_plug][$plug_setting_key] === null && $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null // CHECKING FOR CORRUPTED VALUES
                       ) {
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
@@ -208,10 +209,11 @@ var $ct_array = array();
                    
                       $conf_upgraded = true;
                          
-                      $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != false || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] == 0 ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null or false]' );
+                      // Uses === / !== for PHPv7.4 support
+                      $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== false || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] === 0 ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null / false / zero]' );
                    
                       $ct['gen']->log(
-                             			'conf_error',
+                             			'notify_error',
                              			'Outdated app config, upgraded parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
                              			);
                    
@@ -221,11 +223,9 @@ var $ct_array = array();
                    
               
               }
-           
-           
               // Check everything else
               // INCLUDES CONDITION TO CHECK FOR CORRUPTED VALUES
-              if (
+              else if (
               !isset($conf[$cat_key][$conf_key])
               || !isset($conf[$cat_key][$conf_key][$setting_key]) || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] == null && $default_ct_conf[$cat_key][$conf_key][$setting_key] != null
               ) {
@@ -241,14 +241,15 @@ var $ct_array = array();
                    $conf_upgraded = true;	
                    
                    $ct['gen']->log(
-                        			'conf_error',
+                        			'notify_error',
                         			'Outdated app config, upgraded PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
                         			);
                    
                    }
+                   // Uses === / !== for PHPv7.4 support
                    else if (
                    !isset($conf[$cat_key][$conf_key][$setting_key])
-                   || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] == null && $default_ct_conf[$cat_key][$conf_key][$setting_key] != null // CHECKING FOR CORRUPTED VALUES
+                   || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] === null && $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null // CHECKING FOR CORRUPTED VALUES
                    ) {
               	
                    $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
@@ -258,10 +259,11 @@ var $ct_array = array();
                    
                    $conf_upgraded = true;
                          
-                   $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] != null || $default_ct_conf[$cat_key][$conf_key][$setting_key] != false || $default_ct_conf[$cat_key][$conf_key][$setting_key] == 0 ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null or false]' );
+                   // Uses === / !== for PHPv7.4 support
+                   $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null || $default_ct_conf[$cat_key][$conf_key][$setting_key] !== false || $default_ct_conf[$cat_key][$conf_key][$setting_key] === 0 ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null / false / zero]' );
                    
                    $ct['gen']->log(
-                        			'conf_error',
+                        			'notify_error',
                         			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         			);
                    
@@ -313,7 +315,7 @@ var $ct_array = array();
                       $conf_upgraded = true;
                    
                       $ct['gen']->log(
-                             			'conf_error',
+                             			'notify_error',
                              			'Depreciated app config, parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
                              			);
                    
@@ -323,11 +325,8 @@ var $ct_array = array();
                    
               
               }
-           
-           
               // Check everything else
-              if ( !isset($default_ct_conf[$cat_key][$conf_key]) || !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
-              
+              else if ( !isset($default_ct_conf[$cat_key][$conf_key]) || !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
               			
               			
                    if ( !isset($default_ct_conf[$cat_key][$conf_key]) ) {
@@ -337,7 +336,7 @@ var $ct_array = array();
                    $conf_upgraded = true;
                    
                    $ct['gen']->log(
-                        			'conf_error',
+                        			'notify_error',
                         			'Depreciated app config, PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
                         			);
                    			
@@ -349,7 +348,7 @@ var $ct_array = array();
                    $conf_upgraded = true;
                    
                    $ct['gen']->log(
-                        			'conf_error',
+                        			'notify_error',
                         			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
                         			);
                    			
@@ -803,7 +802,7 @@ var $ct_array = array();
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
    function upgrade_cached_ct_conf($conf=false) {
    
-   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $subarray_allow_upgrading;
+   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $active_plugins_registered;
    
    // Check that the config is valid / not corrupt FOR FUTURE JSON FILE STORAGE
    $test_conf = json_encode($conf, JSON_PRETTY_PRINT);
@@ -824,6 +823,7 @@ var $ct_array = array();
                    	 
          
       // Check for new variables, and add them
+      $track_resets = array();
       foreach ( $default_ct_conf as $cat_key => $cat_val ) {
             
                 
@@ -835,8 +835,17 @@ var $ct_array = array();
             
            foreach ( $cat_val as $conf_key => $conf_val ) {
          
-         
-               if ( !isset($conf[$cat_key]) ) {
+               
+               // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
+               if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !isset($track_resets[$cat_key]) && !$active_plugins_registered ) {
+                    
+                    if ( !isset($conf[$cat_key]) ) {
+                    $desc = 'UPGRADED';
+                    }
+                    else {
+                    $track_resets[$cat_key] = true;
+                    $desc = 'RESET';
+                    }
                     
                $conf[$cat_key] = $default_ct_conf[$cat_key];
                   			
@@ -846,22 +855,26 @@ var $ct_array = array();
                $conf_upgraded = true;
                   
                $ct['gen']->log(
-                  			'conf_error',
-                  			'Upgraded app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key]) . ')'
+                  			'notify_error',
+                  			$desc . ' app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key]) . ')'
                   			);
                   
                }
                else if ( is_array($conf[$cat_key][$conf_key]) ) {
                     
                     // Uses === for PHPv7.4 support
-                    if ( in_array($cat_key, $subarray_allow_upgrading) || $cat_key === 'plugins' && $conf_key === 'plugin_status' ) {
+                    if (
+                    !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
+                    || $cat_key === 'plugins' && $conf_key === 'plugin_status'
+                    ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                     }
                     
                }
+               // Uses === / !== for PHPv7.4 support
                else if (
-               !isset($conf[$cat_key][$conf_key])
-               || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] == null && $default_ct_conf[$cat_key][$conf_key] != null // CHECKING FOR CORRUPTED VALUES
+               !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
+               || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] === null && $default_ct_conf[$cat_key][$conf_key] !== null // CHECKING FOR CORRUPTED VALUES
                ) {
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
@@ -871,10 +884,11 @@ var $ct_array = array();
                   						
                $conf_upgraded = true;
                
-               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] != null || $default_ct_conf[$cat_key][$conf_key] != false || $default_ct_conf[$cat_key][$conf_key] == 0 ? $default_ct_conf[$cat_key][$conf_key] : '[null or false]' );
+               // Uses === / !== for PHPv7.4 support
+               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] !== null || $default_ct_conf[$cat_key][$conf_key] !== false || $default_ct_conf[$cat_key][$conf_key] === 0 ? $default_ct_conf[$cat_key][$conf_key] : '[null / false / zero]' );
                   
                $ct['gen']->log(
-                  			'conf_error',
+                  			'notify_error',
                   			'Upgraded app config PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
                   			);
                   
@@ -907,7 +921,7 @@ var $ct_array = array();
                $conf_upgraded = true;
                   
                $ct['gen']->log(
-               			'conf_error',
+               			'notify_error',
                			'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
                   			);
                   
@@ -915,19 +929,22 @@ var $ct_array = array();
                else if ( is_array($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                     
                     // Uses === for PHPv7.4 support
-                    if ( in_array($cached_cat_key, $subarray_allow_upgrading) || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status' ) {
+                    if (
+                    !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
+                    || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
+                    ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
                     }
                     
                }
-               else if ( !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
+               else if ( !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   
                $conf_upgraded = true;
                   
                $ct['gen']->log(
-               			'conf_error',
+               			'notify_error',
                			'Depreciated app config PARAMETER ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
@@ -953,7 +970,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $update_config, $reset_config, $app_upgrade_check, $skipped_plugins_upgrade_check, $conf_upgraded;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $update_config, $reset_config, $app_upgrade_check, $skipped_plugins_upgrade_check, $conf_upgraded, $admin_general_success;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -1016,14 +1033,34 @@ var $ct_array = array();
         			         
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
         			              
-        			         $ct['gen']->log('conf_error', 'CACHED config upgrade '.( $skipped_plugins_upgrade_check ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ).' check flagged, checking now');
+        			         $ct['gen']->log('notify_error', 'CACHED config upgrade '.( $skipped_plugins_upgrade_check ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ).' check flagged, checking now');
         			         
         			         $ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true); 
         			         // !!!!!!!!! DO NOT RESET $app_upgrade_check HERE, AS WE WANT TO SEND THE FLAG INTO queue_config_update() AFTERWARDS,
         			         // !!!!!!!!! WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME)
         			         
         			              if ( !$conf_upgraded ) {
-        			              $ct['gen']->log('conf_error', 'CACHED config upgrade check finished running, and did NOT find anything that needed an upgrade');
+        			                   
+        			              $ct['gen']->log('notify_error', 'CACHED config upgrade check finished running, and did NOT find anything that needed an upgrade');
+        			              
+                                       if ( isset($_POST['upgrade_ct_conf']) ) {
+                                       $admin_general_success = 'The app configuration database was checked for upgrades. No upgrades were needed.';
+                                       }
+
+        			              }
+        			              else {
+						
+                                  // Flag for UI alerts
+                                  $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
+                                  $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+                                   
+                                  // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
+                                  $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
+                                   
+                                       if ( isset($_POST['upgrade_ct_conf']) ) {
+                                       $admin_general_success = 'The app configuration database was upgraded successfully. Please see the alerts section (siren icon in the sidebar), to review what was upgraded.';
+                                       }
+
         			              }
         			         
         			         }
@@ -1067,6 +1104,8 @@ var $ct_array = array();
         }
         
         
+   //$ct['cache']->app_log(); // DEBUGGING
+   
    gc_collect_cycles(); // Clean memory cache
 
    }
@@ -1282,6 +1321,8 @@ var $ct_array = array();
              
      }
      
+     
+   //$ct['cache']->app_log(); // DEBUGGING
 
    // Return $ct['conf']
    return $ct['conf'];
@@ -2606,9 +2647,13 @@ var $ct_array = array();
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct['conf']['power']['remote_api_timeout']);
     curl_setopt($ch, CURLOPT_TIMEOUT, $ct['conf']['power']['remote_api_timeout']);
               
+    // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
+    $temp_array = array();
+    $strict_news_feed_servers = ( is_array($ct['conf']['news']['strict_news_feed_servers']) ? $ct['conf']['news']['strict_news_feed_servers'] : $temp_array );
+          
      
       // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-      if ( in_array($endpoint_tld_or_ip, $ct['conf']['news']['strict_news_feed_servers']) ) {
+      if ( in_array($endpoint_tld_or_ip, $strict_news_feed_servers) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       else {

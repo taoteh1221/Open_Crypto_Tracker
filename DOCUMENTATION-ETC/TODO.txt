@@ -82,7 +82,7 @@ GENERAL REMINDERS
 Always set bluefish to "5 spaces" as a tab indentation, and enable indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!! PLEASE DO *NOT* USE REGULAR TAB INDENTATION (PLEASE ALWAYS USE MULTIPLE SPACES)!
 
 
-ALWAYS TEST UPGRADING on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING GOES SMOOTHLY!
+ALWAYS TEST UPGRADING *AND* RE-DOWNGRADING the 'normal' security mode CACHED config on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING / DOWNGRADING GOES SMOOTHLY!
 
 
 Use the app "Meld" to compare json config files from a fresh reset vs after many user customizations vs after upgrades added / removed, to assure ordering / structure is not corrupted.
@@ -186,72 +186,7 @@ TEST UPGRADING on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPG
 Do a bitcoin timestamp of the final v6.00.29 public release.
 
 
-Hide dev-only plugin settings in the interface, as <input type='hidden' />
-
-
-Add a 24 hour time picker, in the recurring reminder plugin settings interface.
-
-
-Add a 'notify' category (on top of 'error' / 'debug'), for app logging.
-
-
-We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
-
-
-Below the config reset button, have an expandable tree list with a checkbox next to each entry (including 'all'), for each config subarray key name, including the plug_conf section. Then users can decide which sections to reset, and which to leave alone.
-
-
-DO ANOTHER CODE REVIEW OF THE ENTIRE ADMIN CLASS FUNCTIONS.
-
-
-Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
-
-
-Consider using the array ordering mapper logic we built for the cached config upgrades, also in the queue_config_update() function. Then not only do we GUARANTEE consistant ordering of settings in the admin area, BUT we ALSO would have consistant array ordering in the cached config "UNDER THE HOOD"...WHICH MAKES APP DEVELOPMENT A BIT EASIER IN THE TEST / REVIEW DEPARTMENT. Different SUBARRAY values in the cached config should be fine, as we are only mapping the ROOT array keys that ALWAYS EXIST (NOT EVER REMOVABLE BY A USER IN THE INTERFACE).
-
-
-Create / refresh a cache file with a key order mapping array (in json format) of the MAIN CONFIG TEMPLATE, which runs on new installs AND detected upgrades, by using include() to load /templates/back-end/main-config.template (BEFORE config.php is LOADED, SO WE DON'T OVERWRITE CUSTOMIZED USER SETTINGS). Then use this cache file's data for the array key ordering logic in the cached config upgrade AND update functions. THEN WE WILL ENCOUNTER LESS ARRAY KEY ORDERING ISSUES WHEN AN END-USER USES AN **OUTDATED CONFIG.PHP FILE**. ALSO USE THIS MAPPING DATA TO GET A HASH OF ALL SETTING KEYS (INCLUDING EACH SETTING WITHIN A SETTING CATEGORY) CONCATENATED TOGETHER, SO WE CAN COMPARE AGAINST THE LIVE HARD-CODED MAIN CONFIG, AND ALERT END USERS IF THEY HAVE AN OUTDATED MAIN CONFIG FILE. CACHE RESULTS FOR BOTH, AND ALSO ONLY RUN CACHING ON NEW INSTALLS / UPGRADES, BUT ALERT USERS EVERY RUNTIME IF THE CACHED HASHES DONT MATCH.
-
-
-Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
-Security page should show the app version number, AND a version upgrade check alert (if available).
-
-
-Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
-
-
-Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
-
-
 Update screenshots, since we overhauled everything in the interface.
-
-
-Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
-
-
-Add my venmo link to app footer and project page: 
-https://account.venmo.com/u/taoteh1221
-
-
-Add to resources page:
-https://www.validators.app/
-
-
-Research whether POST data size affects header size like cookie data size does.
-
-
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
-
-
-Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
-
-
-Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field on update page, to try to recreate a possible issue related to invisible whitespace causing "paid" value to set as zero on form submission.
 
 
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
@@ -278,11 +213,72 @@ $update_config_success
 
 $update_config_error
 
+$admin_general_success
+
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
+DO ANOTHER CODE REVIEW OF THE ENTIRE ADMIN CLASS FUNCTIONS.
+
+
 Move everything from the var class to the general class.
+
+
+Hide dev-only plugin settings in the interface, as <input type='hidden' />
+
+
+Add a 24 hour time picker, in the recurring reminder plugin settings interface.
+
+
+Linux Desktop Edition makes any buttons in an admin interface repeatable subarray element wrapper SMALLER than usual. Find out why.
+
+
+We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
+
+
+Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
+
+
+Create / refresh a cache file with a key order mapping array (in json format) of the MAIN CONFIG TEMPLATE, which runs on new installs AND detected upgrades, by using include() to load /templates/back-end/main-config.template (BEFORE config.php is LOADED, SO WE DON'T OVERWRITE CUSTOMIZED USER SETTINGS). Then use this cache file's data for the array key ordering logic in the cached config upgrade AND update functions. THEN WE WILL ENCOUNTER LESS ARRAY KEY ORDERING ISSUES WHEN AN END-USER USES AN **OUTDATED CONFIG.PHP FILE**. ALSO USE THIS MAPPING DATA TO GET A HASH OF ALL SETTING KEYS (INCLUDING EACH SETTING WITHIN A SETTING CATEGORY) CONCATENATED TOGETHER, SO WE CAN COMPARE AGAINST THE LIVE HARD-CODED MAIN CONFIG, AND ALERT END USERS IF THEY HAVE AN OUTDATED MAIN CONFIG FILE. CACHE RESULTS FOR BOTH, AND ALSO ONLY RUN CACHING ON NEW INSTALLS / UPGRADES, BUT ALERT USERS EVERY RUNTIME IF THE CACHED HASHES DONT MATCH.
+
+
+Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
+
+
+Security page should show the app version number, AND a version upgrade check alert (if available).
+
+
+Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
+
+
+Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
+
+
+Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
+
+
+Add my venmo link to app footer and project page: 
+https://account.venmo.com/u/taoteh1221
+
+
+Add to resources page:
+https://www.validators.app/
+
+
+Research whether POST data size affects header size like cookie data size does.
+
+
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
+
+
+Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
+
+
+Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field on update page, to try to recreate a possible issue related to invisible whitespace causing "paid" value to set as zero on form submission.
 
 
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
@@ -512,7 +508,7 @@ For the language translation cache (to avoid asking API for a translation if we 
 HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
 
 
-"$subarray_allow_upgrading" should be populated with subarray keys a user is ok with upgrading (news feeds, assets, whatever). Additionally, a user should be able to choose whether to: add only new vars, delete only removed vars, or reset their current settings with the latest default one.
+For config RESETS, a user should be able to choose whether to: add only new OPTIONAL (demo) vars, delete only removed OPTIONAL (demo) vars, or reset their current data set with AN EXACT COPY of the latest default OPTIONAL (demo) values. WE CAN DO THIS BY DYNAMICALLY ADDING / REMOVING CATEGORY KEYS IN $ct['dev']['config_allow_resets'] / $ct['dev']['config_deny_additions'] / $ct['dev']['config_deny_removals'] (in developer-config.php). Below the config reset button, have an expandable tree list with a DROP-DOWN MENU next to each entry (including an 'all' field at the top), for each config subarray key name, including the plug_conf section. Then users can decide which sections to reset, and which to leave alone.
 
 
 The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny scren sizes.

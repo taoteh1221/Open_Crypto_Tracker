@@ -2476,9 +2476,18 @@ var $ct_array = array();
    $category = explode('|', $category);
    
       
-      // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries), to AVOID CORRUPTING log formatting
-      if ( $category[0] == 'notify' && $hashcheck == false ) {
-      $hashcheck = md5($timestamp_milliseconds . $category[0] . $log_msg);
+      if ( $category[0] == 'notify' ) {
+           
+      $type_desc = null;
+      
+          // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries), to AVOID CORRUPTING log formatting
+          if ( $hashcheck == false ) {
+          $hashcheck = md5($timestamp_milliseconds . $category[0] . $log_msg);
+          }
+          
+      }
+      else {
+      $type_desc = ' (' . $category[1] . ')';
       }
    
    
@@ -2502,17 +2511,17 @@ var $ct_array = array();
           
    
           if ( $hashcheck != false ) {
-          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
           elseif ( $category[0] == 'cache' ) {
-          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           elseif ( $overwrite != false ) {
-          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           else {
-          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
       
       
@@ -2521,17 +2530,17 @@ var $ct_array = array();
           
    
           if ( $hashcheck != false ) {
-          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
           elseif ( $category[0] == 'cache' ) {
-          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           elseif ( $overwrite != false ) {
-          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           else {
-          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
       
       

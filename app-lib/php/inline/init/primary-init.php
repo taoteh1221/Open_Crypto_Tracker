@@ -130,9 +130,7 @@ $cached_app_version = trim( file_get_contents('cache/vars/state-tracking/app_ver
 }
 // Otherwise save app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
 else {
-sleep(1); // In case it's a fresh install, and cache directory structure was just created
-$cached_app_version = $ct['app_version'];
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $cached_app_version);
+$cached_app_version = null;
 }
 
 
