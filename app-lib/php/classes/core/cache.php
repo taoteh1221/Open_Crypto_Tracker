@@ -214,7 +214,7 @@ var $ct_array = array();
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			'Outdated app config, upgraded parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                             			'Outdated app config, upgraded SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
                              			);
                    
                       }
@@ -242,7 +242,7 @@ var $ct_array = array();
                    
                    $ct['gen']->log(
                         			'notify_error',
-                        			'Outdated app config, upgraded PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
+                        			'Outdated app config, upgraded PARENT ARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
                         			);
                    
                    }
@@ -264,7 +264,7 @@ var $ct_array = array();
                    
                    $ct['gen']->log(
                         			'notify_error',
-                        			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        			'Outdated app config, upgraded SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         			);
                    
                    }
@@ -316,7 +316,7 @@ var $ct_array = array();
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			'Depreciated app config, parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
+                             			'Depreciated app config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
                              			);
                    
                       }
@@ -337,7 +337,7 @@ var $ct_array = array();
                    
                    $ct['gen']->log(
                         			'notify_error',
-                        			'Depreciated app config, PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
+                        			'Depreciated app config, PARENT ARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
                         			);
                    			
                    } 
@@ -349,7 +349,7 @@ var $ct_array = array();
                    
                    $ct['gen']->log(
                         			'notify_error',
-                        			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+                        			'Depreciated app config, SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
                         			);
                    			
                    }
