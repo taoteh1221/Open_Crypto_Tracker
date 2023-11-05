@@ -830,37 +830,40 @@ var $ct_array = array();
            // We don't process anything in 'plug_conf' 
            if ( $cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
            continue;
+           }               
+           
+           
+           // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
+           if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !isset($track_resets[$cat_key]) && !$active_plugins_registered ) {
+                    
+                if ( !isset($conf[$cat_key]) ) {
+                $desc = 'UPGRADED';
+                }
+                else {
+                $track_resets[$cat_key] = true;
+                $desc = 'RESET';
+                }
+                    
+           $conf[$cat_key] = $default_ct_conf[$cat_key];
+                  			
+           // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+           $conf = $ct['gen']->assoc_array_order( $conf, $ct['gen']->assoc_array_order_map($default_ct_conf) );
+                  						
+           $conf_upgraded = true;
+                  
+           $ct['gen']->log(
+                  	       'notify_error',
+                  		  $desc . ' app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key]) . ')'
+                  		 );
+                  
            }
                   	
-            
+           
+           // Conf keys
            foreach ( $cat_val as $conf_key => $conf_val ) {
          
                
-               // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-               if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !isset($track_resets[$cat_key]) && !$active_plugins_registered ) {
-                    
-                    if ( !isset($conf[$cat_key]) ) {
-                    $desc = 'UPGRADED';
-                    }
-                    else {
-                    $track_resets[$cat_key] = true;
-                    $desc = 'RESET';
-                    }
-                    
-               $conf[$cat_key] = $default_ct_conf[$cat_key];
-                  			
-               // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-               $conf = $ct['gen']->assoc_array_order( $conf, $ct['gen']->assoc_array_order_map($default_ct_conf) );
-                  						
-               $conf_upgraded = true;
-                  
-               $ct['gen']->log(
-                  			'notify_error',
-                  			$desc . ' app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key]) . ')'
-                  			);
-                  
-               }
-               else if ( is_array($conf[$cat_key][$conf_key]) ) {
+               if ( is_array($conf[$cat_key][$conf_key]) ) {
                     
                     // Uses === for PHPv7.4 support
                     if (
@@ -909,24 +912,28 @@ var $ct_array = array();
            if ( $cached_cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
            continue;
            }
+               
+           
+           // If category is depreciated
+           if ( !isset($default_ct_conf[$cached_cat_key]) ) {
                   	
+           unset($conf[$cached_cat_key]);
+                  
+           $conf_upgraded = true;
+                  
+           $ct['gen']->log(
+               		  'notify_error',
+               		  'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
+                  		 );
+                  
+           }
                   	
+           
+           // Conf keys
            foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
          
-               if ( !isset($default_ct_conf[$cached_cat_key]) ) {
-                  	
-               unset($conf[$cached_cat_key]);
-                  
-               $conf_upgraded = true;
-                  
-               $ct['gen']->log(
-               			'notify_error',
-               			'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
-                  			);
-                  
-               }
-               else if ( is_array($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
+               if ( is_array($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                     
                     // Uses === for PHPv7.4 support
                     if (
