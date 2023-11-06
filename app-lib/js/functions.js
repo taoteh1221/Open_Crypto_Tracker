@@ -2269,7 +2269,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
      // UI value styling
      rangeValue.style.width = rangeField.offsetWidth + 'px';
-     rangeValue.style.left = rangeMin.offsetWidth + 4 + 'px';
+     rangeValue.style.left = Math.round( rangeMin.offsetWidth + (5 * set_font_size) ) + 'px';
      
      // INITIAL: Setting of previous value var
      var prev_value = Number(rangeField.value);
@@ -2339,7 +2339,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
          
          // Take into account the range min UI value showing on the LEFT of the range field,
          // and some extra margin / padding that may not be detected
-         var refinedPosition = Math.round(rawPosition + rangeMin.offsetWidth - 9);
+         var refinedPosition = Math.round( rawPosition + rangeMin.offsetWidth - (10 * set_font_size) );
          
          rangeTooltip.style.left = refinedPosition + 'px';
          
@@ -2417,7 +2417,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
                 var rangeMin = range_wrap.getElementsByClassName('range-min')[0];
                 // UI value styling
                 rangeValue.style.width = rangeField.offsetWidth + 'px';
-                rangeValue.style.left = rangeMin.offsetWidth + 4 + 'px';
+                rangeValue.style.left = Math.round( rangeMin.offsetWidth + (5 * set_font_size) ) + 'px';
                 }
                 
          });

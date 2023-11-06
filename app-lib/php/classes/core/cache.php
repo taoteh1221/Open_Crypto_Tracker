@@ -189,6 +189,13 @@ var $ct_array = array();
                       // CHECKING FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
                       || isset($conf['plug_conf'][$this_plug][$plug_setting_key]) && $conf['plug_conf'][$this_plug][$plug_setting_key] === null && $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null 
                       ) {
+                    
+                          if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
+                          $desc = 'UPGRADED';
+                          }
+                          else {
+                          $desc = 'REPAIRED';
+                          }
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
                   			
@@ -202,7 +209,7 @@ var $ct_array = array();
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			'Outdated app config, upgraded SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                             			$desc . ' app config, upgraded SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
                              			);
                    
                       }
@@ -218,6 +225,13 @@ var $ct_array = array();
               // CHECK FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
               || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] === null && $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null
               ) {
+                    
+                   if ( !isset($conf[$cat_key][$conf_key][$setting_key]) ) {
+                   $desc = 'UPGRADED';
+                   }
+                   else {
+                   $desc = 'REPAIRED';
+                   }
               			
               $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
@@ -231,7 +245,7 @@ var $ct_array = array();
                    
               $ct['gen']->log(
                         		'notify_error',
-                        		'Outdated app config, upgraded SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        		$desc . ' app config, upgraded SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         		);
               
               }
@@ -805,52 +819,37 @@ var $ct_array = array();
            foreach ( $cat_val as $conf_key => $conf_val ) {
          
                
-               // If subarray setting
-               if ( is_array($conf[$cat_key][$conf_key]) ) {
-                    
+               // If subarray setting (NOT queued to be RESET)
+               if ( is_array($conf[$cat_key][$conf_key]) && !in_array($conf_key, $ct['dev']['config_allow_resets']) ) {
            
                     if (
-                    // If reset on this subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
-                    in_array($conf_key, $ct['dev']['config_allow_resets']) && !$active_plugins_registered
                     // If not in 'config_deny_additions'
-                    || !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
+                    !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
                     // If plugin status (we handle whitelisting for this in subarray_cached_ct_conf_upgrade())
                     || $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
                     ) {
-                    
-                    
-                         // SUBARRAY RESETS
-                         if ( in_array($conf_key, $ct['dev']['config_allow_resets']) ) {
-                         
-                         $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
-                  			
-                         // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-                         $conf[$cat_key] = $ct['gen']->assoc_array_order( $conf[$cat_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key]) );
-                                 						
-                         $conf_upgraded = true;
-                                 
-                         $ct['gen']->log(
-                                 	       'notify_error',
-                                 		  'RESET app config SUBARRAY ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key][$conf_key]) . ')'
-                                 		 );
-                         
-                         }
-                         // REGULAR SUBARRAY UPGRADES
-                         else {
-                         $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
-                         }
-                         
-                         
+                    $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                     }
                     
-                    
                }
-               // If regular setting
+               // If regular setting, OR RESET on a subarray setting
                else if (
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                // CHECKING FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
                || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] === null && $default_ct_conf[$cat_key][$conf_key] !== null
+               // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
+               || is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets']) && !$active_plugins_registered
                ) {
+                    
+                    if ( !isset($conf[$cat_key][$conf_key]) ) {
+                    $desc = 'UPGRADED';
+                    }
+                    else if ( isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] === null && $default_ct_conf[$cat_key][$conf_key] !== null ) {
+                    $desc = 'REPAIRED';
+                    }
+                    else {
+                    $desc = 'RESET';
+                    }
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                   			
@@ -861,10 +860,13 @@ var $ct_array = array();
                
                // Uses === / !== for PHPv7.4 support
                $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] !== null || $default_ct_conf[$cat_key][$conf_key] !== false || $default_ct_conf[$cat_key][$conf_key] === 0 ? $default_ct_conf[$cat_key][$conf_key] : '[null / false / zero]' );
+               
+               // If we're resetting a subarray setting
+               $log_val_descr = ( is_array($default_ct_conf[$cat_key][$conf_key]) ? 'default array size: ' . sizeof($default_ct_conf[$cat_key][$conf_key]) : 'default value: ' . $log_val_descr );
                   
                $ct['gen']->log(
                   			'notify_error',
-                  			'Upgraded app config PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
+                  			$desc . ' app config PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported (' . $log_val_descr . ')'
                   			);
                   
                }
