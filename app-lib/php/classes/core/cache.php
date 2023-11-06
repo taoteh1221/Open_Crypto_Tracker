@@ -183,19 +183,10 @@ var $ct_array = array();
                    
                    foreach ( $default_ct_conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
-                   
-                      if (
-                      !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
-                      // CHECKING FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
-                      || isset($conf['plug_conf'][$this_plug][$plug_setting_key]) && $conf['plug_conf'][$this_plug][$plug_setting_key] === null && $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null 
-                      ) {
-                    
-                          if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
-                          $desc = 'UPGRADED';
-                          }
-                          else {
-                          $desc = 'REPAIRED';
-                          }
+                      
+                      // If setting doesn't exist yet
+                      // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
+                      if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
                   			
@@ -209,7 +200,7 @@ var $ct_array = array();
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			$desc . ' app config, upgraded SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                             			'UPGRADED app config, upgraded SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
                              			);
                    
                       }
@@ -219,19 +210,9 @@ var $ct_array = array();
                    
               
               }
-              // Check everything else
-              else if (
-              !isset($conf[$cat_key][$conf_key][$setting_key]) 
-              // CHECK FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
-              || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] === null && $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null
-              ) {
-                    
-                   if ( !isset($conf[$cat_key][$conf_key][$setting_key]) ) {
-                   $desc = 'UPGRADED';
-                   }
-                   else {
-                   $desc = 'REPAIRED';
-                   }
+              // Check everything else...If setting doesn't exist yet
+              // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
+              else if ( !isset($conf[$cat_key][$conf_key][$setting_key]) ) {
               			
               $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
@@ -245,7 +226,7 @@ var $ct_array = array();
                    
               $ct['gen']->log(
                         		'notify_error',
-                        		$desc . ' app config, upgraded SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        		'UPGRADED app config, upgraded SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         		);
               
               }
@@ -834,18 +815,15 @@ var $ct_array = array();
                }
                // If regular setting, OR RESET on a subarray setting
                else if (
+               // If we are allowed to add settings in this category, and the setting doesn't exist
+               // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
-               // CHECKING FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
-               || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] === null && $default_ct_conf[$cat_key][$conf_key] !== null
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
                || is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets']) && !$active_plugins_registered
                ) {
                     
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
                     $desc = 'UPGRADED';
-                    }
-                    else if ( isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] === null && $default_ct_conf[$cat_key][$conf_key] !== null ) {
-                    $desc = 'REPAIRED';
                     }
                     else {
                     $desc = 'RESET';
