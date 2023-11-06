@@ -29,7 +29,7 @@ return Base64.decode(ct_id) + "_" + var_name;
 /////////////////////////////////////////////////////////////
 
 
-function delete_cookie( name ) {
+function delete_cookie(name) {
 document.cookie = name + '=; SameSite=Strict; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
@@ -2339,7 +2339,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
          
          // Take into account the range min UI value showing on the LEFT of the range field,
          // and some extra margin / padding that may not be detected
-         var refinedPosition = Math.round( (rawPosition - 5) + (rangeMin.offsetWidth - 5) );
+         var refinedPosition = Math.round(rawPosition + rangeMin.offsetWidth - 9);
          
          rangeTooltip.style.left = refinedPosition + 'px';
          
@@ -2356,7 +2356,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
        
          rangeValue.innerHTML = `${uiValue}`;
          
-         rangeOnfocus;
+         rangeFocus;
          
             	     
              // Wait 0.7 seconds before resetting as not recently updated
@@ -2370,7 +2370,9 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
          
          // Styling / processing onblur (for UX)
-         var rangeOnfocus = ()=>{
+         var rangeFocus = ()=>{
+              
+         rangeField.focus(); // For touchscreens to focus (to use arrow keys after)
        
          rangeField.style.backgroundColor = '#F7931A';
          
@@ -2386,9 +2388,11 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
          
          // Styling / processing onblur (for UX)
-         var rangeOnblur = ()=>{
+         var rangeBlur = ()=>{
               
-         rangeTooltip.innerHTML = ``;
+         rangeField.blur(); // For touchscreens to blur
+              
+         rangeTooltip.innerHTML = ``; // Hide tooltip
        
          rangeField.style.backgroundColor = 'lightseagreen';
          
@@ -2422,11 +2426,13 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
       rangeField.addEventListener('input', setValue);
      
-      rangeField.addEventListener('focus', rangeOnfocus);
+      rangeField.addEventListener('focus', rangeFocus);
      
-      rangeField.addEventListener('blur', rangeOnblur);
+      rangeField.addEventListener('touchstart', rangeFocus);
      
-      rangeField.addEventListener('touchend', rangeOnblur);
+      rangeField.addEventListener('touchmove', rangeFocus);
+     
+      rangeField.addEventListener('blur', rangeBlur);
       
       });
 

@@ -231,6 +231,9 @@ Hide dev-only plugin settings in the interface, as <input type='hidden' />
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 
 
+When an SPL token is selected in the address-balance-tracker plugin, have a notes field saying they need to use the unique address dedicated to that token, that shows in block explorers.
+
+
 Linux Desktop Edition makes any buttons in an admin interface repeatable subarray element wrapper SMALLER than usual. Find out why.
 
 
