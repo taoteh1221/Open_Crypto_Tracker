@@ -141,21 +141,23 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
 
-// Config category keys to ALLOW cached config RESETS on (during upgrades)
-// (can manipulate later on, by app version number / user input / etc)
+// Config category / settings subarray keys to ALLOW cached config RESETS on (during upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
+// THIS ALWAYS OVERRIDES 'config_deny_additions' AND 'config_deny_removals'
 $ct['dev']['config_allow_resets'] = array();
 
 
-// Config category keys to DENY cached config settings ADDITIONS on (during upgrades)
-// (can manipulate later on, by app version number / user input / etc)
+// Config category / settings subarray keys to DENY cached config settings ADDITIONS on (during upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
 $ct['dev']['config_deny_additions'] = array();
 
 
-// Config category keys to DENY cached config settings REMOVALS on (during upgrades)
-// (can manipulate later on, by app version number / user input / etc)
+// Config category / settings subarray keys to DENY cached config settings REMOVALS on (during upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
 $ct['dev']['config_deny_removals'] = array(
-                                        'assets',
-                                       );
+                                           'tracked_markets', // Subarray setting
+                                           'assets', // Main category
+                                          );
      
      
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
@@ -262,11 +264,13 @@ $ct['dev']['script_injection_checks'] = array(
 elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 
 
-     // v6.00.29 should RESET the 'assets' cached config category
+     // v6.00.29 should RESET the 'assets' and 'tracked_markets' cached config values
      // (as we have added jupiter aggregator markets, that assist tracking Solana (SPL) subtokens crypto address
      // balance's primary currency value (USD / EUR / etc), in the 'address-balance-tracker' plugin [when privacy mode is on])
+     // AND IF WE RESET 'assets', WE NEED TO RESET 'tracked_markets' TOO
      if ( $ct['app_version'] == '6.00.29' ) {
-     $ct['dev']['config_allow_resets'][] = 'assets';
+     $ct['dev']['config_allow_resets'][] = 'tracked_markets'; // Subarray setting
+     $ct['dev']['config_allow_resets'][] = 'assets'; // Main category
      }
      
                                      

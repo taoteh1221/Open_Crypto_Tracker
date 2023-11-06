@@ -153,16 +153,6 @@ var $ct_array = array();
    function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
    
    global $ct, $default_ct_conf, $conf_upgraded, $active_plugins_registered, $skipped_plugins_upgrade_check;
-                   
-                   
-        if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-                   
-                   $ct['gen']->log(
-                   			'conf_debug',
-                   			'checking for SUBARRAY ('.$mode.') upgrades on: ct[conf][' . $cat_key . '][' . $conf_key . ']'
-                   			);
-                   			
-        }
    
    
         // New additions
@@ -173,14 +163,11 @@ var $ct_array = array();
            foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
         
               
-              // Check plugins FIRST
-              // Uses === for PHPv7.4 support
+              // Skip custom (NON-bundled) plugins...Uses === for PHPv7.4 support
               if ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && !in_array($setting_key, $ct['dev']['bundled_plugins']) ) {
-              continue; // Skip custom (NON-bundled) plugins
+              continue; 
               }
-              // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
-              // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
+              // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)...Uses === for PHPv7.4 support
               elseif ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
@@ -196,10 +183,11 @@ var $ct_array = array();
                    
                    foreach ( $default_ct_conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
-                      // Uses === / !== for PHPv7.4 support
+                   
                       if (
                       !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
-                      || isset($conf['plug_conf'][$this_plug][$plug_setting_key]) && $conf['plug_conf'][$this_plug][$plug_setting_key] === null && $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null // CHECKING FOR CORRUPTED VALUES
+                      // CHECKING FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
+                      || isset($conf['plug_conf'][$this_plug][$plug_setting_key]) && $conf['plug_conf'][$this_plug][$plug_setting_key] === null && $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null 
                       ) {
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
@@ -218,57 +206,33 @@ var $ct_array = array();
                              			);
                    
                       }
+                      
                    
                    }
                    
               
               }
               // Check everything else
-              // INCLUDES CONDITION TO CHECK FOR CORRUPTED VALUES
               else if (
-              !isset($conf[$cat_key][$conf_key])
-              || !isset($conf[$cat_key][$conf_key][$setting_key]) || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] == null && $default_ct_conf[$cat_key][$conf_key][$setting_key] != null
+              !isset($conf[$cat_key][$conf_key][$setting_key]) 
+              // CHECK FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
+              || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] === null && $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null
               ) {
               			
-              			
-                   if ( !isset($conf[$cat_key][$conf_key]) ) {
-                        
-                   $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
+              $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
-                   // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-                   $conf[$cat_key] = $ct['gen']->assoc_array_order( $conf[$cat_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key]) );
+              // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+              $conf[$cat_key][$conf_key] = $ct['gen']->assoc_array_order( $conf[$cat_key][$conf_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key][$conf_key]) );
                    
-                   $conf_upgraded = true;	
-                   
-                   $ct['gen']->log(
-                        			'notify_error',
-                        			'Outdated app config, upgraded PARENT ARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
-                        			);
-                   
-                   }
-                   // Uses === / !== for PHPv7.4 support
-                   else if (
-                   !isset($conf[$cat_key][$conf_key][$setting_key])
-                   || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] === null && $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null // CHECKING FOR CORRUPTED VALUES
-                   ) {
-              	
-                   $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
-                  			
-                   // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-                   $conf[$cat_key][$conf_key] = $ct['gen']->assoc_array_order( $conf[$cat_key][$conf_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key][$conf_key]) );
-                   
-                   $conf_upgraded = true;
+              $conf_upgraded = true;
                          
-                   // Uses === / !== for PHPv7.4 support
-                   $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null || $default_ct_conf[$cat_key][$conf_key][$setting_key] !== false || $default_ct_conf[$cat_key][$conf_key][$setting_key] === 0 ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null / false / zero]' );
+              // Uses === / !== for PHPv7.4 support
+              $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null || $default_ct_conf[$cat_key][$conf_key][$setting_key] !== false || $default_ct_conf[$cat_key][$conf_key][$setting_key] === 0 ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null / false / zero]' );
                    
-                   $ct['gen']->log(
-                        			'notify_error',
-                        			'Outdated app config, upgraded SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
-                        			);
-                   
-                   }
-                   
+              $ct['gen']->log(
+                        		'notify_error',
+                        		'Outdated app config, upgraded SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        		);
               
               }
               
@@ -285,14 +249,11 @@ var $ct_array = array();
            foreach ( $conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
         
               
-              // Check plugins FIRST
-              // Uses === for PHPv7.4 support
+              // Skip custom (NON-bundled) plugins...Uses === for PHPv7.4 support
               if ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && !in_array($setting_key, $ct['dev']['bundled_plugins']) ) {
-              continue; // Skip custom (NON-bundled) plugins
+              continue; 
               }
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
-              // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
               elseif ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
@@ -326,34 +287,16 @@ var $ct_array = array();
               
               }
               // Check everything else
-              else if ( !isset($default_ct_conf[$cat_key][$conf_key]) || !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+              else if ( !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
               			
-              			
-                   if ( !isset($default_ct_conf[$cat_key][$conf_key]) ) {
-                        
-                   unset($conf[$cat_key][$conf_key]);
+              unset($conf[$cat_key][$conf_key][$setting_key]);
                    
-                   $conf_upgraded = true;
+              $conf_upgraded = true;
                    
-                   $ct['gen']->log(
-                        			'notify_error',
-                        			'Depreciated app config, PARENT ARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
-                        			);
-                   			
-                   } 
-                   else if ( !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
-                   
-                   unset($conf[$cat_key][$conf_key][$setting_key]);
-                   
-                   $conf_upgraded = true;
-                   
-                   $ct['gen']->log(
-                        			'notify_error',
-                        			'Depreciated app config, SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
-                        			);
-                   			
-                   }
-                   
+              $ct['gen']->log(
+                        	     'notify_error',
+                        		'Depreciated app config, SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+                        		);
               
               }
                  
@@ -823,7 +766,6 @@ var $ct_array = array();
                    	 
          
       // Check for new variables, and add them
-      $track_resets = array();
       foreach ( $default_ct_conf as $cat_key => $cat_val ) {
            
                 
@@ -832,13 +774,12 @@ var $ct_array = array();
            continue;
            }   
            // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-           else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !isset($track_resets[$cat_key]) && !$active_plugins_registered ) {
+           else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !$active_plugins_registered ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
                 $desc = 'UPGRADED';
                 }
                 else {
-                $track_resets[$cat_key] = true;
                 $desc = 'RESET';
                 }
                     
@@ -864,21 +805,51 @@ var $ct_array = array();
            foreach ( $cat_val as $conf_key => $conf_val ) {
          
                
+               // If subarray setting
                if ( is_array($conf[$cat_key][$conf_key]) ) {
                     
-                    // Uses === for PHPv7.4 support
+           
                     if (
-                    !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
-                    || $cat_key === 'plugins' && $conf_key === 'plugin_status'
+                    // If reset on this subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
+                    in_array($conf_key, $ct['dev']['config_allow_resets']) && !$active_plugins_registered
+                    // If not in 'config_deny_additions'
+                    || !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
+                    // If plugin status (we handle whitelisting for this in subarray_cached_ct_conf_upgrade())
+                    || $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
                     ) {
-                    $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
+                    
+                    
+                         // SUBARRAY RESETS
+                         if ( in_array($conf_key, $ct['dev']['config_allow_resets']) ) {
+                         
+                         $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
+                  			
+                         // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+                         $conf[$cat_key] = $ct['gen']->assoc_array_order( $conf[$cat_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key]) );
+                                 						
+                         $conf_upgraded = true;
+                                 
+                         $ct['gen']->log(
+                                 	       'notify_error',
+                                 		  'RESET app config SUBARRAY ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key][$conf_key]) . ')'
+                                 		 );
+                         
+                         }
+                         // REGULAR SUBARRAY UPGRADES
+                         else {
+                         $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
+                         }
+                         
+                         
                     }
                     
+                    
                }
-               // Uses === / !== for PHPv7.4 support
+               // If regular setting
                else if (
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
-               || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] === null && $default_ct_conf[$cat_key][$conf_key] !== null // CHECKING FOR CORRUPTED VALUES
+               // CHECKING FOR CORRUPTED VALUES...Uses === / !== for PHPv7.4 support
+               || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] === null && $default_ct_conf[$cat_key][$conf_key] !== null
                ) {
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
@@ -934,18 +905,20 @@ var $ct_array = array();
            // Setting keys
            foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
-         
+               
+               // If subarray setting
                if ( is_array($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                     
-                    // Uses === for PHPv7.4 support
                     if (
                     !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
+                    // Uses === for PHPv7.4 support
                     || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
                     }
                     
                }
+               // If regular setting
                else if ( !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
