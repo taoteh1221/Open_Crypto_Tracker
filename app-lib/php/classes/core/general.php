@@ -12,11 +12,10 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
    
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
    
    function has_string_keys($array) {
    return count(array_filter(array_keys($array), 'is_string')) > 0;
@@ -152,6 +151,28 @@ var $ct_array = array();
    
    return $new_array;
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function rm_dir($dir) {
+   
+      if (is_dir($dir)) {
+        $objects = scandir($dir);
+        foreach ($objects as $object) {
+          if ($object != "." && $object != "..") {
+            if (filetype($dir."/".$object) == "dir") 
+               rrmdir($dir."/".$object); 
+            else unlink   ($dir."/".$object);
+          }
+        }
+        reset($objects);
+        rmdir($dir);
+      }
+      
    }
 
 
