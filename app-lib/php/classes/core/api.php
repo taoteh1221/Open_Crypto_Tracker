@@ -526,6 +526,16 @@ var $ct_array = array();
 				     elseif ( $item->updated != '' ) {
 				     $item_date = $item->updated;
 				     }
+			          // Support for the 'dc' namespace
+			          elseif ( sizeof( $item->children('dc', true) ) > 0 ) {
+			         
+                         $dc_namespace = $item->children('dc', true);
+                        
+                            if ( $dc_namespace->date != '' ) {
+                            $item_date = $dc_namespace->date;
+                            }
+			         
+			          }
 				               
 				     if ( !$item->link['href'] && $item->enclosure['url'] ) {
 				     $item_link = $item->enclosure['url'];
@@ -580,12 +590,25 @@ var $ct_array = array();
 	               
 	             
 	      }
-	      // Standard RSS format
-	      elseif ( is_object($rss->channel->item) && sizeof($rss->channel->item) > 0 ) {
+	      // Standard RSS format(s)
+	      elseif (
+	      is_object($rss->channel->item) && sizeof($rss->channel->item) > 0
+	      || is_object($rss->item) && sizeof($rss->item) > 0
+	      ) {
 	             
 	      $sortable_feed = array();
+	      
+	          
+	          // Detect which format (items in/out of the channel tag)
+	          if ( is_object($rss->channel->item) && sizeof($rss->channel->item) > 0 ) {
+	          $rss_items = $rss->channel->item;
+	          }
+	          else {
+	          $rss_items = $rss->item;
+	          }
+
 	               
-	          foreach($rss->channel->item as $item) {
+	          foreach($rss_items as $item) {
 	          $sortable_feed[] = $item;
 	          }
 	               
@@ -612,6 +635,16 @@ var $ct_array = array();
 			         }
 			         elseif ( $item->updated != '' ) {
 			         $item_date = $item->updated;
+			         }
+			         // Support for the 'dc' namespace
+			         elseif ( sizeof( $item->children('dc', true) ) > 0 ) {
+			         
+                        $dc_namespace = $item->children('dc', true);
+                        
+                            if ( $dc_namespace->date != '' ) {
+                            $item_date = $dc_namespace->date;
+                            }
+			         
 			         }
 			               
 			         if ( !$item->link && $item->enclosure['url'] ) {
