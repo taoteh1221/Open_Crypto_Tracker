@@ -6361,6 +6361,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed a bug that had the ADMIN AREA primary currency settings show the USER AREA settings instead...sorry!
 
+-BUG FIX: Fixed support for some news feed formats (formats like slashdot.org uses were not showing anything)
+
 -BUG FIX: Fixed price charts showing properly for exchange APIs that have no trade volume data
 
 -BUG FIX: Miscellaneous fixes
