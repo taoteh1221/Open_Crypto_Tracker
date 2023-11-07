@@ -71,6 +71,7 @@
 			
 	 <p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct['gen']->admin_hashed_nonce('2fa_setup')?>' /></p>
 			
+	 <p class='red' style='font-weight: bold;'>--CLICK THE "REFRESH DATA" LINK IN THE SIDEBAR-- IF NO QR CODE IMAGE SHOWS ABOVE...</p>
 	 <p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA...</p>
 	
 	 <?=$ct['gen']->input_2fa('setup', 'force_show')?>

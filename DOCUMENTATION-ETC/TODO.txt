@@ -177,13 +177,13 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-TEST UPGRADING on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING GOES SMOOTHLY!
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 Do a bitcoin timestamp of the final v6.00.29 public release.
+
+
+"The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
+
+
+Set a max width on login / registration pages for dynamically shown error messages wrapping element. Focus on a blank login username field, and hit the return / enter key, to see how it 'jiggles' the login form fields (at least on linux desktop edition).
 
 
 Update screenshots, since we overhauled everything in the interface.
@@ -231,6 +231,9 @@ Hide dev-only plugin settings in the interface, as <input type='hidden' />
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 
 
+Validate crypto addresses in the address-balance-tracker plugin.
+
+
 When an SPL token is selected in the address-balance-tracker plugin, have a notes field saying they need to use the unique address dedicated to that token, that shows in block explorers.
 
 
@@ -267,6 +270,9 @@ https://account.venmo.com/u/taoteh1221
 
 Add to resources page:
 https://www.validators.app/
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Research whether POST data size affects header size like cookie data size does.
