@@ -180,6 +180,9 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 Do a bitcoin timestamp of the final v6.00.29 public release.
 
 
+Add slashdot.org to stocks news feeds.
+
+
 "The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
 
 
