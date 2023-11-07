@@ -919,7 +919,7 @@ var $ct_array = array();
       }
          
    
-   //$ct['cache']->app_log(); // DEBUGGING
+   //$this->app_log(); // DEBUGGING
    
    return ( $conf_upgraded ? $conf : false );
    
@@ -982,62 +982,68 @@ var $ct_array = array();
         			
         		$cached_ct_conf = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
         			
+        			
         		    // "null" in quotes as the actual value is returned sometimes
-        			if ( $ct['gen']->admin_security_level_check() == true && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
+        			if ( $ct['gen']->config_state_synced() && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
 
         			// Use cached ct_conf if it exists, seems intact, BUT RUN A CHECK ON IT JUST IN CASE
         			// (which triggers running it through the cached config upgrade mechanism, IF it seems wonky)
         			$ct['conf'] = $cached_ct_conf; 
 
-                        // RUN UPGRADE CHECK MODE IF FLAGGED (AND *NOT* HIGH SECURITY MODE / *IS* UI OR CRON RUNTIME)
+
+                        // RUN UPGRADE CHECK MODE IF FLAGGED (AND *IS* UI OR CRON RUNTIME)
                         // (RUNING IT EARLY HERE HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG, THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
-        			    if ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
+        			    if ( $app_upgrade_check ) {
+        			         
         			         
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
         			              
-        			         $ct['gen']->log('notify_error', 'CACHED config upgrade '.( $skipped_plugins_upgrade_check ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ).' check flagged, checking now');
+        			         $ct['gen']->log('notify_error', 'CACHED config upgrade ' . ( $skipped_plugins_upgrade_check ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' check flagged, checking now');
         			         
-        			         $ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true); 
-        			         // !!!!!!!!! DO NOT RESET $app_upgrade_check HERE, AS WE WANT TO SEND THE FLAG INTO queue_config_update() AFTERWARDS,
-        			         // !!!!!!!!! WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME)
+        			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
         			         
-        			              if ( !$conf_upgraded ) {
-        			                   
-        			              $ct['gen']->log('notify_error', 'CACHED config upgrade check finished running, and did NOT find anything that needed an upgrade');
-        			              
-                                       if ( isset($_POST['upgrade_ct_conf']) ) {
-                                       $admin_general_success = 'The app configuration database was checked for upgrades. No upgrades were needed.';
-                                       }
-
-        			              }
-        			              else {
-						
+        			         // !!!!!!!!! DO NOT RESET $app_upgrade_check HERE, AS WE WANT TO CHECK REGISTERED ACTIVE PLUGINS
+        			         // SEPERATELY LATER IN THE RUNTIME, AND WE ALSO WANT TO SEND THE FLAG INTO queue_config_update(),
+        			         // WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME) !!!!!!!!!
+						    
+						    
+						    // We don't need to run this twice (just flagging a UI alert / caching app version)
+						    if ( $skipped_plugins_upgrade_check ) {
+						         
                                   // Flag for UI alerts
                                   $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
-                                  $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+                                  $this->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
                                    
                                   // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
-                                  $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
-                                   
-                                       if ( isset($_POST['upgrade_ct_conf']) ) {
-                                       $admin_general_success = 'The app configuration database was upgraded successfully. Please see the alerts section (siren icon in the sidebar), to review what was upgraded.';
-                                       }
-
+                                  $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
+                                  
+						    }
+        			         
+        			              
+        			              // UI messages for manual upgrade check
+        			              if ( !$conf_upgraded && isset($_POST['upgrade_ct_conf']) ) {
+                                  $admin_general_success = 'The app configuration database was checked for upgrades. No upgrades were needed.';
         			              }
+        			              elseif ( isset($_POST['upgrade_ct_conf']) ) {
+                                  $admin_general_success = 'The app configuration database was upgraded successfully. Please see the alerts section (siren icon in the sidebar), to review what was upgraded.';
+                                  }
+        			              
         			         
         			         }
+
         			    
         			    }
+
         			
+        			}
+        			elseif ( !$ct['gen']->config_state_synced() ) {
+        			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+        			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), RESETTING from DEFAULT ct_conf');
+        			$reset_config = true;
         			}
         			elseif ( $cached_ct_conf != true ) {
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
         			$ct['gen']->log('conf_error', 'CACHED ct_conf appears corrupt, resetting from DEFAULT ct_conf');
-        			$reset_config = true;
-        			}
-        			elseif ( $ct['gen']->admin_security_level_check() == false ) {
-        			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), RESETTING from DEFAULT ct_conf');
         			$reset_config = true;
         			}
         			
@@ -1066,7 +1072,7 @@ var $ct_array = array();
         }
         
         
-   //$ct['cache']->app_log(); // DEBUGGING
+   //$this->app_log(); // DEBUGGING
    
    gc_collect_cycles(); // Clean memory cache
 
@@ -1238,7 +1244,7 @@ var $ct_array = array();
     		          if ( $reset_flagged ) {
     		          $update_desc = 'RESET';
     		          }
-    		          elseif ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
+    		          elseif ( $app_upgrade_check ) {
     		          $update_desc = 'UPGRADE';
     		          }
     		          elseif ( $update_config ) {
@@ -1284,7 +1290,7 @@ var $ct_array = array();
      }
      
      
-   //$ct['cache']->app_log(); // DEBUGGING
+   //$this->app_log(); // DEBUGGING
 
    // Return $ct['conf']
    return $ct['conf'];

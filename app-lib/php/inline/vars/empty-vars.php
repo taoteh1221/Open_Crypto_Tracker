@@ -133,6 +133,10 @@ $update_config = false;
 
 $possible_input_injection = false;
 
+$app_upgrade_check = false;
+
+$upgraded_or_new_install = false;
+
 $conf_upgraded = false;
 
 $is_login_form = false;

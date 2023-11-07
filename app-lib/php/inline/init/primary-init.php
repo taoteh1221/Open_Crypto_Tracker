@@ -126,12 +126,18 @@ $upgrade_check_latest_version = trim( file_get_contents('cache/vars/state-tracki
 
 // If CACHED app version set, set the runtime var for any configured alerts
 if ( file_exists('cache/vars/state-tracking/app_version.dat') ) {
+     
 $cached_app_version = trim( file_get_contents('cache/vars/state-tracking/app_version.dat') );
+
+     // Check version number against cached value
+     if ( trim($cached_app_version) != trim($ct['app_version']) ) {
+     $upgraded_or_new_install = true;
+     }
+     
 }
-// Otherwise queue an upgrade (for < v6.00.29 backwards compatibility)
+// Otherwise flag as upgraded / new install
 else {
-$cached_app_version = null;
-$queue_upgrade = true;
+$upgraded_or_new_install = true;
 }
 
 

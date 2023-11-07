@@ -55,7 +55,7 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         	
         	<p class='bitcoin bitcoin_dotted'>
         	
-        	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing plugin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file plug-conf.php (in this plugin's directory: <?=$ct['base_dir']?>/plugins/<?=$this_plug?>) with a text editor.
+        	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing plugin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file plug-conf.php (in this plugin's directory: <?=$ct['base_dir']?>/plugins/<?=$this_plug?>) with a text editor. You can change the security level in the "Security" section.
         	
         	</p>
         

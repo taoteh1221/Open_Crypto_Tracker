@@ -640,7 +640,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function admin_security_level_check() {
+   function config_state_synced() {
        
    global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
    

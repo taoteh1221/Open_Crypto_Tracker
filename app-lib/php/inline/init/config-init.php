@@ -28,14 +28,24 @@ $check_default_ct_conf = null;
 // Flag any new upgrade, for UI alert, AND MORE IMPORTANTLY: avoiding conflicts with config reset / refresh / upgrade routines
 // (!!MUST RUN *BEFORE* $reset_config, AND *BEFORE* load-config-by-security-level.php)
 if (
-$queue_upgrade
-|| isset($cached_app_version) && trim($cached_app_version) != trim($ct['app_version'])
+$upgraded_or_new_install
 ||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
 ) {
 
+     // We just flag as upgraded / cache version number in high security mode
+     if ( $admin_area_sec_level == 'high' ) {
+     
+     // Flag for UI alerts
+     $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+                                   
+     // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
+     
+     }
      // We NEVER want to run a cached config upgrade in high security mode
      // (as we ALWAYS mirror PHP config file changes to the cached config)
-     if ( $admin_area_sec_level != 'high' ) {
+     else {
           
      $app_upgrade_check = true;
      

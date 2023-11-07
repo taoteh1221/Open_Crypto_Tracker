@@ -201,8 +201,6 @@ $check_default_ct_conf
 
 $cached_app_version
 
-$app_upgrade_check
-
 $check_2fa_error
 
 $htaccess_username
