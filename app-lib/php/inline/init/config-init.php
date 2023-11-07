@@ -28,17 +28,22 @@ $check_default_ct_conf = null;
 // Flag any new upgrade, for UI alert, AND MORE IMPORTANTLY: avoiding conflicts with config reset / refresh / upgrade routines
 // (!!MUST RUN *BEFORE* $reset_config, AND *BEFORE* load-config-by-security-level.php)
 if (
-!isset($cached_app_version)
-|| isset($cached_app_version) && trim($cached_app_version) == ''
-|| isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_app_version) != $ct['app_version']
+$queue_upgrade
+|| isset($cached_app_version) && trim($cached_app_version) != trim($ct['app_version'])
 ||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
 ) {
 
-$app_upgrade_check = true;
-
-// Developer-only configs
-$dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
-require('developer-config.php');
+     // We NEVER want to run a cached config upgrade in high security mode
+     // (as we ALWAYS mirror PHP config file changes to the cached config)
+     if ( $admin_area_sec_level != 'high' ) {
+          
+     $app_upgrade_check = true;
+     
+     // Developer-only configs
+     $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
+     require('developer-config.php');
+     
+     }
      
 }
 

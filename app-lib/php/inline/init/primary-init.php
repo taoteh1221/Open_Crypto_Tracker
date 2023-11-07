@@ -128,9 +128,10 @@ $upgrade_check_latest_version = trim( file_get_contents('cache/vars/state-tracki
 if ( file_exists('cache/vars/state-tracking/app_version.dat') ) {
 $cached_app_version = trim( file_get_contents('cache/vars/state-tracking/app_version.dat') );
 }
-// Otherwise save app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
+// Otherwise queue an upgrade (for < v6.00.29 backwards compatibility)
 else {
 $cached_app_version = null;
+$queue_upgrade = true;
 }
 
 
