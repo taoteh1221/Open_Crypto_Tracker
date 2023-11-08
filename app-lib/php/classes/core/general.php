@@ -567,7 +567,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function obfusc_url_data($url) {
+   function obfusc_data($url) {
       
    global $ct;
    
@@ -575,7 +575,7 @@ var $ct_array = array();
    // and put in LEFT parenthesis futher down when returning output
    $url = preg_replace("/:\/\//i", ") ", $url);
    
-      foreach( $ct['dev']['url_obfuscating'] as $hide_val ) {
+      foreach( $ct['dev']['data_obfuscating'] as $hide_val ) {
       $url = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $url);
       }
    
@@ -2481,6 +2481,9 @@ var $ct_array = array();
    
    global $ct, $log_errors, $log_debugging, $is_iframe;
    
+   // Obfuscate any sensitive data
+   $log_msg = $this->obfusc_data($log_msg);
+   
    // Since we sort by timestamp, we want millisecond accuracy (if possible), for ordering logs before output
    $timestamp_milliseconds = $ct['var']->num_to_str( floor(microtime(true) * 1000) );
    
@@ -3829,7 +3832,7 @@ var $ct_array = array();
   
   $problem_endpoint = $problem_proxy_array['endpoint'];
   
-  $obfusc_url_data = $this->obfusc_url_data($problem_endpoint); // Automatically removes sensitive URL data
+  $obfusc_url_data = $this->obfusc_data($problem_endpoint); // Automatically removes sensitive URL data
   
   $problem_proxy = $problem_proxy_array['proxy'];
   

@@ -35,7 +35,7 @@ $plug_conf[$this_plug]['ui_name'] = 'Recurring Reminder'; // (defaults to $this_
 $plug_conf[$this_plug]['do_not_disturb'] = array(
 									     // ALWAYS USE THIS FORMAT: '00:00', OR THIS FEATURE WON'T BE ENABLED!
 										'on' => '17:30', // DND #START#, Default = '17:30' (5:30 AT NIGHT)
-										'off' => '9:30' // DND #END#, Default = '9:30' (9:30 IN MORNING)
+										'off' => '09:30' // DND #END#, Default = '09:30' (9:30 IN MORNING)
 									   );
 
 

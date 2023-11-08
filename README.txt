@@ -60,6 +60,8 @@ PayPal:    https://www.paypal.me/dragonfrugal
 
 Venmo:     https://account.venmo.com/u/taoteh1221
 
+Cash App:  https://cash.app/$taoteh1221
+
 
 ############################################################################################################################
 

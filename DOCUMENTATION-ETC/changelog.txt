@@ -6406,6 +6406,8 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.30:
 
+-BUG FIX: Moved all log obfuscation (for any data deemed sensitive we want to hide) directly into the logging function, for assured security on sensitive data (added statically or dynamically to the 'data_obfuscating' array in the dev config)
+
 -BUG FIX: Miscellaneous fixes
 
 -Miscellaneous user experience improvements

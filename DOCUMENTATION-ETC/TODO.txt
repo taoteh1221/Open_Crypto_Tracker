@@ -177,11 +177,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Add slashdot.org to stocks news feeds.
-
-
-Add my venmo link to app footer and project page: 
-https://account.venmo.com/u/taoteh1221
+Slashdot news feed said it imported in logs during cached config upgrade, BUT IT NEVER DID.
 
 
 Add to resources page:

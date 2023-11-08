@@ -88,6 +88,8 @@
 <span class='bitcoin'>PayPal:</span>    <a href='https://www.paypal.me/dragonfrugal' target='_blank'>https://www.paypal.me/dragonfrugal</a><br /><br />
 
 <span class='bitcoin'>Venmo:</span>    <a href='https://account.venmo.com/u/taoteh1221' target='_blank'>https://account.venmo.com/u/taoteh1221</a><br /><br />
+
+<span class='bitcoin'>Cash App:</span>    <a href='https://cash.app/$taoteh1221' target='_blank'>https://cash.app/$taoteh1221</a><br /><br />
              
              
            </div>

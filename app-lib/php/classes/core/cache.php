@@ -2416,7 +2416,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'cache_error',
       							
-      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
       			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
@@ -2442,7 +2442,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'cache_debug',
       							
-      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
       			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
@@ -2745,7 +2745,7 @@ var $ct_array = array();
       $ct['gen']->log(
         			'ext_data_debug',
         								
-        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
         								
         			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
         			);
@@ -2789,7 +2789,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'ext_data_error',
       							
-      			'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
+      			'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
       			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
       			);
@@ -2821,7 +2821,7 @@ var $ct_array = array();
         if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $proxy_checkup[] = array(
-                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
                     			'proxy' => $current_proxy
                     			);
                     
@@ -2865,7 +2865,7 @@ var $ct_array = array();
              $ct['gen']->log(
              			'ext_data_error',
              							
-             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
              							
              			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			);
@@ -2944,7 +2944,7 @@ var $ct_array = array();
             $ct['gen']->log(
             			'ext_data_error',
             							
-            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
+            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
             							
             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
@@ -2982,7 +2982,7 @@ var $ct_array = array();
         	
         $ct['gen']->log(
         			'ext_data_error',
-        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
         			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
         			);
         
@@ -2991,7 +2991,7 @@ var $ct_array = array();
         	
         $ct['gen']->log(
         			'ext_data_error',
-        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
         			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
         			);
         
@@ -3011,7 +3011,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'notify_error',
       							
-      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
+      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
       							
       			'remote_api_timeout: ' . $ct['conf']['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
@@ -3095,7 +3095,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'cache_error',
       							
-      			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+      			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
       			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
@@ -3125,7 +3125,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'cache_debug',
       							
-      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
+      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
       			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							

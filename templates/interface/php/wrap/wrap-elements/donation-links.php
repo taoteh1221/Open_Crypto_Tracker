@@ -17,6 +17,10 @@
             	
             	<br /><br /><b class='blue'>Patreon:</b> <br /><a href='https://www.patreon.com/dragonfrugal' target='_blank'>https://www.patreon.com/dragonfrugal</a>
             	
+            	<br /><br /><b class='blue'>Venmo:</b> <br /><a href='https://account.venmo.com/u/taoteh1221' target='_blank'>https://account.venmo.com/u/taoteh1221</a>
+            	
+            	<br /><br /><b class='blue'>Cash App:</b> <br /><a href='https://cash.app/$taoteh1221' target='_blank'>https://cash.app/$taoteh1221</a>
+            	
 	 <script>
 			
 			 // Info ballon only opens / closes when clicked (for a different UX on certain elements)
