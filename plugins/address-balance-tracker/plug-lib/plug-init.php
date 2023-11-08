@@ -51,9 +51,9 @@ $address = $target_val['address'];
 $label = $target_val['label'];
 
 
-// Add the address to the dev setting array 'url_obfuscating'
+// Add the address to the dev setting array 'data_obfuscating'
 // (so it's always obfuscated in any logs)
-$ct['dev']['url_obfuscating'][] = $address;
+$ct['dev']['data_obfuscating'][] = $address;
 
 
     // Add this altcoin to $ct['conf']['power']['crypto_pair'] DYNAMICALLY #IF# it doesn't exist there, #IF# it has a BTC market configured

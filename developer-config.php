@@ -14,7 +14,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.29';  // 2023/OCTOBER/7TH
+$ct['app_version'] = '6.00.30';  // 2023/NOVEMBER/7TH
 
 
 // #PHP# ERROR LOGGING
@@ -155,8 +155,9 @@ $ct['dev']['config_deny_additions'] = array();
 // Config category / settings subarray keys to DENY cached config settings REMOVALS on (during upgrades)
 // (can manipulate later on, based on app version number / user input / etc)
 $ct['dev']['config_deny_removals'] = array(
-                                           'tracked_markets', // Subarray setting
-                                           'assets', // Main category
+                                           'feeds', // Subarray setting (news feeds)
+                                           'tracked_markets', // Subarray setting (asset charts / price alerts)
+                                           'assets', // Main category (portfolio assets)
                                           );
      
      
@@ -264,13 +265,14 @@ $ct['dev']['script_injection_checks'] = array(
 elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 
 
-     // v6.00.29 should RESET the 'assets' and 'tracked_markets' cached config values
-     // (as we have added jupiter aggregator markets, that assist tracking Solana (SPL) subtokens crypto address
+     // v6.00.30:
+     // RESET the 'assets' and 'tracked_markets' cached config values
+     // (as we have RECENTLY added jupiter aggregator markets, that assist tracking Solana (SPL) subtokens crypto address
      // balance's primary currency value (USD / EUR / etc), in the 'address-balance-tracker' plugin [when privacy mode is on])
      // AND IF WE RESET 'assets', WE NEED TO RESET 'tracked_markets' TOO
-     if ( $ct['app_version'] == '6.00.29' ) {
-     $ct['dev']['config_allow_resets'][] = 'tracked_markets'; // Subarray setting
-     $ct['dev']['config_allow_resets'][] = 'assets'; // Main category
+     if ( $ct['app_version'] == '6.00.30' ) {
+     $ct['dev']['config_allow_resets'][] = 'tracked_markets'; // Subarray setting (asset charts / price alerts)
+     $ct['dev']['config_allow_resets'][] = 'assets'; // Main category (portfolio assets)
      }
      
                                      
@@ -280,14 +282,22 @@ elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 
 
 // Obfuscate these matches in ALL error / debugging logs
-// (so API keys etc never show in logs)
-$ct['dev']['url_obfuscating'] = array(
+// (ONLY ADD SENSITIVE VALUES HERE THAT COULD SHOW IN URL GET REQUEST DATA / ERROR NOTICES / ETC)
+$ct['dev']['data_obfuscating'] = array(
                                       // 'hide_this',
-                                      $ct['conf']['ext_apis']['etherscan_api_key'],
+                                      $ct['conf']['comms']['from_email'],
+                                      $ct['conf']['comms']['to_email'],
+                                      $ct['conf']['ext_apis']['telegram_your_username'],
+                                      $ct['conf']['ext_apis']['telegram_bot_username'],
                                       $ct['conf']['ext_apis']['telegram_bot_token'],
-                                      $ct['conf']['ext_apis']['alphavantage_api_key'],
+                                      $ct['conf']['ext_apis']['twilio_number'],
                                       $ct['conf']['ext_apis']['twilio_sid'],
+                                      $ct['conf']['ext_apis']['twilio_token'],
+                                      $ct['conf']['ext_apis']['textbelt_api_key'],
+                                      $ct['conf']['ext_apis']['textlocal_api_key'],
                                       $ct['conf']['ext_apis']['google_fonts_api_key'],
+                                      $ct['conf']['ext_apis']['etherscan_api_key'],
+                                      $ct['conf']['ext_apis']['alphavantage_api_key'],
                                      );
                                      
                                      

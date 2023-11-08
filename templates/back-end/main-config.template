@@ -1288,6 +1288,12 @@ $ct['conf']['news']['feeds'] = array(
             			"title" => "News - Decrypt",
             			"url" => "https://decrypt.co/feed"
         						),
+        
+        
+        				array(
+            			"title" => "News - Slashdot",
+            			"url" => "https://rss.slashdot.org/Slashdot/slashdot"
+        						),
     
     
         				array(

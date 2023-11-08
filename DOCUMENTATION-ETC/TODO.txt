@@ -177,7 +177,11 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Do a bitcoin timestamp of the final v6.00.29 public release.
+Slashdot news feed said it imported in logs during cached config upgrade, BUT IT NEVER DID.
+
+
+Add to resources page:
+https://www.validators.app/
 
 
 "The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
@@ -200,8 +204,6 @@ $default_ct_conf
 $check_default_ct_conf
 
 $cached_app_version
-
-$app_upgrade_check
 
 $check_2fa_error
 
@@ -243,6 +245,9 @@ Linux Desktop Edition makes any buttons in an admin interface repeatable subarra
 We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
 
 
@@ -262,17 +267,6 @@ Add BTC to documentation om supported trading pairs (in help / faq, readme, trou
 
 
 Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
-
-
-Add my venmo link to app footer and project page: 
-https://account.venmo.com/u/taoteh1221
-
-
-Add to resources page:
-https://www.validators.app/
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Research whether POST data size affects header size like cookie data size does.
