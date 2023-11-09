@@ -17,14 +17,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
-   function has_string_keys($array) {
-   return count(array_filter(array_keys($array), 'is_string')) > 0;
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
    function timestamps_usort_num($a, $b) {
    return strcmp($a['timestamp'], $b['timestamp']); 
    }
@@ -437,6 +429,29 @@ var $ct_array = array();
      
    return("".round($bytes, $round)." ".$type[$index]."bytes");
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   function has_string_keys($array) {
+   
+   // https://stackoverflow.com/a/69351814/6190099
+   $results = array_filter($array, function($e){ return ctype_digit( (string) $e );});
+   
+   //var_dump($results);
+        
+        foreach ( $results as $numbered_key ) {
+            
+            if ( !$numbered_key ) {
+            return true;
+            }
+        
+        }
+        
+   return false;
+        
    }
    
    

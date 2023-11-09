@@ -212,12 +212,14 @@ var $ct_array = array();
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
               ////
-              // If this is ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, WE PRESUME MULTIDIMENSIONAL AUTO-INDEXING AT THIS DEPTH,
-              // AND ADD IT AS SUCH IF NOT A MATCH (AND REMOVE ANY DUPLICATES *AFTER* FOR BETTER EFFICIENCY)
-              // (WE DON'T NEED TO ADJUST THE ARRAY ORDERING HERE EITHER, AS WE ***ALWAYS*** USE AUTO-INDEXING ARRAYS AT THIS DEPTH ***AS AN APP SPECIFICATION***)
-              else if ( !$active_plugins_registered && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+              // If DEFAULT setting is ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, AND IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING*** 
+              else if (
+              !$active_plugins_registered
+              && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key])
+              && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
+              ) {
                    
-                  // If no match, import an check for duplicates
+                  // If ACTIVE (NOT DEFAULT) setting is non-existant OR no match, import and check for duplicates after (for efficiency)
                   if (
                   !is_array($conf[$cat_key][$conf_key][$setting_key])
                   || is_array($conf[$cat_key][$conf_key][$setting_key])
@@ -226,18 +228,27 @@ var $ct_array = array();
               			
                   $conf[$cat_key][$conf_key][] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   
-                  // REMOVE DUPLICATES
-                  // (MORE EFFECIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS [FOR MULTIDIMENSIONAL ARRAYS]...SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
+                  // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS...SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
                   $conf[$cat_key][$conf_key] = array_intersect_key( $conf[$cat_key][$conf_key] , array_unique( array_map('serialize' , $conf[$cat_key][$conf_key] ) ) );
+                  
+                  // WE DON'T NEED ORDERING HERE, AS IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***
+                  // (we don't care about ordering here "under the hood", only in the UI [maybe])
                         
                   $conf_upgraded = true;
                    
                   }
                   
               }
-              /// If setting doesn't exist yet
-              // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPECIFICATION])
-              else if ( !$active_plugins_registered && !isset($conf[$cat_key][$conf_key][$setting_key]) ) {
+              /// If ACTIVE (NOT DEFAULT) setting doesn't exist yet (CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, ONLY IF IT'S ARRAY KEYS ARE ***STRING-BASED***)
+              // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
+              else if (
+              !$active_plugins_registered && !is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) && !isset($conf[$cat_key][$conf_key][$setting_key])
+              ||
+              !$active_plugins_registered
+              && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key])
+              && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
+              && !isset($conf[$cat_key][$conf_key][$setting_key])
+              ) {
               			
               $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			

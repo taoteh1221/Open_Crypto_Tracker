@@ -103,11 +103,6 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 !!!!
 ===> Server Edition (on debian) logs Apache PHP errors to: /var/log/apache2/error.log
 !!!!
-===> Arrays in the admin config that are deeper than 2 levels SHOULD use integer-based keys,
-===> or auto-indexing, FOR COMPATIBILITY with upgrade detection / processing, EXCEPT FOR A
-===> FEW EXCEPTIONS LIKE THE 'power => mining_calculators' / 'assets' arrays
-===> (string-based keys are generally NOT recommended beyond "category => setting" arrays)
-!!!!
 ===> Any admin config "category => setting" value SET TO NULL is considered a corrupt value,
 ===> for the SAKE OF COMPATIBILITY with upgrade detection / processing (use '' instead of null)
 !!!!
