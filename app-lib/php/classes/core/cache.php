@@ -970,31 +970,21 @@ var $ct_array = array();
          
    
    //$this->app_log(); // DEBUGGING
-   
+      
+           
+      // UI message for manual upgrade check
+      if ( isset($_POST['upgrade_ct_conf']) ) {
+      $admin_general_success = 'The CACHED app configuration was checked for upgrades. Please view the alerts section (siren icon near top of sidebar), to see if anything was upgraded.';
+      }
+             
    
       if ( $conf_upgraded ) {
-           
-          // UI message for manual upgrade check
-          if ( isset($_POST['upgrade_ct_conf']) ) {
-          $admin_general_success = 'The app configuration database was upgraded successfully. Please see the alerts section (siren icon in the sidebar), to review what was upgraded.';
-          }
-          
       $conf_upgraded = false; // Reset, because we run main config / active plugins upgrades SEPERATELY
-        			              
       return $conf;
-      
       }
       else {
-           
-          // UI message for manual upgrade check
-          if ( isset($_POST['upgrade_ct_conf']) ) {
-          $admin_general_success = 'The app configuration database was checked for upgrades. No upgrades were needed.';
-          }
-        			              
     	 $ct['gen']->log('notify_error', 'no CACHED config ' . ( $active_plugins_registered ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrades needed');
-    	 
     	 return false;
-
       }
       
    
