@@ -6408,6 +6408,8 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -BUG FIX: Moved all log obfuscation (for any data deemed sensitive we want to hide) directly into the logging function, for assured security on sensitive data (added statically or dynamically to the 'data_obfuscating' array in the dev config)
 
+-BUG FIX: Fixed CACHED config upgrading of multidimensional arrays, if integer-based / auto-indexed keys are used (news feeds, etc)
+
 -BUG FIX: Miscellaneous fixes
 
 -Miscellaneous user experience improvements
