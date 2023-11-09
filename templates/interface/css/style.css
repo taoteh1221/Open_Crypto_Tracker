@@ -777,7 +777,6 @@ text-decoration: underline !important;
 
 
 .pretty_text_fields {
-min-width: 550px;
 max-width: 95%;
 text-align: left;
 width: fit-content;
@@ -1026,6 +1025,11 @@ margin-bottom: 2em;
 
 .compact_margins {
 margin: 1em;
+}
+
+
+.subarray_plugins_plugin_status {
+text-align: right;
 }
 
 

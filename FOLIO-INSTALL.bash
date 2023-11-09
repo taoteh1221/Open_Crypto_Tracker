@@ -1790,6 +1790,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/events/purge-error-logs.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/charts-first-run.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/cron-first-run.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/events/emulated-cron-lock.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/ui_upgrade_alert.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/upgrade_check_reminder.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1

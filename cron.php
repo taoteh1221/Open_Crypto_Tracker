@@ -43,7 +43,7 @@ if ( $run_cron == true ) {
     }
     
      
-$cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
+$cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
     
     
     // If we find no file lock (OR if there is a stale file lock [OVER 'cron_max_exec_time' SECONDS OLD]), we can proceed

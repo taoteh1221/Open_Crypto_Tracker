@@ -12,14 +12,6 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-   
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   function has_string_keys($array) {
-   return count(array_filter(array_keys($array), 'is_string')) > 0;
-   }
 
 
    ////////////////////////////////////////////////////////
@@ -69,6 +61,18 @@ var $ct_array = array();
    
    return strcmp( strtolower($a[$usort_alpha]) , strtolower($b[$usort_alpha]) ); // Case-insensitive equivelent comparision via strtolower()
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   // Support for < PHP 7.3 (WE SUPPORT >= PHP 7.2)
+   function array_key_first($arr) {
+       foreach($arr as $key => $unused) {
+       return $key;
+       }
+   return null;
    }
    
    
@@ -426,6 +430,29 @@ var $ct_array = array();
    return("".round($bytes, $round)." ".$type[$index]."bytes");
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   function has_string_keys($array) {
+   
+   // https://stackoverflow.com/a/69351814/6190099
+   $results = array_filter($array, function($e){ return ctype_digit( (string) $e );});
+   
+   //var_dump($results);
+        
+        foreach ( $results as $numbered_key ) {
+            
+            if ( !$numbered_key ) {
+            return true;
+            }
+        
+        }
+        
+   return false;
+        
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -567,20 +594,24 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function obfusc_data($url) {
+   function obfusc_data($data) {
       
    global $ct;
    
-   // Keep our color-coded logs in the admin UI pretty, replace '://' with RIGHT parenthesis,
-   // and put in LEFT parenthesis futher down when returning output
-   $url = preg_replace("/:\/\//i", ") ", $url);
+   // Keep our color-coded logs in the admin UI pretty
+   $protocol = preg_match('/(?:(ht|f)tp(s?)\:\/\/)/', $data, $matches);
    
+      if ( is_array($matches) && sizeof($matches) > 0 ) {
+      $protocol = preg_replace("/:\/\/(.*)/i", "", $matches[0]);
+      $data = preg_replace('/(?:(ht|f)tp(s?)\:\/\/)/', "(" . $protocol . ")", $data);
+      }
+      
+      // Obfuscate everything in $ct['dev']['data_obfuscating']
       foreach( $ct['dev']['data_obfuscating'] as $hide_val ) {
-      $url = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $url);
+      $data = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $data);
       }
    
-   // Keep our color-coded logs in the admin UI pretty (SEE NOTES ABOVE)
-   return '(' . $url;
+   return $data;
    
    }
    
