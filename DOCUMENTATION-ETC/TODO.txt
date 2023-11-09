@@ -178,33 +178,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Demo install on biz site is crapping out in the middle of running cron jobs, leaving /cache/events/cron-runtime-lock.dat in the cache...started around 10pm tuesday night. I set the debug 'cron_telemetry' flag, results are mixed. Just added this debug flag to my home server too, for comparison...will check those logs too, in the morning. Biz site app logs are below:
-
--------------------------------------------------------------------------------------------------------------------------------------------
-
-STARTED cron.php runtime (runtime_id = 71b7fc71fdf08840) on: November 9th, at 3:40am (UTC) 
- ........running........ 
-STARTED cron.php runtime (runtime_id = 583d6b1a3d6fa443) on: November 9th, at 4:00am (UTC) 
- ........running........ 
-FULLY COMPLETED cron.php runtime (runtime_id = 583d6b1a3d6fa443) on: November 9th, at 4:00am (UTC) 
-
-
-
-STARTED cron.php runtime (runtime_id = e93b338a0b698435) on: November 9th, at 4:20am (UTC) 
- ........running........ 
-STARTED cron.php runtime (runtime_id = 6a735beeee5ed825) on: November 9th, at 4:40am (UTC) 
- ........running........ 
-FULLY COMPLETED cron.php runtime (runtime_id = 6a735beeee5ed825) on: November 9th, at 4:40am (UTC) 
-
-
-
-STARTED cron.php runtime (runtime_id = 4cf178d021ac45e1) on: November 9th, at 5:00am (UTC) 
- ........running........ 
-STARTED cron.php runtime (runtime_id = d36db0925691fffa) on: November 9th, at 5:20am (UTC) 
- ........running........ 
-FULLY COMPLETED cron.php runtime (runtime_id = d36db0925691fffa) on: November 9th, at 5:20am (UTC) 
-
--------------------------------------------------------------------------------------------------------------------------------------------
+Demo install on biz site STARTED crapping out in the middle of running cron jobs, leaving /cache/events/cron-runtime-lock.dat in the cache...started around 10pm tuesday 11/7. I set the debug 'cron_telemetry' flag, results are showing whatever it was SEEMS to have cleared up as of thursday 11/9. KEEP AN EYE ON THE CRON DEBUG LOGS THOUGH.
 
 
 Add to resources page:

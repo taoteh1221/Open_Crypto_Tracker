@@ -235,11 +235,13 @@ var $ct_array = array();
                   // (we don't care about ordering here "under the hood", only in the UI [maybe])
                         
                   $conf_upgraded = true;
+                  
+                  $no_string_keys = true;
                    
                   }
                   
               }
-              /// If ACTIVE (NOT DEFAULT) setting doesn't exist yet (CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, ONLY IF IT'S ARRAY KEYS ARE ***STRING-BASED***)
+              /// If ACTIVE (NOT DEFAULT) setting doesn't exist yet (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, ONLY IF IT'S ARRAY KEYS ARE ***STRING-BASED***)
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
               else if (
               !$active_plugins_registered && !is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) && !isset($conf[$cat_key][$conf_key][$setting_key])
@@ -249,6 +251,12 @@ var $ct_array = array();
               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($conf[$cat_key][$conf_key][$setting_key])
               ) {
+                   
+                   
+                   if ( is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+                   $desc = '*STRING INDEXED* ';
+                   }
+                   
               			
               $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
@@ -262,7 +270,7 @@ var $ct_array = array();
                    
               $ct['gen']->log(
                         		'notify_error',
-                        		'UPGRADED app config, SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        		'UPGRADED app config, ' . $desc . 'SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         		);
               
               }
@@ -341,19 +349,20 @@ var $ct_array = array();
    $array_size_change = $new_array_size - $orig_array_size;
    
    
-        if ( $array_size_change > 0 ) {
+        // Logs for upgrades to integer-based / auto-indexed subarrays
+        if ( $no_string_keys && $array_size_change > 0 ) {
              
         $ct['gen']->log(
                              		'notify_error',
-                             		'UPGRADED app config, *MULTIDIMENSIONAL* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] imported (new array size: ' . $new_array_size . ' [+'.$array_size_change.'])'
+                             		'UPGRADED app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] imported (new array size: ' . $new_array_size . ' [+'.$array_size_change.'])'
                              		);
                              		
         }
-        elseif ( $array_size_change < 0 ) {
+        elseif ( $no_string_keys && $array_size_change < 0 ) {
              
         $ct['gen']->log(
                              		'notify_error',
-                             		'DEPRECIATED app config, *MULTIDIMENSIONAL* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] removed (new array size: ' . $new_array_size . ' ['.$array_size_change.'])'
+                             		'DEPRECIATED app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] removed (new array size: ' . $new_array_size . ' ['.$array_size_change.'])'
                              		);
         }
 
@@ -1081,7 +1090,7 @@ var $ct_array = array();
         			         // WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME) !!!!!!!!!
 						    
 						    
-						    // We don't need to run this twice (just flagging a UI alert / caching app version)
+						    // We don't need to run this twice (flagging a UI alert / caching app version)
 						    if ( $active_plugins_registered ) {
 						         
                                   // Flag for UI alerts
@@ -1150,7 +1159,7 @@ var $ct_array = array();
    
    function update_cached_config($passed_config, $upgrade_mode=false, $reset_flagged=false) {
    
-   global $ct, $default_ct_conf, $app_upgrade_check, $update_config, $restore_conf_path, $telegram_user_data_path, $telegram_user_data, $admin_area_sec_level, $htaccess_username, $htaccess_password;
+   global $ct, $default_ct_conf, $update_config, $restore_conf_path, $telegram_user_data_path, $telegram_user_data, $admin_area_sec_level, $htaccess_username, $htaccess_password;
         
 
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
@@ -1203,7 +1212,7 @@ var $ct_array = array();
     	
     	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-    	    if ( $admin_area_sec_level != 'high' && $upgrade_mode == true ) {
+    	    if ( $admin_area_sec_level != 'high' && $upgrade_mode ) {
     	         
     	    $updated_cache_ct_conf = $this->upgrade_cached_ct_conf($passed_config);
     	    
@@ -1298,8 +1307,9 @@ var $ct_array = array();
     		$this->save_file($ct['base_dir'] . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
     		
     		
-               // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            	if ( $admin_area_sec_level == 'high' || $reset_flagged || $app_upgrade_check ) {
+               // For checking later, if DEFAULT Admin Config (in config.php) values are updated (in high security mode),
+               // or we reset (any security mode) / upgrade (normal / medium security mode) the cached config, we save the digest check to json again
+            	if ( $admin_area_sec_level == 'high' || $reset_flagged || $upgrade_mode ) {
                $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
     		     }
     		

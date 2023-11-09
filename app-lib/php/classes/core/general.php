@@ -605,12 +605,12 @@ var $ct_array = array();
       $protocol = preg_replace("/:\/\/(.*)/i", "", $matches[0]);
       $data = preg_replace('/(?:(ht|f)tp(s?)\:\/\/)/', "(" . $protocol . ")", $data);
       }
-   
+      
+      // Obfuscate everything in $ct['dev']['data_obfuscating']
       foreach( $ct['dev']['data_obfuscating'] as $hide_val ) {
       $data = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $data);
       }
    
-   // Keep our color-coded logs in the admin UI pretty (SEE NOTES ABOVE)
    return $data;
    
    }
