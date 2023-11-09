@@ -125,8 +125,6 @@ $usort_alpha = null;
 
 $active_plugins_registered = false;
 
-$skipped_plugins_upgrade_check = false;
-
 $reset_config = false;
 
 $update_config = false;

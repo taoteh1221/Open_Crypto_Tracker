@@ -35,7 +35,7 @@ GENERAL REMINDERS
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!                                                                                    
-===> WHEN DEBUGGING / TESTING PHP, LEAVE "$ct['dev']['debug_php_errors']" IN "developer-config.php" SET
+===> WHEN DEBUGGING PHP, LEAVE "$ct['dev']['debug_php_errors']" IN "developer-config.php" SET
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
 !!!!
 ===> Set PHP-CLI (for cron) "/etc/php/X.X/cli/php.ini": error_log = /var/log/php_errors.log
@@ -45,21 +45,27 @@ GENERAL REMINDERS
 !!!!
 ===> Server Edition (on debian) logs Apache PHP errors to: /var/log/apache2/error.log
 !!!!
-===> See top of the file "/app-lib/js/var_defaults.js", for notes on declaring global / local
-===> variables inside javascript-based app logic IN A PROPER MANNER.
+===> Arrays in the admin config that are deeper than 2 levels SHOULD use integer-based keys,
+===> or auto-indexing, FOR COMPATIBILITY with upgrade detection / processing, EXCEPT FOR A
+===> FEW EXCEPTIONS LIKE THE 'power => mining_calculators' / 'assets' arrays
+===> (string-based keys are generally NOT recommended beyond "category => setting" arrays)
+!!!!
+===> Any admin config "category => setting" value SET TO NULL is considered a corrupt value,
+===> for the SAKE OF COMPATIBILITY with upgrade detection / processing (use '' instead of null)
 !!!!
 ===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
-===> as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
+===> as all configs are saved to / run from the cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
 ===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
 !!!!
-===> Use SQLite for data storage that needs query capability (PHPdesktop supports SQLite).
+===> See top of the file "/app-lib/js/var_defaults.js", for notes on declaring global / local
+===> variables inside javascript-based app logic IN A PROPER MANNER (JS is different from PHP)
 !!!!
-===> Test in a WebKit-based browser [Epiphany|Safari|Midori], and Firefox / Chromium.
+===> Test in a WebKit-based browser [Epiphany|Safari|Midori], besides Firefox / Chromium.
 !!!!
-===> Try to do tests / UX / QA / debugging before adding new architecture
-===> (find every flaming turd before we start a dumpster fire!).
+===> Try to wrap up tests / UX / QA / debugging before adding new architecture
+===> (find every flaming turd before you start a dumpster fire!).
 !!!!
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
@@ -71,9 +77,9 @@ GENERAL REMINDERS
 ===> Ocassionally update cacert.pem in the main directory (for Windows Desktop Edition):
 ===> https://curl.se/ca/cacert.pem
 !!!!
-===> "developer-config.php" contains MANY developer-only configs at the top
+===> "developer-config.php" contains MANY MANY MANY developer-only configs!
 !!!!
-===> Don't require any higher than PHP v7.2 until PHP v9.
+===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
 !!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -177,10 +183,33 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Slashdot news feed said it imported in logs during cached config upgrade, BUT IT NEVER DID.
+Demo install on biz site is crapping out in the middle of running cron jobs, leaving /cache/events/cron-runtime-lock.dat in the cache...started around 10pm tuesday night. I set the debug 'cron_telemetry' flag, results are mixed. Just added this debug flag to my home server too, for comparison...will check those logs too, in the morning. Biz site app logs are below:
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+STARTED cron.php runtime (runtime_id = 71b7fc71fdf08840) on: November 9th, at 3:40am (UTC) 
+ ........running........ 
+STARTED cron.php runtime (runtime_id = 583d6b1a3d6fa443) on: November 9th, at 4:00am (UTC) 
+ ........running........ 
+FULLY COMPLETED cron.php runtime (runtime_id = 583d6b1a3d6fa443) on: November 9th, at 4:00am (UTC) 
 
 
-Demo install on biz site is crapping out in the middle of running cron jobs, leaving /cache/events/cron-runtime-lock.dat in the cache...started around 10pm tuesday night. 
+
+STARTED cron.php runtime (runtime_id = e93b338a0b698435) on: November 9th, at 4:20am (UTC) 
+ ........running........ 
+STARTED cron.php runtime (runtime_id = 6a735beeee5ed825) on: November 9th, at 4:40am (UTC) 
+ ........running........ 
+FULLY COMPLETED cron.php runtime (runtime_id = 6a735beeee5ed825) on: November 9th, at 4:40am (UTC) 
+
+
+
+STARTED cron.php runtime (runtime_id = 4cf178d021ac45e1) on: November 9th, at 5:00am (UTC) 
+ ........running........ 
+STARTED cron.php runtime (runtime_id = d36db0925691fffa) on: November 9th, at 5:20am (UTC) 
+ ........running........ 
+FULLY COMPLETED cron.php runtime (runtime_id = d36db0925691fffa) on: November 9th, at 5:20am (UTC) 
+
+-------------------------------------------------------------------------------------------------------------------------------------------
 
 
 Add to resources page:
