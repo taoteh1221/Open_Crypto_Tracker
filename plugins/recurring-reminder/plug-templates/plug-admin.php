@@ -83,31 +83,58 @@ $admin_render_settings['reminders']['is_repeatable']['is_textarea']['message'] =
 // FILLED IN setting values
 
 
-foreach ( $ct['conf']['plug_conf'][$this_plug]['reminders'] as $key => $val ) {
-         
-     foreach ( $val as $reminder_key => $tracked_val ) {
-     
-          if ( $reminder_key === 'days' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-               
-          $admin_render_settings['reminders']['has_subarray'][$key]['is_range'][$reminder_key] = true;
+if ( sizeof($ct['conf']['plug_conf'][$this_plug]['reminders']) > 0 ) {
 
-          $admin_render_settings['reminders']['has_subarray'][$key]['range_min'] = 1;
-               
-          $admin_render_settings['reminders']['has_subarray'][$key]['range_max'] = 365;
-               
-          $admin_render_settings['reminders']['has_subarray'][$key]['range_step'] = 1;
-               
-          $admin_render_settings['reminders']['has_subarray'][$key]['range_ui_prefix'] = 'Every ';
-               
-          $admin_render_settings['reminders']['has_subarray'][$key]['range_ui_suffix'] = ' Days';
+
+     foreach ( $ct['conf']['plug_conf'][$this_plug]['reminders'] as $key => $val ) {
+              
+              
+          foreach ( $val as $reminder_key => $tracked_val ) {
           
+          
+               if ( $reminder_key === 'days' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                    
+               $admin_render_settings['reminders']['has_subarray'][$key]['is_range'][$reminder_key] = true;
+     
+               $admin_render_settings['reminders']['has_subarray'][$key]['range_min'] = 1;
+                    
+               $admin_render_settings['reminders']['has_subarray'][$key]['range_max'] = 365;
+                    
+               $admin_render_settings['reminders']['has_subarray'][$key]['range_step'] = 1;
+                    
+               $admin_render_settings['reminders']['has_subarray'][$key]['range_ui_prefix'] = 'Every ';
+                    
+               $admin_render_settings['reminders']['has_subarray'][$key]['range_ui_suffix'] = ' Days';
+               
+               }
+               else {                                               
+               $admin_render_settings['reminders']['has_subarray'][$key]['is_textarea'][$reminder_key] = true;
+               }
+     
+     
           }
-          else {                                               
-          $admin_render_settings['reminders']['has_subarray'][$key]['is_textarea'][$reminder_key] = true;
-          }
-
+                                         
+                                                                           
      }
-                                                                      
+
+
+}
+else {
+               
+$admin_render_settings['reminders']['has_subarray'][0]['is_range']['days'] = true;
+               
+$admin_render_settings['reminders']['has_subarray'][0]['is_textarea']['message'] = true;
+
+$admin_render_settings['reminders']['has_subarray'][0]['range_min'] = 1;
+               
+$admin_render_settings['reminders']['has_subarray'][0]['range_max'] = 365;
+               
+$admin_render_settings['reminders']['has_subarray'][0]['range_step'] = 1;
+               
+$admin_render_settings['reminders']['has_subarray'][0]['range_ui_prefix'] = 'Every ';
+               
+$admin_render_settings['reminders']['has_subarray'][0]['range_ui_suffix'] = ' Days';
+          
 }
 
 

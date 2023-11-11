@@ -92,13 +92,19 @@
      ////////////////////////////////////////////////////////////////////////////////////////////////
      
      
-     // What OTHER admin pages should be refreshed AFTER this settings update runs
-     // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-     $admin_render_settings['is_refresh_admin'] = 'all';
+          if ( sizeof($ct['conf']['plugins']['plugin_status']) > 0 ) {
      
-     // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-     $ct['admin']->admin_config_interface('plugins', 'plugins', $admin_render_settings);
-     
+          // What OTHER admin pages should be refreshed AFTER this settings update runs
+          // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
+          $admin_render_settings['is_refresh_admin'] = 'all';
+          
+          // $ct['admin']->admin_config_interface($conf_id, $interface_id)
+          $ct['admin']->admin_config_interface('plugins', 'plugins', $admin_render_settings);
+          
+          }
+          else {
+          echo '<p class="bitcoin">No plugins installed.</p>';
+          }
      
      ////////////////////////////////////////////////////////////////////////////////////////////////
      

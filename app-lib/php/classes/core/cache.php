@@ -2159,7 +2159,18 @@ var $ct_array = array();
                
                // Telegram
                elseif ( $telegram_activated && preg_match("/telegram/i", $queued_cache_file) ) {
-                 
+               
+               $message_characters_count = mb_strlen($msg_data, 'UTF-8');
+                  
+                  // If telegram message characters is over 4096, it will fail to send,
+                  // so we just delete it (shouldn't happen anymore anyway, now that we abridged UPGRADE NOTICES)
+                  // https://developers.cm.com/messaging/docs/telegram
+                  if ( $message_characters_count > 4096 ) {
+                  $ct['gen']->log( 'notify_error', 'Telegram message 4096 character limit exceeded (' . $message_characters_count . '), cannot send, deleting');
+                  unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
+                  continue;
+                  }
+                  
                // Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
                $telegram_sleep = 1 * ( $processed_msgs['telegram_count'] > 0 ? $processed_msgs['telegram_count'] : 1 );
                sleep($telegram_sleep);
@@ -2170,9 +2181,9 @@ var $ct_array = array();
                    
                   $processed_msgs['telegram_count'] = $processed_msgs['telegram_count'] + 1;
                   
-                 $msg_sent = 1;
+                  $msg_sent = 1;
                 
-                 unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
+                  unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                    
                   }
                   else {
@@ -2420,11 +2431,9 @@ var $ct_array = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_currency_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
-  
   global $ct, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $api_connections, $htaccess_username, $htaccess_password;
   
-  $cookie_jar = tempnam('/tmp','cookie');
+  $cookie_jar = tempnam('/tmp','ct_cron_cookie');
    
   // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
   $hash_check = ( $mode == 'params' ? md5( serialize($request_params) ) : md5($request_params) );
@@ -2493,7 +2502,7 @@ var $ct_array = array();
       							
       			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2519,7 +2528,7 @@ var $ct_array = array();
       							
       			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2540,6 +2549,11 @@ var $ct_array = array();
     $api_time = explode(' ', $api_time);
     $api_time = $api_time[1] + $api_time[0];
     $api_start_time = $api_time;
+      
+      
+    // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
+    $temp_array = array();
+    $anti_proxy_servers = ( is_array($ct['conf']['proxy']['anti_proxy_servers']) ? $ct['conf']['proxy']['anti_proxy_servers'] : $temp_array );
               
       
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
@@ -2628,15 +2642,16 @@ var $ct_array = array();
       
       
       // If proxies are configured
-      if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+      if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
        
       $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct['var']->random_array_var($ct['conf']['proxy']['proxy_list']) );
       
-      // Check for valid proxy config
+      // Check for BASIC valid proxy config params
       $ip_port = explode(':', $current_proxy);
     
       $ip = $ip_port[0];
       $port = $ip_port[1];
+    
     
         // If no ip/port detected in data string, cancel and continue runtime
         if ( !$ip || !$port ) {
@@ -2647,9 +2662,11 @@ var $ct_array = array();
       
       curl_setopt($ch, CURLOPT_PROXY, trim($current_proxy) );     
       curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);  
-      
+          
+        
+        // API servers that don't like the user-setup proxy servers
         // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-        if ( $ct['conf']['proxy']['proxy_login'] != ''  ) {
+        if ( $ct['conf']['proxy']['proxy_login'] != '' ) {
        
         $user_pass = explode('||', $ct['conf']['proxy']['proxy_login']);
          
@@ -2657,6 +2674,7 @@ var $ct_array = array();
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user_pass[0] . ':' . $user_pass[1]); // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
         
         }
+        
       
       }
       else {
@@ -2690,6 +2708,7 @@ var $ct_array = array();
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct['conf']['power']['remote_api_timeout']);
     curl_setopt($ch, CURLOPT_TIMEOUT, $ct['conf']['power']['remote_api_timeout']);
               
+              
     // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
     $temp_array = array();
     $strict_news_feed_servers = ( is_array($ct['conf']['news']['strict_news_feed_servers']) ? $ct['conf']['news']['strict_news_feed_servers'] : $temp_array );
@@ -2698,6 +2717,9 @@ var $ct_array = array();
       // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
       if ( in_array($endpoint_tld_or_ip, $strict_news_feed_servers) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
+      }
+      elseif ( in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+      curl_setopt($ch, CURLOPT_USERAGENT, $ct['strict_curl_user_agent']);
       }
       else {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['curl_user_agent']);
@@ -2875,7 +2897,7 @@ var $ct_array = array();
         if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
 
              
-             if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+             if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
              $ip_description = 'PROXY';
              }
              else {
@@ -3172,7 +3194,7 @@ var $ct_array = array();
       							
       			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -3202,7 +3224,7 @@ var $ct_array = array();
       							
       			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
-      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);

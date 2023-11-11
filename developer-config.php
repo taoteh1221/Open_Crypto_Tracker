@@ -149,12 +149,18 @@ $ct['dev']['config_allow_resets'] = array();
 
 // Config category / settings subarray keys to DENY cached config settings ADDITIONS on (during upgrades)
 // (can manipulate later on, based on app version number / user input / etc)
-$ct['dev']['config_deny_additions'] = array();
+$ct['dev']['config_deny_additions'] = array(
+                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
+                                           'proxy_list', // Subarray setting (proxy servers)
+                                           );
 
 
 // Config category / settings subarray keys to DENY cached config settings REMOVALS on (during upgrades)
 // (can manipulate later on, based on app version number / user input / etc)
 $ct['dev']['config_deny_removals'] = array(
+                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
+                                           'proxy_list', // Subarray setting (proxy servers)
+                                           'strict_news_feed_servers', // Subarray setting (strict news feed servers)
                                            'feeds', // Subarray setting (news feeds)
                                            'tracked_markets', // Subarray setting (asset charts / price alerts)
                                            'assets', // Main category (portfolio assets)

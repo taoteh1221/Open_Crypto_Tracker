@@ -12,6 +12,7 @@
 
 // START CONFIG CLEANUP (auto-correct any basic end user data entry errors in possibly user-customized DEFAULTS in config.php)
 
+
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
 $ct['conf']['comms']['to_email'] = $ct['var']->auto_correct_str($ct['conf']['comms']['to_email'], 'lower');
 $ct['conf']['power']['debug_mode'] = $ct['var']->auto_correct_str($ct['conf']['power']['debug_mode'], 'lower');
@@ -47,6 +48,87 @@ $cleaned_val = $ct['var']->auto_correct_str($val, 'lower');
 $cleaned_mobile_networks[$cleaned_key] = $cleaned_val;
 }
 $ct['conf']['mobile_network_text_gateways'] = $cleaned_mobile_networks;
+
+
+// If user blanked out a SINGLE proxy list / strict api servers / strict news feeds server / news feeds value via the admin interface,
+// we need to unset the blank values to have the app logic run smoothly
+// (as we require at least one blank value IN THE INTERFACE WHEN SUBMITTING UPDATES, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config)
+if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $ct['conf']['proxy']['proxy_list'] as $key => $val ) {
+     
+          if ( trim($val) == '' ) {
+          unset($ct['conf']['proxy']['proxy_list'][$key]);
+          }
+     
+     }
+     
+}
+
+
+if ( is_array($ct['conf']['proxy']['anti_proxy_servers']) && sizeof($ct['conf']['proxy']['anti_proxy_servers']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $ct['conf']['proxy']['anti_proxy_servers'] as $key => $val ) {
+     
+          if ( trim($val) == '' ) {
+          unset($ct['conf']['proxy']['anti_proxy_servers'][$key]);
+          }
+     
+     }
+     
+}
+
+
+if ( is_array($ct['conf']['news']['strict_news_feed_servers']) && sizeof($ct['conf']['news']['strict_news_feed_servers']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $ct['conf']['news']['strict_news_feed_servers'] as $key => $val ) {
+     
+          if ( trim($val) == '' ) {
+          unset($ct['conf']['news']['strict_news_feed_servers'][$key]);
+          }
+     
+     }
+     
+}
+
+
+if ( is_array($ct['conf']['news']['feeds']) && sizeof($ct['conf']['news']['feeds']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
+     
+          if ( trim($val['url']) == '' ) {
+          unset($ct['conf']['news']['feeds'][$key]);
+          }
+     
+     }
+     
+}
+
+
+// Trim whitepace from some values THAT ARE SAFE TO RUN TRIMMING ON...
+
+foreach ( $ct['conf']['proxy']['proxy_list'] as $key => $val ) {
+$ct['conf']['proxy']['proxy_list'][$key] = trim($val);
+}
+
+foreach ( $ct['conf']['proxy']['anti_proxy_servers'] as $key => $val ) {
+$ct['conf']['proxy']['anti_proxy_servers'][$key] = trim($val);
+}
+
+foreach ( $ct['conf']['news']['strict_news_feed_servers'] as $key => $val ) {
+$ct['conf']['news']['strict_news_feed_servers'][$key] = trim($val);
+}
+
+foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
+$ct['conf']['news']['feeds'][$key]['title'] = trim($val['title']);
+$ct['conf']['news']['feeds'][$key]['url'] = trim($val['url']);
+}
+
+
 
 // END CONFIG CLEANUP
 

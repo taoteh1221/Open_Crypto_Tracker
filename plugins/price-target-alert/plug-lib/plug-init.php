@@ -13,6 +13,23 @@
 //$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
+// If user blanked out a SINGLE price target alert value via the admin interface,
+// we need to unset the blank value to have the app logic run smoothly
+// (as we require at least one blank value IN THE INTERFACE WHEN SUBMITTING UPDATES, TO ASSURE THE ARRAY IS NOT EXCLUDED from the CACHED config)
+if ( is_array($plug_conf[$this_plug]['price_targets']) && sizeof($plug_conf[$this_plug]['price_targets']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $plug_conf[$this_plug]['price_targets'] as $key => $val ) {
+     
+          if ( trim($val) == '' ) {
+          unset($plug_conf[$this_plug]['price_targets']);
+          }
+     
+     }
+     
+}
+
+
 // Remove any stale cache files
 $alert_cache_files = $ct['gen']->sort_files( $ct['plug']->alert_cache(false) , 'dat', 'desc');
 if ( is_array($plug_conf[$this_plug]['price_targets']) && sizeof($plug_conf[$this_plug]['price_targets']) != sizeof($alert_cache_files) ) {

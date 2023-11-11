@@ -71,13 +71,24 @@ $admin_render_settings['price_targets']['is_repeatable']['text_field_size'] = 45
 
 // FILLED IN setting values
 
+
+if ( sizeof($ct['conf']['plug_conf'][$this_plug]['price_targets']) > 0 ) {
+
+
 // Sort alphabetically
 sort($ct['conf']['plug_conf'][$this_plug]['price_targets']);
 
 
-foreach ( $ct['conf']['plug_conf'][$this_plug]['price_targets'] as $key => $val ) {
-$admin_render_settings['price_targets']['is_subarray'][$key]['is_text'] = true;
-$admin_render_settings['price_targets']['is_subarray'][$key]['text_field_size'] = 45;
+     foreach ( $ct['conf']['plug_conf'][$this_plug]['price_targets'] as $key => $val ) {
+     $admin_render_settings['price_targets']['is_subarray'][$key]['is_text'] = true;
+     $admin_render_settings['price_targets']['is_subarray'][$key]['text_field_size'] = 45;
+     }
+
+
+}
+else {
+$admin_render_settings['price_targets']['is_subarray'][0]['is_text'] = true;
+$admin_render_settings['price_targets']['is_subarray'][0]['text_field_size'] = 45;
 }
 
 

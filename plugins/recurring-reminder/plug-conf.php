@@ -34,8 +34,8 @@ $plug_conf[$this_plug]['ui_name'] = 'Recurring Reminder'; // (defaults to $this_
 // THIS TAKES INTO ACCOUNT YOUR TIME ZONE OFFSET, IN 'local_time_offset' IN THE MAIN CONFIG OF THIS APP ('GENERAL' SECTION)
 $plug_conf[$this_plug]['do_not_disturb'] = array(
 									     // ALWAYS USE THIS FORMAT: '00:00', OR THIS FEATURE WON'T BE ENABLED!
-										'on' => '17:30', // DND #START#, Default = '17:30' (5:30 AT NIGHT)
-										'off' => '09:30' // DND #END#, Default = '09:30' (9:30 IN MORNING)
+										'on' => '16:45', // DND #START#, Default = '16:45' (4:45 AT NIGHT)
+										'off' => '07:15' // DND #END#, Default = '07:15' (7:15 IN MORNING)
 									   );
 
 

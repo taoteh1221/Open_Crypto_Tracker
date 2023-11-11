@@ -20,20 +20,19 @@ if ( $admin_area_sec_level == 'high' ) {
 <?php
 }
 else {
-?>
-	
-	<p> Coming Soon&trade; </p>
-	
-	<p class='bitcoin bitcoin_dotted'>
-	
-	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of NORMAL / MEDIUM / HIGH MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Normal" OR "Medium" mode of the Admin Interface security level (at the top of the "Security" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
-	
-	</p>
-	
-<?php
 
 
 // Render config settings for this section...
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['proxy_login']['is_password'] = true;
+
+$admin_render_settings['proxy_login']['text_field_size'] = 25;
+
+$admin_render_settings['proxy_login']['is_notes'] = 'This format MUST be used: username||password<br />(leave BLANK if your proxy service uses ip-whitelisting instead)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +47,7 @@ $admin_render_settings['proxy_alert']['is_select'] = array(
                                                           'all',
                                                          );
 
-$admin_render_settings['proxy_alert']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
+$admin_render_settings['proxy_alert']['is_notes'] = 'Receive alerts IF a proxy FAILS (per-proxy)<br />(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +67,8 @@ $admin_render_settings['proxy_alert_frequency_maximum']['range_ui_prefix'] = 'Ev
 
 $admin_render_settings['proxy_alert_frequency_maximum']['range_ui_suffix'] = ' Hours';
 
+$admin_render_settings['proxy_alert_frequency_maximum']['is_notes'] = 'How often you want to receive alerts on proxy failure (per-proxy)';
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -78,6 +79,8 @@ $admin_render_settings['proxy_alert_runtime']['is_radio'] = array(
                                                                     'all',
                                                                    );
 
+$admin_render_settings['proxy_alert_runtime']['is_notes'] = 'Only receive alerts on proxy failure for these runtimes (per-proxy)';
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,6 +89,70 @@ $admin_render_settings['proxy_alert_checkup_ok']['is_radio'] = array(
                                                                     'ignore',
                                                                     'include',
                                                                    );
+
+$admin_render_settings['proxy_alert_checkup_ok']['is_notes'] = 'If a FAILED proxy connects OK (during a checkup) immediately after it fails, what to do with the alert BEFORE ALERTING YOU';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// EMPTY add / remove (repeatable) fields TEMPLATE rendering
+
+$admin_render_settings['anti_proxy_servers']['is_repeatable']['add_button'] = 'Add Anti-Proxy Server Domain (at bottom)';
+
+$admin_render_settings['anti_proxy_servers']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
+$admin_render_settings['anti_proxy_servers']['is_repeatable']['text_field_size'] = 25;
+               
+
+// FILLED IN setting values
+
+
+if ( sizeof($ct['conf']['proxy']['anti_proxy_servers']) > 0 ) {
+
+     foreach ( $ct['conf']['proxy']['anti_proxy_servers'] as $key => $val ) {
+     $admin_render_settings['anti_proxy_servers']['is_subarray'][$key]['is_text'] = true;
+     $admin_render_settings['anti_proxy_servers']['is_subarray'][$key]['text_field_size'] = 25;
+     }
+
+}
+else {
+$admin_render_settings['anti_proxy_servers']['is_subarray'][0]['is_text'] = true;
+$admin_render_settings['anti_proxy_servers']['is_subarray'][0]['text_field_size'] = 25;
+}
+
+
+$admin_render_settings['anti_proxy_servers']['is_notes'] = '(DOMAIN ONLY, servers set to SKIP USING PROXIES ON [because they block proxies])';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// EMPTY add / remove (repeatable) fields TEMPLATE rendering
+
+$admin_render_settings['proxy_list']['is_repeatable']['add_button'] = 'Add Proxy Server (at bottom)';
+
+$admin_render_settings['proxy_list']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
+$admin_render_settings['proxy_list']['is_repeatable']['text_field_size'] = 60;
+               
+
+// FILLED IN setting values
+
+
+if ( sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+
+     foreach ( $ct['conf']['proxy']['proxy_list'] as $key => $unused ) {
+     $admin_render_settings['proxy_list']['is_subarray'][$key]['is_text'] = true;
+     $admin_render_settings['proxy_list']['is_subarray'][$key]['text_field_size'] = 60;
+     }
+
+}
+else {
+$admin_render_settings['proxy_list']['is_subarray'][0]['is_text'] = true;
+$admin_render_settings['proxy_list']['is_subarray'][0]['text_field_size'] = 60;
+}
+
+
+$admin_render_settings['proxy_list']['is_notes'] = 'This format MUST be used: ip_address:port_number<br />Best proxy service I\'ve tested on: <a href="https://proxyscrape.com/premium-free-trial" target="_BLANK">ProxyScrape.com ("free forever" trial)</a><br />IF THIS APP FREEZES / HANGS A LONG TIME UPON LOADING, ***AFTER ADDING PROXIES HERE***, YOU PROBABLY HAVE A BAD PROXY CONFIGURATION SOMEWHERE!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +163,7 @@ $admin_render_settings['proxy_alert_checkup_ok']['is_radio'] = array(
 $admin_render_settings['is_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-//$ct['admin']->admin_config_interface('proxy', 'proxy', $admin_render_settings);
+$ct['admin']->admin_config_interface('proxy', 'proxy', $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

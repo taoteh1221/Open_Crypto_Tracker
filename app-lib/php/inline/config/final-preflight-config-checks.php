@@ -90,25 +90,26 @@ $proxy_parse_errors = 0;
 
 
 	// Displaying that errors were found
-	if ( $conf_parse_error >= 1 ) {
-     $proxy_conf_alert .= '<span class="red">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . "<br /> \n";
-     }
-          		
-     // Displaying any config errors
-     foreach ( $conf_parse_error as $error ) {
-     $proxy_conf_alert .= '<span class="red">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
-     }
-
-     if ( $proxy_conf_alert ) {
-     $ct['gen']->log('conf_error', $proxy_conf_alert);
-     }
-          		
+	if ( sizeof($conf_parse_error) >= 1 ) {
+	     
+	$proxy_conf_alert .= '<span class="red">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . "<br /> \n";
+	     
+     $ct['gen']->log('conf_error', $proxy_parse_errors . ' proxy configuration error(s)');
+     
+          // Displaying any config errors
+          foreach ( $conf_parse_error as $error ) {
+          $proxy_conf_alert .= '<span class="red">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
+          $ct['gen']->log('conf_error', 'misconfigured proxy: ' . $error);
+          }
+     
+     }		
      // Displaying if checks passed
-     if ( !is_array($conf_parse_error) || is_array($conf_parse_error) && sizeof($conf_parse_error) < 1 ) {
+     else {
      $proxy_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
      }
           		
-$conf_parse_error = NULL; // Blank it out for any other config checks
+          		
+$conf_parse_error = array(); // Blank it out for any other config checks
           		
 }
 
@@ -241,7 +242,7 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
           		
 
          // Displaying that errors were found
-         if ( $conf_parse_error >= 1 ) {
+         if ( sizeof($conf_parse_error) >= 1 ) {
          $price_change_conf_alert .=  '<span class="red">' . $price_alert_type_text . ' alert configuration error(s):</span>' . "<br /> \n";
          }
           		
@@ -260,7 +261,7 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
          $price_change_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
          }
           		
-      $conf_parse_error = NULL; // Blank it out for any other config checks
+      $conf_parse_error = array(); // Blank it out for any other config checks
           		
       }
           	
@@ -291,7 +292,7 @@ $smtp_email_server_parse = explode(":", $ct['conf']['comms']['smtp_server'] );
 	
 	
    // Displaying that errors were found
-   if ( $conf_parse_error >= 1 ) {
+   if ( sizeof($conf_parse_error) >= 1 ) {
    $smtp_conf_alert .=  '<span class="red">SMTP configuration error(s):</span>' . "<br /> \n";
    }
           		
@@ -312,7 +313,7 @@ $smtp_email_server_parse = explode(":", $ct['conf']['comms']['smtp_server'] );
    }
           		
 
-$conf_parse_error = NULL; // Blank it out for any other config checks          		
+$conf_parse_error = array(); // Blank it out for any other config checks          		
 	
 }
 
@@ -335,7 +336,7 @@ if ( $ct['conf']['comms']['logs_email'] > 0 && trim($ct['conf']['comms']['from_e
 
 
    // Displaying that errors were found
-   if ( $conf_parse_error >= 1 ) {
+   if ( sizeof($conf_parse_error) >= 1 ) {
    $logs_conf_alert .=  '<span class="red">Email error logs configuration error(s):</span>' . "<br /> \n";
    }
           		
@@ -356,7 +357,7 @@ if ( $ct['conf']['comms']['logs_email'] > 0 && trim($ct['conf']['comms']['from_e
    }
           		
 
-$conf_parse_error = NULL; // Blank it out for any other config checks
+$conf_parse_error = array(); // Blank it out for any other config checks
           		       	
 }
           	
@@ -377,7 +378,7 @@ if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' && $ct['conf']['power']['
 
 
    // Displaying that errors were found
-   if ( $conf_parse_error >= 1 ) {
+   if ( sizeof($conf_parse_error) >= 1 ) {
    $backuparchive_conf_alert .=  '<span class="red">Backup archiving configuration error(s):</span>' . "<br /> \n";
    }
           		
@@ -398,7 +399,7 @@ if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' && $ct['conf']['power']['
    }
           		
 
-$conf_parse_error = NULL; // Blank it out for any other config checks
+$conf_parse_error = array(); // Blank it out for any other config checks
           		       	
 }
           	

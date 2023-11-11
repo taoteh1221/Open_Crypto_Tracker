@@ -120,45 +120,77 @@ $admin_render_settings['tracking']['is_repeatable']['text_field_size'] = 50;
 
 // FILLED IN setting values
 
-// Alphabetically sort tracked addresses by 'label' key
-if ( is_array($ct['conf']['plug_conf'][$this_plug]['tracking']) ) { 
+
+if ( sizeof($ct['conf']['plug_conf'][$this_plug]['tracking']) > 0 ) {
+
 $usort_alpha = 'label';
 $usort_tracking_results = usort($ct['conf']['plug_conf'][$this_plug]['tracking'], array($ct['gen'], 'usort_alpha') );
-}
 
 
-if ( !$usort_tracking_results ) {
-$ct['gen']->log('other_error', 'plugin "' . $this_plug . '" tracking addresses failed to sort alphabetically');
-}
-
-
-foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
-         
-     foreach ( $val as $tracked_key => $tracked_val ) {
-     
-          if ( $tracked_key === 'asset' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-               
-          $admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key] = array(
-                                                                                                      'btc',
-                                                                                                      'eth',
-                                                                                                      'sol',
-                                                                                                     );
-          
-               foreach ( $sol_subtokens as $val ) {
-               $admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key][] = 'sol||' . $val;
-               }
-          
-          // Sort alphabetically
-          sort($admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key]);
-          
-          }
-          else {                                               
-          $admin_render_settings['tracking']['has_subarray'][$key]['is_text'][$tracked_key] = true;
-          $admin_render_settings['tracking']['has_subarray'][$key]['text_field_size'] = 50;
-          }
-
+     if ( !$usort_tracking_results ) {
+     $ct['gen']->log('other_error', 'plugin "' . $this_plug . '" tracking addresses failed to sort alphabetically');
      }
-                                                                      
+
+
+     foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
+              
+              
+          foreach ( $val as $tracked_key => $tracked_val ) {
+          
+          
+               if ( $tracked_key === 'asset' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                    
+               $admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key] = array(
+                                                                                                           'btc',
+                                                                                                           'eth',
+                                                                                                           'sol',
+                                                                                                          );
+               
+               
+                    foreach ( $sol_subtokens as $val ) {
+                    $admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key][] = 'sol||' . $val;
+                    }
+               
+               
+               // Sort alphabetically
+               sort($admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key]);
+               
+               }
+               else {                                               
+               $admin_render_settings['tracking']['has_subarray'][$key]['is_text'][$tracked_key] = true;
+               $admin_render_settings['tracking']['has_subarray'][$key]['text_field_size'] = 50;
+               }
+               
+     
+          }
+          
+                                                                           
+     }
+
+
+}
+else {
+
+$admin_render_settings['tracking']['has_subarray'][0]['is_select']['asset'] = array(
+                                                                                    'btc',
+                                                                                    'eth',
+                                                                                    'sol',
+                                                                                   );
+               
+               
+     foreach ( $sol_subtokens as $val ) {
+     $admin_render_settings['tracking']['has_subarray'][0]['is_select']['asset'][] = 'sol||' . $val;
+     }
+               
+               
+// Sort alphabetically
+sort($admin_render_settings['tracking']['has_subarray'][0]['is_select']['asset']);
+
+
+$admin_render_settings['tracking']['has_subarray'][0]['is_text']['label'] = true;
+$admin_render_settings['tracking']['has_subarray'][0]['is_text']['address'] = true;
+$admin_render_settings['tracking']['has_subarray'][0]['text_field_size'] = 50;
+               
 }
 
 

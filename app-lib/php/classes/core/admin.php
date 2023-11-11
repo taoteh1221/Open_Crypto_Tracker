@@ -124,11 +124,25 @@ var $ct_array = array();
    
    function valid_admin_settings() {
         
-   global $ct, $update_config_error;
+   global $ct, $plug_class, $update_config_error;
+   
+   
+        if ( !isset($_POST['conf_id']) ) {
+        return false;
+        }
+        elseif ( preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
+        $parse_plugin_name = explode('|', $_POST['conf_id']);
+        $is_plugin = $parse_plugin_name[1];
+        }
    
         
         // ADD VALIDATION CHECKS HERE, BEFORE ALLOWING UPDATE OF THIS CONFIG SECTION
-        if ( $_POST['conf_id'] === 'gen' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        
+        // Plugin support (if found in plugin's class)
+        if ( $is_plugin && method_exists($plug_class[$is_plugin], 'admin_input_validation') && is_callable( array($plug_class[$is_plugin], 'admin_input_validation') ) ) {
+        $update_config_error = $plug_class[$is_plugin]->admin_input_validation();
+        }
+        elseif ( $_POST['conf_id'] === 'gen' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
              
            // Make sure primary currency conversion params are set properly
            if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['gen']['bitcoin_primary_currency_pair'] ][ $_POST['gen']['bitcoin_primary_currency_exchange'] ] ) {
@@ -228,68 +242,56 @@ var $ct_array = array();
         
         
         }
-        elseif ( $_POST['conf_id'] === 'plug_conf|price-target-alert' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-		
-		  $loop_error = false;
-            foreach ( $_POST['price-target-alert']['price_targets'] as $price_target_data ) {
-            
-            $parse_attributes = explode('=', $price_target_data);
-            // Cleanup
-            $parse_attributes = array_map('trim', $parse_attributes);
-            
-            $target_market = $parse_attributes[0];
-
-            $target_price = $ct['var']->num_to_str($parse_attributes[1]);
-
-            $mrkt_conf = explode('-', $target_market);
-
-            $mrkt_asset = strtoupper($mrkt_conf[0]);
-          
-            $mrkt_pair = strtolower($mrkt_conf[1]);
-          
-            $mrkt_exchange = strtolower($mrkt_conf[2]);
-
-            $mrkt_id = $ct['conf']['assets'][$mrkt_asset]['pair'][$mrkt_pair][$mrkt_exchange];
-          
-            $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchange, $mrkt_id)['last_trade'] );
-            
-                 if ( $loop_error ) {
-                 $update_config_error_seperator = '; ';
-                 }
-            
-                 if ( !isset($target_price) || isset($target_price) && !is_numeric($target_price) ) {
-                 $loop_error = true;
-                 $update_config_error .= $update_config_error_seperator . 'Please use a numeric value for target price (in submission: "'.$price_target_data.'")';
-                 }
-                 
-                 if ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
-                 $loop_error = true;
-                 $update_config_error .= $update_config_error_seperator . 'No market data found for ' . $mrkt_asset . ' / ' . strtoupper($mrkt_pair) . ' @ ' . $ct['gen']->key_to_name($mrkt_exchange) . ' (in submission: "'.$price_target_data.'")';
-                 }
-            
-            }
+        elseif ( $_POST['conf_id'] === 'proxy' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
         
-        }
-        elseif ( $_POST['conf_id'] === 'plug_conf|recurring-reminder' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-             
-            // Make sure do not disturb on/off is set properly (IF filled in, CAN BE BLANK TO DISABLE)
-            
-            if (
-            isset($_POST['recurring-reminder']['do_not_disturb']['on'])
-            && $_POST['recurring-reminder']['do_not_disturb']['on'] != ''
-            && !preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $_POST['recurring-reminder']['do_not_disturb']['on'])
-            ) {
-            $update_config_error .= '"Do Not Disturb => On" value MUST be between 00:00 and 23:59 (ALWAYS TWO DIGIT HOURS AND MINUTES)';
-            $error_seperator = '; ';
-            }
-            
-            if (
-            isset($_POST['recurring-reminder']['do_not_disturb']['off'])
-            && $_POST['recurring-reminder']['do_not_disturb']['off'] != ''
-            && !preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $_POST['recurring-reminder']['do_not_disturb']['off'])
-            ) {
-            $update_config_error .= $error_seperator . '"Do Not Disturb => Off" value MUST be between 00:00 and 23:59 (ALWAYS TWO DIGIT HOURS AND MINUTES)';
-            }
+        
+           if ( isset($_POST['proxy']['proxy_login']) && $_POST['proxy']['proxy_login'] != '' && !preg_match('/\s/', $_POST['proxy']['proxy_login']) ) {
+           $is_proxy_login = true;
+           $proxy_login_check = explode("||", $_POST['proxy']['proxy_login']);
+           }
+        
+           
+           if ( preg_match('/\s/', $_POST['proxy']['proxy_login']) ) {
+           $update_config_error .= 'WHITESPACE is not allowed in the Proxy LOGIN';
+           }
+           // Make sure proxy login params are set properly
+           elseif ( $is_proxy_login && sizeof($proxy_login_check) < 2 ) {
+           $update_config_error .= 'Proxy LOGIN formatting is NOT valid (format MUST be: username||password)';
+           }
+           elseif ( is_array($_POST['proxy']['proxy_list']) ) {
+           
+               foreach ( $_POST['proxy']['proxy_list'] as $proxy ) {
+                    
+               $proxy = trim($proxy);
+               
+               $proxy_check = explode(":", $proxy);
+                    
+                    if ( sizeof($_POST['proxy']['proxy_list']) == 1 && $proxy == '' ) {
+     	          // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
+                    }
+                    elseif ( sizeof($proxy_check) < 2 ) {
+                    $update_config_error .= '<br />Proxy LIST formatting is NOT valid (format MUST be: ip_address:port_number [in submission: "'.$proxy.'"])';
+                    }
+                    else {
+                         
+                         if ( $proxy_checked ) {
+                         sleep(2); // Don't want to hit the testing server too hard too quick on consecutive requests
+                         }
+                    
+                    $check_proxy = $ct['gen']->connect_test($proxy, 'proxy');
+                    
+                         if ( $check_proxy['status'] != 'ok' ) {
+                         $update_config_error .= '<br />Proxy TEST failed for submission: "'.$proxy.'" ('.$check_proxy['status'].')';
+                         }
+                         
+                    $proxy_checked = true;
+                    
+                    }
+               
+               }
+           
+           }
+           
         
         }
         
@@ -1114,18 +1116,18 @@ var $ct_array = array();
              }
               
               
-             foreach( $render_params[$passed_key]['has_subarray'][$subarray_key]['is_text'] as $sub_key => $unused ) {
+             foreach( $render_params[$passed_key]['has_subarray'][$subarray_key]['is_text'] as $deep_sub_key => $unused ) {
                       
                   // If string keyed array, show description from key value
                   if ( $is_string_keys ) {
-                  $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub_key) . ':</b> &nbsp; ';
+                  $desc = '<b class="blue">' . $ct['gen']->key_to_name($deep_sub_key) . ':</b> &nbsp; ';
                   }
                   
              ?>
              
              <p>
          
-                  <?=$desc?> <input data-track-index='<?=$subarray_key?>' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?>' <?=( isset($render_params[$passed_key]['has_subarray'][$subarray_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['has_subarray'][$subarray_key]['text_field_size'] . '"' : '' )?> />
+                  <?=$desc?> <input data-track-index='<?=$subarray_key?>' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$deep_sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$deep_sub_key]) ? $passed_val[$subarray_key][$deep_sub_key] : '' )?>' <?=( isset($render_params[$passed_key]['has_subarray'][$subarray_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['has_subarray'][$subarray_key]['text_field_size'] . '"' : '' )?> />
                   
                   <?php
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_text']) ) {
@@ -1609,11 +1611,11 @@ var $ct_array = array();
                       }
      
      
-                      foreach( $render_params[$passed_key]['is_repeatable']['is_text'] as $sub_key2 => $unused ) {
+                      foreach( $render_params[$passed_key]['is_repeatable']['is_text'] as $deep_sub_key => $unused ) {
                       
                            // If string keyed array, show description from key value
                            if ( $is_string_keys ) {
-                           $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub_key2) . ':</b> &nbsp; ';
+                           $desc = '<b class="blue">' . $ct['gen']->key_to_name($deep_sub_key) . ':</b> &nbsp; ';
                            }
                   
                       // Tracking for rendering remove button
@@ -1623,7 +1625,7 @@ var $ct_array = array();
                        
                       <p>
                            
-                          <?=$desc?> <input data-track-index='{?}' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub_key2?>]' value='' <?=( isset($render_params[$passed_key]['is_repeatable']['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_repeatable']['text_field_size'] . '"' : '' )?> /> 
+                          <?=$desc?> <input data-track-index='{?}' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$deep_sub_key?>]' value='' <?=( isset($render_params[$passed_key]['is_repeatable']['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_repeatable']['text_field_size'] . '"' : '' )?> /> 
                            
                            123PLACEHOLDER_RIGHT123
                

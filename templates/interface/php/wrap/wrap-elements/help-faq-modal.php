@@ -977,6 +977,44 @@ echo $plug_class[$this_plug]->my_function_1('Kitty');
 
 
 
+ADDING USER-INPUT VALIDATION FOR THE PLUGIN'S ADMIN SETTINGS PAGE:
+<br /><br />
+
+To AUTOMATICALLY INCLUDE your custom user-input validation logic for your plugin's admin settings page, add the EXACT function name "admin_input_validation" into your class file mentioned above:
+<br /><br />
+
+<pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
+$plug_class[$this_plug] = new class() {
+     
+     // Validating user input in the admin interface
+     function admin_input_validation() {
+		 
+     global $ct, $this_plug, $plug_conf;
+		
+     // Logic here
+     $update_config_error = ''; // No input errors
+     
+     $update_config_error = 'Input error description goes here'; // An error has ocurred
+     
+     return $update_config_error;
+		
+     }
+				
+};
+// END class
+
+</code></pre>
+
+<br /><br /><br />
+
+
+
+If <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$plug_class[$this_plug]->admin_input_validation()</code></pre> returns false / null / '' (set blank), then the app will consider the user-input VALIDATED. OTHERWISE, it will halt updating of your plugin's settings, and show the end-user your error message in the user interface.
+
+<br /><br /><br />
+
+
+
 <span class='blue'>6)</span> Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
 <br /><br />
 

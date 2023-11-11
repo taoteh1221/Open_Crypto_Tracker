@@ -264,14 +264,19 @@ $htaccess_password = $interface_login_array[1];
 
 // User agent (MUST BE SET VERY EARLY [AFTER primary-init / CONFIG-AUTO-ADJUST], 
 // FOR ANY CURL-BASED API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
+
+// STRICT curl user agent (for strict API servers list in proxy mode, etc)
+$ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct['system_info']['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+
+
 if ( trim($ct['conf']['power']['override_curl_user_agent']) != '' ) {
 $ct['curl_user_agent'] = $ct['conf']['power']['override_curl_user_agent'];  // Custom user agent
 }
-elseif ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+elseif ( sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 $ct['curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {
-$ct['curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct['system_info']['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+$ct['curl_user_agent'] = $ct['strict_curl_user_agent'];
 }
 
 

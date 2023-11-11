@@ -6412,6 +6412,12 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous fixes
 
+-Added option for plugin developers to automatically include their user-input validation for the admin settings page within the plugin's class file
+
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Proxies
+
+-Added setting to proxies that allows adding server domains to SKIP using proxies for (if the server ALWAYS blocks proxies)
+
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup
