@@ -17,6 +17,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
+   
    function timestamps_usort_num($a, $b) {
    return strcmp($a['timestamp'], $b['timestamp']); 
    }
@@ -437,20 +438,18 @@ var $ct_array = array();
    
    function has_string_keys($array) {
    
-   // https://stackoverflow.com/a/69351814/6190099
-   $results = array_filter($array, function($e){ return ctype_digit( (string) $e );});
-   
-   //var_dump($results);
+   $result = false;
         
-        foreach ( $results as $numbered_key ) {
-            
-            if ( !$numbered_key ) {
-            return true;
-            }
-        
+        if ( !is_array($array) ) {
+        return $result;
         }
         
-   return false;
+        // https://stackoverflow.com/a/69351814/6190099
+        foreach ( $array as $key => $unused ) {
+        $result = ( ctype_digit( (string) $key ) ? false : true );
+        }
+        
+   return $result;
         
    }
    
@@ -1479,7 +1478,7 @@ var $ct_array = array();
    $num = $ct['var']->num_to_str($num);
    
       // Unit
-      if ( $mode == 'u' && $type != false ) {
+      if ( $mode == 'u' ) {
           
       $result['max_dec'] = $this->dyn_max_decimals( abs($num) , $type); // MUST BE PASSED AS ABSOLUTE
       
@@ -1502,11 +1501,15 @@ var $ct_array = array();
       // Percent 
       elseif ( $mode == 'p' ) {
           
-          if ( abs($num) >= 100 ) {
+          if ( abs($num) >= 1000 ) {
           $result['max_dec'] = 0;
           $result['min_dec'] = 0;
           }
-		  else {
+          elseif ( abs($num) >= 100 ) {
+          $result['max_dec'] = 1;
+          $result['min_dec'] = 1;
+          }
+		else {
           $result['max_dec'] = 2;
           $result['min_dec'] = 2;
           }
@@ -1564,6 +1567,65 @@ var $ct_array = array();
    $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
    $this->store_cookie('prim_currency_mrkt', '', time()-3600); // Delete
     
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function connect_test($server_and_port, $mode='ping', $transport='tcp://', $tcp_error=false) {
+        
+   global $ct;
+   
+   $server_and_port = trim($server_and_port);
+        
+   $check_connect = explode(':', $server_and_port); // Separate IP and port
+   
+       if ( $mode == 'ping' ) {
+       
+       $con = @fsockopen('tcp://' . $check_connect[0], $check_connect[1], $errno, $errstr, 5);
+        
+            if ( $con ) {
+            fclose($con); // Close the socket handle
+            return array('status' => 'ok');
+            }
+            elseif ( $transport == 'tcp://' ) {
+            sleep(1);
+            return $this->connect_test($server_and_port, 'ping', 'ssl://', '['.$transport.'] error ' . $errno . ': ' . $errstr);
+            }
+            else {
+            return array('status' => $tcp_error . '; ['.$transport.'] error ' . $errno . ': ' . $errstr);
+            }
+       
+       }
+       elseif ( $mode == 'proxy' ) {
+            
+       $response = @$ct['cache']->ext_data('proxy-check', 'https://api.myip.com/', 0, '', '', $server_and_port);
+
+       $data = json_decode($response, true);
+      
+           if ( is_array($data) && sizeof($data) > 0 ) {
+  
+           $ip_port = explode(':', $server_and_port);
+            
+           $ip = $ip_port[0];
+          
+              // Look for the IP in the response
+              if ( strstr($data['ip'], $ip) == false ) {
+              return array('status' => 'remote address mismatch [detected as: ' . $data['ip'] . ']');
+              }
+              else {
+              return array('status' => 'ok');
+              }
+         
+           }
+           else {
+           return array('status' => 'proxy failed, no endpoint connection');
+           }
+         
+       }
+       
    }
    
    
@@ -2724,6 +2786,7 @@ var $ct_array = array();
    
    
    $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
+   $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
    $pretty_str = preg_replace("/smtp/i", 'SMTP', $pretty_str);
    $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
    $pretty_str = preg_replace("/coin/i", 'Coin', $pretty_str);
@@ -2752,7 +2815,7 @@ var $ct_array = array();
    $pretty_str = preg_replace("/coingecko/i", 'CoinGecko.com', $pretty_str);
    $pretty_str = preg_replace("/coinmarketcap/i", 'CoinMarketCap.com', $pretty_str);
    $pretty_str = preg_replace("/alphavantage/i", 'AlphaVantage.co', $pretty_str);
-   $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
+   $pretty_str = preg_replace("/anti proxy/i", 'Anti-Proxy', $pretty_str);
    
    
    return trim($pretty_str);

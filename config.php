@@ -299,14 +299,6 @@ $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 ////////////////////////////////////////
 
 
-// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
-// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
-$ct['conf']['proxy']['proxy_list'] = array(
-					// 'ipaddress1:portnumber1',
-					// 'ipaddress2:portnumber2',
-					);
-
-
 // If using proxies and login is required
 // Adding a user / pass here will automatically send login details for proxy connections
 // CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
@@ -328,6 +320,22 @@ $ct['conf']['proxy']['proxy_alert_runtime'] = 'cron'; // (default = 'cron')
 
 // Include or ignore proxy alerts if proxy checkup went OK? (after flagged, started working again when checked)
 $ct['conf']['proxy']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'ignore' 
+    
+     
+// API servers that do NOT like the user-setup proxy servers
+// (this app will SKIP USING PROXY SERVERS for these domains)
+$ct['conf']['proxy']['anti_proxy_servers'] = array(
+                                                   //'domain.com',
+                                                  );
+
+
+// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
+// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
+// BEST PROXY SERVICE I'VE TESTED ("free forever" trial): https://proxyscrape.com/premium-free-trial
+$ct['conf']['proxy']['proxy_list'] = array(
+                    				   // 'ipaddress1:portnumber1',
+                    				   // 'ipaddress2:portnumber2',
+                    				  );
 
 
 ////////////////////////////////////////

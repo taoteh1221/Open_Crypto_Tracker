@@ -178,6 +178,9 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add a disable mode for proxies (so they don't have to be removed to disable them).
+
+
 Demo install on biz site STARTED crapping out in the middle of running cron jobs, leaving /cache/events/cron-runtime-lock.dat in the cache...started around 10pm tuesday 11/7. I set the debug 'cron_telemetry' flag, results are showing whatever it was SEEMS to have cleared up as of thursday 11/9. KEEP AN EYE ON THE CRON DEBUG LOGS THOUGH.
 
 

@@ -208,7 +208,6 @@ else {
 
 $admin_render_settings['interface_login']['is_password'] = true;
 
-
 $admin_render_settings['interface_login']['text_field_size'] = 25;
 
 $admin_render_settings['interface_login']['is_notes'] = 'This format MUST be used: username||password<br />SEE ANY ALERTS (after saving changes), for weak username / password failures.';

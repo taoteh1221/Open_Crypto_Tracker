@@ -60,7 +60,6 @@ $this_plug = trim($key);
      		   
      	    // If were're not high security mode / resetting / updating plugin status, flag a cached config update to occurr
      	    if ( $admin_area_sec_level != 'high' && !$reset_config && !$plugin_status_is_updating ) {
-         	    $ct['gen']->log('conf_error', 'plugin "'.$this_plug.'" ADDED, updating CACHED ct_conf');
               $update_config = true;
               }
      		        
@@ -204,6 +203,17 @@ $this_plug = trim($key);
 	
 	unset($plug_conf_file); // Reset
 	
+	}
+	// If we recently de-activated this plugin, we STILL need to remove it's config from 'plug_conf'
+	else if ( isset($ct['conf']['plug_conf'][$this_plug]) ) {
+	     
+     unset($ct['conf']['plug_conf'][$this_plug]);
+     
+     	    // If were're not high security mode / resetting, flag a cached config update to occurr
+     	    if ( $admin_area_sec_level != 'high' && !$reset_config ) {
+              $update_config = true;
+              }
+              
 	}
 
 

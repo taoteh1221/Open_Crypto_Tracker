@@ -136,20 +136,27 @@ $admin_render_settings['news_feed_precache_maximum']['is_notes'] = '(per backgro
 
 
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
-     
-$admin_render_settings['strict_news_feed_servers']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
 
 $admin_render_settings['strict_news_feed_servers']['is_repeatable']['add_button'] = 'Add Strict News Server Domain (at bottom)';
 
+$admin_render_settings['strict_news_feed_servers']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
 $admin_render_settings['strict_news_feed_servers']['is_repeatable']['text_field_size'] = 25;
                
 
 // FILLED IN setting values
 
 
-foreach ( $ct['conf']['news']['strict_news_feed_servers'] as $key => $val ) {
-$admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['is_text'] = true;
-$admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['text_field_size'] = 25;
+if ( sizeof($ct['conf']['news']['strict_news_feed_servers']) > 0 ) {
+
+     foreach ( $ct['conf']['news']['strict_news_feed_servers'] as $key => $val ) {
+     $admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['is_text'] = true;
+     $admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['text_field_size'] = 25;
+     }
+
+}
+else {
+$admin_render_settings['strict_news_feed_servers']['is_subarray'][0]['is_text'] = true;
+$admin_render_settings['strict_news_feed_servers']['is_subarray'][0]['text_field_size'] = 25;
 }
 
 
@@ -171,13 +178,22 @@ $admin_render_settings['feeds']['is_repeatable']['text_field_size'] = 60;
 // FILLED IN setting values
 
 
-foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
-         
-     foreach ( $val as $feed_key => $unused ) {
-     $admin_render_settings['feeds']['has_subarray'][$key]['is_text'][$feed_key] = true;
-     $admin_render_settings['feeds']['has_subarray'][$key]['text_field_size'] = 60;
+if ( sizeof($ct['conf']['news']['feeds']) > 0 ) {
+
+     foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
+              
+          foreach ( $val as $feed_key => $unused ) {
+          $admin_render_settings['feeds']['has_subarray'][$key]['is_text'][$feed_key] = true;
+          $admin_render_settings['feeds']['has_subarray'][$key]['text_field_size'] = 60;
+          }
+                                                                           
      }
-                                                                      
+
+}
+else {
+$admin_render_settings['feeds']['has_subarray'][0]['is_text']['title'] = true;
+$admin_render_settings['feeds']['has_subarray'][0]['is_text']['url'] = true;
+$admin_render_settings['feeds']['has_subarray'][0]['text_field_size'] = 60;
 }
 
 

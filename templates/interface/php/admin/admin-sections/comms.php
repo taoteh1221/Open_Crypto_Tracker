@@ -99,7 +99,7 @@ $admin_render_settings['smtp_server']['is_trim'] = true;
 
 $admin_render_settings['smtp_server']['text_field_size'] = 40;
 
-$admin_render_settings['smtp_server']['is_notes'] = 'This format MUST be used: domain_or_ip:port_number';
+$admin_render_settings['smtp_server']['is_notes'] = 'This format MUST be used: domain_or_ip:port_number<br />Examples: example.com:25 (non-encrypted), example.com:465 (ssl-encrypted), example.com:587 (tls-encrypted)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

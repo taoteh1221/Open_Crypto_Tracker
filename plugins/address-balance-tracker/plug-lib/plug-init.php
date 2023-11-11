@@ -13,6 +13,23 @@
 //$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
+// If user blanked out a SINGLE address tracking alert value via the admin interface,
+// we need to unset the blank value to have the app logic run smoothly
+// (as we require at least one blank value IN THE INTERFACE WHEN SUBMITTING UPDATES, TO ASSURE THE ARRAY IS NOT EXCLUDED from the CACHED config)
+if ( is_array($plug_conf[$this_plug]['tracking']) && sizeof($plug_conf[$this_plug]['tracking']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $plug_conf[$this_plug]['tracking'] as $key => $val ) {
+     
+          if ( trim($val['address']) == '' ) {
+          unset($plug_conf[$this_plug]['tracking'][$key]);
+          }
+     
+     }
+     
+}
+
+
 // Remove any stale cache files
 $loop = ( is_array($plug_conf[$this_plug]['tracking']) ? sizeof($plug_conf[$this_plug]['tracking']) : 0 );
 while ( file_exists( $ct['plug']->alert_cache($loop . '.dat') ) ) {

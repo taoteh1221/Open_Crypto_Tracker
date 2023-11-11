@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$conf_parse_error = array();
+
 $admin_render_settings = array();
 
 $repeatable_fields_tracking = array();
