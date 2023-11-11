@@ -178,7 +178,10 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Add a disable mode for proxies (so they don't have to be removed to disable them).
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
 
 
 Demo install on biz site STARTED crapping out in the middle of running cron jobs, leaving /cache/events/cron-runtime-lock.dat in the cache...started around 10pm tuesday 11/7. I set the debug 'cron_telemetry' flag, results are showing whatever it was SEEMS to have cleared up as of thursday 11/9. KEEP AN EYE ON THE CRON DEBUG LOGS THOUGH.
@@ -188,13 +191,16 @@ Add to resources page:
 https://www.validators.app/
 
 
-"The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
-
-
 Set a max width on login / registration pages for dynamically shown error messages wrapping element. Focus on a blank login username field, and hit the return / enter key, to see how it 'jiggles' the login form fields (at least on linux desktop edition).
 
 
-Update screenshots, since we overhauled everything in the interface.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add a disable mode for proxies (so they don't have to be removed to disable them).
+
+
+"The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
 
 
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
@@ -225,19 +231,10 @@ $admin_general_success
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
-DO ANOTHER CODE REVIEW OF THE ENTIRE ADMIN CLASS FUNCTIONS.
-
-
 Move everything from the var class to the general class.
 
 
-Hide dev-only plugin settings in the interface, as <input type='hidden' />
-
-
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
-
-
-Validate crypto addresses in the address-balance-tracker plugin.
 
 
 When an SPL token is selected in the address-balance-tracker plugin, have a notes field saying they need to use the unique address dedicated to that token, that shows in block explorers.
@@ -246,16 +243,10 @@ When an SPL token is selected in the address-balance-tracker plugin, have a note
 Linux Desktop Edition makes any buttons in an admin interface repeatable subarray element wrapper SMALLER than usual. Find out why.
 
 
+Hide dev-only plugin settings in the interface, as <input type='hidden' />
+
+
 We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
-
-
-Create / refresh a cache file with a key order mapping array (in json format) of the MAIN CONFIG TEMPLATE, which runs on new installs AND detected upgrades, by using include() to load /templates/back-end/main-config.template (BEFORE config.php is LOADED, SO WE DON'T OVERWRITE CUSTOMIZED USER SETTINGS). Then use this cache file's data for the array key ordering logic in the cached config upgrade AND update functions. THEN WE WILL ENCOUNTER LESS ARRAY KEY ORDERING ISSUES WHEN AN END-USER USES AN **OUTDATED CONFIG.PHP FILE**. ALSO USE THIS MAPPING DATA TO GET A HASH OF ALL SETTING KEYS (INCLUDING EACH SETTING WITHIN A SETTING CATEGORY) CONCATENATED TOGETHER, SO WE CAN COMPARE AGAINST THE LIVE HARD-CODED MAIN CONFIG, AND ALERT END USERS IF THEY HAVE AN OUTDATED MAIN CONFIG FILE. CACHE RESULTS FOR BOTH, AND ALSO ONLY RUN CACHING ON NEW INSTALLS / UPGRADES, BUT ALERT USERS EVERY RUNTIME IF THE CACHED HASHES DONT MATCH.
 
 
 Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
@@ -270,16 +261,43 @@ Add a logout class to the logout link, and add an onclick event listener that do
 Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
 
 
-Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Look into adding the architecture for "chrome push alerts".
+
+
+For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
+https://www.alphavantage.co/query?function=OVERVIEW&symbol=TICKER_HERE&apikey=API_KEY_HERE
+
+There are also endpoints available for income statement / balance sheet / cash flow / earnings / etc here:
+https://www.alphavantage.co/documentation/#fundamentals
+
+Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
+
+
+Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe (next to the vertical title maybe)? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
+
+
+Update screenshots, since we overhauled everything in the interface.
+
+
+Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
+
+
+Create / refresh a cache file with a key order mapping array (in json format) of the MAIN CONFIG TEMPLATE, which runs on new installs AND detected upgrades, by using include() to load /templates/back-end/main-config.template (BEFORE config.php is LOADED, SO WE DON'T OVERWRITE CUSTOMIZED USER SETTINGS). Then use this cache file's data for the array key ordering logic in the cached config upgrade AND update functions. THEN WE WILL ENCOUNTER LESS ARRAY KEY ORDERING ISSUES WHEN AN END-USER USES AN **OUTDATED CONFIG.PHP FILE**. ALSO USE THIS MAPPING DATA TO GET A HASH OF ALL SETTING KEYS (INCLUDING EACH SETTING WITHIN A SETTING CATEGORY) CONCATENATED TOGETHER, SO WE CAN COMPARE AGAINST THE LIVE HARD-CODED MAIN CONFIG, AND ALERT END USERS IF THEY HAVE AN OUTDATED MAIN CONFIG FILE. CACHE RESULTS FOR BOTH, AND ALSO ONLY RUN CACHING ON NEW INSTALLS / UPGRADES, BUT ALERT USERS EVERY RUNTIME IF THE CACHED HASHES DONT MATCH.
+
+
+Admin iframes: ADD A 'REVERT TO LAST-KNOWN WORKING CONFIG' OPTION ON RESET PAGE, IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG (WE ALREADY SAVE AS "restore_conf" in secured cache folder)
+
+
+Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
+
+
+Look into adding temperature / CPU monitoring support for systems other than linux devices: https://phoenixnap.com/kb/linux-cpu-temp
 
 
 Research whether POST data size affects header size like cookie data size does.
-
-
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
 
 
 Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
@@ -342,18 +360,6 @@ New FAQ entry "my text alerts aren't working, or are delayed"
 Start creating github wiki with USER AND DEVELOPER documentation.
 
 
-For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
-https://www.alphavantage.co/query?function=OVERVIEW&symbol=TICKER_HERE&apikey=API_KEY_HERE
-
-There are also endpoints available for income statement / balance sheet / cash flow / earnings / etc here:
-https://www.alphavantage.co/documentation/#fundamentals
-
-Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
-
-
-Look into adding the architecture for "chrome push alerts".
-
-
 Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD), OR it's a pairing itself in the Bitcoin pairings. Then have the BTC pairing value function look for that if there is no BTC market for in the asset's own pairings. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
 
 
@@ -367,15 +373,6 @@ Admin import / export of settings (consider security implications CAREFULLY...in
 
 
 Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY).
-
-
-Admin iframes: ADD A 'REVERT TO LAST-KNOWN WORKING CONFIG' OPTION ON RESET PAGE, IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG (WE ALREADY SAVE AS "restore_conf" in secured cache folder)
-
-
-Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
-
-
-Look into adding temperature / CPU monitoring support for systems other than linux devices: https://phoenixnap.com/kb/linux-cpu-temp
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
@@ -570,6 +567,9 @@ Simple trading bot, to run as a cron plugin (with web UI for configuration / sta
 RESEARCH / MAYBE SECTION (*NOT* PRIORITIZED)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Validate crypto addresses in the address-balance-tracker plugin?
 
 
 Make default btc exchange in config.php optional, and auto-configure if invalid or left blank, based off the default primary currency setting (still log errors though). Additionally, consider defaulting to USD if the primary currency setting is invalid / blank as well (as long as we also error log any detected issues there too)??
