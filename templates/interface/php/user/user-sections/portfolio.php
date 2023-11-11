@@ -470,7 +470,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 		    
 		$gain_loss_total = $ct['asset']->coin_stats_data('gain_loss_total');
 		
-          $thres_dec = $ct['gen']->thres_dec($gain_loss_total, 'u'); // Units mode
+          $thres_dec = $ct['gen']->thres_dec($gain_loss_total, 'u', 'fiat'); // Units mode
           
 		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
 		
@@ -481,7 +481,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 		$total_prim_currency_worth_inc_lvrg = $total_prim_currency_worth + $lvrg_only_gain_loss;
 		
 		
-          $thres_dec = $ct['gen']->thres_dec($total_prim_currency_worth_inc_lvrg, 'u'); // Units mode
+          $thres_dec = $ct['gen']->thres_dec($total_prim_currency_worth_inc_lvrg, 'u', 'fiat'); // Units mode
           
   		// Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   		// We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
@@ -663,12 +663,12 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 		<?php
 		
 		// If using margin leverege anywhere
-		echo ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black private_data">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
+		echo ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == true ? '<div class="portfolio_summary"><span class="black private_data">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
 	
 
 		// Now that BTC / PAIR summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake), 
 		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
-		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
+		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == true ) {
 			
      	// Gain / loss percent (!MUST BE! absolute value)
           $percent_difference_total = abs( ($total_prim_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );

@@ -1478,7 +1478,7 @@ var $ct_array = array();
    $num = $ct['var']->num_to_str($num);
    
       // Unit
-      if ( $mode == 'u' && $type != false ) {
+      if ( $mode == 'u' ) {
           
       $result['max_dec'] = $this->dyn_max_decimals( abs($num) , $type); // MUST BE PASSED AS ABSOLUTE
       
@@ -1501,11 +1501,15 @@ var $ct_array = array();
       // Percent 
       elseif ( $mode == 'p' ) {
           
-          if ( abs($num) >= 100 ) {
+          if ( abs($num) >= 1000 ) {
           $result['max_dec'] = 0;
           $result['min_dec'] = 0;
           }
-		  else {
+          elseif ( abs($num) >= 100 ) {
+          $result['max_dec'] = 1;
+          $result['min_dec'] = 1;
+          }
+		else {
           $result['max_dec'] = 2;
           $result['min_dec'] = 2;
           }
