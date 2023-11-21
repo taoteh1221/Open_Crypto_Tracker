@@ -28,7 +28,7 @@ $check_default_ct_conf = null;
 // Flag any new upgrade, for UI alert, AND MORE IMPORTANTLY: avoiding conflicts with config reset / refresh / upgrade routines
 // (!!MUST RUN *BEFORE* $reset_config, AND *BEFORE* load-config-by-security-level.php)
 if (
-$upgraded_or_new_install
+$upgraded_install
 ||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
 ) {
 

@@ -82,29 +82,29 @@ $ct['year_month_day'] = date( "Y-M-d", time() );
 // App init libraries...
 
 // Primary init logic (#MUST# RUN #BEFORE# #EVERYTHING# ELSE)
-require_once('app-lib/php/inline/init/primary-init.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/init/primary-init.php');
 
 // Config init logic (#MUST# RUN IMMEADIATELY #AFTER# primary-init.php)
-require_once('app-lib/php/inline/init/config-init.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/init/config-init.php');
 
 // Inits based on runtime type (MUST RUN AFTER config-init.php)
-require_once('app-lib/php/inline/init/runtime-type-init.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/init/runtime-type-init.php');
 
 // Fast runtimes, MUST run AFTER runtime-type-init.php, AND AS EARLY AS POSSIBLE
-require_once('app-lib/php/inline/other/fast-runtimes.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/other/fast-runtimes.php');
 
 // Final configuration checks (MUST RUN AFTER runtime-type inits run checks / clear stale data,
 // AND after fast-runtimes.php [to not slow fast runtimes down])
-require_once('app-lib/php/inline/config/final-preflight-config-checks.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/config/final-preflight-config-checks.php');
 
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, #EXCEPT# DEBUGGING)
-require_once('app-lib/php/inline/maintenance/scheduled-maintenance.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/maintenance/scheduled-maintenance.php');
 
 
 // Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
 if ( $ct['conf']['power']['debug_mode'] != 'off' ) {
-require_once('app-lib/php/inline/debugging/tests.php');
-require_once('app-lib/php/inline/debugging/exchange-and-pair-info.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/debugging/tests.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/debugging/exchange-and-pair-info.php');
 }
 
 

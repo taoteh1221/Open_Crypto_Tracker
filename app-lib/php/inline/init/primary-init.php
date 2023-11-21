@@ -34,24 +34,24 @@ $php_ini_path = preg_replace("/php\.ini/", "php-tpl.ini", $php_ini_path);
 // ESSENTIAL REQUIRED LIB FILES...
 
 // Config file check (MUST RUN *BEFORE* LOADING CONFIG.PHP [TO CHECK FOR PARSE / FATAL ERRORS])
-require_once('app-lib/php/inline/debugging/config-check.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/debugging/config-check.php');
 
 // Load the hard-coded (default) config BEFORE #ANYTHING ELSE#
 require_once("config.php");
 
 // Basic system checks (MUST RUN *BEFORE* LOADING CLASSES [TO CHECK FOR REQUIRED PHP EXTENSIONS])
-require_once('app-lib/php/inline/system/system-checks.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/system/system-checks.php');
 
 // Load app classes AFTER SYSTEM CHECKS (before loading cached conf, after config.php)
-require_once('app-lib/php/classes/extended-classes-loader.php');
-require_once('app-lib/php/classes/core-classes-loader.php');
+require_once($ct['base_dir'] . '/app-lib/php/classes/extended-classes-loader.php');
+require_once($ct['base_dir'] . '/app-lib/php/classes/core-classes-loader.php');
 
 // Vars, #MUST# BE SET IMMEADIATELY AFTER loading core classes
-require_once('app-lib/php/inline/vars/empty-vars.php');
-require_once('app-lib/php/inline/vars/static-vars.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/vars/empty-vars.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/vars/static-vars.php');
 
 // System config VERY EARLY (after loading vars)
-require_once('app-lib/php/inline/config/system-config.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/config/system-config.php');
 
 
 // ESSENTIAL VARS / ARRAYS / INITS SET #BEFORE# config-init.php...
@@ -63,7 +63,7 @@ require_once('app-lib/php/inline/config/system-config.php');
 $ct['app_id'] = $ct['gen']->id();
 
 // Sessions config (MUST RUN AFTER setting $ct['app_id'])
-require_once('app-lib/php/inline/init/session-init.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/init/session-init.php');
 
 
 // Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
@@ -115,41 +115,42 @@ $fetched_feeds = 'fetched_feeds_' . $ct['runtime_mode']; // Unique feed fetch te
 // (#MUST# RUN AFTER $current_runtime_user / $http_runtime_user / $possible_http_users are set,
 // and BEFORE setting /cache/vars/state-tracking/app_version.dat)
 // Uses HARD-CODED $ct['dev']['chmod_cache_dir'] dev config at top of init.php
-require_once('app-lib/php/inline/other/cache-directories.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/other/cache-directories.php');
 
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
-if ( file_exists('cache/vars/state-tracking/upgrade_check_latest_version.dat') ) {
-$upgrade_check_latest_version = trim( file_get_contents('cache/vars/state-tracking/upgrade_check_latest_version.dat') );
+if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat') ) {
+$upgrade_check_latest_version = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat') );
 }
 
 
-// If CACHED app version set, set the runtime var for any configured alerts
-if ( file_exists('cache/vars/state-tracking/app_version.dat') ) {
+// If CACHED app version set, set the runtime var, AND FLAG ANY UPGRADE FOR
+// NON-HIGH SECURITY MODE'S CACHED CONFIG (IF IT DOESN'T MATCH THE CURRENT VERSION NUMBER)
+if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') ) {
      
-$cached_app_version = trim( file_get_contents('cache/vars/state-tracking/app_version.dat') );
+$cached_app_version = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') );
 
      // Check version number against cached value
      if ( trim($cached_app_version) != trim($ct['app_version']) ) {
-     $upgraded_or_new_install = true;
+     $upgraded_install = true;
      }
      
 }
-// Otherwise flag as upgraded / new install
+// Otherwise cache the app version for new installations
 else {
-$upgraded_or_new_install = true;
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
 }
 
 
 // Early security logic
 // #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging), and AFTER system checks
-require_once('app-lib/php/inline/security/early-security-logic.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/security/early-security-logic.php');
 
 // Load any 3RD PARTY classes WITHOUT CONFIGS (MUST run after system-config / early-security-logic)
-require_once('app-lib/php/classes/3rd-party-classes-loader.php');
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party-classes-loader.php');
 
 // Get / check system info for debugging / stats (MUST run AFTER cache-directories [for error logging], AND AFTER core-classes-loader.php)
-require_once('app-lib/php/inline/system/system-info.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/system/system-info.php');
 
 
 //////////////////////////////////////////////////////////////////

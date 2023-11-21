@@ -137,7 +137,7 @@ $possible_input_injection = false;
 
 $app_upgrade_check = false;
 
-$upgraded_or_new_install = false;
+$upgraded_install = false;
 
 $conf_upgraded = false;
 
