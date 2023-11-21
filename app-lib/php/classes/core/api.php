@@ -660,8 +660,6 @@ var $ct_array = array();
 		                  
 		         $date_ui = $month_name . ' ' . $ct['gen']->ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
 		                  
-		         $item_link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item_link); // Fix for bittrex blog links
-		                  
 		                  
 			         // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
 				     // With offset, to try to catch any that would have been missed from runtime
@@ -1183,62 +1181,6 @@ var $ct_array = array();
                      '24hr_pair_vol' => null // Unavailable, set null
       	           );
         
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-      elseif ( strtolower($sel_exchange) == 'bittrex' || strtolower($sel_exchange) == 'bittrex_global' ) {
-      
-      $result = array();
-         
-      $url = 'https://api.bittrex.com/v3/markets/tickers';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-      
-      
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
-	              
-	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
-	              $result['last_trade'] = $val["lastTradeRate"];
-	              }
-	          
-	            }
-	          
-	          }
-         
-         
-      usleep(55000); // Wait 0.055 seconds before fetching volume data
-         
-      // 24 HOUR VOLUME
-      $url = 'https://api.bittrex.com/v3/markets/summaries';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-      
-      
-	          if ( is_array($data) ) {
-	      
-		        foreach ($data as $key => $val) {
-		              
-			       if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
-			       $result['24hr_asset_vol'] = $val["volume"];
-			       $result['24hr_pair_vol'] = $val["quoteVolume"];
-			       }
-		          
-		        }
-	          
-	          }
-      
-      
       }
      
      
@@ -2095,11 +2037,13 @@ var $ct_array = array();
     
       elseif ( strtolower($sel_exchange) == 'okcoin' ) {
       
-      $url = 'https://www.okcoin.com/api/spot/v3/instruments/ticker';
+      $url = 'https://www.okcoin.com/api/v5/market/tickers?instType=SPOT';
         
       $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
         
       $data = json_decode($response, true);
+      
+      $data = $data['data'];
       
       
           if ( is_array($data) ) {
@@ -2107,12 +2051,12 @@ var $ct_array = array();
             foreach ($data as $key => $val) {
              
               
-              if ( isset($val['instrument_id']) && $val['instrument_id'] == $mrkt_id ) {
+              if ( isset($val['instId']) && $val['instId'] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val['last'],
-                              '24hr_asset_vol' => $val['base_volume_24h'],
-                              '24hr_pair_vol' => $val['quote_volume_24h']
+                              '24hr_asset_vol' => $val['vol24h'],
+                              '24hr_pair_vol' => $val['volCcy24h']
                               );
      
               }
@@ -2433,8 +2377,16 @@ var $ct_array = array();
     
       elseif ( strtolower($sel_exchange) == 'misc_assets' || strtolower($sel_exchange) == 'alt_nfts' ) {
       
-      // BTC value of 1 unit of the default primary currency
-      $currency_to_btc = $ct['var']->num_to_str(1 / $sel_opt['sel_btc_prim_currency_val']);	
+          
+         // BTC value of 1 unit of the default primary currency
+         if ( $sel_opt['sel_btc_prim_currency_val'] > 0 ) {
+         $currency_to_btc = $ct['var']->num_to_str(1 / $sel_opt['sel_btc_prim_currency_val']);	
+         }
+         // Cannot be determined, setting to zero
+         else {
+         $currency_to_btc = 0;
+         }
+      
       
          // BTC pair
          if ( $mrkt_id == 'btc' ) {

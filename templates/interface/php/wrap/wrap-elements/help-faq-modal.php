@@ -148,7 +148,7 @@ IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED T
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
-            Automatic Setup For 'Server Edition' With Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network &nbsp; <span class='red'>(recommended way to PRIVATELY / CHEAPLY use this app)</span>
+            Automatic Install / Upgrade For 'Server Edition' With Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network &nbsp; <span class='red'>(recommended way to PRIVATELY / CHEAPLY use this app)</span>
             
            </button>
          </h2>
@@ -348,7 +348,7 @@ Support for over 20 trading pairs (country fiat currency or secondary crypto, co
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / btcmarkets / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 

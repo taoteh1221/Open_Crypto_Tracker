@@ -258,7 +258,7 @@ var $ct_array = array();
            elseif ( $is_proxy_login && sizeof($proxy_login_check) < 2 ) {
            $update_config_error .= 'Proxy LOGIN formatting is NOT valid (format MUST be: username||password)';
            }
-           elseif ( is_array($_POST['proxy']['proxy_list']) ) {
+           elseif ( isset($_POST['proxy']['allow_proxies']) && $_POST['proxy']['allow_proxies'] == 'on' && is_array($_POST['proxy']['proxy_list']) ) {
            
                foreach ( $_POST['proxy']['proxy_list'] as $proxy ) {
                     

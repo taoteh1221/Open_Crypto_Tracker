@@ -221,7 +221,7 @@ document.write("<p class='red align_center' style='font-weight: bold;'>"
 <?php
 if ( $admin_area_2fa != 'off' ) {
 ?>
-<p class='red align_center' style='font-weight: bold;'>YOU MUST *KEEP THE SAME ADMIN USERNAME*, OR 2-FACTOR AUTHENTICATION WITH YOUR AUTHENTICATOR APP WILL FAIL!!!<br />(in which case you would need to MANUALY delete /cache/vars/admin_area_2fa.dat to disable 2FA)</p>
+<p class='red_dotted red align_center' style='font-weight: bold;'>YOU MUST *KEEP THE SAME ADMIN USERNAME*, OR 2-FACTOR AUTHENTICATION WITH YOUR AUTHENTICATOR APP WILL FAIL!!!<br />(in which case you would need to MANUALY delete /cache/vars/admin_area_2fa.dat to disable 2FA)</p>
 <?php
 }
 
@@ -275,9 +275,9 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
           </div>
     	
     	
-		<p class='align_left' style='font-weight: bold; color: #ff4747;' id='user_alert'></p>
+		<p class='align_left' style='font-weight: bold; color: #ff4747; max-width: 350px;' id='user_alert'></p>
 	
-		<p class='align_left' style='font-weight: bold; color: #ff4747;' id='pass_alert'></p>
+		<p class='align_left' style='font-weight: bold; color: #ff4747; max-width: 350px;' id='pass_alert'></p>
 		
     </div>
   	 
@@ -312,7 +312,7 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   
   	 <p><input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
-	<p class='align_left' style='font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
+	<p class='align_left' style='font-weight: bold; color: #ff4747; max-width: 350px;' id='captcha_alert'></p>
   
   	 </div>
   	 

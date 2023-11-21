@@ -9,6 +9,10 @@
 //////////////////////////////////////////////////////////////////
 
 
+// Check for VALIDATED / SECURE config updates IN PROGRESS
+$valid_secure_config_update_request = $ct['admin']->valid_secure_config_update_request();
+
+
 // load_cached_config() LOADS *BEFORE* PLUGIN CONFIGS IN *MEDIUM / NORMAL* ADMIN SECURITY MODES
 // (UNLESS IT'S A CT_CONF USER-INITIATED RESET)
 // ALSO QUEUE ANY REQUESTED UPDATE AFTER LOADING, IF AUTHORIZED
@@ -24,10 +28,6 @@ require('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIAT
 $ct['gen']->refresh_plugins_list();
 
 
-// Check for VALIDATED / SECURE config updates IN PROGRESS
-$valid_secure_config_update_request = $ct['admin']->valid_secure_config_update_request();
-
-
 // Configs for any plugins activated in ct_conf
 foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {
 			
@@ -35,7 +35,7 @@ $this_plug = trim($key);
 
 
      // If we are mid-flight on activating / deactivating a plugin in the admin interface, then use that value instead
-     if ( $valid_secure_config_update_request && isset($valid_secure_config_update_request['plugin_status'][$this_plug]) ) {
+     if ( isset($valid_secure_config_update_request['plugin_status'][$this_plug]) ) {
      $val = $valid_secure_config_update_request['plugin_status'][$this_plug];
      $plugin_status_is_updating = true;
      }
@@ -232,6 +232,13 @@ if ( $check_default_ct_conf == null ) {
 $check_default_ct_conf = md5( serialize($default_ct_conf) );
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', $check_default_ct_conf);
 sleep(1); // Chill for a second, since we just saved the default conf digest
+}
+
+
+// If we are mid-flight on activating / deactivating proxies in the admin interface, then set that value instead
+// (so we can run checks on the functionality of any newly-added proxies in queue_config_update())
+if ( isset($valid_secure_config_update_request['allow_proxies']) ) {
+$ct['conf']['proxy']['allow_proxies'] = $valid_secure_config_update_request['allow_proxies'];
 }
 
 

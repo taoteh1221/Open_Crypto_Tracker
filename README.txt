@@ -189,7 +189,7 @@ IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED T
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Automatic Setup For 'Server Edition' On Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network (recommended way to PRIVATELY / CHEAPLY use this app)
+Automatic Install / Upgrade For 'Server Edition' On Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network (recommended way to PRIVATELY / CHEAPLY use this app)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -343,7 +343,7 @@ AUD / BRL / CAD / CHF / DAI / ETH / EUR / GBP / HKD / INR / JPY / KRW / MKR / MX
 
 Support for over 40 exchanges (contact me to request more): 
 
-alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay
+alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / btcmarkets / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).

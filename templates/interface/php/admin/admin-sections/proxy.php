@@ -28,6 +28,17 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$admin_render_settings['allow_proxies']['is_radio'] = array(
+                                                          'off',
+                                                          'on',
+                                                         );
+
+$admin_render_settings['allow_proxies']['is_notes'] = 'Enable / Disable using any added proxies below for API data requests';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 $admin_render_settings['proxy_login']['is_password'] = true;
 
 $admin_render_settings['proxy_login']['text_field_size'] = 25;
@@ -121,7 +132,7 @@ $admin_render_settings['anti_proxy_servers']['is_subarray'][0]['text_field_size'
 }
 
 
-$admin_render_settings['anti_proxy_servers']['is_notes'] = '(DOMAIN ONLY, servers set to SKIP USING PROXIES ON [because they block proxies])';
+$admin_render_settings['anti_proxy_servers']['is_notes'] = '(DOMAIN ONLY, API servers set to SKIP USING PROXIES ON [because they block proxies])';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

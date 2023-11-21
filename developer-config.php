@@ -273,9 +273,7 @@ elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 
      // v6.00.30:
      // RESET the 'assets' and 'tracked_markets' cached config values
-     // (as we have RECENTLY added jupiter aggregator markets, that assist tracking Solana (SPL) subtokens crypto address
-     // balance's primary currency value (USD / EUR / etc), in the 'address-balance-tracker' plugin [when privacy mode is on])
-     // AND IF WE RESET 'assets', WE NEED TO RESET 'tracked_markets' TOO
+     // (bittrex is going out of business GLOBALLY on 2023/12/4, AND WE HAVE TONS OF BITTREX MARKETS IN OUR PREVIOUS DEMO DATA WE NEED TO PURGE)
      if ( $ct['app_version'] == '6.00.30' ) {
      $ct['dev']['config_allow_resets'][] = 'tracked_markets'; // Subarray setting (asset charts / price alerts)
      $ct['dev']['config_allow_resets'][] = 'assets'; // Main category (portfolio assets)

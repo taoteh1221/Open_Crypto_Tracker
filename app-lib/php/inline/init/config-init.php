@@ -272,7 +272,7 @@ $ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; 
 if ( trim($ct['conf']['power']['override_curl_user_agent']) != '' ) {
 $ct['curl_user_agent'] = $ct['conf']['power']['override_curl_user_agent'];  // Custom user agent
 }
-elseif ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+elseif ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 $ct['curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {

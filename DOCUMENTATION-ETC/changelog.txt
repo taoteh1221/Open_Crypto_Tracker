@@ -6410,6 +6410,8 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed CACHED config upgrading of multidimensional arrays, if integer-based / auto-indexed keys are used (news feeds, etc)
 
+-BUG FIX: Heavy debugging completed for newly-activated admin area settings interfacing core logic
+
 -BUG FIX: Miscellaneous fixes
 
 -Added option for plugin developers to automatically include their user-input validation for the admin settings page within the plugin's class file
@@ -6421,6 +6423,8 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup
+
+-Upgraded OKcoin API to v5
 
 -Updated documentation
 

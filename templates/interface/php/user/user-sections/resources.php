@@ -55,6 +55,8 @@
 	        
 	        <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
 	        
+	        <li class='links_list'><a href='https://www.validators.app/' target='_blank'>Solana Validator Metrics</a></li>
+	        
 	        <li class='links_list'><a href='https://analytics.step.finance/' target='_blank'>Step Finance's Solana Dapp Stats</a></li>
 	        
 	        <li class='links_list'><a href='https://bitcoinvisuals.com/lightning' target='_blank'>Lightning Network Stats</a> <span class='yellow'>(Bitcoin Layer 2 Network)</span></li>
@@ -104,8 +106,6 @@
 	        <li class='links_list'><a href='https://coinbase.com' target='_blank'>Coinbase.com</a></li>
 	        
 	        <li class='links_list'><a href='https://www.kraken.com/' target='_blank'>Kraken.com</a></li>
-	        
-	        <li class='links_list'><a href='https://bittrex.com' target='_blank'>Bittrex.com</a></li>
 	        
 	        <li class='links_list'><a href='https://binance.com' target='_blank'>Binance.com</a></li>
 	        
