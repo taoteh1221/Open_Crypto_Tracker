@@ -47,7 +47,7 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
      $ct['api']->etherscan('gasLimit');
     
      // Hive
-     $ct['api']->market('HIVE', 'bittrex', 'BTC-HIVE');
+     $ct['api']->market('HIVE', 'binance', 'HIVEBTC');
     
      // Chain data END
    

@@ -9,7 +9,7 @@
 
 
 // Proxy configuration check
-if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+if ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 	
 
 $proxy_parse_errors = 0;

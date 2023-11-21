@@ -70,7 +70,7 @@ $ct['conf']['gen']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGL
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex
-// bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets
+// bitpanda / bitso / bitstamp / btcmarkets
 // btcturk / buyucoin / cex / coinbase / coindcx / coingecko_sgd
 // coingecko_twd / coingecko_usd / coinspot / gemini / hitbtc / huobi
 // korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin
@@ -299,6 +299,10 @@ $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 ////////////////////////////////////////
 
 
+// Allow or disallow using proxies for API data requests
+$ct['conf']['proxy']['allow_proxies'] = 'off'; // 'on' / 'off' (Default = 'off')
+
+
 // If using proxies and login is required
 // Adding a user / pass here will automatically send login details for proxy connections
 // CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
@@ -326,6 +330,7 @@ $ct['conf']['proxy']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'igno
 // (this app will SKIP USING PROXY SERVERS for these domains)
 $ct['conf']['proxy']['anti_proxy_servers'] = array(
                                                    //'domain.com',
+                                                   'binance.com',
                                                   );
 
 
@@ -530,7 +535,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// ETH
 					'eth' => 'coinbase||btc||none',
-					'eth-2' => 'bittrex||btc||none',
 					'eth-3' => 'kraken||btc||chart',
 					'eth-4' => 'binance||usdt||chart',
 					'eth-5' => 'binance_us||btc||none',
@@ -540,7 +544,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'eth-9' => 'gemini||usd||none',
 					'eth-10' => 'coinbase||gbp||none',
 					'eth-11' => 'coinbase||eur||chart',
-					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
 					'eth-14' => 'bitmex||usd||both',
 					
@@ -560,13 +563,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					// DAI
 					'dai' => 'coinbase||usd||both',
 					'dai-2' => 'kraken||usd||none',
-					'dai-3' => 'bittrex||btc||none',
-					
-					
-					// UNI
-					'uni' => 'binance||btc||both',
-					'uni-3' => 'binance||usdt||none',
-					'uni-4' => 'coinbase||usd||none',
 					
 					
 					// MKR
@@ -575,13 +571,18 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'mkr-3' => 'coinbase||btc||both',
 					
 					
+					// UNI
+					'uni' => 'binance||btc||both',
+					'uni-3' => 'binance||usdt||none',
+					'uni-4' => 'coinbase||usd||none',
+					
+					
 					// RAY
 					'ray' => 'binance||usdt||both',
 					'ray-2' => 'coingecko_btc||btc||chart',
 					
 					
 					// MANA
-					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'binance||btc||both',
 					'mana-3' => 'kucoin||btc||none',
 					'mana-4' => 'ethfinex||btc||none',
@@ -605,13 +606,15 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'aury-3' => 'jupiter_ag||sol||both',
 					
 					
+					// BONK
+					'bonk' => 'huobi||usdt||chart',
+					'bonk-2' => 'gateio||usdt||both',
+					'bonk-3' => 'coingecko_btc||btc||chart',
+					'bonk-4' => 'coingecko_eth||eth||chart',
+					
+					
 					// HIVE
-					'hive' => 'bittrex||btc||both',
-					
-					
-					// MNT
-					'mnt' => 'coingecko_usd||usd||both',
-					'mnt-2' => 'coingecko_btc||btc||chart',
+					'hive' => 'binance||btc||both',
 					
 					
 					// ZBC
@@ -630,23 +633,16 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'hnt-3' => 'gateio||eth||none',
 					
 					
-					// GRAPE
-					'grape' => 'coingecko_usd||usd||both',
-					'grape-4' => 'coingecko_eur||eur||none',
-					'grape-5' => 'coingecko_gbp||gbp||none',
-					
-					
 					// NANA
 					'nana' => 'jupiter_ag||sol||both',
 					'nana-2' => 'coingecko_btc||btc||chart',
 					'nana-3' => 'coingecko_eth||eth||chart',
 					
 					
-					// BONK
-					'bonk' => 'huobi||usdt||chart',
-					'bonk-2' => 'gateio||usdt||both',
-					'bonk-3' => 'coingecko_btc||btc||chart',
-					'bonk-4' => 'coingecko_eth||eth||chart',
+					// GRAPE
+					'grape' => 'coingecko_usd||usd||both',
+					'grape-4' => 'coingecko_eur||eur||none',
+					'grape-5' => 'coingecko_gbp||gbp||none',
 					
 					
 					// GPVSTOCK (GreenPower Motor Company stock)
@@ -1223,12 +1219,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			"title" => "Blog - BitDAO (decentralized hedge fund on Ethereum)",
             			"url" => "https://medium.com/feed/bitdao"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Bittrex",
-            			"url" => "https://bittrex.com/discover/category/blog/feed"
         						),
         
         
@@ -1912,7 +1902,6 @@ $ct['conf']['assets'] = array(
                                           'binance' => 'BTCEUR',
                                           'kraken' => 'XXBTZEUR',
                                           'bitstamp' => 'btceur',
-                                          'bittrex_global' => 'BTC-EUR',
                                           'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
                                           'cex' => 'BTC:EUR',
@@ -1995,7 +1984,6 @@ $ct['conf']['assets'] = array(
                                           'bitmex' => 'XBTUSD',
                                           'bitmex_u20' => 'XBTU20',
                                           'bitmex_z20' => 'XBTZ20',
-                                          'bittrex' => 'BTC-USD',
                                           'bitfinex' => 'tBTCUSD',
                                           'bitflyer' => 'BTC_USD',
                                           'hitbtc' => 'BTCUSD',
@@ -2013,7 +2001,6 @@ $ct['conf']['assets'] = array(
                                     'usdt' => array(
                                           'binance' => 'BTCUSDT',
                                     	  'kraken' => 'XBTUSDT',
-                                          'bittrex' => 'BTC-USDT',
                                           'btcturk' => 'BTCUSDT',
                                           'huobi' => 'btcusdt',
                                           'okex' => 'BTC-USDT',
@@ -2061,7 +2048,6 @@ $ct['conf']['assets'] = array(
                                           'binance' => 'ETHBTC',
                                           'coinbase' => 'ETH-BTC',
                                           'binance_us' => 'ETHBTC',
-                                          'bittrex' => 'ETH-BTC',
                                           'bitstamp' => 'ethbtc',
                                           'gemini' => 'ethbtc',
                                           'kraken' => 'XETHXXBT',
@@ -2105,7 +2091,6 @@ $ct['conf']['assets'] = array(
                                           'binance' => 'ETHEUR',
                                           'kraken' => 'XETHZEUR',
                                           'bitstamp' => 'etheur',
-                                          'bittrex_global' => 'ETH-EUR',
                                           'cex' => 'ETH:EUR',
                                                     ),
 
@@ -2176,7 +2161,6 @@ $ct['conf']['assets'] = array(
                                           'bitfinex' => 'tETHUSD',
                                           'bitmex' => 'ETHUSD',
                                           'bitmex_u20' => 'ETHUSDU20',
-                                          'bittrex' => 'ETH-USD',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
                                                     ),
@@ -2188,7 +2172,6 @@ $ct['conf']['assets'] = array(
                                           'btcturk' => 'ETHUSDT',
                                           'huobi' => 'ethusdt',
                                           'binance_us' => 'ETHUSDT',
-                                          'bittrex' => 'ETH-USDT',
                                           'hitbtc' => 'ETHUSD',
                                           'upbit' => 'USDT-ETH',
                                        	  'kucoin' => 'ETH-USDT',
@@ -2237,7 +2220,6 @@ $ct['conf']['assets'] = array(
                         
                                     'btc' => array(
                                     	'coinbase' => 'SOL-BTC',
-                                        'bittrex' => 'SOL-BTC',
                                         'binance' => 'SOLBTC',
                                         'huobi' => 'solbtc',
                                         'okex' => 'SOL-BTC',
@@ -2280,7 +2262,6 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                     	 'coinbase' => 'SOL-USD',
-                                         'bittrex' => 'SOL-USD',
                                     	 'kraken' => 'SOLUSD',
                                     	 'binance_us' => 'SOLUSD',
                                     	 'bitfinex' => 'tSOLUSD',
@@ -2297,7 +2278,6 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usdt' => array(
                                     	'coinbase' => 'SOL-USDT',
-                                        'bittrex' => 'SOL-USDT',
                                         'binance' => 'SOLUSDT',
                                         'okex' => 'SOL-USDT',
                                         'huobi' => 'solusdt',
@@ -2372,14 +2352,12 @@ $ct['conf']['assets'] = array(
 
                         
                                     'btc' => array(
-                                        'bittrex' => 'DAI-BTC',
                                         'upbit' => 'BTC-DAI',
                                         'bitfinex' => 'tDAIBTC',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                         'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
                                                     ),
 
@@ -2399,7 +2377,6 @@ $ct['conf']['assets'] = array(
                                     	'kraken' => 'DAIUSD',
                                         'binance_us' => 'DAIUSD',
                                     	'bitfinex' => 'tDAIUSD',
-                                        'bittrex' => 'DAI-USD',
                                         'gemini' => 'daiusd',
                                                     ),
 
@@ -2411,13 +2388,73 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usdt' => array(
                                     	'kraken' => 'DAIUSDT',
-                                        'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
                                                     ),
 
                                                     
                         ) // pair END
                                         
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MKR
+                    'MKR' => array(
+                        
+                        'name' => 'Maker',
+                        'mcap_slug' => 'maker',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                          'binance' => 'MKRBTC',
+                                          'coinbase' => 'MKR-BTC',
+                                       	  'kucoin' => 'MKR-BTC',
+                                          'okex' => 'MKR-BTC',
+                                          'hitbtc' => 'MKRBTC',
+                                          'coinex' => 'MKRBTC',
+                                                    ),
+
+                                                    
+                                	'dai' => array(
+                                        	'kucoin' => 'MKR-DAI',
+                                        	'hitbtc' => 'MKRDAI',
+                                                    ),
+
+                                                    
+                                	'eth' => array(
+                                        	'kucoin' => 'MKR-ETH',
+                                            'okex' => 'MKR-ETH',
+                                        	'hitbtc' => 'MKRETH',
+                                            'gateio' => 'MKR_ETH',
+                                                    ),
+
+                                                    
+                                	'krw' => array(
+                                        	'korbit' => 'mkr_krw',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                          'coinbase' => 'MKR-USD',
+                                          'binance_us' => 'MKRUSD',
+                                          			),
+
+                                                    
+                                    'usdt' => array(
+                                          'binance' => 'MKRUSDT',
+                                          'okex' => 'MKR-USDT',
+                                          'bitfinex' => 'tMKRUSD',
+                                          'hitbtc' => 'MKRUSD',
+                                          'gateio' => 'MKR_USDT',
+                                          'coinex' => 'MKRUSDT',
+                                          			),
+
+                                          			
+                        ) // pair END
+                        
                     ), // Asset END
                     
                     
@@ -2463,70 +2500,6 @@ $ct['conf']['assets'] = array(
                                                     
                         ) // pair END
                                         
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MKR
-                    'MKR' => array(
-                        
-                        'name' => 'Maker',
-                        'mcap_slug' => 'maker',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                          'binance' => 'MKRBTC',
-                                          'coinbase' => 'MKR-BTC',
-                                          'bittrex' => 'MKR-BTC',
-                                       	  'kucoin' => 'MKR-BTC',
-                                          'okex' => 'MKR-BTC',
-                                          'hitbtc' => 'MKRBTC',
-                                          'coinex' => 'MKRBTC',
-                                                    ),
-
-                                                    
-                                	'dai' => array(
-                                        	'kucoin' => 'MKR-DAI',
-                                        	'hitbtc' => 'MKRDAI',
-                                                    ),
-
-                                                    
-                                	'eth' => array(
-                                            'bittrex' => 'MKR-ETH',
-                                        	'kucoin' => 'MKR-ETH',
-                                            'okex' => 'MKR-ETH',
-                                        	'hitbtc' => 'MKRETH',
-                                            'gateio' => 'MKR_ETH',
-                                                    ),
-
-                                                    
-                                	'krw' => array(
-                                        	'korbit' => 'mkr_krw',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                          'coinbase' => 'MKR-USD',
-                                          'binance_us' => 'MKRUSD',
-                                          			),
-
-                                                    
-                                    'usdt' => array(
-                                          'binance' => 'MKRUSDT',
-                                          'bittrex' => 'MKR-USDT',
-                                          'okex' => 'MKR-USDT',
-                                          'bitfinex' => 'tMKRUSD',
-                                          'hitbtc' => 'MKRUSD',
-                                          'gateio' => 'MKR_USDT',
-                                          'coinex' => 'MKRUSDT',
-                                          			),
-
-                                          			
-                        ) // pair END
-                        
                     ), // Asset END
                     
                     
@@ -2599,7 +2572,6 @@ $ct['conf']['assets'] = array(
                         
                                     'btc' => array(
                                           'binance' => 'MANABTC',
-                                          'bittrex' => 'MANA-BTC',
                                           'ethfinex' => 'tMNABTC',
                                           'kucoin' => 'MANA-BTC',
                                           'upbit' => 'BTC-MANA',
@@ -2611,7 +2583,6 @@ $ct['conf']['assets'] = array(
                                                     
                                     'eth' => array(
                                           'binance' => 'MANAETH',
-                                          'bittrex' => 'MANA-ETH',
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
                                           'okex' => 'MANA-ETH',
@@ -2789,23 +2760,36 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // HIVE
-                    'HIVE' => array(
+                    // BONK
+                    'BONK' => array(
                         
-                        'name' => 'Hive',
-                        'mcap_slug' => 'hive',
+                        'name' => 'Bonk Inu',
+                        'mcap_slug' => 'bonk',
                         'pair' => array(
 
-                        
+                                                    
                                     'btc' => array(
-                                        'binance' => 'HIVEBTC',
-                                        'bittrex' => 'HIVE-BTC',
+                                        'coingecko_btc' => 'bonk',
                                                     ),
 
-                        
+                                                    
+                                    'eth' => array(
+                                        'coingecko_eth' => 'bonk',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        'coingecko_usd' => 'bonk',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
-                                        'huobi' => 'hiveusdt',
-                                        'wazirx' => 'hiveusdt',
+                                        'bybit' => '1000BONKUSDT', // x1000 VAL (processed in api.php to normal val [divided by 1000])
+                                        'huobi' => 'bonkusdt',
+                                        'gateio' => 'BONK_USDT',
+                                        'bitmart' => 'BONK_USDT',
+                                        'coinex' => 'BONKUSDT',
+                                        'bitforex' => 'coin-usdt-bonk',
                                                     ),
 
                                                     
@@ -2817,33 +2801,27 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MNT
-                    'MNT' => array(
+                    // HIVE
+                    'HIVE' => array(
                         
-                        'name' => 'Mantle',
-                        'mcap_slug' => 'mantle',
+                        'name' => 'Hive',
+                        'mcap_slug' => 'hive',
                         'pair' => array(
 
-                                                    
+                        
                                     'btc' => array(
-                                        'coingecko_btc' => 'mantle',
+                                        'binance' => 'HIVEBTC',
                                                     ),
 
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'mantle',
-                                        'bybit' => 'MNTUSD',
-                                                    ),
-
-                                                    
+                        
                                     'usdt' => array(
-                                        'bybit' => 'MNTUSDT',
-                                        'gateio' => 'MNT_USDT',
+                                        'huobi' => 'hiveusdt',
+                                        'wazirx' => 'hiveusdt',
                                                     ),
 
                                                     
                         ) // pair END
-                                        
+                        
                     ), // Asset END
                     
                     
@@ -2993,47 +2971,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // GRAPE
-                    'GRAPE' => array(
-                        
-                        'name' => 'Grape Protocol',
-                        'mcap_slug' => 'grape-protocol',
-                        'pair' => array(
-
-                                                    
-                                    'eur' => array(
-                                          'coingecko_eur' => 'grape-2',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                          'coingecko_gbp' => 'grape-2',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'GRAPE/SOL',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'GRAPE/USDC',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                          'coingecko_usd' => 'grape-2',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // NANA
                     'NANA' => array(
                         
@@ -3080,36 +3017,36 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // BONK
-                    'BONK' => array(
+                    // GRAPE
+                    'GRAPE' => array(
                         
-                        'name' => 'Bonk Inu',
-                        'mcap_slug' => 'bonk',
+                        'name' => 'Grape Protocol',
+                        'mcap_slug' => 'grape-protocol',
                         'pair' => array(
 
                                                     
-                                    'btc' => array(
-                                        'coingecko_btc' => 'bonk',
+                                    'eur' => array(
+                                          'coingecko_eur' => 'grape-2',
                                                     ),
 
                                                     
-                                    'eth' => array(
-                                        'coingecko_eth' => 'bonk',
+                                    'gbp' => array(
+                                          'coingecko_gbp' => 'grape-2',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'GRAPE/SOL',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'GRAPE/USDC',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                        'coingecko_usd' => 'bonk',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'bybit' => '1000BONKUSDT', // x1000 VAL (processed in api.php to normal val [divided by 1000])
-                                        'huobi' => 'bonkusdt',
-                                        'gateio' => 'BONK_USDT',
-                                        'bitmart' => 'BONK_USDT',
-                                        'coinex' => 'BONKUSDT',
-                                        'bitforex' => 'coin-usdt-bonk',
+                                          'coingecko_usd' => 'grape-2',
                                                     ),
 
                                                     

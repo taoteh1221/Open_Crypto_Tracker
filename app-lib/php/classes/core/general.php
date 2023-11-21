@@ -1480,7 +1480,7 @@ var $ct_array = array();
       // Unit
       if ( $mode == 'u' ) {
           
-      $result['max_dec'] = $this->dyn_max_decimals( abs($num) , $type); // MUST BE PASSED AS ABSOLUTE
+      $result['max_dec'] = $this->dyn_max_decimals( abs( floatval($num) ) , $type); // MUST BE PASSED AS ABSOLUTE
       
       $min_val = ( $type == 'fiat' ? $min_fiat_val_test : $min_crypto_val_test );
    
@@ -3547,12 +3547,12 @@ var $ct_array = array();
             
             
                 if ( isset($result[6]) && trim($result[6]) != 'NO_DATA' && trim($result[6]) != '' ) {
-                $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
-                $last_valid_chart_data['portfolio_cache_size_gigabytes'] = $result[6];
+                $data['crypto_tracker_cache_size_gigabytes'] .= trim($result[6]) . ',';
+                $last_valid_chart_data['crypto_tracker_cache_size_gigabytes'] = $result[6];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
-                elseif ( isset($last_valid_chart_data['portfolio_cache_size_gigabytes']) ) {
-                $data['portfolio_cache_size_gigabytes'] .= trim($last_valid_chart_data['portfolio_cache_size_gigabytes']) . ',';
+                elseif ( isset($last_valid_chart_data['crypto_tracker_cache_size_gigabytes']) ) {
+                $data['crypto_tracker_cache_size_gigabytes'] .= trim($last_valid_chart_data['crypto_tracker_cache_size_gigabytes']) . ',';
                 }
             
             
@@ -3628,7 +3628,7 @@ var $ct_array = array();
       $data['used_memory_gigabytes'] = rtrim($data['used_memory_gigabytes'],',');
       $data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
       $data['free_disk_space_terabytes'] = rtrim($data['free_disk_space_terabytes'],',');
-      $data['portfolio_cache_size_gigabytes'] = rtrim($data['portfolio_cache_size_gigabytes'],',');
+      $data['crypto_tracker_cache_size_gigabytes'] = rtrim($data['crypto_tracker_cache_size_gigabytes'],',');
       }
       elseif ( $asset_perf_chart ) {
       $data['percent'] = rtrim($data['percent'],',');

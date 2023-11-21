@@ -125,6 +125,8 @@ $usort_alpha = null;
 
 // Initial zero-set / false strings
 
+$valid_secure_config_update_request = false;
+
 $active_plugins_registered = false;
 
 $reset_config = false;

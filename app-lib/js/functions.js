@@ -1944,12 +1944,16 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    		
    			     // Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
 				setTimeout(function(){
+                    
+                    load_highlightjs();
 				     
-				log_area.scrollTop(log_area[0].scrollHeight);
+				     if ( typeof log_area[0] !== 'undefined' ) {
+				     log_area.scrollTop(log_area[0].scrollHeight);
+				     }
 
-                    load_highlightjs(elm_id);
-				
-				$('#' + elm_id + '_alert').text('');
+                         if ( typeof elm_id !== 'undefined' ) {
+				     $('#' + elm_id + '_alert').text('');
+                         }
 
 				}, 4000);
 	
@@ -2757,7 +2761,7 @@ function nav_menu($chosen_menu) {
      		
      	var $active, $content, $curr_content_id, $links = $(this).find('a');
      	
-     	var $area_file = is_admin == true ? 'admin.php' : 'index.php';
+     	var $area_file = $chosen_menu == '.admin-nav' ? 'admin.php' : 'index.php';
      
      	// If the location.hash matches one of the links, use that as the active nav item.
      	// If no match is found, use the first link as the initial active nav item.
@@ -2772,8 +2776,6 @@ function nav_menu($chosen_menu) {
      	
      
      	$content = $($active[0].hash);
-     	
-     	//console.log('hash = ' + $active[0].hash)
      
          
      	    // Hide all other content
@@ -2790,7 +2792,7 @@ function nav_menu($chosen_menu) {
               // Otherwise, CLEANLY force value as undefined
               else {
               $curr_content_id = (function () { return; })();
-              console.log('could not find CURRENT content id!');
+              console.log('No content ID / URL hash match for: ' + $chosen_menu);
               }
      	    
      	
@@ -2845,8 +2847,9 @@ function nav_menu($chosen_menu) {
                	    }
                	    // Otherwise, redirect to the clicked link (if no content id was found on the page)
                	    else {
-               	    console.log('could not find NEW content id, redirecting to clicked link!');
-                        window.location = $(this).attr('href');
+               	    console.log('No content ID / URL hash match for: ' + $chosen_menu + ', redirecting to clicked link');
+                        app_reloading_check( 0, $(this).attr('href') );
+                        return;
                	    }
           
           	         
@@ -2866,6 +2869,8 @@ function nav_menu($chosen_menu) {
                                     
                                     // Page URL
                                     window.location = $area_file + $curr_content_id; 
+                                    
+                                    return;
                                     
                                     }
                                        

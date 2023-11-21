@@ -167,6 +167,8 @@ var custom_3deep_menu_open = false;
 
 var is_admin = false;
 
+var admin_logged_in = false;
+
 var is_login_form = false;
 
 var is_iframe = false;

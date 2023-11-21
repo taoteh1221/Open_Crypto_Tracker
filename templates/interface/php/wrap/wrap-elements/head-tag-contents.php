@@ -268,6 +268,8 @@
 	if ( $ct['gen']->admin_logged_in() == true ) {
 	?>
 	
+	admin_logged_in = true;
+	
 	gen_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_hashed_nonce('general_csrf_security') )?>';
 	
 	logs_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_hashed_nonce('logs_csrf_security') )?>';

@@ -178,31 +178,6 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
-
-
-Demo install on biz site STARTED crapping out in the middle of running cron jobs, leaving /cache/events/cron-runtime-lock.dat in the cache...started around 10pm tuesday 11/7. I set the debug 'cron_telemetry' flag, results are showing whatever it was SEEMS to have cleared up as of thursday 11/9. KEEP AN EYE ON THE CRON DEBUG LOGS THOUGH.
-
-
-Add to resources page:
-https://www.validators.app/
-
-
-Set a max width on login / registration pages for dynamically shown error messages wrapping element. Focus on a blank login username field, and hit the return / enter key, to see how it 'jiggles' the login form fields (at least on linux desktop edition).
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Add a disable mode for proxies (so they don't have to be removed to disable them).
-
-
-"The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
-
-
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
 
 $admin_area_sec_level
@@ -232,6 +207,15 @@ Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
 Move everything from the var class to the general class.
+
+
+Run tests on markets, to find stale ones
+
+
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+"The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
 
 
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.

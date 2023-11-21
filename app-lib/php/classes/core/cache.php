@@ -2642,7 +2642,7 @@ var $ct_array = array();
       
       
       // If proxies are configured
-      if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+      if ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
        
       $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct['var']->random_array_var($ct['conf']['proxy']['proxy_list']) );
       
@@ -2897,7 +2897,7 @@ var $ct_array = array();
         if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
 
              
-             if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+             if ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
              $ip_description = 'PROXY';
              }
              else {
@@ -2915,7 +2915,7 @@ var $ct_array = array();
         }
       
       
-        if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
+        if ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $proxy_checkup[] = array(
                     			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
@@ -2989,9 +2989,6 @@ var $ct_array = array();
             // Generic
             preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)
             || preg_match("/cf-browser/i", $data) // Cloudflare (DDOS protection service)
-            || preg_match("/{\"status\":{\"error_code\":/i", $data) // Bittrex.com / generic
-            || preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
-            || preg_match("/Service Unavailable/i", $data) // Bittrex.com / generic
             || preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
             || preg_match("/Server Error/i", $data) // Kucoin.com / generic
             || preg_match("/site is down/i", $data) // Blockchain.info / generic
@@ -3002,11 +2999,10 @@ var $ct_array = array();
             || preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
             || preg_match("/EService:Busy/i", $data) // Kraken.com / generic
             || preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
-            || preg_match("/\"result\":null/i", $data) // Bittrex.com / generic
             || preg_match("/\"result\":\[\],/i", $data) // Generic
             || preg_match("/\"results\":\[\],/i", $data) // generic
             || preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
-            || preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
+            || preg_match("/\"success\":false/i", $data) // BTCturk.com / generic
             || preg_match("/\"error\":\"timeout/i", $data) // generic
             || preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
             || preg_match("/not found/i", $data)  // Generic

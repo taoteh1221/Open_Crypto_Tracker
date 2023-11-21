@@ -391,8 +391,6 @@ var_dump($api_data_array);
         "bitpanda",
         "bitso",
         "bitstamp",
-        "bittrex",
-        "bittrex_global",
         "btcmarkets",
         "btcturk",
         "buyucoin",
