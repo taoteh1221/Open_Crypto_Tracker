@@ -48,7 +48,7 @@ GENERAL REMINDERS
 ===> Any admin config "category => setting" value SET TO NULL is considered a corrupt value,
 ===> for the SAKE OF COMPATIBILITY with upgrade detection / processing (use '' instead of null)
 !!!!
-===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
+===> config.php (and plug-conf.php for plugins) MUST only contain STATIC VALUES,
 ===> as all configs are saved to / run from the cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
@@ -260,7 +260,7 @@ https://www.alphavantage.co/documentation/#fundamentals
 Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
 
 
-Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe (next to the vertical title maybe)? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
+Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section, AND MAKE THE 'SAVE' BUTTON RED AS SOON AS ANY CHANGES ARE MADE. Make it a 'sticky' position save button in bottom right corner of the iframe. Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
 
 
 Update screenshots, since we overhauled everything in the interface.
@@ -476,6 +476,12 @@ Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome ON SMAL
 FEATURES / NEW ARCHITECTURE (*NOT* PRIORITIZED)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Implement 'plugin_deny_additions' / 'plugin_deny_removals' (with same format that we already implemented in the array structure of 'plugin_allow_resets'). Also include documentation on this in plugins documentation. 
+
+
+Implement a 'plugin version' system, based off the main app's system (if CACHED plugin version is a mismatch to the CURRENT plugin version, trigger a cached config upgrade for non-high security modes).
 
 
 On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.

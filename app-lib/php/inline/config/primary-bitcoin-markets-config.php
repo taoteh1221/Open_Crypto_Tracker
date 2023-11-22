@@ -238,8 +238,7 @@ else {
     	
 $ct['gen']->log(
     			'market_error',
-    			'Minimum Bitcoin value of primary currency market value not met (' . $sel_opt['sel_btc_prim_currency_val'] . ')',
-    			'bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; pair_id: ' . $sel_opt['sel_btc_pair_id'] . '; value: ' . $sel_opt['sel_btc_prim_currency_val']
+    			'primary currency conversion market minimum value not met (for BTC / '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).' @ '.$ct['conf']['gen']['bitcoin_primary_currency_exchange'].', value = ' . ( isset($sel_opt['sel_btc_prim_currency_val']) ? $sel_opt['sel_btc_prim_currency_val'] : 'not set' ) . ')'
 			);
     
 }

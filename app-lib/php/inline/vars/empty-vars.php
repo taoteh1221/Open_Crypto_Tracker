@@ -125,9 +125,9 @@ $usort_alpha = null;
 
 // Initial zero-set / false strings
 
-$valid_secure_config_update_request = false;
+$verified_update_request = false;
 
-$active_plugins_registered = false;
+$plugins_checked_registered = false;
 
 $reset_config = false;
 
@@ -150,6 +150,8 @@ $precache_feeds_count = 0;
 $light_chart_first_build_count = 0; 
 
 $count_2fa_fields = 0;
+
+$activate_proxies = 'off';
 
 
 // INITIALLY defined

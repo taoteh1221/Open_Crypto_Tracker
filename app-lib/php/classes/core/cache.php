@@ -152,7 +152,7 @@ var $ct_array = array();
    
    function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
    
-   global $ct, $default_ct_conf, $conf_upgraded, $active_plugins_registered;
+   global $ct, $default_ct_conf, $conf_upgraded, $plugins_checked_registered;
         
         
         if ( is_array($conf[$cat_key][$conf_key]) ) {
@@ -171,12 +171,8 @@ var $ct_array = array();
            foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
         
               
-              // Skip custom (NON-bundled) plugins...Uses === for PHPv7.4 support
-              if ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && !in_array($setting_key, $ct['dev']['bundled_plugins']) ) {
-              continue; 
-              }
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)...Uses === for PHPv7.4 support
-              elseif ( $active_plugins_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              if ( $plugins_checked_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
                            
@@ -184,9 +180,21 @@ var $ct_array = array();
                    foreach ( $default_ct_conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
                       
-                      // If setting doesn't exist yet
+                      // If setting doesn't exist yet, OR RESET FLAGGED
                       // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
-                      if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
+                      if (
+                      !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
+                      || is_array($ct['dev']['plugin_allow_resets'][$this_plug]) && in_array($plug_setting_key, $ct['dev']['plugin_allow_resets'][$this_plug])
+                      ) {
+                           
+                           
+                           if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
+                           $desc = 'UPGRADED';
+                           }
+                           else {
+                           $desc = 'RESET';
+                           }
+
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
                   			
@@ -200,7 +208,7 @@ var $ct_array = array();
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			'UPGRADED app config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                             			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
                              			);
                    
                       }
@@ -214,7 +222,7 @@ var $ct_array = array();
               ////
               // If DEFAULT setting is ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, AND IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING*** 
               else if (
-              !$active_plugins_registered
+              !$plugins_checked_registered
               && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key])
               && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               ) {
@@ -244,9 +252,9 @@ var $ct_array = array();
               /// If ACTIVE (NOT DEFAULT) setting doesn't exist yet (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, ONLY IF IT'S ARRAY KEYS ARE ***STRING-BASED***)
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
               else if (
-              !$active_plugins_registered && !is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) && !isset($conf[$cat_key][$conf_key][$setting_key])
+              !$plugins_checked_registered && !is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) && !isset($conf[$cat_key][$conf_key][$setting_key])
               ||
-              !$active_plugins_registered
+              !$plugins_checked_registered
               && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key])
               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($conf[$cat_key][$conf_key][$setting_key])
@@ -288,12 +296,8 @@ var $ct_array = array();
            foreach ( $conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
         
               
-              // Skip custom (NON-bundled) plugins...Uses === for PHPv7.4 support
-              if ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && !in_array($setting_key, $ct['dev']['bundled_plugins']) ) {
-              continue; 
-              }
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              elseif ( $active_plugins_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              if ( $plugins_checked_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
                    
@@ -308,7 +312,7 @@ var $ct_array = array();
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			'DEPRECIATED app config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
+                             			'DEPRECIATED plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
                              			);
                    
                       }
@@ -318,7 +322,7 @@ var $ct_array = array();
               
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
-              else if ( !$active_plugins_registered && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+              else if ( !$plugins_checked_registered && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
               			
               unset($conf[$cat_key][$conf_key][$setting_key]);
                    
@@ -805,7 +809,7 @@ var $ct_array = array();
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
    function upgrade_cached_ct_conf($conf=false) {
    
-   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $active_plugins_registered, $admin_general_success;
+   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $plugins_checked_registered, $admin_general_success;
    
    // Check that the config is valid / not corrupt FOR FUTURE JSON FILE STORAGE
    $test_conf = json_encode($conf, JSON_PRETTY_PRINT);
@@ -824,7 +828,7 @@ var $ct_array = array();
       
       }
       else {
-      $ct['gen']->log('notify_error', 'CACHED config ' . ( $active_plugins_registered ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrade check flagged, checking now');
+      $ct['gen']->log('notify_error', 'CACHED config ' . ( $plugins_checked_registered ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrade check flagged, checking now');
       }
                    	 
          
@@ -837,7 +841,7 @@ var $ct_array = array();
            continue;
            }   
            // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-           else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !$active_plugins_registered ) {
+           else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !$plugins_checked_registered ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
                 $desc = 'UPGRADED';
@@ -875,7 +879,7 @@ var $ct_array = array();
                     // If not in 'config_deny_additions'
                     !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
                     // If plugin status (we handle whitelisting for this in subarray_cached_ct_conf_upgrade())
-                    // (WE CHECK $active_plugins_registered IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
+                    // (WE CHECK $plugins_checked_registered IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
@@ -888,7 +892,7 @@ var $ct_array = array();
                // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
-               || is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets']) && !$active_plugins_registered
+               || is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets']) && !$plugins_checked_registered
                ) {
                     
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
@@ -961,7 +965,7 @@ var $ct_array = array();
                     if (
                     !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
                     // Uses === for PHPv7.4 support
-                    // (WE CHECK $active_plugins_registered IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
+                    // (WE CHECK $plugins_checked_registered IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
@@ -1003,7 +1007,7 @@ var $ct_array = array();
       return $conf;
       }
       else {
-    	 $ct['gen']->log('notify_error', 'no CACHED config ' . ( $active_plugins_registered ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrades needed');
+    	 $ct['gen']->log('notify_error', 'no CACHED config ' . ( $plugins_checked_registered ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrades needed');
     	 return false;
       }
       
@@ -1017,7 +1021,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $update_config, $reset_config, $app_upgrade_check, $active_plugins_registered;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $update_config, $reset_config, $app_upgrade_check, $plugins_checked_registered;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -1091,7 +1095,7 @@ var $ct_array = array();
 						    
 						    
 						    // We don't need to run this twice (flagging a UI alert / caching app version)
-						    if ( $active_plugins_registered ) {
+						    if ( $plugins_checked_registered ) {
 						         
                                   // Flag for UI alerts
                                   $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
@@ -2431,7 +2435,7 @@ var $ct_array = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  global $ct, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $api_connections, $htaccess_username, $htaccess_password;
+  global $ct, $sel_opt, $activate_proxies, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $api_connections, $htaccess_username, $htaccess_password;
   
   $cookie_jar = tempnam('/tmp','ct_cron_cookie');
    
@@ -2443,6 +2447,18 @@ var $ct_array = array();
   $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($api_endpoint);
   
   $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
+      
+  // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
+  $temp_array = array();
+  $anti_proxy_servers = ( is_array($ct['conf']['proxy']['anti_proxy_servers']) ? $ct['conf']['proxy']['anti_proxy_servers'] : $temp_array );
+
+             
+    if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+    $ip_description = 'PROXY';
+    }
+    else {
+    $ip_description = 'SERVER';
+    }
     
    
     // If we are encoding the url (not sure as useful / functional, for other than debugging?)
@@ -2549,11 +2565,6 @@ var $ct_array = array();
     $api_time = explode(' ', $api_time);
     $api_time = $api_time[1] + $api_time[0];
     $api_start_time = $api_time;
-      
-      
-    // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
-    $temp_array = array();
-    $anti_proxy_servers = ( is_array($ct['conf']['proxy']['anti_proxy_servers']) ? $ct['conf']['proxy']['anti_proxy_servers'] : $temp_array );
               
       
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
@@ -2642,7 +2653,7 @@ var $ct_array = array();
       
       
       // If proxies are configured
-      if ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+      if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
        
       $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct['var']->random_array_var($ct['conf']['proxy']['proxy_list']) );
       
@@ -2886,7 +2897,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'ext_data_error',
       							
-      			'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
+      			$ip_description . ' connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
       			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
       			);
@@ -2895,14 +2906,6 @@ var $ct_array = array();
         // Servers which are known to block API access by location / jurasdiction
         // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
         if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
-
-             
-             if ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
-             $ip_description = 'PROXY';
-             }
-             else {
-             $ip_description = 'SERVER';
-             }
 
             
         $ct['gen']->log(
@@ -2915,7 +2918,7 @@ var $ct_array = array();
         }
       
       
-        if ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
+        if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $proxy_checkup[] = array(
                     			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,

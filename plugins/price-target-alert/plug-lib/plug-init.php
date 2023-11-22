@@ -144,6 +144,12 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
          else {
          $percent_change = 0;
          }
+         
+         
+         // If we were unable to determine a percentage change, skip notification
+         if ( $percent_change == 0 ) {
+         continue;
+         }
 		
 		
      $last_cached_days = ( time() - filemtime($price_target_cache_file) ) / 86400;

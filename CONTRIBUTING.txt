@@ -106,7 +106,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> Any admin config "category => setting" value SET TO NULL is considered a corrupt value,
 ===> for the SAKE OF COMPATIBILITY with upgrade detection / processing (use '' instead of null)
 !!!!
-===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
+===> config.php (and plug-conf.php for plugins) MUST only contain STATIC VALUES,
 ===> as all configs are saved to / run from the cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):

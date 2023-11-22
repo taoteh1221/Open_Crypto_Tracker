@@ -1944,14 +1944,13 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    		
    			     // Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
 				setTimeout(function(){
-                    
-                    load_highlightjs();
 				     
 				     if ( typeof log_area[0] !== 'undefined' ) {
 				     log_area.scrollTop(log_area[0].scrollHeight);
 				     }
 
                          if ( typeof elm_id !== 'undefined' ) {
+                         load_highlightjs(elm_id);
 				     $('#' + elm_id + '_alert').text('');
                          }
 
