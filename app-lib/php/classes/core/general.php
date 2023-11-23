@@ -75,22 +75,6 @@ var $ct_array = array();
        }
    return null;
    }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function telegram_msg($msg, $chat_id) {
-   
-   // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
-   global $telegram_messaging;
-   
-      if ( $telegram_messaging ) {
-      return $telegram_messaging->send->chat($chat_id)->text($msg)->send();
-      }
-   
-   }
 
 
    ////////////////////////////////////////////////////////
@@ -1262,6 +1246,57 @@ var $ct_array = array();
        else {
        return 'valid';
        }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function telegram_msg($full_message) {
+   
+   // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
+   global $telegram_user_data, $telegram_messaging;
+               
+   $message_size = strlen($full_message);
+
+                  
+      // If telegram message bytes is over 4096, it will fail to send, so we split it into multiple messages
+      // https://developers.cm.com/messaging/docs/telegram
+      if ( $telegram_messaging && $message_size > 4000 ) { // Leave some wiggle room
+           
+      $split_messages = str_split($full_message, 4000); // Leave some wiggle room
+          
+          
+          $count = 0;
+          foreach($split_messages as $message){
+               
+               // Throttle a bit, so we don't piss off the API server
+               if ( $count > 0 ) {
+               sleep(1); 
+               }
+
+          $message_sent = $telegram_messaging->send->chat($telegram_user_data['message']['chat']['id'])->text($message)->send();
+               
+               // If ANY message sending fails, abort / return false
+               if ( !$message_sent ) {
+               return false;
+               }
+          
+          $count = $count + 1;
+          
+          }
+
+          
+      return true; // If we made it this far, all messages were sent OK
+           
+      }
+      // If NOT over limit
+      elseif ( $telegram_messaging ) {
+      return $telegram_messaging->send->chat($telegram_user_data['message']['chat']['id'])->text($full_message)->send();
+      }
+
    
    }
 

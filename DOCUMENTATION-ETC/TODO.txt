@@ -202,6 +202,10 @@ $update_config_error
 
 $admin_general_success
 
+$telegram_user_data
+
+$telegram_messaging
+
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
 

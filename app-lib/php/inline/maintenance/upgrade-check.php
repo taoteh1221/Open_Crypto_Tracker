@@ -106,7 +106,7 @@
                                     			'notifyme' => $email_notifyme_msg,
                                     			// We don't want to go over telegram's 4096 character limit,
                                     			// so we don't include anymore than the basics for content
-                                    			'telegram' => $email_notifyme_msg . "\n\n" . $download_link . $changelog_link,
+                                    			'telegram' => $email_only_with_upgrade_command . $download_link . $changelog_link,
                                     			'text' => array(
                                     			               'message' => $text_alert['content'],
                                     			               'charset' => $text_alert['charset']

@@ -1998,7 +1998,7 @@ var $ct_array = array();
   
   function send_notifications() {
   
-  global $ct, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
+  global $ct, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
   
   
   // Array of currently queued messages in the cache
@@ -2163,23 +2163,13 @@ var $ct_array = array();
                
                // Telegram
                elseif ( $telegram_activated && preg_match("/telegram/i", $queued_cache_file) ) {
-               
-               $message_characters_count = mb_strlen($msg_data, 'UTF-8');
-                  
-                  // If telegram message characters is over 4096, it will fail to send,
-                  // so we just delete it (shouldn't happen anymore anyway, now that we abridged UPGRADE NOTICES)
-                  // https://developers.cm.com/messaging/docs/telegram
-                  if ( $message_characters_count > 4096 ) {
-                  $ct['gen']->log( 'notify_error', 'Telegram message 4096 character limit exceeded (' . $message_characters_count . '), cannot send, deleting');
-                  unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
-                  continue;
-                  }
                   
                // Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
                $telegram_sleep = 1 * ( $processed_msgs['telegram_count'] > 0 ? $processed_msgs['telegram_count'] : 1 );
                sleep($telegram_sleep);
                  
-               $telegram_response = $ct['gen']->telegram_msg($msg_data, $telegram_user_data['message']['chat']['id']);
+               $telegram_response = $ct['gen']->telegram_msg($msg_data);
+               
                
                   if ( $telegram_response != false ) {
                    
@@ -2198,6 +2188,7 @@ var $ct_array = array();
                   if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                   $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
                   }
+               
                
                }
                

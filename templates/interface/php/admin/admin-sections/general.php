@@ -201,6 +201,8 @@ $admin_render_settings['currency_decimals_max']['range_max'] = 15;
 
 $admin_render_settings['currency_decimals_max']['range_step'] = 1;
 
+$admin_render_settings['currency_decimals_max']['is_notes'] = 'Sets the minimum-allowed CURRENCY value, adjust with care!';
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -212,6 +214,8 @@ $admin_render_settings['crypto_decimals_max']['range_min'] = 0;
 $admin_render_settings['crypto_decimals_max']['range_max'] = 15;
 
 $admin_render_settings['crypto_decimals_max']['range_step'] = 1;
+
+$admin_render_settings['crypto_decimals_max']['is_notes'] = 'Sets the minimum-allowed CRYPTO value, adjust with care!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

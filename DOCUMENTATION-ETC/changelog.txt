@@ -6445,6 +6445,8 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.31:
 
+-BUG FIX: Fixed the ability for Telegram to gracefully process messages over 4096 bytes in size (large messages are now split into multiple smaller messages automatically)
+
 -BUG FIX: Miscellaneous fixes
 
 -Miscellaneous user experience improvements
