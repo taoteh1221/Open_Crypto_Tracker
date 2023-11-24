@@ -3638,7 +3638,7 @@ var $ct_array = array();
                // Non-stablecoin crypto
                else {
                $data['spot'] .= $ct['var']->num_to_str($result[1]) . ',';
-               $data['volume'] .= $ct['var']->num_to_str( round($result[2], $ct['conf']['gen']['chart_crypto_volume_decimals']) ) . ',';
+               $data['volume'] .= $ct['var']->num_to_str( round($result[2], $ct['conf']['charts_alerts']['chart_crypto_volume_decimals']) ) . ',';
                }
             
             }

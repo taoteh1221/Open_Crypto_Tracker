@@ -5,7 +5,7 @@
  
 
 	// Have this script not load any code if asset charts are not turned on
-	if ( $ct['conf']['gen']['asset_charts_toggle'] != 'on' ) {
+	if ( $ct['conf']['charts_alerts']['enable_price_charts'] != 'on' ) {
 	exit;
 	}
 	
@@ -18,24 +18,24 @@
 $x_coord = 55; // Start position (absolute) for light chart links
 	
 
-	foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+	foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
+		
+     $mrkt_parse = array_map( "trim", explode("||", $val) );
 		
  
-		if ( $_GET['asset_data'] == $key ) {
+		if ( $_GET['asset_data'] == $mrkt_parse[0] ) {
 			
  
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
+		$chart_asset = ( stristr($mrkt_parse[0], "-") == false ? $mrkt_parse[0] : substr( $mrkt_parse[0], 0, mb_strpos($mrkt_parse[0], "-", 0, 'utf-8') ) );
 		$chart_asset = strtoupper($chart_asset);
-		
-		$mrkt_parse = explode("||", $val );
 
 
-		$charted_val = ( $_GET['charted_val'] == 'pair' ? $mrkt_parse[1] : $default_bitcoin_primary_currency_pair );
+		$charted_val = ( $_GET['charted_val'] == 'pair' ? $mrkt_parse[2] : $default_bitcoin_primary_currency_pair );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
-		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_val;
+		$js_key = preg_replace("/-/", "", $mrkt_parse[0]) . '_' . $charted_val;
 		
 
 			
@@ -57,7 +57,7 @@ $x_coord = 55; // Start position (absolute) for light chart links
 
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( !file_exists('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat') ) {
+			if ( !file_exists('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$mrkt_parse[0].'_chart_'.$charted_val.'.dat') ) {
 			?>
 			
 {
@@ -103,7 +103,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-  	  text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+  	  text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($mrkt_parse[1])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
   	  fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
@@ -151,7 +151,7 @@ gui: {
 			}
 			
 		
-		$chart_data = $ct['gen']->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $mrkt_parse[1]);
+		$chart_data = $ct['gen']->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$mrkt_parse[0].'_chart_'.$charted_val.'.dat', $mrkt_parse[2]);
 		
 		
 		$price_sample_oldest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_data['spot'], ',', 'first') );
@@ -256,7 +256,7 @@ graphset:[
     exact: true
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($mrkt_parse[1])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
     fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,

@@ -6,20 +6,20 @@
 
 $analyzed_assets = array();
 
-foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
 
-$asset = preg_replace("/-(.*)/i", "", $key);
+$attributes = array_map( "trim", explode("||", $val) );
 
-$attributes = explode("||", $val);
+$asset = preg_replace("/-(.*)/i", "", $attributes[0]);
 
 	// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
 	if ( !array_key_exists($asset, $analyzed_assets) && isset($ct['conf']['assets'][strtoupper($asset)]) ) {
 	
-		if ( $attributes[2] == 'chart' || $attributes[2] == 'both' ) {
+		if ( $attributes[3] == 'chart' || $attributes[3] == 'both' ) {
 			
-		$analyzed_assets[$asset] = $key;
+		$analyzed_assets[$asset] = $attributes[0];
 		
-		$chart_file = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_bitcoin_primary_currency_pair.'.dat';
+		$chart_file = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/' . $attributes[0] . '_chart_'.$default_bitcoin_primary_currency_pair.'.dat';
 						
 			if ( file_exists($chart_file) ) {
 			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = $ct['gen']->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP

@@ -40,6 +40,27 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$admin_render_settings['enable_price_charts']['is_radio'] = array(
+                                                                  'off',
+                                                                  'on',
+                                                                 );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['chart_crypto_volume_decimals']['is_range'] = true;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_min'] = 4;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_max'] = 10;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_step'] = 1;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 $admin_render_settings['price_alert']['is_select'] = array(
                                                           'off',
                                                           'email',

@@ -47,12 +47,6 @@ $ct['conf']['gen']['default_font_size'] = 100; // Default = 100 (equal to 100%)
 $ct['conf']['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
 
 
-// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
-// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$ct['conf']['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
-
-
 // Default BITCOIN market currencies (20+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // aud / brl / cad / chf / dai / eth / eur / gbp / hkd / inr / jpy
@@ -80,23 +74,20 @@ $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSI
 $ct['conf']['gen']['primary_marketcap_site'] = 'coingecko'; 
 
 
-// Maximum decimal places for *CURRENCY* VALUES, of fiat currencies worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc],
-// for prettier / less-cluttered interface. IF YOU ADJUST $ct['conf']['gen']['bitcoin_primary_currency_pair'] ABOVE, 
+// Maximum decimal places for *CURRENCY* VALUES, of fiat currencies worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc]
+// Sets the minimum-allowed CURRENCY value, adjust with care!
+// For prettier / less-cluttered interface. IF YOU ADJUST $ct['conf']['gen']['bitcoin_primary_currency_pair'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
 // ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
 $ct['conf']['gen']['currency_decimals_max'] = 8; // Whole numbers only (represents number of decimals maximum to use...default = 8)
 
 
 // Maximum decimal places for *CRYPTO* VALUES ACROSS THE ENTIRE APP (*INCLUDING UNDER-THE-HOOD CALCULATIONS*)
+// Sets the minimum-allowed CRYPTO value, adjust with care!
 // LOW VALUE ALTERNATE COINS / CURRENCIES NEED THIS SET REALLY HIGH TO BE INCLUDED IN THE ASSETS LIST (TO NOT HAVE A ZERO VALUE),
 // *ESPECIALLY* SINCE WE USE BITCOIN AS OUR BASE CURRENCY *CONVERTER* (DUE TO IT'S RELIABLY HIGH LIQUIDITY ACROSS THE PLANET)
 // !!!IF YOU CHANGE THIS, THE 'WATCH ONLY' FLAG ON THE 'UPDATE' PAGE *WILL ALSO CHANGE* (CHANGING WHAT IS FLAGGED 'WATCH ONLY')!!!
 $ct['conf']['gen']['crypto_decimals_max'] = 13; // Whole numbers only (represents number of decimals maximum to use...default = 13)
-
-
-// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
-// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct['conf']['gen']['chart_crypto_volume_decimals'] = 4;  // (default = 4)
 
 
 // PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
@@ -411,7 +402,18 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 ////////////////////////////////////////
 
 
-// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information) 
+// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information)
+
+
+// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
+// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$ct['conf']['charts_alerts']['enable_price_charts'] = 'on'; // 'on' / 'off'
+
+
+// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
+// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$ct['conf']['charts_alerts']['chart_crypto_volume_decimals'] = 4;  // (default = 4) 
 
 
 // Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
@@ -490,182 +492,182 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 
 
 					// SYMBOL
-				// 'symbol' => 'exchange||trade_pair||alert',
-				// 'symbol-2' => 'exchange2||trade_pair2||chart',
-				// 'symbol-3' => 'exchange3||trade_pair3||both',
-				// 'symbol-4' => 'exchange4||trade_pair4||none',
-				
-				
-					// OTHERSYMBOL
-				// 'othersymbol' => 'exchange||trade_pair||none',
-				// 'othersymbol-2' => 'exchange2||trade_pair2||both',
-				// 'othersymbol-3' => 'exchange3||trade_pair3||chart',
-				// 'othersymbol-4' => 'exchange4||trade_pair4||alert',
+     				// 'symbol||exchange||trade_pair||alert',
+     				// 'symbol-2||exchange2||trade_pair2||chart',
+     				// 'symbol-3||exchange3||trade_pair3||both',
+     				// 'symbol-4||exchange4||trade_pair4||none',
+     				
+     				
+     				// OTHERSYMBOL
+     				// 'othersymbol||exchange||trade_pair||none',
+     				// 'othersymbol-2||exchange2||trade_pair2||both',
+     				// 'othersymbol-3||exchange3||trade_pair3||chart',
+     				// 'othersymbol-4||exchange4||trade_pair4||alert',
 					
 					
 					// BTC
-					'btc' => 'coinbase||usd||chart',
-					'btc-2' => 'binance||usdt||chart',
-					'btc-3' => 'bitstamp||usd||none',
-					'btc-4' => 'kraken||usd||chart',
-					'btc-5' => 'gemini||usd||none',
-					'btc-6' => 'bitfinex||usd||none',
-					'btc-7' => 'binance_us||usd||none',
-					'btc-8' => 'kraken||eur||chart',
-					'btc-9' => 'coinbase||eur||none',
-					'btc-10' => 'coinbase||gbp||none',
-					'btc-11' => 'kraken||cad||none',
-					'btc-12' => 'btcmarkets||aud||none',
-					'btc-13' => 'bitbns||inr||none',
-					'btc-16' => 'bitflyer||jpy||chart',
-					'btc-17' => 'liquid||hkd||none',
-					'btc-19' => 'upbit||krw||none',
-					'btc-20' => 'bitso||mxn||none',
-					'btc-24' => 'btcturk||try||none',
-					'btc-25' => 'coingecko_twd||twd||none',
-					'btc-26' => 'luno||zar||none',
-					'btc-27' => 'kraken||dai||none',
-					'btc-28' => 'bitmex||usd||both',
+					'btc||coinbase||usd||chart',
+					'btc-2||binance||usdt||chart',
+					'btc-3||bitstamp||usd||none',
+					'btc-4||kraken||usd||chart',
+					'btc-5||gemini||usd||none',
+					'btc-6||bitfinex||usd||none',
+					'btc-7||binance_us||usd||none',
+					'btc-8||kraken||eur||chart',
+					'btc-9||coinbase||eur||none',
+					'btc-10||coinbase||gbp||none',
+					'btc-11||kraken||cad||none',
+					'btc-12||btcmarkets||aud||none',
+					'btc-13||bitbns||inr||none',
+					'btc-16||bitflyer||jpy||chart',
+					'btc-17||liquid||hkd||none',
+					'btc-19||upbit||krw||none',
+					'btc-20||bitso||mxn||none',
+					'btc-24||btcturk||try||none',
+					'btc-25||coingecko_twd||twd||none',
+					'btc-26||luno||zar||none',
+					'btc-27||kraken||dai||none',
+					'btc-28||bitmex||usd||both',
 					
 					
 					// ETH
-					'eth' => 'coinbase||btc||none',
-					'eth-3' => 'kraken||btc||chart',
-					'eth-4' => 'binance||usdt||chart',
-					'eth-5' => 'binance_us||btc||none',
-					'eth-6' => 'coinbase||usd||chart',
-					'eth-7' => 'kraken||usd||none',
-					'eth-8' => 'bitstamp||usd||none',
-					'eth-9' => 'gemini||usd||none',
-					'eth-10' => 'coinbase||gbp||none',
-					'eth-11' => 'coinbase||eur||chart',
-					'eth-13' => 'bitbns||inr||none',
-					'eth-14' => 'bitmex||usd||both',
+					'eth||coinbase||btc||none',
+					'eth-3||kraken||btc||chart',
+					'eth-4||binance||usdt||chart',
+					'eth-5||binance_us||btc||none',
+					'eth-6||coinbase||usd||chart',
+					'eth-7||kraken||usd||none',
+					'eth-8||bitstamp||usd||none',
+					'eth-9||gemini||usd||none',
+					'eth-10||coinbase||gbp||none',
+					'eth-11||coinbase||eur||chart',
+					'eth-13||bitbns||inr||none',
+					'eth-14||bitmex||usd||both',
 					
 					
 					// SOL
-					'sol' => 'binance||btc||none',
-					'sol-2' => 'coinbase||usd||both',
-					'sol-3' => 'coinbase||btc||chart',
-					'sol-4' => 'binance||eth||chart',
+					'sol||binance||btc||none',
+					'sol-2||coinbase||usd||both',
+					'sol-3||coinbase||btc||chart',
+					'sol-4||binance||eth||chart',
 					
 					
 					// USDC
-					'usdc' => 'kraken||usd||both',
-					'usdc-2' => 'binance_us||usd||none',
+					'usdc||kraken||usd||both',
+					'usdc-2||binance_us||usd||none',
 					
 					
 					// DAI
-					'dai' => 'coinbase||usd||both',
-					'dai-2' => 'kraken||usd||none',
+					'dai||coinbase||usd||both',
+					'dai-2||kraken||usd||none',
 					
 					
 					// MKR
-					'mkr' => 'okex||btc||none',
-					'mkr-2' => 'kucoin||btc||none',
-					'mkr-3' => 'coinbase||btc||both',
+					'mkr||okex||btc||none',
+					'mkr-2||kucoin||btc||none',
+					'mkr-3||coinbase||btc||both',
 					
 					
 					// UNI
-					'uni' => 'binance||btc||both',
-					'uni-3' => 'binance||usdt||none',
-					'uni-4' => 'coinbase||usd||none',
+					'uni||binance||btc||both',
+					'uni-3||binance||usdt||none',
+					'uni-4||coinbase||usd||none',
 					
 					
 					// RAY
-					'ray' => 'binance||usdt||both',
-					'ray-2' => 'coingecko_btc||btc||chart',
+					'ray||binance||usdt||both',
+					'ray-2||coingecko_btc||btc||chart',
 					
 					
 					// MANA
-					'mana-2' => 'binance||btc||both',
-					'mana-3' => 'kucoin||btc||none',
-					'mana-4' => 'ethfinex||btc||none',
-					'mana-5' => 'binance||eth||none',
+					'mana-2||binance||btc||both',
+					'mana-3||kucoin||btc||none',
+					'mana-4||ethfinex||btc||none',
+					'mana-5||binance||eth||none',
 					
 					
 					// POLIS
-					'polis' => 'coingecko_btc||btc||chart',
-					'polis-2' => 'kraken||usd||both',
+					'polis||coingecko_btc||btc||chart',
+					'polis-2||kraken||usd||both',
 					
 					
 					// ATLAS
-					'atlas' => 'gateio||usdt||chart',
-					'atlas-2' => 'coingecko_btc||btc||chart',
-					'atlas-3' => 'kraken||usd||both',
+					'atlas||gateio||usdt||chart',
+					'atlas-2||coingecko_btc||btc||chart',
+					'atlas-3||kraken||usd||both',
 					
 					
 					// AURY
-					'aury' => 'kucoin||usdt||chart',
-					'aury-2' => 'coingecko_btc||btc||chart',
-					'aury-3' => 'jupiter_ag||sol||both',
+					'aury||kucoin||usdt||chart',
+					'aury-2||coingecko_btc||btc||chart',
+					'aury-3||jupiter_ag||sol||both',
 					
 					
 					// BONK
-					'bonk' => 'huobi||usdt||chart',
-					'bonk-2' => 'gateio||usdt||both',
-					'bonk-3' => 'coingecko_btc||btc||chart',
-					'bonk-4' => 'coingecko_eth||eth||chart',
+					'bonk||huobi||usdt||chart',
+					'bonk-2||gateio||usdt||both',
+					'bonk-3||coingecko_btc||btc||chart',
+					'bonk-4||coingecko_eth||eth||chart',
 					
 					
 					// HIVE
-					'hive' => 'binance||btc||both',
+					'hive||binance||btc||both',
 					
 					
 					// ZBC
-					'zbc' => 'coingecko_btc||btc||chart',
-					'zbc-2' => 'coingecko_eth||eth||chart',
-					'zbc-3' => 'gateio||usdt||both',
+					'zbc||coingecko_btc||btc||chart',
+					'zbc-2||coingecko_eth||eth||chart',
+					'zbc-3||gateio||usdt||both',
 					
 					
 					// RNDR
-					'rndr' => 'kucoin||btc||both',
-					'rndr-2' => 'gateio||usdt||none',
+					'rndr||kucoin||btc||both',
+					'rndr-2||gateio||usdt||none',
 					
 					
 					// HNT
-					'hnt-2' => 'gateio||usdt||both',
-					'hnt-3' => 'gateio||eth||none',
+					'hnt-2||gateio||usdt||both',
+					'hnt-3||gateio||eth||none',
 					
 					
 					// NANA
-					'nana' => 'jupiter_ag||sol||both',
-					'nana-2' => 'coingecko_btc||btc||chart',
-					'nana-3' => 'coingecko_eth||eth||chart',
+					'nana||jupiter_ag||sol||both',
+					'nana-2||coingecko_btc||btc||chart',
+					'nana-3||coingecko_eth||eth||chart',
 					
 					
 					// GRAPE
-					'grape' => 'coingecko_usd||usd||both',
-					'grape-4' => 'coingecko_eur||eur||none',
-					'grape-5' => 'coingecko_gbp||gbp||none',
+					'grape||coingecko_usd||usd||both',
+					'grape-4||coingecko_eur||eur||none',
+					'grape-5||coingecko_gbp||gbp||none',
 					
 					
 					// GPVSTOCK (GreenPower Motor Company stock)
-					'gpvstock' => 'alphavantage_stock||cad||both',
+					'gpvstock||alphavantage_stock||cad||both',
 					
 					
 					// DTGSTOCK (Daimler Truck Holding stock)
-					'dtgstock' => 'alphavantage_stock||eur||both',
+					'dtgstock||alphavantage_stock||eur||both',
 					
 					
 					// COINSTOCK (Coinbase stock)
-					'coinstock' => 'alphavantage_stock||usd||both',
+					'coinstock||alphavantage_stock||usd||both',
 					
 					
 					// AMZNSTOCK (Amazon stock)
-					'amznstock' => 'alphavantage_stock||usd||both',
+					'amznstock||alphavantage_stock||usd||both',
 					
 					
 					// AMDSTOCK (Advanced Micro Devices stock)
-					'amdstock' => 'alphavantage_stock||usd||both',
+					'amdstock||alphavantage_stock||usd||both',
 					
 					
 					// NFLXSTOCK (Netflix stock)
-					'nflxstock' => 'alphavantage_stock||usd||both',
+					'nflxstock||alphavantage_stock||usd||both',
 					
 					
 					// MCDSTOCK (McDonalds stock)
-					'mcdstock' => 'alphavantage_stock||usd||both',
+					'mcdstock||alphavantage_stock||usd||both',
 					
 					
 					);

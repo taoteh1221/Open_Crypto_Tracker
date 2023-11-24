@@ -6449,6 +6449,8 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous fixes
 
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Price Charts / Alerts
+
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup
@@ -6456,6 +6458,9 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 -Updated documentation
 
 IMPORTANT *UPGRADE* NOTICE:
+
+v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT.
 
 v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.

@@ -229,12 +229,12 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
 	    }
 			
 			
-	    foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+	    foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
    		       		
-	    $alerts_str = explode("||", $val);
+	    $alerts_str = array_map( "trim", explode("||", $val) );
    		       	
-		    if ( is_array($alerts_str) && sizeof($alerts_str) < 3 ) {
-		    $conf_parse_error[] = "'" . $key . "' price alert exchange / market not formatted properly: '" . $val . "'";
+		    if ( is_array($alerts_str) && sizeof($alerts_str) < 4 ) {
+		    $conf_parse_error[] = "price alert exchange / market not formatted properly: '" . $val . "'";
       	    }
      	
 	    }
@@ -365,7 +365,7 @@ $conf_parse_error = array(); // Blank it out for any other config checks
 
 
 // Email backup archives configs
-if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' && $ct['conf']['power']['charts_backup_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
+if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['power']['charts_backup_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
 					
    // Config error check(s)
    if ( $valid_from_email != 'valid' ) {

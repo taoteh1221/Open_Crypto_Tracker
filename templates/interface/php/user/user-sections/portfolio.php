@@ -929,7 +929,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 	
   	<?php
   	// Performance chart START (requires price charts)
-	if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ) {
+	if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
 	?>
 	
 <fieldset class='subsection_fieldset'>
@@ -1448,7 +1448,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
   
   
   	<?php
-	if ( $ct['conf']['gen']['asset_charts_toggle'] != 'on' ) {
+	if ( $ct['conf']['charts_alerts']['enable_price_charts'] != 'on' ) {
 	?>
 	<p class='yellow'>*Some stats are not available with price charts disabled.</p>
 	

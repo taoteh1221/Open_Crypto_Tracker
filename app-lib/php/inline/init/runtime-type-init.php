@@ -252,7 +252,7 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
     
     
     	// Only set from cookie / post values if charts are enabled
-    	if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ) {
+    	if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
      
     	$sel_opt['show_charts'] = explode(',', rtrim( ( isset($_POST['show_charts']) ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
      
@@ -261,41 +261,51 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
      $scan_charts = $sel_opt['show_charts'];
      $scan_charts = array_map( array($ct['var'], 'strip_brackets') , $scan_charts); // Strip brackets
      $scan_charts = array_map( array($ct['var'], 'strip_underscore_and_after') , $scan_charts); // Strip underscore, and everything after
-     $loop = 0;
-     foreach ($scan_charts as $mrkt_key) {
-     	
-     	// IF asset exists in charts app config, AND $sel_opt['show_charts'] UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
-     	if ( array_key_exists($mrkt_key, $ct['conf']['charts_alerts']['tracked_markets']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
-     		
-     	$chart_params = explode('_', $ct['var']->strip_brackets($sel_opt['show_charts'][$loop]) );
-     	
-     	$chart_conf_check = explode('||', $ct['conf']['charts_alerts']['tracked_markets'][$mrkt_key]);
-     		
-     		// If pair properly matches OR it's a conversion chart, we're good to keep this $sel_opt['show_charts'] array value 
-     		if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_bitcoin_primary_currency_pair ) {
-     		$temp_show_charts[$loop] = $sel_opt['show_charts'][$loop];
-     		}
-     		
-     	}
-     	
-     $loop = $loop + 1;
      
-     }
+     
+          $loop = 0;
+          foreach ($scan_charts as $mrkt_key) {
+               
+          $string_in_array = $ct['var']->stristr_in_array($ct['conf']['charts_alerts']['tracked_markets'], $mrkt_key);
+          	
+          	// IF asset exists in charts app config, AND $sel_opt['show_charts'] UI key format is latest iteration
+          	// (fiat conversion charts USED TO have no underscore)
+          	if ( $string_in_array >= 0 && stristr($sel_opt['show_charts'][$loop], '_') ) {
+          		
+          	$chart_params = explode('_', $ct['var']->strip_brackets($sel_opt['show_charts'][$loop]) );
+          	
+          	$chart_conf_check = explode('||', $ct['conf']['charts_alerts']['tracked_markets'][$string_in_array]);
+          		
+          		// If pair properly matches OR it's a conversion chart, we're good to keep this $sel_opt['show_charts'] array value 
+          		if ( $chart_params[1] == $chart_conf_check[2] || $chart_params[1] == $default_bitcoin_primary_currency_pair ) {
+          		$temp_show_charts[$loop] = $sel_opt['show_charts'][$loop];
+          		}
+          		
+          	}
+          	
+          $loop = $loop + 1;
+          
+          }
+          
+          
      $sel_opt['show_charts'] = $temp_show_charts;
      $implode_charts = implode(',', $sel_opt['show_charts']) . ',';
     	
     	
-     // Update POST and / or COOKIE data too
-     if( isset($_POST['show_charts']) ) {
-     $_POST['show_charts'] = $implode_charts;
-     }
-    	
-     if( isset($_COOKIE['show_charts']) ) {
-     $ct['gen']->store_cookie("show_charts", $implode_charts, time()+31536000);
-     }
+          // Update POST and / or COOKIE data too
+          if( isset($_POST['show_charts']) ) {
+          $_POST['show_charts'] = $implode_charts;
+          }
+
+         	
+          if( isset($_COOKIE['show_charts']) ) {
+          $ct['gen']->store_cookie("show_charts", $implode_charts, time()+31536000);
+          }
+          
     	
     	}
     	else {
+    	$ct['gen']->store_cookie("show_charts", "", time()-3600);  // Delete cookie -3600 seconds (expired)
     	$sel_opt['show_charts'] = array();
     	}
 	

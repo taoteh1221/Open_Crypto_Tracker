@@ -6,15 +6,15 @@
 
 
 // ALL CHARTS FOR SPOT PRICE / 24 HOUR VOLUME
-foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
+		
+	$asset_cache_params = array_map( "trim", explode("||", $val) );
 
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
+	$asset_dir = ( stristr($asset_cache_params[0], "-") == false ? $asset_cache_params[0] : substr( $asset_cache_params[0], 0, mb_strpos($asset_cache_params[0], "-", 0, 'utf-8') ) );
 	$asset_dir = strtoupper($asset_dir);
-		
-	$asset_cache_params = explode("||", $val);
 	
-	if ( $asset_cache_params[2] == 'chart' || $asset_cache_params[2] == 'both' ) {
+	if ( $asset_cache_params[3] == 'chart' || $asset_cache_params[3] == 'both' ) {
 		
 		// Archival charts
 		if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_dir.'/') != true ) { // Attempt to create directory if it doesn't exist

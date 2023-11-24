@@ -227,7 +227,7 @@ var $ct_array = array();
               && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               ) {
                    
-                  // If ACTIVE (NOT DEFAULT) setting is non-existant OR no match, import and check for duplicates after (for efficiency)
+                  // If ACTIVE (NOT DEFAULT) setting is non-existant / no match, import and check for duplicates after (for efficiency)
                   if (
                   !is_array($conf[$cat_key][$conf_key][$setting_key])
                   || is_array($conf[$cat_key][$conf_key][$setting_key])
@@ -872,8 +872,13 @@ var $ct_array = array();
            foreach ( $cat_val as $conf_key => $conf_val ) {
          
                
-               // If subarray setting (NOT queued to be RESET)
-               if ( is_array($conf[$cat_key][$conf_key]) && !in_array($conf_key, $ct['dev']['config_allow_resets']) ) {
+               // If subarray setting (NOT queued to be RESET), AND ARRAY KEY TYPE MATCHES
+               if (
+               is_array($conf[$cat_key][$conf_key]) && !in_array($conf_key, $ct['dev']['config_allow_resets'])
+               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               || is_array($conf[$cat_key][$conf_key]) && !in_array($conf_key, $ct['dev']['config_allow_resets'])
+               && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               ) {
            
                     if (
                     // If not in 'config_deny_additions'
@@ -886,17 +891,22 @@ var $ct_array = array();
                     }
                     
                }
-               // If regular setting, OR RESET on a subarray setting
+               // If regular setting, RESET on a subarray setting, OR array key type does NOT match
                else if (
                // If we are allowed to add settings in this category, and the setting doesn't exist
                // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
-               || is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets']) && !$plugins_checked_registered
+               || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets'])
+               // If we upgraded to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
+               || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
                     
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
                     $desc = 'UPGRADED';
+                    }
+                    elseif ( !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key]) ) {
+                    $desc = 'CONVERTED';
                     }
                     else {
                     $desc = 'RESET';

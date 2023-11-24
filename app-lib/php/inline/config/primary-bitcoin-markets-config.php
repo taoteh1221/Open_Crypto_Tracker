@@ -61,20 +61,20 @@ $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume
 
 
      // Delete OLD *CONVERSION* price charts ONLY (NOT base-pair market price charts)
-     foreach (  $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+     foreach (  $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
             
-     $val = explode("||",$val);
+     $val = array_map( "trim", explode("||", $val) );
      
-     $market_pair_check = $val[1];
+     $market_pair_check = $val[2];
      
-     $asset_ticker_check = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
+     $asset_ticker_check = ( stristr($val[0], "-") == false ? $val[0] : substr( $val[0], 0, mb_strpos($val[0], "-", 0, 'utf-8') ) );
      $asset_ticker_check = strtoupper($asset_ticker_check);
    
           if (
           $market_pair_check != $check_default_bitcoin_primary_currency_pair
-          && file_exists($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_ticker_check.'/'.$key.'_chart_'.$check_default_bitcoin_primary_currency_pair.'.dat')
+          && file_exists($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_ticker_check.'/'.$val[0].'_chart_'.$check_default_bitcoin_primary_currency_pair.'.dat')
           ) {
-          unlink($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_ticker_check.'/'.$key.'_chart_'.$check_default_bitcoin_primary_currency_pair.'.dat');
+          unlink($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_ticker_check.'/'.$val[0].'_chart_'.$check_default_bitcoin_primary_currency_pair.'.dat');
           }
      
      }
@@ -83,7 +83,7 @@ $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume
 	// Delete show_charts cookie data
 	if ( isset($_COOKIE['show_charts']) ) {
 	unset($_COOKIE['show_charts']);
-    $ct['gen']->store_cookie('show_charts', '', time()-3600); // Delete 
+     $ct['gen']->store_cookie('show_charts', '', time()-3600); // Delete 
 	}
 
 	// Delete show_charts post data
