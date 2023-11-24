@@ -36,7 +36,7 @@
                         
 			<?php
 			}
-			if ( $ct['conf']['proxy']['allow_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+			if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 			?>
           <p class='settings_sections'><b><?=( trim($ct['conf']['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ct['conf']['proxy']['proxy_list'])?> proxies randomly used<?=( $ct['conf']['proxy']['proxy_alert'] != 'off' ? ' / proxy alerts enabled for ' . $ct['conf']['proxy']['proxy_alert'] . ' alert method(s), every ' . $ct['conf']['proxy']['proxy_alert_frequency_maximum'] . ' hours max per-proxy at ' . $ct['conf']['proxy']['proxy_alert_runtime'] . ' runtimes / ' .$ct['conf']['proxy']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
@@ -57,7 +57,7 @@
                         
 			<?php
 			}
-			if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' && $ct['conf']['power']['charts_backup_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
+			if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['power']['charts_backup_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
           ?>
           	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$ct['conf']['power']['charts_backup_frequency']?> days, purged after <?=$ct['conf']['power']['backup_archive_delete_old']?> days old).
           	

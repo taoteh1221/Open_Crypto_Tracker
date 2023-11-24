@@ -1541,8 +1541,8 @@ var $ct_array = array();
    
    $pair_vol_raw = $asset_mrkt_data['24hr_pair_vol']; // If available, we'll use this for chart volume UX
      
-   // Round PAIR volume to only keep $ct['conf']['gen']['chart_crypto_volume_decimals'] decimals max (for crypto volume etc), to save on data set / storage size
-   $pair_vol_raw = ( isset($pair_vol_raw) ? round($pair_vol_raw, ( $fiat_eqiv == 1 ? 0 : $ct['conf']['gen']['chart_crypto_volume_decimals'] ) ) : null );
+   // Round PAIR volume to only keep $ct['conf']['charts_alerts']['chart_crypto_volume_decimals'] decimals max (for crypto volume etc), to save on data set / storage size
+   $pair_vol_raw = ( isset($pair_vol_raw) ? round($pair_vol_raw, ( $fiat_eqiv == 1 ? 0 : $ct['conf']['charts_alerts']['chart_crypto_volume_decimals'] ) ) : null );
    // Remove trailing zeros / scientific number format (on small / large numbers) from any rounding etc above
    $pair_vol_raw = ( $pair_vol_raw != null ? $ct['var']->num_to_str($pair_vol_raw) : null );
    
@@ -1616,8 +1616,8 @@ var $ct_array = array();
       // Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
       // If the charts page is enabled in Admin Config, save latest chart data for assets with price alerts configured on them
       if (
-      !$halt_chart_storage && $mode == 'both' && $asset_prim_currency_val_raw >= $min_fiat_val_test && $ct['conf']['gen']['asset_charts_toggle'] == 'on'
-      || !$halt_chart_storage && $mode == 'chart' && $asset_prim_currency_val_raw >= $min_fiat_val_test && $ct['conf']['gen']['asset_charts_toggle'] == 'on'
+      !$halt_chart_storage && $mode == 'both' && $asset_prim_currency_val_raw >= $min_fiat_val_test && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
+      || !$halt_chart_storage && $mode == 'chart' && $asset_prim_currency_val_raw >= $min_fiat_val_test && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
       ) {
       
       // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)

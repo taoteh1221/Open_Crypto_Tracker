@@ -9,6 +9,12 @@
 // ###########################################################################################
 
 
+// PLUGIN setting keys to ALLOW cached config RESETS on (during cached config upgrades)
+$ct['dev']['plugin_allow_resets'][$this_plug] = array(
+                                                      // 'plugin-setting-key',
+                                                     );
+
+
 // All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE "$plug_conf[$this_plug]" ARRAY (sub-arrays are allowed)
 
 // EXAMPLES...

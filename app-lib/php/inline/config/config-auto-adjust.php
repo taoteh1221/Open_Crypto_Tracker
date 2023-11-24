@@ -24,7 +24,7 @@ $ct['conf']['gen']['default_theme'] = $ct['var']->auto_correct_str($ct['conf']['
 $ct['conf']['gen']['primary_marketcap_site'] = $ct['var']->auto_correct_str($ct['conf']['gen']['primary_marketcap_site'], 'lower');
 $ct['conf']['charts_alerts']['price_alert_block_volume_error'] = $ct['var']->auto_correct_str($ct['conf']['charts_alerts']['price_alert_block_volume_error'], 'lower');
 $ct['conf']['sec']['remote_api_strict_ssl'] = $ct['var']->auto_correct_str($ct['conf']['sec']['remote_api_strict_ssl'], 'lower');
-$ct['conf']['gen']['asset_charts_toggle'] = $ct['var']->auto_correct_str($ct['conf']['gen']['asset_charts_toggle'], 'lower');
+$ct['conf']['charts_alerts']['enable_price_charts'] = $ct['var']->auto_correct_str($ct['conf']['charts_alerts']['enable_price_charts'], 'lower');
 $ct['conf']['proxy']['proxy_alert'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert'], 'lower');
 $ct['conf']['proxy']['proxy_alert_runtime'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_runtime'], 'lower');
 $ct['conf']['proxy']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_checkup_ok'], 'lower');
@@ -33,9 +33,7 @@ $ct['conf']['proxy']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($c
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();
 foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
-$cleaned_key = $ct['var']->auto_correct_str($key, 'lower');
-$cleaned_val = $ct['var']->auto_correct_str($val, 'lower');
-$cleaned_charts_and_price_alerts[$cleaned_key] = $cleaned_val;
+$cleaned_charts_and_price_alerts[$key] = $ct['var']->auto_correct_str($val, 'lower');
 }
 $ct['conf']['charts_alerts']['tracked_markets'] = $cleaned_charts_and_price_alerts;
 

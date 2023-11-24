@@ -112,13 +112,17 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         
         
             // Charts and price alerts
-            foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+            foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
             
-            $val = explode("||",$val); // Convert $val into an array
+            $val = array_map( "trim", explode("||", $val) ); // Convert $val into an array
             
-            $exchange = $val[0];
-            $pair = $val[1];
-            $mode = $val[2];
+            $key = $val[0];
+            
+            $exchange = $val[1];
+
+            $pair = $val[2];
+
+            $mode = $val[3];
             
             // ALWAYS RUN even if $mode != 'none' etc, as charts_price_alerts() is optimized to run UX logic scanning
             // (such as as removing STALE EXISTING ALERT CACHE FILES THAT WERE PREVIOUSLY-ENABLED,

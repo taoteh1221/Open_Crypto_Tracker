@@ -140,15 +140,6 @@ $admin_render_settings['default_theme']['is_radio'] = array(
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['asset_charts_toggle']['is_radio'] = array(
-                                                                  'off',
-                                                                  'on',
-                                                                 );
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 $admin_render_settings['bitcoin_primary_currency_pair']['is_confirm'] = 'This will PERMANENTLY DELETE any ' . strtoupper($default_bitcoin_primary_currency_pair) . ' *CONVERSION* price charts (' . strtoupper($default_bitcoin_primary_currency_pair) . ' *BASE-PAIRED [MARKET]* price charts WILL *NOT* BE DELETED). Do you still wish to select a new primary currency pair?';
 
 foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $unused ) {
@@ -195,11 +186,13 @@ $admin_render_settings['primary_marketcap_site']['is_notes'] = '<a href="https:/
      
 $admin_render_settings['currency_decimals_max']['is_range'] = true;
 
-$admin_render_settings['currency_decimals_max']['range_min'] = 0;
+$admin_render_settings['currency_decimals_max']['range_min'] = 5;
 
 $admin_render_settings['currency_decimals_max']['range_max'] = 15;
 
 $admin_render_settings['currency_decimals_max']['range_step'] = 1;
+
+$admin_render_settings['currency_decimals_max']['is_notes'] = 'Sets the minimum-allowed CURRENCY value, adjust with care!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,23 +200,13 @@ $admin_render_settings['currency_decimals_max']['range_step'] = 1;
      
 $admin_render_settings['crypto_decimals_max']['is_range'] = true;
 
-$admin_render_settings['crypto_decimals_max']['range_min'] = 0;
+$admin_render_settings['crypto_decimals_max']['range_min'] = 8;
 
 $admin_render_settings['crypto_decimals_max']['range_max'] = 15;
 
 $admin_render_settings['crypto_decimals_max']['range_step'] = 1;
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['chart_crypto_volume_decimals']['is_range'] = true;
-
-$admin_render_settings['chart_crypto_volume_decimals']['range_min'] = 0;
-
-$admin_render_settings['chart_crypto_volume_decimals']['range_max'] = 10;
-
-$admin_render_settings['chart_crypto_volume_decimals']['range_step'] = 1;
+$admin_render_settings['crypto_decimals_max']['is_notes'] = 'Sets the minimum-allowed CRYPTO value, adjust with care!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

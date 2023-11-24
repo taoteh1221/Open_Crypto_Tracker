@@ -44,7 +44,7 @@
 					
 		<p class='bitcoin' style='font-weight: bold;'><span class='red'>Did you just install this app?</span> If you would like to bootstrap the demo price chart data (get many months of spot price data already pre-populated), <a href='https://github.com/taoteh1221/bootstrapping/raw/main/bootstrap-price-charts-data.zip' target='_blank'>download it from github</a>. Just replace your existing /cache/charts/spot_price_24hr_volume/archival folder with the one inside this download archive, and wait until the next background task runs fully (the app will detect the change and rebuild the [light] time period charts with the new chart data). It may take a few additional cron job / scheduled task runs (a couple hours for slower machines), for a full rebuild of all (light) time period charts.</p>
 		 
-		<p class='bitcoin' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the Admin Config CHARTS AND ALERTS section. Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job or scheduled task on your web server</a> (if you are running the "Server Edition"), or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in the Admin Config GENERAL section, if you choose to not setup a cron job.</p>
+		<p class='bitcoin' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the Admin Config CHARTS AND ALERTS section. Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job or scheduled task on your web server</a> (if you are running the "Server Edition"), or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in the Admin Config "Price Charts / Alerts" section, if you choose to not setup a cron job.</p>
 		 
 		<p class='bitcoin' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pair volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pair volume for a better chart user experience).</p>
 					
@@ -203,30 +203,32 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+	foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
 		
-		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
-		$show_asset = strtoupper($show_asset);
+     $show_asset_params = array_map( "trim", explode("||", $val) );
 		
-		$show_asset_params = explode("||", $val);
+	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+	$show_asset = ( stristr($show_asset_params[0], "-") == false ? $show_asset_params[0] : substr( $show_asset_params[0], 0, mb_strpos($show_asset_params[0], "-", 0, 'utf-8') ) );
+	$show_asset = strtoupper($show_asset);
 		
 				
 			// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
-			if ( $show_asset_params[2] == 'chart' && isset($ct['conf']['assets'][strtoupper($show_asset)]) 
-			|| $show_asset_params[2] == 'both' && isset($ct['conf']['assets'][strtoupper($show_asset)]) ) {
+			if (
+			$show_asset_params[3] == 'chart' && isset($ct['conf']['assets'][strtoupper($show_asset)]) 
+			|| $show_asset_params[3] == 'both' && isset($ct['conf']['assets'][strtoupper($show_asset)])
+			) {
 	?>
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 				
-				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=$ct['gen']->key_to_name($show_asset_params[0])?>
+				<input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $show_asset_params[2]."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[2])?> @ <?=$ct['gen']->key_to_name($show_asset_params[1])?>
 			
 				<?php
 				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
 				if ( $show_asset_params[1] != $default_bitcoin_primary_currency_pair ) {
 				?>
 				
-				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$key?>_<?=$default_bitcoin_primary_currency_pair?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $default_bitcoin_primary_currency_pair."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <?=strtoupper($default_bitcoin_primary_currency_pair)?> Value
+				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$default_bitcoin_primary_currency_pair?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $default_bitcoin_primary_currency_pair."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <?=strtoupper($default_bitcoin_primary_currency_pair)?> Value
 				
 				<?php
 				}
@@ -279,28 +281,29 @@
 	<?php
 	
 	// Render the charts
-	foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+	foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
+	     
+	$alerts_mrkt_parse = array_map( "trim", explode("||", $val ) );	
     
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-	$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
+	$chart_asset = ( stristr($alerts_mrkt_parse[0], "-") == false ? $alerts_mrkt_parse[0] : substr( $alerts_mrkt_parse[0], 0, mb_strpos($alerts_mrkt_parse[0], "-", 0, 'utf-8') ) );
 	$chart_asset = strtoupper($chart_asset);
 		
 	$charts_available = 1;
-	$alerts_mrkt_parse = explode("||", $val );	
 		
 		// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
 		if ( !isset($ct['conf']['assets'][strtoupper($chart_asset)]) ) {
-      continue;
-    	}
+          continue;
+    	     }
 		
 		// Pairs chart
-		if ( in_array('['.$key.'_'.$alerts_mrkt_parse[1].']', $sel_opt['show_charts']) ) {
+		if ( in_array('[' . $alerts_mrkt_parse[0] . '_'.$alerts_mrkt_parse[2].']', $sel_opt['show_charts']) ) {
 		$charts_shown = 1;
 	?>
 	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=$alerts_mrkt_parse[1]?>_chart'>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$alerts_mrkt_parse[0]?>_<?=$alerts_mrkt_parse[2]?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?>...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?>...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
@@ -328,11 +331,11 @@
 		}
 		
 		// PRIMARY CURRENCY CONFIG chart
-		if ( $alerts_mrkt_parse[1] != $default_bitcoin_primary_currency_pair && in_array('['.$key.'_'.$default_bitcoin_primary_currency_pair.']', $sel_opt['show_charts']) ) {
+		if ( $alerts_mrkt_parse[1] != $default_bitcoin_primary_currency_pair && in_array('[' . $alerts_mrkt_parse[0] . '_'.$default_bitcoin_primary_currency_pair.']', $sel_opt['show_charts']) ) {
 		$charts_shown = 1;
 	?>
 	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_bitcoin_primary_currency_pair)?>_chart'>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$alerts_mrkt_parse[0]?>_<?=strtolower($default_bitcoin_primary_currency_pair)?>_chart'>
 	
 	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?> (<?=strtoupper($default_bitcoin_primary_currency_pair)?> Value)...</span>
 	

@@ -13,18 +13,18 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 	// Check configured charts and price alerts
 	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'alerts_charts' ) {
 		
-		foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+		foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
+		
+		$check_asset_params = array_map( "trim", explode("||", $val) );
 				
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$check_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
+		$check_asset = ( stristr($check_asset_params[0], "-") == false ? $check_asset_params[0] : substr( $check_asset_params[0], 0, mb_strpos($check_asset_params[0], "-", 0, 'utf-8') ) );
 		$check_asset = strtoupper($check_asset);
 		
-		$check_asset_params = explode("||", $val);
-		
-		$check_market_id = $ct['conf']['assets'][$check_asset]['pair'][ $check_asset_params[1] ][ $check_asset_params[0] ];
+		$check_market_id = $ct['conf']['assets'][$check_asset]['pair'][ $check_asset_params[2] ][ $check_asset_params[1] ];
 		
 		// Consolidate function calls for runtime speed improvement
-		$charts_test_data = $ct['api']->market($check_asset, $check_asset_params[0], $check_market_id, $check_asset_params[1]);
+		$charts_test_data = $ct['api']->market($check_asset, $check_asset_params[1], $check_market_id, $check_asset_params[2]);
 		
 		
 			if ( isset($charts_test_data['last_trade']) && $ct['var']->num_to_str($charts_test_data['last_trade']) >= $min_crypto_val_test ) {
@@ -35,8 +35,8 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 				
 			$ct['gen']->log(
 						'market_debug',
-						'No chart / alert price data available: (conf_key='.$key.',last_trade='.$ct['var']->num_to_str($charts_test_data['last_trade']).')',
-						'market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0])
+						'No chart / alert price data available: (conf_item='.$check_asset_params[0].',last_trade='.$ct['var']->num_to_str($charts_test_data['last_trade']).')',
+						'market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[2]) . ' @ ' . ucfirst($check_asset_params[1])
 						);
 			
 			}
@@ -50,8 +50,8 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 				
 			$ct['gen']->log(
 						'market_debug',
-						'No chart / alert trade volume data available: (conf_key='.$key.',trade_volume='.$ct['var']->num_to_str($charts_test_data['24hr_prim_currency_vol']).')',
-						'market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0])
+						'No chart / alert trade volume data available: (conf_item='.$check_asset_params[0].',trade_volume='.$ct['var']->num_to_str($charts_test_data['24hr_prim_currency_vol']).')',
+						'market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[2]) . ' @ ' . ucfirst($check_asset_params[1])
 						);
 			
 			}

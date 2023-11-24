@@ -1021,7 +1021,7 @@ If <pre class='rounded' style='position: relative; top: 0.65em; display: inline-
 Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 <br /><br />
 
-<span class='bitcoin'>NOTES:</span> plug-conf.php MUST only contain STATIC configs (dynamic configs are NOT allowed), as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat That said, you CAN create a "placeholder" (empty) configuration value / array in plug-conf.php (for clean / reviewable code), and then dynamically populate it AT THE TOP OF your plug-init.php logic (BEFORE your plugin needs to use that config setting).
+<span class='bitcoin'>NOTES:</span> plug-conf.php MUST only contain STATIC VALUES (dynamic values are NOT allowed), as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat That said, you CAN create a "placeholder" (empty) configuration value / array in plug-conf.php (for clean / reviewable code), and then dynamically populate it AT THE TOP OF your plug-init.php logic (BEFORE your plugin needs to use that config setting).
 <br /><br /><br />
 
 
@@ -1077,7 +1077,18 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>11)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
+<span class='blue'>11)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] *ABOVE* YOUR PLUGIN CONFIG SETTINGS.
+<br /><br />
+
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$ct['dev']['plugin_allow_resets'][$this_plug] = array('plugin-setting-key-1', 'plugin-setting-key-2');</code></pre>
+<br /><br />
+
+This will COMPLETELY RESET these plugin settings, using the DEFAULT settings in the currently-installed version of the plugin, during upgrade checks on the cached config.
+<br /><br /><br />
+
+
+
+<span class='blue'>12)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-assets/" (must be lowercase)
@@ -1088,7 +1099,7 @@ THIS IS #REQUIRED TO BYPASS THE USUAL SECURITY# OF OTHER-NAMED DIRECTORIES, SO I
 
 
 
-<span class='blue'>12)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-templates".
+<span class='blue'>13)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-templates".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
@@ -1096,7 +1107,7 @@ Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
 
 
 
-<span class='blue'>13)</span> OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #12, with the name "plug-admin.php".
+<span class='blue'>14)</span> OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #12, with the name "plug-admin.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
@@ -1104,7 +1115,7 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowerca
 
 
 
-<span class='blue'>14)</span> OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #12, with the name "plug-docs.php".
+<span class='blue'>15)</span> OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #12, with the name "plug-docs.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercase)
@@ -1112,11 +1123,11 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercas
 
 
 
-<span class='blue'>15)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
+<span class='blue'>16)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
 <br /><br /><br />
 
 
-<span class='blue'>16)</span> To add / activate your new plugin IN CONFIG.PHP (only required in high security admin mode), add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+<span class='blue'>17)</span> To add / activate your new plugin IN CONFIG.PHP (only required in high security admin mode), add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 <br /><br />
 
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>

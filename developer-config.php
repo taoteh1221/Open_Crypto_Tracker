@@ -14,7 +14,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.30';  // 2023/NOVEMBER/7TH
+$ct['app_version'] = '6.00.31';  // 2023/NOVEMBER/22ND
 
 
 // #PHP# ERROR LOGGING
@@ -139,32 +139,6 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 // Only allow the MOST READABLE characters for use in captcha image 
 // (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
-
-
-// Config category / settings subarray keys to ALLOW cached config RESETS on (during upgrades)
-// (can manipulate later on, based on app version number / user input / etc)
-// THIS ALWAYS OVERRIDES 'config_deny_additions' AND 'config_deny_removals'
-$ct['dev']['config_allow_resets'] = array();
-
-
-// Config category / settings subarray keys to DENY cached config settings ADDITIONS on (during upgrades)
-// (can manipulate later on, based on app version number / user input / etc)
-$ct['dev']['config_deny_additions'] = array(
-                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
-                                           'proxy_list', // Subarray setting (proxy servers)
-                                           );
-
-
-// Config category / settings subarray keys to DENY cached config settings REMOVALS on (during upgrades)
-// (can manipulate later on, based on app version number / user input / etc)
-$ct['dev']['config_deny_removals'] = array(
-                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
-                                           'proxy_list', // Subarray setting (proxy servers)
-                                           'strict_news_feed_servers', // Subarray setting (strict news feed servers)
-                                           'feeds', // Subarray setting (news feeds)
-                                           'tracked_markets', // Subarray setting (asset charts / price alerts)
-                                           'assets', // Main category (portfolio assets)
-                                          );
      
      
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
@@ -184,17 +158,43 @@ $ct['dev']['location_blocked_servers'] = array(
                                                'bybit.com',
                                               );
 
-     
-// List of BUNDLED plugins (that we allow cached config upgrades on)
-$ct['dev']['bundled_plugins'] = array(
-                                      // 'plugin-name-here',
-                                      'debt-interest-tracker',
-                                      'recurring-reminder',
-                                      'price-target-alert',
-                                      'address-balance-tracker',
-                                      'crypto-info-bot',
-                                      'on-chain-stats',
-                                     );
+
+// MAIN CONFIG settings subarray keys to ALLOW cached config RESETS on (during cached config upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
+// THIS ALWAYS OVERRIDES 'config_deny_additions' AND 'config_deny_removals'
+$ct['dev']['config_allow_resets'] = array();
+
+
+// MAIN CONFIG settings subarray keys to DENY cached config settings ADDITIONS on (during cached config upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
+$ct['dev']['config_deny_additions'] = array(
+                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
+                                           'proxy_list', // Subarray setting (proxy servers)
+                                           );
+
+
+// MAIN CONFIG settings subarray keys to DENY cached config settings REMOVALS on (during cached config upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
+$ct['dev']['config_deny_removals'] = array(
+                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
+                                           'proxy_list', // Subarray setting (proxy servers)
+                                           'strict_news_feed_servers', // Subarray setting (strict news feed servers)
+                                           'feeds', // Subarray setting (news feeds)
+                                           'tracked_markets', // Subarray setting (asset charts / price alerts)
+                                           'assets', // Main category (portfolio assets)
+                                          );
+
+
+// PLUGIN setting keys to ALLOW cached config RESETS on (during cached config upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
+$ct['dev']['plugin_allow_resets'] = array(
+                                          
+                                          // Format example (dynamically add at top of plugin's plug-conf.php file)
+                                          'my-plugin-name' => array(
+                                                                    'plugin-setting-key',
+                                                                   ),
+                                                                   
+                                         );
      
      
 // Exchange APIs that have NO TRADE VOLUME DATA
