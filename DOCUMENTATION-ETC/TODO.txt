@@ -210,9 +210,6 @@ $telegram_messaging
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
-Move everything from the var class to the general class.
-
-
 Run tests on markets, to find stale ones
 
 
