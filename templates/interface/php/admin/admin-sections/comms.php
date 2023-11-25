@@ -131,7 +131,7 @@ $admin_render_settings['to_mobile_text']['is_trim'] = true;
 
 $admin_render_settings['to_mobile_text']['text_field_size'] = 40;
 
-$admin_render_settings['to_mobile_text']['is_notes'] = 'Examples:<br />12223334444||virgin_us / 12223334444||skip_network_name<br />(available gateways can be found in the "Text Gateways" section)';
+$admin_render_settings['to_mobile_text']['is_notes'] = 'USE "skip_network_name" IN THE PROVIDER FIELD, IF YOU ARE USING A 3RD PARTY SMS-SENDING SERVICE (TWILIO / TEXTBELT / TEXTLOCAL / ETC)!<br />Examples:<br />12223334444||virgin_us / 12223334444||skip_network_name<br />(available gateways can be found in the "Mobile Text Gateways" section, while 3rd party SMS-sending services can be found in the "External APIs" section)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

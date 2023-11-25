@@ -67,21 +67,19 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 	// Check configured email to mobile text gateways
 	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'texts' ) {
 	
-		foreach ( $ct['conf']['mobile_network_text_gateways'] as $key => $val ) {
+		foreach ( $ct['conf']['mobile_network']['text_gateways'] as $val ) {
+		     
+		$gateway_data = array_map( "trim", explode("||", $val) );
 			
-			if ( $key != 'skip_network_name' ) {
-			
-			$test_result = $ct['gen']->valid_email( 'test@' . trim($val) );
+		$test_result = $ct['gen']->valid_email( 'test@' . $gateway_data[1] );
 		
-				if ( $test_result != 'valid' ) {
+		     if ( $test_result != 'valid' ) {
 					
-				$ct['gen']->log(
-							'other_debug',
-							'email-to-mobile-text gateway '.trim($val).' does not appear valid',
-							'key: ' . $key . '; gateway: ' . trim($val) . '; result: ' . $test_result
-							);
-				
-				}
+			$ct['gen']->log(
+						'other_debug',
+						'email-to-mobile-text gateway ' . $gateway_data[1] . ' does not appear valid',
+						'network: ' . $gateway_data[0] . '; gateway: ' . $gateway_data[1] . '; result: ' . $test_result
+						);
 			
 			}
 		

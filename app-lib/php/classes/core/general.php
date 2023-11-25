@@ -555,15 +555,26 @@ var $ct_array = array();
    
    global $ct;
    
-   $str = explode("||",$str);
+   $str = array_map( "trim", explode("||", $str) );
    
    $phone_number = $ct['var']->strip_non_alpha($str[0]);
    
-   $network_name = trim( strtolower($str[1]) ); // Force lowercase lookups for reliability / consistency
+   $network_name = $str[1];
+   
+   $network_data = $ct['var']->stristr_in_array($ct['conf']['mobile_network']['text_gateways'], $network_name);
    
       // Set text domain
-      if ( isset($phone_number) && trim($phone_number) != '' && isset($ct['conf']['mobile_network_text_gateways'][$network_name]) ) {
-      return trim($phone_number) . '@' . trim($ct['conf']['mobile_network_text_gateways'][$network_name]); // Return formatted texting email address
+      if ( $network_data >= 0 ) {
+           
+      $network_data_array = array_map( "trim", explode("||", $ct['conf']['mobile_network']['text_gateways'][$network_data]) );
+      
+          if ( isset($network_data_array[1]) && $network_data_array[1] != '' && isset($phone_number) && trim($phone_number) != '' ) {
+          return trim($phone_number) . '@' . $network_data_array[1]; // Return formatted texting email address
+          }
+          else {
+          return false;
+          }
+      
       }
       else {
       return false;

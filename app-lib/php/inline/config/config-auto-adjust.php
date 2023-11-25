@@ -40,16 +40,13 @@ $ct['conf']['charts_alerts']['tracked_markets'] = $cleaned_charts_and_price_aler
 
 // Cleaning mobile networks array
 $cleaned_mobile_networks = array();
-foreach ( $ct['conf']['mobile_network_text_gateways'] as $key => $val ) {
-$cleaned_key = $ct['var']->auto_correct_str($key, 'lower');
-$cleaned_val = $ct['var']->auto_correct_str($val, 'lower');
-$cleaned_mobile_networks[$cleaned_key] = $cleaned_val;
+foreach ( $ct['conf']['mobile_network']['text_gateways'] as $key => $val ) {
+$cleaned_mobile_networks[$key] = $ct['var']->auto_correct_str($val, 'lower');
 }
-$ct['conf']['mobile_network_text_gateways'] = $cleaned_mobile_networks;
+$ct['conf']['mobile_network']['text_gateways'] = $cleaned_mobile_networks;
 
 
-// If user blanked out a SINGLE proxy list / strict api servers / strict news feeds server / news feeds value via the admin interface,
-// we need to unset the blank values to have the app logic run smoothly
+// If user blanked out a SINGLE REPEATABLE value via the admin interface, we need to unset the blank values to have the app logic run smoothly
 // (as we require at least one blank value IN THE INTERFACE WHEN SUBMITTING UPDATES, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config)
 if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) == 1 ) {
      
@@ -93,6 +90,20 @@ if ( is_array($ct['conf']['news']['strict_news_feed_servers']) && sizeof($ct['co
 }
 
 
+if ( is_array($ct['conf']['mobile_network']['text_gateways']) && sizeof($ct['conf']['mobile_network']['text_gateways']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $ct['conf']['mobile_network']['text_gateways'] as $key => $val ) {
+     
+          if ( trim($val) == '' ) {
+          unset($ct['conf']['mobile_network']['text_gateways']);
+          }
+     
+     }
+     
+}
+
+
 if ( is_array($ct['conf']['news']['feeds']) && sizeof($ct['conf']['news']['feeds']) == 1 ) {
      
      // We are NOT assured key == 0, if it was updated via the admin interface
@@ -119,6 +130,10 @@ $ct['conf']['proxy']['anti_proxy_servers'][$key] = trim($val);
 
 foreach ( $ct['conf']['news']['strict_news_feed_servers'] as $key => $val ) {
 $ct['conf']['news']['strict_news_feed_servers'][$key] = trim($val);
+}
+
+foreach ( $ct['conf']['mobile_network']['text_gateways'] as $key => $val ) {
+$ct['conf']['mobile_network']['text_gateways'][$key] = trim($val);
 }
 
 foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
@@ -342,6 +357,10 @@ if ( is_array($ct['conf']['assets']) ) {
     }
     
 }
+
+
+// Alphabetically sort mobile text email gateways
+sort($ct['conf']['mobile_network']['text_gateways']);
 
 
 // Better decimal support for these vars...

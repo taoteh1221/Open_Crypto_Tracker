@@ -181,6 +181,7 @@ $ct['dev']['config_deny_removals'] = array(
                                            'strict_news_feed_servers', // Subarray setting (strict news feed servers)
                                            'feeds', // Subarray setting (news feeds)
                                            'tracked_markets', // Subarray setting (asset charts / price alerts)
+                                           'text_gateways', // Subarray setting (mobile text gateways)
                                            'assets', // Main category (portfolio assets)
                                           );
 
