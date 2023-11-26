@@ -53,6 +53,9 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/vars/static-vars.php');
 // System config VERY EARLY (after loading vars)
 require_once($ct['base_dir'] . '/app-lib/php/inline/config/system-config.php');
 
+// Setup cache directories AS EARLY AS POSSIBLE
+require_once($ct['base_dir'] . '/app-lib/php/inline/other/cache-setup.php');
+
 
 // ESSENTIAL VARS / ARRAYS / INITS SET #BEFORE# config-init.php...
 
@@ -79,43 +82,7 @@ $is_fast_runtime = true;
 }
 
 
-// Current runtime user (to determine how we want to set directory / file permissions)
-if ( function_exists('posix_getpwuid') && function_exists('posix_geteuid') ) {
-$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
-}
-elseif ( function_exists('get_current_user') ) {
-$current_runtime_user = get_current_user();
-}
-else {
-$current_runtime_user = null;
-}
-
-
-// Get WEBSERVER runtime user (from cache if currently running from CLI)
-// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
-// WE HAVE FALLBACKS IF THIS IS NULL IN $ct['cache']->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
-$http_runtime_user = ( $ct['runtime_mode'] != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
-
-					
-// HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
-// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
-$possible_http_users = array(
-    						'www-data',
-    						'apache',
-    						'apache2',
-    						'httpd',
-    						'httpd2',
-							);
-
-
 $fetched_feeds = 'fetched_feeds_' . $ct['runtime_mode']; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
-
-
-// Create cache directories AS EARLY AS POSSIBLE
-// (#MUST# RUN AFTER $current_runtime_user / $http_runtime_user / $possible_http_users are set,
-// and BEFORE setting /cache/vars/state-tracking/app_version.dat)
-// Uses HARD-CODED $ct['dev']['chmod_cache_dir'] dev config at top of init.php
-require_once($ct['base_dir'] . '/app-lib/php/inline/other/cache-directories.php');
 
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts

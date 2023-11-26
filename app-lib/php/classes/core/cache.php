@@ -189,7 +189,7 @@ var $ct_array = array();
                            
                            
                            if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
-                           $desc = 'UPGRADED';
+                           $desc = 'NEW';
                            }
                            else {
                            $desc = 'RESET';
@@ -249,7 +249,8 @@ var $ct_array = array();
                   }
                   
               }
-              /// If ACTIVE (NOT DEFAULT) setting doesn't exist yet (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, ONLY IF IT'S ARRAY KEYS ARE ***STRING-BASED***)
+              // If ACTIVE (NOT DEFAULT) setting doesn't exist yet
+              // DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, ***ONLY IF*** IT'S ARRAY KEYS ARE ***STRING-BASED***
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
               else if (
               !$plugins_checked_registered && !is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) && !isset($conf[$cat_key][$conf_key][$setting_key])
@@ -278,7 +279,7 @@ var $ct_array = array();
                    
               $ct['gen']->log(
                         		'notify_error',
-                        		'UPGRADED app config, ' . $desc . 'SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        		'NEW app config, ' . $desc . 'SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         		);
               
               }
@@ -358,7 +359,7 @@ var $ct_array = array();
              
         $ct['gen']->log(
                              		'notify_error',
-                             		'UPGRADED app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] imported (new array size: ' . $new_array_size . ' [+'.$array_size_change.'])'
+                             		'NEW app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] imported (new array size: ' . $new_array_size . ' [+'.$array_size_change.'])'
                              		);
                              		
         }
@@ -844,7 +845,7 @@ var $ct_array = array();
            else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !$plugins_checked_registered ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
-                $desc = 'UPGRADED';
+                $desc = 'NEW';
                 }
                 else {
                 $desc = 'RESET';
@@ -898,15 +899,20 @@ var $ct_array = array();
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
                || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets'])
-               // If we upgraded to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
+               // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
                || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               // If we DOWNGRADED from using integer-based / auto-index array keys (downgrading to an OLDER version of the app etc...and it's not the SECOND upgrade check for active registered plugins)
+               || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
                     
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
-                    $desc = 'UPGRADED';
+                    $desc = 'NEW';
                     }
                     elseif ( !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key]) ) {
-                    $desc = 'CONVERTED';
+                    $desc = 'CONVERTED (UPGRADE)';
+                    }
+                    elseif ( $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key]) ) {
+                    $desc = 'CONVERTED (DOWNGRADE)';
                     }
                     else {
                     $desc = 'RESET';

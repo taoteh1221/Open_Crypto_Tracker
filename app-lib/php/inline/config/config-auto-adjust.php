@@ -46,6 +46,24 @@ $cleaned_mobile_networks[$key] = $ct['var']->auto_correct_str($val, 'lower');
 $ct['conf']['mobile_network']['text_gateways'] = $cleaned_mobile_networks;
 
 
+// Trim whitepace from some values THAT ARE SAFE TO RUN TRIMMING ON...
+
+$ct['conf']['proxy']['proxy_list'] = array_map("trim", $ct['conf']['proxy']['proxy_list']);
+
+$ct['conf']['proxy']['anti_proxy_servers'] = array_map("trim", $ct['conf']['proxy']['anti_proxy_servers']);
+
+$ct['conf']['news']['strict_news_feed_servers'] = array_map("trim", $ct['conf']['news']['strict_news_feed_servers']);
+
+$ct['conf']['charts_alerts']['tracked_markets'] = array_map("trim", $ct['conf']['charts_alerts']['tracked_markets']);
+
+$ct['conf']['mobile_network']['text_gateways'] = array_map("trim", $ct['conf']['mobile_network']['text_gateways']);
+
+
+foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
+$ct['conf']['news']['feeds'][$key] = array_map("trim", $ct['conf']['news']['feeds'][$key]);
+}
+
+
 // If user blanked out a SINGLE REPEATABLE value via the admin interface, we need to unset the blank values to have the app logic run smoothly
 // (as we require at least one blank value IN THE INTERFACE WHEN SUBMITTING UPDATES, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config)
 if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) == 1 ) {
@@ -90,6 +108,20 @@ if ( is_array($ct['conf']['news']['strict_news_feed_servers']) && sizeof($ct['co
 }
 
 
+if ( is_array($ct['conf']['charts_alerts']['tracked_markets']) && sizeof($ct['conf']['charts_alerts']['tracked_markets']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+     
+          if ( trim($val) == '' ) {
+          unset($ct['conf']['charts_alerts']['tracked_markets']);
+          }
+     
+     }
+     
+}
+
+
 if ( is_array($ct['conf']['mobile_network']['text_gateways']) && sizeof($ct['conf']['mobile_network']['text_gateways']) == 1 ) {
      
      // We are NOT assured key == 0, if it was updated via the admin interface
@@ -115,30 +147,6 @@ if ( is_array($ct['conf']['news']['feeds']) && sizeof($ct['conf']['news']['feeds
      
      }
      
-}
-
-
-// Trim whitepace from some values THAT ARE SAFE TO RUN TRIMMING ON...
-
-foreach ( $ct['conf']['proxy']['proxy_list'] as $key => $val ) {
-$ct['conf']['proxy']['proxy_list'][$key] = trim($val);
-}
-
-foreach ( $ct['conf']['proxy']['anti_proxy_servers'] as $key => $val ) {
-$ct['conf']['proxy']['anti_proxy_servers'][$key] = trim($val);
-}
-
-foreach ( $ct['conf']['news']['strict_news_feed_servers'] as $key => $val ) {
-$ct['conf']['news']['strict_news_feed_servers'][$key] = trim($val);
-}
-
-foreach ( $ct['conf']['mobile_network']['text_gateways'] as $key => $val ) {
-$ct['conf']['mobile_network']['text_gateways'][$key] = trim($val);
-}
-
-foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
-$ct['conf']['news']['feeds'][$key]['title'] = trim($val['title']);
-$ct['conf']['news']['feeds'][$key]['url'] = trim($val['url']);
 }
 
 

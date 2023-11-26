@@ -10,7 +10,24 @@
 //////////////////////////////////////////////////////////////////
 
 
-// server should keep session data for AT LEAST 6 hours
+// If this server does NOT have the PHP Session 'save path' PROPERLY setup,
+// create / use OUR OWN SECURED session directory (otherwise the app won't run properly!)
+if ( session_save_path() == false ) {
+
+     if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/php_sessions/') != true ) {
+     echo 'App server does NOT have PHP Session "save path" support setup properly, AND auto-setup also FAILED, exiting app...<br /><br />';
+     exit;
+     }
+     else {
+     session_save_path($ct['base_dir'] . '/cache/secured/php_sessions');
+     // Make sure session cleanup occurs (debian sets to zero / prefers custom cron cleanup logic ON *DEFAULT* SAVE PATH)
+     ini_set('session.gc_probability', 1); 
+     }
+
+}
+
+
+// Server should keep session data for AT LEAST 6 hours
 ini_set('session.gc_maxlifetime', (6 * 3600) );
 
 
