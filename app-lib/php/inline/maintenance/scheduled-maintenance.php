@@ -91,9 +91,9 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/internal_api', 1, 'dat'
 
 // Secondary logs cleanup
 $logs_cache_cleanup = array(
-							$ct['base_dir'] . '/cache/logs/debug/external_data',
-							$ct['base_dir'] . '/cache/logs/error/external_data',
-							);
+					   $ct['base_dir'] . '/cache/logs/debug/external_data',
+					   $ct['base_dir'] . '/cache/logs/error/external_data',
+					  );
 ////								
 $ct['cache']->delete_old_files($logs_cache_cleanup, $ct['conf']['power']['logs_purge'], 'log'); // Purge app LOG cache files older than $ct['conf']['power']['logs_purge'] day(s)
 
