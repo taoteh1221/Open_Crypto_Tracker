@@ -167,6 +167,7 @@ $ct['dev']['config_allow_resets'] = array();
 
 // MAIN CONFIG settings subarray keys to DENY cached config settings ADDITIONS on (during cached config upgrades)
 // (can manipulate later on, based on app version number / user input / etc)
+// INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
 $ct['dev']['config_deny_additions'] = array(
                                            'anti_proxy_servers', // Subarray setting (anti-proxy servers)
                                            'proxy_list', // Subarray setting (proxy servers)
@@ -175,6 +176,7 @@ $ct['dev']['config_deny_additions'] = array(
 
 // MAIN CONFIG settings subarray keys to DENY cached config settings REMOVALS on (during cached config upgrades)
 // (can manipulate later on, based on app version number / user input / etc)
+// INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
 $ct['dev']['config_deny_removals'] = array(
                                            'anti_proxy_servers', // Subarray setting (anti-proxy servers)
                                            'proxy_list', // Subarray setting (proxy servers)
