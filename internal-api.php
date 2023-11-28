@@ -30,10 +30,10 @@ $ip_access = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling
 
 
 
-// Throttle ip addresses reconnecting before $ct['conf']['power']['local_api_rate_limit'] interval passes
-if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ct['conf']['power']['local_api_rate_limit'] / 60) ) == false ) {
+// Throttle ip addresses reconnecting before $ct['conf']['int_api']['int_api_rate_limit'] interval passes
+if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ct['conf']['int_api']['int_api_rate_limit'] / 60) ) == false ) {
 
-$result = array('error' => "Rate limit (maximum of once every " . $ct['conf']['power']['local_api_rate_limit'] . " seconds) reached for ip address: " . $ct['remote_ip']);
+$result = array('error' => "Rate limit (maximum of once every " . $ct['conf']['int_api']['int_api_rate_limit'] . " seconds) reached for ip address: " . $ct['remote_ip']);
 
 $ct['gen']->log(
 							'int_api_error',
@@ -82,7 +82,7 @@ $hash_check = md5($_GET['data_set']);
 
 
 	// If a cache exists for this request that's NOT OUTDATED, use cache to speed things up
-	if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/internal_api/'.$hash_check.'.dat', $ct['conf']['power']['local_api_cache_time']) == false ) {
+	if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/internal_api/'.$hash_check.'.dat', $ct['conf']['int_api']['int_api_cache_time']) == false ) {
 		
 	$json_result = trim( file_get_contents($ct['base_dir'] . '/cache/internal_api/'.$hash_check.'.dat') );
 
@@ -147,7 +147,7 @@ $hash_check = md5($_GET['data_set']);
 		}
 
 
-	$result['minutes_cached'] = $ct['conf']['power']['local_api_cache_time'];
+	$result['minutes_cached'] = $ct['conf']['int_api']['int_api_cache_time'];
 	
 	
 	// JSON-encode results

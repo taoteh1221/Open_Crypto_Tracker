@@ -968,6 +968,7 @@ position: relative;
    box-sizing: border-box;
    max-width: 600px !important;
 white-space: normal !important;
+overflow-wrap: break-word;
 line-height: 1.7em;
 border: 0.1em dotted #F7931A;
     border-radius: 0.5em;

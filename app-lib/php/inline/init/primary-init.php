@@ -120,6 +120,11 @@ require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party-classes-loader.ph
 require_once($ct['base_dir'] . '/app-lib/php/inline/system/system-info.php');
 
 
+// STRICT curl user agent (for strict API servers list in proxy mode, etc, etc)
+// MUST BE SET IMMEDIATELY AFTER system-info.php (AS EARLY AS POSSIBLE FOR ADMIN INPUT VALIDATION)
+$ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct['system_info']['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+
+
 //////////////////////////////////////////////////////////////////
 // END PRIMARY INIT 
 //////////////////////////////////////////////////////////////////

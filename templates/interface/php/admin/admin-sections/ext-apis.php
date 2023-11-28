@@ -41,6 +41,22 @@ else {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['remote_api_timeout']['is_range'] = true;
+
+$admin_render_settings['remote_api_timeout']['range_min'] = 30;
+
+$admin_render_settings['remote_api_timeout']['range_max'] = 80;
+
+$admin_render_settings['remote_api_timeout']['range_step'] = 10;
+
+$admin_render_settings['remote_api_timeout']['range_ui_suffix'] = ' Seconds';
+
+$admin_render_settings['remote_api_timeout']['is_notes'] = 'MAXIMUM wait time for INITIAL response from external APIs (before aborting the connection)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 $admin_render_settings['notifyme_access_code']['is_textarea'] = true;
 

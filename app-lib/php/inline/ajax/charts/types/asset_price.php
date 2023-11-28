@@ -329,10 +329,10 @@ graphset:[
 			values: [<?=$chart_data['spot']?>],
 			lineColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
 			lineWidth: 1,
-			backgroundColor:"<?=$ct['conf']['charts_alerts']['charts_text']?> <?=$ct['conf']['charts_alerts']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
+			backgroundColor:"<?=$ct['conf']['charts_alerts']['charts_text']?> <?=$ct['conf']['charts_alerts']['charts_base_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
 			previewState: {
-      		   backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+      		   backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_base_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
 			}
 		}
 	],

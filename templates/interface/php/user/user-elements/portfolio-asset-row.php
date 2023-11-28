@@ -95,7 +95,7 @@ echo '?';
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info" style="white-space: normal; "><span class="red"><?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$ct['conf']['power']['marketcap_ranks_max']?> marketcaps), or API timeout set too low (current timeout is <?=$ct['conf']['power']['remote_api_timeout']?> seconds). Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>'
+			var cmc_content = '<p class="coin_info" style="white-space: normal; "><span class="red"><?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$ct['conf']['power']['marketcap_ranks_max']?> marketcaps), or remote API timeout set too low (current timeout is <?=$ct['conf']['ext_apis']['remote_api_timeout']?> seconds). Configuration adjustments can be made in the Admin Config External APIs section.</span></p>'
             
             +'<p class="coin_info bitcoin" style="white-space: normal; ">Please check back in awhile, OR <i>switch to an alternate marketcap data provider</i> in the Admin Config GENERAL section, AND in the Portfolio area\'s SETTINGS section.</p>';
 	

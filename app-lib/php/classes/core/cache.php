@@ -220,7 +220,7 @@ var $ct_array = array();
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
               ////
-              // If DEFAULT setting is ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, AND IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING*** 
+              // If DEFAULT setting is ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, AND DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING*** 
               else if (
               !$plugins_checked_registered
               && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key])
@@ -249,23 +249,11 @@ var $ct_array = array();
                   }
                   
               }
-              // If ACTIVE (NOT DEFAULT) setting doesn't exist yet
-              // DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, ***ONLY IF*** IT'S ARRAY KEYS ARE ***STRING-BASED***
+              // If ACTIVE (NOT DEFAULT) setting doesn't exist yet, ***ONLY IF*** DEFAULT $conf_key ARRAY KEYS ARE ***STRING-BASED***
+              // (WE ALREADY CHECK IF BOTH ACTIVE AND DEFAULT $conf_key ARE STRING-BASED IN upgrade_cached_ct_conf() BEFOREHAND)
+              // (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY)
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
-              else if (
-              !$plugins_checked_registered && !is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) && !isset($conf[$cat_key][$conf_key][$setting_key])
-              ||
-              !$plugins_checked_registered
-              && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key])
-              && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
-              && !isset($conf[$cat_key][$conf_key][$setting_key])
-              ) {
-                   
-                   
-                   if ( is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
-                   $desc = '*STRING INDEXED* ';
-                   }
-                   
+              else if ( !$plugins_checked_registered && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !isset($conf[$cat_key][$conf_key][$setting_key]) ) {
               			
               $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
@@ -279,7 +267,7 @@ var $ct_array = array();
                    
               $ct['gen']->log(
                         		'notify_error',
-                        		'NEW app config, ' . $desc . 'SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        		'NEW app config, *STRING INDEXED* SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         		);
               
               }
@@ -1553,7 +1541,7 @@ var $ct_array = array();
      								
      			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['gen']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config POWER USER SECTION' : '' ) . ')',
      								
-     			'remote_api_timeout: '.$ct['conf']['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
+     			'remote_api_timeout: '.$ct['conf']['ext_apis']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
      			);
      
      }
@@ -2723,8 +2711,8 @@ var $ct_array = array();
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct['conf']['power']['remote_api_timeout']);
-    curl_setopt($ch, CURLOPT_TIMEOUT, $ct['conf']['power']['remote_api_timeout']);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct['conf']['ext_apis']['remote_api_timeout']);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $ct['conf']['ext_apis']['remote_api_timeout']);
               
               
     // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
@@ -2739,8 +2727,12 @@ var $ct_array = array();
       elseif ( in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['strict_curl_user_agent']);
       }
-      else {
+      elseif ( isset($ct['curl_user_agent']) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['curl_user_agent']);
+      }
+      // FAILSAFE / DEFAULT TO STRICT USER AGENT (FOR ADMIN INPUT VALIDATION ETC ETC)
+      else {
+      curl_setopt($ch, CURLOPT_USERAGENT, $ct['strict_curl_user_agent']);
       }
      
      
@@ -2862,7 +2854,7 @@ var $ct_array = array();
         								
         			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
         								
-        			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+        			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
         			);
         
       // Log this as the latest response from this data request
@@ -2906,7 +2898,7 @@ var $ct_array = array();
       							
       			$ip_description . ' connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
-      			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+      			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
       			);
       			
       			
@@ -2974,7 +2966,7 @@ var $ct_array = array();
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
              							
-             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			);
             
             // Log this error response from this data request
@@ -3049,7 +3041,7 @@ var $ct_array = array();
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
             							
-            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
              
            
@@ -3109,14 +3101,14 @@ var $ct_array = array();
      
    
       // API timeout limit near / exceeded warning (ONLY IF THIS ISN'T A DATA FAILURE)
-      if ( $data_bytes > 0 && $ct['var']->num_to_str($ct['conf']['power']['remote_api_timeout'] - 1) <= $ct['var']->num_to_str($api_total_time) ) {
+      if ( $data_bytes > 0 && $ct['var']->num_to_str($ct['conf']['ext_apis']['remote_api_timeout'] - 1) <= $ct['var']->num_to_str($api_total_time) ) {
       	
       $ct['gen']->log(
       			'notify_error',
       							
       			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
       							
-      			'remote_api_timeout: ' . $ct['conf']['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
+      			'remote_api_timeout: ' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
       			$hash_check
       			);

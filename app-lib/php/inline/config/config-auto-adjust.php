@@ -30,6 +30,10 @@ $ct['conf']['proxy']['proxy_alert_runtime'] = $ct['var']->auto_correct_str($ct['
 $ct['conf']['proxy']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_checkup_ok'], 'lower');
 
 
+// Trimming whitespace
+$ct['conf']['charts_alerts']['whale_alert_thresholds'] = trim($ct['conf']['charts_alerts']['whale_alert_thresholds']);
+
+
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();
 foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
@@ -369,6 +373,10 @@ if ( is_array($ct['conf']['assets']) ) {
 
 // Alphabetically sort mobile text email gateways
 sort($ct['conf']['mobile_network']['text_gateways']);
+
+
+// Alphabetically sort price charts / alerts
+sort($ct['conf']['charts_alerts']['tracked_markets']);
 
 
 // Better decimal support for these vars...
