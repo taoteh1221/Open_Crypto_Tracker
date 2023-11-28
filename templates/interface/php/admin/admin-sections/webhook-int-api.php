@@ -9,6 +9,108 @@ $api_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] ==
 
 ?>
 
+
+<?php
+if ( $admin_area_sec_level == 'high' ) {
+?>
+	
+	<p class='bitcoin bitcoin_dotted'>
+	
+	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor. You can change the security level in the "Security" section.
+	
+	</p>
+
+<?php
+}
+else {
+
+?>
+
+	<p class='blue blue_dotted'>
+	
+	PRO TIP: An easy / reliable way to get your keys below is opposite-clicking over the key AFTER selecting all it's characters, and choosing "Copy". Then opposite-click inside whatever text editor you are developing in, and choose "Paste". Alternatively, you can also do this with the keyboard combinations: Ctrl + C (copy) / Ctrl + V (paste)
+	
+	</p>
+	
+	
+	<div style='min-height: 1em;'></div>
+	
+
+<?php
+
+
+// Render config settings for this section...
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['int_api_rate_limit']['is_range'] = true;
+
+$admin_render_settings['int_api_rate_limit']['range_ui_meta_data'] = 'zero_is_unlimited';
+
+$admin_render_settings['int_api_rate_limit']['range_min'] = 0;
+
+$admin_render_settings['int_api_rate_limit']['range_max'] = 10;
+
+$admin_render_settings['int_api_rate_limit']['range_step'] = 1;
+
+$admin_render_settings['int_api_rate_limit']['range_ui_prefix'] = 'Every ';
+
+$admin_render_settings['int_api_rate_limit']['range_ui_suffix'] = ' Seconds';
+
+$admin_render_settings['int_api_rate_limit']['is_notes'] = 'MAXIMUM allowed connection rate';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['int_api_markets_limit']['is_range'] = true;
+
+$admin_render_settings['int_api_markets_limit']['range_min'] = 5;
+
+$admin_render_settings['int_api_markets_limit']['range_max'] = 100;
+
+$admin_render_settings['int_api_markets_limit']['range_step'] = 5;
+
+$admin_render_settings['int_api_markets_limit']['range_ui_suffix'] = ' Markets';
+
+$admin_render_settings['int_api_markets_limit']['is_notes'] = 'MAXIMUM number of market data sets allowed per-request';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['int_api_cache_time']['is_range'] = true;
+
+$admin_render_settings['int_api_cache_time']['range_min'] = 1;
+
+$admin_render_settings['int_api_cache_time']['range_max'] = 10;
+
+$admin_render_settings['int_api_cache_time']['range_step'] = 1;
+
+$admin_render_settings['int_api_cache_time']['range_ui_suffix'] = ' Minutes';
+
+$admin_render_settings['int_api_cache_time']['is_notes'] = 'Cache time (time to wait, before getting LIVE data again)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// What OTHER admin pages should be refreshed AFTER this settings update runs
+// (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
+$admin_render_settings['is_refresh_admin'] = 'all';
+
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('int_api', 'webhook_int_api', $admin_render_settings);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+}
+?>
+
 	<p>
 	
 	<b class='blue'>WEBHOOK DOCUMENTATION / KEYS:</b> <br /><br />
@@ -163,10 +265,10 @@ api_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"
 <?php
 if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 ?>
-// Our API has a rate limit of once every <?=$ct['conf']['power']['local_api_rate_limit']?> seconds,
-// so we must wait to reconnect after the htaccess authentication (<?=$ct['conf']['power']['local_api_rate_limit']?> + 1 seconds)
+// Our API has a rate limit of once every <?=$ct['conf']['int_api']['int_api_rate_limit']?> seconds,
+// so we must wait to reconnect after the htaccess authentication (<?=$ct['conf']['int_api']['int_api_rate_limit']?> + 1 seconds)
 // ANY CONSECUTIVE CALLS #DON'T NEED# THE TIMEOUT (since htaccess is already logged in): api_request.send(params);
-setTimeout(function(){ api_request.send(params); }, <?=( ($ct['conf']['power']['local_api_rate_limit'] + 1) * 1000)?>);
+setTimeout(function(){ api_request.send(params); }, <?=( ($ct['conf']['int_api']['int_api_rate_limit'] + 1) * 1000)?>);
 <?php
 }
 else {

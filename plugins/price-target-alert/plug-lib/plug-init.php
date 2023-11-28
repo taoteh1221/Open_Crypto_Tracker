@@ -131,7 +131,10 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
 	
 	
 	// If price target met, send a notification...
-	if ( $mrkt_val <= $target_val && $target_direction == 'decrease' || $mrkt_val >= $target_val && $target_direction == 'increase' ) {
+	if (
+	is_numeric($cached_mrkt_val) && $mrkt_val <= $target_val && $target_direction == 'decrease'
+	|| is_numeric($cached_mrkt_val) && $mrkt_val >= $target_val && $target_direction == 'increase'
+	) {
          
      $divide_by = abs($cached_mrkt_val);
 

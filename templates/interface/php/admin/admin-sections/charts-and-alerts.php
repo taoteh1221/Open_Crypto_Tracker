@@ -20,18 +20,6 @@ if ( $admin_area_sec_level == 'high' ) {
 <?php
 }
 else {
-?>
-	
-	<p> Coming Soon&trade; </p>
-	
-	<p class='bitcoin bitcoin_dotted'>
-	
-	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of NORMAL / MEDIUM / HIGH MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Normal" OR "Medium" mode of the Admin Interface security level (at the top of the "Security" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
-	
-	</p>
-	
-	
-<?php
 
 
 // Render config settings for this section...
@@ -132,6 +120,117 @@ $admin_render_settings['price_alert_minimum_volume']['range_step'] = 1000;
 $admin_render_settings['price_alert_minimum_volume']['range_ui_prefix'] = $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ];
 
 $admin_render_settings['price_alert_minimum_volume']['range_ui_suffix'] = ' (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . ')';
+                                                         
+                                                         
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['price_alert_fixed_reset']['is_range'] = true;
+
+$admin_render_settings['price_alert_fixed_reset']['range_ui_meta_data'] = 'zero_is_disabled';
+
+$admin_render_settings['price_alert_fixed_reset']['range_min'] = 0;
+
+$admin_render_settings['price_alert_fixed_reset']['range_max'] = 30;
+
+$admin_render_settings['price_alert_fixed_reset']['range_step'] = 1;
+
+$admin_render_settings['price_alert_fixed_reset']['range_ui_prefix'] = 'Every ';
+
+$admin_render_settings['price_alert_fixed_reset']['range_ui_suffix'] = ' Days';
+
+$admin_render_settings['price_alert_fixed_reset']['is_notes'] = 'Fixed time interval RESET of CACHED comparison asset prices<br />(also send alerts that reset occurred, with summary of price changes since last reset)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['whale_alert_thresholds']['text_field_size'] = 35;
+
+$admin_render_settings['whale_alert_thresholds']['is_notes'] = 'This format MUST be used: max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_border']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_background']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_line']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_text']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_link']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_base_gradient']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_tooltip_background']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_tooltip_text']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// EMPTY add / remove (repeatable) fields TEMPLATE rendering
+
+$admin_render_settings['tracked_markets']['is_repeatable']['add_button'] = 'Add Chart / Alert (at bottom)';
+
+$admin_render_settings['tracked_markets']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
+$admin_render_settings['tracked_markets']['is_repeatable']['text_field_size'] = 35;
+               
+
+// FILLED IN setting values
+
+
+if ( sizeof($ct['conf']['charts_alerts']['tracked_markets']) > 0 ) {
+
+     foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
+     $admin_render_settings['tracked_markets']['is_subarray'][$key]['is_text'] = true;
+     $admin_render_settings['tracked_markets']['is_subarray'][$key]['text_field_size'] = 35;
+     }
+
+}
+else {
+$admin_render_settings['tracked_markets']['is_subarray'][0]['is_text'] = true;
+$admin_render_settings['tracked_markets']['is_subarray'][0]['text_field_size'] = 35;
+}
+
+
+$admin_render_settings['tracked_markets']['is_notes'] = 'Add price charts / price alerts here (supports MULTIPLE markets per-asset)<br />This format MUST be used:<br />
+ticker||exchange||trade_pair||alert<br />
+ticker-2||exchange2||trade_pair2||chart<br />
+ticker-3||exchange3||trade_pair3||both<br />
+ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker) SETS CHART *FILENAMES*, KEEP THIS THE SAME TO *RESTORE OLD CHART DATA* PROPERLY!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,7 +241,7 @@ $admin_render_settings['price_alert_minimum_volume']['range_ui_suffix'] = ' (' .
 $admin_render_settings['is_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-//$ct['admin']->admin_config_interface('charts_alerts', 'charts_alerts', $admin_render_settings);
+$ct['admin']->admin_config_interface('charts_alerts', 'charts_alerts', $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

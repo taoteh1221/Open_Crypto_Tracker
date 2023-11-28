@@ -4,6 +4,120 @@
  */
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+if ( !$is_fast_runtime && $ct['runtime_mode'] == 'cron' || !$is_fast_runtime && $ct['runtime_mode'] == 'ui' )  {
+
+
+     // Recreate /cache/.htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/.htaccess') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template') );
+     }
+     
+     // Recreate /cache/index.php to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/index.php') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+     }
+     
+     // Recreate /cache/htaccess_security_check.dat to test htaccess activation, if the cache directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/htaccess_security_check.dat') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/htaccess_security_check.dat', file_get_contents($ct['base_dir'] . '/templates/back-end/access_test.template')); 
+     }
+     
+     
+     ///////////////////////////////////////////
+     
+     
+     // Recreate /cache/secured/.htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/.htaccess') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template')); 
+     }
+     
+     // Recreate /cache/secured/index.php to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/index.php') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+     }
+     
+     
+     ///////////////////////////////////////////
+     
+     
+     // Recreate /cache/secured/activation/.htaccess to restrict web snooping of cache contents, if the activation directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/activation/.htaccess') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/activation/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template') ); 
+     }
+     
+     // Recreate /cache/secured/activation/index.php to restrict web snooping of cache contents, if the activation directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/activation/index.php') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/activation/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+     }
+     
+     
+     ///////////////////////////////////////////
+     
+     
+     // Recreate /cache/secured/external_data/.htaccess to restrict web snooping of cache contents, if the apis directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/external_data/.htaccess') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/external_data/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template') ); 
+     }
+     
+     // Recreate /cache/secured/external_data/index.php to restrict web snooping of cache contents, if the apis directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/external_data/index.php') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/external_data/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+     }
+     
+     
+     ///////////////////////////////////////////
+     
+     
+     // Recreate /cache/secured/backups/.htaccess to restrict web snooping of cache contents, if the backups directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/backups/.htaccess') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/backups/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template') ); 
+     }
+     
+     // Recreate /cache/secured/backups/index.php to restrict web snooping of cache contents, if the backups directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/backups/index.php') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/backups/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+     }
+     
+     
+     ///////////////////////////////////////////
+     
+     
+     // Recreate /cache/secured/messages/.htaccess to restrict web snooping of cache contents, if the messages directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/messages/.htaccess') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/messages/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template') );
+     }
+     
+     // Recreate /cache/secured/messages/index.php to restrict web snooping of cache contents, if the messages directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/messages/index.php') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/messages/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+     }
+     
+     
+     ///////////////////////////////////////////
+     
+     
+     // Recreate /plugins/.htaccess to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
+     // DIFFERENT FILENAME TEMPLATE (deny-all-htaccess-plugins.template) FOR SOME ACCESS EXCEPTIONS!!!
+     if ( !file_exists($ct['base_dir'] . '/plugins/.htaccess') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/plugins/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess-plugins.template') ); 
+     }
+     
+     // Recreate /plugins/index.php to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/plugins/index.php') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/plugins/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+     }
+     
+     // Recreate /plugins/htaccess_security_check.dat to test htaccess activation, if the plugins directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/plugins/htaccess_security_check.dat') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/plugins/htaccess_security_check.dat', file_get_contents($ct['base_dir'] . '/templates/back-end/access_test.template')); 
+     }
+
+
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -189,7 +189,7 @@ var $ct_array = array();
                            
                            
                            if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
-                           $desc = 'UPGRADED';
+                           $desc = 'NEW';
                            }
                            else {
                            $desc = 'RESET';
@@ -220,51 +220,37 @@ var $ct_array = array();
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
               ////
-              // If DEFAULT setting is ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, AND IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING*** 
+              // If DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***, AND ACTIVE / DEFAULT ARRAYS DON'T MATCH,
+              // then import and check for duplicates after (for efficiency)
               else if (
               !$plugins_checked_registered
-              && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key])
               && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
+              && md5(serialize($conf[$cat_key][$conf_key])) != md5(serialize($default_ct_conf[$cat_key][$conf_key]))
               ) {
                    
-                  // If ACTIVE (NOT DEFAULT) setting is non-existant / no match, import and check for duplicates after (for efficiency)
-                  if (
-                  !is_array($conf[$cat_key][$conf_key][$setting_key])
-                  || is_array($conf[$cat_key][$conf_key][$setting_key])
-                  && md5(serialize($conf[$cat_key][$conf_key][$setting_key])) != md5(serialize($default_ct_conf[$cat_key][$conf_key][$setting_key]))
-                  ) {
-              			
-                  $conf[$cat_key][$conf_key][] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
+              $conf[$cat_key][$conf_key][] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   
-                  // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS...SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
-                  $conf[$cat_key][$conf_key] = array_intersect_key( $conf[$cat_key][$conf_key] , array_unique( array_map('serialize' , $conf[$cat_key][$conf_key] ) ) );
+              // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS...SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
+              $conf[$cat_key][$conf_key] = array_intersect_key( $conf[$cat_key][$conf_key] , array_unique( array_map('serialize' , $conf[$cat_key][$conf_key] ) ) );
                   
-                  // WE DON'T NEED ORDERING HERE, AS IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***
-                  // (we don't care about ordering here "under the hood", only in the UI [maybe])
+              // WE DON'T NEED ORDERING HERE, AS IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***
+              // (we don't care about ordering here "under the hood", only in the UI [maybe])
                         
-                  $conf_upgraded = true;
+              $conf_upgraded = true;
                   
-                  $no_string_keys = true;
+              $no_string_keys = true;
                    
-                  }
                   
               }
-              /// If ACTIVE (NOT DEFAULT) setting doesn't exist yet (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY, ONLY IF IT'S ARRAY KEYS ARE ***STRING-BASED***)
+              // If ACTIVE (NOT DEFAULT) setting doesn't exist yet, ***ONLY IF*** DEFAULT $conf_key ARRAY KEYS ARE ***STRING-BASED***
+              // (WE ALREADY CHECK IF BOTH ACTIVE AND DEFAULT $conf_key ARE STRING-BASED IN upgrade_cached_ct_conf() BEFOREHAND)
+              // (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY)
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
               else if (
-              !$plugins_checked_registered && !is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) && !isset($conf[$cat_key][$conf_key][$setting_key])
-              ||
               !$plugins_checked_registered
-              && is_array($default_ct_conf[$cat_key][$conf_key][$setting_key])
               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($conf[$cat_key][$conf_key][$setting_key])
               ) {
-                   
-                   
-                   if ( is_array($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
-                   $desc = '*STRING INDEXED* ';
-                   }
-                   
               			
               $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
@@ -278,7 +264,7 @@ var $ct_array = array();
                    
               $ct['gen']->log(
                         		'notify_error',
-                        		'UPGRADED app config, ' . $desc . 'SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        		'NEW app config, *STRING INDEXED* SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         		);
               
               }
@@ -322,7 +308,12 @@ var $ct_array = array();
               
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
-              else if ( !$plugins_checked_registered && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+              // (ONLY ALLOW REMOVAL OF STRING-BASED ARRAY KEYS [WE'RE BLIND FOR NOW ON NUMERIC / AUTO-INDEXING KEYS, UNLESS LOGIC IS BUILT TO SAFELY CHECK THAT])
+              else if (
+              !$plugins_checked_registered
+              && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
+              && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key])
+              ) {
               			
               unset($conf[$cat_key][$conf_key][$setting_key]);
                    
@@ -358,7 +349,7 @@ var $ct_array = array();
              
         $ct['gen']->log(
                              		'notify_error',
-                             		'UPGRADED app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] imported (new array size: ' . $new_array_size . ' [+'.$array_size_change.'])'
+                             		'NEW app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] imported (new array size: ' . $new_array_size . ' [+'.$array_size_change.'])'
                              		);
                              		
         }
@@ -844,7 +835,7 @@ var $ct_array = array();
            else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !$plugins_checked_registered ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
-                $desc = 'UPGRADED';
+                $desc = 'NEW';
                 }
                 else {
                 $desc = 'RESET';
@@ -898,15 +889,20 @@ var $ct_array = array();
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
                || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets'])
-               // If we upgraded to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
+               // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
                || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               // If we DOWNGRADED from using integer-based / auto-index array keys (downgrading to an OLDER version of the app etc...and it's not the SECOND upgrade check for active registered plugins)
+               || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
                     
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
-                    $desc = 'UPGRADED';
+                    $desc = 'NEW';
                     }
                     elseif ( !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key]) ) {
-                    $desc = 'CONVERTED';
+                    $desc = 'CONVERTED (UPGRADE)';
+                    }
+                    elseif ( $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key]) ) {
+                    $desc = 'CONVERTED (DOWNGRADE)';
                     }
                     else {
                     $desc = 'RESET';
@@ -1547,7 +1543,7 @@ var $ct_array = array();
      								
      			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['gen']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config POWER USER SECTION' : '' ) . ')',
      								
-     			'remote_api_timeout: '.$ct['conf']['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
+     			'remote_api_timeout: '.$ct['conf']['ext_apis']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
      			);
      
      }
@@ -2717,8 +2713,8 @@ var $ct_array = array();
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct['conf']['power']['remote_api_timeout']);
-    curl_setopt($ch, CURLOPT_TIMEOUT, $ct['conf']['power']['remote_api_timeout']);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct['conf']['ext_apis']['remote_api_timeout']);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $ct['conf']['ext_apis']['remote_api_timeout']);
               
               
     // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
@@ -2733,8 +2729,12 @@ var $ct_array = array();
       elseif ( in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['strict_curl_user_agent']);
       }
-      else {
+      elseif ( isset($ct['curl_user_agent']) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['curl_user_agent']);
+      }
+      // FAILSAFE / DEFAULT TO STRICT USER AGENT (FOR ADMIN INPUT VALIDATION ETC ETC)
+      else {
+      curl_setopt($ch, CURLOPT_USERAGENT, $ct['strict_curl_user_agent']);
       }
      
      
@@ -2856,7 +2856,7 @@ var $ct_array = array();
         								
         			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
         								
-        			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+        			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
         			);
         
       // Log this as the latest response from this data request
@@ -2900,7 +2900,7 @@ var $ct_array = array();
       							
       			$ip_description . ' connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
-      			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+      			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
       			);
       			
       			
@@ -2968,7 +2968,7 @@ var $ct_array = array();
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
              							
-             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			);
             
             // Log this error response from this data request
@@ -3043,7 +3043,7 @@ var $ct_array = array();
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
             							
-            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
              
            
@@ -3103,14 +3103,14 @@ var $ct_array = array();
      
    
       // API timeout limit near / exceeded warning (ONLY IF THIS ISN'T A DATA FAILURE)
-      if ( $data_bytes > 0 && $ct['var']->num_to_str($ct['conf']['power']['remote_api_timeout'] - 1) <= $ct['var']->num_to_str($api_total_time) ) {
+      if ( $data_bytes > 0 && $ct['var']->num_to_str($ct['conf']['ext_apis']['remote_api_timeout'] - 1) <= $ct['var']->num_to_str($api_total_time) ) {
       	
       $ct['gen']->log(
       			'notify_error',
       							
       			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
       							
-      			'remote_api_timeout: ' . $ct['conf']['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
+      			'remote_api_timeout: ' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
       			$hash_check
       			);

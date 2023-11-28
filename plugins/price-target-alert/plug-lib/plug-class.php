@@ -29,7 +29,12 @@ var $array1 = array();
 		
 		
      	$loop_error = false;
-     	foreach ( $_POST['price-target-alert']['price_targets'] as $price_target_data ) {
+     	foreach ( $_POST['price-target-alert']['price_targets'] as $key => $price_target_data ) {
+          
+          // Auto-correct
+          $_POST['price-target-alert']['price_targets'][$key] = $ct['var']->auto_correct_str($price_target_data, 'lower');
+          
+          $price_target_data = $ct['var']->auto_correct_str($price_target_data, 'lower');
      	
      	$parse_attributes = explode('=', $price_target_data);
      	// Cleanup
@@ -43,9 +48,9 @@ var $array1 = array();
      
      	$mrkt_asset = strtoupper($mrkt_conf[0]);
                
-     	$mrkt_pair = strtolower($mrkt_conf[1]);
+     	$mrkt_pair = $mrkt_conf[1];
                
-     	$mrkt_exchange = strtolower($mrkt_conf[2]);
+     	$mrkt_exchange = $mrkt_conf[2];
      
      	$mrkt_id = $ct['conf']['assets'][$mrkt_asset]['pair'][$mrkt_pair][$mrkt_exchange];
                
@@ -53,7 +58,7 @@ var $array1 = array();
      	
      	
      	     if ( $loop_error ) {
-     	     $update_config_error_seperator = '; ';
+     	     $update_config_error_seperator = '<br /> ';
      	     }
      	
      	     

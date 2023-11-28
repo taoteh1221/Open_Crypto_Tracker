@@ -294,6 +294,109 @@ var $ct_array = array();
            
         
         }
+        elseif ( $_POST['conf_id'] === 'mobile_network' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        
+        
+		 foreach ( $_POST['mobile_network']['text_gateways'] as $val ) {
+		     
+		 $gateway_data = array_map( "trim", explode("||", $val) );
+			
+		 $test_result = $ct['gen']->valid_email( 'test@' . $gateway_data[1] );
+		
+		      if ( $test_result != 'valid' ) {
+                $update_config_error .= '<br />Mobile text gateway seems INVALID: "'.$gateway_data[1].'" ('.$test_result.')';
+			 }
+		
+		 }
+           
+        
+        }
+        elseif ( $_POST['conf_id'] === 'charts_alerts' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        
+        $allowed_modes = array(
+                               'chart',
+                               'alert',
+                               'both',
+                               'none',
+                              );
+        
+        
+           if ( isset($_POST['charts_alerts']['whale_alert_thresholds']) && trim($_POST['charts_alerts']['whale_alert_thresholds']) != '' ) {
+                
+           $is_whale_alert = true;
+        
+           $whale_alert_check = array_map( "trim", explode("||", $_POST['charts_alerts']['whale_alert_thresholds']) );
+               
+               if ( sizeof($whale_alert_check) == 4 ) {
+               
+                    foreach ( $whale_alert_check as $val ) {
+                         
+                         if ( !is_numeric($val) ) {
+                         $is_whale_alert = false;
+                         }
+                         
+                    }
+                    
+               }
+               else {
+               $is_whale_alert = false;
+               }
+             
+           }
+           
+           
+           foreach ( $_POST['charts_alerts']['tracked_markets'] as $key => $val ) {
+           
+           // Auto-correct
+           $_POST['charts_alerts']['tracked_markets'][$key] = $ct['var']->auto_correct_str($val, 'lower');
+           
+           $val = $ct['var']->auto_correct_str($val, 'lower');
+            
+           $val_config = array_map( "trim", explode("||", $val) ); // Convert $val into an array
+			
+		 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+		 $chart_asset = ( stristr($val_config[0], "-") == false ? $val_config[0] : substr( $val_config[0], 0, mb_strpos($val_config[0], "-", 0, 'utf-8') ) );
+		 $chart_asset = strtoupper($chart_asset);
+            
+           $exchange = $val_config[1];
+
+           $pair = $val_config[2];
+
+           $mode = $val_config[3];
+     
+     	 $mrkt_id = $ct['conf']['assets'][$chart_asset]['pair'][$pair][$exchange];
+               
+     	 $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($chart_asset, $exchange, $mrkt_id)['last_trade'] );
+     	
+     	
+     	     if ( $loop_error ) {
+     	     $update_config_error_seperator = '<br /> ';
+     	     }
+     	
+     	     
+     	     if ( sizeof($_POST['charts_alerts']['tracked_markets']) == 1 && trim($val) == '' ) {
+     	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
+     	     }
+     	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
+     	     $loop_error = true;
+     	     $update_config_error .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'")';
+     	     }
+     	     elseif ( !in_array($mode, $allowed_modes) ) {
+     	     $loop_error = true;
+     	     $update_config_error .= $update_config_error_seperator . 'Unknown mode (in submission: "'.$val.'")';
+     	     }
+     	
+     	 
+           }
+        
+             
+           // Make whale alert params are set properly
+           if ( !$is_whale_alert ) {
+           $update_config_error .= $update_config_error_seperator . 'Whale Alert Thresholds formatting is NOT valid';
+           }
+        
+        
+        }
         
         
    return ( isset($update_config_error) && trim($update_config_error) != '' ? false : true );
@@ -380,6 +483,10 @@ var $ct_array = array();
          // Select dropdowns
          elseif ( isset($render_params[$key]['is_select']) ) {
          $this->select_form_fields($field_array_base, $key, $val, $render_params);
+         }
+         // Colors
+         elseif ( isset($render_params[$key]['is_color']) ) {
+         $this->color_form_fields($field_array_base, $key, $val, $render_params);
          }
          // Textareas
          elseif ( isset($render_params[$key]['is_textarea']) ) {
@@ -497,6 +604,11 @@ var $ct_array = array();
               // Regular text fields in subarray
               if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_text']) ) {
               $this->text_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+              }
+              
+              // Color fields in subarray
+              if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_color']) ) {
+              $this->color_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
               }
               
               // Textarea fields in subarray
@@ -669,6 +781,110 @@ var $ct_array = array();
    <?php
    
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function color_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
+        
+   global $ct, $repeatable_fields_tracking;
+   
+   
+        if ( !isset($repeatable_fields_tracking[$passed_key]['is_color']) ) {
+        $repeatable_fields_tracking[$passed_key]['is_color'] = 0;
+        }
+        
+        
+        // If a regular text area
+        if ( isset($render_params[$passed_key]['is_color']) ) {
+        ?>
+         
+         <p>
+         
+         <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> 
+         
+         <input type='color' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' />
+         
+              <?php
+              if ( isset($render_params[$passed_key]['is_notes']) ) {
+              ?>
+              <i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+              <?php
+              }
+              ?>
+              
+         </p>
+         
+        <?php
+        }
+         // If IS a subarray color field
+         elseif ( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_color']) ) {
+                      
+              // If string keyed array, show description from key value
+              if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
+              $desc = '<b class="blue">' . $ct['gen']->key_to_name($subarray_key) . ':</b> &nbsp; ';
+              }
+              
+         ?>
+             
+             <p>
+         
+                  <?=$desc?> <input type='color' data-track-index='<?=$subarray_key?>' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=( isset($passed_val[$subarray_key]) ? $passed_val[$subarray_key] : '' )?>' />
+                  
+                  <?php
+                  if ( isset($render_params[$passed_key]['is_repeatable']['is_color']) ) {
+                  $repeatable_fields_tracking[$passed_key]['is_color'] = $repeatable_fields_tracking[$passed_key]['is_color'] + 1;
+                  echo '123PLACEHOLDER_RIGHT123';
+                  }
+                  ?>
+              
+             </p>
+             
+         <?php
+         }
+         // If HAS a subarray color field
+         elseif ( is_array($render_params[$passed_key]['has_subarray'][$subarray_key]['is_color']) ) {
+              
+                      
+             // If string keyed array, show description from key value
+             // (do scanning BEFORE any loops, for speed)
+             if ( $ct['gen']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_color']) ) {
+             $is_string_keys = true;
+             }
+              
+              
+             foreach( $render_params[$passed_key]['has_subarray'][$subarray_key]['is_color'] as $sub_key => $unused ) {
+                      
+                  // If string keyed array, show description from key value
+                  if ( $is_string_keys ) {
+                  $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub_key) . ':</b> &nbsp; ';
+                  }
+                  
+             ?>
+             
+             <p>
+         
+                  <?=$desc?> <input type='color' data-track-index='<?=$subarray_key?>' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?>' />
+                  
+                  <?php
+                  if ( isset($render_params[$passed_key]['is_repeatable']['is_color']) ) {
+                  $repeatable_fields_tracking[$passed_key]['is_color'] = $repeatable_fields_tracking[$passed_key]['is_color'] + 1;
+                  echo '123PLACEHOLDER_RIGHT123';
+                  }
+                  ?>
+
+             </p>
+             
+             <?php
+             }
+        
+        
+         }
+        
+        
    }
 
 
@@ -1560,38 +1776,79 @@ var $ct_array = array();
                   $is_string_keys = false; // RESET
                       
                       
-                  // If string keyed array, show description from key value
-                  // (do scanning BEFORE loop, for speed)
-                  if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
-                  $is_string_keys = true;
-                  }
-                      
-        
-                  foreach( $render_params[$passed_key]['is_repeatable']['is_textarea'] as $sub2_key => $unused ) {
-
-                      
-                      // If string keyed array, show description from key value
-                      if ( $is_string_keys ) {
-                      $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub2_key) . ':</b> &nbsp; ';
-                      }
-                  
-                  
-                  // Tracking for rendering remove button
-                  $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
-                 
-                  ?>
-                  
-                       <p>
-                  
-                  
-                       <?=$desc?> <textarea data-track-index='{?}' data-autoresize name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub2_key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$passed_key]['is_repeatable']['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>></textarea>
-                      
-                      123PLACEHOLDER_RIGHT123
+                       // If string keyed array, show description from key value
+                       // (do scanning BEFORE loop, for speed)
+                       if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
+                       $is_string_keys = true;
+                       }
+                           
+             
+                       foreach( $render_params[$passed_key]['is_repeatable']['is_textarea'] as $sub2_key => $unused ) {
+     
+                           
+                           // If string keyed array, show description from key value
+                           if ( $is_string_keys ) {
+                           $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub2_key) . ':</b> &nbsp; ';
+                           }
                        
-                       </p>
-                  
-                  <?php
+                       
+                       // Tracking for rendering remove button
+                       $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                      
+                       ?>
+                       
+                            <p>
+                       
+                       
+                            <?=$desc?> <textarea data-track-index='{?}' data-autoresize name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub2_key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$passed_key]['is_repeatable']['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>></textarea>
+                           
+                           123PLACEHOLDER_RIGHT123
+                            
+                            </p>
+                       
+                       <?php
+                       }
+             
                   }
+                  
+                  
+                  if ( $sub_key === 'is_color' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  
+                  $is_string_keys = false; // RESET
+                      
+                      
+                       // If string keyed array, show description from key value
+                       // (do scanning BEFORE loop, for speed)
+                       if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_color']) ) {
+                       $is_string_keys = true;
+                       }
+                           
+             
+                       foreach( $render_params[$passed_key]['is_repeatable']['is_color'] as $sub2_key => $unused ) {
+     
+                           
+                           // If string keyed array, show description from key value
+                           if ( $is_string_keys ) {
+                           $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub2_key) . ':</b> &nbsp; ';
+                           }
+                       
+                       
+                       // Tracking for rendering remove button
+                       $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                      
+                       ?>
+                       
+                            <p>
+                       
+                       
+                            <?=$desc?> <input type='color' data-track-index='{?}' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub2_key?>]' value='' />
+                           
+                           123PLACEHOLDER_RIGHT123
+                            
+                            </p>
+                       
+                       <?php
+                       }
              
                   }
                   

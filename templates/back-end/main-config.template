@@ -158,7 +158,7 @@ $ct['conf']['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and oth
 // Attempts to email the text if a SUPPORTED MOBILE TEXTING NETWORK name is set, AND no textbelt / textlocal config is setup.
 // SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS #BETTER# THAN USING PHP'S BUILT-IN EMAILING FUNCTION
 // SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
-// IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $ct['conf']['mobile_network_text_gateways'] variables array)
+// IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $ct['conf']['mobile_network']['text_gateways'] variables array)
 // CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
 // skip_network_name SHOULD BE USED IF USING a texting (SMS) SERVICE (IN EXTERNAL APIS SECTION)
 // 'phone_number||network_name_key' (examples: '12223334444||virgin_us' / '12223334444||skip_network_name')
@@ -178,6 +178,14 @@ $ct['conf']['comms']['logs_email'] = 3; // (default = 3)
 ////////////////////////////////////////
 // !START! EXTERNAL API SETTINGS CONFIGURATION
 ////////////////////////////////////////
+							
+							
+// SECONDS to wait for response from REMOTE API endpoints (exchange data, etc). 
+// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
+// RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
+// (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
+// YOU WILL GET ALERTS IN THE ERROR LOGS IF YOU NEED TO ADJUST THIS
+$ct['conf']['ext_apis']['remote_api_timeout'] = 30; // (default = 30)
 
 
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 
@@ -282,6 +290,27 @@ $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 
 ////////////////////////////////////////
 // !END! EXTERNAL API SETTINGS CONFIGURATION
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+// !START! INTERNAL API SETTINGS CONFIGURATION
+////////////////////////////////////////
+
+
+// Local / internal REST API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
+// Can be 0 to disable rate limiting (unlimited)
+$ct['conf']['int_api']['int_api_rate_limit'] = 1; // (default = 1)
+////
+// Local / internal REST API market limit (maximum number of MARKETS requested per call)
+$ct['conf']['int_api']['int_api_markets_limit'] = 35; // (default = 35)
+////
+// Local / internal REST API cache time (MINUTES that previous requests are cached for)
+$ct['conf']['int_api']['int_api_cache_time'] = 1; // (default = 1)
+
+
+////////////////////////////////////////
+// !END! INTERNAL API SETTINGS CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -449,9 +478,9 @@ $ct['conf']['charts_alerts']['price_alert_block_volume_error'] = 'off'; // 'on' 
 $ct['conf']['charts_alerts']['price_alert_minimum_volume'] = 0; // (default = 0)
 
 																		
-// Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert), compared with the current latest spot prices
+// Fixed time interval RESET of CACHED comparison asset prices every X DAYS (since last price reset / alert), compared with the current latest spot prices
 // Helpful if you only want price alerts for a certain time window. Resets also send alerts that reset occurred, with summary of price changes since last reset
-// Can be 0 to disable fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
+// Can be 0 to DISABLE fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
 $ct['conf']['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
 
 
@@ -459,7 +488,7 @@ $ct['conf']['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
 // Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg'
 // ("min_price_percent_change_24hr_avg" should be the same value or higher as $ct['conf']['charts_alerts']['price_alert_threshold'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$ct['conf']['charts_alerts']['price_alert_whale_threshold'] = '1.25||9.75||12.75||25000'; // (default: '1.25||9.75||12.75||25000')	
+$ct['conf']['charts_alerts']['whale_alert_thresholds'] = '1.25||9.75||12.75||25000'; // (default: '1.25||9.75||12.75||25000')	
 
 
 // PRICE CHARTS colors (https://www.w3schools.com/colors/colors_picker.asp)
@@ -480,7 +509,7 @@ $ct['conf']['charts_alerts']['charts_text'] = '#e8e8e8';   // (default: '#e8e8e8
 $ct['conf']['charts_alerts']['charts_link'] = '#939393';   // (default: '#939393')
 ////
 // Charts price (base) gradient color
-$ct['conf']['charts_alerts']['charts_price_gradient'] = '#000000';  // (default: '#000000')
+$ct['conf']['charts_alerts']['charts_base_gradient'] = '#000000';  // (default: '#000000')
 ////
 // Charts tooltip background color
 $ct['conf']['charts_alerts']['charts_tooltip_background'] = '#bbbbbb'; // (default: '#bbbbbb')
@@ -496,18 +525,11 @@ $ct['conf']['charts_alerts']['charts_tooltip_text'] = '#222222'; // (default: '#
 $ct['conf']['charts_alerts']['tracked_markets'] = array(
 
 
-					// SYMBOL
-     				// 'symbol||exchange||trade_pair||alert',
-     				// 'symbol-2||exchange2||trade_pair2||chart',
-     				// 'symbol-3||exchange3||trade_pair3||both',
-     				// 'symbol-4||exchange4||trade_pair4||none',
-     				
-     				
-     				// OTHERSYMBOL
-     				// 'othersymbol||exchange||trade_pair||none',
-     				// 'othersymbol-2||exchange2||trade_pair2||both',
-     				// 'othersymbol-3||exchange3||trade_pair3||chart',
-     				// 'othersymbol-4||exchange4||trade_pair4||alert',
+					// TICKER
+     				// 'ticker||exchange||trade_pair||alert',
+     				// 'ticker-2||exchange2||trade_pair2||chart',
+     				// 'ticker-3||exchange3||trade_pair3||both',
+     				// 'ticker-4||exchange4||trade_pair4||none',
 					
 					
 					// BTC
@@ -517,7 +539,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'btc-4||kraken||usd||chart',
 					'btc-5||gemini||usd||none',
 					'btc-6||bitfinex||usd||none',
-					'btc-7||binance_us||usd||none',
 					'btc-8||kraken||eur||chart',
 					'btc-9||coinbase||eur||none',
 					'btc-10||coinbase||gbp||none',
@@ -559,7 +580,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// USDC
 					'usdc||kraken||usd||both',
-					'usdc-2||binance_us||usd||none',
 					
 					
 					// DAI
@@ -794,14 +814,6 @@ $ct['conf']['power']['override_curl_user_agent'] = '';
 // IF USING ADD-WIN10-SCHEDULER-JOB.bat, #THIS SETTING NEEDS TO BE DISABLED# OR THE SCHEDULED TASK WILL #NOT# BE ALLOWED TO RUN!
 // IF YOU CHANGE THIS SETTING, YOU *MUST* RESTART / RELOAD THE APP *AFTERWARDS*!
 $ct['conf']['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables this feature)
-							
-							
-// SECONDS to wait for response from REMOTE API endpoints (exchange data, etc). 
-// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
-// RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
-// (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
-// YOU WILL GET ALERTS IN THE ERROR LOGS IF YOU NEED TO ADJUST THIS
-$ct['conf']['power']['remote_api_timeout'] = 30; // (default = 30)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
@@ -913,23 +925,12 @@ $ct['conf']['power']['portfolio_cache_warning'] = '2000||72'; // 'portfolio_cach
 // Because the header data MAY be approaching the server limit (WHICH CAN CRASH THIS APP!!)
 // STANDARD SERVER HEADER SIZE LIMITS (IN BYTES)...Apache: 8000, NGINX: 4000 - 8000, IIS: 8000 - 16000, Tomcat: 8000 - 48000
 $ct['conf']['power']['cookies_size_warning'] = '7000||6'; // 'cookies_size_bytes||hours_between_alerts' (default = '7000||6')
-
-
-// Local / internal REST API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
-// Can be 0 to disable rate limiting (unlimited)
-$ct['conf']['power']['local_api_rate_limit'] = 1; // (default = 1)
-////
-// Local / internal REST API market limit (maximum number of MARKETS requested per call)
-$ct['conf']['power']['local_api_markets_limit'] = 35; // (default = 35)
-////
-// Local / internal REST API cache time (MINUTES that previous requests are cached for)
-$ct['conf']['power']['local_api_cache_time'] = 1; // (default = 1)
      
      
 // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)
 $ct['conf']['power']['strict_consecutive_connect_servers'] = array(
-                                      					    'alphavantage.co',
-                                      					   );
+                                      					       'alphavantage.co',
+                                      					      );
 							
 
 // Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pair is an altcoin)
@@ -1614,164 +1615,157 @@ https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 // WHEN ADDING YOUR OWN GATEWAYS, ONLY INCLUDE THE DOMAIN (THIS APP WILL AUTOMATICALLY FORMAT TO your_phone_number@your_gateway)
 
 
-$ct['conf']['mobile_network_text_gateways'] = array(
+$ct['conf']['mobile_network']['text_gateways'] = array(
                         
                         
                         // [EXAMPLE]
-                        // 'network_name_key' => 'network_gateway1.com',
-                        // 'unique_network_name_key' => 'network_gateway2.com',
-                        
-                        
-                        // [NO NETWORK] (when using textbelt / textlocal API instead)
-                        'skip_network_name' => '',
+                        // 'network_name_key||network_gateway1.com',
+                        // 'unique_network_name_key||network_gateway2.com',
                         
                         
                         // [INTERNATIONAL]
-                        'esendex' => 'echoemail.net',
-                        'global_star' => 'msg.globalstarusa.com',
+                        'esendex||echoemail.net',
+                        'global_star||msg.globalstarusa.com',
                         
                         
                         // [MISCELLANEOUS COUNTRIES]
-                        'movistar_ar' => 'sms.movistar.net.ar', // Argentina
-                        'setar' => 'mas.aw',                    // Aruba
-                        'mobiltel' => 'sms.mtel.net',           // Bulgaria
-                        'china_mobile' => '139.com',            // China
-                        'ice' => 'sms.ice.cr',                  // Costa Rica
-                        'tmobile_hr' => 'sms.t-mobile.hr',      // Croatia
-                        'digicel' => 'digitextdm.com',          // Dominica
-                        'tellus_talk' => 'esms.nu',             // Europe
-                        'guyana_tt' => 'sms.cellinkgy.com',     // Guyana
-                        'csl' => 'mgw.mmsc1.hkcsl.com',         // Hong Kong
-                        'vodafone_it' => 'sms.vodafone.it',     // Italy
-                        'tele2_lv' => 'sms.tele2.lv',           // Latvia
-                        'emtel' => 'emtelworld.net',            // Mauritius
-                        'telcel' => 'itelcel.com',              // Mexico
-                        'tmobile_nl' => 'gin.nl',               // Netherlands
-                        'mas_movil' => 'cwmovil.com',           // Panama
-                        'claro_pr' => 'vtexto.com',             // Puerto Rico
-                        'beeline' => 'sms.beemail.ru',          // Russia
-                        'm1' => 'm1.com.sg',                    // Singapore
-                        'mobitel' => 'sms.mobitel.lk',          // Sri Lanka
-                        'tele2_se' => 'sms.tele2.se',           // Sweden
-                        'sunrise_ch' => 'gsm.sunrise.ch',       // Switzerland
-                        'movistar_uy' => 'sms.movistar.com.uy', // Uruguay
+                        'movistar_ar||sms.movistar.net.ar', // Argentina
+                        'setar||mas.aw',                    // Aruba
+                        'mobiltel||sms.mtel.net',           // Bulgaria
+                        'china_mobile||139.com',            // China
+                        'ice||sms.ice.cr',                  // Costa Rica
+                        'tmobile_hr||sms.t-mobile.hr',      // Croatia
+                        'digicel||digitextdm.com',          // Dominica
+                        'tellus_talk||esms.nu',             // Europe
+                        'guyana_tt||sms.cellinkgy.com',     // Guyana
+                        'csl||mgw.mmsc1.hkcsl.com',         // Hong Kong
+                        'vodafone_it||sms.vodafone.it',     // Italy
+                        'tele2_lv||sms.tele2.lv',           // Latvia
+                        'emtel||emtelworld.net',            // Mauritius
+                        'telcel||itelcel.com',              // Mexico
+                        'tmobile_nl||gin.nl',               // Netherlands
+                        'mas_movil||cwmovil.com',           // Panama
+                        'claro_pr||vtexto.com',             // Puerto Rico
+                        'beeline||sms.beemail.ru',          // Russia
+                        'm1||m1.com.sg',                    // Singapore
+                        'mobitel||sms.mobitel.lk',          // Sri Lanka
+                        'tele2_se||sms.tele2.se',           // Sweden
+                        'sunrise_ch||gsm.sunrise.ch',       // Switzerland
+                        'movistar_uy||sms.movistar.com.uy', // Uruguay
                         
                         
                         // [AUSTRALIA]
-                        'sms_broadcast' => 'send.smsbroadcast.com.au',
-                        'sms_central' => 'sms.smscentral.com.au',
-                        'sms_pup' => 'smspup.com',
-                        'tmobile_au' => 'optusmobile.com.au',
-                        'telstra' => 'sms.tim.telstra.com',
-                        'ut_box' => 'sms.utbox.net',
+                        'sms_broadcast||send.smsbroadcast.com.au',
+                        'sms_central||sms.smscentral.com.au',
+                        'sms_pup||smspup.com',
+                        'tmobile_au||optusmobile.com.au',
+                        'telstra||sms.tim.telstra.com',
+                        'ut_box||sms.utbox.net',
                         
                         
                         // [AUSTRIA]
-                        'firmen_sms' => 'subdomain.firmensms.at',
-                        'tmobile_at' => 'sms.t-mobile.at',
+                        'firmen_sms||subdomain.firmensms.at',
+                        'tmobile_at||sms.t-mobile.at',
                         
                         
                         // [CANADA]
-                        'bell' => 'txt.bell.ca',
-                        'bell_mts' => 'text.mts.net',
-                        'koodo' => 'msg.telus.com',
-                        'pc_telecom' => 'mobiletxt.ca',
-                        'rogers_ca' => 'pcs.rogers.com',
-                        'sasktel' => 'pcs.sasktelmobility.com',
-                        'telus' => 'mms.telusmobility.com',
-                        'virgin_ca' => 'vmobile.ca',
-                        'wind' => 'txt.windmobile.ca',
+                        'bell||txt.bell.ca',
+                        'koodo||msg.telus.com',
+                        'pc_telecom||mobiletxt.ca',
+                        'rogers_ca||pcs.rogers.com',
+                        'sasktel||pcs.sasktelmobility.com',
+                        'telus||mms.telusmobility.com',
+                        'virgin_ca||vmobile.ca',
+                        'wind||txt.windmobile.ca',
                         
                         
                         // [COLUMBIA]
-                        'claro_co' => 'iclaro.com.co',
-                        'movistar_co' => 'movistar.com.co',
+                        'claro_co||iclaro.com.co',
+                        'movistar_co||movistar.com.co',
                         
                         
                         // [FRANCE]
-                        'bouygues' => 'mms.bouyguestelecom.fr',
-                        'orange_fr' => 'orange.fr',
-                        'sfr' => 'sfr.fr',
+                        'bouygues||mms.bouyguestelecom.fr',
+                        'orange_fr||orange.fr',
+                        'sfr||sfr.fr',
                         
                         
                         // [GERMANY]
-                        'o2' => 'o2online.de',
-                        'tmobile_de' => 't-mobile-sms.de',
-                        'vodafone_de' => 'vodafone-sms.de',
+                        'o2||o2online.de',
+                        'tmobile_de||t-mobile-sms.de',
+                        'vodafone_de||vodafone-sms.de',
                         
                         
                         // [ICELAND]
-                        'vodafone_is' => 'sms.is',
-                        'box_is' => 'box.is',
+                        'vodafone_is||sms.is',
+                        'box_is||box.is',
                         
                         
                         // [INDIA]
-                        'aircel' => 'aircel.co.in',
-                        'airtel' => 'airtelmail.com',
-                        'airtel_kerala' => 'airtelkerala.com',
+                        'aircel||aircel.co.in',
+                        'airtel||airtelmail.com',
                         
                         
                         // [NEW ZEALAND]
-                        'telecom' => 'etxt.co.nz',
-                        'vodafone_nz' => 'mtxt.co.nz',
+                        'telecom||etxt.co.nz',
+                        'vodafone_nz||mtxt.co.nz',
                         
                         
                         // [NORWAY]
-                        'sendega' => 'sendega.com',
-                        'teletopia' => 'sms.teletopiasms.no',
+                        'sendega||sendega.com',
+                        'teletopia||sms.teletopiasms.no',
                         
                         
                         // [POLAND]
-                        'orange_pl' => 'orange.pl',
-                        'plus' => 'text.plusgsm.pl',
-                        'polkomtel' => 'text.plusgsm.pl',
+                        'orange_pl||orange.pl',
+                        'plus||text.plusgsm.pl',
+                        'polkomtel||text.plusgsm.pl',
                         
                         
                         // [SOUTH AFRICA]
-                        'mtn' => 'sms.co.za',
-                        'vodacom' => 'voda.co.za',
+                        'mtn||sms.co.za',
+                        'vodacom||voda.co.za',
                         
                         
                         // [SPAIN]
-                        'esendex' => 'esendex.net',
-                        'movistar_es' => 'movistar.net',
-                        'vodafone_es' => 'vodafone.es',
+                        'esendex||esendex.net',
+                        'movistar_es||movistar.net',
+                        'vodafone_es||vodafone.es',
                         
                         
                         // [UNITED KINGDOM]
-                        'media_burst' => 'sms.mediaburst.co.uk',
-                        'txt_local' => 'txtlocal.co.uk',
-                        'virgin_uk' => 'vxtras.com',
-                        'vodafone_uk' => 'vodafone.net',
+                        'media_burst||sms.mediaburst.co.uk',
+                        'txt_local||txtlocal.co.uk',
+                        'virgin_uk||vxtras.com',
+                        'vodafone_uk||vodafone.net',
                         
                         
                         // [UNITED STATES]
-                        'att' => 'txt.att.net',
-                        'bluegrass' => 'mms.myblueworks.com',
-                        'boost' => 'myboostmobile.com',
-                        'cellcom' => 'cellcom.quiktxt.com',
-                        'chariton_valley' => 'sms.cvalley.net',
-                        'cricket' => 'mms.cricketwireless.net',
-                        'cspire' => 'cspire1.com',
-                        'gci' => 'mobile.gci.net',
-                        'googlefi' => 'msg.fi.google.com',
-                        'nextech' => 'sms.ntwls.net',
-                        'pioneer' => 'zsend.com',
-                        'rogers_us' => 'pcs.rogers.com',
-                        'simple_mobile' => 'smtext.com',
-                        'southern_linc' => 'page.southernlinc.com',
-                        'south_central_comm' => 'rinasms.com',
-                        'sprint' => 'messaging.sprintpcs.com',
-                        'tmobile_us' => 'tmomail.net',
-                        'telus' => 'mms.telusmobility.com',
-                        'tracfone' => 'mmst5.tracfone.com',
-                        'union' => 'union-tel.com',
-                        'us_cellular' => 'email.uscc.net',
-                        'verizon' => 'vtext.com',
-                        'viaero' => 'mmsviaero.com',
-                        'virgin_us' => 'vmobl.com',
-                        'west_central' => 'sms.wcc.net',
-                        'xit' => 'sms.xit.net',
+                        'att||txt.att.net',
+                        'bluegrass||mms.myblueworks.com',
+                        'cellcom||cellcom.quiktxt.com',
+                        'chariton_valley||sms.cvalley.net',
+                        'cricket||mms.cricketwireless.net',
+                        'cspire||cspire1.com',
+                        'gci||mobile.gci.net',
+                        'googlefi||msg.fi.google.com',
+                        'nextech||sms.ntwls.net',
+                        'pioneer||zsend.com',
+                        'rogers_us||pcs.rogers.com',
+                        'simple_mobile||smtext.com',
+                        'southern_linc||page.southernlinc.com',
+                        'south_central_comm||rinasms.com',
+                        'sprint||messaging.sprintpcs.com',
+                        'tmobile_us||tmomail.net',
+                        'telus||mms.telusmobility.com',
+                        'tracfone||mmst5.tracfone.com',
+                        'union||union-tel.com',
+                        'us_cellular||email.uscc.net',
+                        'verizon||vtext.com',
+                        'viaero||mmsviaero.com',
+                        'virgin_us||vmobl.com',
+                        'west_central||sms.wcc.net',
+                        'xit||sms.xit.net',
                         
 
 ); // mobile_network_text_gateways END
@@ -1979,7 +1973,6 @@ $ct['conf']['assets'] = array(
                                     'usd' => array(
                                           'coingecko_usd' => 'bitcoin',
                                           'coinbase' => 'BTC-USD',
-                                          'binance_us' => 'BTCUSD',
                                           'bitstamp' => 'btcusd',
                                           'kraken' => 'XXBTZUSD',
                                           'gemini' => 'btcusd',
@@ -1996,6 +1989,7 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usdc' => array(
                                           'kraken' => 'XBTUSDC',
+                                          'binance_us' => 'BTCUSDC',
                                           'southxchange' => 'BTC/USDC',
                                                     ),
 
@@ -2013,7 +2007,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'zar' => array(
-                                          'luno' => 'BTCZAR',
+                                          'luno' => 'XBTZAR',
                                           'binance' => 'BTCZAR',
                                                     ),
 
@@ -2187,6 +2181,7 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usdc' => array(
                                           'kraken' => 'ETHUSDC',
+                                          'binance_us' => 'ETHUSDC',
                                           'kucoin' => 'ETH-USDC',
                                           'loopring_amm' => 'AMM-ETH-USDC',
                                           'poloniex' => 'USDC_ETH',
@@ -2275,6 +2270,7 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usdc' => array(
                                     	 'jupiter_ag' => 'SOL/USDC',
+                                          'binance_us' => 'SOLUSDC',
                                                     ),
 
                                                     
@@ -2326,7 +2322,6 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                     	 'kraken' => 'USDCUSD',
-                                    	 'binance_us' => 'USDCUSD',
                                                     ),
 
                                                     

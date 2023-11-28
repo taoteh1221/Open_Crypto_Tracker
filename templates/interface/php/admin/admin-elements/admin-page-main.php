@@ -181,7 +181,7 @@
 		  
 		  <div class="tab-pane" id="admin_text_gateways" role="tabpanel">
 	
-	            <h2 class='bitcoin page_title'>Text Gateways</h2>
+	            <h2 class='bitcoin page_title'>Mobile Text Gateways</h2>
 
                 <div class='full_width_wrapper'>
                 	

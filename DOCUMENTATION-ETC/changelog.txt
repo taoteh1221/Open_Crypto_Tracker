@@ -6447,9 +6447,11 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed the ability for Telegram to gracefully process messages over 4096 bytes in size (large messages are now split into multiple smaller messages automatically)
 
+-BUG FIX: Created an automatic fix for app servers that do NOT have PHP Session "save path" PROPERLY setup (the app will create / use a SECURED directory for PHP Sessions)
+
 -BUG FIX: Miscellaneous fixes
 
--Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Price Charts / Alerts
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Price Charts / Alerts, Mobile Text Gateways
 
 -Miscellaneous user experience improvements
 
@@ -6458,6 +6460,9 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 -Updated documentation
 
 IMPORTANT *UPGRADE* NOTICE:
+
+v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT.
 
 v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT.

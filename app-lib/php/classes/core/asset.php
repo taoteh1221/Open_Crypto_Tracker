@@ -709,10 +709,10 @@ var $ct_array = array();
       }
       
       
-      // Return error message if the markets lists is more markets than allowed by $ct['conf']['power']['local_api_markets_limit']
-      if ( is_array($all_mrkts_data_array) && sizeof($all_mrkts_data_array) > $ct['conf']['power']['local_api_markets_limit'] ) {
+      // Return error message if the markets lists is more markets than allowed by $ct['conf']['int_api']['int_api_markets_limit']
+      if ( is_array($all_mrkts_data_array) && sizeof($all_mrkts_data_array) > $ct['conf']['int_api']['int_api_markets_limit'] ) {
       	
-      $result['error'] = 'Exceeded maximum of ' . $ct['conf']['power']['local_api_markets_limit'] . ' markets allowed per request (' . sizeof($all_mrkts_data_array) . ').';
+      $result['error'] = 'Exceeded maximum of ' . $ct['conf']['int_api']['int_api_markets_limit'] . ' markets allowed per request (' . sizeof($all_mrkts_data_array) . ').';
       
       $ct['gen']->log(
       			'int_api_error',
@@ -1806,7 +1806,7 @@ var $ct_array = array();
                   
                   
                // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
-               $whale_alert_thres = explode("||", $ct['conf']['charts_alerts']['price_alert_whale_threshold']);
+               $whale_alert_thres = array_map( "trim", explode("||", $ct['conf']['charts_alerts']['whale_alert_thresholds']) );
                ////
                ////
                if ( trim($whale_alert_thres[0]) != '' && trim($whale_alert_thres[1]) != '' && trim($whale_alert_thres[2]) != '' && trim($whale_alert_thres[3]) != '' ) {

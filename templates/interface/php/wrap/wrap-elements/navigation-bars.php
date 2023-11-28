@@ -138,7 +138,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Text Gateways</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
                     </li>
 
 
@@ -466,7 +466,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Text Gateways</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
                     </li>
 
 

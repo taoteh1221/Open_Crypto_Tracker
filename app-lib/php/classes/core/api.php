@@ -361,7 +361,7 @@ var $ct_array = array();
       
    $request = "{$url}?{$qs}"; // create the request URL
    
-   $response = @$ct['cache']->ext_data('url', $request, $ct['conf']['power']['remote_api_timeout'], null, null, null, $headers);
+   $response = @$ct['cache']->ext_data('url', $request, $ct['conf']['ext_apis']['remote_api_timeout'], null, null, null, $headers);
       
    $data = json_decode($response, true);
            
