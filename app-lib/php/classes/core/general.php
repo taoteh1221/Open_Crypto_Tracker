@@ -2917,9 +2917,7 @@ var $ct_array = array();
           $summary .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $ct['base_url'] . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
         	}
 	
-	 $summary .= '<p>You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
-	
-	 $summary .= '<p>You can edit this list in the Admin Config "Power User" section.</p>' . "\n\n";
+	 $summary .= '<p>You can disable receiving news feed emails, OR edit this list, in the Admin Config "News Feeds" section.</p>' . "\n\n";
 	
 	 $summary .= '<p>To see the date / time an entry was published, hover over it.</p>' . "\n\n";
 	
@@ -3289,7 +3287,7 @@ var $ct_array = array();
    
    
        // If admin login notifications are on
-       if ( $ct['conf']['sec']['login_alert'] != 'off' ) {
+       if ( $ct['conf']['sec']['login_alert_channels'] != 'off' ) {
 
       
             if ( isset($ct['system_info']['distro_name']) ) {
@@ -3325,8 +3323,8 @@ var $ct_array = array();
                                         );
     				
     		    
-       // Only send to comm channels the user prefers, based off the config setting $ct['conf']['sec']['login_alert']
-       $preferred_comms = $this->preferred_comms($ct['conf']['sec']['login_alert'], $admin_login_send_params);
+       // Only send to comm channels the user prefers, based off the config setting $ct['conf']['sec']['login_alert_channels']
+       $preferred_comms = $this->preferred_comms($ct['conf']['sec']['login_alert_channels'], $admin_login_send_params);
     			
        // Queue notifications
        @$ct['cache']->queue_notify($preferred_comms);
@@ -4090,8 +4088,8 @@ var $ct_array = array();
                               );
                   
 		 
-		 // Only send to comm channels the user prefers, based off the config setting $ct['conf']['proxy']['proxy_alert']
-		 $preferred_comms = $this->preferred_comms($ct['conf']['proxy']['proxy_alert'], $send_params);			
+		 // Only send to comm channels the user prefers, based off the config setting $ct['conf']['proxy']['proxy_alert_channels']
+		 $preferred_comms = $this->preferred_comms($ct['conf']['proxy']['proxy_alert_channels'], $send_params);			
                   
          // Queue notifications
          @$ct['cache']->queue_notify($preferred_comms);

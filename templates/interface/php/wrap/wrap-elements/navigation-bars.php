@@ -2,10 +2,10 @@
 			
 // Warning (minimal, just as link title on the 'refresh' link) if price data caching set too low
 if ( $ct['conf']['power']['last_trade_cache_time'] < 4 ) {
-$refresh_link_documentation = 'Use this to Refresh / Reload the app data. Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct['conf']['power']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
+$refresh_link_documentation = 'Use this to Refresh / Reload the app data. Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config POWER USER section is set to '. $ct['conf']['power']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
 }
 else {
-$refresh_link_documentation = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct['conf']['power']['last_trade_cache_time'] . ' minute(s).';
+$refresh_link_documentation = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config POWER USER section is set to '. $ct['conf']['power']['last_trade_cache_time'] . ' minute(s).';
 }
 			
 ?>  
@@ -98,6 +98,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook_int_api" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
+                    </li>
+
+
+                    <li>
                         <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
                     </li>
 
@@ -129,11 +134,6 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
                     <li>
                         <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_news_feeds" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
-                    </li>
-
-
-                    <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook_int_api" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Webhook / Internal API</a>
                     </li>
 
 
@@ -364,6 +364,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook_int_api" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
                         <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
                     </li>
 
@@ -457,11 +462,6 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
                     <li class='sidebar-item nav-item'>
                         <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_news_feeds" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook_int_api" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Webhook / Internal API</a>
                     </li>
 
 

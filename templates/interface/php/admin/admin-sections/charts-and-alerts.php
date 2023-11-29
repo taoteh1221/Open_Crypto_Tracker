@@ -49,7 +49,7 @@ $admin_render_settings['chart_crypto_volume_decimals']['range_step'] = 1;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['price_alert']['is_select'] = array(
+$admin_render_settings['price_alert_channels']['is_select'] = array(
                                                           'off',
                                                           'email',
                                                           'text',
@@ -58,7 +58,7 @@ $admin_render_settings['price_alert']['is_select'] = array(
                                                           'all',
                                                          );
 
-$admin_render_settings['price_alert']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
+$admin_render_settings['price_alert_channels']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,7 +230,7 @@ $admin_render_settings['tracked_markets']['is_notes'] = 'Add price charts / pric
 ticker||exchange||trade_pair||alert<br />
 ticker-2||exchange2||trade_pair2||chart<br />
 ticker-3||exchange3||trade_pair3||both<br />
-ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker) SETS CHART *FILENAMES*, KEEP THIS THE SAME TO *RESTORE OLD CHART DATA* PROPERLY!';
+ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker[-number]) SETS CHART *FILENAMES*, KEEP THIS THE SAME TO *RESTORE OLD CHART DATA* PROPERLY!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

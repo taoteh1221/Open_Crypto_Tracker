@@ -178,6 +178,9 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add light chart settings into the charts and alerts section (move over from the power user section).
+
+
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
 
 $admin_area_sec_level

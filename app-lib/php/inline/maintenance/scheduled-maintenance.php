@@ -88,6 +88,8 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data',
 
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/internal_api', 1, 'dat'); // Delete internal API cache files older than 1 day
 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/alerts', 1, 'dat'); // Delete alert cache files older than 1 day
+
 
 // Secondary logs cleanup
 $logs_cache_cleanup = array(

@@ -46,7 +46,7 @@ $admin_render_settings['remote_api_timeout']['is_range'] = true;
 
 $admin_render_settings['remote_api_timeout']['range_min'] = 30;
 
-$admin_render_settings['remote_api_timeout']['range_max'] = 80;
+$admin_render_settings['remote_api_timeout']['range_max'] = 120;
 
 $admin_render_settings['remote_api_timeout']['range_step'] = 10;
 

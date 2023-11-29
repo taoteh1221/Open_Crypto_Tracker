@@ -1951,8 +1951,8 @@ var $ct_array = array();
                                      );
                     
                     
-               // Only send to comm channels the user prefers, based off the config setting $ct['conf']['charts_alerts']['price_alert']
-               $preferred_comms = $ct['gen']->preferred_comms($ct['conf']['charts_alerts']['price_alert'], $send_params);
+               // Only send to comm channels the user prefers, based off the config setting $ct['conf']['charts_alerts']['price_alert_channels']
+               $preferred_comms = $ct['gen']->preferred_comms($ct['conf']['charts_alerts']['price_alert_channels'], $send_params);
                     
                // Send notifications
                @$ct['cache']->queue_notify($preferred_comms);

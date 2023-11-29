@@ -316,7 +316,7 @@ For security, the API requires a key / token to access it. This key must be name
 
 IMPORTANT REST API NOTES: 
 
-The 'Linux Desktop Edition' of this app has a slightly different endpoint format for the internal REST API (due to unavoidable feature restrictions). Login to your Admin Config area, and see the 'Webhook / Internal API' section, for the endpoint and example code required to use the internal REST API.
+The 'Linux Desktop Edition' of this app has a slightly different endpoint format for the internal REST API (due to unavoidable feature restrictions). Login to your Admin Config area, and see the 'Internal API / Webhook' section, for the endpoint and example code required to use the internal REST API.
 
 
 SEE /DOCUMENTATION-ETC/REST-API-EXAMPLES.txt FOR EXAMPLES OF CALLING THE API WITH CURL, JAVASCRIPT, AND PHP

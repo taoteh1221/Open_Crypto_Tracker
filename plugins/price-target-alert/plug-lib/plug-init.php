@@ -97,7 +97,10 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
 		// Flag a reset if user changed the target value in the config, 
 		// OR the market value is still getting FURTHER from the target value (so we track when the trend reversed, via file timestamp)
 		if (
-		$target_val != $cached_target_val 
+		$target_direction == ''
+		|| $cached_target_val == ''
+		|| $cached_mrkt_val == ''
+		|| $target_val != $cached_target_val 
 		|| $target_direction == 'increase' && $mrkt_val < $cached_mrkt_val 
 		|| $target_direction == 'decrease' && $mrkt_val > $cached_mrkt_val
 		) {
@@ -132,8 +135,8 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
 	
 	// If price target met, send a notification...
 	if (
-	is_numeric($cached_mrkt_val) && $mrkt_val <= $target_val && $target_direction == 'decrease'
-	|| is_numeric($cached_mrkt_val) && $mrkt_val >= $target_val && $target_direction == 'increase'
+	$mrkt_val <= $target_val && $target_direction == 'decrease'
+	|| $mrkt_val >= $target_val && $target_direction == 'increase'
 	) {
          
      $divide_by = abs($cached_mrkt_val);

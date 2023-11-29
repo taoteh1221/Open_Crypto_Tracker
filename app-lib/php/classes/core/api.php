@@ -312,7 +312,7 @@ var $ct_array = array();
       	
       $ct['gen']->log(
       		    'notify_error',
-      		    '"coinmarketcap_api_key" (free API key) is not configured in Admin Config API section',
+      		    '"coinmarketcap_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
       		    false,
       		    'coinmarketcap_api_key'
       		    );
@@ -751,7 +751,7 @@ var $ct_array = array();
           	
           $ct['gen']->log(
           		    'notify_error',
-          		    '"alphavantage_api_key" (free API key) is not configured in Admin Config API section',
+          		    '"alphavantage_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
           		    false,
           		    'alphavantage_api_key'
           		    );

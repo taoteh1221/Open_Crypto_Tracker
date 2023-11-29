@@ -50,7 +50,7 @@ $admin_render_settings['allow_comms']['is_radio'] = array(
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['upgrade_alert']['is_select'] = array(
+$admin_render_settings['upgrade_alert_channels']['is_select'] = array(
                                                                'off',
                                                                'ui',
                                                                'email',
@@ -61,7 +61,7 @@ $admin_render_settings['upgrade_alert']['is_select'] = array(
                                                              );
 
 
-$admin_render_settings['upgrade_alert']['is_notes'] = 'Checks the <a href="https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest" target="_BLANK">Github.com API</a> for the latest release\'s version number.<br />(see "External APIs" section for using any comms-related APIs)';
+$admin_render_settings['upgrade_alert_channels']['is_notes'] = 'Checks the <a href="https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest" target="_BLANK">Github.com API</a> for the latest release\'s version number.<br />(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +110,8 @@ $admin_render_settings['from_email']['is_password'] = true;
 $admin_render_settings['from_email']['is_trim'] = true;
 
 $admin_render_settings['from_email']['text_field_size'] = 40;
+
+$admin_render_settings['from_email']['is_notes'] = 'FROM Email address MUST match the app server\'s DOMAIN NAME, *UNLESS* it has no email server, OR you are behind a home internet gateway (in those cases, it should match the Email address associated with the "SMTP Login" account above)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

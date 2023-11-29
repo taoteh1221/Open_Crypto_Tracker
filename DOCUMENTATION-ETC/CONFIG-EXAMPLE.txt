@@ -124,7 +124,7 @@ $ct['conf']['comms']['allow_comms'] = 'on'; // 'on' / 'off' (Default = 'on' [com
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
-$ct['conf']['comms']['upgrade_alert'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+$ct['conf']['comms']['upgrade_alert_channels'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders
 $ct['conf']['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
@@ -326,7 +326,7 @@ $ct['conf']['proxy']['proxy_login'] = ''; // Use format: 'username||password'
 
 // Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
 // Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
-$ct['conf']['proxy']['proxy_alert'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+$ct['conf']['proxy']['proxy_alert_channels'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 
 
 // Re-allow same proxy alert(s) after X HOURS (per ip/port pair, can be 0)
@@ -386,7 +386,7 @@ $ct['conf']['sec']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
 
 // Enable / disable admin login alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
 // Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
-$ct['conf']['sec']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+$ct['conf']['sec']['login_alert_channels'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 							
 							
 // HOURS until admin login cookie expires (requiring you to login again)
@@ -434,20 +434,9 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 // CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information)
 
 
-// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
-// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$ct['conf']['charts_alerts']['enable_price_charts'] = 'on'; // 'on' / 'off'
-
-
-// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
-// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct['conf']['charts_alerts']['chart_crypto_volume_decimals'] = 4;  // (default = 4) 
-
-
 // Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
 // Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
-$ct['conf']['charts_alerts']['price_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+$ct['conf']['charts_alerts']['price_alert_channels'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 
 
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
@@ -484,6 +473,17 @@ $ct['conf']['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
 // ("min_price_percent_change_24hr_avg" should be the same value or higher as $ct['conf']['charts_alerts']['price_alert_threshold'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
 $ct['conf']['charts_alerts']['whale_alert_thresholds'] = '1.25||9.75||12.75||25000'; // (default: '1.25||9.75||12.75||25000')	
+
+
+// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
+// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$ct['conf']['charts_alerts']['enable_price_charts'] = 'on'; // 'on' / 'off'
+
+
+// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
+// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$ct['conf']['charts_alerts']['chart_crypto_volume_decimals'] = 4;  // (default = 4) 
 
 
 // PRICE CHARTS colors (https://www.w3schools.com/colors/colors_picker.asp)

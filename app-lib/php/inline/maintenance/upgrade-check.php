@@ -9,7 +9,7 @@
 	// If upgrade check is enabled, check daily for upgrades
 	////////////////////////////////////////////////////////////
 	// With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-	if ( isset($ct['conf']['comms']['upgrade_alert']) && $ct['conf']['comms']['upgrade_alert'] != 'off' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat', (1440 + $ct['dev']['tasks_time_offset']) ) == true ) {
+	if ( isset($ct['conf']['comms']['upgrade_alert_channels']) && $ct['conf']['comms']['upgrade_alert_channels'] != 'off' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat', (1440 + $ct['dev']['tasks_time_offset']) ) == true ) {
 	
 	
 	$upgrade_check_jsondata = @$ct['cache']->ext_data('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest', 0); // Don't cache API data
@@ -118,15 +118,15 @@
                                     			);
 				
 		    
-		    // Only send to comm channels the user prefers, based off the config setting $ct['conf']['comms']['upgrade_alert']
-		    $preferred_comms = $ct['gen']->preferred_comms($ct['conf']['comms']['upgrade_alert'], $upgrade_check_send_params);
+		    // Only send to comm channels the user prefers, based off the config setting $ct['conf']['comms']['upgrade_alert_channels']
+		    $preferred_comms = $ct['gen']->preferred_comms($ct['conf']['comms']['upgrade_alert_channels'], $upgrade_check_send_params);
 			
 			// Queue notifications
 			@$ct['cache']->queue_notify($preferred_comms);
 					
 					
 					// UI alert logic
-					if ( $ct['conf']['comms']['upgrade_alert'] == 'all' || $ct['conf']['comms']['upgrade_alert'] == 'ui' ) {
+					if ( $ct['conf']['comms']['upgrade_alert_channels'] == 'all' || $ct['conf']['comms']['upgrade_alert_channels'] == 'ui' ) {
 						
 					$ui_upgrade_alert_data = array(
 											  'run' => 'yes',

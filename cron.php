@@ -139,7 +139,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         
         
             // Checkup on each failed proxy
-            if ( $ct['conf']['proxy']['proxy_alert'] != 'off' ) {
+            if ( $ct['conf']['proxy']['proxy_alert_channels'] != 'off' ) {
             	
             	foreach ( $proxy_checkup as $problem_proxy ) {
             	$ct['gen']->test_proxy($problem_proxy);

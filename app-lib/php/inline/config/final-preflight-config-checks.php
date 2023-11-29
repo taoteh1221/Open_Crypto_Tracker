@@ -16,7 +16,7 @@ $proxy_parse_errors = 0;
 	
 	
 	// Email for proxy alerts
-	if ( $ct['conf']['proxy']['proxy_alert'] == 'email' || $ct['conf']['proxy']['proxy_alert'] == 'all' ) {
+	if ( $ct['conf']['proxy']['proxy_alert_channels'] == 'email' || $ct['conf']['proxy']['proxy_alert_channels'] == 'all' ) {
 		
           if ( trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) { 	
      					
@@ -38,7 +38,7 @@ $proxy_parse_errors = 0;
 
 	
 	// Text for proxy alerts
-	if ( $ct['conf']['proxy']['proxy_alert'] == 'text' && $sms_service != null || $ct['conf']['proxy']['proxy_alert'] == 'all' && $sms_service != null ) {
+	if ( $ct['conf']['proxy']['proxy_alert_channels'] == 'text' && $sms_service != null || $ct['conf']['proxy']['proxy_alert_channels'] == 'all' && $sms_service != null ) {
     
 				
 	    // Config error check(s)

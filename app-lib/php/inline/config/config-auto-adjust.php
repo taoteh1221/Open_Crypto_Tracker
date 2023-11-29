@@ -16,7 +16,7 @@
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
 $ct['conf']['comms']['to_email'] = $ct['var']->auto_correct_str($ct['conf']['comms']['to_email'], 'lower');
 $ct['conf']['power']['debug_mode'] = $ct['var']->auto_correct_str($ct['conf']['power']['debug_mode'], 'lower');
-$ct['conf']['comms']['upgrade_alert'] = $ct['var']->auto_correct_str($ct['conf']['comms']['upgrade_alert'], 'lower');
+$ct['conf']['comms']['upgrade_alert_channels'] = $ct['var']->auto_correct_str($ct['conf']['comms']['upgrade_alert_channels'], 'lower');
 $ct['conf']['gen']['bitcoin_primary_currency_pair'] = $ct['var']->auto_correct_str($ct['conf']['gen']['bitcoin_primary_currency_pair'], 'lower');
 $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $ct['var']->auto_correct_str($ct['conf']['gen']['bitcoin_primary_currency_exchange'], 'lower');
 $ct['conf']['power']['log_verbosity'] = $ct['var']->auto_correct_str($ct['conf']['power']['log_verbosity'], 'lower');
@@ -25,7 +25,7 @@ $ct['conf']['gen']['primary_marketcap_site'] = $ct['var']->auto_correct_str($ct[
 $ct['conf']['charts_alerts']['price_alert_block_volume_error'] = $ct['var']->auto_correct_str($ct['conf']['charts_alerts']['price_alert_block_volume_error'], 'lower');
 $ct['conf']['sec']['remote_api_strict_ssl'] = $ct['var']->auto_correct_str($ct['conf']['sec']['remote_api_strict_ssl'], 'lower');
 $ct['conf']['charts_alerts']['enable_price_charts'] = $ct['var']->auto_correct_str($ct['conf']['charts_alerts']['enable_price_charts'], 'lower');
-$ct['conf']['proxy']['proxy_alert'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert'], 'lower');
+$ct['conf']['proxy']['proxy_alert_channels'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_channels'], 'lower');
 $ct['conf']['proxy']['proxy_alert_runtime'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_runtime'], 'lower');
 $ct['conf']['proxy']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_checkup_ok'], 'lower');
 
