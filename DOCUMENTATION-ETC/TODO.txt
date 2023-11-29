@@ -178,7 +178,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Review / fully test all the different SUBARRAY logic for the cached config upgrade mechanism (string-keyed / auto-indexed, etc)
+Add light chart settings into the charts and alerts section (move over from the power user section).
 
 
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
@@ -211,6 +211,9 @@ $telegram_messaging
 
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
+
+
+Review / fully test all the different SUBARRAY logic for the cached config upgrade mechanism (string-keyed / auto-indexed, etc)
 
 
 Run tests on markets, to find stale ones

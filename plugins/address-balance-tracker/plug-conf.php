@@ -61,7 +61,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 																			
 																			
 											    // ETH EXAMPLE
-											    // (REQUIRES AN API KEY FOR ETHERSCAN!! [SETUP IN GENERAL SECTION OF ADMIN CONFIG])
+											    // (REQUIRES AN API KEY FOR ETHERSCAN!! [SETUP IN EXTERNAL APIS SECTION OF ADMIN CONFIG])
 												array(
 													'asset' => 'eth', // Ticker Key (LOWERCASE)
 													'label' => 'Crypto Tracker ETH Donations', // Description of address

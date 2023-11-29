@@ -622,7 +622,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	      If everything runs great AFTER disabling proxies, you probably have either a bad / misconfigured / low quality proxy, or an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). If you are absolutely sure your proxy setup is ok / high quality, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/issues' target='_blank'>report it</a>. 
 	    <br /><br />
 	    
-	    <span class='bitcoin'>ADDITIONAL NOTES:</span> Recieving alerts by email / text / Alexa / Telegram when a proxy connection FAILS is available in the Admin Config COMMS (communications) section. When a proxy connection fails, this app will run a checkup on that proxy, and send you the results.
+	    <span class='bitcoin'>ADDITIONAL NOTES:</span> Recieving alerts by email / text / Alexa / Telegram when a proxy connection FAILS is available in the Admin Config PROXIES section. When a proxy connection fails, this app will run a checkup on that proxy, and send you the results.
 	        
 	        
 	      </div>
@@ -732,7 +732,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
              If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU #FREQUENTLY# RECEIVE #PARTIAL# API DATA IN THE APP FOR SOME API DATA SETS (the error logs will alert you if this is happening, so check there). 
 <br /><br />
 	        
-	        To adjust the API timeout, go to the Admin Config POWER USER section. Adjust the 'remote_api_timeout' setting much higher, save the setup in the app, and run the app again to see if this fixes the issue. Adjust higher again if the issue still occurs frequently. DON'T SET 'remote_api_timeout' TOO HIGH though, or any unresponsive connections may cause the app to take a very long time to load / reload.
+	        To adjust the API timeout, go to the Admin Config EXTERNAL APIS section. Adjust the 'remote_api_timeout' setting much higher, save the setup in the app, and run the app again to see if this fixes the issue. Adjust higher again if the issue still occurs frequently. DON'T SET 'remote_api_timeout' TOO HIGH though, or any unresponsive connections may cause the app to take a very long time to load / reload.
 	        
 	        
 	      </div>

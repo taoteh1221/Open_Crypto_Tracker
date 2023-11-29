@@ -49,7 +49,7 @@ $admin_render_settings['proxy_login']['is_notes'] = 'This format MUST be used: u
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['proxy_alert']['is_select'] = array(
+$admin_render_settings['proxy_alert_channels']['is_select'] = array(
                                                           'off',
                                                           'email',
                                                           'text',
@@ -58,7 +58,7 @@ $admin_render_settings['proxy_alert']['is_select'] = array(
                                                           'all',
                                                          );
 
-$admin_render_settings['proxy_alert']['is_notes'] = 'Receive alerts IF a proxy FAILS (per-proxy)<br />(see "External APIs" section for using any comms-related APIs)';
+$admin_render_settings['proxy_alert_channels']['is_notes'] = 'Receive alerts IF a proxy FAILS (per-proxy)<br />(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////

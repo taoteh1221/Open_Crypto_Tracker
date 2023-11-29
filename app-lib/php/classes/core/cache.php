@@ -1541,7 +1541,7 @@ var $ct_array = array();
      $ct['gen']->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['gen']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config POWER USER SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['gen']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
      								
      			'remote_api_timeout: '.$ct['conf']['ext_apis']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
      			);
@@ -3108,7 +3108,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'notify_error',
       							
-      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
+      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in EXTERNAL APIS config *IF* this persists OFTEN',
       							
       			'remote_api_timeout: ' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
