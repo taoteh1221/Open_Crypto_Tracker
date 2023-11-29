@@ -141,7 +141,7 @@ $ct['admin']->admin_config_interface('int_api', 'webhook_int_api', $admin_render
 <?php
 
 if ( !isset($activated_plugins['webhook']) ) {
-echo '<p><span class="black">None</span></p>';
+echo '<p><span class="bitcoin">No webhooks activated.</span></p>';
 }
 	
 foreach ( $activated_plugins['webhook'] as $plugin_key => $plugin_init ) {

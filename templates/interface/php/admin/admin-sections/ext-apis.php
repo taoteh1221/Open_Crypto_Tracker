@@ -52,7 +52,7 @@ $admin_render_settings['remote_api_timeout']['range_step'] = 10;
 
 $admin_render_settings['remote_api_timeout']['range_ui_suffix'] = ' Seconds';
 
-$admin_render_settings['remote_api_timeout']['is_notes'] = 'MAXIMUM wait time for INITIAL response from external APIs (before aborting the connection)';
+$admin_render_settings['remote_api_timeout']['is_notes'] = 'MAXIMUM wait time for the FULL response from each external API (before aborting the connection)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
