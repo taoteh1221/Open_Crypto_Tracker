@@ -351,7 +351,7 @@ If you are still having issues after trying everything, file an issue here at th
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 
-Either the asset has not been added to Coinmarketcap.com or Coingecko.com yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the EXTERNAL APIS section (500 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
+Either the asset has not been added to Coinmarketcap.com or Coingecko.com yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (500 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
 
 
 =========================================================================================================================================
