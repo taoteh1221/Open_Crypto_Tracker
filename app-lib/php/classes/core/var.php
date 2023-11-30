@@ -13,14 +13,14 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-
+   
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function max_100($num) {
-   return ( $this->num_to_str($num) > 100.00 ? 100.00 : $num );
+   function str_to_array($str) {
+   return explode("||",$str);
    }
    
    
@@ -40,6 +40,14 @@ var $ct_array = array();
    function strip_underscore_and_after($str) {
    return substr($str, 0, strpos($str, "_"));
    }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   function max_100($num) {
+   return ( $this->num_to_str($num) > 100.00 ? 100.00 : $num );
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -49,14 +57,14 @@ var $ct_array = array();
    function substri_count($haystack, $needle) {
    return substr_count(strtoupper($haystack), strtoupper($needle));
    }
-   
+
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function str_to_array($str) {
-   return explode("||",$str);
+   function is_base64_encoded($str) {
+   return (bool) preg_match('/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/', $str);
    }
    
    

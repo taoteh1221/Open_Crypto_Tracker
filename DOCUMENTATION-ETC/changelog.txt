@@ -6479,6 +6479,39 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.00.32:
+
+-BUG FIX: Miscellaneous fixes
+
+-Hardened user input sanitization security checks
+
+-Miscellaneous user experience improvements
+
+-Code optimization / cleanup
+
+-Updated documentation
+
+IMPORTANT *UPGRADE* NOTICE:
+
+v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT.
+
+v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT.
+
+v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
+
+v6.00.29 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
+
+-v6.00.29 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.26 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

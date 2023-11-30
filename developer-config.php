@@ -14,7 +14,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.31';  // 2023/NOVEMBER/22ND
+$ct['app_version'] = '6.00.32';  // 2023/NOVEMBER/30TH
 
 
 // #PHP# ERROR LOGGING
@@ -244,7 +244,13 @@ $ct['dev']['limited_apis'] = array(
 // (in $ct['gen']->sanitize_string(), when scanning user inputs)
 $ct['dev']['script_injection_checks'] = array(
                                                "base64", // base64 PHP
-                                               "btao", // base64 javascript
+                                               "btoa", // base64 javascript ENCODE
+                                               "atob", // base64 javascript DECODE
+                                               "bin2hex", // hex PHP ENCODE
+                                               "hex2bin", // hex PHP DECODE
+                                               "\u", // Unicode ENCODE
+                                               "\x", // Hex ENCODE
+                                               "char(", // SQL CHAR function
                                                "javascript",
                                                "script",
                                                "href",

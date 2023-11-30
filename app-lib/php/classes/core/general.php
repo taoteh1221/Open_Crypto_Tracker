@@ -1872,8 +1872,20 @@ var $ct_array = array();
    
    $original = $data;
    
-   // Remove HTML
-   $sanitized = strip_tags($original);
+   $sanitized = $data;
+   
+   // We need to check for different types of encoding (that would obfuscate attack signatures)
+   
+        // Decode any base64 encoding FIRST
+        if ( $ct['var']->is_base64_encoded($sanitized) ) {
+        $sanitized = base64_decode($sanitized);
+        }
+   
+   // Decode any HTML entities
+   $sanitized = htmlspecialchars_decode($sanitized);
+   
+   // Remove ALL HTML
+   $sanitized = strip_tags($sanitized);
         
    // Scan for malicious content
    $scan = strtolower($sanitized);
