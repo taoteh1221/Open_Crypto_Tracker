@@ -1874,14 +1874,14 @@ var $ct_array = array();
    
    $sanitized = $data;
    
-   // We need to check for different types of encoding (that would obfuscate attack signatures)
+   // We DON'T ALLOW encoding (that would obfuscate attack signatures) on user-input data
    
-        // Decode any base64 encoding FIRST
+        // Check for / decode any base64 encoding FIRST
         if ( $ct['var']->is_base64_encoded($sanitized) ) {
         $sanitized = base64_decode($sanitized);
         }
    
-   // Decode any HTML entities
+   // Check for / decode any HTML entities
    $sanitized = htmlspecialchars_decode($sanitized);
    
    // Remove ALL HTML
@@ -1890,13 +1890,13 @@ var $ct_array = array();
    // Scan for malicious content
    $scan = strtolower($sanitized);
                            
-   $scan = str_replace($ct['dev']['script_injection_checks'], "", $scan, $has_script);
+   $scan = str_replace($ct['dev']['script_injection_checks'], "", $scan, $has_attack_signature);
         
         
-        // Wipe data value, if scripting / HTML detection flagged
-        if ( $has_script > 0 || $original != $sanitized ) {
-        $this->log('security_error', 'POSSIBLE code injection attack blocked in request data (' . strtoupper($method) . ') "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT attempt to inject scripting / HTML into user inputs');
-        $data = 'possible_scripting_blocked';
+        // Wipe data value and flag as possible attack, if encoding / scripting / HTML detected
+        if ( $has_attack_signature > 0 || $original != $sanitized ) {
+        $this->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY encoding / scripting / HTML into user inputs');
+        $data = 'possible_attack_blocked';
         $possible_input_injection = true;
         }
         // a mySQLi connection is required before using this function
