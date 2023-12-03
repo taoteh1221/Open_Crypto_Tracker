@@ -747,10 +747,10 @@ var $ct_array = array();
             foreach ( $data as $key => $val ) {
                 
                 if ( is_array($val) ) {
-                $data[$key] = $this->sanitize_requests($method, $key, $val, false);
+                $data[$key] = $this->sanitize_requests($method, $key, $val, $mysqli_connection);
                 }
                 else {
-                $data[$key] = $this->sanitize_string($method, $key, $val, false);
+                $data[$key] = $this->sanitize_string($method, $key, $val, $mysqli_connection);
                 }
             
             }
