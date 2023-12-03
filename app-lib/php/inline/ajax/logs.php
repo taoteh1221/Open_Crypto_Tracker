@@ -23,9 +23,13 @@ header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 
 // If we are not admin logged in, OR fail the CSRF security token check, exit
 if ( !$ct['gen']->admin_logged_in() || !$ct['gen']->pass_sec_check($_GET['token'], 'logs_csrf_security') ) {
+// Log errors / debugging, send notifications
+$ct['cache']->app_log();
+$ct['cache']->send_notifications();
 exit;
 }
 
+$lines = array();
 
 $filename = $ct['base_dir'] . '/cache/logs/' . $_GET['logfile'];
 
@@ -36,13 +40,13 @@ if ( is_readable($filename) ) {
 	
 	$file = file($filename);
 	for ($i = max(0, count($file)-$line_numbers); $i < count($file); $i++) {
-   $lines[] = $file[$i];
+     $lines[] = $file[$i];
 	}
 
 }
 
 
-if( !is_array($lines) ){
+if( sizeof($lines) == 0 ){
 $lines[] = 'No logs yet for log file: ' . $filename;
 }
 

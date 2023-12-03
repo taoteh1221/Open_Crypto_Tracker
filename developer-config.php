@@ -244,8 +244,8 @@ $ct['dev']['limited_apis'] = array(
 // (in $ct['gen']->sanitize_string(), when scanning user inputs)
 $ct['dev']['script_injection_checks'] = array(
                                                "base64", // base64 PHP
-                                               "btoa", // base64 javascript ENCODE
-                                               "atob", // base64 javascript DECODE
+                                               "btoa(", // base64 javascript ENCODE
+                                               "atob(", // base64 javascript DECODE
                                                "bin2hex", // hex PHP ENCODE
                                                "hex2bin", // hex PHP DECODE
                                                "\u", // Unicode ENCODE

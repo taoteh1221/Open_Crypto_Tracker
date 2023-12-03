@@ -57,15 +57,6 @@ var $ct_array = array();
    function substri_count($haystack, $needle) {
    return substr_count(strtoupper($haystack), strtoupper($needle));
    }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function is_base64_encoded($str) {
-   return (bool) preg_match('/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/', $str);
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -207,6 +198,32 @@ var $ct_array = array();
    $str = preg_replace('/\s/', '', $str);
    
    return $str;
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function possible_base64_encoding($str) {
+        
+      if ( $str == '' ) {
+      return false;
+      }
+   
+   // Decode the string in strict mode, TO CHECK FOR *POSSIBLE* BASE64 ENCODING
+   // (no illegal characters [not allowed in base64])
+   $possible_base64 = base64_decode($str, true);   
+      
+      // TECHNICALLY, we CANNOT tell if ANY string is base64-encoded, but if it validates
+      // as base64-encoded, we flag as possible encoding (to decode / scan for attack signatures)
+      if ( $possible_base64 ) {
+      return true;
+      }
+      else {
+      return false;
+      }
    
    }
    

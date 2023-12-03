@@ -178,6 +178,12 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+I'm pushing PHP bytecode caching into an apparently BUGGY ZONE, with my input sanitizer logic. My server's bytecode cache REFUSES TO CLEAR, AND RUN THE UPDATED CODE, WHEN IT COMES TO THE INPUT SANITIZER LOGIC (all other logic seems to update FINE). Revisit debugging this logic in a day or two, because it's IMPOSSIBLE TO DEBUG THIS PARTICULAR CODE WITH THIS WEIRD SERVER ISSUE ACTING UP.
+
+
+Make sure ALL admin sections update without issues triggering the new input sanitizer logic to flag a FALSE POSITIVE security alert.
+
+
 Add light chart settings into the charts and alerts section (move over from the power user section).
 
 

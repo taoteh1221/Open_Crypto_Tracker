@@ -1866,58 +1866,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
-   
-   global $ct, $possible_input_injection;
-   
-   $original = $data;
-   
-   $sanitized = $data;
-   
-   // We DON'T ALLOW encoding (that would obfuscate attack signatures) on user-input data
-   
-        // Check for / decode any base64 encoding FIRST
-        if ( $ct['var']->is_base64_encoded($sanitized) ) {
-        $sanitized = base64_decode($sanitized);
-        }
-   
-   // Check for / decode any HTML entities
-   $sanitized = htmlspecialchars_decode($sanitized);
-   
-   // Remove ALL HTML
-   $sanitized = strip_tags($sanitized);
-        
-   // Scan for malicious content
-   $scan = strtolower($sanitized);
-                           
-   $scan = str_replace($ct['dev']['script_injection_checks'], "", $scan, $has_attack_signature);
-        
-        
-        // Wipe data value and flag as possible attack, if encoding / scripting / HTML detected
-        if ( $has_attack_signature > 0 || $original != $sanitized ) {
-        $this->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY encoding / scripting / HTML into user inputs');
-        $data = 'possible_attack_blocked';
-        $possible_input_injection = true;
-        }
-        // a mySQLi connection is required before using this function
-        // Escapes special characters in a string for use in an SQL statement
-        elseif ( $mysqli_connection ) {
-        $data = mysqli_real_escape_string($mysqli_connection, $sanitized);
-        }
-        else {
-        $data = $sanitized;
-        }
-        
-        
-   return $data;
-        
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function file_download($file, $save_as, $delete=true) {
       
    global $ct;
@@ -2342,6 +2290,81 @@ var $ct_array = array();
       }
    
    
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
+   
+   global $ct, $possible_input_injection;
+   
+   $original_plaintext = $data;
+   
+   $sanitized_plaintext = $data;
+   
+   $original_decoded = null;
+   
+   $sanitized_decoded = null;
+   
+   
+   // Scan possible / known encoding (that would obfuscate attack signatures) on user-input data
+   
+   
+        // Scan for malicious content in any POSSIBLE base64 encoding
+        if ( $ct['var']->possible_base64_encoding( trim($data) ) ) {
+             
+        $original_decoded = base64_decode( trim($data) );
+   
+        $sanitized_decoded = $original_decoded;
+        
+        $sanitized_decoded = htmlspecialchars_decode($sanitized_decoded);
+        
+        $sanitized_decoded = strip_tags($sanitized_decoded);
+        
+        $scan_decoded = str_replace($ct['dev']['script_injection_checks'], "", strtolower($sanitized_decoded), $decoded_attack_signature);
+        
+        }
+
+
+   // WE SCAN *PLAINTEXT* NO MATTER IF IT'S POSSIBLE BASE64-ENCODING OR NOT, AS IT COULD BE A FALSE POSITIVE!
+   
+   // Check for / decode any HTML entities
+   $sanitized_plaintext = htmlspecialchars_decode($sanitized_plaintext);
+   
+   // Remove ALL HTML
+   $sanitized_plaintext = strip_tags($sanitized_plaintext);
+        
+   // Scan for malicious content
+   $scan_plaintext = str_replace($ct['dev']['script_injection_checks'], "", strtolower($sanitized_plaintext), $plaintext_attack_signature);
+        
+        
+        // Wipe data value and flag as possible attack, if scripting / HTML detected
+        if (
+        isset($plaintext_attack_signature) && $plaintext_attack_signature > 0
+        || isset($decoded_attack_signature) && $decoded_attack_signature > 0
+        || $original_plaintext != $sanitized_plaintext
+        || $original_decoded != $sanitized_decoded
+        ) {
+        $this->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs');
+        $data = 'possible_attack_blocked';
+        $possible_input_injection = true;
+        }
+        // (OTHERWISE, ONLY USE $sanitized_plaintext [as $sanitized_decoded is only used for attack signature scanning on encoded data])
+        // a mySQLi connection is required before using this function
+        // Escapes special characters in a string for use in an SQL statement
+        elseif ( $mysqli_connection ) {
+        $data = mysqli_real_escape_string($mysqli_connection, $sanitized_plaintext);
+        }
+        else {
+        $data = $sanitized_plaintext;
+        }
+        
+        
+   return $data;
+        
    }
 
 

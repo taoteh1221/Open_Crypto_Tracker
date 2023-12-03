@@ -26,6 +26,12 @@ exit;
 error_reporting($ct['dev']['debug_php_errors']); // PHP error reporting
 
 
+// Reset PHP cache, IF DEBUG MODE IS ENABLED
+if ( $ct['dev']['debug_php_errors'] != 0 ) {
+opcache_reset();
+}
+
+
 // Calculate script runtime length
 $time = microtime();
 $time = explode(' ', $time);
