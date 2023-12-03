@@ -2333,7 +2333,7 @@ var $ct_array = array();
         // Remove ALL HTML tags SAFELY! (strip_tags() is NOT that safe!)
         $check_decoded_hex = preg_replace('/<[^>]*>/', '', $check_decoded_hex);
         
-        $scan_decoded = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_hex), $hex_attack_signature);
+        $scan_decoded_hex = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_hex), $hex_attack_signature);
         
             if ( $hex_attack_signature == 0 ) {
             $sanitized_encoded_hex = bin2hex($check_decoded_hex);
@@ -2357,7 +2357,7 @@ var $ct_array = array();
         // Remove ALL HTML tags SAFELY! (strip_tags() is NOT that safe!)
         $check_decoded_base64 = preg_replace('/<[^>]*>/', '', $check_decoded_base64);
         
-        $scan_decoded = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_base64), $base64_attack_signature);
+        $scan_decoded_base64 = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_base64), $base64_attack_signature);
         
             if ( $base64_attack_signature == 0 ) {
             $sanitized_encoded_base64 = base64_encode($check_decoded_base64);
