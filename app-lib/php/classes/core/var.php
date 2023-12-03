@@ -213,12 +213,51 @@ var $ct_array = array();
       }
    
    // Decode the string in strict mode, TO CHECK FOR *POSSIBLE* BASE64 ENCODING
-   // (no illegal characters [not allowed in base64])
+   // (checking for illegal base64 characters)
    $possible_base64 = base64_decode($str, true);   
+   
+      if (
+      $possible_base64
+      && preg_match("/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/", $str)
+      ) {
+      $compare = base64_encode($possible_base64);
+      }
       
-      // TECHNICALLY, we CANNOT tell if ANY string is base64-encoded, but if it validates
-      // as base64-encoded, we flag as possible encoding (to decode / scan for attack signatures)
-      if ( $possible_base64 ) {
+      // TECHNICALLY, we CANNOT tell if ANY VALID base64 string is base64-encoded, but if it validates WELL
+      // as a base64 string, we flag as possible encoding (to decode / scan for attack signatures)
+      if ( isset($compare) && $compare === $str ) {
+      return true;
+      }
+      else {
+      return false;
+      }
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function possible_hex_encoding($str) {
+        
+      if ( $str == '' ) {
+      return false;
+      }
+   
+   // Decode the string, TO CHECK FOR *POSSIBLE* HEX ENCODING
+   // (checking for illegal hex characters)
+   $possible_hex = hex2bin($str);   
+   
+      if ( $possible_hex
+      && preg_match('/^(?:0x)?[a-f0-9]{1,}$/i', $str)
+      ) {
+      $compare = bin2hex($possible_hex);
+      }
+      
+      // TECHNICALLY, we CANNOT tell if ANY VALID hex string is hex-encoded, but if it validates WELL
+      // as a hex string, we flag as possible encoding (to decode / scan for attack signatures)
+      if ( isset($compare) && $compare == $str ) {
       return true;
       }
       else {

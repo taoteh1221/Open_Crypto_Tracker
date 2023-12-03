@@ -240,21 +240,23 @@ $ct['dev']['limited_apis'] = array(
           				  );
 
         
-// Looking for potentially hidden script injection
-// (in $ct['gen']->sanitize_string(), when scanning user inputs)
+// Attack signatures, used when scanning for script / HTML injection attacks
+// (via $ct['gen']->sanitize_string() [in early-security-logic.php], when scanning all POST / GET data submissions)
+// MUST BE LOWERCASE!!! (AS WE TEMPORARILY CONVERT THE DATA SUBMISSION TO LOWERCASE WHEN SCANNING!!!)
 $ct['dev']['script_injection_checks'] = array(
-                                               "base64", // base64 PHP
+                                               "base64", // base64 PHP ENCODE / DECODE
                                                "btoa(", // base64 javascript ENCODE
                                                "atob(", // base64 javascript DECODE
                                                "bin2hex", // hex PHP ENCODE
                                                "hex2bin", // hex PHP DECODE
                                                "\u", // Unicode ENCODE
                                                "\x", // Hex ENCODE
-                                               "char(", // SQL CHAR function
-                                               "javascript",
-                                               "script",
-                                               "href",
-                                               "src",
+                                               "char(", // SQL CHAR() function
+                                               "javascript", // Javascript
+                                               "script", // Javascript
+                                               "href", // HTML
+                                               "src", // HTML
+                                               // ALL javascript 'on' events
                                                "onclick",
                                                "onmouse",
                                                "onresize",

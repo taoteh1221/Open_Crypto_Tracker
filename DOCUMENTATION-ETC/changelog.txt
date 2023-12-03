@@ -6484,7 +6484,7 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous fixes
 
--Hardened user input sanitization security checks
+-Hardened user input sanitization security checks (on top of plaintext scans, now any hexidecimal / base64 / HTML entity encoding is also decoded / scanned for attack signatures)
 
 -Miscellaneous user experience improvements
 

@@ -2297,45 +2297,85 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   // RECURSIVELY USED VIA sanitize_requests() (scans all subarray values too)
    function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
    
    global $ct, $possible_input_injection;
+   
+   $original_encoded_hex = $data;
+   
+   $sanitized_encoded_hex = $data;
+   
+   $original_encoded_base64 = $data;
+   
+   $sanitized_encoded_base64 = $data;
    
    $original_plaintext = $data;
    
    $sanitized_plaintext = $data;
    
-   $original_decoded = null;
    
-   $sanitized_decoded = null;
-   
-   
-   // Scan possible / known encoding (that would obfuscate attack signatures) on user-input data
+   // We decode AND scan any possible / known encoding, that would obfuscate attack signatures on user-input data...
    
    
+        // Scan for malicious content in any POSSIBLE hexadecimal encoding
+        if ( $ct['var']->possible_hex_encoding( trim($data) ) ) {
+        
+        // ONLY TRIM *EN*CODED DATA (OTHERWISE WE RISK DELETING *DE*CODED DATA CONTAINING SPECIAL CHARACTERS!)
+        $check_decoded_hex = hex2bin( trim($data) );
+        
+        // Replace any backslash entity: &bsol; (PHP does NOT detect it)
+        $check_decoded_hex = preg_replace('/&bsol;/', '&#92;', $check_decoded_hex);
+        
+        // Decode ALL HTML entities
+        $check_decoded_hex = html_entity_decode($check_decoded_hex, ENT_QUOTES | ENT_XML1, 'UTF-8');
+        
+        // Remove ALL HTML tags SAFELY! (strip_tags() is NOT that safe!)
+        $check_decoded_hex = preg_replace('/<[^>]*>/', '', $check_decoded_hex);
+        
+        $scan_decoded = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_hex), $hex_attack_signature);
+        
+            if ( $hex_attack_signature == 0 ) {
+            $sanitized_encoded_hex = bin2hex($check_decoded_hex);
+            }
+        
+        }
+        
+        
         // Scan for malicious content in any POSSIBLE base64 encoding
         if ( $ct['var']->possible_base64_encoding( trim($data) ) ) {
-             
-        $original_decoded = base64_decode( trim($data) );
-   
-        $sanitized_decoded = $original_decoded;
         
-        $sanitized_decoded = htmlspecialchars_decode($sanitized_decoded);
+        // ONLY TRIM *EN*CODED DATA (OTHERWISE WE RISK DELETING *DE*CODED DATA CONTAINING SPECIAL CHARACTERS!)
+        $check_decoded_base64 = base64_decode( trim($data) );
         
-        $sanitized_decoded = strip_tags($sanitized_decoded);
+        // Replace any backslash entity: &bsol; (PHP does NOT detect it)
+        $check_decoded_base64 = preg_replace('/&bsol;/', '&#92;', $check_decoded_base64);
         
-        $scan_decoded = str_replace($ct['dev']['script_injection_checks'], "", strtolower($sanitized_decoded), $decoded_attack_signature);
+        // Decode ALL HTML entities
+        $check_decoded_base64 = html_entity_decode($check_decoded_base64, ENT_QUOTES | ENT_XML1, 'UTF-8');
+        
+        // Remove ALL HTML tags SAFELY! (strip_tags() is NOT that safe!)
+        $check_decoded_base64 = preg_replace('/<[^>]*>/', '', $check_decoded_base64);
+        
+        $scan_decoded = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_base64), $base64_attack_signature);
+        
+            if ( $base64_attack_signature == 0 ) {
+            $sanitized_encoded_base64 = base64_encode($check_decoded_base64);
+            }
         
         }
 
 
-   // WE SCAN *PLAINTEXT* NO MATTER IF IT'S POSSIBLE BASE64-ENCODING OR NOT, AS IT COULD BE A FALSE POSITIVE!
+   // WE SCAN *PLAINTEXT* NO MATTER IF IT'S POSSIBLE HEX / BASE64 ENCODING OR NOT, AS THOSE COULD BE FALSE POSITIVE(S)!
    
-   // Check for / decode any HTML entities
-   $sanitized_plaintext = htmlspecialchars_decode($sanitized_plaintext);
+   // Replace any backslash entity: &bsol; (PHP does NOT detect it)
+   $sanitized_plaintext = preg_replace('/&bsol;/', '&#92;', $sanitized_plaintext);
    
-   // Remove ALL HTML
-   $sanitized_plaintext = strip_tags($sanitized_plaintext);
+   // Decode ALL HTML entities
+   $sanitized_plaintext = html_entity_decode($sanitized_plaintext, ENT_QUOTES | ENT_XML1, 'UTF-8');
+   
+   // Remove ALL HTML tags SAFELY! (strip_tags() is NOT that safe!)
+   $sanitized_plaintext = preg_replace('/<[^>]*>/', '', $sanitized_plaintext);
         
    // Scan for malicious content
    $scan_plaintext = str_replace($ct['dev']['script_injection_checks'], "", strtolower($sanitized_plaintext), $plaintext_attack_signature);
@@ -2343,18 +2383,20 @@ var $ct_array = array();
         
         // Wipe data value and flag as possible attack, if scripting / HTML detected
         if (
-        isset($plaintext_attack_signature) && $plaintext_attack_signature > 0
-        || isset($decoded_attack_signature) && $decoded_attack_signature > 0
+        isset($hex_attack_signature) && $hex_attack_signature > 0
+        || isset($base64_attack_signature) && $base64_attack_signature > 0
+        || $plaintext_attack_signature > 0
+        || $original_encoded_hex != $sanitized_encoded_hex
+        || $original_encoded_base64 != $sanitized_encoded_base64
         || $original_plaintext != $sanitized_plaintext
-        || $original_decoded != $sanitized_decoded
         ) {
         $this->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs');
         $data = 'possible_attack_blocked';
-        $possible_input_injection = true;
+        $possible_input_injection = true; // GLOBAL flag, to IMMEADIATELY HALT RUNTIME ON ANY UPCOMING SECURITY CHECKS!
         }
-        // (OTHERWISE, ONLY USE $sanitized_plaintext [as $sanitized_decoded is only used for attack signature scanning on encoded data])
-        // a mySQLi connection is required before using this function
-        // Escapes special characters in a string for use in an SQL statement
+        // OTHERWISE, ONLY USE $sanitized_plaintext, as $sanitized_encoded_[type] is only used for attack signature scanning on encoded data
+        // (as we want to KEEP encoding intact, AS LONG AS IT PASSED THE SECURITY SCANS AS CLEAN / NO ATTACK SIGNATURE MATCHES)
+        // mySQLi connection is required, for escaping special characters in a string before storing any data
         elseif ( $mysqli_connection ) {
         $data = mysqli_real_escape_string($mysqli_connection, $sanitized_plaintext);
         }
