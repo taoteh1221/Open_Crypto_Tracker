@@ -428,7 +428,7 @@ var $ct_array = array();
            }
              
              
-           // Make sure asset performance chart config is set
+           // Make sure marketcap chart config is set
            if ( isset($_POST['charts_alerts']['asset_marketcap_chart_defaults']) && trim($_POST['charts_alerts']['asset_marketcap_chart_defaults']) == '' ) {
            $update_config_error .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" MUST be filled in';
            }
@@ -441,7 +441,7 @@ var $ct_array = array();
            }
            
            
-           // Make sure min / max cache time is set properly
+           // Make sure min / max 'all' light chart rebuild time is set properly
            if ( isset($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) && trim($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) == '' ) {
            $update_config_error .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" MUST be filled in';
            }
