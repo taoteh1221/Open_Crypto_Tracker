@@ -187,9 +187,6 @@ Do final testing on hexidecimal / base64 encoded AND plaintext attack signature 
 Make sure ALL admin sections update without issues triggering the new user-input sanitizer logic to flag a FALSE POSITIVE security alert (clear logs / reset cached config, compare fresh reset config to updated config after successfully updating each admin section / plugin from the admin interface).
 
 
-Add light chart settings into the charts and alerts section (move over from the power user section).
-
-
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
 
 $admin_area_sec_level
