@@ -9,8 +9,8 @@ if ( $ct['gen']->admin_logged_in() ) {
 
 
 
-// For system charts, we want the first $ct['conf']['power']['light_chart_day_intervals'] value, not 'all'
-$first_light_chart = $ct['conf']['power']['light_chart_day_intervals'][0];
+// For system charts, we want the first $ct['light_chart_day_intervals'] value, not 'all'
+$first_light_chart = $ct['light_chart_day_intervals'][0];
 		
 		
 	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
@@ -73,7 +73,7 @@ zingchart.bind('sys_stats_chart_<?=$chart_mode?>', 'label_click', function(e){
   switch(e.labelid) {
   	
   	<?php
-	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	foreach ($ct['light_chart_day_intervals'] as $light_chart_days) {
 	?>	
 	
     case '<?=$light_chart_days?>':

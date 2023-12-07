@@ -20,8 +20,8 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
 	
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
-		if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['power']['charts_backup_frequency'] > 0 ) {
-		$ct['cache']->backup_archive('charts-data', $ct['base_dir'] . '/cache/charts/', $ct['conf']['power']['charts_backup_frequency']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
+		if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['charts_alerts']['charts_backup_frequency'] > 0 ) {
+		$ct['cache']->backup_archive('charts-data', $ct['base_dir'] . '/cache/charts/', $ct['conf']['charts_alerts']['charts_backup_frequency']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
 		}
     
     

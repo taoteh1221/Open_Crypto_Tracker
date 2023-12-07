@@ -1662,7 +1662,7 @@ var $ct_array = array();
       usleep(50000); // Wait 0.05 seconds
         
         
-         foreach ( $ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days ) {
+         foreach ( $ct['light_chart_day_intervals'] as $light_chart_days ) {
            
 	           // If we reset light charts, just skip the rest of this update session
 	           if ( $fiat_light_chart_result == 'reset' || $crypto_light_chart_result == 'reset' ) {

@@ -224,20 +224,19 @@ var $ct_array = array();
         }
         elseif ( $_POST['conf_id'] === 'news' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
 		
-        $news_feed_cache_min_max = explode(',', $_POST['news']['news_feed_cache_min_max']);
-        // Cleanup
-        $news_feed_cache_min_max = array_map('trim', $news_feed_cache_min_max);
+        $news_feed_cache_min_max = array_map('trim', explode(',', $_POST['news']['news_feed_cache_min_max']) );
              
              
             // Make sure min / max cache time is set properly
-            if ( isset($_POST['news']['news_feed_cache_min_max']) && $_POST['news']['news_feed_cache_min_max'] == '' ) {
+            if ( isset($_POST['news']['news_feed_cache_min_max']) && trim($_POST['news']['news_feed_cache_min_max']) == '' ) {
             $update_config_error = '"News Feed Cache Min Max" value is REQUIRED';
             }
             else if (
             !isset($news_feed_cache_min_max[0]) || !$ct['var']->whole_int($news_feed_cache_min_max[0]) || $news_feed_cache_min_max[0] < 30 || $news_feed_cache_min_max[0] > 720 
             || !isset($news_feed_cache_min_max[1]) || !$ct['var']->whole_int($news_feed_cache_min_max[1]) || $news_feed_cache_min_max[1] < 30 || $news_feed_cache_min_max[1] > 720
+            || $news_feed_cache_min_max[0] > $news_feed_cache_min_max[1]
             ) {
-            $update_config_error = '"News Feed Cache Min Max" values MUST be between 30 and 720';
+            $update_config_error = '"News Feed Cache Min Max" values MUST be between 30 and 720 (LARGER number last)';
             }
         
         
@@ -312,6 +311,16 @@ var $ct_array = array();
         
         }
         elseif ( $_POST['conf_id'] === 'charts_alerts' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+     	     
+        $update_config_error_seperator = '<br /> ';
+        
+        $light_chart_day_intervals = array_map( "trim", explode(',', $_POST['charts_alerts']['light_chart_day_intervals']) );
+		
+        $light_chart_all_rebuild_min_max = array_map('trim', explode(',', $_POST['charts_alerts']['light_chart_all_rebuild_min_max']) );
+		
+        $asset_performance_chart_defaults = array_map('trim', explode('||', $_POST['charts_alerts']['asset_performance_chart_defaults']) );
+		
+        $asset_marketcap_chart_defaults = array_map('trim', explode('||', $_POST['charts_alerts']['asset_marketcap_chart_defaults']) );
         
         $allowed_modes = array(
                                'chart',
@@ -368,21 +377,14 @@ var $ct_array = array();
                
      	 $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($chart_asset, $exchange, $mrkt_id)['last_trade'] );
      	
-     	
-     	     if ( $loop_error ) {
-     	     $update_config_error_seperator = '<br /> ';
-     	     }
-     	
      	     
      	     if ( sizeof($_POST['charts_alerts']['tracked_markets']) == 1 && trim($val) == '' ) {
      	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
-     	     $loop_error = true;
      	     $update_config_error .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'")';
      	     }
      	     elseif ( !in_array($mode, $allowed_modes) ) {
-     	     $loop_error = true;
      	     $update_config_error .= $update_config_error_seperator . 'Unknown mode (in submission: "'.$val.'")';
      	     }
      	
@@ -393,6 +395,62 @@ var $ct_array = array();
            // Make whale alert params are set properly
            if ( !$is_whale_alert ) {
            $update_config_error .= $update_config_error_seperator . 'Whale Alert Thresholds formatting is NOT valid';
+           }
+             
+             
+           // Make sure light chart day intervals is set
+           if ( isset($_POST['charts_alerts']['light_chart_day_intervals']) && trim($_POST['charts_alerts']['light_chart_day_intervals']) == '' ) {
+           $update_config_error .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be filled in';
+           }
+           else {
+           
+                foreach ( $light_chart_day_intervals as $days ) {
+                
+                    if ( $days == 0 || !$ct['var']->whole_int($days) ) {
+                    $update_config_error .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be whole numbers greater than zero ("'.$days.'" is invalid)';
+                    }
+                
+                }
+                
+           }
+             
+             
+           // Make sure asset performance chart config is set
+           if ( isset($_POST['charts_alerts']['asset_performance_chart_defaults']) && trim($_POST['charts_alerts']['asset_performance_chart_defaults']) == '' ) {
+           $update_config_error .= $update_config_error_seperator . '"Asset Performance Chart Defaults" MUST be filled in';
+           }
+           else if (
+           !isset($asset_performance_chart_defaults[0]) || !$ct['var']->whole_int($asset_performance_chart_defaults[0]) || $asset_performance_chart_defaults[0] < 400 || $asset_performance_chart_defaults[0] > 900 
+           || !isset($asset_performance_chart_defaults[1]) || !$ct['var']->whole_int($asset_performance_chart_defaults[1]) || $asset_performance_chart_defaults[1] < 7 || $asset_performance_chart_defaults[1] > 16
+           || !$ct['var']->whole_int($asset_performance_chart_defaults[0] / 100)
+           ) {
+           $update_config_error .= $update_config_error_seperator . '"Asset Performance Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
+           }
+             
+             
+           // Make sure marketcap chart config is set
+           if ( isset($_POST['charts_alerts']['asset_marketcap_chart_defaults']) && trim($_POST['charts_alerts']['asset_marketcap_chart_defaults']) == '' ) {
+           $update_config_error .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" MUST be filled in';
+           }
+           else if (
+           !isset($asset_marketcap_chart_defaults[0]) || !$ct['var']->whole_int($asset_marketcap_chart_defaults[0]) || $asset_marketcap_chart_defaults[0] < 400 || $asset_marketcap_chart_defaults[0] > 900 
+           || !isset($asset_marketcap_chart_defaults[1]) || !$ct['var']->whole_int($asset_marketcap_chart_defaults[1]) || $asset_marketcap_chart_defaults[1] < 7 || $asset_marketcap_chart_defaults[1] > 16
+           || !$ct['var']->whole_int($asset_marketcap_chart_defaults[0] / 100)
+           ) {
+           $update_config_error .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
+           }
+           
+           
+           // Make sure min / max 'all' light chart rebuild time is set properly
+           if ( isset($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) && trim($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) == '' ) {
+           $update_config_error .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" MUST be filled in';
+           }
+           else if (
+           !isset($light_chart_all_rebuild_min_max[0]) || !$ct['var']->whole_int($light_chart_all_rebuild_min_max[0]) || $light_chart_all_rebuild_min_max[0] < 3 || $light_chart_all_rebuild_min_max[0] > 12 
+           || !isset($light_chart_all_rebuild_min_max[1]) || !$ct['var']->whole_int($light_chart_all_rebuild_min_max[1]) || $light_chart_all_rebuild_min_max[1] < 3 || $light_chart_all_rebuild_min_max[1] > 12
+           || $light_chart_all_rebuild_min_max[0] > $light_chart_all_rebuild_min_max[1]
+           ) {
+           $update_config_error .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" values MUST be between 3 and 12 (LARGER number last)';
            }
         
         

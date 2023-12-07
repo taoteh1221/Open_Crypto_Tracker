@@ -57,9 +57,9 @@
                         
 			<?php
 			}
-			if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['power']['charts_backup_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
+			if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['charts_alerts']['charts_backup_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$ct['conf']['power']['charts_backup_frequency']?> days, purged after <?=$ct['conf']['power']['backup_archive_delete_old']?> days old).
+          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$ct['conf']['charts_alerts']['charts_backup_frequency']?> days, purged after <?=$ct['conf']['power']['backup_archive_delete_old']?> days old).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
           	

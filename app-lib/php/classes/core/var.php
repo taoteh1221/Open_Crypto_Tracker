@@ -13,14 +13,14 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-
+   
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function max_100($num) {
-   return ( $this->num_to_str($num) > 100.00 ? 100.00 : $num );
+   function str_to_array($str) {
+   return explode("||",$str);
    }
    
    
@@ -40,6 +40,14 @@ var $ct_array = array();
    function strip_underscore_and_after($str) {
    return substr($str, 0, strpos($str, "_"));
    }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   function max_100($num) {
+   return ( $this->num_to_str($num) > 100.00 ? 100.00 : $num );
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -48,15 +56,6 @@ var $ct_array = array();
    
    function substri_count($haystack, $needle) {
    return substr_count(strtoupper($haystack), strtoupper($needle));
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function str_to_array($str) {
-   return explode("||",$str);
    }
    
    
@@ -199,6 +198,71 @@ var $ct_array = array();
    $str = preg_replace('/\s/', '', $str);
    
    return $str;
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function possible_base64_encoding($str) {
+        
+      if ( $str == '' ) {
+      return false;
+      }
+   
+   // Decode the string in strict mode, TO CHECK FOR *POSSIBLE* BASE64 ENCODING
+   // (checking for illegal base64 characters)
+   $possible_base64 = base64_decode($str, true);   
+   
+      if (
+      $possible_base64
+      && preg_match("/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/", $str)
+      ) {
+      $compare = base64_encode($possible_base64);
+      }
+      
+      // TECHNICALLY, we CANNOT tell if ANY VALID base64 string is base64-encoded, but if it validates WELL
+      // as a base64 string, we flag as possible encoding (to decode / scan for attack signatures)
+      if ( isset($compare) && $compare === $str ) {
+      return true;
+      }
+      else {
+      return false;
+      }
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function possible_hex_encoding($str) {
+        
+      if ( $str == '' ) {
+      return false;
+      }
+   
+   // Decode the string, TO CHECK FOR *POSSIBLE* HEX ENCODING
+   // (checking for illegal hex characters)
+   $possible_hex = hex2bin($str);   
+   
+      if ( $possible_hex
+      && preg_match('/^(?:0x)?[a-f0-9]{1,}$/i', $str)
+      ) {
+      $compare = bin2hex($possible_hex);
+      }
+      
+      // TECHNICALLY, we CANNOT tell if ANY VALID hex string is hex-encoded, but if it validates WELL
+      // as a hex string, we flag as possible encoding (to decode / scan for attack signatures)
+      if ( isset($compare) && $compare == $str ) {
+      return true;
+      }
+      else {
+      return false;
+      }
    
    }
    

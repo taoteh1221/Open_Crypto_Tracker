@@ -28,27 +28,6 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['enable_price_charts']['is_radio'] = array(
-                                                                  'off',
-                                                                  'on',
-                                                                 );
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['chart_crypto_volume_decimals']['is_range'] = true;
-
-$admin_render_settings['chart_crypto_volume_decimals']['range_min'] = 4;
-
-$admin_render_settings['chart_crypto_volume_decimals']['range_max'] = 10;
-
-$admin_render_settings['chart_crypto_volume_decimals']['range_step'] = 1;
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 $admin_render_settings['price_alert_channels']['is_select'] = array(
                                                           'off',
                                                           'email',
@@ -153,6 +132,47 @@ $admin_render_settings['whale_alert_thresholds']['is_notes'] = 'This format MUST
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$admin_render_settings['enable_price_charts']['is_radio'] = array(
+                                                                  'off',
+                                                                  'on',
+                                                                 );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['chart_crypto_volume_decimals']['is_range'] = true;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_min'] = 4;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_max'] = 10;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_step'] = 1;
+                                                         
+                                                         
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['charts_backup_frequency']['is_range'] = true;
+
+$admin_render_settings['charts_backup_frequency']['range_ui_meta_data'] = 'zero_is_disabled';
+
+$admin_render_settings['charts_backup_frequency']['range_min'] = 0;
+
+$admin_render_settings['charts_backup_frequency']['range_max'] = 7;
+
+$admin_render_settings['charts_backup_frequency']['range_step'] = 1;
+
+$admin_render_settings['charts_backup_frequency']['range_ui_prefix'] = 'Every ';
+
+$admin_render_settings['charts_backup_frequency']['range_ui_suffix'] = ' Days';
+
+$admin_render_settings['charts_backup_frequency']['is_notes'] = 'Backup chart data (AND send a download LINK to the ADMIN email)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 $admin_render_settings['charts_border']['is_color'] = true;
 
 
@@ -196,6 +216,116 @@ $admin_render_settings['charts_tooltip_background']['is_color'] = true;
 
 
 $admin_render_settings['charts_tooltip_text']['is_color'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['asset_performance_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['asset_marketcap_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['system_stats_first_chart_maximum_scale']['is_range'] = true;
+
+$admin_render_settings['system_stats_first_chart_maximum_scale']['range_min'] = 3;
+
+$admin_render_settings['system_stats_first_chart_maximum_scale']['range_max'] = 9;
+
+$admin_render_settings['system_stats_first_chart_maximum_scale']['range_step'] = 0.25;
+
+$admin_render_settings['system_stats_first_chart_maximum_scale']['is_notes'] = 'Highest allowed sensor value to scale vertical axis for, in the FIRST system information chart';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['system_stats_second_chart_maximum_scale']['is_range'] = true;
+
+$admin_render_settings['system_stats_second_chart_maximum_scale']['range_min'] = 300;
+
+$admin_render_settings['system_stats_second_chart_maximum_scale']['range_max'] = 900;
+
+$admin_render_settings['system_stats_second_chart_maximum_scale']['range_step'] = 25;
+
+$admin_render_settings['system_stats_second_chart_maximum_scale']['is_notes'] = 'Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['light_chart_day_intervals']['text_field_size'] = 40;
+
+$admin_render_settings['light_chart_day_intervals']['is_notes'] = '("Light") time period charts to use (loads quickly for any time period, 7 day / 30 day / 365 day / etc)<br />AUTO-CONVERTS to weeks / months / years (ONLY USE DAYS HERE)<br />This format MUST be used: number_days,number_days,number_days,number_days';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['light_chart_data_points_maximum']['is_range'] = true;
+
+$admin_render_settings['light_chart_data_points_maximum']['range_min'] = 500;
+
+$admin_render_settings['light_chart_data_points_maximum']['range_max'] = 1000;
+
+$admin_render_settings['light_chart_data_points_maximum']['range_step'] = 25;
+
+$admin_render_settings['light_chart_data_points_maximum']['is_notes'] = 'Maximum number of DATA POINTS allowed inside each light chart\'s DATA SET';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['light_chart_link_spacing']['is_range'] = true;
+
+$admin_render_settings['light_chart_link_spacing']['range_min'] = 10;
+
+$admin_render_settings['light_chart_link_spacing']['range_max'] = 100;
+
+$admin_render_settings['light_chart_link_spacing']['range_step'] = 10;
+
+$admin_render_settings['light_chart_link_spacing']['is_notes'] = 'Space between light chart LINKS (inside each chart)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['light_chart_link_font_offset']['is_range'] = true;
+
+$admin_render_settings['light_chart_link_font_offset']['range_min'] = 4;
+
+$admin_render_settings['light_chart_link_font_offset']['range_max'] = 8;
+
+$admin_render_settings['light_chart_link_font_offset']['range_step'] = 1;
+
+$admin_render_settings['light_chart_link_font_offset']['is_notes'] = 'GUESSED offset (width) for light chart LINK fonts';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['light_chart_first_build_hard_limit']['is_range'] = true;
+
+$admin_render_settings['light_chart_first_build_hard_limit']['range_min'] = 10;
+
+$admin_render_settings['light_chart_first_build_hard_limit']['range_max'] = 100;
+
+$admin_render_settings['light_chart_first_build_hard_limit']['range_step'] = 10;
+
+$admin_render_settings['light_chart_first_build_hard_limit']['is_notes'] = 'Maximum number of light chart NEW BUILDS allowed during background tasks (PER CPU CORE)<br />(LOW POWER DEVICES should NEVER exceed 20 new builds per CPU core)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['light_chart_all_rebuild_min_max']['is_notes'] = 'How often to rebuild each chart\'s "ALL" light chart, IN HOURS (between 3-12).<br />This format MUST be used: number_min,number_max';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

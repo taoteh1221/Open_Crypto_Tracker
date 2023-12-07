@@ -8,9 +8,19 @@
 // APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////
 
+
+// Set light charts config array
+$ct['light_chart_day_intervals'] = array_map( "trim", explode(',', $ct['conf']['charts_alerts']['light_chart_day_intervals']) );
+
+// Numericly sort light chart intervals (in case end user didn't do them in order)
+// DO BEFORE ADDING 'all' BELOW
+sort($ct['light_chart_day_intervals']);
+
+// Default light chart mode 'all' (we activate it here instead of in Admin Config, for good UX adding ONLY day intervals there)
+$ct['light_chart_day_intervals'][] = 'all';
     
 
-// START CONFIG CLEANUP (auto-correct any basic end user data entry errors in possibly user-customized DEFAULTS in config.php)
+// START CONFIG AUTO-CORRECT (fix any basic end user data entry errors in possibly user-customized DEFAULTS in config.php)
 
 
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
@@ -169,13 +179,6 @@ ksort($ct['conf']['plugins']['plugin_status']);
 // Default BTC CRYPTO/CRYPTO market pair support, BEFORE GENERATING MISCASSETS / BTCNFTS / ETHNFTS / SOLNFTS / ALTNFTS ARRAYS
 // (so we activate it here instead of in Admin Config, for good UX adding ONLY altcoin markets dynamically there)
 $ct['conf']['power']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct['conf']['power']['crypto_pair']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
-
-// Numericly sort light chart intervals (in case end user didn't do them in order)
-// DO BEFORE ADDING 'all' BELOW
-sort($ct['conf']['power']['light_chart_day_intervals']);
-
-// Default light chart mode 'all' (we activate it here instead of in Admin Config, for good UX adding ONLY day intervals there)
-$ct['conf']['power']['light_chart_day_intervals'][] = 'all';
 
 
 // Idiot-proof maximum of +-35 on captcha text contrast
@@ -380,7 +383,7 @@ sort($ct['conf']['charts_alerts']['tracked_markets']);
 
 
 // Better decimal support for these vars...
-$ct['conf']['power']['system_stats_first_chart_maximum_scale'] = $ct['var']->num_to_str($ct['conf']['power']['system_stats_first_chart_maximum_scale']); 
+$ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale']); 
 $ct['conf']['charts_alerts']['price_alert_threshold'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['price_alert_threshold']); 
 $ct['conf']['power']['hivepower_yearly_interest'] = $ct['var']->num_to_str($ct['conf']['power']['hivepower_yearly_interest']); 
 
