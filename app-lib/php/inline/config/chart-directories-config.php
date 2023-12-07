@@ -22,7 +22,7 @@ foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
 		}
 		
 		// Light charts
-		foreach( $ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days ) {
+		foreach( $ct['light_chart_day_intervals'] as $light_chart_days ) {
 			
 			if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/'.$light_chart_days.'_days/'.$asset_dir.'/') != true ) { // Attempt to create directory if it doesn't exist
 			$disabled_caching = 1;
@@ -36,7 +36,7 @@ foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
 
 
 // LIGHT CHARTS FOR SYSTEM STATS
-foreach( $ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days ) {
+foreach( $ct['light_chart_day_intervals'] as $light_chart_days ) {
 			
 	if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/light/'.$light_chart_days.'_days/') != true ) { // Attempt to create directory if it doesn't exist
 	$disabled_caching = 1;

@@ -121,7 +121,7 @@
 		  
 		  <div class="tab-pane" id="admin_charts_alerts" role="tabpanel">
 	
-	            <h2 class='bitcoin page_title'>Price <?=( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ? 'Charts / ' : '' )?>Alerts</h2>
+	            <h2 class='bitcoin page_title'>Price Alerts / Charts</h2>
 
                 <div class='full_width_wrapper'>
                 	

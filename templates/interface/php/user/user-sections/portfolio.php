@@ -941,7 +941,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
     
     <?php
     
-    $asset_performance_chart_defaults = explode("||", $ct['conf']['power']['asset_performance_chart_defaults']);
+    $asset_performance_chart_defaults = explode("||", $ct['conf']['charts_alerts']['asset_performance_chart_defaults']);
     
     	// Fallbacks
     	
@@ -976,7 +976,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
     
     ">
 	<?php
-	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	foreach ($ct['light_chart_day_intervals'] as $light_chart_days) {
 	?>
     <option value='<?=$light_chart_days?>' <?=( $light_chart_days == 'all' ? 'selected' : '' )?>> <?=$ct['gen']->light_chart_time_period($light_chart_days, 'long')?> </option>
 	<?php
@@ -1206,7 +1206,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
     
     <?php
     
-    $asset_marketcap_chart_defaults = explode("||", $ct['conf']['power']['asset_marketcap_chart_defaults']);
+    $asset_marketcap_chart_defaults = explode("||", $ct['conf']['charts_alerts']['asset_marketcap_chart_defaults']);
     
     	// Fallbacks
     	
@@ -1794,7 +1794,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
    
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct['conf']['power']['light_chart_all_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct['conf']['charts_alerts']['light_chart_all_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				

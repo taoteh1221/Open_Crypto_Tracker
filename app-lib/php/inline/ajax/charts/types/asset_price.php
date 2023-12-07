@@ -116,7 +116,7 @@ gui: {
    }],
 	labels: [
 	<?php
-	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	foreach ($ct['light_chart_day_intervals'] as $light_chart_days) {
 	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
@@ -135,10 +135,10 @@ gui: {
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) );  
-		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['charts_alerts']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['charts_alerts']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -338,7 +338,7 @@ graphset:[
 	],
 	labels: [
 	<?php
-	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	foreach ($ct['light_chart_day_intervals'] as $light_chart_days) {
 	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
@@ -357,10 +357,10 @@ graphset:[
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['charts_alerts']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['charts_alerts']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>

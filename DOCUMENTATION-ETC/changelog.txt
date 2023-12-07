@@ -6486,6 +6486,8 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -Hardened user input sanitization security checks (on top of plaintext scans, now any hexidecimal / base64 / HTML entity encoding is also decoded / scanned for attack signatures)
 
+-Migrated all chart-related settings in the "Power User" section, over to the "Price Alerts / Charts" section
+
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup

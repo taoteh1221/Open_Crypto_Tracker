@@ -178,6 +178,9 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Test out the newly-migrated chart settings interfacing / updating (that we moved from the power user section, over to the price alerts / charts section)
+
+
 Do final testing on hexidecimal / base64 encoded AND plaintext attack signature detection, in the new user-input sanitization logic.
 
 

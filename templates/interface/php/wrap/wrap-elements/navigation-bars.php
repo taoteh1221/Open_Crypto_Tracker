@@ -118,7 +118,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure Price <?=( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ? 'Charts / ' : '' )?>Alerts'>Price <?=( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ? 'Charts / ' : '' )?>Alerts</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
                     </li>
 
 
@@ -384,7 +384,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure Price <?=( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ? 'Charts / ' : '' )?>Alerts'>Price <?=( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ? 'Charts / ' : '' )?>Alerts</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
                     </li>
                     
                     

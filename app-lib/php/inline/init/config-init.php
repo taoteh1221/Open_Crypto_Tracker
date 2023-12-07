@@ -381,7 +381,7 @@ $backup_archive_password = false;
 
 
 // Light chart config tracking / updating (checking for changes to light chart app config, to trigger light chart rebuilds)
-$conf_light_chart_struct = md5( serialize($ct['conf']['power']['light_chart_day_intervals']) . $ct['conf']['power']['light_chart_data_points_maximum'] );
+$conf_light_chart_struct = md5( serialize($ct['light_chart_day_intervals']) . $ct['conf']['charts_alerts']['light_chart_data_points_maximum'] );
 
 if ( !file_exists($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat') ) {
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat', $conf_light_chart_struct);

@@ -243,7 +243,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating light charts
         usleep(120000); // Wait 0.12 seconds
         		
-        	foreach ( $ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days ) {
+        	foreach ( $ct['light_chart_day_intervals'] as $light_chart_days ) {
         	    
         	    // If we reset light charts, just skip the rest of this update session
         	    if ( $system_light_chart_result == 'reset' ) {

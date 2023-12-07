@@ -44,7 +44,7 @@
 					
 		<p class='bitcoin' style='font-weight: bold;'><span class='red'>Did you just install this app?</span> If you would like to bootstrap the demo price chart data (get many months of spot price data already pre-populated), <a href='https://github.com/taoteh1221/bootstrapping/raw/main/bootstrap-price-charts-data.zip' target='_blank'>download it from github</a>. Just replace your existing /cache/charts/spot_price_24hr_volume/archival folder with the one inside this download archive, and wait until the next background task runs fully (the app will detect the change and rebuild the [light] time period charts with the new chart data). It may take a few additional cron job / scheduled task runs (a couple hours for slower machines), for a full rebuild of all (light) time period charts.</p>
 		 
-		<p class='bitcoin' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the Admin Config CHARTS AND ALERTS section. Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job or scheduled task on your web server</a> (if you are running the "Server Edition"), or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in the Admin Config "Price Charts / Alerts" section, if you choose to not setup a cron job.</p>
+		<p class='bitcoin' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the Admin Config CHARTS AND ALERTS section. Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job or scheduled task on your web server</a> (if you are running the "Server Edition"), or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in the Admin Config "Price Alerts / Charts" section, if you choose to not setup a cron job.</p>
 		 
 		<p class='bitcoin' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pair volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pair volume for a better chart user experience).</p>
 					
@@ -99,7 +99,7 @@
 	">
     <option value='all'> All </option>
     <?php
-    foreach ( $ct['conf']['power']['light_chart_day_intervals'] as $days ) {
+    foreach ( $ct['light_chart_day_intervals'] as $days ) {
        if ( $days != 'all' ) {
     ?>
     <option value='<?=$days?>'<?=( $_COOKIE['pref_chart_time_period'] == $days ? ' selected' : '' )?>> <?=$ct['gen']->light_chart_time_period($days, 'long')?> </option>
