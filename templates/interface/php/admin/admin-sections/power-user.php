@@ -10,7 +10,7 @@
 
 
 <?php
-if ( $admin_area_sec_level == 'high' ) {
+if ( $ct['admin_area_sec_level'] == 'high' ) {
 ?>
 	
 	<p class='bitcoin bitcoin_dotted'>

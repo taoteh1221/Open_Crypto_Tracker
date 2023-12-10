@@ -8,7 +8,7 @@
 // Have this script not load any code if asset charts are not turned on
 if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
 
-$charted_val = ( $chart_mode == 'pair' ? $alerts_mrkt_parse[2] : $default_bitcoin_primary_currency_pair );
+$charted_val = ( $chart_mode == 'pair' ? $alerts_mrkt_parse[2] : $ct['default_bitcoin_primary_currency_pair'] );
 		
 // Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 $js_key = preg_replace("/-/", "", $alerts_mrkt_parse[0]) . '_' . $charted_val;

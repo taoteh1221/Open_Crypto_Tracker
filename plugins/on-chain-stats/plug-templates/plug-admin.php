@@ -4,7 +4,7 @@
  */
 
 
-if ( $admin_area_sec_level == 'high' ) {
+if ( $ct['admin_area_sec_level'] == 'high' ) {
 ?>
 	
 	<p class='bitcoin bitcoin_dotted'>
@@ -28,19 +28,19 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['runtime_mode']['is_readonly'] = 'Developer setting only';
+$ct['admin_render_settings']['runtime_mode']['is_readonly'] = 'Developer setting only';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['ui_location']['is_readonly'] = 'Developer setting only';
+$ct['admin_render_settings']['ui_location']['is_readonly'] = 'Developer setting only';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['ui_name']['is_readonly'] = 'Developer setting only';
+$ct['admin_render_settings']['ui_name']['is_readonly'] = 'Developer setting only';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,10 +54,10 @@ $admin_render_settings['ui_name']['is_readonly'] = 'Developer setting only';
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-//$admin_render_settings['is_refresh_admin'] = 'none';
+//$ct['admin_render_settings']['is_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-//$ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $admin_render_settings);
+//$ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,7 @@ $api_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] ==
 
 
 <?php
-if ( $admin_area_sec_level == 'high' ) {
+if ( $ct['admin_area_sec_level'] == 'high' ) {
 ?>
 	
 	<p class='bitcoin bitcoin_dotted'>
@@ -45,53 +45,53 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['int_api_rate_limit']['is_range'] = true;
+$ct['admin_render_settings']['int_api_rate_limit']['is_range'] = true;
 
-$admin_render_settings['int_api_rate_limit']['range_ui_meta_data'] = 'zero_is_unlimited';
+$ct['admin_render_settings']['int_api_rate_limit']['range_ui_meta_data'] = 'zero_is_unlimited';
 
-$admin_render_settings['int_api_rate_limit']['range_min'] = 0;
+$ct['admin_render_settings']['int_api_rate_limit']['range_min'] = 0;
 
-$admin_render_settings['int_api_rate_limit']['range_max'] = 10;
+$ct['admin_render_settings']['int_api_rate_limit']['range_max'] = 10;
 
-$admin_render_settings['int_api_rate_limit']['range_step'] = 1;
+$ct['admin_render_settings']['int_api_rate_limit']['range_step'] = 1;
 
-$admin_render_settings['int_api_rate_limit']['range_ui_prefix'] = 'Every ';
+$ct['admin_render_settings']['int_api_rate_limit']['range_ui_prefix'] = 'Every ';
 
-$admin_render_settings['int_api_rate_limit']['range_ui_suffix'] = ' Seconds';
+$ct['admin_render_settings']['int_api_rate_limit']['range_ui_suffix'] = ' Seconds';
 
-$admin_render_settings['int_api_rate_limit']['is_notes'] = 'MAXIMUM allowed connection rate';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['int_api_markets_limit']['is_range'] = true;
-
-$admin_render_settings['int_api_markets_limit']['range_min'] = 5;
-
-$admin_render_settings['int_api_markets_limit']['range_max'] = 100;
-
-$admin_render_settings['int_api_markets_limit']['range_step'] = 5;
-
-$admin_render_settings['int_api_markets_limit']['range_ui_suffix'] = ' Markets';
-
-$admin_render_settings['int_api_markets_limit']['is_notes'] = 'MAXIMUM number of market data sets allowed per-request';
+$ct['admin_render_settings']['int_api_rate_limit']['is_notes'] = 'MAXIMUM allowed connection rate';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['int_api_cache_time']['is_range'] = true;
+$ct['admin_render_settings']['int_api_markets_limit']['is_range'] = true;
 
-$admin_render_settings['int_api_cache_time']['range_min'] = 1;
+$ct['admin_render_settings']['int_api_markets_limit']['range_min'] = 5;
 
-$admin_render_settings['int_api_cache_time']['range_max'] = 10;
+$ct['admin_render_settings']['int_api_markets_limit']['range_max'] = 100;
 
-$admin_render_settings['int_api_cache_time']['range_step'] = 1;
+$ct['admin_render_settings']['int_api_markets_limit']['range_step'] = 5;
 
-$admin_render_settings['int_api_cache_time']['range_ui_suffix'] = ' Minutes';
+$ct['admin_render_settings']['int_api_markets_limit']['range_ui_suffix'] = ' Markets';
 
-$admin_render_settings['int_api_cache_time']['is_notes'] = 'Cache time (time to wait, before getting LIVE data again)';
+$ct['admin_render_settings']['int_api_markets_limit']['is_notes'] = 'MAXIMUM number of market data sets allowed per-request';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$ct['admin_render_settings']['int_api_cache_time']['is_range'] = true;
+
+$ct['admin_render_settings']['int_api_cache_time']['range_min'] = 1;
+
+$ct['admin_render_settings']['int_api_cache_time']['range_max'] = 10;
+
+$ct['admin_render_settings']['int_api_cache_time']['range_step'] = 1;
+
+$ct['admin_render_settings']['int_api_cache_time']['range_ui_suffix'] = ' Minutes';
+
+$ct['admin_render_settings']['int_api_cache_time']['is_notes'] = 'Cache time (time to wait, before getting LIVE data again)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,10 +99,10 @@ $admin_render_settings['int_api_cache_time']['is_notes'] = 'Cache time (time to 
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-$admin_render_settings['is_refresh_admin'] = 'all';
+$ct['admin_render_settings']['is_refresh_admin'] = 'all';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('int_api', 'webhook_int_api', $admin_render_settings);
+$ct['admin']->admin_config_interface('int_api', 'webhook_int_api', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,22 +140,22 @@ $ct['admin']->admin_config_interface('int_api', 'webhook_int_api', $admin_render
 <legend class='subsection_legend'> Active Webhook Plugins  </legend>
 <?php
 
-if ( !isset($activated_plugins['webhook']) ) {
+if ( !isset($plug['activated']['webhook']) ) {
 echo '<p><span class="bitcoin">No webhooks activated.</span></p>';
 }
 	
-foreach ( $activated_plugins['webhook'] as $plugin_key => $plugin_init ) {
+foreach ( $plug['activated']['webhook'] as $plugin_key => $plugin_init ) {
         		
 $webhook_plug = $plugin_key;
         	
-    if ( file_exists($plugin_init) && isset($int_webhooks[$webhook_plug]) ) {
+    if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$webhook_plug]) ) {
     ?>
        
      <p>
      
-     <b class='blue'>Webhook endpoint for "<?=$plug_conf[$webhook_plug]['ui_name']?>" plugin:</b> <br /><br />
+     <b class='blue'>Webhook endpoint for "<?=$plug['conf'][$webhook_plug]['ui_name']?>" plugin:</b> <br /><br />
      
-     <b class='bitcoin'><?=$ct['base_url']?><?=$webhook_base_endpoint?><?=$ct['gen']->nonce_digest($webhook_plug, $int_webhooks[$webhook_plug] . $webhook_master_key)?></b>
+     <b class='bitcoin'><?=$ct['base_url']?><?=$webhook_base_endpoint?><?=$ct['gen']->nonce_digest($webhook_plug, $ct['int_webhooks'][$webhook_plug] . $webhook_master_key)?></b>
      
      </p>
      <br /> &nbsp; <br />

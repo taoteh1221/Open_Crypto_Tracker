@@ -130,7 +130,7 @@
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 			
 				
-				<input type='checkbox' value='<?=$feed_id?>' onchange='feed_toggle(this);' <?=( in_array("[".$feed_id."]", $sel_opt['show_feeds']) ? 'checked' : '' )?> /> <?=$feed['title']?>
+				<input type='checkbox' value='<?=$feed_id?>' onchange='feed_toggle(this);' <?=( in_array("[".$feed_id."]", $ct['sel_opt']['show_feeds']) ? 'checked' : '' )?> /> <?=$feed['title']?>
 	
 	
 			</div>
@@ -172,9 +172,9 @@
 	
 	<?php
 	
-	if ( isset($sel_opt['show_feeds'][0]) && $sel_opt['show_feeds'][0] != '' ) {
+	if ( isset($ct['sel_opt']['show_feeds'][0]) && $ct['sel_opt']['show_feeds'][0] != '' ) {
 	 
-	 $chosen_feeds = array_map( array($ct['var'], 'strip_brackets') , $sel_opt['show_feeds']);
+	 $chosen_feeds = array_map( array($ct['var'], 'strip_brackets') , $ct['sel_opt']['show_feeds']);
 	 
 	    if ( is_array($chosen_feeds) && sizeof($chosen_feeds) > 0 ) {
 	    $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $ct['conf']['news']['news_feed_batched_maximum'] );
@@ -219,7 +219,7 @@
 					// Load AFTER page load, for quick interface loading
 					$(document).ready(function(){
 						
-						$("#rss_feeds_<?=$batched_feeds_loops_added?>").load("ajax.php?type=rss&feeds=<?=$batched_feeds_keys?>&theme=<?=$sel_opt['theme_selected']?>", function(responseTxt, statusTxt, xhr){
+						$("#rss_feeds_<?=$batched_feeds_loops_added?>").load("ajax.php?type=rss&feeds=<?=$batched_feeds_keys?>&theme=<?=$ct['sel_opt']['theme_selected']?>", function(responseTxt, statusTxt, xhr){
 							
 							if(statusTxt == "success") {
 								

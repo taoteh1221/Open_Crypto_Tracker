@@ -19,10 +19,10 @@ $asset = preg_replace("/-(.*)/i", "", $attributes[0]);
 			
 		$analyzed_assets[$asset] = $attributes[0];
 		
-		$chart_file = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/' . $attributes[0] . '_chart_'.$default_bitcoin_primary_currency_pair.'.dat';
+		$chart_file = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/' . $attributes[0] . '_chart_'.$ct['default_bitcoin_primary_currency_pair'].'.dat';
 						
 			if ( file_exists($chart_file) ) {
-			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = $ct['gen']->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
+			$ct['runtime_data']['performance_stats'][strtoupper($asset)]['data'] = $ct['gen']->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
 			}
 		
 		}
@@ -34,7 +34,7 @@ $asset = preg_replace("/-(.*)/i", "", $attributes[0]);
 
 // If no chart data available...
 
-if ( !is_array($runtime_data['performance_stats']) || is_array($runtime_data['performance_stats']) && sizeof($runtime_data['performance_stats']) < 1 ) {
+if ( !is_array($ct['runtime_data']['performance_stats']) || is_array($ct['runtime_data']['performance_stats']) && sizeof($ct['runtime_data']['performance_stats']) < 1 ) {
 ?>
 			
 {
@@ -81,7 +81,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Asset Performance Comparison (<?=strtoupper($default_bitcoin_primary_currency_pair)?>)",
+        text: "Asset Performance Comparison (<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?>)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -104,7 +104,7 @@ exit;
 $sorted_by_last_chart_data = array();
 
 $loop = 0;
-foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_val ) {
+foreach ( $ct['runtime_data']['performance_stats'] as $chart_key => $chart_val ) {
   			
 $percent_sample_newest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_val['data']['percent'], ',', 'last') );
 
@@ -211,7 +211,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "Asset Performance Comparison (<?=strtoupper($default_bitcoin_primary_currency_pair)?>)",
+        text: "Asset Performance Comparison (<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?>)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -281,7 +281,7 @@ gui: {
       	lineColor: "#444444"
         },
         label: {
-          text: "<?=strtoupper($default_bitcoin_primary_currency_pair)?> Value Percentage Change"
+          text: "<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value Percentage Change"
         },
     	zooming: true
       },

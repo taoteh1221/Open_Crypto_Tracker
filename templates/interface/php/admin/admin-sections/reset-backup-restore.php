@@ -163,13 +163,13 @@
 	<!-- RESET webhook MASTER key END -->
 	
 	<?php
-	foreach ( $activated_plugins['webhook'] as $plugin_key => $plugin_init ) {
+	foreach ( $plug['activated']['webhook'] as $plugin_key => $plugin_init ) {
         		
      $webhook_plug = $plugin_key;
      
      $js_safe_var = 'a_' . preg_replace("/[^A-Za-z0-9 ]/", '', $webhook_plug);
         	
-          if ( file_exists($plugin_init) && isset($int_webhooks[$webhook_plug]) ) {
+          if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$webhook_plug]) ) {
 	     ?>
 	
 
@@ -188,7 +188,7 @@
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='<?=$webhook_plug?>_webhook_button' class='force_button_style' onclick='
 	
-	var a_<?=$js_safe_var?>_webhook_key_reset = confirm("Resetting the \"<?=$plug_conf[$webhook_plug]['ui_name']?>\" plugin webhook secret key will stop ALL external apps from accessing its plugin webhook with their current webhook app key. \n\nPress OK to reset this webhook secret key, or CANCEL to keep the current one. ");
+	var a_<?=$js_safe_var?>_webhook_key_reset = confirm("Resetting the \"<?=$plug['conf'][$webhook_plug]['ui_name']?>\" plugin webhook secret key will stop ALL external apps from accessing its plugin webhook with their current webhook app key. \n\nPress OK to reset this webhook secret key, or CANCEL to keep the current one. ");
 	
 		if ( a_<?=$js_safe_var?>_webhook_key_reset ) {
 		document.getElementById("<?=$webhook_plug?>_webhook_button").disable = true;
@@ -196,7 +196,7 @@
 		document.getElementById("<?=$webhook_plug?>_webhook_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
 		}
 	
-	'>Reset "<?=$plug_conf[$webhook_plug]['ui_name']?>" Plugin Webhook Key</button>
+	'>Reset "<?=$plug['conf'][$webhook_plug]['ui_name']?>" Plugin Webhook Key</button>
 	
 	</div>
 				

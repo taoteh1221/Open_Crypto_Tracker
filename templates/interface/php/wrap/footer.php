@@ -7,7 +7,7 @@
 // Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
 if ( $ct['conf']['proxy']['proxy_alert_channels'] != 'off' ) {
 	
-	foreach ( $proxy_checkup as $problem_proxy ) {
+	foreach ( $ct['proxy_checkup'] as $problem_proxy ) {
 	$ct['gen']->test_proxy($problem_proxy);
 	sleep(1);
 	}
@@ -70,7 +70,7 @@ if ( $is_iframe ) {
 <!-- IFRAME footer.php START -->
     
 
-<div id="iframe_error_alert" style='display: none;'><?php echo $alerts_gui_logs; ?></div>
+<div id="iframe_error_alert" style='display: none;'><?php echo $ct['alerts_gui_logs']; ?></div>
 
 	
 <script>
@@ -95,9 +95,9 @@ $(document).ready(function() {
               
               
              // Flag as config NOT updated if it was halted (so we skip refreshing any other admin sections)
-             if ( !$app_upgrade_check && !$reset_config && !$update_config ) {
+             if ( !$ct['app_upgrade_check'] && !$ct['reset_config'] && !$ct['update_config'] ) {
              
-                 if ( $check_2fa_error != null || $update_config_error != null || $admin_general_error != null || $admin_reset_error != null ) {
+                 if ( $ct['check_2fa_error'] != null || $ct['update_config_error'] != null || $admin_general_error != null || $admin_reset_error != null ) {
                  $halt_iframe_refreshing = true;
                  }
              
@@ -213,7 +213,7 @@ else {
     
     <p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a></p>
             	
-    <div id="app_error_alert" style='display: none;'><?php echo $alerts_gui_logs; ?></div>
+    <div id="app_error_alert" style='display: none;'><?php echo $ct['alerts_gui_logs']; ?></div>
             	
     <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($ct['app_edition'])?> Edition<?=( $ct['gen']->admin_logged_in() ? ' v' . $ct['app_version'] : '' )?></a>
     

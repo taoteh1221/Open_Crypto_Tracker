@@ -16,11 +16,11 @@
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('toggle_admin_security')?>' />
 	
-	<input type='hidden' name='sel_admin_sec' id='sel_admin_sec' value='<?=$admin_area_sec_level?>' />
+	<input type='hidden' name='sel_admin_sec' id='sel_admin_sec' value='<?=$ct['admin_area_sec_level']?>' />
 	
 	<b class='blue'>Admin Interface Security Level:</b> &nbsp;<img class="tooltip_style_control admin_security_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
-	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? 'checked' : '' )?> /> Normal &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_medium' value='medium' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'medium' ? 'checked' : '' )?> /> Medium &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'high' ? 'checked' : '' )?> /> High
+	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $ct['admin_area_sec_level'] == 'normal' ? 'checked' : '' )?> /> Normal &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_medium' value='medium' onclick='set_admin_security(this);' <?=( $ct['admin_area_sec_level'] == 'medium' ? 'checked' : '' )?> /> Medium &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $ct['admin_area_sec_level'] == 'high' ? 'checked' : '' )?> /> High
 	
 	
 	</form>
@@ -42,11 +42,11 @@
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('toggle_admin_2fa')?>' />
 	
-	<input type='hidden' name='sel_admin_2fa' id='sel_admin_2fa' value='<?=( $force_show_2fa_setup ? $force_show_2fa_setup : $admin_area_2fa )?>' />
+	<input type='hidden' name='sel_admin_2fa' id='sel_admin_2fa' value='<?=( $force_show_2fa_setup ? $force_show_2fa_setup : $ct['admin_area_2fa'] )?>' />
 	
 	<b class='blue'>Admin Two-Factor Authentication (ADDITIONAL time-based one-time password security):</b> &nbsp;<img class="tooltip_style_control admin_2fa_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
-	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' && !$force_show_2fa_setup || $force_show_2fa_setup == 'off' ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' || $force_show_2fa_setup == 'on' ? 'checked' : '' )?> /> On &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_scrict' value='strict' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'strict' || $force_show_2fa_setup == 'strict' ? 'checked' : '' )?> /> Strict
+	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $ct['admin_area_2fa'] == 'off' && !$force_show_2fa_setup || $force_show_2fa_setup == 'off' ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $ct['admin_area_2fa'] == 'on' || $force_show_2fa_setup == 'on' ? 'checked' : '' )?> /> On &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_scrict' value='strict' onclick='set_admin_2fa(this);' <?=( $ct['admin_area_2fa'] == 'strict' || $force_show_2fa_setup == 'strict' ? 'checked' : '' )?> /> Strict
 	
 	
 	</form>
@@ -62,7 +62,7 @@
 	 
 	 
 	 // Setup to enable 2FA
-	 if ( $admin_area_2fa == 'off' ) {
+	 if ( $ct['admin_area_2fa'] == 'off' ) {
       ?>
                
       <div class='show_2fa_verification' <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>>
@@ -179,7 +179,7 @@
 	
 
 <?php
-if ( $admin_area_sec_level == 'high' ) {
+if ( $ct['admin_area_sec_level'] == 'high' ) {
 ?>
 	
 	<p class='bitcoin bitcoin_dotted'>
@@ -201,31 +201,31 @@ else {
 
 if ( $ct['app_container'] == 'phpdesktop' ) {
 // We use readonly instead of disabled, so we don't accidentally delete the empty value from the cached config
-$admin_render_settings['interface_login']['is_readonly'] = 'Unavailable in PHPdesktop container';
-$admin_render_settings['interface_login']['text_field_size'] = 30;
+$ct['admin_render_settings']['interface_login']['is_readonly'] = 'Unavailable in PHPdesktop container';
+$ct['admin_render_settings']['interface_login']['text_field_size'] = 30;
 }
 else {
 
-$admin_render_settings['interface_login']['is_password'] = true;
+$ct['admin_render_settings']['interface_login']['is_password'] = true;
 
-$admin_render_settings['interface_login']['text_field_size'] = 25;
+$ct['admin_render_settings']['interface_login']['text_field_size'] = 25;
 
 }
 
 
-$admin_render_settings['interface_login']['is_notes'] = 'Username / password protection for remote access to the app\'s web address (using web server "<a href="https://httpd.apache.org/docs/current/programs/htpasswd.html" target="_BLANK">htpasswd</a>" support)<br />This format MUST be used: username||password<br />SEE ANY ALERTS (after saving changes), for weak username / password failures.';
+$ct['admin_render_settings']['interface_login']['is_notes'] = 'Username / password protection for remote access to the app\'s web address (using web server "<a href="https://httpd.apache.org/docs/current/programs/htpasswd.html" target="_BLANK">htpasswd</a>" support)<br />This format MUST be used: username||password<br />SEE ANY ALERTS (after saving changes), for weak username / password failures.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['backup_archive_password']['is_password'] = true;
+$ct['admin_render_settings']['backup_archive_password']['is_password'] = true;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['login_alert_channels']['is_select'] = array(
+$ct['admin_render_settings']['login_alert_channels']['is_select'] = array(
                                                           'off',
                                                           'email',
                                                           'text',
@@ -234,84 +234,84 @@ $admin_render_settings['login_alert_channels']['is_select'] = array(
                                                           'all',
                                                          );
 
-$admin_render_settings['login_alert_channels']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
+$ct['admin_render_settings']['login_alert_channels']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['admin_cookie_expires']['is_range'] = true;
+$ct['admin_render_settings']['admin_cookie_expires']['is_range'] = true;
 
-$admin_render_settings['admin_cookie_expires']['range_min'] = 1;
+$ct['admin_render_settings']['admin_cookie_expires']['range_min'] = 1;
 
-$admin_render_settings['admin_cookie_expires']['range_max'] = 6;
+$ct['admin_render_settings']['admin_cookie_expires']['range_max'] = 6;
 
-$admin_render_settings['admin_cookie_expires']['range_step'] = 1;
+$ct['admin_render_settings']['admin_cookie_expires']['range_step'] = 1;
 
-$admin_render_settings['admin_cookie_expires']['range_ui_prefix'] = 'After ';
+$ct['admin_render_settings']['admin_cookie_expires']['range_ui_prefix'] = 'After ';
 
-$admin_render_settings['admin_cookie_expires']['range_ui_suffix'] = ' Hours';
+$ct['admin_render_settings']['admin_cookie_expires']['range_ui_suffix'] = ' Hours';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['smtp_strict_ssl']['is_radio'] = array(
+$ct['admin_render_settings']['smtp_strict_ssl']['is_radio'] = array(
                                                                'off',
                                                                'on',
                                                               );
 
-$admin_render_settings['smtp_strict_ssl']['is_notes'] = 'Set to "Off", if the SMTP server has an invalid certificate.<br />(for "SMTP Server" setting, in the "Communications" section)';
+$ct['admin_render_settings']['smtp_strict_ssl']['is_notes'] = 'Set to "Off", if the SMTP server has an invalid certificate.<br />(for "SMTP Server" setting, in the "Communications" section)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['remote_api_strict_ssl']['is_radio'] = array(
+$ct['admin_render_settings']['remote_api_strict_ssl']['is_radio'] = array(
                                                                     'off',
                                                                     'on',
                                                                    );
 
-$admin_render_settings['remote_api_strict_ssl']['is_notes'] = 'Set to "Off", if any exchange\'s API servers have invalid certificates.';
+$ct['admin_render_settings']['remote_api_strict_ssl']['is_notes'] = 'Set to "Off", if any exchange\'s API servers have invalid certificates.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['access_control_origin']['is_radio'] = array(
+$ct['admin_render_settings']['access_control_origin']['is_radio'] = array(
                                                                     'any',
                                                                     'strict',
                                                                    );
 
-$admin_render_settings['access_control_origin']['is_notes'] = '"Strict" #CAN BREAK THINGS LOADING# ON SOME SETUPS!';
+$ct['admin_render_settings']['access_control_origin']['is_notes'] = '"Strict" #CAN BREAK THINGS LOADING# ON SOME SETUPS!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['captcha_text_contrast']['is_range'] = true;
+$ct['admin_render_settings']['captcha_text_contrast']['is_range'] = true;
 
-$admin_render_settings['captcha_text_contrast']['range_min'] = -35;
+$ct['admin_render_settings']['captcha_text_contrast']['range_min'] = -35;
 
-$admin_render_settings['captcha_text_contrast']['range_max'] = 35;
+$ct['admin_render_settings']['captcha_text_contrast']['range_max'] = 35;
 
-$admin_render_settings['captcha_text_contrast']['range_step'] = 1;
+$ct['admin_render_settings']['captcha_text_contrast']['range_step'] = 1;
 
-$admin_render_settings['captcha_text_contrast']['range_ui_prefix'] = '+';
+$ct['admin_render_settings']['captcha_text_contrast']['range_ui_prefix'] = '+';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['captcha_text_angle']['is_range'] = true;
+$ct['admin_render_settings']['captcha_text_angle']['is_range'] = true;
 
-$admin_render_settings['captcha_text_angle']['range_min'] = 0;
+$ct['admin_render_settings']['captcha_text_angle']['range_min'] = 0;
 
-$admin_render_settings['captcha_text_angle']['range_max'] = 35;
+$ct['admin_render_settings']['captcha_text_angle']['range_max'] = 35;
 
-$admin_render_settings['captcha_text_angle']['range_step'] = 1;
+$ct['admin_render_settings']['captcha_text_angle']['range_step'] = 1;
 
-$admin_render_settings['captcha_text_angle']['range_ui_suffix'] = ' degrees Maximum';
+$ct['admin_render_settings']['captcha_text_angle']['range_ui_suffix'] = ' degrees Maximum';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -319,10 +319,10 @@ $admin_render_settings['captcha_text_angle']['range_ui_suffix'] = ' degrees Maxi
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-$admin_render_settings['is_refresh_admin'] = 'all';
+$ct['admin_render_settings']['is_refresh_admin'] = 'all';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('sec', 'security', $admin_render_settings);
+$ct['admin']->admin_config_interface('sec', 'security', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

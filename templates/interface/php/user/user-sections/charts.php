@@ -30,7 +30,7 @@
 		$supported_prim_currency_list = rtrim($supported_prim_currency_list,'/');
 		$supported_prim_currency_list = trim($supported_prim_currency_list);
 		
-		foreach ( $ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_currency_pair] as $key => $unused ) {
+		foreach ( $ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']] as $key => $unused ) {
 		
 			if( stristr($key, 'bitmex_') == false ) { // Futures markets not allowed
 			$supported_exchange_list .= $ct['gen']->key_to_name($key) . ' / ';
@@ -48,9 +48,9 @@
 		 
 		<p class='bitcoin' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pair volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pair volume for a better chart user experience).</p>
 					
-		<p class='black' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_bitcoin_primary_currency_pair)?> @ <?=$ct['gen']->key_to_name($default_bitcoin_primary_currency_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_bitcoin_primary_currency_pair)?> Value" charts)</p>
+		<p class='black' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> @ <?=$ct['gen']->key_to_name($ct['default_bitcoin_primary_currency_exchange'])?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value" charts)</p>
 		
-		<p class='black' style='font-weight: bold;'><?=strtoupper($default_bitcoin_primary_currency_pair)?>-paired BTC exchanges supported in this app are: <br /><span class='bitcoin'><?=$supported_exchange_list?></span></p>
+		<p class='black' style='font-weight: bold;'><?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?>-paired BTC exchanges supported in this app are: <br /><span class='bitcoin'><?=$supported_exchange_list?></span></p>
 		
 		<p class='black' style='font-weight: bold;'><?=$supported_prim_currency_count?> primary currency pairs are supported for conversion charts (in the Admin Config GENERAL section, using the "bitcoin_primary_currency_pair" setting):<br /> <span class='bitcoin'><?=$supported_prim_currency_list?></span> </p>
 		 
@@ -221,14 +221,14 @@
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 				
-				<input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $show_asset_params[2]."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[2])?> @ <?=$ct['gen']->key_to_name($show_asset_params[1])?>
+				<input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $show_asset_params[2]."]", $ct['sel_opt']['show_charts']) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[2])?> @ <?=$ct['gen']->key_to_name($show_asset_params[1])?>
 			
 				<?php
 				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
-				if ( $show_asset_params[1] != $default_bitcoin_primary_currency_pair ) {
+				if ( $show_asset_params[1] != $ct['default_bitcoin_primary_currency_pair'] ) {
 				?>
 				
-				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$default_bitcoin_primary_currency_pair?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $default_bitcoin_primary_currency_pair."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <?=strtoupper($default_bitcoin_primary_currency_pair)?> Value
+				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $ct['default_bitcoin_primary_currency_pair']."]", $ct['sel_opt']['show_charts']) ? 'checked' : '' )?> /> <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value
 				
 				<?php
 				}
@@ -297,7 +297,7 @@
     	     }
 		
 		// Pairs chart
-		if ( in_array('[' . $alerts_mrkt_parse[0] . '_'.$alerts_mrkt_parse[2].']', $sel_opt['show_charts']) ) {
+		if ( in_array('[' . $alerts_mrkt_parse[0] . '_'.$alerts_mrkt_parse[2].']', $ct['sel_opt']['show_charts']) ) {
 		$charts_shown = 1;
 	?>
 	
@@ -331,13 +331,13 @@
 		}
 		
 		// PRIMARY CURRENCY CONFIG chart
-		if ( $alerts_mrkt_parse[1] != $default_bitcoin_primary_currency_pair && in_array('[' . $alerts_mrkt_parse[0] . '_'.$default_bitcoin_primary_currency_pair.']', $sel_opt['show_charts']) ) {
+		if ( $alerts_mrkt_parse[1] != $ct['default_bitcoin_primary_currency_pair'] && in_array('[' . $alerts_mrkt_parse[0] . '_'.$ct['default_bitcoin_primary_currency_pair'].']', $ct['sel_opt']['show_charts']) ) {
 		$charts_shown = 1;
 	?>
 	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$alerts_mrkt_parse[0]?>_<?=strtolower($default_bitcoin_primary_currency_pair)?>_chart'>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$alerts_mrkt_parse[0]?>_<?=strtolower($ct['default_bitcoin_primary_currency_pair'])?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?> (<?=strtoupper($default_bitcoin_primary_currency_pair)?> Value)...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?> (<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value)...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
@@ -347,7 +347,7 @@
 	<script>
 	
 	<?php
-	$chart_mode = strtolower($default_bitcoin_primary_currency_pair);
+	$chart_mode = strtolower($ct['default_bitcoin_primary_currency_pair']);
 	include('templates/interface/php/user/user-elements/asset-charts.php');
 	?>
 	

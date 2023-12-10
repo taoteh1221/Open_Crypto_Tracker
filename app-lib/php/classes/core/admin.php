@@ -54,16 +54,16 @@ var $ct_array = array();
    
    function queue_config_update() {
         
-   global $ct, $app_upgrade_check, $reset_config, $update_config, $check_2fa_error, $update_config_error, $update_config_success;
+   global $ct;
    
    // Check for VALIDATED / SECURE config updates IN PROGRESS
    $field_array_base = $this->valid_secure_config_update_request();
       
       
-        if ( $app_upgrade_check ) {
+        if ( $ct['app_upgrade_check'] ) {
         $update_config_halt = 'The app is busy UPGRADING it\'s cached config, please wait a minute and try again.';
         }
-        else if ( $reset_config ) {
+        else if ( $ct['reset_config'] ) {
         $update_config_halt = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
         }
         
@@ -91,13 +91,13 @@ var $ct_array = array();
                   $ct['conf'][ $_POST['conf_id'] ] = $field_array_base;
                   }
                
-              $update_config = true; // Triggers saving updated config to disk
+              $ct['update_config'] = true; // Triggers saving updated config to disk
               
-              $update_config_success = 'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings SUCCEEDED.';
+              $ct['update_config_success'] = 'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings SUCCEEDED.';
               
               }
               else {
-              $update_config_error = 'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $update_config_error;
+              $ct['update_config_error'] = 'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $ct['update_config_error'];
               }
               
                
@@ -105,11 +105,11 @@ var $ct_array = array();
         // General error messages to display at top of page for UX
         elseif ( isset($_POST['conf_id']) && isset($_POST['interface_id']) ) {
           
-              if ( $check_2fa_error ) {
-              $update_config_error =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $check_2fa_error . '.';
+              if ( $ct['check_2fa_error'] ) {
+              $ct['update_config_error'] =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $ct['check_2fa_error'] . '.';
               }
               else if ( $update_config_halt ) {
-              $update_config_error =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $update_config_halt;
+              $ct['update_config_error'] =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $update_config_halt;
               }
           
         }
@@ -124,7 +124,7 @@ var $ct_array = array();
    
    function valid_admin_settings() {
         
-   global $ct, $plug_class, $update_config_error;
+   global $ct, $plug;
    
    
         if ( !isset($_POST['conf_id']) ) {
@@ -139,14 +139,14 @@ var $ct_array = array();
         // ADD VALIDATION CHECKS HERE, BEFORE ALLOWING UPDATE OF THIS CONFIG SECTION
         
         // Plugin support (if found in plugin's class)
-        if ( $is_plugin && method_exists($plug_class[$is_plugin], 'admin_input_validation') && is_callable( array($plug_class[$is_plugin], 'admin_input_validation') ) ) {
-        $update_config_error = $plug_class[$is_plugin]->admin_input_validation();
+        if ( $is_plugin && method_exists($plug['class'][$is_plugin], 'admin_input_validation') && is_callable( array($plug['class'][$is_plugin], 'admin_input_validation') ) ) {
+        $ct['update_config_error'] = $plug['class'][$is_plugin]->admin_input_validation();
         }
         elseif ( $_POST['conf_id'] === 'gen' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
              
            // Make sure primary currency conversion params are set properly
            if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['gen']['bitcoin_primary_currency_pair'] ][ $_POST['gen']['bitcoin_primary_currency_exchange'] ] ) {
-           $update_config_error = 'Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['gen']['bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($_POST['gen']['bitcoin_primary_currency_pair']) . '" market';
+           $ct['update_config_error'] = 'Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['gen']['bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($_POST['gen']['bitcoin_primary_currency_pair']) . '" market';
            }
         
         }
@@ -161,22 +161,22 @@ var $ct_array = array();
              
            // Make sure SMTP emailing params are set properly
            if ( isset($_POST['comms']['smtp_login']) && $_POST['comms']['smtp_login'] != '' && sizeof($smtp_login_check) < 2 ) {
-           $update_config_error = 'SMTP Login formatting is NOT valid (format MUST be: username||password)';
+           $ct['update_config_error'] = 'SMTP Login formatting is NOT valid (format MUST be: username||password)';
            }
            elseif ( isset($_POST['comms']['smtp_server']) && $_POST['comms']['smtp_server'] != '' && sizeof($smtp_server_check) < 2 ) {
-           $update_config_error = 'SMTP Server formatting is NOT valid (format MUST be: domain_or_ip:port_number)';
+           $ct['update_config_error'] = 'SMTP Server formatting is NOT valid (format MUST be: domain_or_ip:port_number)';
            }
            // Mobile text check
            elseif ( isset($_POST['comms']['to_mobile_text']) && $_POST['comms']['to_mobile_text'] != '' && sizeof($to_mobile_text_check) < 2 ) {
-           $update_config_error = 'To Mobile Text formatting is NOT valid (format MUST be: mobile_number||network_name)';
+           $ct['update_config_error'] = 'To Mobile Text formatting is NOT valid (format MUST be: mobile_number||network_name)';
            }
            // Email FROM service check
            elseif ( isset($_POST['comms']['from_email']) && $_POST['comms']['from_email'] != '' && $ct['gen']->valid_email($_POST['comms']['from_email']) != 'valid' ) {
-           $update_config_error = 'FROM Email is NOT valid: ' . $_POST['comms']['from_email'] . ' (' . $ct['gen']->valid_email($_POST['comms']['from_email']) . ')';
+           $ct['update_config_error'] = 'FROM Email is NOT valid: ' . $_POST['comms']['from_email'] . ' (' . $ct['gen']->valid_email($_POST['comms']['from_email']) . ')';
            }
            // Email TO service check
            elseif ( isset($_POST['comms']['to_email']) && $_POST['comms']['to_email'] != '' && $ct['gen']->valid_email($_POST['comms']['to_email']) != 'valid' ) {
-           $update_config_error = 'TO Email is NOT valid: ' . $_POST['comms']['to_email'] . ' (' . $ct['gen']->valid_email($_POST['comms']['to_email']) . ')';
+           $ct['update_config_error'] = 'TO Email is NOT valid: ' . $_POST['comms']['to_email'] . ' (' . $ct['gen']->valid_email($_POST['comms']['to_email']) . ')';
            }
         
         
@@ -185,7 +185,7 @@ var $ct_array = array();
              
            // Make sure Twilio number is set properly
            if ( isset($_POST['ext_apis']['twilio_number']) && $_POST['ext_apis']['twilio_number'] != '' && !preg_match("/^\\d+$/", $_POST['ext_apis']['twilio_number']) ) {
-           $update_config_error = 'Twilio Number formatting is NOT valid: ' . $_POST['ext_apis']['twilio_number'] . ' (format MUST be ONLY NUMBERS)';
+           $ct['update_config_error'] = 'Twilio Number formatting is NOT valid: ' . $_POST['ext_apis']['twilio_number'] . ' (format MUST be ONLY NUMBERS)';
            }
         
         }
@@ -211,13 +211,13 @@ var $ct_array = array();
              
            // Make sure interface login params are set properly
            if ( $is_interface_login && sizeof($interface_login_check) < 2 ) {
-           $update_config_error = 'Interface Login formatting is NOT valid (format MUST be: username||password)';
+           $ct['update_config_error'] = 'Interface Login formatting is NOT valid (format MUST be: username||password)';
            }
            elseif ( $is_interface_login && $valid_username_check != 'valid' ) {
-           $update_config_error = 'Interface Login USERNAME requirements NOT met  (' . $valid_username_check . ')';
+           $ct['update_config_error'] = 'Interface Login USERNAME requirements NOT met  (' . $valid_username_check . ')';
            }
            elseif ( $is_interface_login && $password_strength_check != 'valid' ) {
-           $update_config_error = 'Interface Login PASSWORD requirements NOT met  (' . $password_strength_check . ')';
+           $ct['update_config_error'] = 'Interface Login PASSWORD requirements NOT met  (' . $password_strength_check . ')';
            }
         
         
@@ -229,14 +229,14 @@ var $ct_array = array();
              
             // Make sure min / max cache time is set properly
             if ( isset($_POST['news']['news_feed_cache_min_max']) && trim($_POST['news']['news_feed_cache_min_max']) == '' ) {
-            $update_config_error = '"News Feed Cache Min Max" value is REQUIRED';
+            $ct['update_config_error'] = '"News Feed Cache Min Max" value is REQUIRED';
             }
             else if (
             !isset($news_feed_cache_min_max[0]) || !$ct['var']->whole_int($news_feed_cache_min_max[0]) || $news_feed_cache_min_max[0] < 30 || $news_feed_cache_min_max[0] > 720 
             || !isset($news_feed_cache_min_max[1]) || !$ct['var']->whole_int($news_feed_cache_min_max[1]) || $news_feed_cache_min_max[1] < 30 || $news_feed_cache_min_max[1] > 720
             || $news_feed_cache_min_max[0] > $news_feed_cache_min_max[1]
             ) {
-            $update_config_error = '"News Feed Cache Min Max" values MUST be between 30 and 720 (LARGER number last)';
+            $ct['update_config_error'] = '"News Feed Cache Min Max" values MUST be between 30 and 720 (LARGER number last)';
             }
         
         
@@ -251,11 +251,11 @@ var $ct_array = array();
         
            
            if ( preg_match('/\s/', $_POST['proxy']['proxy_login']) ) {
-           $update_config_error .= 'WHITESPACE is not allowed in the Proxy LOGIN';
+           $ct['update_config_error'] .= 'WHITESPACE is not allowed in the Proxy LOGIN';
            }
            // Make sure proxy login params are set properly
            elseif ( $is_proxy_login && sizeof($proxy_login_check) < 2 ) {
-           $update_config_error .= 'Proxy LOGIN formatting is NOT valid (format MUST be: username||password)';
+           $ct['update_config_error'] .= 'Proxy LOGIN formatting is NOT valid (format MUST be: username||password)';
            }
            elseif ( isset($_POST['proxy']['allow_proxies']) && $_POST['proxy']['allow_proxies'] == 'on' && is_array($_POST['proxy']['proxy_list']) ) {
            
@@ -269,7 +269,7 @@ var $ct_array = array();
      	          // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
                     }
                     elseif ( sizeof($proxy_check) < 2 ) {
-                    $update_config_error .= '<br />Proxy LIST formatting is NOT valid (format MUST be: ip_address:port_number [in submission: "'.$proxy.'"])';
+                    $ct['update_config_error'] .= '<br />Proxy LIST formatting is NOT valid (format MUST be: ip_address:port_number [in submission: "'.$proxy.'"])';
                     }
                     else {
                          
@@ -280,7 +280,7 @@ var $ct_array = array();
                     $check_proxy = $ct['gen']->connect_test($proxy, 'proxy');
                     
                          if ( $check_proxy['status'] != 'ok' ) {
-                         $update_config_error .= '<br />Proxy TEST failed for submission: "'.$proxy.'" ('.$check_proxy['status'].')';
+                         $ct['update_config_error'] .= '<br />Proxy TEST failed for submission: "'.$proxy.'" ('.$check_proxy['status'].')';
                          }
                          
                     $proxy_checked = true;
@@ -303,7 +303,7 @@ var $ct_array = array();
 		 $test_result = $ct['gen']->valid_email( 'test@' . $gateway_data[1] );
 		
 		      if ( $test_result != 'valid' ) {
-                $update_config_error .= '<br />Mobile text gateway seems INVALID: "'.$gateway_data[1].'" ('.$test_result.')';
+                $ct['update_config_error'] .= '<br />Mobile text gateway seems INVALID: "'.$gateway_data[1].'" ('.$test_result.')';
 			 }
 		
 		 }
@@ -382,10 +382,10 @@ var $ct_array = array();
      	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
-     	     $update_config_error .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'")';
+     	     $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'")';
      	     }
      	     elseif ( !in_array($mode, $allowed_modes) ) {
-     	     $update_config_error .= $update_config_error_seperator . 'Unknown mode (in submission: "'.$val.'")';
+     	     $ct['update_config_error'] .= $update_config_error_seperator . 'Unknown mode (in submission: "'.$val.'")';
      	     }
      	
      	 
@@ -394,20 +394,20 @@ var $ct_array = array();
              
            // Make whale alert params are set properly
            if ( !$is_whale_alert ) {
-           $update_config_error .= $update_config_error_seperator . 'Whale Alert Thresholds formatting is NOT valid';
+           $ct['update_config_error'] .= $update_config_error_seperator . 'Whale Alert Thresholds formatting is NOT valid';
            }
              
              
            // Make sure light chart day intervals is set
            if ( isset($_POST['charts_alerts']['light_chart_day_intervals']) && trim($_POST['charts_alerts']['light_chart_day_intervals']) == '' ) {
-           $update_config_error .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be filled in';
+           $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be filled in';
            }
            else {
            
                 foreach ( $light_chart_day_intervals as $days ) {
                 
                     if ( $days == 0 || !$ct['var']->whole_int($days) ) {
-                    $update_config_error .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be whole numbers greater than zero ("'.$days.'" is invalid)';
+                    $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be whole numbers greater than zero ("'.$days.'" is invalid)';
                     }
                 
                 }
@@ -417,47 +417,47 @@ var $ct_array = array();
              
            // Make sure asset performance chart config is set
            if ( isset($_POST['charts_alerts']['asset_performance_chart_defaults']) && trim($_POST['charts_alerts']['asset_performance_chart_defaults']) == '' ) {
-           $update_config_error .= $update_config_error_seperator . '"Asset Performance Chart Defaults" MUST be filled in';
+           $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Performance Chart Defaults" MUST be filled in';
            }
            else if (
            !isset($asset_performance_chart_defaults[0]) || !$ct['var']->whole_int($asset_performance_chart_defaults[0]) || $asset_performance_chart_defaults[0] < 400 || $asset_performance_chart_defaults[0] > 900 
            || !isset($asset_performance_chart_defaults[1]) || !$ct['var']->whole_int($asset_performance_chart_defaults[1]) || $asset_performance_chart_defaults[1] < 7 || $asset_performance_chart_defaults[1] > 16
            || !$ct['var']->whole_int($asset_performance_chart_defaults[0] / 100)
            ) {
-           $update_config_error .= $update_config_error_seperator . '"Asset Performance Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
+           $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Performance Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
            }
              
              
            // Make sure marketcap chart config is set
            if ( isset($_POST['charts_alerts']['asset_marketcap_chart_defaults']) && trim($_POST['charts_alerts']['asset_marketcap_chart_defaults']) == '' ) {
-           $update_config_error .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" MUST be filled in';
+           $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" MUST be filled in';
            }
            else if (
            !isset($asset_marketcap_chart_defaults[0]) || !$ct['var']->whole_int($asset_marketcap_chart_defaults[0]) || $asset_marketcap_chart_defaults[0] < 400 || $asset_marketcap_chart_defaults[0] > 900 
            || !isset($asset_marketcap_chart_defaults[1]) || !$ct['var']->whole_int($asset_marketcap_chart_defaults[1]) || $asset_marketcap_chart_defaults[1] < 7 || $asset_marketcap_chart_defaults[1] > 16
            || !$ct['var']->whole_int($asset_marketcap_chart_defaults[0] / 100)
            ) {
-           $update_config_error .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
+           $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
            }
            
            
            // Make sure min / max 'all' light chart rebuild time is set properly
            if ( isset($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) && trim($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) == '' ) {
-           $update_config_error .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" MUST be filled in';
+           $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" MUST be filled in';
            }
            else if (
            !isset($light_chart_all_rebuild_min_max[0]) || !$ct['var']->whole_int($light_chart_all_rebuild_min_max[0]) || $light_chart_all_rebuild_min_max[0] < 3 || $light_chart_all_rebuild_min_max[0] > 12 
            || !isset($light_chart_all_rebuild_min_max[1]) || !$ct['var']->whole_int($light_chart_all_rebuild_min_max[1]) || $light_chart_all_rebuild_min_max[1] < 3 || $light_chart_all_rebuild_min_max[1] > 12
            || $light_chart_all_rebuild_min_max[0] > $light_chart_all_rebuild_min_max[1]
            ) {
-           $update_config_error .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" values MUST be between 3 and 12 (LARGER number last)';
+           $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" values MUST be between 3 and 12 (LARGER number last)';
            }
         
         
         }
         
         
-   return ( isset($update_config_error) && trim($update_config_error) != '' ? false : true );
+   return ( isset($ct['update_config_error']) && trim($ct['update_config_error']) != '' ? false : true );
         
    }
 
@@ -468,7 +468,7 @@ var $ct_array = array();
    
    function admin_config_interface($conf_id, $interface_id, $render_params=false) {
         
-   global $ct, $repeatable_fields_tracking, $update_config_success, $update_config_error, $usort_alpha;
+   global $ct;
    
    
       if ( !is_array($render_params) ) {
@@ -508,15 +508,15 @@ var $ct_array = array();
 
 	 
 	 <?php
-	 if ( $update_config_success != null ) {
+	 if ( $ct['update_config_success'] != null ) {
 	 ?>
-	 <div class='green green_dotted' style='font-weight: bold;'><?=$update_config_success?></div>
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$ct['update_config_success']?></div>
 	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }
-	 elseif ( $update_config_error != null ) {
+	 elseif ( $ct['update_config_error'] != null ) {
 	 ?>
-	 <div class='red red_dotted' style='font-weight: bold;'><?=$update_config_error?></div>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$ct['update_config_error']?></div>
 	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }
@@ -637,7 +637,7 @@ var $ct_array = array();
 	         
 	         
 	         $field_count = 0;
-	         $repeatable_fields_tracking[$key] = array(); // Reset counts              
+	         $ct['repeatable_fields_tracking'][$key] = array(); // Reset counts              
                              
               ob_start();
               
@@ -680,7 +680,7 @@ var $ct_array = array();
 	         ob_end_clean();
 	          
 	          
-	              foreach ( $repeatable_fields_tracking[$key] as $count_val ) {
+	              foreach ( $ct['repeatable_fields_tracking'][$key] as $count_val ) {
 	              $field_count = $field_count + $count_val;
 	              }
 	                
@@ -726,7 +726,7 @@ var $ct_array = array();
                // Add / remove (repeatable) form fields template
 	          
 	          $field_count = 0;
-	          $repeatable_fields_tracking[$key] = array(); // Reset counts
+	          $ct['repeatable_fields_tracking'][$key] = array(); // Reset counts
                
                ob_start();
                
@@ -736,10 +736,10 @@ var $ct_array = array();
 
 	          ob_end_clean();
 	          
-	          //var_dump($repeatable_fields_tracking);
+	          //var_dump($ct['repeatable_fields_tracking']);
 	          
 	          
-	                foreach ( $repeatable_fields_tracking[$key] as $count_val ) {
+	                foreach ( $ct['repeatable_fields_tracking'][$key] as $count_val ) {
 	                $field_count = $field_count + $count_val;
 	                }
 	                
@@ -848,11 +848,11 @@ var $ct_array = array();
    
    function color_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct, $repeatable_fields_tracking;
+   global $ct;
    
    
-        if ( !isset($repeatable_fields_tracking[$passed_key]['is_color']) ) {
-        $repeatable_fields_tracking[$passed_key]['is_color'] = 0;
+        if ( !isset($ct['repeatable_fields_tracking'][$passed_key]['is_color']) ) {
+        $ct['repeatable_fields_tracking'][$passed_key]['is_color'] = 0;
         }
         
         
@@ -894,7 +894,7 @@ var $ct_array = array();
                   
                   <?php
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_color']) ) {
-                  $repeatable_fields_tracking[$passed_key]['is_color'] = $repeatable_fields_tracking[$passed_key]['is_color'] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key]['is_color'] = $ct['repeatable_fields_tracking'][$passed_key]['is_color'] + 1;
                   echo '123PLACEHOLDER_RIGHT123';
                   }
                   ?>
@@ -929,7 +929,7 @@ var $ct_array = array();
                   
                   <?php
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_color']) ) {
-                  $repeatable_fields_tracking[$passed_key]['is_color'] = $repeatable_fields_tracking[$passed_key]['is_color'] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key]['is_color'] = $ct['repeatable_fields_tracking'][$passed_key]['is_color'] + 1;
                   echo '123PLACEHOLDER_RIGHT123';
                   }
                   ?>
@@ -952,11 +952,11 @@ var $ct_array = array();
    
    function textarea_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct, $repeatable_fields_tracking;
+   global $ct;
    
    
-        if ( !isset($repeatable_fields_tracking[$passed_key]['is_textarea']) ) {
-        $repeatable_fields_tracking[$passed_key]['is_textarea'] = 0;
+        if ( !isset($ct['repeatable_fields_tracking'][$passed_key]['is_textarea']) ) {
+        $ct['repeatable_fields_tracking'][$passed_key]['is_textarea'] = 0;
         }
         
         
@@ -998,7 +998,7 @@ var $ct_array = array();
                   
                   <?php
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
-                  $repeatable_fields_tracking[$passed_key]['is_textarea'] = $repeatable_fields_tracking[$passed_key]['is_textarea'] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key]['is_textarea'] = $ct['repeatable_fields_tracking'][$passed_key]['is_textarea'] + 1;
                   echo '123PLACEHOLDER_RIGHT123';
                   }
                   ?>
@@ -1033,7 +1033,7 @@ var $ct_array = array();
                   
                   <?php
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
-                  $repeatable_fields_tracking[$passed_key]['is_textarea'] = $repeatable_fields_tracking[$passed_key]['is_textarea'] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key]['is_textarea'] = $ct['repeatable_fields_tracking'][$passed_key]['is_textarea'] + 1;
                   echo '123PLACEHOLDER_RIGHT123';
                   }
                   ?>
@@ -1056,11 +1056,11 @@ var $ct_array = array();
    
    function range_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct, $repeatable_fields_tracking;
+   global $ct;
    
    
-         if ( !isset($repeatable_fields_tracking[$passed_key]['is_range']) ) {
-         $repeatable_fields_tracking[$passed_key]['is_range'] = 0;
+         if ( !isset($ct['repeatable_fields_tracking'][$passed_key]['is_range']) ) {
+         $ct['repeatable_fields_tracking'][$passed_key]['is_range'] = 0;
          }
          
          
@@ -1185,7 +1185,7 @@ var $ct_array = array();
 
 
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_range']) ) {
-                  $repeatable_fields_tracking[$passed_key]['is_range'] = $repeatable_fields_tracking[$passed_key]['is_range'] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key]['is_range'] = $ct['repeatable_fields_tracking'][$passed_key]['is_range'] + 1;
                   echo '123PLACEHOLDER_RIGHT123';
                   }
                   ?>
@@ -1260,7 +1260,7 @@ var $ct_array = array();
 
 
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_range']) ) {
-                  $repeatable_fields_tracking[$passed_key]['is_range'] = $repeatable_fields_tracking[$passed_key]['is_range'] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key]['is_range'] = $ct['repeatable_fields_tracking'][$passed_key]['is_range'] + 1;
                   echo '123PLACEHOLDER_RIGHT123';
                   }
                   ?>
@@ -1283,11 +1283,11 @@ var $ct_array = array();
    
    function text_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct, $repeatable_fields_tracking;
+   global $ct;
    
    
-         if ( !isset($repeatable_fields_tracking[$passed_key]['is_text']) ) {
-         $repeatable_fields_tracking[$passed_key]['is_text'] = 0;
+         if ( !isset($ct['repeatable_fields_tracking'][$passed_key]['is_text']) ) {
+         $ct['repeatable_fields_tracking'][$passed_key]['is_text'] = 0;
          }
               
               
@@ -1370,7 +1370,7 @@ var $ct_array = array();
                   
                   <?php
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_text']) ) {
-                  $repeatable_fields_tracking[$passed_key]['is_text'] = $repeatable_fields_tracking[$passed_key]['is_text'] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key]['is_text'] = $ct['repeatable_fields_tracking'][$passed_key]['is_text'] + 1;
                   echo '123PLACEHOLDER_RIGHT123';
                   }
                   ?>
@@ -1405,7 +1405,7 @@ var $ct_array = array();
                   
                   <?php
                   if ( isset($render_params[$passed_key]['is_repeatable']['is_text']) ) {
-                  $repeatable_fields_tracking[$passed_key]['is_text'] = $repeatable_fields_tracking[$passed_key]['is_text'] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key]['is_text'] = $ct['repeatable_fields_tracking'][$passed_key]['is_text'] + 1;
                   echo '123PLACEHOLDER_RIGHT123';
                   }
                   ?>
@@ -1428,11 +1428,11 @@ var $ct_array = array();
    
    function select_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct, $repeatable_fields_tracking;
+   global $ct;
    
    
-        if ( !isset($repeatable_fields_tracking[$passed_key]['is_select']) ) {
-        $repeatable_fields_tracking[$passed_key]['is_select'] = 0;
+        if ( !isset($ct['repeatable_fields_tracking'][$passed_key]['is_select']) ) {
+        $ct['repeatable_fields_tracking'][$passed_key]['is_select'] = 0;
         }
         
         
@@ -1520,7 +1520,7 @@ var $ct_array = array();
                   
              <?php
              if ( isset($render_params[$passed_key]['is_repeatable']['is_select']) ) {
-             $repeatable_fields_tracking[$passed_key]['is_select'] = $repeatable_fields_tracking[$passed_key]['is_select'] + 1;
+             $ct['repeatable_fields_tracking'][$passed_key]['is_select'] = $ct['repeatable_fields_tracking'][$passed_key]['is_select'] + 1;
              echo '123PLACEHOLDER_RIGHT123';
              }
              ?>
@@ -1562,7 +1562,7 @@ var $ct_array = array();
                   
                       <?php
                       if ( isset($render_params[$passed_key]['is_repeatable']['is_select']) ) {
-                      $repeatable_fields_tracking[$passed_key]['is_select'] = $repeatable_fields_tracking[$passed_key]['is_select'] + 1;
+                      $ct['repeatable_fields_tracking'][$passed_key]['is_select'] = $ct['repeatable_fields_tracking'][$passed_key]['is_select'] + 1;
                       echo '123PLACEHOLDER_RIGHT123';
                       }
                       ?>
@@ -1595,7 +1595,7 @@ var $ct_array = array();
                   
                  <?php
                  if ( isset($render_params[$passed_key]['is_repeatable']['is_select']) ) {
-                 $repeatable_fields_tracking[$passed_key]['is_select'] = $repeatable_fields_tracking[$passed_key]['is_select'] + 1;
+                 $ct['repeatable_fields_tracking'][$passed_key]['is_select'] = $ct['repeatable_fields_tracking'][$passed_key]['is_select'] + 1;
                  echo '123PLACEHOLDER_RIGHT123';
                  }
                  ?>
@@ -1617,11 +1617,11 @@ var $ct_array = array();
    
    function radio_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct, $repeatable_fields_tracking;
+   global $ct;
    
    
-        if ( !isset($repeatable_fields_tracking[$passed_key]['is_radio']) ) {
-        $repeatable_fields_tracking[$passed_key]['is_radio'] = 0;
+        if ( !isset($ct['repeatable_fields_tracking'][$passed_key]['is_radio']) ) {
+        $ct['repeatable_fields_tracking'][$passed_key]['is_radio'] = 0;
         }
         
         
@@ -1689,7 +1689,7 @@ var $ct_array = array();
                   
                <?php
                if ( isset($render_params[$passed_key]['is_repeatable']['is_radio']) ) {
-               $repeatable_fields_tracking[$passed_key]['is_radio'] = $repeatable_fields_tracking[$passed_key]['is_radio'] + 1;
+               $ct['repeatable_fields_tracking'][$passed_key]['is_radio'] = $ct['repeatable_fields_tracking'][$passed_key]['is_radio'] + 1;
                echo '123PLACEHOLDER_RIGHT123';
                }
                ?>
@@ -1713,7 +1713,7 @@ var $ct_array = array();
    
    function repeatable_fields_template($field_array_base, $passed_key, $passed_val, $render_params) {
         
-   global $ct, $repeatable_fields_tracking;
+   global $ct;
               
    $subarray_class = $field_array_base . '_' . $passed_key;
    
@@ -1730,8 +1730,8 @@ var $ct_array = array();
    
    
                   // Tracking for rendering remove button
-                  if ( !isset($repeatable_fields_tracking[$passed_key][$sub_key]) ) {
-                  $repeatable_fields_tracking[$passed_key][$sub_key] = 0;
+                  if ( !isset($ct['repeatable_fields_tracking'][$passed_key][$sub_key]) ) {
+                  $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = 0;
                   }
              
              
@@ -1743,7 +1743,7 @@ var $ct_array = array();
                   foreach( $render_params[$passed_key]['is_repeatable']['is_select'] as $sub2_key => $sub2_val ) {
                   
                   // Tracking for rendering remove button
-                  $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                  $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
 
                   // Add radio button logic here   
                   
@@ -1764,7 +1764,7 @@ var $ct_array = array();
                       foreach( $render_params[$passed_key]['is_repeatable']['is_select']['is_assoc'] as $assoc_key => $assoc_val ) {
                   
                       // Tracking for rendering remove button
-                      $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                      $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
                        
                       ?>
                   
@@ -1797,7 +1797,7 @@ var $ct_array = array();
                        foreach( $render_params[$passed_key]['is_repeatable']['is_select'] as $sub2_key => $sub2_val ) {
                   
                        // Tracking for rendering remove button
-                       $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                       $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
                       
                        ?>
                   
@@ -1851,7 +1851,7 @@ var $ct_array = array();
                        
                        
                        // Tracking for rendering remove button
-                       $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                       $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
                       
                        ?>
                        
@@ -1892,7 +1892,7 @@ var $ct_array = array();
                        
                        
                        // Tracking for rendering remove button
-                       $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                       $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
                       
                        ?>
                        
@@ -1934,7 +1934,7 @@ var $ct_array = array();
                            }
                   
                       // Tracking for rendering remove button
-                      $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                      $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
                       
                       ?>
                        
@@ -1955,7 +1955,7 @@ var $ct_array = array();
                  else {
      
                       // Tracking for rendering remove button
-                      $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                      $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
                       
                       ?>
                        
@@ -1998,7 +1998,7 @@ var $ct_array = array();
                            }
                   
                       // Tracking for rendering remove button
-                      $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                      $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
                       
                       ?>
           
@@ -2061,7 +2061,7 @@ var $ct_array = array();
                  else {
      
                       // Tracking for rendering remove button
-                      $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                      $ct['repeatable_fields_tracking'][$passed_key][$sub_key] = $ct['repeatable_fields_tracking'][$passed_key][$sub_key] + 1;
                       
                       ?>
           

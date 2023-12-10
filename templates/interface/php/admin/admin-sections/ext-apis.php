@@ -8,7 +8,7 @@
 
 
 <?php
-if ( $admin_area_sec_level == 'high' ) {
+if ( $ct['admin_area_sec_level'] == 'high' ) {
 ?>
 	
 	<p class='bitcoin bitcoin_dotted'>
@@ -42,203 +42,203 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['remote_api_timeout']['is_range'] = true;
+$ct['admin_render_settings']['remote_api_timeout']['is_range'] = true;
 
-$admin_render_settings['remote_api_timeout']['range_min'] = 30;
+$ct['admin_render_settings']['remote_api_timeout']['range_min'] = 30;
 
-$admin_render_settings['remote_api_timeout']['range_max'] = 120;
+$ct['admin_render_settings']['remote_api_timeout']['range_max'] = 120;
 
-$admin_render_settings['remote_api_timeout']['range_step'] = 10;
+$ct['admin_render_settings']['remote_api_timeout']['range_step'] = 10;
 
-$admin_render_settings['remote_api_timeout']['range_ui_suffix'] = ' Seconds';
+$ct['admin_render_settings']['remote_api_timeout']['range_ui_suffix'] = ' Seconds';
 
-$admin_render_settings['remote_api_timeout']['is_notes'] = 'MAXIMUM wait time for the FULL response from each external API (before aborting the connection)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['notifyme_access_code']['is_textarea'] = true;
-
-$admin_render_settings['notifyme_access_code']['is_password'] = true;
-
-$admin_render_settings['notifyme_access_code']['is_notes'] = '<a href="https://www.thomptronics.com/about/notify-me" target="_BLANK">Get a FREE NotifyMe (Amazon Alexa) API Key</a>';
+$ct['admin_render_settings']['remote_api_timeout']['is_notes'] = 'MAXIMUM wait time for the FULL response from each external API (before aborting the connection)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['telegram_your_username']['is_password'] = true;
+$ct['admin_render_settings']['notifyme_access_code']['is_textarea'] = true;
 
-$admin_render_settings['telegram_your_username']['is_notes'] = '(WITHOUT the "@" symbol)';
+$ct['admin_render_settings']['notifyme_access_code']['is_password'] = true;
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['telegram_bot_username']['is_password'] = true;
-
-$admin_render_settings['telegram_bot_username']['is_notes'] = '(WITHOUT the "@" symbol)';
+$ct['admin_render_settings']['notifyme_access_code']['is_notes'] = '<a href="https://www.thomptronics.com/about/notify-me" target="_BLANK">Get a FREE NotifyMe (Amazon Alexa) API Key</a>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['telegram_bot_name']['is_password'] = true;
+$ct['admin_render_settings']['telegram_your_username']['is_password'] = true;
 
-$admin_render_settings['telegram_bot_name']['is_notes'] = '(any name, spaces allowed)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['telegram_bot_token']['is_password'] = true;
-
-$admin_render_settings['telegram_bot_token']['text_field_size'] = 50;
-
-$admin_render_settings['telegram_bot_token']['is_notes'] = '<a href="https://core.telegram.org/bots/features#creating-a-new-bot" target="_BLANK">Get a FREE Telegram Bot API Key</a>';
+$ct['admin_render_settings']['telegram_your_username']['is_notes'] = '(WITHOUT the "@" symbol)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['twilio_number']['is_password'] = true;
+$ct['admin_render_settings']['telegram_bot_username']['is_password'] = true;
 
-$admin_render_settings['twilio_number']['is_notes'] = 'Format: "12223334444" (no plus symbol)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['twilio_sid']['is_password'] = true;
-
-$admin_render_settings['twilio_sid']['text_field_size'] = 40;
+$ct['admin_render_settings']['telegram_bot_username']['is_notes'] = '(WITHOUT the "@" symbol)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['twilio_token']['is_password'] = true;
+$ct['admin_render_settings']['telegram_bot_name']['is_password'] = true;
 
-$admin_render_settings['twilio_token']['text_field_size'] = 40;
-
-$admin_render_settings['twilio_token']['is_notes'] = '<a href="https://twilio.com/" target="_BLANK">Get a PAID FOR Twilio API Key</a><br />ONLY ONE TEXTING SERVICE API MAY BE ENABLED AT A TIME (or NONE will work)<br />YOU MUST SET THE "To Mobile Text" PROVIDER (in the "Communications" section) TO: skip_network_name';
+$ct['admin_render_settings']['telegram_bot_name']['is_notes'] = '(any name, spaces allowed)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['textbelt_api_key']['is_password'] = true;
+$ct['admin_render_settings']['telegram_bot_token']['is_password'] = true;
 
-$admin_render_settings['textbelt_api_key']['text_field_size'] = 40;
+$ct['admin_render_settings']['telegram_bot_token']['text_field_size'] = 50;
 
-$admin_render_settings['textbelt_api_key']['is_notes'] = '<a href="https://textbelt.com/" target="_BLANK">Get a PAID FOR TextBelt API Key</a><br />ONLY ONE TEXTING SERVICE API MAY BE ENABLED AT A TIME (or NONE will work)<br />YOU MUST SET THE "To Mobile Text" PROVIDER (in the "Communications" section) TO: skip_network_name';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['textlocal_sender']['is_password'] = true;
+$ct['admin_render_settings']['telegram_bot_token']['is_notes'] = '<a href="https://core.telegram.org/bots/features#creating-a-new-bot" target="_BLANK">Get a FREE Telegram Bot API Key</a>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['textlocal_api_key']['is_password'] = true;
+$ct['admin_render_settings']['twilio_number']['is_password'] = true;
 
-$admin_render_settings['textlocal_api_key']['text_field_size'] = 40;
-
-$admin_render_settings['textlocal_api_key']['is_notes'] = '<a href="https://textlocal.com/integrations/api/" target="_BLANK">Get a PAID FOR TextLocal API Key</a><br />ONLY ONE TEXTING SERVICE API MAY BE ENABLED AT A TIME (or NONE will work)<br />YOU MUST SET THE "To Mobile Text" PROVIDER (in the "Communications" section) TO: skip_network_name';
+$ct['admin_render_settings']['twilio_number']['is_notes'] = 'Format: "12223334444" (no plus symbol)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['google_fonts_api_key']['is_password'] = true;
+$ct['admin_render_settings']['twilio_sid']['is_password'] = true;
 
-$admin_render_settings['google_fonts_api_key']['text_field_size'] = 40;
-
-$admin_render_settings['google_fonts_api_key']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Get a FREE Google Fonts API Key</a><br />(Don\'t forget to <a href="https://console.cloud.google.com/apis/credentials" target="_BLANK">REGISTER / ENABLE IT SEPERATELY</a>, *AFTER* CREATION)';
+$ct['admin_render_settings']['twilio_sid']['text_field_size'] = 40;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-     
-$admin_render_settings['google_fonts_cache_time']['is_range'] = true;
 
-$admin_render_settings['google_fonts_cache_time']['range_min'] = 3;
+$ct['admin_render_settings']['twilio_token']['is_password'] = true;
 
-$admin_render_settings['google_fonts_cache_time']['range_max'] = 24;
+$ct['admin_render_settings']['twilio_token']['text_field_size'] = 40;
 
-$admin_render_settings['google_fonts_cache_time']['range_step'] = 3;
+$ct['admin_render_settings']['twilio_token']['is_notes'] = '<a href="https://twilio.com/" target="_BLANK">Get a PAID FOR Twilio API Key</a><br />ONLY ONE TEXTING SERVICE API MAY BE ENABLED AT A TIME (or NONE will work)<br />YOU MUST SET THE "To Mobile Text" PROVIDER (in the "Communications" section) TO: skip_network_name';
 
-$admin_render_settings['google_fonts_cache_time']['range_ui_prefix'] = 'Refresh Font List Every ';
 
-$admin_render_settings['google_fonts_cache_time']['range_ui_suffix'] = ' Hours';
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['textbelt_api_key']['is_password'] = true;
+
+$ct['admin_render_settings']['textbelt_api_key']['text_field_size'] = 40;
+
+$ct['admin_render_settings']['textbelt_api_key']['is_notes'] = '<a href="https://textbelt.com/" target="_BLANK">Get a PAID FOR TextBelt API Key</a><br />ONLY ONE TEXTING SERVICE API MAY BE ENABLED AT A TIME (or NONE will work)<br />YOU MUST SET THE "To Mobile Text" PROVIDER (in the "Communications" section) TO: skip_network_name';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['textlocal_sender']['is_password'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['textlocal_api_key']['is_password'] = true;
+
+$ct['admin_render_settings']['textlocal_api_key']['text_field_size'] = 40;
+
+$ct['admin_render_settings']['textlocal_api_key']['is_notes'] = '<a href="https://textlocal.com/integrations/api/" target="_BLANK">Get a PAID FOR TextLocal API Key</a><br />ONLY ONE TEXTING SERVICE API MAY BE ENABLED AT A TIME (or NONE will work)<br />YOU MUST SET THE "To Mobile Text" PROVIDER (in the "Communications" section) TO: skip_network_name';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['google_fonts_api_key']['is_password'] = true;
+
+$ct['admin_render_settings']['google_fonts_api_key']['text_field_size'] = 40;
+
+$ct['admin_render_settings']['google_fonts_api_key']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Get a FREE Google Fonts API Key</a><br />(Don\'t forget to <a href="https://console.cloud.google.com/apis/credentials" target="_BLANK">REGISTER / ENABLE IT SEPERATELY</a>, *AFTER* CREATION)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['coingecko_api_batched_maximum']['is_range'] = true;
+$ct['admin_render_settings']['google_fonts_cache_time']['is_range'] = true;
 
-$admin_render_settings['coingecko_api_batched_maximum']['range_min'] = 25;
+$ct['admin_render_settings']['google_fonts_cache_time']['range_min'] = 3;
 
-$admin_render_settings['coingecko_api_batched_maximum']['range_max'] = 100;
+$ct['admin_render_settings']['google_fonts_cache_time']['range_max'] = 24;
 
-$admin_render_settings['coingecko_api_batched_maximum']['range_step'] = 25;
+$ct['admin_render_settings']['google_fonts_cache_time']['range_step'] = 3;
 
-$admin_render_settings['coingecko_api_batched_maximum']['range_ui_prefix'] = 'Batch-Request ';
+$ct['admin_render_settings']['google_fonts_cache_time']['range_ui_prefix'] = 'Refresh Font List Every ';
 
-$admin_render_settings['coingecko_api_batched_maximum']['range_ui_suffix'] = ' Data Sets MAXIMUM';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['coinmarketcap_api_key']['is_password'] = true;
-
-$admin_render_settings['coinmarketcap_api_key']['text_field_size'] = 40;
-
-$admin_render_settings['coinmarketcap_api_key']['is_notes'] = '<a href="https://coinmarketcap.com/api" target="_BLANK">Get a FREE CoinMarketCap API Key</a>';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['etherscan_api_key']['is_password'] = true;
-
-$admin_render_settings['etherscan_api_key']['text_field_size'] = 40;
-
-$admin_render_settings['etherscan_api_key']['is_notes'] = '<a href="https://etherscan.io/apis/" target="_BLANK">Get a FREE EtherScan API Key</a>';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['alphavantage_api_key']['is_password'] = true;
-
-$admin_render_settings['alphavantage_api_key']['text_field_size'] = 40;
-
-$admin_render_settings['alphavantage_api_key']['is_notes'] = '<a href="https://www.alphavantage.co/support/#api-key" target="_BLANK">Get a FREE AlphaVantage API Key</a>';
+$ct['admin_render_settings']['google_fonts_cache_time']['range_ui_suffix'] = ' Hours';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['alphavantage_per_minute_limit']['is_range'] = true;
+$ct['admin_render_settings']['coingecko_api_batched_maximum']['is_range'] = true;
 
-$admin_render_settings['alphavantage_per_minute_limit']['range_min'] = 5;
+$ct['admin_render_settings']['coingecko_api_batched_maximum']['range_min'] = 25;
 
-$admin_render_settings['alphavantage_per_minute_limit']['range_max'] = 1200;
+$ct['admin_render_settings']['coingecko_api_batched_maximum']['range_max'] = 100;
 
-$admin_render_settings['alphavantage_per_minute_limit']['range_ui_prefix'] = 'MAXIMUM of ';
+$ct['admin_render_settings']['coingecko_api_batched_maximum']['range_step'] = 25;
 
-$admin_render_settings['alphavantage_per_minute_limit']['range_ui_suffix'] = ' LIVE updates PER MINUTE';
+$ct['admin_render_settings']['coingecko_api_batched_maximum']['range_ui_prefix'] = 'Batch-Request ';
 
-$admin_render_settings['alphavantage_per_minute_limit']['range_ui_meta_data'] = 'is_custom_steps';
+$ct['admin_render_settings']['coingecko_api_batched_maximum']['range_ui_suffix'] = ' Data Sets MAXIMUM';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['coinmarketcap_api_key']['is_password'] = true;
+
+$ct['admin_render_settings']['coinmarketcap_api_key']['text_field_size'] = 40;
+
+$ct['admin_render_settings']['coinmarketcap_api_key']['is_notes'] = '<a href="https://coinmarketcap.com/api" target="_BLANK">Get a FREE CoinMarketCap API Key</a>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['etherscan_api_key']['is_password'] = true;
+
+$ct['admin_render_settings']['etherscan_api_key']['text_field_size'] = 40;
+
+$ct['admin_render_settings']['etherscan_api_key']['is_notes'] = '<a href="https://etherscan.io/apis/" target="_BLANK">Get a FREE EtherScan API Key</a>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['alphavantage_api_key']['is_password'] = true;
+
+$ct['admin_render_settings']['alphavantage_api_key']['text_field_size'] = 40;
+
+$ct['admin_render_settings']['alphavantage_api_key']['is_notes'] = '<a href="https://www.alphavantage.co/support/#api-key" target="_BLANK">Get a FREE AlphaVantage API Key</a>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
      
-$admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'] = array(
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['is_range'] = true;
+
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_min'] = 5;
+
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_max'] = 1200;
+
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_ui_prefix'] = 'MAXIMUM of ';
+
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_ui_suffix'] = ' LIVE updates PER MINUTE';
+
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_ui_meta_data'] = 'is_custom_steps';
+     
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['is_custom_steps'] = array(
                                                                                    '5',
                                                                                    '30',
                                                                                    '75',
@@ -248,29 +248,29 @@ $admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'] = arr
                                                                                    '1200',
                                                                                   );
 
-$admin_render_settings['alphavantage_per_minute_limit']['range_min'] = $admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'][0];
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_min'] = $ct['admin_render_settings']['alphavantage_per_minute_limit']['is_custom_steps'][0];
 
-$admin_render_settings['alphavantage_per_minute_limit']['range_max'] = $admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'][ sizeof($admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps']) - 1 ];
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_max'] = $ct['admin_render_settings']['alphavantage_per_minute_limit']['is_custom_steps'][ sizeof($ct['admin_render_settings']['alphavantage_per_minute_limit']['is_custom_steps']) - 1 ];
 
-$admin_render_settings['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET TO "5" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s PREMUIM Plans</a>, to increase your limits.';
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET TO "5" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s PREMUIM Plans</a>, to increase your limits.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['alphavantage_free_plan_daily_limit']['is_range'] = true;
+$ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['is_range'] = true;
 
-$admin_render_settings['alphavantage_free_plan_daily_limit']['range_min'] = 1;
+$ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['range_min'] = 1;
 
-$admin_render_settings['alphavantage_free_plan_daily_limit']['range_max'] = 25;
+$ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['range_max'] = 25;
 
-$admin_render_settings['alphavantage_free_plan_daily_limit']['range_step'] = 1;
+$ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['range_step'] = 1;
 
-$admin_render_settings['alphavantage_free_plan_daily_limit']['range_ui_prefix'] = 'MAXIMUM of ';
+$ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['range_ui_prefix'] = 'MAXIMUM of ';
 
-$admin_render_settings['alphavantage_free_plan_daily_limit']['range_ui_suffix'] = ' LIVE updates DAILY';
+$ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['range_ui_suffix'] = ' LIVE updates DAILY';
 
-$admin_render_settings['alphavantage_free_plan_daily_limit']['is_notes'] = 'If you have price update issues with a FREE PLAN, LOWER THIS NUMBER (and check their website, as they have been known to lower the FREE PLAN daily limits on ocassion).<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s PREMUIM Plans</a>, to increase your limits (there are NO DAILY LIMITS ON PREMIUM PLANS).';
+$ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['is_notes'] = 'If you have price update issues with a FREE PLAN, LOWER THIS NUMBER (and check their website, as they have been known to lower the FREE PLAN daily limits on ocassion).<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s PREMUIM Plans</a>, to increase your limits (there are NO DAILY LIMITS ON PREMIUM PLANS).';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -278,10 +278,10 @@ $admin_render_settings['alphavantage_free_plan_daily_limit']['is_notes'] = 'If y
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-$admin_render_settings['is_refresh_admin'] = 'all';
+$ct['admin_render_settings']['is_refresh_admin'] = 'all';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('ext_apis', 'ext_apis', $admin_render_settings);
+$ct['admin']->admin_config_interface('ext_apis', 'ext_apis', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

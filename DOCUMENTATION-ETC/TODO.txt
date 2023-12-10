@@ -187,35 +187,6 @@ Do final testing on hexidecimal / base64 encoded AND plaintext attack signature 
 Make sure ALL admin sections update without issues triggering the new user-input sanitizer logic to flag a FALSE POSITIVE security alert (clear logs / reset cached config, compare fresh reset config to updated config after successfully updating each admin section / plugin from the admin interface).
 
 
-Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
-
-$admin_area_sec_level
-
-$admin_area_2fa
-
-$default_ct_conf
-
-$check_default_ct_conf
-
-$cached_app_version
-
-$check_2fa_error
-
-$htaccess_username
-
-$htaccess_password
-
-$update_config_success
-
-$update_config_error
-
-$admin_general_success
-
-$telegram_user_data
-
-$telegram_messaging
-
-
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
@@ -314,7 +285,7 @@ Add remote IP address data to ALL relevant security error logging everywhere in 
 
 Add new plugin standard config 'ui_display_mode':
 
-$plug_conf[$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
+$plug['conf'][$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
 
 Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
 
@@ -323,7 +294,7 @@ Defaults to 'inline' if not set.
 
 Add new plugin standard config 'admin_page_width':
 
-$plug_conf[$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
+$plug['conf'][$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
 
 'full' makes the plugin's admin page full width (like we do for app logs / system stats admin pages already).
 

@@ -8,7 +8,7 @@
 
 
 <?php
-if ( $admin_area_sec_level == 'high' ) {
+if ( $ct['admin_area_sec_level'] == 'high' ) {
 ?>
 	
 	<p class='bitcoin bitcoin_dotted'>
@@ -30,10 +30,10 @@ else {
 
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
 
-$admin_render_settings['text_gateways']['is_repeatable']['add_button'] = 'Add Text Gateway (at bottom)';
+$ct['admin_render_settings']['text_gateways']['is_repeatable']['add_button'] = 'Add Text Gateway (at bottom)';
 
-$admin_render_settings['text_gateways']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
-$admin_render_settings['text_gateways']['is_repeatable']['text_field_size'] = 35;
+$ct['admin_render_settings']['text_gateways']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
+$ct['admin_render_settings']['text_gateways']['is_repeatable']['text_field_size'] = 35;
                
 
 // FILLED IN setting values
@@ -42,18 +42,18 @@ $admin_render_settings['text_gateways']['is_repeatable']['text_field_size'] = 35
 if ( sizeof($ct['conf']['mobile_network']['text_gateways']) > 0 ) {
 
      foreach ( $ct['conf']['mobile_network']['text_gateways'] as $key => $val ) {
-     $admin_render_settings['text_gateways']['is_subarray'][$key]['is_text'] = true;
-     $admin_render_settings['text_gateways']['is_subarray'][$key]['text_field_size'] = 35;
+     $ct['admin_render_settings']['text_gateways']['is_subarray'][$key]['is_text'] = true;
+     $ct['admin_render_settings']['text_gateways']['is_subarray'][$key]['text_field_size'] = 35;
      }
 
 }
 else {
-$admin_render_settings['text_gateways']['is_subarray'][0]['is_text'] = true;
-$admin_render_settings['text_gateways']['is_subarray'][0]['text_field_size'] = 35;
+$ct['admin_render_settings']['text_gateways']['is_subarray'][0]['is_text'] = true;
+$ct['admin_render_settings']['text_gateways']['is_subarray'][0]['text_field_size'] = 35;
 }
 
 
-$admin_render_settings['text_gateways']['is_notes'] = 'Mobile text gateways, used for emailing mobile texts to phone numbers on these networks<br />This format MUST be used: network_id||network_gateway.com';
+$ct['admin_render_settings']['text_gateways']['is_notes'] = 'Mobile text gateways, used for emailing mobile texts to phone numbers on these networks<br />This format MUST be used: network_id||network_gateway.com';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,10 +61,10 @@ $admin_render_settings['text_gateways']['is_notes'] = 'Mobile text gateways, use
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-$admin_render_settings['is_refresh_admin'] = 'none';
+$ct['admin_render_settings']['is_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('mobile_network', 'text_gateways', $admin_render_settings);
+$ct['admin']->admin_config_interface('mobile_network', 'text_gateways', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

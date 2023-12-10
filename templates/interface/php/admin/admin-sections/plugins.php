@@ -12,15 +12,15 @@
 	
 	$currently_activated_plugins = array();
 	
-	foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
+	foreach ( $plug['activated']['ui'] as $plugin_key => $unused ) {
 	$currently_activated_plugins[$plugin_key] = true;
 	}
 	
-	foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
+	foreach ( $plug['activated']['cron'] as $plugin_key => $unused ) {
 	$currently_activated_plugins[$plugin_key] = true;
 	}
 	
-	foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
+	foreach ( $plug['activated']['webhook'] as $plugin_key => $unused ) {
 	$currently_activated_plugins[$plugin_key] = true;
 	}
 	
@@ -39,7 +39,7 @@
 		foreach ( $currently_activated_plugins as $plugin_key => $unused ) {
     	     ?>
     	     
-        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug['conf'][$plugin_key]['ui_name']?></a></li>
         
     	     <?php
     	     }
@@ -60,7 +60,7 @@
 
 
     <?php
-    if ( $admin_area_sec_level == 'high' ) {
+    if ( $ct['admin_area_sec_level'] == 'high' ) {
     ?>
     	
     	<p class='bitcoin bitcoin_dotted'>
@@ -81,7 +81,7 @@
      
          foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {
          
-         $admin_render_settings['plugin_status']['is_subarray'][$key]['is_radio'] = array(
+         $ct['admin_render_settings']['plugin_status']['is_subarray'][$key]['is_radio'] = array(
                                                                                           'off',
                                                                                           'on',
                                                                                          );
@@ -96,10 +96,10 @@
      
           // What OTHER admin pages should be refreshed AFTER this settings update runs
           // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-          $admin_render_settings['is_refresh_admin'] = 'all';
+          $ct['admin_render_settings']['is_refresh_admin'] = 'all';
           
           // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-          $ct['admin']->admin_config_interface('plugins', 'plugins', $admin_render_settings);
+          $ct['admin']->admin_config_interface('plugins', 'plugins', $ct['admin_render_settings']);
           
           }
           else {

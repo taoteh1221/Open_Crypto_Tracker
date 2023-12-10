@@ -673,6 +673,11 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'aury-3||jupiter_ag||sol||both',
 					
 					
+					// HNT
+					'hnt-2||gateio||usdt||both',
+					'hnt-3||gateio||eth||none',
+					
+					
 					// BONK
 					'bonk||huobi||usdt||chart',
 					'bonk-2||gateio||usdt||both',
@@ -693,17 +698,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					// RNDR
 					'rndr||kucoin||btc||both',
 					'rndr-2||gateio||usdt||none',
-					
-					
-					// HNT
-					'hnt-2||gateio||usdt||both',
-					'hnt-3||gateio||eth||none',
-					
-					
-					// NANA
-					'nana||jupiter_ag||sol||both',
-					'nana-2||coingecko_btc||btc||chart',
-					'nana-3||coingecko_eth||eth||chart',
 					
 					
 					// GRAPE
@@ -2752,6 +2746,53 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // HNT
+                    'HNT' => array(
+                        
+                        'name' => 'Helium',
+                        'mcap_slug' => 'helium',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                        'coingecko_btc' => 'helium',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'HNT_ETH',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'HNT/SOL',
+                                                    ),
+
+                                                    
+                                    'inr' => array(
+                                        'wazirx' => 'hntinr',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'HNT/USDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'HNT_USDT',
+                                        'wazirx' => 'hntusdt',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // BONK
                     'BONK' => array(
                         
@@ -2905,99 +2946,6 @@ $ct['conf']['assets'] = array(
                                         'gateio' => 'RNDR_USDT',
                                         'kucoin' => 'RNDR-USDT',
                                         'coinex' => 'RNDRUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // HNT
-                    'HNT' => array(
-                        
-                        'name' => 'Helium',
-                        'mcap_slug' => 'helium',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'coingecko_btc' => 'helium',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'HNT_ETH',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'HNT/SOL',
-                                                    ),
-
-                                                    
-                                    'inr' => array(
-                                        'wazirx' => 'hntinr',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'HNT/USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'HNT_USDT',
-                                        'wazirx' => 'hntusdt',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // NANA
-                    'NANA' => array(
-                        
-                        'name' => 'NANA Token',
-                        'mcap_slug' => 'nana-token',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'coingecko_btc' => 'nana-token',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'coingecko_eth' => 'nana-token',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'NANA/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'nana-token',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'NANA/USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'coinex' => 'NANAUSDT',
                                                     ),
 
                                                     

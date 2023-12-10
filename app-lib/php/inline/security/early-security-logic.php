@@ -170,18 +170,18 @@ exit;
 
 // If not updating, and cached var already exists
 if ( file_exists($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat') ) {
-$admin_area_sec_level = trim( file_get_contents($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat') );
+$ct['admin_area_sec_level'] = trim( file_get_contents($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat') );
 
      // Backwards compatibility (upgrades from < v6.00.27)
-     if ( $admin_area_sec_level == 'enhanced' ) {
-     $admin_area_sec_level = 'medium';
+     if ( $ct['admin_area_sec_level'] == 'enhanced' ) {
+     $ct['admin_area_sec_level'] = 'medium';
      }
      
 }
 // Else, default to high admin security
 else {
-$admin_area_sec_level = 'high';
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
+$ct['admin_area_sec_level'] = 'high';
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $ct['admin_area_sec_level']);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,12 +192,12 @@ $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat'
 
 // If not updating, and cached var already exists
 if ( file_exists($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat') ) {
-$admin_area_2fa = trim( file_get_contents($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat') );
+$ct['admin_area_2fa'] = trim( file_get_contents($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat') );
 }
 // Else, default to 2FA disabled
 else {
-$admin_area_2fa = 'off';
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
+$ct['admin_area_2fa'] = 'off';
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $ct['admin_area_2fa']);
 }
 
 
@@ -272,11 +272,11 @@ if ( !$is_fast_runtime ) {
           
      		
      		// If we already loaded the newest modified file, delete any stale ones
-     		if ( isset($int_webhooks[$webhook_plug]) ) {
+     		if ( isset($ct['int_webhooks'][$webhook_plug]) ) {
      		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
      		}
      		else {
-     	     $int_webhooks[$webhook_plug] = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
+     	     $ct['int_webhooks'][$webhook_plug] = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
      		}
      	
      	
@@ -322,7 +322,7 @@ if ( !$is_fast_runtime ) {
         	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
           
           // If we trigger a cached config reset later, we need to delete this telegram data with this file path
-          $telegram_user_data_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
+          $ct['telegram_user_data_path'] = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         		
         		
         		// If we already loaded the newest modified telegram SECURED CACHE config file,
@@ -339,7 +339,7 @@ if ( !$is_fast_runtime ) {
         			
         			// "null" in quotes as the actual value is returned sometimes
         			if ( $cached_telegram_user_data != false && $cached_telegram_user_data != null && $cached_telegram_user_data != "null" ) {
-        			$telegram_user_data = $cached_telegram_user_data;
+        			$ct['telegram_user_data'] = $cached_telegram_user_data;
         			}
         			else {
         			$ct['gen']->log('conf_error', 'Cached telegram_user_data non-existant or corrupted (refresh will happen automatically)');

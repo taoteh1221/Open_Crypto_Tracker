@@ -152,7 +152,7 @@ var $ct_array = array();
    
    function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
    
-   global $ct, $default_ct_conf, $conf_upgraded, $plugins_checked_registered;
+   global $ct, $default_ct_conf;
         
         
         if ( is_array($conf[$cat_key][$conf_key]) ) {
@@ -172,7 +172,7 @@ var $ct_array = array();
         
               
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)...Uses === for PHPv7.4 support
-              if ( $plugins_checked_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              if ( $ct['plugins_checked_registered'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
                            
@@ -201,7 +201,7 @@ var $ct_array = array();
                   	  // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
                       $conf['plug_conf'][$this_plug] = $ct['gen']->assoc_array_order( $conf['plug_conf'][$this_plug], $ct['gen']->assoc_array_order_map($default_ct_conf['plug_conf'][$this_plug]) );
                    
-                      $conf_upgraded = true;
+                      $ct['conf_upgraded'] = true;
                          
                       // Uses === / !== for PHPv7.4 support
                       $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== false || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] === 0 ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null / false / zero]' );
@@ -223,7 +223,7 @@ var $ct_array = array();
               // If DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***, AND ACTIVE / DEFAULT ARRAYS DON'T MATCH,
               // then import and check for duplicates after (for efficiency)
               else if (
-              !$plugins_checked_registered
+              !$ct['plugins_checked_registered']
               && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && md5(serialize($conf[$cat_key][$conf_key])) != md5(serialize($default_ct_conf[$cat_key][$conf_key]))
               ) {
@@ -236,7 +236,7 @@ var $ct_array = array();
               // WE DON'T NEED ORDERING HERE, AS IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***
               // (we don't care about ordering here "under the hood", only in the UI [maybe])
                         
-              $conf_upgraded = true;
+              $ct['conf_upgraded'] = true;
                   
               $no_string_keys = true;
                    
@@ -247,7 +247,7 @@ var $ct_array = array();
               // (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY)
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
               else if (
-              !$plugins_checked_registered
+              !$ct['plugins_checked_registered']
               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($conf[$cat_key][$conf_key][$setting_key])
               ) {
@@ -257,7 +257,7 @@ var $ct_array = array();
               // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
               $conf[$cat_key][$conf_key] = $ct['gen']->assoc_array_order( $conf[$cat_key][$conf_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key][$conf_key]) );
                    
-              $conf_upgraded = true;
+              $ct['conf_upgraded'] = true;
                          
               // Uses === / !== for PHPv7.4 support
               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null || $default_ct_conf[$cat_key][$conf_key][$setting_key] !== false || $default_ct_conf[$cat_key][$conf_key][$setting_key] === 0 ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null / false / zero]' );
@@ -283,7 +283,7 @@ var $ct_array = array();
         
               
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              if ( $plugins_checked_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              if ( $ct['plugins_checked_registered'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
                    
@@ -294,11 +294,11 @@ var $ct_array = array();
                       
                       unset($conf['plug_conf'][$this_plug][$plug_setting_key]);
                    
-                      $conf_upgraded = true;
+                      $ct['conf_upgraded'] = true;
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			'DEPRECIATED plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
+                             			'NON-EXISTANT plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
                              			);
                    
                       }
@@ -310,18 +310,18 @@ var $ct_array = array();
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
               // (ONLY ALLOW REMOVAL OF STRING-BASED ARRAY KEYS [WE'RE BLIND FOR NOW ON NUMERIC / AUTO-INDEXING KEYS, UNLESS LOGIC IS BUILT TO SAFELY CHECK THAT])
               else if (
-              !$plugins_checked_registered
+              !$ct['plugins_checked_registered']
               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key])
               ) {
               			
               unset($conf[$cat_key][$conf_key][$setting_key]);
                    
-              $conf_upgraded = true;
+              $ct['conf_upgraded'] = true;
                    
               $ct['gen']->log(
                         	     'notify_error',
-                        		'DEPRECIATED app config, SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+                        		'NON-EXISTANT app config, SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
                         		);
               
               }
@@ -357,7 +357,7 @@ var $ct_array = array();
              
         $ct['gen']->log(
                              		'notify_error',
-                             		'DEPRECIATED app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] removed (new array size: ' . $new_array_size . ' ['.$array_size_change.'])'
+                             		'NON-EXISTANT app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] removed (new array size: ' . $new_array_size . ' ['.$array_size_change.'])'
                              		);
         }
 
@@ -511,7 +511,7 @@ var $ct_array = array();
   
   function api_throttling($tld_or_ip, $cached_path=false) {
   
-  global $ct, $api_throttle_count, $api_throttle_flag, $throttled_api_cache_time, $throttled_api_per_minute_limit, $throttled_api_per_day_limit;
+  global $ct;
   
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
@@ -521,42 +521,42 @@ var $ct_array = array();
   $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
   
   
-     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $api_throttle_count array
-     if ( !isset($api_throttle_flag['init'][$tld_or_ip]) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
-     $api_throttle_count[$tld_or_ip] = $api_throttle_count_check;
+     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $ct['api_throttle_count'] array
+     if ( !isset($ct['api_throttle_flag']['init'][$tld_or_ip]) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
+     $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
      }
      
      
-     $api_throttle_flag['init'][$tld_or_ip] = true; // Flag as initiated this runtime (AFTER above logic)
+     $ct['api_throttle_flag']['init'][$tld_or_ip] = true; // Flag as initiated this runtime (AFTER above logic)
 
      
      // Set OR reset MINUTE start time / counts, if needed
      if (
-     !$cached_path && isset($throttled_api_per_minute_limit[$tld_or_ip]) && !isset($api_throttle_count[$tld_or_ip]['minute_count']['start'])
-     || isset($api_throttle_count[$tld_or_ip]['minute_count']['start']) && $api_throttle_count[$tld_or_ip]['minute_count']['start'] <= ( time() - 60 )
+     !$cached_path && isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'])
+     || isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'] <= ( time() - 60 )
      ) {
-     $api_throttle_count[$tld_or_ip]['minute_count']['start'] = time();
-     $api_throttle_count[$tld_or_ip]['minute_count']['count'] = 0;
+     $ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'] = time();
+     $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = 0;
      }
      
      
      // Set OR reset HOUR start time / counts, if needed
      // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
      if (
-     !$cached_path && isset($throttled_api_per_day_limit[$tld_or_ip]) && !isset($api_throttle_count[$tld_or_ip]['hour_count']['start'])
-     || isset($api_throttle_count[$tld_or_ip]['hour_count']['start']) && $api_throttle_count[$tld_or_ip]['hour_count']['start'] <= ( time() - 3600 )
+     !$cached_path && isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['hour_count']['start'])
+     || isset($ct['api_throttle_count'][$tld_or_ip]['hour_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['hour_count']['start'] <= ( time() - 3600 )
      ) {
-     $api_throttle_count[$tld_or_ip]['hour_count']['start'] = time();
-     $api_throttle_count[$tld_or_ip]['hour_count']['count'] = 0;
+     $ct['api_throttle_count'][$tld_or_ip]['hour_count']['start'] = time();
+     $ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'] = 0;
      }
      
      
      // Thresholds for API servers (we throttle-limit, to have reliable LIVE data EVERY HOUR OF THE DAY) 
-     // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $api_throttle_flag[$tld_or_ip] *AND* THE FUNCTION CALL)
+     // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $ct['api_throttle_flag'][$tld_or_ip] *AND* THE FUNCTION CALL)
      
      
      // CACHE TIME BASED
-     if ( $cached_path && isset($throttled_api_cache_time[$tld_or_ip]) && $this->update_cache($cached_path, $throttled_api_cache_time[$tld_or_ip]) == false ) {
+     if ( $cached_path && isset($ct['throttled_api_cache_time'][$tld_or_ip]) && $this->update_cache($cached_path, $ct['throttled_api_cache_time'][$tld_or_ip]) == false ) {
      
      $minutes_old = round( ( time() - filemtime($cached_path) ) / 60 );
      
@@ -568,31 +568,31 @@ var $ct_array = array();
           // Log for each cache file's throttle
           $ct['gen']->log(
                        'notify_debug',
-                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct['var']->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $throttled_api_cache_time[$tld_or_ip] . ')'
+                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct['var']->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $ct['throttled_api_cache_time'][$tld_or_ip] . ')'
                	  );
           	  
           }
      
      
      // For dev-notes ONLY (so it's realized IN THIS INSTANCE we throttle this API server by cache time, instead of API request counts)
-     $api_throttle_count[$tld_or_ip]['cache_time_based'][$cache_file_name] = array(
+     $ct['api_throttle_count'][$tld_or_ip]['cache_time_based'][$cache_file_name] = array(
                                                                              'minutes_cached' => $minutes_old,
-                                                                             'minimum_cache_minutes' => $throttled_api_cache_time[$tld_or_ip],
+                                                                             'minimum_cache_minutes' => $ct['throttled_api_cache_time'][$tld_or_ip],
                                                                             );
                   
-     $store_api_throttle_count = json_encode($api_throttle_count[$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
      $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
          
-     $api_throttle_flag[$tld_or_ip] = true;
+     $ct['api_throttle_flag'][$tld_or_ip] = true;
      
-     return $api_throttle_flag[$tld_or_ip];
+     return $ct['api_throttle_flag'][$tld_or_ip];
      
      }
      // API REQUEST COUNTING BASED
      // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
      elseif (
-     !$cached_path && isset($throttled_api_per_minute_limit[$tld_or_ip]) && $api_throttle_count[$tld_or_ip]['minute_count']['count'] >= $throttled_api_per_minute_limit[$tld_or_ip]
-     || !$cached_path && isset($throttled_api_per_day_limit[$tld_or_ip]) && $api_throttle_count[$tld_or_ip]['hour_count']['count'] >= floor($throttled_api_per_day_limit[$tld_or_ip] / 24)
+     !$cached_path && isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['throttled_api_per_minute_limit'][$tld_or_ip]
+     || !$cached_path && isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && $ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'] >= floor($ct['throttled_api_per_day_limit'][$tld_or_ip] / 24)
      ) {
           
           
@@ -601,7 +601,7 @@ var $ct_array = array();
           // Only log once, as it's the minute / hour thresholds met
           $ct['gen']->log(
                        'notify_debug',
-                       'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests='.$api_throttle_count[$tld_or_ip]['minute_count']['count'].', hour_requests='.$api_throttle_count[$tld_or_ip]['hour_count']['count'].')',
+                       'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests='.$ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'].', hour_requests='.$ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'].')',
                	   false,
                	   md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
                	  );
@@ -609,29 +609,29 @@ var $ct_array = array();
           }
           
                   
-     $store_api_throttle_count = json_encode($api_throttle_count[$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
      $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
          
-     $api_throttle_flag[$tld_or_ip] = true;
+     $ct['api_throttle_flag'][$tld_or_ip] = true;
      
-     return $api_throttle_flag[$tld_or_ip];
+     return $ct['api_throttle_flag'][$tld_or_ip];
      
      }
-     elseif ( !$cached_path && isset($throttled_api_per_minute_limit[$tld_or_ip]) || !$cached_path && isset($throttled_api_per_day_limit[$tld_or_ip]) ) {
+     elseif ( !$cached_path && isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) || !$cached_path && isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) ) {
          
-         if ( isset($throttled_api_per_minute_limit[$tld_or_ip]) ) {
-         $api_throttle_count[$tld_or_ip]['minute_count']['count'] = $api_throttle_count[$tld_or_ip]['minute_count']['count'] + 1;
+         if ( isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) ) {
+         $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] + 1;
          }
          
          // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
-         if ( isset($throttled_api_per_day_limit[$tld_or_ip]) ) {
-         $api_throttle_count[$tld_or_ip]['hour_count']['count'] = $api_throttle_count[$tld_or_ip]['hour_count']['count'] + 1;
+         if ( isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) ) {
+         $ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'] + 1;
          }
                   
-     $store_api_throttle_count = json_encode($api_throttle_count[$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
      $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
          
-     unset($api_throttle_flag[$tld_or_ip]);
+     unset($ct['api_throttle_flag'][$tld_or_ip]);
      
      return false;
      
@@ -715,7 +715,7 @@ var $ct_array = array();
   
   function queue_notify($send_params) {
   
-  global $ct, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
+  global $ct;
   
      
      // Abort queueing comms for sending out notifications, if allowing comms is disabled
@@ -730,28 +730,28 @@ var $ct_array = array();
 
    
      // Notifyme
-     if ( isset($send_params['notifyme']) && $send_params['notifyme'] != '' && $notifyme_activated ) {
+     if ( isset($send_params['notifyme']) && $send_params['notifyme'] != '' && $ct['notifyme_activated'] ) {
    	 $this->save_file($ct['base_dir'] . '/cache/secured/messages/notifyme-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['notifyme']);
      }
 
    
      // Telegram
-     if ( isset($send_params['telegram']) && $send_params['telegram'] != '' && $telegram_activated ) {
+     if ( isset($send_params['telegram']) && $send_params['telegram'] != '' && $ct['telegram_activated'] ) {
      $this->save_file($ct['base_dir'] . '/cache/secured/messages/telegram-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['telegram']);
      }
     
     
      // SMS service
-     if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'twilio' ) { 
+     if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'twilio' ) { 
      $this->save_file($ct['base_dir'] . '/cache/secured/messages/twilio-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
-     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'textbelt' ) { 
+     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'textbelt' ) { 
      $this->save_file($ct['base_dir'] . '/cache/secured/messages/textbelt-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
-     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'textlocal' ) { 
+     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'textlocal' ) { 
      $this->save_file($ct['base_dir'] . '/cache/secured/messages/textlocal-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
-     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'email_gateway' ) { 
+     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'email_gateway' ) { 
      
      // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
      // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
@@ -772,7 +772,7 @@ var $ct_array = array();
      
             
      // Normal email
-     if ( isset($send_params['email']['message']) && $send_params['email']['message'] != '' && $valid_to_email ) {
+     if ( isset($send_params['email']['message']) && $send_params['email']['message'] != '' && $ct['email_activated'] ) {
      
      $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct['dev']['charset_default'] ) );
      
@@ -800,7 +800,7 @@ var $ct_array = array();
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
    function upgrade_cached_ct_conf($conf=false) {
    
-   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $plugins_checked_registered, $admin_general_success;
+   global $ct, $check_default_ct_conf, $default_ct_conf, $admin_general_success;
    
    // Check that the config is valid / not corrupt FOR FUTURE JSON FILE STORAGE
    $test_conf = json_encode($conf, JSON_PRETTY_PRINT);
@@ -819,7 +819,7 @@ var $ct_array = array();
       
       }
       else {
-      $ct['gen']->log('notify_error', 'CACHED config ' . ( $plugins_checked_registered ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrade check flagged, checking now');
+      $ct['gen']->log('notify_error', 'CACHED config ' . ( $ct['plugins_checked_registered'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrade check flagged, checking now');
       }
                    	 
          
@@ -832,7 +832,7 @@ var $ct_array = array();
            continue;
            }   
            // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-           else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !$plugins_checked_registered ) {
+           else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !$ct['plugins_checked_registered'] ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
                 $desc = 'NEW';
@@ -846,7 +846,7 @@ var $ct_array = array();
            // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
            $conf = $ct['gen']->assoc_array_order( $conf, $ct['gen']->assoc_array_order_map($default_ct_conf) );
                   						
-           $conf_upgraded = true;
+           $ct['conf_upgraded'] = true;
                   
            $ct['gen']->log(
                   	       'notify_error',
@@ -875,7 +875,7 @@ var $ct_array = array();
                     // If not in 'config_deny_additions'
                     !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
                     // If plugin status (we handle whitelisting for this in subarray_cached_ct_conf_upgrade())
-                    // (WE CHECK $plugins_checked_registered IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
+                    // (WE CHECK $ct['plugins_checked_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
@@ -888,11 +888,11 @@ var $ct_array = array();
                // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
-               || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets'])
+               || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets'])
                // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
-               || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                // If we DOWNGRADED from using integer-based / auto-index array keys (downgrading to an OLDER version of the app etc...and it's not the SECOND upgrade check for active registered plugins)
-               || !$plugins_checked_registered && is_array($conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
                     
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
@@ -913,7 +913,7 @@ var $ct_array = array();
                // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
                $conf[$cat_key] = $ct['gen']->assoc_array_order( $conf[$cat_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key]) );
                   						
-               $conf_upgraded = true;
+               $ct['conf_upgraded'] = true;
                
                // Uses === / !== for PHPv7.4 support
                $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] !== null || $default_ct_conf[$cat_key][$conf_key] !== false || $default_ct_conf[$cat_key][$conf_key] === 0 ? $default_ct_conf[$cat_key][$conf_key] : '[null / false / zero]' );
@@ -948,11 +948,11 @@ var $ct_array = array();
                   	
            unset($conf[$cached_cat_key]);
                   
-           $conf_upgraded = true;
+           $ct['conf_upgraded'] = true;
                   
            $ct['gen']->log(
                		  'notify_error',
-               		  'DEPRECIATED app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
+               		  'NON-EXISTANT app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
                   		 );
            
            // Since we just deleted the ENTIRE category's settings, we can safely skip per-setting checks
@@ -971,7 +971,7 @@ var $ct_array = array();
                     if (
                     !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
                     // Uses === for PHPv7.4 support
-                    // (WE CHECK $plugins_checked_registered IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
+                    // (WE CHECK $ct['plugins_checked_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
@@ -983,11 +983,11 @@ var $ct_array = array();
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   
-               $conf_upgraded = true;
+               $ct['conf_upgraded'] = true;
                   
                $ct['gen']->log(
                			'notify_error',
-               			'DEPRECIATED app config PARAMETER ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
+               			'NON-EXISTANT app config PARAMETER ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
                }
@@ -1008,12 +1008,12 @@ var $ct_array = array();
       }
              
    
-      if ( $conf_upgraded ) {
-      $conf_upgraded = false; // Reset, because we run main config / active plugins upgrades SEPERATELY
+      if ( $ct['conf_upgraded'] ) {
+      $ct['conf_upgraded'] = false; // Reset, because we run main config / active plugins upgrades SEPERATELY
       return $conf;
       }
       else {
-    	 $ct['gen']->log('notify_error', 'no CACHED config ' . ( $plugins_checked_registered ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrades needed');
+    	 $ct['gen']->log('notify_error', 'no CACHED config ' . ( $ct['plugins_checked_registered'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrades needed');
     	 return false;
       }
       
@@ -1027,7 +1027,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $update_config, $reset_config, $app_upgrade_check, $plugins_checked_registered;
+   global $ct;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -1052,7 +1052,7 @@ var $ct_array = array();
         		}
         		else {
         		$newest_cached_restore_conf = 1;
-	          $restore_conf_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
+	          $ct['restore_conf_path'] = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         		}
 		
 	
@@ -1088,20 +1088,20 @@ var $ct_array = array();
 
                         // RUN UPGRADE CHECK MODE IF FLAGGED (AND *IS* UI OR CRON RUNTIME)
                         // (RUNING IT EARLY HERE HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG, THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
-        			    if ( $app_upgrade_check ) {
+        			    if ( $ct['app_upgrade_check'] ) {
         			         
         			         
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
         			         
         			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
         			         
-        			         // !!!!!!!!! DO NOT RESET $app_upgrade_check EVER, AS WE WANT TO CHECK REGISTERED ACTIVE PLUGINS
+        			         // !!!!!!!!! DO NOT RESET $ct['app_upgrade_check'] EVER, AS WE WANT TO CHECK REGISTERED ACTIVE PLUGINS
         			         // SEPERATELY LATER IN THE RUNTIME, AND WE ALSO WANT TO SEND THE FLAG INTO queue_config_update(),
         			         // WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME) !!!!!!!!!
 						    
 						    
 						    // We don't need to run this twice (flagging a UI alert / caching app version)
-						    if ( $plugins_checked_registered ) {
+						    if ( $ct['plugins_checked_registered'] ) {
 						         
                                   // Flag for UI alerts
                                   $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
@@ -1123,12 +1123,12 @@ var $ct_array = array();
         			elseif ( !$ct['gen']->config_state_synced() ) {
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
         			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), RESETTING from DEFAULT ct_conf');
-        			$reset_config = true;
+        			$ct['reset_config'] = true;
         			}
         			elseif ( $cached_ct_conf != true ) {
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
         			$ct['gen']->log('conf_error', 'CACHED ct_conf appears corrupt, resetting from DEFAULT ct_conf');
-        			$reset_config = true;
+        			$ct['reset_config'] = true;
         			}
         			
         			
@@ -1143,16 +1143,16 @@ var $ct_array = array();
         	
         if ( !isset($newest_cached_ct_conf) ) {
         $ct['gen']->log('conf_error', 'CACHED ct_conf not found, resetting from DEFAULT ct_conf');
-        $reset_config = true;
+        $ct['reset_config'] = true;
         }
         
         
         // We need to reset the cached config here, FOR TWO REASONS:
         // 1) load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE
         // 2) A corrupt / non-existant CACHED config should ALWAYS be REPLACED IMMEADIATELY (so runtime won't hang / freeze)
-        if ( $reset_config ) {
+        if ( $ct['reset_config'] ) {
         $ct['conf'] = $this->update_cached_config(false, false, true); // Reset flag
-        $reset_config = false; // Reset the reset flag (lol) IMMEADIATELY, as it's a global var
+        $ct['reset_config'] = false; // Reset the reset flag (lol) IMMEADIATELY, as it's a global var
         }
         
         
@@ -1169,7 +1169,7 @@ var $ct_array = array();
    
    function update_cached_config($passed_config, $upgrade_mode=false, $reset_flagged=false) {
    
-   global $ct, $default_ct_conf, $update_config, $restore_conf_path, $telegram_user_data_path, $telegram_user_data, $admin_area_sec_level, $htaccess_username, $htaccess_password;
+   global $ct, $default_ct_conf, $htaccess_username, $htaccess_password;
         
 
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
@@ -1181,14 +1181,14 @@ var $ct_array = array();
         
         
 	     // If no reset ct_conf flag, try loading last working config (if it exists, before falling back on default ct_conf)
-	     if ( !$reset_flagged && file_exists($restore_conf_path) ) {
-          $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+	     if ( !$reset_flagged && file_exists($ct['restore_conf_path']) ) {
+          $passed_config = json_decode( trim( file_get_contents($ct['restore_conf_path']) ) , TRUE);
 	     }
 				
              
           // If NO valid last working config / IS high security mode / IS a user-initiated reset to ct_conf defaults,
           // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
-          if ( !$passed_config || $admin_area_sec_level == 'high' || $reset_flagged ) {
+          if ( !$passed_config || $ct['admin_area_sec_level'] == 'high' || $reset_flagged ) {
                   
           $passed_config = $default_ct_conf;
     		
@@ -1222,7 +1222,7 @@ var $ct_array = array();
     	
     	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-    	    if ( $admin_area_sec_level != 'high' && $upgrade_mode ) {
+    	    if ( $ct['admin_area_sec_level'] != 'high' && $upgrade_mode ) {
     	         
     	    $updated_cache_ct_conf = $this->upgrade_cached_ct_conf($passed_config);
     	    
@@ -1234,7 +1234,7 @@ var $ct_array = array();
     	    
     	    }
          // CACHED WITH NO UPGRADE FLAG
-    	    elseif ( $admin_area_sec_level != 'high' ) {
+    	    elseif ( $ct['admin_area_sec_level'] != 'high' ) {
     	    $updated_cache_ct_conf = $passed_config;
     	    }
          // (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
@@ -1254,15 +1254,15 @@ var $ct_array = array();
     		$ct['gen']->log('conf_error', 'updated ct_conf data could not be saved (to secured cache storage) in json format');
     	
               // Attempt to restore last-known good config (if it exists)	
-              if ( file_exists($restore_conf_path) ) {
-    		    $cached_restore_conf = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+              if ( file_exists($ct['restore_conf_path']) ) {
+    		    $cached_restore_conf = json_decode( trim( file_get_contents($ct['restore_conf_path']) ) , TRUE);
     		    }
     		
     		
     		    if ( $cached_restore_conf != false && $cached_restore_conf != null && $cached_restore_conf != "null" ) {
     	
     	
-                   if ( $admin_area_sec_level != 'high' ) {
+                   if ( $ct['admin_area_sec_level'] != 'high' ) {
             	    $updated_cache_ct_conf = $cached_restore_conf;
             	    }
                 	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
@@ -1289,7 +1289,7 @@ var $ct_array = array();
             		
             		
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            		    if ( $admin_area_sec_level == 'high' || $reset_flagged ) {
+            		    if ( $ct['admin_area_sec_level'] == 'high' || $reset_flagged ) {
                 		$this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
             		    }
             		
@@ -1319,7 +1319,7 @@ var $ct_array = array();
     		
                // For checking later, if DEFAULT Admin Config (in config.php) values are updated (in high security mode),
                // or we reset (any security mode) / upgrade (normal / medium security mode) the cached config, we save the digest check to json again
-            	if ( $admin_area_sec_level == 'high' || $reset_flagged || $upgrade_mode ) {
+            	if ( $ct['admin_area_sec_level'] == 'high' || $reset_flagged || $upgrade_mode ) {
                $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
     		     }
     		
@@ -1332,7 +1332,7 @@ var $ct_array = array();
     		          elseif ( $upgrade_mode ) {
     		          $update_desc = 'UPGRADE';
     		          }
-    		          elseif ( $update_config ) {
+    		          elseif ( $ct['update_config'] ) {
     		          $update_desc = 'UPDATE';
     		          }
     		          else {
@@ -1360,7 +1360,7 @@ var $ct_array = array();
              
      // Since we are resetting OR updating the cached config, telegram chatroom data should be refreshed too
      // (ONLY IF TELEGRAM SETTINGS HAVE CHANGED)
-     if ( $update_config && $telegram_user_data_path != null || $reset_flagged && $telegram_user_data_path != null ) {
+     if ( $ct['update_config'] && $ct['telegram_user_data_path'] != null || $reset_flagged && $ct['telegram_user_data_path'] != null ) {
         
      $check_telegram_conf_md5 = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/telegram_conf_md5.dat') );
 
@@ -1368,8 +1368,8 @@ var $ct_array = array();
         
           // Completely reset ALL telegram config data IF IT'S BEEN REVISED
           if ( $check_telegram_conf_md5 != $telegram_conf_md5 )  {
-          $telegram_user_data = array();
-          unlink($telegram_user_data_path); 
+          $ct['telegram_user_data'] = array();
+          unlink($ct['telegram_user_data_path']); 
           }
              
      }
@@ -1389,61 +1389,61 @@ var $ct_array = array();
   
   function app_log() {
   
-  global $ct, $log_errors, $log_debugging, $alerts_gui_logs;
+  global $ct;
 
   // ERRORS 
   
-      foreach ( $log_errors['notify_error'] as $error ) {
+      foreach ( $ct['log_errors']['notify_error'] as $error ) {
       $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
       }
       
   
   // Combine all errors logged
-  $error_log .= strip_tags($log_errors['security_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($ct['log_errors']['security_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_errors['system_warning']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($ct['log_errors']['system_warning']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_errors['system_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($ct['log_errors']['system_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_errors['conf_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($ct['log_errors']['conf_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_errors['ext_data_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($ct['log_errors']['ext_data_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_errors['int_api_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($ct['log_errors']['int_api_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_errors['market_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($ct['log_errors']['market_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_errors['other_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($ct['log_errors']['other_error']); // Remove any HTML formatting used in UI alerts
   
      
-      foreach ( $log_errors['cache_error'] as $error ) {
+      foreach ( $ct['log_errors']['cache_error'] as $error ) {
       $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
       }
     
   // DEBUGGING
   
-      foreach ( $log_debugging['notify_debug'] as $debugging ) {
+      foreach ( $ct['log_debugging']['notify_debug'] as $debugging ) {
       $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
       }
   
   
   // Combine all debugging logged
-  $debug_log .= strip_tags($log_debugging['security_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($ct['log_debugging']['security_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_debugging['system_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($ct['log_debugging']['system_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_debugging['conf_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($ct['log_debugging']['conf_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_debugging['ext_data_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($ct['log_debugging']['ext_data_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_debugging['int_api_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($ct['log_debugging']['int_api_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_debugging['market_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($ct['log_debugging']['market_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_debugging['other_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($ct['log_debugging']['other_debug']); // Remove any HTML formatting used in UI alerts
   
   
-      foreach ( $log_debugging['cache_debug'] as $debugging ) {
+      foreach ( $ct['log_debugging']['cache_debug'] as $debugging ) {
       $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
       }
       
@@ -1454,7 +1454,7 @@ var $ct_array = array();
       
       // Save a copy for interface alerts
       if ( $ct['runtime_mode'] == 'ui') {
-      $alerts_gui_logs = nl2br($app_log);
+      $ct['alerts_gui_logs'] = nl2br($app_log);
       }
     
     
@@ -1499,8 +1499,8 @@ var $ct_array = array();
       if ( $app_log != null ) {
         
       $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/logs/app_log.log', $app_log, "append");
-      $log_errors = array(); // RESET ERROR LOGS ARRAY (clears logs from memory, that we just wrote to disk)
-      $log_debugging = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
+      $ct['log_errors'] = array(); // RESET ERROR LOGS ARRAY (clears logs from memory, that we just wrote to disk)
+      $ct['log_debugging'] = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
         
           if ( $store_file_contents != true ) {
           return 'Error logs write error for "' . $ct['base_dir'] . '/cache/logs/app_log.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($app_log) . ' bytes';
@@ -1524,7 +1524,7 @@ var $ct_array = array();
   
   function save_file($file, $data, $mode=false, $lock=true) {
   
-  global $ct, $current_runtime_user, $possible_http_users, $http_runtime_user;
+  global $ct;
   
   
     // If no data was passed on to write to file, log it and return false early for runtime speed sake
@@ -1618,7 +1618,7 @@ var $ct_array = array();
   
   function update_light_chart($archive_path, $newest_arch_data=false, $days_span=1) {
   
-  global $ct, $light_chart_first_build_count;
+  global $ct;
   
   $arch_data = array();
   $queued_arch_lines = array();
@@ -1631,7 +1631,7 @@ var $ct_array = array();
     // Hash of light path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
     if ( $days_span == 'all' ) {
     $light_path_hash = md5($light_path);
-    $thres_range = explode(',', $ct['conf']['charts_alerts']['light_chart_all_rebuild_min_max']);
+    $thres_range = array_map( "trim", explode(',', $ct['conf']['charts_alerts']['light_chart_all_rebuild_min_max']) );
     $all_chart_rebuild_thres = rand($thres_range[0], $thres_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
     }
    
@@ -1822,12 +1822,12 @@ var $ct_array = array();
       }
       
       
-      if ( !$newest_light_timestamp && $light_chart_first_build_count >= $scaled_first_build_hard_limit ) {
+      if ( !$newest_light_timestamp && $ct['light_chart_first_build_count'] >= $scaled_first_build_hard_limit ) {
       return false;
       }
       // Count first builds, to enforce first build hard limit
       elseif ( !$newest_light_timestamp ) {
-      $light_chart_first_build_count = $light_chart_first_build_count + 1;
+      $ct['light_chart_first_build_count'] = $ct['light_chart_first_build_count'] + 1;
       }
       
    
@@ -2004,7 +2004,7 @@ var $ct_array = array();
   
   function send_notifications() {
   
-  global $ct, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
+  global $ct;
   
   
   // Array of currently queued messages in the cache
@@ -2018,8 +2018,8 @@ var $ct_array = array();
     if ( is_array($msgs_queue) && sizeof($msgs_queue) > 0 ) {
     
     
-      if ( !isset($processed_msgs['notifications_count']) ) {
-      $processed_msgs['notifications_count'] = 0;
+      if ( !isset($ct['processed_msgs']['notifications_count']) ) {
+      $ct['processed_msgs']['notifications_count'] = 0;
       }
       
       
@@ -2028,28 +2028,28 @@ var $ct_array = array();
       // and no session count is set, set session count to zero
       // Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
       // (if there are notifyme messages queued to send)
-      if ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == true ) {
-      $processed_msgs['notifyme_count'] = 0;
+      if ( !isset($ct['processed_msgs']['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == true ) {
+      $ct['processed_msgs']['notifyme_count'] = 0;
       }
       // If it hasn't been over 5 minutes since the last notifyme send, and there is no session count, 
       // use the file-cached count for the session count starting point
-      elseif ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == false ) {
-      $processed_msgs['notifyme_count'] = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat') );
+      elseif ( !isset($ct['processed_msgs']['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == false ) {
+      $ct['processed_msgs']['notifyme_count'] = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat') );
       }
       
       
-      if ( !isset($processed_msgs['text_count']) ) {
-      $processed_msgs['text_count'] = 0;
+      if ( !isset($ct['processed_msgs']['text_count']) ) {
+      $ct['processed_msgs']['text_count'] = 0;
       }
       
       
-      if ( !isset($processed_msgs['telegram_count']) ) {
-      $processed_msgs['telegram_count'] = 0;
+      if ( !isset($ct['processed_msgs']['telegram_count']) ) {
+      $ct['processed_msgs']['telegram_count'] = 0;
       }
       
       
-      if ( !isset($processed_msgs['email_count']) ) {
-      $processed_msgs['email_count'] = 0;
+      if ( !isset($ct['processed_msgs']['email_count']) ) {
+      $ct['processed_msgs']['email_count'] = 0;
       }
      
     
@@ -2069,13 +2069,13 @@ var $ct_array = array();
       
       
         // Sleep for 2 seconds before starting ANY consecutive message send, to help avoid being blocked / throttled by external server
-        if ( $processed_msgs['notifications_count'] > 0 ) {
+        if ( $ct['processed_msgs']['notifications_count'] > 0 ) {
         sleep(2);
         }
       
       
         // Notifyme params
-        if ( $notifyme_activated ) {
+        if ( $ct['notifyme_activated'] ) {
         
         $notifyme_params = array(
                                 'notification' => null, // Setting this right before sending
@@ -2086,7 +2086,7 @@ var $ct_array = array();
       
         
         // SMS service params 
-        if ( $sms_service == 'twilio' ) {
+        if ( $ct['sms_service'] == 'twilio' ) {
         
         $twilio_params = array(
                               'Body' => null, // Setting this right before sending
@@ -2095,7 +2095,7 @@ var $ct_array = array();
                                );
                             
         }
-        elseif ( $sms_service == 'textbelt' ) {
+        elseif ( $ct['sms_service'] == 'textbelt' ) {
             
         $textbelt_params = array(
                                   'message' => null, // Setting this right before sending
@@ -2104,7 +2104,7 @@ var $ct_array = array();
                                  );
                             
         }
-        elseif ( $sms_service == 'textlocal' ) {
+        elseif ( $ct['sms_service'] == 'textlocal' ) {
             
         $textlocal_params = array(
                                    'message' => null, // Setting this right before sending
@@ -2134,25 +2134,25 @@ var $ct_array = array();
                
                
                // Notifyme
-               elseif ( $notifyme_activated && preg_match("/notifyme/i", $queued_cache_file) ) {
+               elseif ( $ct['notifyme_activated'] && preg_match("/notifyme/i", $queued_cache_file) ) {
                  
                  $notifyme_params['notification'] = $msg_data;
                  
                // Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-               $notifyme_sleep = 1 * ( $processed_msgs['notifyme_count'] > 0 ? $processed_msgs['notifyme_count'] : 1 );
+               $notifyme_sleep = 1 * ( $ct['processed_msgs']['notifyme_count'] > 0 ? $ct['processed_msgs']['notifyme_count'] : 1 );
                sleep($notifyme_sleep);
                
                 
                    // Only 5 notifyme messages allowed per minute
-                   if ( $processed_msgs['notifyme_count'] < 5 ) {
+                   if ( $ct['processed_msgs']['notifyme_count'] < 5 ) {
                    
                    $notifyme_response = @$this->ext_data('params', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
                   
-                   $processed_msgs['notifyme_count'] = $processed_msgs['notifyme_count'] + 1;
+                   $ct['processed_msgs']['notifyme_count'] = $ct['processed_msgs']['notifyme_count'] + 1;
                    
                    $msg_sent = 1;
                    
-                   $this->save_file($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
+                   $this->save_file($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', $ct['processed_msgs']['notifyme_count']); 
                    
                      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                      $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
@@ -2168,10 +2168,10 @@ var $ct_array = array();
                
                
                // Telegram
-               elseif ( $telegram_activated && preg_match("/telegram/i", $queued_cache_file) ) {
+               elseif ( $ct['telegram_activated'] && preg_match("/telegram/i", $queued_cache_file) ) {
                   
                // Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-               $telegram_sleep = 1 * ( $processed_msgs['telegram_count'] > 0 ? $processed_msgs['telegram_count'] : 1 );
+               $telegram_sleep = 1 * ( $ct['processed_msgs']['telegram_count'] > 0 ? $ct['processed_msgs']['telegram_count'] : 1 );
                sleep($telegram_sleep);
                  
                $telegram_response = $ct['gen']->telegram_msg($msg_data);
@@ -2179,7 +2179,7 @@ var $ct_array = array();
                
                   if ( $telegram_response != false ) {
                    
-                  $processed_msgs['telegram_count'] = $processed_msgs['telegram_count'] + 1;
+                  $ct['processed_msgs']['telegram_count'] = $ct['processed_msgs']['telegram_count'] + 1;
                   
                   $msg_sent = 1;
                 
@@ -2201,18 +2201,18 @@ var $ct_array = array();
                
                
                // Twilio
-               elseif ( $sms_service == 'twilio' && preg_match("/twilio/i", $queued_cache_file) ) {
+               elseif ( $ct['sms_service'] == 'twilio' && preg_match("/twilio/i", $queued_cache_file) ) {
                  
                $twilio_params['Body'] = $msg_data;
                  
                // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-               $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
+               $text_sleep = 1 * ( $ct['processed_msgs']['text_count'] > 0 ? $ct['processed_msgs']['text_count'] : 1 );
                sleep($text_sleep);
                usleep(500000); // Wait 0.5 seconds EXTRA, as standard twilio pay-as-you-go plans are 1 text per second (so play it safe)
                  
                $twilio_response = @$this->ext_data('params', $twilio_params, 0, 'https://api.twilio.com/2010-04-01/Accounts/' . $ct['conf']['ext_apis']['twilio_sid'] . '/Messages.json', 2);
                  
-               $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
+               $ct['processed_msgs']['text_count'] = $ct['processed_msgs']['text_count'] + 1;
                
                $msg_sent = 1;
                  
@@ -2227,17 +2227,17 @@ var $ct_array = array();
                
                
                // Textbelt
-               elseif ( $sms_service == 'textbelt' && preg_match("/textbelt/i", $queued_cache_file) ) {
+               elseif ( $ct['sms_service'] == 'textbelt' && preg_match("/textbelt/i", $queued_cache_file) ) {
                  
                $textbelt_params['message'] = $msg_data;
                  
                // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-               $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
+               $text_sleep = 1 * ( $ct['processed_msgs']['text_count'] > 0 ? $ct['processed_msgs']['text_count'] : 1 );
                sleep($text_sleep);
                  
                $textbelt_response = @$this->ext_data('params', $textbelt_params, 0, 'https://textbelt.com/text', 2);
                  
-               $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
+               $ct['processed_msgs']['text_count'] = $ct['processed_msgs']['text_count'] + 1;
                
                $msg_sent = 1;
                  
@@ -2252,17 +2252,17 @@ var $ct_array = array();
                
                
                // Textlocal
-               elseif ( $sms_service == 'textlocal' && preg_match("/textlocal/i", $queued_cache_file) ) {  
+               elseif ( $ct['sms_service'] == 'textlocal' && preg_match("/textlocal/i", $queued_cache_file) ) {  
                  
                $textlocal_params['message'] = $msg_data;
                  
                // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-               $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
+               $text_sleep = 1 * ( $ct['processed_msgs']['text_count'] > 0 ? $ct['processed_msgs']['text_count'] : 1 );
                sleep($text_sleep);
                  
                $textlocal_response = @$this->ext_data('params', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
                  
-               $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
+               $ct['processed_msgs']['text_count'] = $ct['processed_msgs']['text_count'] + 1;
                
                $msg_sent = 1;
                  
@@ -2281,7 +2281,7 @@ var $ct_array = array();
                // Text email
                // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
                // Only use text-to-email if other text services aren't configured
-               elseif ( $sms_service == 'email_gateway' && preg_match("/textemail/i", $queued_cache_file) ) {
+               elseif ( $ct['sms_service'] == 'email_gateway' && preg_match("/textemail/i", $queued_cache_file) ) {
                  
                $textemail_array = json_decode($msg_data, true);
                  
@@ -2301,14 +2301,14 @@ var $ct_array = array();
                    if ( isset($textemail_array['subject']) && isset($textemail_array['message']) && $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
                     
                    // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-                   $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
+                   $text_sleep = 1 * ( $ct['processed_msgs']['text_count'] > 0 ? $ct['processed_msgs']['text_count'] : 1 );
                    sleep($text_sleep);
                     
                    $result = @$ct['gen']->safe_mail( $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
                     
                       if ( $result == true ) {
                       
-                      $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
+                      $ct['processed_msgs']['text_count'] = $ct['processed_msgs']['text_count'] + 1;
                      
                       $msg_sent = 1;
                    
@@ -2334,7 +2334,7 @@ var $ct_array = array();
                  
                  
                // Normal email
-               elseif ( $valid_to_email && preg_match("/normalemail/i", $queued_cache_file) ) {
+               elseif ( $ct['email_activated'] && preg_match("/normalemail/i", $queued_cache_file) ) {
                  
                $email_array = json_decode($msg_data, true);
                  
@@ -2354,14 +2354,14 @@ var $ct_array = array();
                    if ( isset($email_array['subject']) && isset($email_array['message']) && $email_array['subject'] != '' && $email_array['message'] != '' ) {
                     
                    // Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-                   $email_sleep = 1 * ( $processed_msgs['email_count'] > 0 ? $processed_msgs['email_count'] : 1 );
+                   $email_sleep = 1 * ( $ct['processed_msgs']['email_count'] > 0 ? $ct['processed_msgs']['email_count'] : 1 );
                    sleep($email_sleep);
                     
                    $result = @$ct['gen']->safe_mail($ct['conf']['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
                     
                       if ( $result == true ) {
                       
-                      $processed_msgs['email_count'] = $processed_msgs['email_count'] + 1;
+                      $ct['processed_msgs']['email_count'] = $ct['processed_msgs']['email_count'] + 1;
                      
                       $msg_sent = 1;
                    
@@ -2397,7 +2397,7 @@ var $ct_array = array();
        
        
         if ( $msg_sent == 1 ) {
-        $processed_msgs['notifications_count'] = $processed_msgs['notifications_count'] + 1;
+        $ct['processed_msgs']['notifications_count'] = $ct['processed_msgs']['notifications_count'] + 1;
         }
       
       
@@ -2432,7 +2432,7 @@ var $ct_array = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  global $ct, $sel_opt, $activate_proxies, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $api_connections, $htaccess_username, $htaccess_password;
+  global $ct, $htaccess_username, $htaccess_password;
   
   $cookie_jar = tempnam('/tmp','ct_cron_cookie');
    
@@ -2450,7 +2450,7 @@ var $ct_array = array();
   $anti_proxy_servers = ( is_array($ct['conf']['proxy']['anti_proxy_servers']) ? $ct['conf']['proxy']['anti_proxy_servers'] : $temp_array );
 
              
-    if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+    if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
     $ip_description = 'PROXY';
     }
     else {
@@ -2486,9 +2486,9 @@ var $ct_array = array();
     // Only use runtime cache if $ttl greater than zero (set as 0 NEVER wants cached data, -1 is flag for deleting cache data)
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    elseif ( isset($api_runtime_cache[$hash_check]) && $ttl > 0 ) {
+    elseif ( isset($ct['api_runtime_cache'][$hash_check]) && $ttl > 0 ) {
     
-    $data = $api_runtime_cache[$hash_check];
+    $data = $ct['api_runtime_cache'][$hash_check];
     
     // Size of data, for checks in error log UX logic
     $data_bytes = strlen($data);
@@ -2500,11 +2500,11 @@ var $ct_array = array();
       $data_bytes_ux = 'data flagged as none'; // OVERWRITE 
       
       
-        if ( !$log_errors['error_duplicates'][$hash_check] ) {
-        $log_errors['error_duplicates'][$hash_check] = 1; 
+        if ( !$ct['log_errors']['error_duplicates'][$hash_check] ) {
+        $ct['log_errors']['error_duplicates'][$hash_check] = 1; 
         }
         else {
-        $log_errors['error_duplicates'][$hash_check] = $log_errors['error_duplicates'][$hash_check] + 1;
+        $ct['log_errors']['error_duplicates'][$hash_check] = $ct['log_errors']['error_duplicates'][$hash_check] + 1;
         }
        
        
@@ -2515,7 +2515,7 @@ var $ct_array = array();
       							
       			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2526,11 +2526,11 @@ var $ct_array = array();
       if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
       
-        if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
-        $log_debugging['debug_duplicates'][$hash_check] = 1; 
+        if ( !$ct['log_debugging']['debug_duplicates'][$hash_check] ) {
+        $ct['log_debugging']['debug_duplicates'][$hash_check] = 1; 
         }
         else {
-        $log_debugging['debug_duplicates'][$hash_check] = $log_debugging['debug_duplicates'][$hash_check] + 1;
+        $ct['log_debugging']['debug_duplicates'][$hash_check] = $ct['log_debugging']['debug_duplicates'][$hash_check] + 1;
         }
        
        
@@ -2541,7 +2541,7 @@ var $ct_array = array();
       							
       			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2555,7 +2555,7 @@ var $ct_array = array();
     // Live data retrieval (if no runtime cache exists yet)
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    elseif ( !isset($api_runtime_cache[$hash_check]) && $this->update_cache($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
+    elseif ( !isset($ct['api_runtime_cache'][$hash_check]) && $this->update_cache($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
     
     // Time the request
     $api_time = microtime();
@@ -2574,7 +2574,7 @@ var $ct_array = array();
       $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
       
       // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
-      $api_runtime_cache[$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
+      $ct['api_runtime_cache'][$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
              
                 
           // Flag if cache fallback succeeded
@@ -2589,7 +2589,7 @@ var $ct_array = array();
                
           $ct['gen']->log('ext_data_error', 'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip);
           
-          unset($api_runtime_cache[$hash_check]);
+          unset($ct['api_runtime_cache'][$hash_check]);
           
           unlink($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
           
@@ -2609,9 +2609,9 @@ var $ct_array = array();
       // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)
       if ( in_array($endpoint_tld_or_ip, $ct['conf']['power']['strict_consecutive_connect_servers']) ) {
         
-      $api_connections[$tld_session_prefix] = $api_connections[$tld_session_prefix] + 1;
+      $ct['api_connections'][$tld_session_prefix] = $ct['api_connections'][$tld_session_prefix] + 1;
       
-        if ( $api_connections[$tld_session_prefix] > 1 ) {
+        if ( $ct['api_connections'][$tld_session_prefix] > 1 ) {
         usleep(1110000); // Throttle 1.11 seconds
         }
        
@@ -2623,10 +2623,10 @@ var $ct_array = array();
       // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
       if ( in_array($endpoint_tld_or_ip, $ct['dev']['limited_apis']) ) {
       
-        if ( !$limited_api_calls[$tld_session_prefix . '_calls'] ) {
-        $limited_api_calls[$tld_session_prefix . '_calls'] = 1;
+        if ( !$ct['limited_api_calls'][$tld_session_prefix . '_calls'] ) {
+        $ct['limited_api_calls'][$tld_session_prefix . '_calls'] = 1;
         }
-        elseif ( $limited_api_calls[$tld_session_prefix . '_calls'] == 1 ) {
+        elseif ( $ct['limited_api_calls'][$tld_session_prefix . '_calls'] == 1 ) {
         usleep(350000); // Throttle 0.35 seconds
         }
     
@@ -2650,7 +2650,7 @@ var $ct_array = array();
       
       
       // If proxies are configured
-      if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+      if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
        
       $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct['var']->random_array_var($ct['conf']['proxy']['proxy_list']) );
       
@@ -2881,7 +2881,7 @@ var $ct_array = array();
         if ( isset($data) && $data != '' && $data != 'none' ) {
         $fallback_cache_data = true;
         // IMMEADIATELY RUN THIS LOGIC NOW, EVEN THOUGH IT RUNS AT END OF STATEMENT TOO, SINCE WE HAD A LIVE REQUEST FAILURE
-        $api_runtime_cache[$hash_check] = $data;
+        $ct['api_runtime_cache'][$hash_check] = $data;
         touch($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat'); // Update cache file time
         }
         
@@ -2919,9 +2919,9 @@ var $ct_array = array();
         }
       
       
-        if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
+        if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
-        $proxy_checkup[] = array(
+        $ct['proxy_checkup'][] = array(
                     			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
                     			'proxy' => $current_proxy
                     			);
@@ -2968,7 +2968,7 @@ var $ct_array = array();
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
              							
-             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			);
             
             // Log this error response from this data request
@@ -3043,7 +3043,7 @@ var $ct_array = array();
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
             							
-            			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
              
            
@@ -3064,14 +3064,14 @@ var $ct_array = array();
       if ( $ttl > 0 && $mode != 'proxy-check' ) {
       
       // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
-      $api_runtime_cache[$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
+      $ct['api_runtime_cache'][$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
       
         // Fallback just needs 'modified time' updated with touch()
         if ( isset($fallback_cache_data) ) {
         $store_file_contents = touch($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
         }
         else {
-        $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+        $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $ct['api_runtime_cache'][$hash_check]);
         }
         
        
@@ -3080,7 +3080,7 @@ var $ct_array = array();
         $ct['gen']->log(
         			'ext_data_error',
         			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
-        			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
+        			'data_size_bytes: ' . strlen($ct['api_runtime_cache'][$hash_check]) . ' bytes'
         			);
         
         }
@@ -3089,7 +3089,7 @@ var $ct_array = array();
         $ct['gen']->log(
         			'ext_data_error',
         			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
-        			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
+        			'data_size_bytes: ' . strlen($ct['api_runtime_cache'][$hash_check]) . ' bytes'
         			);
         
         }
@@ -3098,7 +3098,7 @@ var $ct_array = array();
       }
       // NEVER cache proxy checking data, OR TTL == 0
       elseif ( $mode == 'proxy-check' || $ttl == 0 ) {
-      unset($api_runtime_cache[$hash_check]); 
+      unset($ct['api_runtime_cache'][$hash_check]); 
       }
      
    
@@ -3130,8 +3130,8 @@ var $ct_array = array();
       // Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
       // If no API data was received, add error notices to UI / error logs (we don't try fetching the data again until cache TTL expiration, so as to NOT hang the app)
       // Run from runtime cache if requested again (for runtime speed improvements)
-      if ( isset($api_runtime_cache[$hash_check]) && $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
-      $data = $api_runtime_cache[$hash_check];
+      if ( isset($ct['api_runtime_cache'][$hash_check]) && $ct['api_runtime_cache'][$hash_check] != '' && $ct['api_runtime_cache'][$hash_check] != 'none' ) {
+      $data = $ct['api_runtime_cache'][$hash_check];
       $fallback_cache_data = true;
       }
       else {
@@ -3139,7 +3139,7 @@ var $ct_array = array();
       $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
       
         if ( isset($data) && $data != '' && $data != 'none' ) {
-        $api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+        $ct['api_runtime_cache'][$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
         $fallback_cache_data = true;
         }
        
@@ -3155,7 +3155,7 @@ var $ct_array = array();
                
           $ct['gen']->log('ext_data_error', 'cached fallback FAILED during (CACHE) throttling of API for: ' . $endpoint_tld_or_ip);
           
-          unset($api_runtime_cache[$hash_check]);
+          unset($ct['api_runtime_cache'][$hash_check]);
           
           unlink($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
           
@@ -3180,11 +3180,11 @@ var $ct_array = array();
       // for logging UX (avoid exessive log entries EVERY RUNTIME that is using cached data)
       if ( $data == '' ) {
       
-        if ( !$log_errors['error_duplicates'][$hash_check] ) {
-        $log_errors['error_duplicates'][$hash_check] = 1; 
+        if ( !$ct['log_errors']['error_duplicates'][$hash_check] ) {
+        $ct['log_errors']['error_duplicates'][$hash_check] = 1; 
         }
         else {
-        $log_errors['error_duplicates'][$hash_check] = $log_errors['error_duplicates'][$hash_check] + 1;
+        $ct['log_errors']['error_duplicates'][$hash_check] = $ct['log_errors']['error_duplicates'][$hash_check] + 1;
         }
        
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
@@ -3194,7 +3194,7 @@ var $ct_array = array();
       							
       			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -3204,11 +3204,11 @@ var $ct_array = array();
       
       if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
-        if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
-        $log_debugging['debug_duplicates'][$hash_check] = 1; 
+        if ( !$ct['log_debugging']['debug_duplicates'][$hash_check] ) {
+        $ct['log_debugging']['debug_duplicates'][$hash_check] = 1; 
         }
         else {
-        $log_debugging['debug_duplicates'][$hash_check] = $log_debugging['debug_duplicates'][$hash_check] + 1;
+        $ct['log_debugging']['debug_duplicates'][$hash_check] = $ct['log_debugging']['debug_duplicates'][$hash_check] + 1;
         }
         
         
@@ -3224,7 +3224,7 @@ var $ct_array = array();
       							
       			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
-      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);

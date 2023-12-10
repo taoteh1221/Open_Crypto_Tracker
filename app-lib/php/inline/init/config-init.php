@@ -26,14 +26,14 @@ $check_default_ct_conf = null;
 
 
 // Flag any new upgrade, for UI alert, AND MORE IMPORTANTLY: avoiding conflicts with config reset / refresh / upgrade routines
-// (!!MUST RUN *BEFORE* $reset_config, AND *BEFORE* load-config-by-security-level.php)
+// (!!MUST RUN *BEFORE* $ct['reset_config'], AND *BEFORE* load-config-by-security-level.php)
 if (
-$upgraded_install
+$ct['upgraded_install']
 ||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
 ) {
 
      // We just flag as upgraded / cache version number in high security mode
-     if ( $admin_area_sec_level == 'high' ) {
+     if ( $ct['admin_area_sec_level'] == 'high' ) {
      
      // Flag for UI alerts
      $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
@@ -47,7 +47,7 @@ $upgraded_install
      // (as we ALWAYS mirror PHP config file changes to the cached config)
      else {
           
-     $app_upgrade_check = true;
+     $ct['app_upgrade_check'] = true;
      
      // Developer-only configs
      $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
@@ -59,15 +59,15 @@ $upgraded_install
 
 
 // If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
-// (!!MUST RUN *AFTER* $app_upgrade_check, AN *BEFORE* load-config-by-security-level.php)
+// (!!MUST RUN *AFTER* $ct['app_upgrade_check'], AN *BEFORE* load-config-by-security-level.php)
 // (STRICT 2FA MODE ONLY)
 if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_ct_conf') && $ct['gen']->valid_2fa('strict') ) {
 
-     if ( $app_upgrade_check ) {
+     if ( $ct['app_upgrade_check'] ) {
      $admin_reset_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try resetting again.';
      }
      else {
-     $reset_config = true;
+     $ct['reset_config'] = true;
      $admin_reset_success = 'The app configuration was reset successfully.';
      }
 
@@ -82,14 +82,14 @@ if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_
      // We want to load configs from the hard-coded config files if we just switched to 'high' security mode,
      // so trigger a config reset to accomplish that
      if ( $_POST['opt_admin_sec'] == 'high' ) {
-     $reset_config = true;
+     $ct['reset_config'] = true;
      }
      
-$admin_area_sec_level = $_POST['opt_admin_sec'];
+$ct['admin_area_sec_level'] = $_POST['opt_admin_sec'];
      
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $ct['admin_area_sec_level']);
      
-$setup_admin_sec_success = 'Admin Security Level changed to "'.$admin_area_sec_level.'" successfully.';
+$setup_admin_sec_success = 'Admin Security Level changed to "'.$ct['admin_area_sec_level'].'" successfully.';
           
 }
 
@@ -103,9 +103,9 @@ if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_
      // If valid 2FA code
      if ( $ct['gen']->valid_2fa('setup', 'force_check') ) {
      
-     $admin_area_2fa = $_POST['opt_admin_2fa'];
+     $ct['admin_area_2fa'] = $_POST['opt_admin_2fa'];
           
-     $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $ct['admin_area_2fa']);
           
           
           if ( $_POST['opt_admin_2fa'] != 'off' ) {
@@ -131,7 +131,7 @@ if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_
      else {
                     
           // Force-show Admin 2FA setup (IF 2FA IS CURRENTLY OFF), if it failed because of an invalid 2FA code
-          if ( $check_2fa_error != null && $admin_area_2fa == 'off' ) {
+          if ( $ct['check_2fa_error'] != null && $ct['admin_area_2fa'] == 'off' ) {
           $force_show_2fa_setup = $_POST['opt_admin_2fa'];
           }
      
@@ -269,7 +269,7 @@ $htaccess_password = $interface_login_array[1];
 if ( trim($ct['conf']['power']['override_curl_user_agent']) != '' ) {
 $ct['curl_user_agent'] = $ct['conf']['power']['override_curl_user_agent'];  // Custom user agent
 }
-elseif ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+elseif ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 $ct['curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {
@@ -305,7 +305,7 @@ $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/php_timeou
 
 // Email TO service check
 if ( isset($ct['conf']['comms']['to_email']) && $ct['gen']->valid_email($ct['conf']['comms']['to_email']) == 'valid' ) {
-$valid_to_email = true;
+$ct['email_activated'] = true;
 }
 
 
@@ -317,14 +317,14 @@ $valid_from_email = true;
 
 // Notifyme service check
 if ( isset($ct['conf']['ext_apis']['notifyme_access_code']) && trim($ct['conf']['ext_apis']['notifyme_access_code']) != '' ) {
-$notifyme_activated = true;
+$ct['notifyme_activated'] = true;
 }
 
 
 // Texting (SMS) services check
 // (if MORE THAN ONE is activated, keep ALL disabled to avoid a texting firestorm)
 if ( isset($ct['conf']['ext_apis']['textbelt_api_key']) && trim($ct['conf']['ext_apis']['textbelt_api_key']) != '' ) {
-$activated_sms_services[] = 'textbelt';
+$ct['activated_sms_services'][] = 'textbelt';
 }
 
 
@@ -333,7 +333,7 @@ isset($ct['conf']['ext_apis']['twilio_number']) && trim($ct['conf']['ext_apis'][
 && isset($ct['conf']['ext_apis']['twilio_sid']) && trim($ct['conf']['ext_apis']['twilio_sid']) != ''
 && isset($ct['conf']['ext_apis']['twilio_token']) && trim($ct['conf']['ext_apis']['twilio_token']) != ''
 ) {
-$activated_sms_services[] = 'twilio';
+$ct['activated_sms_services'][] = 'twilio';
 }
 
 
@@ -344,7 +344,7 @@ isset($ct['conf']['ext_apis']['textlocal_sender'])
 && isset($ct['conf']['ext_apis']['textlocal_api_key'])
 && $ct['conf']['ext_apis']['textlocal_api_key'] != ''
 ) {
-$activated_sms_services[] = 'textlocal';
+$ct['activated_sms_services'][] = 'textlocal';
 }
 
 
@@ -359,15 +359,15 @@ isset($text_email_gateway_check[0])
 && trim($text_email_gateway_check[1]) != 'skip_network_name'
 && $ct['gen']->valid_email( $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) ) == 'valid'
 ) {
-$activated_sms_services[] = 'email_gateway';
+$ct['activated_sms_services'][] = 'email_gateway';
 }
 
 
-if ( sizeof($activated_sms_services) == 1 ) {
-$sms_service = $activated_sms_services[0];
+if ( sizeof($ct['activated_sms_services']) == 1 ) {
+$ct['sms_service'] = $ct['activated_sms_services'][0];
 }
-elseif ( sizeof($activated_sms_services) > 1 ) {
-$ct['gen']->log( 'conf_error', 'only one SMS service is allowed, please deactivate ALL BUT ONE of the following: ' . implode(", ", $activated_sms_services) );
+elseif ( sizeof($ct['activated_sms_services']) > 1 ) {
+$ct['gen']->log( 'conf_error', 'only one SMS service is allowed, please deactivate ALL BUT ONE of the following: ' . implode(", ", $ct['activated_sms_services']) );
 }
 
 
@@ -460,7 +460,7 @@ $set_tiny_font_line_height = round( ($set_tiny_font_size * $ct['dev']['global_li
 
 // Alphabetically sort news feeds
 if ( is_array($ct['conf']['news']['feeds']) ) { 
-$usort_alpha = 'title';
+$ct['usort_alpha'] = 'title';
 $usort_feeds_results = usort($ct['conf']['news']['feeds'], array($ct['gen'], 'usort_alpha') );
 }
    	

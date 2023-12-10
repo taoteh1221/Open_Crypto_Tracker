@@ -33,7 +33,7 @@ if ( $alphavantage_per_day_limit > 0 ) {
          foreach ( $markets['pair'] as $exchange_pairs ) {
               	            
             if ( isset($exchange_pairs['alphavantage_stock']) && $exchange_pairs['alphavantage_stock'] != '' ) { // In case user messes up Admin Config, this helps
-            $alphavantage_pairs = $alphavantage_pairs + 1;
+            $ct['alphavantage_pairs'] = $ct['alphavantage_pairs'] + 1;
             }
               	            
          }
@@ -42,7 +42,7 @@ if ( $alphavantage_per_day_limit > 0 ) {
 
 
      if ( $alphavantage_per_day_limit >= 1 ) {
-     $alphavantage_cache_time_per_asset =  floor( ( (24 / $alphavantage_per_day_limit) * 60 ) * $alphavantage_pairs);
+     $alphavantage_cache_time_per_asset =  floor( ( (24 / $alphavantage_per_day_limit) * 60 ) * $ct['alphavantage_pairs']);
      }
      else {
      $alphavantage_cache_time_per_asset = 99999999999999999999; // Simple / effective "never runs" cache time
@@ -50,16 +50,16 @@ if ( $alphavantage_per_day_limit > 0 ) {
 
 
 // Throttled based on how many times a day each asset can get LIVE data, AND STILL NOT GO OVER THE DAILY LIMIT
-$throttled_api_cache_time['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct['conf']['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct['conf']['power']['last_trade_cache_time'] );
+$ct['throttled_api_cache_time']['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct['conf']['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct['conf']['power']['last_trade_cache_time'] );
 
 }
 // Otherwise, if we have an UNLIMITED daily requests plan, just use the same 'last_trade_cache_time' as everything else does
 else {
-$throttled_api_cache_time['alphavantage.co'] = $ct['conf']['power']['last_trade_cache_time'];
+$ct['throttled_api_cache_time']['alphavantage.co'] = $ct['conf']['power']['last_trade_cache_time'];
 }
 
 // We still do per minute too, because Alphavantage has a per-minute restriction (EVEN FOR PREMIUM SERVICES)
-$throttled_api_per_minute_limit['alphavantage.co'] = $ct['conf']['ext_apis']['alphavantage_per_minute_limit'];
+$ct['throttled_api_per_minute_limit']['alphavantage.co'] = $ct['conf']['ext_apis']['alphavantage_per_minute_limit'];
 
 // THROTTLE ALPHAVANTAGE - END
 

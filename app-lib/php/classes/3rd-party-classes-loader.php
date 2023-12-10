@@ -16,7 +16,7 @@ require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/google-authentica
 require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleAuthenticator.php');
 require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleQrUrl.php');
  
-$totp_auth = new \Google\Authenticator\GoogleAuthenticator();
+$ct['auth_2fa'] = new \Google\Authenticator\GoogleAuthenticator();
 
 $totp_base32 = new \Google\Authenticator\FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', true, true);
 

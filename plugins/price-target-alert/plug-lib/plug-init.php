@@ -16,13 +16,13 @@
 // If user blanked out a SINGLE price target alert value via the admin interface,
 // we need to unset the blank value to have the app logic run smoothly
 // (as we require at least one blank value IN THE INTERFACE WHEN SUBMITTING UPDATES, TO ASSURE THE ARRAY IS NOT EXCLUDED from the CACHED config)
-if ( is_array($plug_conf[$this_plug]['price_targets']) && sizeof($plug_conf[$this_plug]['price_targets']) == 1 ) {
+if ( is_array($plug['conf'][$this_plug]['price_targets']) && sizeof($plug['conf'][$this_plug]['price_targets']) == 1 ) {
      
      // We are NOT assured key == 0, if it was updated via the admin interface
-     foreach ( $plug_conf[$this_plug]['price_targets'] as $key => $val ) {
+     foreach ( $plug['conf'][$this_plug]['price_targets'] as $key => $val ) {
      
           if ( trim($val) == '' ) {
-          unset($plug_conf[$this_plug]['price_targets']);
+          unset($plug['conf'][$this_plug]['price_targets']);
           }
      
      }
@@ -32,11 +32,11 @@ if ( is_array($plug_conf[$this_plug]['price_targets']) && sizeof($plug_conf[$thi
 
 // Remove any stale cache files
 $alert_cache_files = $ct['gen']->sort_files( $ct['plug']->alert_cache(false) , 'dat', 'desc');
-if ( is_array($plug_conf[$this_plug]['price_targets']) && sizeof($plug_conf[$this_plug]['price_targets']) != sizeof($alert_cache_files) ) {
+if ( is_array($plug['conf'][$this_plug]['price_targets']) && sizeof($plug['conf'][$this_plug]['price_targets']) != sizeof($alert_cache_files) ) {
 
     foreach ( $alert_cache_files as $check_file ) {
     
-        if ( !array_key_exists( basename($check_file, '.dat') , $plug_conf[$this_plug]['price_targets']) ) {
+        if ( !array_key_exists( basename($check_file, '.dat') , $plug['conf'][$this_plug]['price_targets']) ) {
         unlink( $ct['plug']->alert_cache(false) . '/' . $check_file );
         }    
     
@@ -46,7 +46,7 @@ if ( is_array($plug_conf[$this_plug]['price_targets']) && sizeof($plug_conf[$thi
 
 
 // Check each configged price target alert
-foreach ( $plug_conf[$this_plug]['price_targets'] as $val ) {
+foreach ( $plug['conf'][$this_plug]['price_targets'] as $val ) {
 	
 // Clear any previous loop's $cache_reset var
 $cache_reset = false;
@@ -63,7 +63,7 @@ $price_target_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry
-	if ( $ct['cache']->update_cache($price_target_cache_file, $plug_conf[$this_plug]['alerts_frequency_maximum']) == false ) {
+	if ( $ct['cache']->update_cache($price_target_cache_file, $plug['conf'][$this_plug]['alerts_frequency_maximum']) == false ) {
 	continue;
 	}
 	

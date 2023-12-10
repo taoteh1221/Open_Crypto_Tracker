@@ -15,33 +15,33 @@ $ct['dev']['plugin_allow_resets'][$this_plug] = array(
                                                      );
 
 
-// All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE "$plug_conf[$this_plug]" ARRAY (sub-arrays are allowed)
+// All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE "$plug['conf'][$this_plug]" ARRAY (sub-arrays are allowed)
 
 // EXAMPLES...
 
-// $plug_conf[$this_plug]['SETTING_NAME_HERE'] = 'mysetting'; 
+// $plug['conf'][$this_plug]['SETTING_NAME_HERE'] = 'mysetting'; 
 
-// $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
+// $plug['conf'][$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 
 
 // What runtime modes this plugin should run during (MANDATORY)
-$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
+$plug['conf'][$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
 
 
 // If running in the UI, set the preferred location it should show in
-$plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats' (defaults to 'tools' if not set)
+$plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats' (defaults to 'tools' if not set)
 
 
 // If running in the UI, set the preferred plugin name that should show for end-users
-$plug_conf[$this_plug]['ui_name'] = 'Address Balance Tracker'; // (defaults to $this_plug if not set)
+$plug['conf'][$this_plug]['ui_name'] = 'Address Balance Tracker'; // (defaults to $this_plug if not set)
 
 
 // Re-allow SAME address balance alert(s) messages after X HOURS (per alert config)
-$plug_conf[$this_plug]['alerts_frequency_maximum'] = 1; // Can be 0, to have no limits
+$plug['conf'][$this_plug]['alerts_frequency_maximum'] = 1; // Can be 0, to have no limits
 
 
 // Privacy mode (restrict alerts from sending detailed data, only sends fiat increase / decrease in value when set to 'on')
-$plug_conf[$this_plug]['privacy_mode'] = 'on'; // 'on' / 'off' (Default: 'on')
+$plug['conf'][$this_plug]['privacy_mode'] = 'on'; // 'on' / 'off' (Default: 'on')
 
 
 // Balance tracking array (add unlimited addresses as new subarray objects)
@@ -49,7 +49,7 @@ $plug_conf[$this_plug]['privacy_mode'] = 'on'; // 'on' / 'off' (Default: 'on')
 // ASSET #MUST EXIST# IN EITHER THE $ct['conf']['power']['crypto_pair_preferred_markets'] CONFIG,
 // OR THE $ct['conf']['power']['bitcoin_currency_markets'] CONFIG (BOTH LOCATED IN THE POWER USER SECTION)
 // SEE THOSE SECTIONS FOR MORE INFO ON ADDING NEW ASSETS TO THEM
-$plug_conf[$this_plug]['tracking'] = array(
+$plug['conf'][$this_plug]['tracking'] = array(
 																	
 																	
 												// BTC EXAMPLE

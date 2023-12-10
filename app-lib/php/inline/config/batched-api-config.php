@@ -17,14 +17,14 @@ foreach ( $ct['conf']['assets'] as $markets ) {
     foreach ( $markets['pair'] as $exchange_pairs ) {
     	            
     	    if ( isset($exchange_pairs['kraken']) && $exchange_pairs['kraken'] != '' ) { // In case user messes up Admin Config, this helps
-    	    $kraken_pairs .= $exchange_pairs['kraken'] . ',';
+    	    $ct['kraken_pairs'] .= $exchange_pairs['kraken'] . ',';
     	    }
     	            
     }
                 
 }
     
-$kraken_pairs = substr($kraken_pairs, 0, -1);
+$ct['kraken_pairs'] = substr($ct['kraken_pairs'], 0, -1);
 
 // KRAKEN - END
 
@@ -39,7 +39,7 @@ foreach ( $ct['conf']['assets'] as $markets ) {
          		        
          $jup_pairs = explode('/', $exchange_pairs['jupiter_ag']);
          		        
-         $jupiter_ag_pairs[ $jup_pairs[1] ] .= $jup_pairs[0] . ',';
+         $ct['jupiter_ag_pairs'][ $jup_pairs[1] ] .= $jup_pairs[0] . ',';
          		        
          }
          	            
@@ -47,8 +47,8 @@ foreach ( $ct['conf']['assets'] as $markets ) {
                 
 }
             
-foreach ( $jupiter_ag_pairs as $key => $val ) {
-$jupiter_ag_pairs[$key] = substr($val, 0, -1);
+foreach ( $ct['jupiter_ag_pairs'] as $key => $val ) {
+$ct['jupiter_ag_pairs'][$key] = substr($val, 0, -1);
 }
             
 // JUP AG - END
@@ -61,14 +61,14 @@ foreach ( $ct['conf']['assets'] as $markets ) {
     foreach ( $markets['pair'] as $exchange_pairs ) {
     	            
     	    if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up Admin Config, this helps
-    	    $upbit_pairs .= $exchange_pairs['upbit'] . ',';
+    	    $ct['upbit_pairs'] .= $exchange_pairs['upbit'] . ',';
     	    }
     	            
     }
                 
 }
     
-$upbit_pairs = substr($upbit_pairs, 0, -1);
+$ct['upbit_pairs'] = substr($ct['upbit_pairs'], 0, -1);
             
 // UPBIT - END
 
@@ -90,12 +90,12 @@ foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
               $paired_conf = $paired_conf[1];
       
             	    if ( !in_array($paired_conf, $check_pairs) ) {
-            	    $coingecko_pairs .= $paired_conf . ',';
+            	    $ct['coingecko_pairs'] .= $paired_conf . ',';
             	    $check_pairs[] = $paired_conf;
                    }
       
             	    if ( !in_array($exchange_val, $check_assets) ) {
-            	    $coingecko_assets .= $exchange_val . ',';
+            	    $ct['coingecko_assets'] .= $exchange_val . ',';
             	    $check_assets[] = $exchange_val;
             	    }
             		        
@@ -107,8 +107,8 @@ foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
                     
 }
             
-$coingecko_pairs = substr($coingecko_pairs, 0, -1);
-$coingecko_assets = substr($coingecko_assets, 0, -1);
+$ct['coingecko_pairs'] = substr($ct['coingecko_pairs'], 0, -1);
+$ct['coingecko_assets'] = substr($ct['coingecko_assets'], 0, -1);
             
 // COINGECKO - END
 

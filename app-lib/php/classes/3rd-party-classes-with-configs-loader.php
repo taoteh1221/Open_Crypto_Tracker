@@ -31,19 +31,19 @@ $smtp = new SMTPMailer();
 // MUST RUN #AS SOON AS POSSIBLE IN APP INIT#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
 if ( trim($ct['conf']['ext_apis']['telegram_your_username']) != '' && trim($ct['conf']['ext_apis']['telegram_bot_name']) != '' && trim($ct['conf']['ext_apis']['telegram_bot_username']) != '' && $ct['conf']['ext_apis']['telegram_bot_token'] != '' ) {
     
-$telegram_activated = true;
+$ct['telegram_activated'] = true;
 
 // Load class files
 require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/telegram-php/src/Autoloader.php');
 
 // Initiate the bot for this chatroom
 $telegram_bot = new Telegram\Bot($ct['conf']['ext_apis']['telegram_bot_token'], $ct['conf']['ext_apis']['telegram_bot_username'], $ct['conf']['ext_apis']['telegram_bot_name']);
-$telegram_messaging = new Telegram\Receiver($telegram_bot);
+$ct['telegram_connect'] = new Telegram\Receiver($telegram_bot);
 
 
         // IF THE BOT CHATROOM DATA IS NOT STORED, attempt to refresh it via the telegram API
         // (ONLY IF RUNTIME MODE IS UI / CRON [as this logic isn't compatible with any other runtimes])
-        if ( !is_array($telegram_user_data) || is_array($telegram_user_data) && sizeof($telegram_user_data) < 1 ) {
+        if ( !is_array($ct['telegram_user_data']) || is_array($ct['telegram_user_data']) && sizeof($ct['telegram_user_data']) < 1 ) {
         
         
             if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
@@ -62,9 +62,9 @@ $telegram_messaging = new Telegram\Receiver($telegram_bot);
              	  }
              	  else {
              	
-             	  $telegram_user_data = $ct['api']->telegram('updates');
+             	  $ct['telegram_user_data'] = $ct['api']->telegram('updates');
              		
-             	  $store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
+             	  $store_cached_telegram_user_data = json_encode($ct['telegram_user_data'], JSON_PRETTY_PRINT);
              		
              		  // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
              		  if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {

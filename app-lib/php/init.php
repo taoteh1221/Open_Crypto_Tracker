@@ -8,7 +8,9 @@
 
 
 // REQUIRED #BEFORE# ANYTHING!
-$ct = array(); 
+$ct = array(); // Main app 
+
+$plug = array(); // Plugins
 
 
 // Developer-only configs

@@ -141,7 +141,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
             // Checkup on each failed proxy
             if ( $ct['conf']['proxy']['proxy_alert_channels'] != 'off' ) {
             	
-            	foreach ( $proxy_checkup as $problem_proxy ) {
+            	foreach ( $ct['proxy_checkup'] as $problem_proxy ) {
             	$ct['gen']->test_proxy($problem_proxy);
             	sleep(1);
             	}
@@ -300,7 +300,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         
         // Give a bit of time for the "core runtime" error / debugging logs to 
         // close their file locks, before we append "plugin runtime" log data
-        if ( is_array($activated_plugins['cron']) && sizeof($activated_plugins['cron']) > 0 ) {
+        if ( is_array($plug['activated']['cron']) && sizeof($plug['activated']['cron']) > 0 ) {
         sleep(1); 
         }
         
@@ -312,7 +312,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         // Run any cron-designated plugins activated in ct_conf
         // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
         // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
-        foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
+        foreach ( $plug['activated']['cron'] as $plugin_key => $plugin_init ) {
         		
         $this_plug = $plugin_key;
         	
@@ -333,7 +333,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         
         // Log errors / debugging, send notifications
         // (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
-        if ( is_array($activated_plugins['cron']) && sizeof($activated_plugins['cron']) > 0 ) {
+        if ( is_array($plug['activated']['cron']) && sizeof($plug['activated']['cron']) > 0 ) {
         $ct['cache']->app_log();
         $ct['cache']->send_notifications();
         }

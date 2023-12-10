@@ -4,8 +4,8 @@
  */
  
  
-// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
-$plug_class[$this_plug] = new class() {
+// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug['class'][$this_plug]
+$plug['class'][$this_plug] = new class() {
 				
 	
 // Class variables / arrays
@@ -25,12 +25,12 @@ var $array1 = array();
      // Validating user input in the admin interface
 	function admin_input_validation() {
 		 
-	global $ct, $this_plug, $plug_conf;
+	global $ct, $this_plug;
 		
      // Logic here
-     $update_config_error = '';
+     $ct['update_config_error'] = '';
      
-     return $update_config_error;
+     return $ct['update_config_error'];
 		
 	}
 	
@@ -41,11 +41,11 @@ var $array1 = array();
 		
 	function btc_addr_bal($address) {
 		 
-	global $ct, $this_plug, $plug_conf;
+	global $ct, $this_plug;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
-	$calc = ($plug_conf[$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
+	$calc = ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
 	$recache = ( $calc >= 0 ? $calc : 0 );
 		
 	$url = 'https://blockchain.info/rawaddr/' . $address;
@@ -79,11 +79,11 @@ var $array1 = array();
 		
 	function eth_addr_bal($address) {
 		 
-	global $ct, $this_plug, $plug_conf;
+	global $ct, $this_plug;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
-	$calc = ($plug_conf[$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
+	$calc = ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
 	$recache = ( $calc >= 0 ? $calc : 0 );
 		
 	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
@@ -117,11 +117,11 @@ var $array1 = array();
 		
 	function sol_addr_bal($address, $spl_token=false) {
 		 
-	global $ct, $this_plug, $plug_conf;
+	global $ct, $this_plug;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
-	$calc = ($plug_conf[$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
+	$calc = ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
 	$recache = ( $calc >= 0 ? $calc : 0 );
 	
         

@@ -21,10 +21,10 @@ $test_params = array('api_key' => $int_api_key);
 
 
 if ( $webhook_params[0] == 'discord' ) {
-echo $plug_class[$this_plug]->discord_data($test_params);
+echo $plug['class'][$this_plug]->discord_data($test_params);
 }
 elseif ( $webhook_params[0] == 'telegram' ) {
-echo $plug_class[$this_plug]->telegram_data($test_params);
+echo $plug['class'][$this_plug]->telegram_data($test_params);
 }
 elseif ( !isset($webhook_params[0]) ) {
 $result = array('error' => "No service specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (telegram / discord / etc) like so: /" . $int_webhook_base_endpoint . $webhook_key . "/telegram/PARAM2/PARAM3/ETC");

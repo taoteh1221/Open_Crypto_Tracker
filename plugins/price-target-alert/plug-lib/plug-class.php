@@ -4,8 +4,8 @@
  */
  
  
-// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
-$plug_class[$this_plug] = new class() {
+// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug['class'][$this_plug]
+$plug['class'][$this_plug] = new class() {
 				
 	
 // Class variables / arrays
@@ -25,7 +25,7 @@ var $array1 = array();
      // Validating user input in the admin interface
 	function admin_input_validation() {
 		 
-	global $ct, $this_plug, $plug_conf;
+	global $ct, $this_plug;
 		
 		
      	$loop_error = false;
@@ -67,18 +67,18 @@ var $array1 = array();
      	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
      	     $loop_error = true;
-     	     $update_config_error .= $update_config_error_seperator . 'No market data found for ' . $mrkt_asset . ' / ' . strtoupper($mrkt_pair) . ' @ ' . $ct['gen']->key_to_name($mrkt_exchange) . ' (in submission: "'.$price_target_data.'")';
+     	     $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $mrkt_asset . ' / ' . strtoupper($mrkt_pair) . ' @ ' . $ct['gen']->key_to_name($mrkt_exchange) . ' (in submission: "'.$price_target_data.'")';
      	     }
      	     elseif ( !isset($target_price) || isset($target_price) && !is_numeric($target_price) ) {
      	     $loop_error = true;
-     	     $update_config_error .= $update_config_error_seperator . 'Please use a numeric value for target price (in submission: "'.$price_target_data.'")';
+     	     $ct['update_config_error'] .= $update_config_error_seperator . 'Please use a numeric value for target price (in submission: "'.$price_target_data.'")';
      	     }
      	     
      	
      	}
      	
      
-     return $update_config_error;
+     return $ct['update_config_error'];
      
 	}
 	

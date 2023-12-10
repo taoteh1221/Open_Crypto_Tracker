@@ -13,9 +13,9 @@
 	
 	<!-- Preload a few UI-related files -->
 	
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/login-<?=$sel_opt['theme_selected']?>-theme.png" as="image">
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/login-<?=$ct['sel_opt']['theme_selected']?>-theme.png" as="image">
 	
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png" as="image">
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$ct['sel_opt']['theme_selected']?>-line.png" as="image">
 	
 	<link rel="preload" href="templates/interface/media/images/auto-preloaded/loader.gif" as="image">
     
@@ -32,7 +32,7 @@
 	
 	<link rel="preload" href="templates/interface/css/responsive-menus.css" as="style" />
 	
-	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
+	<link rel="preload" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.style.css" as="style" />
 
 	<link rel="preload" href="templates/interface/css/highlightjs.min.css" as="style" />
 
@@ -45,7 +45,7 @@
 	
 	<link rel="preload" href="templates/interface/css/admin.css" as="style" />
 	
-	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.admin.css" as="style" />
+	<link rel="preload" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.admin.css" as="style" />
 	
 	<?php
 	}
@@ -140,7 +140,7 @@
 	
 	app_platform = '<?=$ct['app_platform']?>';
 	
-	theme_selected = '<?=$sel_opt['theme_selected']?>';
+	theme_selected = '<?=$ct['sel_opt']['theme_selected']?>';
 	
 	// Opposite of app theme, for better contrast
      scrollbar_theme = theme_selected == 'dark' ? 'minimal' : 'minimal-dark';
@@ -181,19 +181,19 @@
 	
 	charts_border = '<?=$ct['conf']['charts_alerts']['charts_border']?>';
 	
-	btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
+	btc_prim_currency_val = '<?=number_format( $ct['sel_opt']['sel_btc_prim_currency_val'], 2, '.', '' )?>';
 	
 	bitcoin_primary_currency_pair = '<?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>';
 	
-	cookies_size_warning = '<?=( isset($system_warnings['portfolio_cookies_size']) ? $system_warnings['portfolio_cookies_size'] : 'none' )?>';
+	cookies_size_warning = '<?=( isset($ct['system_warnings']['portfolio_cookies_size']) ? $ct['system_warnings']['portfolio_cookies_size'] : 'none' )?>';
 	
-	feeds_num = <?=( isset($sel_opt['show_feeds'][0]) && $sel_opt['show_feeds'][0] != '' ? sizeof($sel_opt['show_feeds']) : 0 )?>;
+	feeds_num = <?=( isset($ct['sel_opt']['show_feeds'][0]) && $ct['sel_opt']['show_feeds'][0] != '' ? sizeof($ct['sel_opt']['show_feeds']) : 0 )?>;
 	
-	charts_num = <?=( isset($sel_opt['show_charts'][0]) && $sel_opt['show_charts'][0] != '' ? sizeof($sel_opt['show_charts']) : 0 )?>;
+	charts_num = <?=( isset($ct['sel_opt']['show_charts'][0]) && $ct['sel_opt']['show_charts'][0] != '' ? sizeof($ct['sel_opt']['show_charts']) : 0 )?>;
 	
-	sorted_by_col = <?=( $sel_opt['sorted_by_col'] ? $sel_opt['sorted_by_col'] : 0 )?>;
+	sorted_by_col = <?=( $ct['sel_opt']['sorted_by_col'] ? $ct['sel_opt']['sorted_by_col'] : 0 )?>;
 	
-	sorted_asc_desc = <?=( $sel_opt['sorted_asc_desc'] ? $sel_opt['sorted_asc_desc'] : 0 )?>;
+	sorted_asc_desc = <?=( $ct['sel_opt']['sorted_asc_desc'] ? $ct['sel_opt']['sorted_asc_desc'] : 0 )?>;
 	
 	
 	<?php
@@ -240,7 +240,7 @@
      
           <?php
           // DON'T SHOW ON LOGIN FORMS!
-          if ( $is_login_form ) {
+          if ( $ct['is_login_form'] ) {
           ?>
           
           is_login_form = true;
@@ -250,9 +250,9 @@
           else {
           ?>
 	
-	     admin_area_2fa = '<?=base64_encode($admin_area_2fa)?>';
+	     admin_area_2fa = '<?=base64_encode($ct['admin_area_2fa'])?>';
           
-     	admin_area_sec_level = '<?=base64_encode($admin_area_sec_level)?>';
+     	admin_area_sec_level = '<?=base64_encode($ct['admin_area_sec_level'])?>';
           
      	medium_sec_token = "<?=base64_encode( $ct['gen']->admin_hashed_nonce('medium_security_mode') )?>";
           
@@ -281,7 +281,7 @@
 	
 	
 	// If desktop edition, cron emulation is enabled, and NOT on login form submission pages, run emulated cron
-	if ( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
+	if ( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 && !$ct['is_login_form'] ) {
 	?>	
 	
      emulated_cron_enabled = true;
@@ -371,17 +371,17 @@
 	
 	<?php
 	// If a 2FA feild needs to be highlighted (due to invalid input)
-	if ( $check_2fa_id != null ) {
+	if ( $ct['check_2fa_id'] != null ) {
 	?>
 	
-	$("#<?=$check_2fa_id?>").css('background','#ff4747');
+	$("#<?=$ct['check_2fa_id']?>").css('background','#ff4747');
 	
 	    <?php
 	    // We already print out login form error alerts
-	    if ( $is_login_form == false ) {
+	    if ( $ct['is_login_form'] == false ) {
 	    ?>
 	    
-	    $('#notice_<?=$check_2fa_id?>').removeClass("hidden");
+	    $('#notice_<?=$ct['check_2fa_id']?>').removeClass("hidden");
 	
 	<?php
 	    }
@@ -416,7 +416,7 @@
 	
 	<link rel="stylesheet" href="templates/interface/css/responsive-menus.css" type="text/css" title="responsive-menus" />
 	
-	<link rel="stylesheet" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.style.css" type="text/css" />
 	
 	
 	<?php
@@ -425,7 +425,7 @@
 	
 	<link rel="stylesheet" href="templates/interface/css/admin.css" type="text/css" />
 	
-	<link rel="stylesheet" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.admin.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.admin.css" type="text/css" />
 	
 	<?php
 	}
@@ -434,9 +434,9 @@
 	
 	<style>
 
-	@import "templates/interface/css/tablesorter/theme.<?=$sel_opt['theme_selected']?>.css";
+	@import "templates/interface/css/tablesorter/theme.<?=$ct['sel_opt']['theme_selected']?>.css";
 	
-	.tablesorter-<?=$sel_opt['theme_selected']?> .header, .tablesorter-<?=$sel_opt['theme_selected']?> .tablesorter-header {
+	.tablesorter-<?=$ct['sel_opt']['theme_selected']?> .header, .tablesorter-<?=$ct['sel_opt']['theme_selected']?> .tablesorter-header {
      white-space: nowrap;
 	}
 

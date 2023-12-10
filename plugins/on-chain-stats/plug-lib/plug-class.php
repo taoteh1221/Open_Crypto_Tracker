@@ -4,8 +4,8 @@
  */
  
  
-// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
-$plug_class[$this_plug] = new class() {
+// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug['class'][$this_plug]
+$plug['class'][$this_plug] = new class() {
 				
 	
 // Class variables / arrays
@@ -25,12 +25,12 @@ var $array1 = array();
      // Validating user input in the admin interface
 	function admin_input_validation() {
 		 
-	global $ct, $this_plug, $plug_conf;
+	global $ct, $this_plug;
 		
      // Logic here
-     $update_config_error = '';
+     $ct['update_config_error'] = '';
      
-     return $update_config_error;
+     return $ct['update_config_error'];
 		
 	}
 		

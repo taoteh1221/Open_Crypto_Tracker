@@ -10,7 +10,7 @@
 				<b>Current <?=$pow_asset_data['name']?> Value Per Coin:</b> 
 				
 				<?php
-				$val_per_unit = round( ($mined_asset_val * $sel_opt['sel_btc_prim_currency_val']) , $ct['conf']['gen']['currency_decimals_max']);
+				$val_per_unit = round( ($mined_asset_val * $ct['sel_opt']['sel_btc_prim_currency_val']) , $ct['conf']['gen']['currency_decimals_max']);
 				
 				$val_per_unit = ( $ct['var']->num_to_str($val_per_unit) >= 1 ? round($val_per_unit, 2) : $val_per_unit );
 				
@@ -20,7 +20,7 @@
 				
                     $btc_unit_val = $ct['var']->num_to_str($btc_unit_val); // Cleanup any trailing zeros
 				
-				echo ( $pow_asset_data['symbol'] == 'btc' ? number_format($sel_opt['sel_btc_prim_currency_val'], 2) . ' ' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) : $btc_unit_val . ' BTC (' . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $val_per_unit . ' '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).')' );
+				echo ( $pow_asset_data['symbol'] == 'btc' ? number_format($ct['sel_opt']['sel_btc_prim_currency_val'], 2) . ' ' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) : $btc_unit_val . ' BTC (' . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $val_per_unit . ' '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).')' );
 				?>
 				
 				<br />
