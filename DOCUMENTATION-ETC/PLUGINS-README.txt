@@ -75,7 +75,7 @@ $plug['class'][$this_plug] = new class() {
      // Validating user input in the admin interface
 	function admin_input_validation() {
 		 
-	global $ct, $this_plug, $plug['conf'];
+	global $ct, $plug, $this_plug;
 		
      // Logic here
      $ct['update_config_error'] = ''; // No input errors

@@ -25,7 +25,7 @@ var $array1 = array();
      // Validating user input in the admin interface
 	function admin_input_validation() {
 		 
-	global $ct, $this_plug;
+	global $ct, $plug, $this_plug;
 		
      // Logic here
      $ct['update_config_error'] = '';
@@ -41,7 +41,7 @@ var $array1 = array();
 		
 	function btc_addr_bal($address) {
 		 
-	global $ct, $this_plug;
+	global $ct, $plug, $this_plug;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
@@ -79,7 +79,7 @@ var $array1 = array();
 		
 	function eth_addr_bal($address) {
 		 
-	global $ct, $this_plug;
+	global $ct, $plug, $this_plug;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
@@ -117,7 +117,7 @@ var $array1 = array();
 		
 	function sol_addr_bal($address, $spl_token=false) {
 		 
-	global $ct, $this_plug;
+	global $ct, $plug, $this_plug;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])

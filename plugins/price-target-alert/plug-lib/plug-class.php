@@ -25,7 +25,7 @@ var $array1 = array();
      // Validating user input in the admin interface
 	function admin_input_validation() {
 		 
-	global $ct, $this_plug;
+	global $ct, $plug, $this_plug;
 		
 		
      	$loop_error = false;

@@ -6488,6 +6488,8 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -Migrated all chart-related settings in the "Power User" section, over to the "Price Alerts / Charts" section
 
+-COMPLETE REFACTORING of plugin configuration specification (see revised plugin developer documentation)
+
 -Developer-friendly refactoring of main app PHP variables
 
 -Miscellaneous user experience improvements
