@@ -8,7 +8,7 @@
 
 
 <?php
-if ( $admin_area_sec_level == 'high' ) {
+if ( $ct['admin_area_sec_level'] == 'high' ) {
 ?>
 	
 	<p class='bitcoin bitcoin_dotted'>
@@ -29,107 +29,107 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['entries_to_show']['is_range'] = true;
+$ct['admin_render_settings']['entries_to_show']['is_range'] = true;
 
-$admin_render_settings['entries_to_show']['range_min'] = 5;
+$ct['admin_render_settings']['entries_to_show']['range_min'] = 5;
 
-$admin_render_settings['entries_to_show']['range_max'] = 30;
+$ct['admin_render_settings']['entries_to_show']['range_max'] = 30;
 
-$admin_render_settings['entries_to_show']['range_step'] = 5;
+$ct['admin_render_settings']['entries_to_show']['range_step'] = 5;
 
-$admin_render_settings['entries_to_show']['range_ui_suffix'] = ' Entries Per-Feed';
+$ct['admin_render_settings']['entries_to_show']['range_ui_suffix'] = ' Entries Per-Feed';
 
-$admin_render_settings['entries_to_show']['is_notes'] = '(WITHOUT clicking "Show More" button)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['mark_as_new']['is_range'] = true;
-
-$admin_render_settings['mark_as_new']['range_min'] = 1;
-
-$admin_render_settings['mark_as_new']['range_max'] = 7;
-
-$admin_render_settings['mark_as_new']['range_step'] = 1;
-
-$admin_render_settings['mark_as_new']['range_ui_prefix'] = 'Less Than ';
-
-$admin_render_settings['mark_as_new']['range_ui_suffix'] = ' Days Old';
+$ct['admin_render_settings']['entries_to_show']['is_notes'] = '(WITHOUT clicking "Show More" button)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['news_feed_email_frequency']['is_range'] = true;
+$ct['admin_render_settings']['mark_as_new']['is_range'] = true;
 
-$admin_render_settings['news_feed_email_frequency']['range_ui_meta_data'] = 'zero_is_disabled';
+$ct['admin_render_settings']['mark_as_new']['range_min'] = 1;
 
-$admin_render_settings['news_feed_email_frequency']['range_min'] = 0;
+$ct['admin_render_settings']['mark_as_new']['range_max'] = 7;
 
-$admin_render_settings['news_feed_email_frequency']['range_max'] = 30;
+$ct['admin_render_settings']['mark_as_new']['range_step'] = 1;
 
-$admin_render_settings['news_feed_email_frequency']['range_step'] = 1;
+$ct['admin_render_settings']['mark_as_new']['range_ui_prefix'] = 'Less Than ';
 
-$admin_render_settings['news_feed_email_frequency']['range_ui_prefix'] = 'Every ';
-
-$admin_render_settings['news_feed_email_frequency']['range_ui_suffix'] = ' Days';
+$ct['admin_render_settings']['mark_as_new']['range_ui_suffix'] = ' Days Old';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['news_feed_email_entries_include']['is_range'] = true;
+$ct['admin_render_settings']['news_feed_email_frequency']['is_range'] = true;
 
-$admin_render_settings['news_feed_email_entries_include']['range_min'] = 5;
+$ct['admin_render_settings']['news_feed_email_frequency']['range_ui_meta_data'] = 'zero_is_disabled';
 
-$admin_render_settings['news_feed_email_entries_include']['range_max'] = 30;
+$ct['admin_render_settings']['news_feed_email_frequency']['range_min'] = 0;
 
-$admin_render_settings['news_feed_email_entries_include']['range_step'] = 5;
+$ct['admin_render_settings']['news_feed_email_frequency']['range_max'] = 30;
 
-$admin_render_settings['news_feed_email_entries_include']['range_ui_prefix'] = 'Include ';
+$ct['admin_render_settings']['news_feed_email_frequency']['range_step'] = 1;
 
-$admin_render_settings['news_feed_email_entries_include']['range_ui_suffix'] = ' Entries MAXIMUM Per-News-Feed';
+$ct['admin_render_settings']['news_feed_email_frequency']['range_ui_prefix'] = 'Every ';
 
-$admin_render_settings['news_feed_email_entries_include']['is_notes'] = '(only includes NEW entries since the previous email)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['news_feed_cache_min_max']['is_notes'] = 'IN MINUTES (between 30-720). This format MUST be used: number_min,number_max';
+$ct['admin_render_settings']['news_feed_email_frequency']['range_ui_suffix'] = ' Days';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['news_feed_batched_maximum']['is_range'] = true;
+$ct['admin_render_settings']['news_feed_email_entries_include']['is_range'] = true;
 
-$admin_render_settings['news_feed_batched_maximum']['range_min'] = 15;
+$ct['admin_render_settings']['news_feed_email_entries_include']['range_min'] = 5;
 
-$admin_render_settings['news_feed_batched_maximum']['range_max'] = 30;
+$ct['admin_render_settings']['news_feed_email_entries_include']['range_max'] = 30;
 
-$admin_render_settings['news_feed_batched_maximum']['range_step'] = 5;
+$ct['admin_render_settings']['news_feed_email_entries_include']['range_step'] = 5;
 
-$admin_render_settings['news_feed_batched_maximum']['range_ui_suffix'] = ' Batched Feeds';
+$ct['admin_render_settings']['news_feed_email_entries_include']['range_ui_prefix'] = 'Include ';
 
-$admin_render_settings['news_feed_batched_maximum']['is_notes'] = '(LOW POWER devices should batch-load NO MORE THAN 20 feeds)';
+$ct['admin_render_settings']['news_feed_email_entries_include']['range_ui_suffix'] = ' Entries MAXIMUM Per-News-Feed';
+
+$ct['admin_render_settings']['news_feed_email_entries_include']['is_notes'] = '(only includes NEW entries since the previous email)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['news_feed_cache_min_max']['is_notes'] = 'IN MINUTES (between 30-720). This format MUST be used: number_min,number_max';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['news_feed_precache_maximum']['is_range'] = true;
+$ct['admin_render_settings']['news_feed_batched_maximum']['is_range'] = true;
 
-$admin_render_settings['news_feed_precache_maximum']['range_min'] = 25;
+$ct['admin_render_settings']['news_feed_batched_maximum']['range_min'] = 15;
 
-$admin_render_settings['news_feed_precache_maximum']['range_max'] = 75;
+$ct['admin_render_settings']['news_feed_batched_maximum']['range_max'] = 30;
 
-$admin_render_settings['news_feed_precache_maximum']['range_step'] = 5;
+$ct['admin_render_settings']['news_feed_batched_maximum']['range_step'] = 5;
 
-$admin_render_settings['news_feed_precache_maximum']['range_ui_suffix'] = ' Pre-Caches Per-Run';
+$ct['admin_render_settings']['news_feed_batched_maximum']['range_ui_suffix'] = ' Batched Feeds';
 
-$admin_render_settings['news_feed_precache_maximum']['is_notes'] = '(per background tasks run, LOW POWER devices should pre-cache NO MORE THAN 45 feeds)';
+$ct['admin_render_settings']['news_feed_batched_maximum']['is_notes'] = '(LOW POWER devices should batch-load NO MORE THAN 20 feeds)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$ct['admin_render_settings']['news_feed_precache_maximum']['is_range'] = true;
+
+$ct['admin_render_settings']['news_feed_precache_maximum']['range_min'] = 25;
+
+$ct['admin_render_settings']['news_feed_precache_maximum']['range_max'] = 75;
+
+$ct['admin_render_settings']['news_feed_precache_maximum']['range_step'] = 5;
+
+$ct['admin_render_settings']['news_feed_precache_maximum']['range_ui_suffix'] = ' Pre-Caches Per-Run';
+
+$ct['admin_render_settings']['news_feed_precache_maximum']['is_notes'] = '(per background tasks run, LOW POWER devices should pre-cache NO MORE THAN 45 feeds)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,10 +137,10 @@ $admin_render_settings['news_feed_precache_maximum']['is_notes'] = '(per backgro
 
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
 
-$admin_render_settings['strict_news_feed_servers']['is_repeatable']['add_button'] = 'Add Strict News Server Domain (at bottom)';
+$ct['admin_render_settings']['strict_news_feed_servers']['is_repeatable']['add_button'] = 'Add Strict News Server Domain (at bottom)';
 
-$admin_render_settings['strict_news_feed_servers']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
-$admin_render_settings['strict_news_feed_servers']['is_repeatable']['text_field_size'] = 25;
+$ct['admin_render_settings']['strict_news_feed_servers']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
+$ct['admin_render_settings']['strict_news_feed_servers']['is_repeatable']['text_field_size'] = 25;
                
 
 // FILLED IN setting values
@@ -149,18 +149,18 @@ $admin_render_settings['strict_news_feed_servers']['is_repeatable']['text_field_
 if ( sizeof($ct['conf']['news']['strict_news_feed_servers']) > 0 ) {
 
      foreach ( $ct['conf']['news']['strict_news_feed_servers'] as $key => $val ) {
-     $admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['is_text'] = true;
-     $admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['text_field_size'] = 25;
+     $ct['admin_render_settings']['strict_news_feed_servers']['is_subarray'][$key]['is_text'] = true;
+     $ct['admin_render_settings']['strict_news_feed_servers']['is_subarray'][$key]['text_field_size'] = 25;
      }
 
 }
 else {
-$admin_render_settings['strict_news_feed_servers']['is_subarray'][0]['is_text'] = true;
-$admin_render_settings['strict_news_feed_servers']['is_subarray'][0]['text_field_size'] = 25;
+$ct['admin_render_settings']['strict_news_feed_servers']['is_subarray'][0]['is_text'] = true;
+$ct['admin_render_settings']['strict_news_feed_servers']['is_subarray'][0]['text_field_size'] = 25;
 }
 
 
-$admin_render_settings['strict_news_feed_servers']['is_notes'] = '(DOMAIN ONLY, servers that PREFER an explicit "News Feed" user agent)';
+$ct['admin_render_settings']['strict_news_feed_servers']['is_notes'] = '(DOMAIN ONLY, servers that PREFER an explicit "News Feed" user agent)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,11 +168,11 @@ $admin_render_settings['strict_news_feed_servers']['is_notes'] = '(DOMAIN ONLY, 
 
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
 
-$admin_render_settings['feeds']['is_repeatable']['add_button'] = 'Add News Feed (at bottom)';
+$ct['admin_render_settings']['feeds']['is_repeatable']['add_button'] = 'Add News Feed (at bottom)';
 
-$admin_render_settings['feeds']['is_repeatable']['is_text']['title'] = true;
-$admin_render_settings['feeds']['is_repeatable']['is_text']['url'] = true;
-$admin_render_settings['feeds']['is_repeatable']['text_field_size'] = 60;
+$ct['admin_render_settings']['feeds']['is_repeatable']['is_text']['title'] = true;
+$ct['admin_render_settings']['feeds']['is_repeatable']['is_text']['url'] = true;
+$ct['admin_render_settings']['feeds']['is_repeatable']['text_field_size'] = 60;
                
 
 // FILLED IN setting values
@@ -183,21 +183,21 @@ if ( sizeof($ct['conf']['news']['feeds']) > 0 ) {
      foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
               
           foreach ( $val as $feed_key => $unused ) {
-          $admin_render_settings['feeds']['has_subarray'][$key]['is_text'][$feed_key] = true;
-          $admin_render_settings['feeds']['has_subarray'][$key]['text_field_size'] = 60;
+          $ct['admin_render_settings']['feeds']['has_subarray'][$key]['is_text'][$feed_key] = true;
+          $ct['admin_render_settings']['feeds']['has_subarray'][$key]['text_field_size'] = 60;
           }
                                                                            
      }
 
 }
 else {
-$admin_render_settings['feeds']['has_subarray'][0]['is_text']['title'] = true;
-$admin_render_settings['feeds']['has_subarray'][0]['is_text']['url'] = true;
-$admin_render_settings['feeds']['has_subarray'][0]['text_field_size'] = 60;
+$ct['admin_render_settings']['feeds']['has_subarray'][0]['is_text']['title'] = true;
+$ct['admin_render_settings']['feeds']['has_subarray'][0]['is_text']['url'] = true;
+$ct['admin_render_settings']['feeds']['has_subarray'][0]['text_field_size'] = 60;
 }
 
 
-$admin_render_settings['feeds']['is_notes'] = 'Add RSS News Feeds here, to display in the USER AREA "News Feeds" section.<br />(auto-sorted alphabetically by title)';
+$ct['admin_render_settings']['feeds']['is_notes'] = 'Add RSS News Feeds here, to display in the USER AREA "News Feeds" section.<br />(auto-sorted alphabetically by title)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,10 +205,10 @@ $admin_render_settings['feeds']['is_notes'] = 'Add RSS News Feeds here, to displ
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-$admin_render_settings['is_refresh_admin'] = 'none';
+$ct['admin_render_settings']['is_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('news', 'news_feeds', $admin_render_settings);
+$ct['admin']->admin_config_interface('news', 'news_feeds', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

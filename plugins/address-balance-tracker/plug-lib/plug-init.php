@@ -16,13 +16,13 @@
 // If user blanked out a SINGLE address tracking alert value via the admin interface,
 // we need to unset the blank value to have the app logic run smoothly
 // (as we require at least one blank value IN THE INTERFACE WHEN SUBMITTING UPDATES, TO ASSURE THE ARRAY IS NOT EXCLUDED from the CACHED config)
-if ( is_array($plug_conf[$this_plug]['tracking']) && sizeof($plug_conf[$this_plug]['tracking']) == 1 ) {
+if ( is_array($plug['conf'][$this_plug]['tracking']) && sizeof($plug['conf'][$this_plug]['tracking']) == 1 ) {
      
      // We are NOT assured key == 0, if it was updated via the admin interface
-     foreach ( $plug_conf[$this_plug]['tracking'] as $key => $val ) {
+     foreach ( $plug['conf'][$this_plug]['tracking'] as $key => $val ) {
      
           if ( trim($val['address']) == '' ) {
-          unset($plug_conf[$this_plug]['tracking'][$key]);
+          unset($plug['conf'][$this_plug]['tracking'][$key]);
           }
      
      }
@@ -31,7 +31,7 @@ if ( is_array($plug_conf[$this_plug]['tracking']) && sizeof($plug_conf[$this_plu
 
 
 // Remove any stale cache files
-$loop = ( is_array($plug_conf[$this_plug]['tracking']) ? sizeof($plug_conf[$this_plug]['tracking']) : 0 );
+$loop = ( is_array($plug['conf'][$this_plug]['tracking']) ? sizeof($plug['conf'][$this_plug]['tracking']) : 0 );
 while ( file_exists( $ct['plug']->alert_cache($loop . '.dat') ) ) {
 unlink( $ct['plug']->alert_cache($loop . '.dat') );
 $loop = $loop + 1;
@@ -39,7 +39,7 @@ $loop = $loop + 1;
 $loop = null;
 
 
-foreach ( $plug_conf[$this_plug]['tracking'] as $target_key => $target_val ) {
+foreach ( $plug['conf'][$this_plug]['tracking'] as $target_key => $target_val ) {
 	
 // Clear any previous loop's $cache_reset var
 $cache_reset = false;
@@ -51,7 +51,7 @@ $balance_tracking_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry
-	if ( $ct['cache']->update_cache($balance_tracking_cache_file, ($plug_conf[$this_plug]['alerts_frequency_maximum'] * 60) ) == false ) {
+	if ( $ct['cache']->update_cache($balance_tracking_cache_file, ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) ) == false ) {
 	continue;
 	}
 
@@ -102,19 +102,19 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
 	
 	// Detect which chain the address is on, set CURRENT (not cached) address balance
 	if ( $asset == 'btc' ) {
-	$address_balance = $plug_class[$this_plug]->btc_addr_bal($address);
+	$address_balance = $plug['class'][$this_plug]->btc_addr_bal($address);
 	}
 	elseif ( $asset == 'eth' ) {
-	$address_balance = $plug_class[$this_plug]->eth_addr_bal($address);
+	$address_balance = $plug['class'][$this_plug]->eth_addr_bal($address);
 	}
 	elseif ( $asset == 'sol' ) {
-	$address_balance = $plug_class[$this_plug]->sol_addr_bal($address);
+	$address_balance = $plug['class'][$this_plug]->sol_addr_bal($address);
 	}
 	elseif ( $chain == 'eth' ) {
-	$address_balance = $plug_class[$this_plug]->eth_addr_bal($address, $asset);
+	$address_balance = $plug['class'][$this_plug]->eth_addr_bal($address, $asset);
 	}
 	elseif ( $chain == 'sol' ) {
-	$address_balance = $plug_class[$this_plug]->sol_addr_bal($address, $asset);
+	$address_balance = $plug['class'][$this_plug]->sol_addr_bal($address, $asset);
 	}
 	
 	
@@ -182,7 +182,7 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
 		}
 
         
-        if ( $plug_conf[$this_plug]['privacy_mode'] == 'on' ) {
+        if ( $plug['conf'][$this_plug]['privacy_mode'] == 'on' ) {
         
         
             // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
@@ -192,11 +192,11 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
             
             $spl_token_sol_worth_raw = $ct['api']->market( strtoupper($asset), 'jupiter_ag', strtoupper($asset) . '/SOL' )['last_trade'];
             
-            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ( $difference_amnt * ($spl_token_sol_worth_raw * $sol_btc_val) ) * $sel_opt['sel_btc_prim_currency_val'] );
+            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ( $difference_amnt * ($spl_token_sol_worth_raw * $sol_btc_val) ) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
             
             }
             else {
-            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
             }
         
         
@@ -216,7 +216,7 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
         else {
 
         // Get primary currency value of the current address TOTAL balance
-        $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($address_balance * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+        $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($address_balance * $pair_btc_val) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
         
         $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['gen']['crypto_decimals_max']);
         

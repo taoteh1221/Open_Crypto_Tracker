@@ -27,12 +27,12 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
     
          	// If coinmarketcap API key is added, re-cache data for faster UI runtimes later
          	if ( trim($ct['conf']['ext_apis']['coinmarketcap_api_key']) != null ) {
-         	$coinmarketcap_api = $ct['api']->coinmarketcap();
+         	$ct['coinmarketcap_api'] = $ct['api']->coinmarketcap();
          	}
     	 
     
      // Re-cache marketcap data for faster UI runtimes later
-     $coingecko_api = $ct['api']->coingecko();
+     $ct['coingecko_api'] = $ct['api']->coingecko();
     	 
     	 
      // Re-cache chain data for faster UI runtimes later

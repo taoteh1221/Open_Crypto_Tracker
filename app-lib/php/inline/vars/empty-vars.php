@@ -7,151 +7,149 @@
 
 // Initial BLANK arrays
 
-$conf_parse_error = array();
+$ct['conf_parse_error'] = array();
 
-$admin_render_settings = array();
+$ct['admin_render_settings'] = array();
 
-$repeatable_fields_tracking = array();
+$ct['repeatable_fields_tracking'] = array();
 
-$check_crypto_pair = array();
+$ct['check_crypto_pair'] = array();
 
-$log_errors = array();
+$ct['log_errors'] = array();
 
-$log_debugging = array();
+$ct['log_debugging'] = array();
 
-$admin_ui_menus = array();
+$ct['change_dir_perm'] = array();
 
-$change_dir_perm = array();
+$ct['sel_opt'] = array();
 
-$sel_opt = array();
+$ct['runtime_data'] = array();
 
-$runtime_data = array();
+$ct['runtime_data']['performance_stats'] = array();
 
-$runtime_data['performance_stats'] = array();
+$ct['system_warnings'] = array();
 
-$system_warnings = array();
+$ct['system_warnings_cron_interval'] = array();
 
-$system_warnings_cron_interval = array();
+$ct['rand_color_ranged'] =  array();
 
-$rand_color_ranged =  array();
+$ct['processed_msgs'] = array();
 
-$processed_msgs = array();
+$ct['api_connections'] = array();
 
-$api_connections = array();
+$ct['api_runtime_cache'] = array();
 
-$api_runtime_cache = array();
+$ct['limited_api_calls'] = array();
 
-$limited_api_calls = array();
+$ct['coingecko_api'] = array();
 
-$coingecko_api = array();
+$ct['coinmarketcap_api'] = array();
 
-$coinmarketcap_api = array();
+$ct['asset_stats_array'] = array();
 
-$asset_stats_array = array();
+$ct['asset_tracking'] =  array();
 
-$asset_tracking =  array();
+$ct['btc_pair_mrkts'] = array();
 
-$btc_pair_mrkts = array();
+$ct['btc_pair_mrkts_excluded'] = array();
 
-$btc_pair_mrkts_excluded = array();
+$ct['btc_worth_array'] = array();
 
-$btc_worth_array = array();
+$ct['stocks_btc_worth_array'] = array();
 
-$stocks_btc_worth_array = array();
+$ct['price_alert_fixed_reset_array'] = array();
 
-$price_alert_fixed_reset_array = array();
+$ct['proxy_checkup'] = array();
 
-$proxy_checkup = array();
+$ct['proxies_checked'] = array();
 
-$proxies_checked = array();
+$ct['telegram_user_data'] = array();
 
-$telegram_user_data = array();
+$ct['last_valid_chart_data'] = array();
 
-$last_valid_chart_data = array();
+$ct['api_throttle_count'] = array();
 
-$api_throttle_count = array();
+$ct['api_throttle_flag'] = array();
 
-$api_throttle_flag = array();
+$ct['int_webhooks'] = array();
 
-$plug_conf =  array();
-
-$plug_class = array();
-
-$activated_plugins =  array();
-
-$int_webhooks =  array();
-
-$activated_sms_services =  array();
+$ct['activated_sms_services'] = array();
         
-$throttled_api_cache_time =  array();
+$ct['throttled_api_cache_time'] = array();
         
-$throttled_api_per_day_limit =  array();
+$ct['throttled_api_per_day_limit'] = array();
         
-$throttled_api_per_minute_limit =  array();
+$ct['throttled_api_per_minute_limit'] = array();
 
-$jupiter_ag_pairs =  array();
+$ct['jupiter_ag_pairs'] =  array();
+
+$plug['conf'] =  array();
+
+$plug['class'] = array();
+
+$plug['activated'] =  array();
 
 
 // Initial BLANK strings
 
-$alerts_gui_logs = null;
+$ct['alerts_gui_logs'] = null;
 
-$cmc_notes = null;
+$ct['cmc_notes'] = null;
 
-$td_color_zebra = null;
+$ct['td_color_zebra'] = null;
 
-$mcap_data_force_usd = null;
+$ct['mcap_data_force_usd'] = null;
         
-$kraken_pairs = null;
+$ct['kraken_pairs'] = null;
         
-$upbit_pairs = null;
+$ct['upbit_pairs'] = null;
         
-$coingecko_pairs = null;
+$ct['coingecko_pairs'] = null;
         
-$coingecko_assets = null;
+$ct['coingecko_assets'] = null;
 
-$restore_conf_path = null;
+$ct['restore_conf_path'] = null;
 
-$sms_service = null;
+$ct['sms_service'] = null;
 
-$check_2fa_id = null;
+$ct['check_2fa_id'] = null;
 
-$check_2fa_error = null;
+$ct['check_2fa_error'] = null;
 
-$telegram_user_data_path = null;
+$ct['telegram_user_data_path'] = null;
 
-$usort_alpha = null;
+$ct['usort_alpha'] = null;
 
 
 // Initial zero-set / false strings
 
-$verified_update_request = false;
+$ct['verified_update_request'] = false;
 
-$plugins_checked_registered = false;
+$ct['plugins_checked_registered'] = false;
 
-$reset_config = false;
+$ct['reset_config'] = false;
 
-$update_config = false;
+$ct['update_config'] = false;
 
-$possible_input_injection = false;
+$ct['possible_input_injection'] = false;
 
-$app_upgrade_check = false;
+$ct['app_upgrade_check'] = false;
 
-$upgraded_install = false;
+$ct['upgraded_install'] = false;
 
-$conf_upgraded = false;
+$ct['conf_upgraded'] = false;
 
-$is_login_form = false;
+$ct['is_login_form'] = false;
         
-$alphavantage_pairs = 0;
+$ct['alphavantage_pairs'] = 0;
 
-$precache_feeds_count = 0; 
+$ct['precache_feeds_count'] = 0; 
 
-$light_chart_first_build_count = 0; 
+$ct['light_chart_first_build_count'] = 0; 
 
-$count_2fa_fields = 0;
+$ct['count_2fa_fields'] = 0;
 
-$activate_proxies = 'off';
+$ct['activate_proxies'] = 'off';
 
 
 // INITIALLY defined

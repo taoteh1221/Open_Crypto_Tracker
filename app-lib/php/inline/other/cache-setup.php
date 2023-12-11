@@ -6,25 +6,25 @@
 
 // Current runtime user (to determine how we want to set directory / file permissions)
 if ( function_exists('posix_getpwuid') && function_exists('posix_geteuid') ) {
-$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
+$ct['current_runtime_user'] = posix_getpwuid(posix_geteuid())['name'];
 }
 elseif ( function_exists('get_current_user') ) {
-$current_runtime_user = get_current_user();
+$ct['current_runtime_user'] = get_current_user();
 }
 else {
-$current_runtime_user = null;
+$ct['current_runtime_user'] = null;
 }
 
 
 // Get WEBSERVER runtime user (from cache if currently running from CLI)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
 // WE HAVE FALLBACKS IF THIS IS NULL IN $ct['cache']->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
-$http_runtime_user = ( $ct['runtime_mode'] != 'cron' ? $current_runtime_user : trim( file_get_contents($ct['base_dir'] . '/cache/vars/http_runtime_user.dat') ) );
+$ct['http_runtime_user'] = ( $ct['runtime_mode'] != 'cron' ? $ct['current_runtime_user'] : trim( file_get_contents($ct['base_dir'] . '/cache/vars/http_runtime_user.dat') ) );
 
 					
 // HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
-$possible_http_users = array(
+$ct['possible_http_users'] = array(
     						'www-data',
     						'apache',
     						'apache2',
@@ -58,7 +58,7 @@ if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != tr
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/plugins/') != true ) {
     
-    foreach ( $change_dir_perm as $dir ) {
+    foreach ( $ct['change_dir_perm'] as $dir ) {
     $dir_error_detail = explode(':', $dir);
     $dir_errors = $dir_error_detail[0] .  ' (CURRENT permission: '.$dir_error_detail[1].')<br />';
     }

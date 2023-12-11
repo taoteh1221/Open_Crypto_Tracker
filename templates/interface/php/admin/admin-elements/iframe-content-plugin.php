@@ -7,10 +7,10 @@
 $this_plug = $_GET['plugin'];
 
 if ( isset($_GET['plugin_docs']) ) {
-$header_link = "<a class='bitcoin' href='admin.php?iframe=" . $ct['gen']->admin_hashed_nonce('iframe_' . $this_plug) . "&plugin=" . $this_plug . "'>" . $plug_conf[$this_plug]['ui_name'] . "</a> -> Documentation";
+$header_link = "<a class='bitcoin' href='admin.php?iframe=" . $ct['gen']->admin_hashed_nonce('iframe_' . $this_plug) . "&plugin=" . $this_plug . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a> -> Documentation";
 }
 else {
-$header_link = $plug_conf[$this_plug]['ui_name'];
+$header_link = $plug['conf'][$this_plug]['ui_name'];
 }
 
 ?>
@@ -50,7 +50,7 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         require("plugins/" . $this_plug . "/plug-templates/plug-docs.php");
         }
         // Admin high security notice
-        elseif ( $admin_area_sec_level == 'high' ) {
+        elseif ( $ct['admin_area_sec_level'] == 'high' ) {
         ?>
         	
         	<p class='bitcoin bitcoin_dotted'>
@@ -62,7 +62,7 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         <?php
         }
         // Admin (normal / medium security mode)
-        elseif ( $admin_area_sec_level != 'high' && !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-admin.php") ) {
+        elseif ( $ct['admin_area_sec_level'] != 'high' && !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-admin.php") ) {
         require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
         }
         else {

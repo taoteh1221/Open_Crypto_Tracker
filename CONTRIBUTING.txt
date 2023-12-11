@@ -58,7 +58,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 - Be liberal with spacing and new lines in your logic. This ALSO goes a VERY long way twords making code readable during code reviews.
 
 
-- Consider breaking up LARGE class functions into child functions in some areas, EVEN IF IT'S NOT RE-USED ANYWHERE ELSE, IF the code in that area is HEAVILY REPETITIVE OR A MILE LONG. This ALSO goes a VERY long way twords making code readable during code reviews.
+- Consider breaking up LARGE class functions into child functions in some areas, EVEN IF IT'S NOT RE-USED ANYWHERE ELSE, IF the code in that area is HEAVILY REPETITIVE (A MILE LONG). This ALSO goes a VERY long way twords making code readable during code reviews.
 
 
 - ALL code you include in your contribution MUST BE COMPATIBLE WITH THE GPLv3 LICENSE that this app is released under. If you include any code licensed by somebody other than yourself, you MUST leave attribution for them in your contribution. Also ALWAYS include the open source license the code was ORIGINALLY released under (EVEN IF IT IS THE SAME LICENSE THIS APP IS RELEASED UNDER).

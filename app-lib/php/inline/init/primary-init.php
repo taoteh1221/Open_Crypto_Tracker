@@ -95,11 +95,11 @@ $upgrade_check_latest_version = trim( file_get_contents($ct['base_dir'] . '/cach
 // NON-HIGH SECURITY MODE'S CACHED CONFIG (IF IT DOESN'T MATCH THE CURRENT VERSION NUMBER)
 if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') ) {
      
-$cached_app_version = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') );
+$ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') );
 
      // Check version number against cached value
-     if ( trim($cached_app_version) != trim($ct['app_version']) ) {
-     $upgraded_install = true;
+     if ( trim($ct['cached_app_version']) != trim($ct['app_version']) ) {
+     $ct['upgraded_install'] = true;
      }
      
 }

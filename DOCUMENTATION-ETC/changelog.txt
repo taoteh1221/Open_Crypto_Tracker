@@ -6488,13 +6488,20 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -Migrated all chart-related settings in the "Power User" section, over to the "Price Alerts / Charts" section
 
+-COMPLETE REFACTORING of plugin configuration specification (see revised plugin developer documentation)
+
+-Developer-friendly refactoring of main app PHP variables
+
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup
 
 -Updated documentation
 
-IMPORTANT *UPGRADE* NOTICE:
+IMPORTANT *UPGRADE* NOTICES:
+
+v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
+FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation).
 
 v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT.
@@ -6508,7 +6515,7 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 v6.00.29 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
--v6.00.29 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.26 OR LOWER.
+-v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.31 OR LOWER.
 
 -------------------------------------------------------------------
 

@@ -13,7 +13,7 @@
 //$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
-$debt_form_action = $ct['gen']->start_page($plug_conf[$this_plug]['ui_location']); // Make the page it's on the start page (for results UX)
+$debt_form_action = $ct['gen']->start_page($plug['conf'][$this_plug]['ui_location']); // Make the page it's on the start page (for results UX)
 ?>
 
 <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/style.css" type="text/css" />
@@ -60,7 +60,7 @@ $debt_form_action = $ct['gen']->start_page($plug_conf[$this_plug]['ui_location']
                                 if ( $val['account'] != '' && is_numeric($val['amount']) && is_numeric($val['apr']) ) {
                                 
                                 // Get results for this debt account
-                                $all_debt[$key] = $plug_class[$this_plug]->apr_calc($val['account'], $val['amount'], $val['apr']);
+                                $all_debt[$key] = $plug['class'][$this_plug]->apr_calc($val['account'], $val['amount'], $val['apr']);
                                 
                                 ?>
                             

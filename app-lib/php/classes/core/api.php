@@ -303,7 +303,7 @@ var $ct_array = array();
    
    function coinmarketcap($force_prim_currency=null) {
       
-   global $ct, $coinmarketcap_currencies, $mcap_data_force_usd, $cmc_notes;
+   global $ct, $coinmarketcap_currencies;
    
    $result = array();
    
@@ -328,17 +328,17 @@ var $ct_array = array();
          
       if ( $force_prim_currency != null ) {
       $convert = strtoupper($force_prim_currency);
-      $mcap_data_force_usd = null;
+      $ct['mcap_data_force_usd'] = null;
       }
       elseif ( in_array($coinmarketcap_prim_currency, $coinmarketcap_currencies) ) {
       $convert = $coinmarketcap_prim_currency;
-      $mcap_data_force_usd = null;
+      $ct['mcap_data_force_usd'] = null;
       }
       // Default to USD, if currency is not supported
       else {
-      $cmc_notes = 'Coinmarketcap.com does not support '.$coinmarketcap_prim_currency.' stats,<br />showing USD stats instead.';
+      $ct['cmc_notes'] = 'Coinmarketcap.com does not support '.$coinmarketcap_prim_currency.' stats,<br />showing USD stats instead.';
       $convert = 'USD';
-      $mcap_data_force_usd = 1;
+      $ct['mcap_data_force_usd'] = 1;
       }
          
       
@@ -394,7 +394,7 @@ var $ct_array = array();
    // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
    function rss($url, $theme_selected, $feed_size, $cache_only=false, $email_only=false) {
       
-   global $ct, $fetched_feeds, $precache_feeds_count;
+   global $ct, $fetched_feeds;
    
    
       if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
@@ -406,7 +406,7 @@ var $ct_array = array();
       return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
       }
       // Avoid overloading low power devices with the precache hard limit
-      elseif ( $cache_only == true && $precache_feeds_count >= $ct['conf']['news']['news_feed_precache_maximum'] ) {
+      elseif ( $cache_only == true && $ct['precache_feeds_count'] >= $ct['conf']['news']['news_feed_precache_maximum'] ) {
       return false;
       }
       
@@ -424,7 +424,7 @@ var $ct_array = array();
           
           // IF WE ARE PRECACHING, COUNT TO STOP AT THE HARD LIMIT
           if ( $cache_only == true ) {
-          $precache_feeds_count = $precache_feeds_count + 1;
+          $ct['precache_feeds_count'] = $ct['precache_feeds_count'] + 1;
           }
       
       
@@ -737,7 +737,7 @@ var $ct_array = array();
    // We only need $pair data if our function call needs 24hr trade volumes, so it's optional overhead
    function market($asset_symb, $sel_exchange, $mrkt_id, $pair=false) {
    
-   global $ct, $sel_opt, $jupiter_ag_pairs, $kraken_pairs, $upbit_pairs, $coingecko_pairs, $coingecko_assets, $throttled_api_cache_time;
+   global $ct;
     
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -763,7 +763,7 @@ var $ct_array = array();
          
       $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $mrkt_id . '&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
          
-      $response = @$ct['cache']->ext_data('url', $url, $throttled_api_cache_time['alphavantage.co']);
+      $response = @$ct['cache']->ext_data('url', $url, $ct['throttled_api_cache_time']['alphavantage.co']);
          
       $data = json_decode($response, true);
       
@@ -1762,7 +1762,7 @@ var $ct_array = array();
            
       $jup_pairs = explode('/', $mrkt_id);
       
-      $url = 'https://price.jup.ag/v4/price?ids=' . $jupiter_ag_pairs[ $jup_pairs[1] ] . '&vsToken=' . $jup_pairs[1];
+      $url = 'https://price.jup.ag/v4/price?ids=' . $ct['jupiter_ag_pairs'][ $jup_pairs[1] ] . '&vsToken=' . $jup_pairs[1];
       
       $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
         
@@ -1836,7 +1836,7 @@ var $ct_array = array();
     
       elseif ( strtolower($sel_exchange) == 'kraken' ) {
        
-      $url = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
+      $url = 'https://api.kraken.com/0/public/Ticker?pair=' . $ct['kraken_pairs'];
       
       $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
       
@@ -2262,7 +2262,7 @@ var $ct_array = array();
     
       elseif ( strtolower($sel_exchange) == 'upbit' ) {
     
-      $url = 'https://api.upbit.com/v1/ticker?markets=' . $upbit_pairs;
+      $url = 'https://api.upbit.com/v1/ticker?markets=' . $ct['upbit_pairs'];
          
       $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
          
@@ -2379,8 +2379,8 @@ var $ct_array = array();
       
           
          // BTC value of 1 unit of the default primary currency
-         if ( $sel_opt['sel_btc_prim_currency_val'] > 0 ) {
-         $currency_to_btc = $ct['var']->num_to_str(1 / $sel_opt['sel_btc_prim_currency_val']);	
+         if ( $ct['sel_opt']['sel_btc_prim_currency_val'] > 0 ) {
+         $currency_to_btc = $ct['var']->num_to_str(1 / $ct['sel_opt']['sel_btc_prim_currency_val']);	
          }
          // Cannot be determined, setting to zero
          else {
@@ -2592,7 +2592,7 @@ var $ct_array = array();
     
       elseif ( stristr( strtolower($sel_exchange) , 'coingecko_') ) {
 	         
-      $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $coingecko_assets . '&vs_currencies='.$coingecko_pairs.'&include_24hr_vol=true';
+      $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $ct['coingecko_assets'] . '&vs_currencies='.$ct['coingecko_pairs'].'&include_24hr_vol=true';
          
       $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
          

@@ -58,9 +58,9 @@ var $ct_array = array();
    
    function usort_alpha($a, $b) {
    
-   global $usort_alpha;
+   global $ct;
    
-   return strcmp( strtolower($a[$usort_alpha]) , strtolower($b[$usort_alpha]) ); // Case-insensitive equivelent comparision via strtolower()
+   return strcmp( strtolower($a[ $ct['usort_alpha'] ]) , strtolower($b[ $ct['usort_alpha'] ]) ); // Case-insensitive equivelent comparision via strtolower()
    
    }
 
@@ -114,9 +114,9 @@ var $ct_array = array();
    
    function passed_medium_security_check() {
    
-   global $admin_area_sec_level;
+   global $ct;
        
-       if ( $admin_area_sec_level != 'medium' || $admin_area_sec_level == 'medium' && $this->pass_sec_check($_POST['medium_security_nonce'], 'medium_security_mode') && $this->valid_2fa('strict') ) {
+       if ( $ct['admin_area_sec_level'] != 'medium' || $ct['admin_area_sec_level'] == 'medium' && $this->pass_sec_check($_POST['medium_security_nonce'], 'medium_security_mode') && $this->valid_2fa('strict') ) {
        return true;
        }
        else {
@@ -264,9 +264,9 @@ var $ct_array = array();
    
    function pass_sec_check($val, $hash_key) {
         
-   global $possible_input_injection;
+   global $ct;
    
-      if ( !$possible_input_injection && $this->admin_logged_in() && isset($val) && trim($val) != '' && isset($hash_key) && trim($hash_key) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      if ( !$ct['possible_input_injection'] && $this->admin_logged_in() && isset($val) && trim($val) != '' && isset($hash_key) && trim($hash_key) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
       return true;
       }
       else {
@@ -488,16 +488,16 @@ var $ct_array = array();
    
    function valid_2fa($alt_mode=false, $force_check=false) {
    
-   global $admin_area_2fa, $totp_auth, $auth_secret_2fa, $check_2fa_id, $check_2fa_error;
+   global $ct, $auth_secret_2fa;
    
        // If 2FA is off, OR mode doesn't apply in this instance (AS LONG AS WE AREN'T *FORCE* CHECKING DURING 2FA SETUP)
-       if ( !$force_check && $admin_area_2fa == 'off' || !$force_check && $alt_mode && $admin_area_2fa != $alt_mode || isset($_POST['2fa_code']) && $totp_auth->checkCode($auth_secret_2fa, $_POST['2fa_code']) ) {
+       if ( !$force_check && $ct['admin_area_2fa'] == 'off' || !$force_check && $alt_mode && $ct['admin_area_2fa'] != $alt_mode || isset($_POST['2fa_code']) && $ct['auth_2fa']->checkCode($auth_secret_2fa, $_POST['2fa_code']) ) {
        return true;
        }
        // Otherwise, alert end-user of the invalid 2FA code they entered
        else {
-       $check_2fa_id = $_POST['2fa_code_id'];
-       $check_2fa_error = '2FA passcode was invalid, please try again';
+       $ct['check_2fa_id'] = $_POST['2fa_code_id'];
+       $ct['check_2fa_error'] = '2FA passcode was invalid, please try again';
        return false;
        }
    
@@ -667,9 +667,9 @@ var $ct_array = array();
    
    function config_state_synced() {
        
-   global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
+   global $ct, $default_ct_conf, $check_default_ct_conf;
    
-      if ( $admin_area_sec_level == 'high' ) {
+      if ( $ct['admin_area_sec_level'] == 'high' ) {
       
          if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) ) {
          return true;
@@ -862,14 +862,14 @@ var $ct_array = array();
    
    function dir_struct($path) {
    
-   global $ct, $possible_http_users, $http_runtime_user;
+   global $ct;
 
    
       // If path does not exist
       if ( !is_dir($path) ) {
       
          // Run cache compatibility on certain PHP setups
-         if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
+         if ( !$ct['http_runtime_user'] || in_array($ct['http_runtime_user'], $ct['possible_http_users']) ) {
          $oldmask = umask(0);
          $result = mkdir($path, octdec($ct['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
          umask($oldmask);
@@ -935,29 +935,29 @@ var $ct_array = array();
    
    function input_2fa($alt_mode=false, $force_show=false) {
    
-   global $admin_area_2fa, $check_2fa_error, $count_2fa_fields;
+   global $ct;
        
-       if ( $force_show || !$alt_mode && $admin_area_2fa != 'off' || $alt_mode && $admin_area_2fa == $alt_mode ) {
+       if ( $force_show || !$alt_mode && $ct['admin_area_2fa'] != 'off' || $alt_mode && $ct['admin_area_2fa'] == $alt_mode ) {
 	  ?>
 	  
 	  <div style='margin-top: 2em; margin-bottom: 2em;'>
 	  
-	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
+	  <p id='notice_2fa_code_<?=$ct['count_2fa_fields']?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$ct['check_2fa_error']?>.</p>
 	  
 	  <p>
 	  
 	  <span class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</span><br />
 	  
-	  <input class='2fa_code_input' style='margin-top: 0.5em;' type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' size='10' />
+	  <input class='2fa_code_input' style='margin-top: 0.5em;' type='text' id='2fa_code_<?=$ct['count_2fa_fields']?>' name='2fa_code' value='' size='10' />
 	  
 	  </p>
 	  
-	  <input class='2fa_code_id_input' type='hidden' name='2fa_code_id' value='2fa_code_<?=$count_2fa_fields?>' />
+	  <input class='2fa_code_id_input' type='hidden' name='2fa_code_id' value='2fa_code_<?=$ct['count_2fa_fields']?>' />
 	  
 	  </div>
 	  
 	  <?php
-	  $count_2fa_fields = $count_2fa_fields + 1;
+	  $ct['count_2fa_fields'] = $ct['count_2fa_fields'] + 1;
 	  }
    
    }
@@ -1047,7 +1047,7 @@ var $ct_array = array();
    
    function chmod_path($path, $perm) {
        
-   global $change_dir_perm, $http_runtime_user;
+   global $ct;
 
    $perm = octdec($perm);
      
@@ -1071,7 +1071,7 @@ var $ct_array = array();
          }
          else {
          $chmod_val = substr( sprintf( '%o' , fileperms($path) ) , -4 );
-         $change_dir_perm[] = $path . ':' . substr($chmod_val, 1);
+         $ct['change_dir_perm'][] = $path . ':' . substr($chmod_val, 1);
          return false;
          }
      
@@ -1267,15 +1267,15 @@ var $ct_array = array();
    
    function telegram_msg($full_message) {
    
-   // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
-   global $telegram_user_data, $telegram_messaging;
+   // Using 3rd party Telegram class, initiated already as $ct['telegram_connect']
+   global $ct;
                
    $message_size = strlen($full_message);
 
                   
       // If telegram message bytes is over 4096, it will fail to send, so we split it into multiple messages
       // https://developers.cm.com/messaging/docs/telegram
-      if ( $telegram_messaging && $message_size > 4000 ) { // Leave some wiggle room
+      if ( $ct['telegram_connect'] && $message_size > 4000 ) { // Leave some wiggle room
            
       $split_messages = str_split($full_message, 4000); // Leave some wiggle room
           
@@ -1288,7 +1288,7 @@ var $ct_array = array();
                sleep(1); 
                }
 
-          $message_sent = $telegram_messaging->send->chat($telegram_user_data['message']['chat']['id'])->text($message)->send();
+          $message_sent = $ct['telegram_connect']->send->chat($ct['telegram_user_data']['message']['chat']['id'])->text($message)->send();
                
                // If ANY message sending fails, abort / return false
                if ( !$message_sent ) {
@@ -1304,8 +1304,8 @@ var $ct_array = array();
            
       }
       // If NOT over limit
-      elseif ( $telegram_messaging ) {
-      return $telegram_messaging->send->chat($telegram_user_data['message']['chat']['id'])->text($full_message)->send();
+      elseif ( $ct['telegram_connect'] ) {
+      return $ct['telegram_connect']->send->chat($ct['telegram_user_data']['message']['chat']['id'])->text($full_message)->send();
       }
 
    
@@ -1411,7 +1411,7 @@ var $ct_array = array();
    
    function ct_chmod($file, $chmod) {
    
-   global $current_runtime_user, $http_runtime_user, $possible_http_users;
+   global $ct;
   
   
         if ( file_exists($file) && function_exists('posix_getpwuid') ) {
@@ -1420,13 +1420,13 @@ var $ct_array = array();
   
   
         // Does the current runtime user own this file (or will they own it after creating a non-existent file)?
-        if ( file_exists($file) == false || isset($current_runtime_user) && isset($file_info['name']) && $current_runtime_user == $file_info['name'] ) {
+        if ( file_exists($file) == false || isset($ct['current_runtime_user']) && isset($file_info['name']) && $ct['current_runtime_user'] == $file_info['name'] ) {
         $is_file_owner = 1;
         }
    
    
-        if ( $is_file_owner == 1 && !$http_runtime_user 
-        || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
+        if ( $is_file_owner == 1 && !$ct['http_runtime_user'] 
+        || $is_file_owner == 1 && isset($ct['http_runtime_user']) && in_array($ct['http_runtime_user'], $ct['possible_http_users']) ) {
         // Continue, all is good
         }
         else {
@@ -1448,7 +1448,7 @@ var $ct_array = array();
           							
           		'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
           							
-          		'chmod_setting: ' . $chmod . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_info['name'] . ';'
+          		'chmod_setting: ' . $chmod . '; current_runtime_user: ' . $ct['current_runtime_user'] . '; file_owner: ' . $file_info['name'] . ';'
           		);
           
           }
@@ -2237,24 +2237,24 @@ var $ct_array = array();
    
    function system_warning_log($type) {
    
-   global $ct, $system_warnings, $system_warnings_cron_interval;
+   global $ct;
    
    
 	  // With offset, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
-      if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) + $ct['dev']['tasks_time_offset'] ) == true ) {
+      if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/system/warning-' . $type . '.dat', ($ct['system_warnings_cron_interval'][$type] * 60) + $ct['dev']['tasks_time_offset'] ) == true ) {
           
-      $this->log('system_warning', $system_warnings[$type]);
+      $this->log('system_warning', $ct['system_warnings'][$type]);
       
           if ( isset($ct['system_info']['distro_name']) ) {
           $system_info_summary = "\n\nApp Server System Info: " . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
           }
       
-      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info_summary;
+      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $ct['system_warnings'][$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info_summary;
                
       // Were're just adding a human-readable timestamp to smart home (audio) alerts
       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
       
-      $text_msg = 'Open Crypto Tracker app server issue: ' . $system_warnings[$type] . '.';
+      $text_msg = 'Open Crypto Tracker app server issue: ' . $ct['system_warnings'][$type] . '.';
                
       // Minimize function calls
       $text_msg = $this->detect_unicode($text_msg); 
@@ -2300,7 +2300,7 @@ var $ct_array = array();
    // RECURSIVELY USED VIA sanitize_requests() (scans all subarray values too)
    function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
    
-   global $ct, $possible_input_injection;
+   global $ct;
    
    $original_encoded_hex = $data;
    
@@ -2392,7 +2392,7 @@ var $ct_array = array();
         ) {
         $this->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs');
         $data = 'possible_attack_blocked';
-        $possible_input_injection = true; // GLOBAL flag, to IMMEADIATELY HALT RUNTIME ON ANY UPCOMING SECURITY CHECKS!
+        $ct['possible_input_injection'] = true; // GLOBAL flag, to IMMEADIATELY HALT RUNTIME ON ANY UPCOMING SECURITY CHECKS!
         }
         // OTHERWISE, ONLY USE $sanitized_plaintext, as $sanitized_encoded_[type] is only used for attack signature scanning on encoded data
         // (as we want to KEEP encoding intact, AS LONG AS IT PASSED THE SECURITY SCANS AS CLEAN / NO ATTACK SIGNATURE MATCHES)
@@ -2416,7 +2416,7 @@ var $ct_array = array();
    
    function refresh_plugins_list() {
         
-   global $ct, $default_ct_conf, $admin_area_sec_level, $reset_config, $update_config;
+   global $ct, $default_ct_conf;
    
    $plugin_base = $ct['base_dir'] . '/plugins/';
    
@@ -2435,7 +2435,7 @@ var $ct_array = array();
                   
                
                // We also want to set any unset DEFAULT config
-               // (does NOT need $update_config flag)
+               // (does NOT need $ct['update_config'] flag)
                if ( !isset($default_ct_conf['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
                $default_ct_conf['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
                }
@@ -2447,9 +2447,9 @@ var $ct_array = array();
 	    
 	               // If no reset / high security mode 
 	               // (high security mode will auto-trigger a reset on plugin changes, FURTHER ALONG IN THE LOGIC)
-     	          if ( $admin_area_sec_level != 'high' && !$reset_config ) {
+     	          if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
      	               
-         	          $update_config = true;
+         	          $ct['update_config'] = true;
      	               
      	               if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
          	               $ct['gen']->log('conf_debug', 'plugin "'.$file_info->getFilename().'" ADDED, updating CACHED ct_conf');
@@ -2482,9 +2482,9 @@ var $ct_array = array();
 	    
 	         // If no reset / high security mode 
 	         // (high security mode will auto-trigger a reset on plugin changes, FURTHER ALONG IN THE LOGIC)
-	         if ( $admin_area_sec_level != 'high' && !$reset_config ) {
+	         if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
 	              
-    	         $update_config = true;
+    	         $ct['update_config'] = true;
     	         
     	            if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     	            $ct['gen']->log('conf_debug', 'plugin "'.$key.'" REMOVED, updating CACHED ct_conf');
@@ -2499,7 +2499,7 @@ var $ct_array = array();
       
       
       // Remove any plugins that no longer exist / do not have proper file structure
-      // DEFAULT CONFIG (does NOT need $update_config flag)
+      // DEFAULT CONFIG (does NOT need $ct['update_config'] flag)
       foreach ( $default_ct_conf['plugins']['plugin_status'] as $key => $unused ) {
            
          if (
@@ -2695,7 +2695,7 @@ var $ct_array = array();
    
    function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
-   global $ct, $log_errors, $log_debugging, $is_iframe;
+   global $ct, $is_iframe;
    
    // Obfuscate any sensitive data
    $log_msg = $this->obfusc_data($log_msg);
@@ -2751,17 +2751,17 @@ var $ct_array = array();
           
    
           if ( $hashcheck != false ) {
-          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_debugging'][$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
           elseif ( $category[0] == 'cache' ) {
-          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_debugging'][$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           elseif ( $overwrite != false ) {
-          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_debugging'][$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           else {
-          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_debugging'][$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
       
       
@@ -2770,17 +2770,17 @@ var $ct_array = array();
           
    
           if ( $hashcheck != false ) {
-          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_errors'][$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
           elseif ( $category[0] == 'cache' ) {
-          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_errors'][$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           elseif ( $overwrite != false ) {
-          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_errors'][$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           else {
-          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_errors'][$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
       
       
@@ -3276,14 +3276,14 @@ var $ct_array = array();
    
    function reset_price_alert_notice() {
    
-   global $ct, $price_alert_fixed_reset_array, $default_bitcoin_primary_currency_pair;
+   global $ct;
    
    // Alphabetical asset sort, for message UX 
-   ksort($price_alert_fixed_reset_array);
+   ksort($ct['price_alert_fixed_reset_array']);
    
    
       $count = 0;
-      foreach( $price_alert_fixed_reset_array as $reset_data ) {
+      foreach( $ct['price_alert_fixed_reset_array'] as $reset_data ) {
       
          foreach( $reset_data as $asset_alert ) {
          
@@ -3307,9 +3307,9 @@ var $ct_array = array();
       }
    
    
-   $text_msg = $count . ' ' . strtoupper($default_bitcoin_primary_currency_pair) . ' Price Alert Fixed Resets: ' . $reset_list;
+   $text_msg = $count . ' ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_bitcoin_primary_currency_pair) . ' price alert fixed resets (run every ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' price alert fixed resets (run every ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
    $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
    
@@ -3431,7 +3431,7 @@ var $ct_array = array();
     // AS LONG AS YOU DON'T OVER-MINIMIZE THE RANDOM OPTIONS / EXAUST ALL RANDOM OPTIONS (AND ENDLESSLY LOOP)
    function rand_color($list_size) {
       
-   global $rand_color_ranged;
+   global $ct;
    
    $result = array();
    
@@ -3476,10 +3476,10 @@ var $ct_array = array();
          /////////////////////////////////
          // Check to make sure new random color isn't within range (nearly same color codes) of any colors already generated
          /////////////////////////////////
-         if( is_array($rand_color_ranged) && sizeof($rand_color_ranged) > 0 ) {
+         if( is_array($ct['rand_color_ranged']) && sizeof($ct['rand_color_ranged']) > 0 ) {
          
             // Compare new random color's range to any colors already generated
-            foreach( $rand_color_ranged as $used_range ) {
+            foreach( $ct['rand_color_ranged'] as $used_range ) {
                
             $overall_range = abs($rgb['r'] - $used_range['r']) + abs($rgb['g'] - $used_range['g']) + abs($rgb['b'] - $used_range['b']);
                
@@ -3493,7 +3493,7 @@ var $ct_array = array();
             
             // If the new random color is NOT out of range, use it / add it to list of any colors already generated
             if ( !$range_too_close ) {
-            $rand_color_ranged[] = $rgb;
+            $ct['rand_color_ranged'][] = $rgb;
             $result['hex'] = $hex;
             $result['rgb'] = $rgb;
             }
@@ -3503,7 +3503,7 @@ var $ct_array = array();
          // If this is the first random color generated
          /////////////////////////////////
          else {
-         $rand_color_ranged[] = $rgb;
+         $ct['rand_color_ranged'][] = $rgb;
          $result['hex'] = $hex;
          $result['rgb'] = $rgb;
          }
@@ -3582,7 +3582,7 @@ var $ct_array = array();
    
    function chart_data($file, $chart_format, $start_timestamp=0) {
    
-   global $ct, $default_bitcoin_primary_currency_pair, $runtime_data, $last_valid_chart_data;
+   global $ct;
    
    $data = array();
    
@@ -3620,79 +3620,79 @@ var $ct_array = array();
             
                 if ( isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' ) {
                 $data['load_average_15_minutes'] .= trim($result[1]) . ',';
-                $last_valid_chart_data['load_average_15_minutes'] = $result[1];
+                $ct['last_valid_chart_data']['load_average_15_minutes'] = $result[1];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
-                elseif ( isset($last_valid_chart_data['load_average_15_minutes']) ) {
-                $data['load_average_15_minutes'] .= trim($last_valid_chart_data['load_average_15_minutes']) . ',';
+                elseif ( isset($ct['last_valid_chart_data']['load_average_15_minutes']) ) {
+                $data['load_average_15_minutes'] .= trim($ct['last_valid_chart_data']['load_average_15_minutes']) . ',';
                 }
             
             
                 if ( isset($result[2]) && trim($result[2]) != 'NO_DATA' && trim($result[2]) != '' ) {
                 $data['temperature_celsius'] .= trim($result[2]) . ',';
-                $last_valid_chart_data['temperature_celsius'] = $result[2];
+                $ct['last_valid_chart_data']['temperature_celsius'] = $result[2];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
-                elseif ( isset($last_valid_chart_data['temperature_celsius']) ) {
-                $data['temperature_celsius'] .= trim($last_valid_chart_data['temperature_celsius']) . ',';
+                elseif ( isset($ct['last_valid_chart_data']['temperature_celsius']) ) {
+                $data['temperature_celsius'] .= trim($ct['last_valid_chart_data']['temperature_celsius']) . ',';
                 }
             
             
                 if ( isset($result[3]) && trim($result[3]) != 'NO_DATA' && trim($result[3]) != '' ) {
                 $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
-                $last_valid_chart_data['used_memory_gigabytes'] = $result[3];
+                $ct['last_valid_chart_data']['used_memory_gigabytes'] = $result[3];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
-                elseif ( isset($last_valid_chart_data['used_memory_gigabytes']) ) {
-                $data['used_memory_gigabytes'] .= trim($last_valid_chart_data['used_memory_gigabytes']) . ',';
+                elseif ( isset($ct['last_valid_chart_data']['used_memory_gigabytes']) ) {
+                $data['used_memory_gigabytes'] .= trim($ct['last_valid_chart_data']['used_memory_gigabytes']) . ',';
                 }
             
             
                 if ( isset($result[4]) && trim($result[4]) != 'NO_DATA' && trim($result[4]) != '' ) {
                 $data['used_memory_percentage'] .= trim($result[4]) . ',';
-                $last_valid_chart_data['used_memory_percentage'] = $result[4];
+                $ct['last_valid_chart_data']['used_memory_percentage'] = $result[4];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
-                elseif ( isset($last_valid_chart_data['used_memory_percentage']) ) {
-                $data['used_memory_percentage'] .= trim($last_valid_chart_data['used_memory_percentage']) . ',';
+                elseif ( isset($ct['last_valid_chart_data']['used_memory_percentage']) ) {
+                $data['used_memory_percentage'] .= trim($ct['last_valid_chart_data']['used_memory_percentage']) . ',';
                 }
             
             
                 if ( isset($result[5]) && trim($result[5]) != 'NO_DATA' && trim($result[5]) != '' ) {
                 $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
-                $last_valid_chart_data['free_disk_space_terabytes'] = $result[5];
+                $ct['last_valid_chart_data']['free_disk_space_terabytes'] = $result[5];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
-                elseif ( isset($last_valid_chart_data['free_disk_space_terabytes']) ) {
-                $data['free_disk_space_terabytes'] .= trim($last_valid_chart_data['free_disk_space_terabytes']) . ',';
+                elseif ( isset($ct['last_valid_chart_data']['free_disk_space_terabytes']) ) {
+                $data['free_disk_space_terabytes'] .= trim($ct['last_valid_chart_data']['free_disk_space_terabytes']) . ',';
                 }
             
             
                 if ( isset($result[6]) && trim($result[6]) != 'NO_DATA' && trim($result[6]) != '' ) {
                 $data['crypto_tracker_cache_size_gigabytes'] .= trim($result[6]) . ',';
-                $last_valid_chart_data['crypto_tracker_cache_size_gigabytes'] = $result[6];
+                $ct['last_valid_chart_data']['crypto_tracker_cache_size_gigabytes'] = $result[6];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
-                elseif ( isset($last_valid_chart_data['crypto_tracker_cache_size_gigabytes']) ) {
-                $data['crypto_tracker_cache_size_gigabytes'] .= trim($last_valid_chart_data['crypto_tracker_cache_size_gigabytes']) . ',';
+                elseif ( isset($ct['last_valid_chart_data']['crypto_tracker_cache_size_gigabytes']) ) {
+                $data['crypto_tracker_cache_size_gigabytes'] .= trim($ct['last_valid_chart_data']['crypto_tracker_cache_size_gigabytes']) . ',';
                 }
             
             
                 if ( isset($result[7]) && trim($result[7]) != 'NO_DATA' && trim($result[7]) != '' ) {
                 $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
-                $last_valid_chart_data['cron_core_runtime_seconds'] = $result[7];
+                $ct['last_valid_chart_data']['cron_core_runtime_seconds'] = $result[7];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
-                elseif ( isset($last_valid_chart_data['cron_core_runtime_seconds']) ) {
-                $data['cron_core_runtime_seconds'] .= trim($last_valid_chart_data['cron_core_runtime_seconds']) . ',';
+                elseif ( isset($ct['last_valid_chart_data']['cron_core_runtime_seconds']) ) {
+                $data['cron_core_runtime_seconds'] .= trim($ct['last_valid_chart_data']['cron_core_runtime_seconds']) . ',';
                 }
                 
             
             }
             elseif ( $asset_perf_chart && isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' ) {
       
-               if ( !$runtime_data['performance_stats'][$asset]['start_val'] ) {
-               $runtime_data['performance_stats'][$asset]['start_val'] = $result[1];
+               if ( !$ct['runtime_data']['performance_stats'][$asset]['start_val'] ) {
+               $ct['runtime_data']['performance_stats'][$asset]['start_val'] = $result[1];
                
                $data['percent'] .= '0.00,';
                $data['combined'] .= '[' . trim($result[0]) . '000, 0.00],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
@@ -3700,7 +3700,7 @@ var $ct_array = array();
                else {
                   
                // PRIMARY CURRENCY CONFIG price percent change (CAN BE NEGATIVE OR POSITIVE IN THIS INSTANCE)
-               $percent_change = ($result[1] - $runtime_data['performance_stats'][$asset]['start_val']) / abs($runtime_data['performance_stats'][$asset]['start_val']) * 100;
+               $percent_change = ($result[1] - $ct['runtime_data']['performance_stats'][$asset]['start_val']) / abs($ct['runtime_data']['performance_stats'][$asset]['start_val']) * 100;
                // Better decimal support
                $percent_change = $ct['var']->num_to_str($percent_change); 
                
@@ -4041,7 +4041,7 @@ var $ct_array = array();
   
   function test_proxy($problem_proxy_array) {
   
-  global $ct, $proxies_checked;
+  global $ct;
   
   // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
   $proxy_test_url = 'https://api.myip.com/';
@@ -4086,11 +4086,11 @@ var $ct_array = array();
   
   
       if ( $run_alerts == 1 && $ct['cache']->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ct['conf']['proxy']['proxy_alert_frequency_maximum'] * 60 ) ) == true
-      && in_array($cache_filename, $proxies_checked) == false ) {
+      && in_array($cache_filename, $ct['proxies_checked']) == false ) {
       
        
       // SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
-      $proxies_checked[] = $cache_filename;
+      $ct['proxies_checked'][] = $cache_filename;
        
       $response = @$ct['cache']->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
       

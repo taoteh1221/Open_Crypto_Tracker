@@ -15,13 +15,13 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 <div id="collapsed_sidebar">
    
    
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' width='45' class='nav-image sidebar_toggle' id="sidebar_hamburger" title='Show FULL SIZED side bar.' /></div>
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$ct['sel_opt']['theme_selected']?>.png' width='45' class='nav-image sidebar_toggle' id="sidebar_hamburger" title='Show FULL SIZED side bar.' /></div>
    
    
    <div class="smallnav_spacer"></div>
 
    
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' width='45' border='0' class='nav-image toggle_alerts' title='View app alerts.' /></div>
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/notification-<?=$ct['sel_opt']['theme_selected']?>-line.png' width='45' border='0' class='nav-image toggle_alerts' title='View app alerts.' /></div>
 
    
    <div class="smallnav_spacer"></div>
@@ -39,13 +39,13 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    <div class="smallnav_spacer"></div>
 
    
-   <div class="align_center"><a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='Use this to Refresh / Reload the app data. <?=$refresh_link_documentation?>'><img src='templates/interface/media/images/auto-preloaded/icons8-refresh-64-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
+   <div class="align_center"><a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='Use this to Refresh / Reload the app data. <?=$refresh_link_documentation?>'><img src='templates/interface/media/images/auto-preloaded/icons8-refresh-64-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
 
    
    <div class="smallnav_spacer"></div>
 
    
-   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
+   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
         
         
    <?php
@@ -55,7 +55,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    
    <div class="smallnav_spacer"></div>
    
-   <div class="align_center"><a href="?logout=1&admin_hashed_nonce=<?=$ct['gen']->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
+   <div class="align_center"><a href="?logout=1&admin_hashed_nonce=<?=$ct['gen']->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
    
    <?php
    }
@@ -68,7 +68,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    <!-- Admin area -->
      <div class="admin-nav-wrapper btn-group dropend">
      
-          <a href="admin.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Admin Config area.' /></a>
+          <a href="admin.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Admin Config area.' /></a>
      
           <ul class="admin-nav all-nav dropdown-menu" style="" role="tablist">
 
@@ -187,7 +187,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    <!-- User area -->
      <div class="user-nav-wrapper btn-group dropend">
      
-          <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-user-96-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='User area.' /></a>
+          <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-user-96-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='User area.' /></a>
      
           <ul class="user-nav all-nav dropdown-menu" style="">
           
@@ -221,7 +221,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    <div class="smallnav_spacer"></div>
    
    
-   <div class="align_center"><a href="javascript: return false;" class="modal_style_control show_help_faq" title='Get help with running and setting up this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Get help with running and setting up this app.' /></a></div>
+   <div class="align_center"><a href="javascript: return false;" class="modal_style_control show_help_faq" title='Get help with running and setting up this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Get help with running and setting up this app.' /></a></div>
 
 
    <br clear='all' />
@@ -235,10 +235,10 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
     
     
         <!-- alerts toggle icon -->
-        <img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' height='45' border='0' id='sb_alerts' class='nav-image toggle_alerts' title='View app alerts.' />
+        <img src='templates/interface/media/images/auto-preloaded/notification-<?=$ct['sel_opt']['theme_selected']?>-line.png' height='45' border='0' id='sb_alerts' class='nav-image toggle_alerts' title='View app alerts.' />
         
         <!-- close sidebar toggle icon -->
-        <img src='templates/interface/media/images/auto-preloaded/icons8-close-window-50-<?=$sel_opt['theme_selected']?>.png' class='nav-image sidebar_toggle' id="dismiss" title='Show COMPACT side bar.' />
+        <img src='templates/interface/media/images/auto-preloaded/icons8-close-window-50-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image sidebar_toggle' id="dismiss" title='Show COMPACT side bar.' />
 
 
         <div class="sidebar-top">
@@ -393,15 +393,15 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         // Plugin link(s)
                         $navbar_plugins = array();
 
-                        foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
+                        foreach ( $plug['activated']['ui'] as $plugin_key => $unused ) {
                         $navbar_plugins[$plugin_key] = 1;
                         }
 
-                        foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
+                        foreach ( $plug['activated']['cron'] as $plugin_key => $unused ) {
                         $navbar_plugins[$plugin_key] = 1;
                         }
 
-                        foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
+                        foreach ( $plug['activated']['webhook'] as $plugin_key => $unused ) {
                         $navbar_plugins[$plugin_key] = 1;
                         }
                         
@@ -424,7 +424,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         
                         <li>
                         
-                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")' title='<?=$plug_conf[$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug_conf[$plugin_key]['ui_name']?></a>
+                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")' title='<?=$plug['conf'][$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug['conf'][$plugin_key]['ui_name']?></a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->

@@ -31,7 +31,7 @@ $x_coord = 55; // Start position (absolute) for light chart links
 		$chart_asset = strtoupper($chart_asset);
 
 
-		$charted_val = ( $_GET['charted_val'] == 'pair' ? $mrkt_parse[2] : $default_bitcoin_primary_currency_pair );
+		$charted_val = ( $_GET['charted_val'] == 'pair' ? $mrkt_parse[2] : $ct['default_bitcoin_primary_currency_pair'] );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart

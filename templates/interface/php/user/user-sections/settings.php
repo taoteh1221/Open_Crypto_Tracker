@@ -17,7 +17,7 @@
 			<?php
 			if ( isset($price_alert_type_text) && $price_alert_type_text != '' && $ct['conf']['charts_alerts']['price_alert_threshold'] > 0 ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct['conf']['charts_alerts']['price_alert_threshold']?>% or more <?=strtoupper($default_bitcoin_primary_currency_pair)?> price change<?=( $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] > 0 ? ' / max every ' . $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] . ' hours per-alert' : '' )?><?=( $ct['conf']['charts_alerts']['price_alert_minimum_volume'] > 0 ? ' / ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . number_format($ct['conf']['charts_alerts']['price_alert_minimum_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct['conf']['charts_alerts']['price_alert_threshold']?>% or more <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> price change<?=( $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] > 0 ? ' / max every ' . $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] . ' hours per-alert' : '' )?><?=( $ct['conf']['charts_alerts']['price_alert_minimum_volume'] > 0 ? ' / ' . $ct['conf']['power']['bitcoin_currency_markets'][$ct['default_bitcoin_primary_currency_pair']] . number_format($ct['conf']['charts_alerts']['price_alert_minimum_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -36,7 +36,7 @@
                         
 			<?php
 			}
-			if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+			if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 			?>
           <p class='settings_sections'><b><?=( trim($ct['conf']['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ct['conf']['proxy']['proxy_list'])?> proxies randomly used<?=( $ct['conf']['proxy']['proxy_alert_channels'] != 'off' ? ' / proxy alerts enabled for ' . $ct['conf']['proxy']['proxy_alert_channels'] . ' alert method(s), every ' . $ct['conf']['proxy']['proxy_alert_frequency_maximum'] . ' hours max per-proxy at ' . $ct['conf']['proxy']['proxy_alert_runtime'] . ' runtimes / ' .$ct['conf']['proxy']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
@@ -100,8 +100,8 @@
 			    <select class='browser-default custom-select' onchange='
 			    $("#theme_selected").val(this.value);
 			    '>
-				<option value='dark' <?=( $sel_opt['theme_selected'] == 'dark' ? ' selected ' : '' )?>> Dark </option>
-				<option value='light' <?=( $sel_opt['theme_selected'] == 'light' ? ' selected ' : '' )?>> Light </option>
+				<option value='dark' <?=( $ct['sel_opt']['theme_selected'] == 'dark' ? ' selected ' : '' )?>> Dark </option>
+				<option value='light' <?=( $ct['sel_opt']['theme_selected'] == 'light' ? ' selected ' : '' )?>> Light </option>
 			    </select>
 			    
 			</p>
@@ -115,24 +115,24 @@
 			    <select class='browser-default custom-select' id='sorted_by_col' onchange='
 			    $("#sort_by").val( this.value + "|" + $("#sorted_asc_desc").val() );
 			    '>
-				<option value='0' <?=( $sel_opt['sorted_by_col'] == 0 ? ' selected ' : '' )?>> Rank </option>
-				<option value='1' <?=( $sel_opt['sorted_by_col'] == 1 ? ' selected ' : '' )?>> Asset Name </option>
-				<option value='2' <?=( $sel_opt['sorted_by_col'] == 2 ? ' selected ' : '' )?>> Unit Value </option>
-				<option value='3' <?=( $sel_opt['sorted_by_col'] == 3 ? ' selected ' : '' )?>> Trade Value </option>
-				<option value='4' <?=( $sel_opt['sorted_by_col'] == 4 ? ' selected ' : '' )?>> Market </option>
-				<option value='5' <?=( $sel_opt['sorted_by_col'] == 5 ? ' selected ' : '' )?>> Exchange </option>
-				<option value='6' <?=( $sel_opt['sorted_by_col'] == 6 ? ' selected ' : '' )?>> 24hr Volume </option>
-				<option value='7' <?=( $sel_opt['sorted_by_col'] == 7 ? ' selected ' : '' )?>> Holdings </option>
-				<option value='8' <?=( $sel_opt['sorted_by_col'] == 8 ? ' selected ' : '' )?>> Ticker </option>
-				<option value='9' <?=( $sel_opt['sorted_by_col'] == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $sel_opt['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (in <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>) </option>
+				<option value='0' <?=( $ct['sel_opt']['sorted_by_col'] == 0 ? ' selected ' : '' )?>> Rank </option>
+				<option value='1' <?=( $ct['sel_opt']['sorted_by_col'] == 1 ? ' selected ' : '' )?>> Asset Name </option>
+				<option value='2' <?=( $ct['sel_opt']['sorted_by_col'] == 2 ? ' selected ' : '' )?>> Unit Value </option>
+				<option value='3' <?=( $ct['sel_opt']['sorted_by_col'] == 3 ? ' selected ' : '' )?>> Trade Value </option>
+				<option value='4' <?=( $ct['sel_opt']['sorted_by_col'] == 4 ? ' selected ' : '' )?>> Market </option>
+				<option value='5' <?=( $ct['sel_opt']['sorted_by_col'] == 5 ? ' selected ' : '' )?>> Exchange </option>
+				<option value='6' <?=( $ct['sel_opt']['sorted_by_col'] == 6 ? ' selected ' : '' )?>> 24hr Volume </option>
+				<option value='7' <?=( $ct['sel_opt']['sorted_by_col'] == 7 ? ' selected ' : '' )?>> Holdings </option>
+				<option value='8' <?=( $ct['sel_opt']['sorted_by_col'] == 8 ? ' selected ' : '' )?>> Ticker </option>
+				<option value='9' <?=( $ct['sel_opt']['sorted_by_col'] == 9 ? ' selected ' : '' )?>> Holdings Value </option>
+				<option value='10' <?=( $ct['sel_opt']['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (in <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>) </option>
 			    </select> 
 			    
 			     <select class='browser-default custom-select' id='sorted_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
 			    '>
-				<option value='0' <?=( $sel_opt['sorted_asc_desc'] == 0 ? ' selected ' : '' )?>> Ascending </option>
-				<option value='1' <?=( $sel_opt['sorted_asc_desc'] == 1 ? ' selected ' : '' )?>> Decending </option>
+				<option value='0' <?=( $ct['sel_opt']['sorted_asc_desc'] == 0 ? ' selected ' : '' )?>> Ascending </option>
+				<option value='1' <?=( $ct['sel_opt']['sorted_asc_desc'] == 1 ? ' selected ' : '' )?>> Decending </option>
 			    </select>
 			    
 			</p>
@@ -250,8 +250,8 @@
 				     
 				     <span id='prim_currency_mrkt_id_lists' style='display: inline;'>
 				     <!-- Selected (or first if none selected) pair: <?=$ct['conf']['gen']['bitcoin_primary_currency_pair']?> -->
-				     <!-- prim_currency_mrkt_standalone[1]: <?=$sel_opt['prim_currency_mrkt_standalone'][1]?> -->
-				     <!-- prim_currency_mrkt_standalone[0]: <?=$sel_opt['prim_currency_mrkt_standalone'][0]?> -->
+				     <!-- prim_currency_mrkt_standalone[1]: <?=$ct['sel_opt']['prim_currency_mrkt_standalone'][1]?> -->
+				     <!-- prim_currency_mrkt_standalone[0]: <?=$ct['sel_opt']['prim_currency_mrkt_standalone'][0]?> -->
 				     <!-- bitcoin_primary_currency_exchange: <?=$ct['conf']['gen']['bitcoin_primary_currency_exchange']?> -->
 				    <?php
 				    
@@ -334,7 +334,7 @@
 				    }
 				    
 				    
-				    ' <?=( is_array($sel_opt['prim_currency_mrkt_standalone']) ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
+				    ' <?=( is_array($ct['sel_opt']['prim_currency_mrkt_standalone']) ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
 				    
 				    <div id='prim_currency_mrkts_alert' class='bitcoin_dotted bitcoin'></div>
 				    
@@ -431,8 +431,8 @@
 			    }
 			    
 			    '>
-			    <option value='no' <?=( !$sel_opt['alert_percent'] ? ' selected ' : '' )?>> No </option>
-			    <option value='yes' <?=( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ? ' selected ' : '' )?>> Yes </option> <!-- Backwards compatibility (dynamic PHP reset, if user data is not the current feature set number of array values) -->
+			    <option value='no' <?=( !$ct['sel_opt']['alert_percent'] ? ' selected ' : '' )?>> No </option>
+			    <option value='yes' <?=( is_array($ct['sel_opt']['alert_percent']) && sizeof($ct['sel_opt']['alert_percent']) > 4 ? ' selected ' : '' )?>> Yes </option> <!-- Backwards compatibility (dynamic PHP reset, if user data is not the current feature set number of array values) -->
 			    </select>
 			     
 			     
@@ -443,30 +443,30 @@
 			    
 			    
 			    <select class='browser-default custom-select' name='percent_change_amnt' id='percent_change_amnt' onchange='update_alert_percent();'>
-			    <option value='5' <?=( $sel_opt['alert_percent'][1] == 5 ? ' selected ' : '' )?>> 5% </option>
-			    <option value='10' <?=( $sel_opt['alert_percent'][1] == 10 ? ' selected ' : '' )?>> 10% </option>
-			    <option value='15' <?=( $sel_opt['alert_percent'][1] == 15 ? ' selected ' : '' )?>> 15% </option>
-			    <option value='20' <?=( $sel_opt['alert_percent'][1] == 20 ? ' selected ' : '' )?>> 20% </option>
-			    <option value='25' <?=( $sel_opt['alert_percent'][1] == 25 ? ' selected ' : '' )?>> 25% </option>
-			    <option value='30' <?=( $sel_opt['alert_percent'][1] == 30 ? ' selected ' : '' )?>> 30% </option>
-			    <option value='35' <?=( $sel_opt['alert_percent'][1] == 35 ? ' selected ' : '' )?>> 35% </option>
-			    <option value='40' <?=( $sel_opt['alert_percent'][1] == 40 ? ' selected ' : '' )?>> 40% </option>
-			    <option value='45' <?=( $sel_opt['alert_percent'][1] == 45 ? ' selected ' : '' )?>> 45% </option>
-			    <option value='50' <?=( $sel_opt['alert_percent'][1] == 50 ? ' selected ' : '' )?>> 50% </option>
+			    <option value='5' <?=( $ct['sel_opt']['alert_percent'][1] == 5 ? ' selected ' : '' )?>> 5% </option>
+			    <option value='10' <?=( $ct['sel_opt']['alert_percent'][1] == 10 ? ' selected ' : '' )?>> 10% </option>
+			    <option value='15' <?=( $ct['sel_opt']['alert_percent'][1] == 15 ? ' selected ' : '' )?>> 15% </option>
+			    <option value='20' <?=( $ct['sel_opt']['alert_percent'][1] == 20 ? ' selected ' : '' )?>> 20% </option>
+			    <option value='25' <?=( $ct['sel_opt']['alert_percent'][1] == 25 ? ' selected ' : '' )?>> 25% </option>
+			    <option value='30' <?=( $ct['sel_opt']['alert_percent'][1] == 30 ? ' selected ' : '' )?>> 30% </option>
+			    <option value='35' <?=( $ct['sel_opt']['alert_percent'][1] == 35 ? ' selected ' : '' )?>> 35% </option>
+			    <option value='40' <?=( $ct['sel_opt']['alert_percent'][1] == 40 ? ' selected ' : '' )?>> 40% </option>
+			    <option value='45' <?=( $ct['sel_opt']['alert_percent'][1] == 45 ? ' selected ' : '' )?>> 45% </option>
+			    <option value='50' <?=( $ct['sel_opt']['alert_percent'][1] == 50 ? ' selected ' : '' )?>> 50% </option>
 			    </select> 
 			     
 			     
 			    <select class='browser-default custom-select' name='percent_change_filter' id='percent_change_filter' onchange='update_alert_percent();'>
-			    <option value='both' <?=( $sel_opt['alert_percent'][2] == 'both' ? ' selected ' : '' )?>> Gain or Loss </option>
-			    <option value='gain' <?=( $sel_opt['alert_percent'][2] == 'gain' ? ' selected ' : '' )?>> Gain </option>
-			    <option value='loss' <?=( $sel_opt['alert_percent'][2] == 'loss' ? ' selected ' : '' )?>> Loss </option>
+			    <option value='both' <?=( $ct['sel_opt']['alert_percent'][2] == 'both' ? ' selected ' : '' )?>> Gain or Loss </option>
+			    <option value='gain' <?=( $ct['sel_opt']['alert_percent'][2] == 'gain' ? ' selected ' : '' )?>> Gain </option>
+			    <option value='loss' <?=( $ct['sel_opt']['alert_percent'][2] == 'loss' ? ' selected ' : '' )?>> Loss </option>
 			    </select>  
 			     
 			     
 			    <select class='browser-default custom-select' name='percent_change_time' id='percent_change_time' onchange='update_alert_percent();'>
-			    <option value='1hour' <?=( $sel_opt['alert_percent'][3] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
-			    <option value='24hour' <?=( $sel_opt['alert_percent'][3] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
-			    <option value='7day' <?=( $sel_opt['alert_percent'][3] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
+			    <option value='1hour' <?=( $ct['sel_opt']['alert_percent'][3] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
+			    <option value='24hour' <?=( $ct['sel_opt']['alert_percent'][3] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
+			    <option value='7day' <?=( $ct['sel_opt']['alert_percent'][3] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
 			    </select>  
 			     
 			     
@@ -481,8 +481,8 @@
 				 $("#percent_change_alert_type_alert").hide(250, "linear"); // 0.25 seconds
 			    }
 			    '>
-			    <option value='visual_only' <?=( $sel_opt['alert_percent'][4] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
-			    <option value='visual_audio' <?=( $sel_opt['alert_percent'][4] == 'visual_audio' ? ' selected ' : '' )?>> Visual and Audio </option>
+			    <option value='visual_only' <?=( $ct['sel_opt']['alert_percent'][4] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
+			    <option value='visual_audio' <?=( $ct['sel_opt']['alert_percent'][4] == 'visual_audio' ? ' selected ' : '' )?>> Visual and Audio </option>
 			    </select>
 			
 			</p>
@@ -514,7 +514,7 @@
 			foreach ( $ct['conf']['power']['crypto_pair'] as $key => $unused ) {
 			?>
 			<?=( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' )?> 
-			<input type='checkbox' value='<?=$key?>' onchange='crypto_val_toggle(this);' <?=( in_array("[".$key."]", $sel_opt['show_crypto_val']) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
+			<input type='checkbox' value='<?=$key?>' onchange='crypto_val_toggle(this);' <?=( in_array("[".$key."]", $ct['sel_opt']['show_crypto_val']) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
 			<?php
 			$loop = $loop + 1;
 			}
@@ -577,7 +577,7 @@
 			<?php
 			foreach ( $ct['conf']['power']['crypto_pair'] as $key => $unused ) {
 			?>
-			<option value='<?=$key?>' <?=( $sel_opt['show_secondary_trade_val'] == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
+			<option value='<?=$key?>' <?=( $ct['sel_opt']['show_secondary_trade_val'] == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
 			<?php
 			}
 			?> 
@@ -650,7 +650,7 @@
                         
                          
 			<?php
-			if ( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+			if ( is_array($ct['sel_opt']['alert_percent']) && sizeof($ct['sel_opt']['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
 			
 			<style>

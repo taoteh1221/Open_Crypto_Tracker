@@ -38,12 +38,12 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 
 
 
-5) All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW...
+5) All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug['class'][$this_plug]" USING THIS FORMAT BELOW...
 
 
 // CREATES THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
 
-$plug_class[$this_plug] = new class() {
+$plug['class'][$this_plug] = new class() {
 
 var my_var_1 = 'Testing 123';
 var my_var_2 = 'World';
@@ -59,30 +59,30 @@ var my_var_2 = 'World';
 
 Examples of calling plugin class objects (ANYWHERE FROM WITHIN "plug-init.php" ONWARDS):
 
-echo $plug_class[$this_plug]->my_var_1;
+echo $plug['class'][$this_plug]->my_var_1;
 
-echo $plug_class[$this_plug]->my_function_1( $plug_class[$this_plug]->my_var_2 );
+echo $plug['class'][$this_plug]->my_function_1( $plug['class'][$this_plug]->my_var_2 );
 
-echo $plug_class[$this_plug]->my_function_1('Kitty');
+echo $plug['class'][$this_plug]->my_function_1('Kitty');
 
 
 ADDING USER-INPUT VALIDATION FOR THE PLUGIN'S ADMIN SETTINGS PAGE:
 
 To AUTOMATICALLY INCLUDE your custom user-input validation logic for your plugin's admin settings page, add the EXACT function name "admin_input_validation" into your class file mentioned above:
 
-$plug_class[$this_plug] = new class() {
+$plug['class'][$this_plug] = new class() {
      
      // Validating user input in the admin interface
 	function admin_input_validation() {
 		 
-	global $ct, $this_plug, $plug_conf;
+	global $ct, $plug, $this_plug;
 		
      // Logic here
-     $update_config_error = ''; // No input errors
+     $ct['update_config_error'] = ''; // No input errors
      
-     $update_config_error = 'Input error description goes here'; // An error has ocurred
+     $ct['update_config_error'] = 'Input error description goes here'; // An error has ocurred
      
-     return $update_config_error;
+     return $ct['update_config_error'];
 		
 	}
 				
@@ -91,7 +91,7 @@ $plug_class[$this_plug] = new class() {
 
 --
 
-If $plug_class[$this_plug]->admin_input_validation() returns false / null / '' (set blank), then the app will consider the user-input VALIDATED. OTHERWISE, it will halt updating of your plugin's settings, and show the end-user your error message in the user interface.
+If $plug['class'][$this_plug]->admin_input_validation() returns false / null / '' (set blank), then the app will consider the user-input VALIDATED. OTHERWISE, it will halt updating of your plugin's settings, and show the end-user your error message in the user interface.
 
 
 
@@ -103,17 +103,17 @@ NOTES: plug-conf.php MUST only contain STATIC VALUES (dynamic values are NOT all
 
 
 
-7) All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
+7) All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug['conf'][$this_plug]" (sub-arrays are allowed).
 
-Example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
+Example: $plug['conf'][$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
 
-Example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
+Example: $plug['conf'][$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 
 
 
 8) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 
-Example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
+Example: $plug['conf'][$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
 
 When 'runtime_mode' is set to 'webhook', you can pass ADDITIONAL parameters (forwardslash-delimited) *AFTER* THE WEBHOOK KEY in the webhook URL:
 
@@ -127,13 +127,13 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 9) The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
 
-Example: $plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'
+Example: $plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'
 
 
 
 10) The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
 
-Example: $plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';
+Example: $plug['conf'][$this_plug]['ui_name'] = 'My Plugin Name';
 
 
 

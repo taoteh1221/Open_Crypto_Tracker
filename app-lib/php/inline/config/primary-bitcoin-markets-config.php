@@ -40,17 +40,17 @@ $ct['conf']['power']['bitcoin_preferred_currency_markets'][ $ct['conf']['gen']['
 // We NEVER change BTC / currency_mrkt value FOR CHARTS/ALERTS (during cron runtime), 
 // so move the default $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_currency_exchange'] values into their own chart/alerts related variables,
 // before dynamic updating of $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_currency_exchange']
-$default_bitcoin_primary_currency_pair = $ct['conf']['gen']['bitcoin_primary_currency_pair']; 
-$default_bitcoin_primary_currency_exchange = $ct['conf']['gen']['bitcoin_primary_currency_exchange'];
+$ct['default_bitcoin_primary_currency_pair'] = $ct['conf']['gen']['bitcoin_primary_currency_pair']; 
+$ct['default_bitcoin_primary_currency_exchange'] = $ct['conf']['gen']['bitcoin_primary_currency_exchange'];
 
 
 $check_default_bitcoin_primary_currency_pair = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat') );
 
-// RUN AFTER SETTING $default_bitcoin_primary_currency_pair ABOVE
-// If $default_bitcoin_primary_currency_pair has changed, or never been set in cache vars, delete all potentially mismatched data and set in cache vars
+// RUN AFTER SETTING $ct['default_bitcoin_primary_currency_pair'] ABOVE
+// If $ct['default_bitcoin_primary_currency_pair'] has changed, or never been set in cache vars, delete all potentially mismatched data and set in cache vars
 if (
 !file_exists($ct['base_dir'] . '/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat')
-|| $default_bitcoin_primary_currency_pair != $check_default_bitcoin_primary_currency_pair
+|| $ct['default_bitcoin_primary_currency_pair'] != $check_default_bitcoin_primary_currency_pair
 ) {
 
 // Delete OLD fiat price alerts cache data
@@ -93,7 +93,7 @@ $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume
 
 
 // Update cache var
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat', $default_bitcoin_primary_currency_pair);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat', $ct['default_bitcoin_primary_currency_pair']);
 
 }
 
@@ -105,34 +105,34 @@ if ( $is_admin || $ct['runtime_mode'] == 'cron' || $ct['runtime_mode'] == 'int_a
 
 
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
-$default_btc_pair_id = $ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_currency_pair][$default_bitcoin_primary_currency_exchange];
+$default_btc_pair_id = $ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']][$ct['default_bitcoin_primary_currency_exchange']];
 
-$default_btc_prim_currency_val = $ct['api']->market('BTC', $default_bitcoin_primary_currency_exchange, $default_btc_pair_id)['last_trade'];
+$ct['default_bitcoin_primary_currency_val'] = $ct['api']->market('BTC', $ct['default_bitcoin_primary_currency_exchange'], $default_btc_pair_id)['last_trade'];
     
     
     // Log any charts/alerts Bitcoin market errors
-    if ( !$ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_currency_pair] ) {
+    if ( !$ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']] ) {
     	
     $ct['gen']->log(
     			'conf_error',
-    			'Charts / alerts bitcoin_primary_currency_pair variable not properly set: ' . $default_bitcoin_primary_currency_pair
+    			'Charts / alerts bitcoin_primary_currency_pair variable not properly set: ' . $ct['default_bitcoin_primary_currency_pair']
     			);
     
     }
-    elseif ( !$ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_currency_pair][$default_bitcoin_primary_currency_exchange] ) {
+    elseif ( !$ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']][$ct['default_bitcoin_primary_currency_exchange']] ) {
     	
     $ct['gen']->log(
     			'conf_error',
-    			'Charts / alerts bitcoin_primary_currency_exchange "' . $ct['gen']->key_to_name($default_bitcoin_primary_currency_exchange) . '" does NOT have a "' . strtoupper($default_bitcoin_primary_currency_pair) . '" market'
+    			'Charts / alerts bitcoin_primary_currency_exchange "' . $ct['gen']->key_to_name($ct['default_bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . '" market'
     			);
     
     }
     
-    if ( !isset($default_btc_prim_currency_val) || $default_btc_prim_currency_val == 0 ) {
+    if ( !isset($ct['default_bitcoin_primary_currency_val']) || $ct['default_bitcoin_primary_currency_val'] == 0 ) {
     	
     $ct['gen']->log(
     			'market_error',
-    			'Charts / alerts Bitcoin primary currency market value not properly set: ' . $default_btc_prim_currency_val
+    			'Charts / alerts Bitcoin primary currency market value not properly set: ' . $ct['default_bitcoin_primary_currency_val']
     			);
     
     }
@@ -141,8 +141,8 @@ $default_btc_prim_currency_val = $ct['api']->market('BTC', $default_bitcoin_prim
 // Set bitcoin market configs THAT ARE USUALLY DYNAMIC IN THE INTERFACE, to be the static default values during admin / cron / int_api / webhook runtimes
 // (may change these to be dynamic in cron runtimes someday for a currently unforseen reason,
 // so let's keep dynamic and default bitcoin market variables as separate entities for now)
-$sel_opt['sel_btc_pair_id'] = $default_btc_pair_id;
-$sel_opt['sel_btc_prim_currency_val'] = $default_btc_prim_currency_val;
+$ct['sel_opt']['sel_btc_pair_id'] = $default_btc_pair_id;
+$ct['sel_opt']['sel_btc_prim_currency_val'] = $ct['default_bitcoin_primary_currency_val'];
 
 
 }
@@ -153,15 +153,15 @@ else {
     // If Stand-Alone Currency Market has been enabled (Settings page), REPLACE/OVERWRITE Bitcoin market config defaults
     if ( $_POST['prim_currency_mrkt_standalone'] || $_COOKIE['prim_currency_mrkt_standalone'] ) {
     	
-    $sel_opt['prim_currency_mrkt_standalone'] = explode("|", ( $_POST['prim_currency_mrkt_standalone'] != '' ? $_POST['prim_currency_mrkt_standalone'] : $_COOKIE['prim_currency_mrkt_standalone'] ) );
+    $ct['sel_opt']['prim_currency_mrkt_standalone'] = explode("|", ( $_POST['prim_currency_mrkt_standalone'] != '' ? $_POST['prim_currency_mrkt_standalone'] : $_COOKIE['prim_currency_mrkt_standalone'] ) );
     
     // MUST RUN !BEFORE! $ct['asset']->btc_mrkt() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR $ct['asset']->btc_mrkt() CALL
-    $ct['conf']['gen']['bitcoin_primary_currency_pair'] = $sel_opt['prim_currency_mrkt_standalone'][0]; 
+    $ct['conf']['gen']['bitcoin_primary_currency_pair'] = $ct['sel_opt']['prim_currency_mrkt_standalone'][0]; 
     
     
     	// (we go by array index number here, rather than 1 or higher for html form values)
-        if ( $sel_opt['prim_currency_mrkt_standalone'][1] > 0 ) {
-        $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $ct['asset']->btc_mrkt($sel_opt['prim_currency_mrkt_standalone'][1] - 1);
+        if ( $ct['sel_opt']['prim_currency_mrkt_standalone'][1] > 0 ) {
+        $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $ct['asset']->btc_mrkt($ct['sel_opt']['prim_currency_mrkt_standalone'][1] - 1);
         }
         else {
         $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $ct['asset']->btc_mrkt(0);
@@ -172,15 +172,15 @@ else {
     // Otherwise, just use the user-selected bitcoin market
     elseif ( $_POST['prim_currency_mrkt'] || $_COOKIE['prim_currency_mrkt'] ) {
     	
-    $sel_opt['prim_currency_mrkt'] = explode("|", ( $_POST['prim_currency_mrkt'] != '' ? $_POST['prim_currency_mrkt'] : $_COOKIE['prim_currency_mrkt'] ) );
+    $ct['sel_opt']['prim_currency_mrkt'] = explode("|", ( $_POST['prim_currency_mrkt'] != '' ? $_POST['prim_currency_mrkt'] : $_COOKIE['prim_currency_mrkt'] ) );
     
     // MUST RUN !BEFORE! $ct['asset']->btc_mrkt() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR $ct['asset']->btc_mrkt() CALL
-    $ct['conf']['gen']['bitcoin_primary_currency_pair'] = $sel_opt['prim_currency_mrkt'][0]; 
+    $ct['conf']['gen']['bitcoin_primary_currency_pair'] = $ct['sel_opt']['prim_currency_mrkt'][0]; 
     
     
     	// (we go by array index number here, rather than 1 or higher for html form values)
-        if ( $sel_opt['prim_currency_mrkt'][1] > 0 ) {
-        $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $ct['asset']->btc_mrkt($sel_opt['prim_currency_mrkt'][1] - 1);
+        if ( $ct['sel_opt']['prim_currency_mrkt'][1] > 0 ) {
+        $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $ct['asset']->btc_mrkt($ct['sel_opt']['prim_currency_mrkt'][1] - 1);
         }
         else {
         $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $ct['asset']->btc_mrkt(0);
@@ -192,9 +192,9 @@ else {
     
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
 
-$sel_opt['sel_btc_pair_id'] = $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ][ $ct['conf']['gen']['bitcoin_primary_currency_exchange'] ];
+$ct['sel_opt']['sel_btc_pair_id'] = $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ][ $ct['conf']['gen']['bitcoin_primary_currency_exchange'] ];
 
-$sel_opt['sel_btc_prim_currency_val'] = $ct['api']->market('BTC', $ct['conf']['gen']['bitcoin_primary_currency_exchange'], $sel_opt['sel_btc_pair_id'])['last_trade'];
+$ct['sel_opt']['sel_btc_prim_currency_val'] = $ct['api']->market('BTC', $ct['conf']['gen']['bitcoin_primary_currency_exchange'], $ct['sel_opt']['sel_btc_pair_id'])['last_trade'];
 
     
     // Log any Bitcoin market errors
@@ -231,14 +231,14 @@ $ct['conf']['assets']['ALTNFTS']['name'] = 'Alternate NFTs (' . strtoupper($ct['
     
     
 // Log an error if we have no minimum bitcoin primary currency value
-if ( isset($sel_opt['sel_btc_prim_currency_val']) && $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) >= $min_crypto_val_test ) {
+if ( isset($ct['sel_opt']['sel_btc_prim_currency_val']) && $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) >= $min_crypto_val_test ) {
 // Continue
 }
 else {
     	
 $ct['gen']->log(
     			'market_error',
-    			'primary currency conversion market minimum value not met (for BTC / '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).' @ '.$ct['conf']['gen']['bitcoin_primary_currency_exchange'].', value = ' . ( isset($sel_opt['sel_btc_prim_currency_val']) ? $sel_opt['sel_btc_prim_currency_val'] : 'not set' ) . ')'
+    			'primary currency conversion market minimum value not met (for BTC / '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).' @ '.$ct['conf']['gen']['bitcoin_primary_currency_exchange'].', value = ' . ( isset($ct['sel_opt']['sel_btc_prim_currency_val']) ? $ct['sel_opt']['sel_btc_prim_currency_val'] : 'not set' ) . ')'
 			);
     
 }

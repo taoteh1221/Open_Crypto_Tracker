@@ -23,17 +23,17 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	    
 	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT SECTION
 		if ( $_POST['admin_submit_register'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct['conf']['gen']['default_theme'] );
+		$ct['sel_opt']['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct['conf']['gen']['default_theme'] );
 		require("templates/interface/php/admin/admin-login/register.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_login'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct['conf']['gen']['default_theme'] );
+		$ct['sel_opt']['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct['conf']['gen']['default_theme'] );
 		require("templates/interface/php/admin/admin-login/login.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_reset'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct['conf']['gen']['default_theme'] );
+		$ct['sel_opt']['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct['conf']['gen']['default_theme'] );
 		require("templates/interface/php/admin/admin-login/reset.php");
 		exit;
 		}
@@ -76,7 +76,7 @@ $activation_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/act
      
      	
      // If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
-     if ( isset($stored_reset_key) && trim($stored_reset_key) != '' && $_GET['new_reset_key'] == $stored_reset_key && $valid_to_email ) {
+     if ( isset($stored_reset_key) && trim($stored_reset_key) != '' && $_GET['new_reset_key'] == $stored_reset_key && $ct['email_activated'] ) {
          
          // One last check for password resets
          if ( isset($_POST['new_reset_key']) && $_POST['new_reset_key'] != $_GET['new_reset_key'] ) {
@@ -167,7 +167,7 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
 // Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
 // (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
 // WE FORCE A SECURITY CHECK HERE, SINCE WE ARE CACHING THE BASE URL DATA, BUT WE ABORT THE BASE URL CACHING IF WE ARE IN THE PROCESS OF MODIFYING THE CACHED CONFIG
-if ( $ct['cache']->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true && !$reset_config && !$update_config && !$app_upgrade_check ) {
+if ( $ct['cache']->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true && !$ct['reset_config'] && !$ct['update_config'] && !$ct['app_upgrade_check'] ) {
 	    
 $base_url_check = $ct['gen']->base_url(true); 
 	

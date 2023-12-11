@@ -200,12 +200,12 @@ foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
      foreach ( $ct['conf']['assets'] as $asset_key => $asset_unused ) {
      
           if ( $asset_key == 'BTC' || isset($ct['conf']['assets'][strtoupper($pair_key)]['pair']['btc']) ) {
-          $check_crypto_pair[$pair_key] = true;
+          $ct['check_crypto_pair'][$pair_key] = true;
           }
      
      }
      
-     if ( !isset($check_crypto_pair[$pair_key]) ) {
+     if ( !isset($ct['check_crypto_pair'][$pair_key]) ) {
      unset($ct['conf']['power']['crypto_pair'][$pair_key]);
      }
 

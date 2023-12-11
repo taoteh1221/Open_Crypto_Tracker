@@ -36,14 +36,14 @@ $mcap_data = $ct['asset']->mcap_data($key, 'usd'); // For marketcap bar chart, w
 		
 			
 			if ( $_GET['mcap_type'] == 'circulating' && $mcap_data['market_cap'] ) {
-			$runtime_data['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap']);
+			$ct['runtime_data']['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap']);
 			}
 			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap_total'] ) {
-			$runtime_data['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap_total']); 
+			$ct['runtime_data']['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap_total']); 
 			}
 			// If circulating / total are same
 			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap'] ) {
-			$runtime_data['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap']); 
+			$ct['runtime_data']['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap']); 
 			}
 		
 		$mcap_asset_compare = 'USD';
@@ -80,7 +80,7 @@ $mcap_data = $ct['asset']->mcap_data($key, 'usd'); // For marketcap bar chart, w
 			$mcap_diff_dec = 5;
 			}
 			
-		$runtime_data['marketcap_data'][$key] = $ct['var']->num_pretty($mcap_diff_percent, $mcap_diff_dec);
+		$ct['runtime_data']['marketcap_data'][$key] = $ct['var']->num_pretty($mcap_diff_percent, $mcap_diff_dec);
 		
 		}
 	
@@ -95,7 +95,7 @@ $mcap_data = $ct['asset']->mcap_data($key, 'usd'); // For marketcap bar chart, w
 
 // If no chart data available...
 
-if ( !is_array($runtime_data['marketcap_data']) || is_array($runtime_data['marketcap_data']) && sizeof($runtime_data['marketcap_data']) < 1 ) {
+if ( !is_array($ct['runtime_data']['marketcap_data']) || is_array($ct['runtime_data']['marketcap_data']) && sizeof($ct['runtime_data']['marketcap_data']) < 1 ) {
 ?>
 			
 {
@@ -165,7 +165,7 @@ exit;
 $sorted_by_mcap_data = array();
 
 $loop = 0;
-foreach ( $runtime_data['marketcap_data'] as $mcap_key => $mcap_val ) {
+foreach ( $ct['runtime_data']['marketcap_data'] as $mcap_key => $mcap_val ) {
   			
 $mcap_val = $ct['var']->rem_num_format($mcap_val);
 

@@ -6,7 +6,7 @@
 
 $is_admin = true;
 
-$is_login_form = true;
+$ct['is_login_form'] = true;
 
 $reset_result = array();
 
@@ -52,7 +52,7 @@ if ( $_POST['admin_submit_reset'] && !$no_password_reset ) {
 		
 		
 	if ( !$ct['gen']->valid_2fa() ) {
-     $reset_result['error'][] = $check_2fa_error . '.';
+     $reset_result['error'][] = $ct['check_2fa_error'] . '.';
      }
 	
 

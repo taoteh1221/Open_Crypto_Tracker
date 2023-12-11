@@ -651,7 +651,14 @@ echo " "
 echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
 echo " "
 
-echo "${red}VERY IMPORTANT *UPGRADE* NOTES:${reset}"
+echo "${red}VERY IMPORTANT *UPGRADE* NOTICES:${reset}"
+echo " "
+
+echo "v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,"
+echo "FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation)."
+echo "${reset} "
+echo " "
+echo " "
 echo " "
 
 echo "v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,"
@@ -678,8 +685,8 @@ echo "${reset} "
 echo " "
 echo " "
 
-echo "v6.00.29 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
-echo "UPGRADES FROM V6.00.26 OR LOWER."
+echo "v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
+echo "UPGRADES FROM V6.00.31 OR LOWER."
 echo "${reset} "
 echo " "
 

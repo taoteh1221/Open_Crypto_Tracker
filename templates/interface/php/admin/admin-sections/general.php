@@ -8,7 +8,7 @@
 
 
 <?php
-if ( $admin_area_sec_level == 'high' ) {
+if ( $ct['admin_area_sec_level'] == 'high' ) {
 ?>
 	
 	<p class='bitcoin bitcoin_dotted'>
@@ -79,17 +79,17 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['local_time_offset']['is_range'] = true;
+$ct['admin_render_settings']['local_time_offset']['is_range'] = true;
 
-$admin_render_settings['local_time_offset']['range_min'] = -12;
+$ct['admin_render_settings']['local_time_offset']['range_min'] = -12;
 
-$admin_render_settings['local_time_offset']['range_max'] = 14;
+$ct['admin_render_settings']['local_time_offset']['range_max'] = 14;
 
-$admin_render_settings['local_time_offset']['range_step'] = 0.25;
+$ct['admin_render_settings']['local_time_offset']['range_step'] = 0.25;
 
-$admin_render_settings['local_time_offset']['range_ui_prefix'] = '+';
+$ct['admin_render_settings']['local_time_offset']['range_ui_prefix'] = '+';
 
-$admin_render_settings['local_time_offset']['range_ui_suffix'] = ' Hours UTC Time';
+$ct['admin_render_settings']['local_time_offset']['range_ui_suffix'] = ' Hours UTC Time';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,30 +108,30 @@ $all_google_fonts = array($ct['conf']['gen']['google_font']);
 }
 
 foreach ( $all_google_fonts as $font_name ) {
-$admin_render_settings['google_font']['is_select'][] = $font_name;
+$ct['admin_render_settings']['google_font']['is_select'][] = $font_name;
 }
 
-$admin_render_settings['google_font']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Google Font API Key Required</a> to view list (in "External APIs" section)<br /><a href="javascript:app_reloading_check();" target="_PARENT">Reload the entire app</a>, to apply any changes to this setting.';
+$ct['admin_render_settings']['google_font']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Google Font API Key Required</a> to view list (in "External APIs" section)<br /><a href="javascript:app_reloading_check();" target="_PARENT">Reload the entire app</a>, to apply any changes to this setting.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['default_font_size']['is_range'] = true;
+$ct['admin_render_settings']['default_font_size']['is_range'] = true;
 
-$admin_render_settings['default_font_size']['range_min'] = round($ct['dev']['min_font_resize'] * 100);
+$ct['admin_render_settings']['default_font_size']['range_min'] = round($ct['dev']['min_font_resize'] * 100);
 
-$admin_render_settings['default_font_size']['range_max'] = round($ct['dev']['max_font_resize'] * 100);
+$ct['admin_render_settings']['default_font_size']['range_max'] = round($ct['dev']['max_font_resize'] * 100);
 
-$admin_render_settings['default_font_size']['range_step'] = 5;
+$ct['admin_render_settings']['default_font_size']['range_step'] = 5;
 
-$admin_render_settings['default_font_size']['range_ui_suffix'] = '%';
+$ct['admin_render_settings']['default_font_size']['range_ui_suffix'] = '%';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['default_theme']['is_radio'] = array(
+$ct['admin_render_settings']['default_theme']['is_radio'] = array(
                                                             'dark',
                                                             'light',
                                                            );
@@ -140,13 +140,13 @@ $admin_render_settings['default_theme']['is_radio'] = array(
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['bitcoin_primary_currency_pair']['is_confirm'] = 'This will PERMANENTLY DELETE any ' . strtoupper($default_bitcoin_primary_currency_pair) . ' *CONVERSION* price charts (' . strtoupper($default_bitcoin_primary_currency_pair) . ' *BASE-PAIRED [MARKET]* price charts WILL *NOT* BE DELETED). Do you still wish to select a new primary currency pair?';
+$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_confirm'] = 'This will PERMANENTLY DELETE any ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' *CONVERSION* price charts (' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' *BASE-PAIRED [MARKET]* price charts WILL *NOT* BE DELETED). Do you still wish to select a new primary currency pair?';
 
 foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $unused ) {
-$admin_render_settings['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
+$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
 }
 
-$admin_render_settings['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE AVAILABLE ON THE CHOSEN "Bitcoin Primary Exchange" BELOW.';
+$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE AVAILABLE ON THE CHOSEN "Bitcoin Primary Exchange" BELOW.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,13 +159,13 @@ foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 					
 		// Detects better with side space included
 		if ( stristr($supported_btc_exchange_scan, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
-          $admin_render_settings['bitcoin_primary_currency_exchange']['is_select'][] = $exchange_key;
+          $ct['admin_render_settings']['bitcoin_primary_currency_exchange']['is_select'][] = $exchange_key;
 		$supported_btc_exchange_scan .= ' ' . $exchange_key . ' /';
 		}
 				
 	}
 	
-sort($admin_render_settings['bitcoin_primary_currency_exchange']['is_select']);
+sort($ct['admin_render_settings']['bitcoin_primary_currency_exchange']['is_select']);
 				
 }
 
@@ -173,46 +173,46 @@ sort($admin_render_settings['bitcoin_primary_currency_exchange']['is_select']);
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['primary_marketcap_site']['is_radio'] = array(
+$ct['admin_render_settings']['primary_marketcap_site']['is_radio'] = array(
                                                           'coingecko',
                                                           'coinmarketcap',
                                                          );
 
-$admin_render_settings['primary_marketcap_site']['is_notes'] = '<a href="https://coinmarketcap.com/api" target="_BLANK">CoinMarketCap API Key Required</a> (in "External APIs" section)';
+$ct['admin_render_settings']['primary_marketcap_site']['is_notes'] = '<a href="https://coinmarketcap.com/api" target="_BLANK">CoinMarketCap API Key Required</a> (in "External APIs" section)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['currency_decimals_max']['is_range'] = true;
+$ct['admin_render_settings']['currency_decimals_max']['is_range'] = true;
 
-$admin_render_settings['currency_decimals_max']['range_min'] = 5;
+$ct['admin_render_settings']['currency_decimals_max']['range_min'] = 5;
 
-$admin_render_settings['currency_decimals_max']['range_max'] = 15;
+$ct['admin_render_settings']['currency_decimals_max']['range_max'] = 15;
 
-$admin_render_settings['currency_decimals_max']['range_step'] = 1;
+$ct['admin_render_settings']['currency_decimals_max']['range_step'] = 1;
 
-$admin_render_settings['currency_decimals_max']['is_notes'] = 'Sets the minimum-allowed CURRENCY value, adjust with care!';
+$ct['admin_render_settings']['currency_decimals_max']['is_notes'] = 'Sets the minimum-allowed CURRENCY value, adjust with care!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$admin_render_settings['crypto_decimals_max']['is_range'] = true;
+$ct['admin_render_settings']['crypto_decimals_max']['is_range'] = true;
 
-$admin_render_settings['crypto_decimals_max']['range_min'] = 8;
+$ct['admin_render_settings']['crypto_decimals_max']['range_min'] = 8;
 
-$admin_render_settings['crypto_decimals_max']['range_max'] = 15;
+$ct['admin_render_settings']['crypto_decimals_max']['range_max'] = 15;
 
-$admin_render_settings['crypto_decimals_max']['range_step'] = 1;
+$ct['admin_render_settings']['crypto_decimals_max']['range_step'] = 1;
 
-$admin_render_settings['crypto_decimals_max']['is_notes'] = 'Sets the minimum-allowed CRYPTO value, adjust with care!';
+$ct['admin_render_settings']['crypto_decimals_max']['is_notes'] = 'Sets the minimum-allowed CRYPTO value, adjust with care!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['price_rounding_percent']['is_select'] = array(
+$ct['admin_render_settings']['price_rounding_percent']['is_select'] = array(
                                                                     'one',
                                                                     'tenth',
                                                                     'hundredth',
@@ -220,19 +220,19 @@ $admin_render_settings['price_rounding_percent']['is_select'] = array(
                                                                    );
 
 
-$admin_render_settings['price_rounding_percent']['is_notes'] = 'Example: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009';
+$ct['admin_render_settings']['price_rounding_percent']['is_notes'] = 'Example: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['price_rounding_fixed_decimals']['is_radio'] = array(
+$ct['admin_render_settings']['price_rounding_fixed_decimals']['is_radio'] = array(
                                                                          'off',
                                                                          'on',
                                                                         );
 
 
-$admin_render_settings['price_rounding_fixed_decimals']['is_notes'] = '(whether to keep trailing decimal zeros, or remove them)';
+$ct['admin_render_settings']['price_rounding_fixed_decimals']['is_notes'] = '(whether to keep trailing decimal zeros, or remove them)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ $admin_render_settings['price_rounding_fixed_decimals']['is_notes'] = '(whether 
 $loop = 0;
 $loop_max = 30;
 while ( $loop <= $loop_max ) {
-$admin_render_settings['charts_backup_frequency']['is_select'][] = $loop;
+$ct['admin_render_settings']['charts_backup_frequency']['is_select'][] = $loop;
 $loop = $loop + 1;
 }
 
@@ -251,10 +251,10 @@ $loop = $loop + 1;
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-$admin_render_settings['is_refresh_admin'] = 'all';
+$ct['admin_render_settings']['is_refresh_admin'] = 'all';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('gen', 'general', $admin_render_settings);
+$ct['admin']->admin_config_interface('gen', 'general', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -105,14 +105,14 @@
             // Run any ui-designated plugins activated in ct_conf
             // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
             // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
-            foreach ( $activated_plugins['ui'] as $plugin_key => $plugin_init ) {
+            foreach ( $plug['activated']['ui'] as $plugin_key => $plugin_init ) {
             		
             $this_plug = $plugin_key;
   	
-            	if ( file_exists($plugin_init) && $plug_conf[$this_plug]['ui_location'] == 'tools' ) {
+            	if ( file_exists($plugin_init) && $plug['conf'][$this_plug]['ui_location'] == 'tools' ) {
               	?>
                <fieldset class='subsection_fieldset'>
-                	<legend class='subsection_legend'> <b><?=$plug_conf[$this_plug]['ui_name']?></b> </legend>
+                	<legend class='subsection_legend'> <b><?=$plug['conf'][$this_plug]['ui_name']?></b> </legend>
               	<?php
             	// This plugin's plug-init.php file (runs the plugin)
             	include($plugin_init);

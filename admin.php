@@ -58,7 +58,7 @@ isset($_GET['section']) && trim($_GET['section']) != '' && $ct['gen']->pass_sec_
 require("templates/interface/php/admin/admin-elements/admin-page-iframe.php");
 }
 // Security monitoring
-elseif ( $possible_input_injection ) {
+elseif ( $ct['possible_input_injection'] ) {
      
 $security_error_ui = 'Possible code injection attack stopped, please DO NOT attempt to inject scripting or HTML into user inputs.<br /><br />Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.<br /><br /><a href="' . $base_url . $_SERVER['REQUEST_URI'] .'" style="font-weight: bold;">Return To The Previous Page</a>';
 

@@ -14,7 +14,7 @@ require("app-lib/php/init.php");
  
 
 // Security checks
-if ( $admin_area_2fa != 'off' || $ct['gen']->admin_logged_in() == false || !is_array($stored_admin_login) || !$ct['app_host'] || !$ct['gen']->pass_sec_check($_GET['2fa_setup'], '2fa_setup') ) {
+if ( $ct['admin_area_2fa'] != 'off' || $ct['gen']->admin_logged_in() == false || !is_array($stored_admin_login) || !$ct['app_host'] || !$ct['gen']->pass_sec_check($_GET['2fa_setup'], '2fa_setup') ) {
 $security_error = '2FA Setup access invalid / expired (' . $ct['remote_ip'] . '), try reloading the app';
 $ct['gen']->log('security_error', $security_error);
 echo $security_error . '.';
@@ -35,7 +35,7 @@ use chillerlan\QRCode\Output\QROutputInterface;
 
 //the "getUrl" method takes as a parameter: "username", "host", the key "secret",
 // AND THE OPTIONAL 'data_only' (to generate QR locally for privacy)
-$image_text = $totp_auth->getURL($stored_admin_login[0], $ct['app_host'], $auth_secret_2fa, 'data_only');
+$image_text = $ct['auth_2fa']->getURL($stored_admin_login[0], $ct['app_host'], $auth_secret_2fa, 'data_only');
 
 
 $options = new QROptions([

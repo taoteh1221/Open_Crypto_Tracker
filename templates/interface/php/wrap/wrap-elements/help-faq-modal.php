@@ -935,7 +935,7 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 
 
 
-<span class='blue'>5)</span> All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW...
+<span class='blue'>5)</span> All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug['class'][$this_plug]" USING THIS FORMAT BELOW...
 <br /><br />
 
 
@@ -943,7 +943,7 @@ CREATES THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
-$plug_class[$this_plug] = new class() {
+$plug['class'][$this_plug] = new class() {
 
 var my_var_1 = 'Testing 123';
 var my_var_2 = 'World';
@@ -965,11 +965,11 @@ Examples of calling plugin class objects (ANYWHERE FROM WITHIN "plug-init.php" O
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
-echo $plug_class[$this_plug]->my_var_1;
+echo $plug['class'][$this_plug]->my_var_1;
 
-echo $plug_class[$this_plug]->my_function_1( $plug_class[$this_plug]->my_var_2 );
+echo $plug['class'][$this_plug]->my_function_1( $plug['class'][$this_plug]->my_var_2 );
 
-echo $plug_class[$this_plug]->my_function_1('Kitty');
+echo $plug['class'][$this_plug]->my_function_1('Kitty');
 
 </code></pre>
 
@@ -984,19 +984,19 @@ To AUTOMATICALLY INCLUDE your custom user-input validation logic for your plugin
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
-$plug_class[$this_plug] = new class() {
+$plug['class'][$this_plug] = new class() {
      
      // Validating user input in the admin interface
      function admin_input_validation() {
 		 
-     global $ct, $this_plug, $plug_conf;
+     global $ct, $plug, $this_plug;
 		
      // Logic here
-     $update_config_error = ''; // No input errors
+     $ct['update_config_error'] = ''; // No input errors
      
-     $update_config_error = 'Input error description goes here'; // An error has ocurred
+     $ct['update_config_error'] = 'Input error description goes here'; // An error has ocurred
      
-     return $update_config_error;
+     return $ct['update_config_error'];
 		
      }
 				
@@ -1009,7 +1009,7 @@ $plug_class[$this_plug] = new class() {
 
 
 
-If <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$plug_class[$this_plug]->admin_input_validation()</code></pre> returns false / null / '' (set blank), then the app will consider the user-input VALIDATED. OTHERWISE, it will halt updating of your plugin's settings, and show the end-user your error message in the user interface.
+If <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$plug['class'][$this_plug]->admin_input_validation()</code></pre> returns false / null / '' (set blank), then the app will consider the user-input VALIDATED. OTHERWISE, it will halt updating of your plugin's settings, and show the end-user your error message in the user interface.
 
 <br /><br /><br />
 
@@ -1026,14 +1026,14 @@ Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 
 
 
-<span class='blue'>7)</span> All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
+<span class='blue'>7)</span> All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug['conf'][$this_plug]" (sub-arrays are allowed).
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
-$plug_conf[$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
+$plug['conf'][$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
 
 
-$plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
+$plug['conf'][$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 
 </code></pre>
 
@@ -1044,7 +1044,7 @@ $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 <span class='blue'>8)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 <br /><br />
 
-<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'</code></pre>
 <br /><br />
 
 When 'runtime_mode' is set to 'webhook', you can pass ADDITIONAL parameters (forwardslash-delimited) *AFTER* THE WEBHOOK KEY in the webhook URL:
@@ -1064,15 +1064,15 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 <span class='blue'>9)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
 <br /><br />
 
-<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'</code></pre>
 <br /><br /><br />
 
 
 
-<span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should as to end-users (defaults to $this_plug if not set).
+<span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
 <br /><br />
 
-<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['ui_name'] = 'My Plugin Name';</code></pre>
 <br /><br /><br />
 
 

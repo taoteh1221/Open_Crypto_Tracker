@@ -9,7 +9,7 @@
 
 
 // Proxy configuration check
-if ( $activate_proxies == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 	
 
 $proxy_parse_errors = 0;
@@ -22,12 +22,12 @@ $proxy_parse_errors = 0;
      					
      	    // Config error check(s)
               if ( $valid_from_email != 'valid' ) {
-              $conf_parse_error[] = 'FROM email not configured properly for proxy alerts (' . $valid_from_email . ')';
+              $ct['conf_parse_error'][] = 'FROM email not configured properly for proxy alerts (' . $valid_from_email . ')';
               $proxy_parse_errors = $proxy_parse_errors + 1;
               }
                		
-              if ( $valid_to_email != 'valid' ) {
-              $conf_parse_error[] = 'TO email not configured properly for proxy alerts (' . $valid_to_email . ')';
+              if ( $ct['email_activated'] != 'valid' ) {
+              $ct['conf_parse_error'][] = 'TO email not configured properly for proxy alerts (' . $ct['email_activated'] . ')';
               $proxy_parse_errors = $proxy_parse_errors + 1;
               }
                	
@@ -38,22 +38,22 @@ $proxy_parse_errors = 0;
 
 	
 	// Text for proxy alerts
-	if ( $ct['conf']['proxy']['proxy_alert_channels'] == 'text' && $sms_service != null || $ct['conf']['proxy']['proxy_alert_channels'] == 'all' && $sms_service != null ) {
+	if ( $ct['conf']['proxy']['proxy_alert_channels'] == 'text' && $ct['sms_service'] != null || $ct['conf']['proxy']['proxy_alert_channels'] == 'all' && $ct['sms_service'] != null ) {
     
 				
 	    // Config error check(s)
          if ( isset($text_email_gateway_check) && sizeof($text_email_gateway_check) < 2 ) {
-         $conf_parse_error[] = 'Number / carrier formatting for text email not configured properly for proxy alerts.';
+         $ct['conf_parse_error'][] = 'Number / carrier formatting for text email not configured properly for proxy alerts.';
          $proxy_parse_errors = $proxy_parse_errors + 1;
          }
 			
          if ( isset($text_email_gateway_check[0]) && is_numeric($text_email_gateway_check[0]) == FALSE ) {
-         $conf_parse_error[] = 'Number for text email not configured properly for proxy alerts.';
+         $ct['conf_parse_error'][] = 'Number for text email not configured properly for proxy alerts.';
          $proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
          if ( isset($text_email_gateway_check[1]) && $text_email_gateway_check[1] != 'skip_network_name' && $ct['gen']->valid_email( $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) ) != 'valid' ) {
-         $conf_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
+         $ct['conf_parse_error'][] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
          $proxy_parse_errors = $proxy_parse_errors + 1;
          }
 		
@@ -69,7 +69,7 @@ $proxy_parse_errors = 0;
 	$proxy_login_parse = explode("||", $ct['conf']['proxy']['proxy_login'] );
          
 		if ( is_array($proxy_login_parse) && sizeof($proxy_login_parse) < 2 || trim($proxy_login_parse[0]) == '' || $proxy_login_parse[1] == '' ) {
-   	     $conf_parse_error[] = 'Proxy username / password not formatted properly.';
+   	     $ct['conf_parse_error'][] = 'Proxy username / password not formatted properly.';
           $proxy_parse_errors = $proxy_parse_errors + 1;
 		}
 	
@@ -82,7 +82,7 @@ $proxy_parse_errors = 0;
 	$proxy_str = explode(":",$proxy);
           	
 		if ( !filter_var($proxy_str[0], FILTER_VALIDATE_IP) || !is_numeric($proxy_str[1]) ) {
-		$conf_parse_error[] = $proxy;
+		$ct['conf_parse_error'][] = $proxy;
           $proxy_parse_errors = $proxy_parse_errors + 1;
           }
      	
@@ -90,14 +90,14 @@ $proxy_parse_errors = 0;
 
 
 	// Displaying that errors were found
-	if ( sizeof($conf_parse_error) >= 1 ) {
+	if ( sizeof($ct['conf_parse_error']) >= 1 ) {
 	     
 	$proxy_conf_alert .= '<span class="red">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . "<br /> \n";
 	     
      $ct['gen']->log('conf_error', $proxy_parse_errors . ' proxy configuration error(s)');
      
           // Displaying any config errors
-          foreach ( $conf_parse_error as $error ) {
+          foreach ( $ct['conf_parse_error'] as $error ) {
           $proxy_conf_alert .= '<span class="red">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
           $ct['gen']->log('conf_error', 'misconfigured proxy: ' . $error);
           }
@@ -109,7 +109,7 @@ $proxy_parse_errors = 0;
      }
           		
           		
-$conf_parse_error = array(); // Blank it out for any other config checks
+$ct['conf_parse_error'] = array(); // Blank it out for any other config checks
           		
 }
 
@@ -120,7 +120,7 @@ $conf_parse_error = array(); // Blank it out for any other config checks
 
 
 // Check default Bitcoin market/pair configs (used by charts/alerts)
-if ( !isset( $ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_currency_pair] ) ) {
+if ( !isset( $ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']] ) ) {
 
 
 	foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
@@ -130,14 +130,14 @@ if ( !isset( $ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_curre
 	$avialable_btc_pairs = trim($avialable_btc_pairs);
 	$avialable_btc_pairs = rtrim($avialable_btc_pairs,',');
 	
-$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "bitcoin_primary_currency_pair" (default Bitcoin currency pair) value \''.$ct['conf']['gen']['bitcoin_primary_currency_pair'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pair option (valid Bitcoin pair options are: '.$avialable_btc_pairs.')';
+$ct['conf_parse_error'][] = 'Charts and price alerts cannot run properly, because the "bitcoin_primary_currency_pair" (default Bitcoin currency pair) value \''.$ct['conf']['gen']['bitcoin_primary_currency_pair'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pair option (valid Bitcoin pair options are: '.$avialable_btc_pairs.')';
 
 
 }
-elseif ( !isset( $ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_currency_pair][$default_bitcoin_primary_currency_exchange] ) ) {
+elseif ( !isset( $ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']][$ct['default_bitcoin_primary_currency_exchange']] ) ) {
 
 
-	foreach ( $ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_currency_pair] as $pair_key => $unused ) {
+	foreach ( $ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']] as $pair_key => $unused ) {
 		
 		if( stristr($pair_key, 'bitmex_') == false ) { // Futures markets not allowed
 		$avialable_bitcoin_primary_currency_exchanges .= strtolower($pair_key) . ', ';
@@ -149,7 +149,7 @@ elseif ( !isset( $ct['conf']['assets']['BTC']['pair'][$default_bitcoin_primary_c
 $avialable_bitcoin_primary_currency_exchanges = trim($avialable_bitcoin_primary_currency_exchanges);
 $avialable_bitcoin_primary_currency_exchanges = rtrim($avialable_bitcoin_primary_currency_exchanges,',');
 	
-$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "bitcoin_primary_currency_exchange" (default Bitcoin exchange) value \''.$default_bitcoin_primary_currency_exchange.'\' (in Admin Config GENERAL section) is not a valid option for \''.$default_bitcoin_primary_currency_pair.'\' Bitcoin pairs (valid \''.$default_bitcoin_primary_currency_pair.'\' Bitcoin pair options are: '.$avialable_bitcoin_primary_currency_exchanges.')';
+$ct['conf_parse_error'][] = 'Charts and price alerts cannot run properly, because the "bitcoin_primary_currency_exchange" (default Bitcoin exchange) value \''.$ct['default_bitcoin_primary_currency_exchange'].'\' (in Admin Config GENERAL section) is not a valid option for \''.$ct['default_bitcoin_primary_currency_pair'].'\' Bitcoin pairs (valid \''.$ct['default_bitcoin_primary_currency_pair'].'\' Bitcoin pair options are: '.$avialable_bitcoin_primary_currency_exchanges.')';
 
 
 }
@@ -158,7 +158,7 @@ $conf_parse_error[] = 'Charts and price alerts cannot run properly, because the 
 
           
 // Check other charts/price alerts configs
-if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']['to_email']) != '' || $sms_service != null || $notifyme_activated ) {
+if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']['to_email']) != '' || $ct['sms_service'] != null || $ct['notifyme_activated'] ) {
           
           
 	 // Email
@@ -168,11 +168,11 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
 					
 			// Config error check(s)
          if ( $valid_from_email != 'valid' ) {
-         $conf_parse_error[] = 'FROM email not configured properly for price alerts (' . $valid_from_email . ')';
+         $ct['conf_parse_error'][] = 'FROM email not configured properly for price alerts (' . $valid_from_email . ')';
          }
           		
-         if ( $valid_to_email != 'valid' ) {
-         $conf_parse_error[] = 'TO email not configured properly for price alerts (' . $valid_to_email . ')';
+         if ( $ct['email_activated'] != 'valid' ) {
+         $ct['conf_parse_error'][] = 'TO email not configured properly for price alerts (' . $ct['email_activated'] . ')';
          }
           	
 	 }
@@ -180,34 +180,34 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
           	
 	 // Text
 	 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-      if ( $sms_service != null ) {
+      if ( $ct['sms_service'] != null ) {
       	
       $alerts_enabled_types[] = 'Text';
 				
 	    // Config error check(s)
          if ( isset($text_email_gateway_check) && sizeof($text_email_gateway_check) < 2 ) {
-         $conf_parse_error[] = 'Number / carrier formatting for text email not configured properly for price alerts.';
+         $ct['conf_parse_error'][] = 'Number / carrier formatting for text email not configured properly for price alerts.';
          }
 			
          if ( isset($text_email_gateway_check[0]) && is_numeric($text_email_gateway_check[0]) == FALSE ) {
-         $conf_parse_error[] = 'Number for text email not configured properly for price alerts.';
+         $ct['conf_parse_error'][] = 'Number for text email not configured properly for price alerts.';
          }
           		
          if ( isset($text_email_gateway_check[1]) && $text_email_gateway_check[1] != 'skip_network_name' && $ct['gen']->valid_email( $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) ) != 'valid' ) {
-         $conf_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
+         $ct['conf_parse_error'][] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
          }
           	
 	 }
           	
           	
       // Notifyme (alexa)
-      if ( $notifyme_activated ) {
+      if ( $ct['notifyme_activated'] ) {
       $alerts_enabled_types[] = 'Alexa';
       }
           	
           	
       // Telegram
-      if ( $telegram_activated ) {
+      if ( $ct['telegram_activated'] ) {
       $alerts_enabled_types[] = 'Telegram';
       }
           	
@@ -225,7 +225,7 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
 
 	    // Check $ct['conf']['charts_alerts']['tracked_markets'] config
 	    if ( !is_array($ct['conf']['charts_alerts']['tracked_markets']) ) {
-	    $conf_parse_error[] = 'The asset / exchange / pair price alert formatting is corrupt, or not configured yet.';
+	    $ct['conf_parse_error'][] = 'The asset / exchange / pair price alert formatting is corrupt, or not configured yet.';
 	    }
 			
 			
@@ -234,7 +234,7 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
 	    $alerts_str = array_map( "trim", explode("||", $val) );
    		       	
 		    if ( is_array($alerts_str) && sizeof($alerts_str) < 4 ) {
-		    $conf_parse_error[] = "price alert exchange / market not formatted properly: '" . $val . "'";
+		    $ct['conf_parse_error'][] = "price alert exchange / market not formatted properly: '" . $val . "'";
       	    }
      	
 	    }
@@ -242,12 +242,12 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
           		
 
          // Displaying that errors were found
-         if ( sizeof($conf_parse_error) >= 1 ) {
+         if ( sizeof($ct['conf_parse_error']) >= 1 ) {
          $price_change_conf_alert .=  '<span class="red">' . $price_alert_type_text . ' alert configuration error(s):</span>' . "<br /> \n";
          }
           		
          // Displaying any config errors
-         foreach ( $conf_parse_error as $error ) {
+         foreach ( $ct['conf_parse_error'] as $error ) {
          $price_change_conf_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
          }
           		
@@ -257,11 +257,11 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
 	    }
           		
          // Displaying if checks passed
-         if ( !is_array($conf_parse_error) || is_array($conf_parse_error) && sizeof($conf_parse_error) < 1 ) {
+         if ( !is_array($ct['conf_parse_error']) || is_array($ct['conf_parse_error']) && sizeof($ct['conf_parse_error']) < 1 ) {
          $price_change_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
          }
           		
-      $conf_parse_error = array(); // Blank it out for any other config checks
+      $ct['conf_parse_error'] = array(); // Blank it out for any other config checks
           		
       }
           	
@@ -283,21 +283,21 @@ $smtp_email_server_parse = explode(":", $ct['conf']['comms']['smtp_server'] );
 
 
    if ( is_array($smtp_email_login_parse) && sizeof($smtp_email_login_parse) < 2 || trim($smtp_email_login_parse[0]) == '' || $smtp_email_login_parse[1] == '' ) {
-   $conf_parse_error[] = 'SMTP username / password not formatted properly.';
+   $ct['conf_parse_error'][] = 'SMTP username / password not formatted properly.';
    }
 	
    if ( is_array($smtp_email_server_parse) && sizeof($smtp_email_server_parse) < 2 || trim($smtp_email_server_parse[0]) == '' || !is_numeric( trim($smtp_email_server_parse[1]) ) ) {
-   $conf_parse_error[] = 'SMTP server domain_or_ip / port not formatted properly.';
+   $ct['conf_parse_error'][] = 'SMTP server domain_or_ip / port not formatted properly.';
    }
 	
 	
    // Displaying that errors were found
-   if ( sizeof($conf_parse_error) >= 1 ) {
+   if ( sizeof($ct['conf_parse_error']) >= 1 ) {
    $smtp_conf_alert .=  '<span class="red">SMTP configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
-   foreach ( $conf_parse_error as $error ) {
+   foreach ( $ct['conf_parse_error'] as $error ) {
    $smtp_conf_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
           		
@@ -308,12 +308,12 @@ $smtp_email_server_parse = explode(":", $ct['conf']['comms']['smtp_server'] );
 
         
    // Displaying if checks passed
-   if ( !is_array($conf_parse_error) || is_array($conf_parse_error) && sizeof($conf_parse_error) < 1 ) {
+   if ( !is_array($ct['conf_parse_error']) || is_array($ct['conf_parse_error']) && sizeof($ct['conf_parse_error']) < 1 ) {
    $smtp_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
 
-$conf_parse_error = array(); // Blank it out for any other config checks          		
+$ct['conf_parse_error'] = array(); // Blank it out for any other config checks          		
 	
 }
 
@@ -327,21 +327,21 @@ if ( $ct['conf']['comms']['logs_email'] > 0 && trim($ct['conf']['comms']['from_e
 					
    // Config error check(s)
    if ( $valid_from_email != 'valid' ) {
-   $conf_parse_error[] = 'FROM email not configured properly for emailing error logs (' . $valid_from_email . ')';
+   $ct['conf_parse_error'][] = 'FROM email not configured properly for emailing error logs (' . $valid_from_email . ')';
    }
           		
-   if ( $valid_to_email != 'valid' ) {
-   $conf_parse_error[] = 'TO email not configured properly for emailing error logs (' . $valid_to_email . ')';
+   if ( $ct['email_activated'] != 'valid' ) {
+   $ct['conf_parse_error'][] = 'TO email not configured properly for emailing error logs (' . $ct['email_activated'] . ')';
    }
 
 
    // Displaying that errors were found
-   if ( sizeof($conf_parse_error) >= 1 ) {
+   if ( sizeof($ct['conf_parse_error']) >= 1 ) {
    $logs_conf_alert .=  '<span class="red">Email error logs configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
-   foreach ( $conf_parse_error as $error ) {
+   foreach ( $ct['conf_parse_error'] as $error ) {
    $logs_conf_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
           		
@@ -352,12 +352,12 @@ if ( $ct['conf']['comms']['logs_email'] > 0 && trim($ct['conf']['comms']['from_e
 
         
    // Displaying if checks passed
-   if ( !is_array($conf_parse_error) || is_array($conf_parse_error) && sizeof($conf_parse_error) < 1 ) {
+   if ( !is_array($ct['conf_parse_error']) || is_array($ct['conf_parse_error']) && sizeof($ct['conf_parse_error']) < 1 ) {
    $logs_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
 
-$conf_parse_error = array(); // Blank it out for any other config checks
+$ct['conf_parse_error'] = array(); // Blank it out for any other config checks
           		       	
 }
           	
@@ -369,21 +369,21 @@ if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf'][
 					
    // Config error check(s)
    if ( $valid_from_email != 'valid' ) {
-   $conf_parse_error[] = 'FROM email not configured properly for emailing backup archive notice / link (' . $valid_from_email . ')';
+   $ct['conf_parse_error'][] = 'FROM email not configured properly for emailing backup archive notice / link (' . $valid_from_email . ')';
    }
           		
-   if ( $valid_to_email != 'valid' ) {
-   $conf_parse_error[] = 'TO email not configured properly for emailing backup archive notice / link (' . $valid_to_email . ')';
+   if ( $ct['email_activated'] != 'valid' ) {
+   $ct['conf_parse_error'][] = 'TO email not configured properly for emailing backup archive notice / link (' . $ct['email_activated'] . ')';
    }
 
 
    // Displaying that errors were found
-   if ( sizeof($conf_parse_error) >= 1 ) {
+   if ( sizeof($ct['conf_parse_error']) >= 1 ) {
    $backuparchive_conf_alert .=  '<span class="red">Backup archiving configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
-   foreach ( $conf_parse_error as $error ) {
+   foreach ( $ct['conf_parse_error'] as $error ) {
    $backuparchive_conf_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
           		
@@ -394,12 +394,12 @@ if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf'][
 
         
    // Displaying if checks passed
-   if ( !is_array($conf_parse_error) || is_array($conf_parse_error) && sizeof($conf_parse_error) < 1 ) {
+   if ( !is_array($ct['conf_parse_error']) || is_array($ct['conf_parse_error']) && sizeof($ct['conf_parse_error']) < 1 ) {
    $backuparchive_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
 
-$conf_parse_error = array(); // Blank it out for any other config checks
+$ct['conf_parse_error'] = array(); // Blank it out for any other config checks
           		       	
 }
           	
