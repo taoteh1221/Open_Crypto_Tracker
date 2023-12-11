@@ -283,6 +283,9 @@ Change the last option in the ext_data() function to a human-readable value, to 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
+Create documentation for exposing plugin settings into it's admin interface.
+
+
 Add new plugin standard config 'ui_display_mode':
 
 $plug['conf'][$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'

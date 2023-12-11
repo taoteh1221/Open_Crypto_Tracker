@@ -1069,7 +1069,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should as to end-users (defaults to $this_plug if not set).
+<span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
 <br /><br />
 
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['ui_name'] = 'My Plugin Name';</code></pre>
