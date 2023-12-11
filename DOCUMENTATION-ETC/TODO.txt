@@ -187,13 +187,13 @@ Do final testing on hexidecimal / base64 encoded AND plaintext attack signature 
 Make sure ALL admin sections update without issues triggering the new user-input sanitizer logic to flag a FALSE POSITIVE security alert (clear logs / reset cached config, compare fresh reset config to updated config after successfully updating each admin section / plugin from the admin interface).
 
 
+Run tests on markets, to find stale ones
+
+
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
 Review / fully test all the different SUBARRAY logic for the cached config upgrade mechanism (string-keyed / auto-indexed, etc)
-
-
-Run tests on markets, to find stale ones
 
 
 Make sure everything STILL runs smoothly with the charts page turned off.
