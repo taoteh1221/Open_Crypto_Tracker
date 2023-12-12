@@ -344,6 +344,8 @@
 	        
 	        <li class='links_list'><a href='https://ethresear.ch/' target='_blank'>Ethereum Research</a></li>
 	        
+	        <li class='links_list'><a href='https://www.helius.dev/' target='_blank'>Helius</a>   <span class='yellow'>(Solana-based / advanced RPC-API endpoints [FREE tier available])</span></li>
+	        
 	        <li class='links_list'><a href='https://programmingbitcoin.com/' target='_blank'>Programming Bitcoin</a></li>
 	        
 	        <li class='links_list'><a href='https://remix.ethereum.org/' target='_blank'>Remix</a>   <span class='yellow'>(Ethereum development online IDE)</span></li>

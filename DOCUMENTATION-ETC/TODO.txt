@@ -178,6 +178,9 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+USER AREA price charts seem to be acting up. Check the chart selection form too.
+
+
 Test out the newly-migrated chart settings interfacing / updating (that we moved from the power user section, over to the price alerts / charts section)
 
 
@@ -185,9 +188,6 @@ Do final testing on hexidecimal / base64 encoded AND plaintext attack signature 
 
 
 Make sure ALL admin sections update without issues triggering the new user-input sanitizer logic to flag a FALSE POSITIVE security alert (clear logs / reset cached config, compare fresh reset config to updated config after successfully updating each admin section / plugin from the admin interface).
-
-
-Run tests on markets, to find stale ones
 
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
@@ -224,9 +224,6 @@ Security page should show the app version number, AND a version upgrade check al
 
 
 Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
-
-
-Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -6492,7 +6492,13 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -Developer-friendly refactoring of main app PHP variables
 
+-Updated the DEMO asset markets / news feeds
+
 -Miscellaneous user experience improvements
+
+-Upgraded ZingChart library to v2.9.13
+
+-Upgraded Poloniex market API support
 
 -Code optimization / cleanup
 

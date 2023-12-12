@@ -225,7 +225,7 @@
 			
 				<?php
 				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
-				if ( $show_asset_params[1] != $ct['default_bitcoin_primary_currency_pair'] ) {
+				if ( $show_asset_params[2] != $ct['default_bitcoin_primary_currency_pair'] ) {
 				?>
 				
 				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $ct['default_bitcoin_primary_currency_pair']."]", $ct['sel_opt']['show_charts']) ? 'checked' : '' )?> /> <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value
