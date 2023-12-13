@@ -50,6 +50,9 @@ GENERAL REMINDERS
 !!!!
 ===> config.php (and plug-conf.php for plugins) MUST only contain STATIC VALUES,
 ===> as all configs are saved to / run from the cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
+!!!!
+===> DO *NOT* UPGRADE ZingCart, as it can be BUGGY ocassionally for auto-resizing on page showing,
+===> AND we FORCE the BRANDING LINK to show EVEN IN A LOCALHOST environment (with custom tweaks)
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
 ===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
@@ -178,22 +181,10 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test out the newly-migrated chart settings interfacing / updating (that we moved from the power user section, over to the price alerts / charts section)
-
-
-Do final testing on hexidecimal / base64 encoded AND plaintext attack signature detection, in the new user-input sanitization logic.
-
-
-Make sure ALL admin sections update without issues triggering the new user-input sanitizer logic to flag a FALSE POSITIVE security alert (clear logs / reset cached config, compare fresh reset config to updated config after successfully updating each admin section / plugin from the admin interface).
-
-
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
 Review / fully test all the different SUBARRAY logic for the cached config upgrade mechanism (string-keyed / auto-indexed, etc)
-
-
-Run tests on markets, to find stale ones
 
 
 Make sure everything STILL runs smoothly with the charts page turned off.
@@ -224,9 +215,6 @@ Security page should show the app version number, AND a version upgrade check al
 
 
 Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
-
-
-Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

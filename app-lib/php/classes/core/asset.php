@@ -1553,13 +1553,29 @@ var $ct_array = array();
    $vol_prim_currency_raw = ( isset($vol_prim_currency_raw) ? round($vol_prim_currency_raw) : null );	
    // Cleanup any trailing zeros
    $vol_prim_currency_raw = $ct['var']->num_to_str($vol_prim_currency_raw);
+   
       
-      
-      if ( $fiat_eqiv == 1 ) {
+      if ( $fiat_eqiv == 1 && $asset_pair_val_raw >= $min_fiat_val_test ) {
       $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['gen']['currency_decimals_max'], '.', '');
       }
-      else {
+      elseif ( $asset_pair_val_raw >= $min_crypto_val_test ) {
       $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['gen']['crypto_decimals_max'], '.', '');
+      }
+      // Return false if we have no minimum asset value
+      else {
+      	
+      $ct['gen']->log(
+      
+      		    'market_error',
+      							
+      		    'ct_asset->charts_price_alerts() - Minimum '.( $fiat_eqiv == 1 ? 'currency' : 'crypto' ).' conversion value ('.strtoupper($pair).' pair) not met for "' . $asset_data . '"',
+      							
+      			$asset_data . ': ' . $asset . ' / ' . strtoupper($pair) . ' @ ' . $exchange . '; pair_id: ' . $ct['conf']['assets'][$asset]['pair'][$pair][$exchange] . ';'
+      			
+      		   );
+      
+      return false;
+      
       }
       
       

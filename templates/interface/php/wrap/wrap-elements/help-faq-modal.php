@@ -341,14 +341,14 @@ Contact any supported exchange's help desk if you are unaware of the correct for
 Support for over 20 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>AUD / BRL / CAD / CHF / DAI / ETH / EUR / GBP / HKD / INR / JPY / KRW / MKR / MXN / NIS / RAY / RUB / SGD / SOL / TRY / TWD / UNI / USD / USDC / USDT / ZAR</span>
+<span class='blue'>AUD / BRL / BTC / CAD / CHF / DAI / ETH / EUR / GBP / HKD / INR / JPY / KRW / MKR / MXN / NIS / RAY / RUB / SGD / SOL / TRY / TWD / UNI / USD / USDC / USDT / ZAR</span>
 
 	    <br /><br />
 
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / btcmarkets / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / btcmarkets / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 

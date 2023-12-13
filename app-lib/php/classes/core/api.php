@@ -2115,7 +2115,7 @@ var $ct_array = array();
     
       elseif ( strtolower($sel_exchange) == 'poloniex' ) {
     
-      $url = 'https://poloniex.com/public?command=returnTicker';
+      $url = 'https://api.poloniex.com/markets/ticker24h';
          
       $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
          
@@ -2124,16 +2124,18 @@ var $ct_array = array();
       
           if ( is_array($data) ) {
       
-            foreach ($data as $key => $val) {
+            foreach ($data as $val) {
+                 
+            //var_dump($val);
               
-              if ( $key == $mrkt_id ) {
+              if ( $val["symbol"] == $mrkt_id ) {
                
               $result = array(
-                              'last_trade' =>$val["last"],
+                              'last_trade' => $val["markPrice"],
                               // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-                              '24hr_asset_vol' => $val["quoteVolume"],
-                              '24hr_pair_vol' => $val["baseVolume"]
-                     	        );
+                              '24hr_asset_vol' => $val["quantity"],
+                              '24hr_pair_vol' => $val["amount"]
+                     	     );
                
               }
           
