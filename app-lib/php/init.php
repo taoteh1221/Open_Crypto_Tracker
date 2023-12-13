@@ -28,8 +28,8 @@ exit;
 error_reporting($ct['dev']['debug_php_errors']); // PHP error reporting
 
 
-// Reset PHP cache, IF DEBUG MODE IS ENABLED
-if ( $ct['dev']['debug_php_errors'] != 0 ) {
+// Reset PHP cache, IF DEBUG MODE IS ENABLED, *AND* PHP WAS INSTALLED WITH THE opcache_reset EXTENSION ENABLED
+if ( $ct['dev']['debug_php_errors'] != 0 && function_exists('opcache_reset') ) {
 opcache_reset();
 }
 

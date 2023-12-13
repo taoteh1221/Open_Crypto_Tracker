@@ -1555,10 +1555,10 @@ var $ct_array = array();
    $vol_prim_currency_raw = $ct['var']->num_to_str($vol_prim_currency_raw);
    
       
-      if ( $fiat_eqiv == 1 && $asset_pair_val_raw >= $min_fiat_val_test ) {
+      if ( $fiat_eqiv == 1 && $asset_mrkt_data['last_trade'] >= $min_fiat_val_test ) {
       $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['gen']['currency_decimals_max'], '.', '');
       }
-      elseif ( $asset_pair_val_raw >= $min_crypto_val_test ) {
+      elseif ( $asset_mrkt_data['last_trade'] >= $min_crypto_val_test ) {
       $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['gen']['crypto_decimals_max'], '.', '');
       }
       // Return false if we have no minimum asset value
