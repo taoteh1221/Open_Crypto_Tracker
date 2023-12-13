@@ -85,6 +85,10 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
+	    	quote:"<i>FOOD FOR THOUGHT:</i> <i>NEARLY <u>ALL</u></i> crypto tokens that are either 'liquid staking', 'wrapped', 'bridged' (*WITHOUT* 'burn-and-mint' bridging security), or are a 'stable coin', ARE ONLY EQUIVELENT TO '<a href='https://www.google.com/search?q=ious+meaning+in+finance' target='_blank'>IOUs</a>', TO SWAP LATER FOR THE *REAL* UNDERLYING ASSET(S). So THINK TWICE before putting more than a relatively small percentage of your NET worth in these types of tokens, as they are higher risk than holding the underlying asset(s) they are pegged to.",
+	    	name:"taoteh1221 (lead dev of this app)"
+	    },
+	    {
 	    	quote:"For privacy / security, ALWAYS round your STORED portfolio balances to as few decimal points as is feasible (AND preferably buy / transfer cryptocurrency in nice rounded amounts too). Then hackers / snoopers cannot as easily guess and potentially follow your transaction history in block explorers online.",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },

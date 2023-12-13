@@ -212,6 +212,10 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
+								<i>FOOD FOR THOUGHT:</i> <i>NEARLY <u>ALL</u></i> crypto tokens that are either 'liquid staking', 'wrapped', 'bridged' (*WITHOUT* 'burn-and-mint' bridging security), or are a 'stable coin', ARE ONLY EQUIVELENT TO '<a href='https://www.google.com/search?q=ious+meaning+in+finance' target='_blank'>IOUs</a>', TO SWAP LATER FOR THE *REAL* UNDERLYING ASSET(S). So THINK TWICE before putting more than a relatively small percentage of your NET worth in these types of tokens, as they are higher risk than holding the underlying asset(s) they are pegged to.
+							</li>
+							
+							<li class='bitcoin disclaimer'>
 								The "grass on the other side looks greener" MORE OFTEN THAN NOT will always be in your head, when you see other assets performing better than the ones you currently are holding. That's why it's SO IMPORTANT TO DO YOUR REASEARCH FULLY! If you KNOW you didn't buy garbage, AND you didn't over-extend your position (you CAN afford to hold it for a few years without selling any), just RELAX AND DON'T BE GREEDY...otherwise you are living for money (not ENJOYING life itself) AND YOU WILL END UP FLIPPING YOURSELF OUT, WHICH IS A CRAPPY WAY TO LIVE!
 							</li>
 							

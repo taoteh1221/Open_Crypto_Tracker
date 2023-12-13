@@ -344,6 +344,8 @@
 	        
 	        <li class='links_list'><a href='https://ethresear.ch/' target='_blank'>Ethereum Research</a></li>
 	        
+	        <li class='links_list'><a href='https://hardhat.org/' target='_blank'>Hardhat</a>   <span class='yellow'>(Ethereum program development tools)</span></li>
+	        
 	        <li class='links_list'><a href='https://www.helius.dev/' target='_blank'>Helius</a>   <span class='yellow'>(Solana-based / advanced RPC-API endpoints [FREE tier available])</span></li>
 	        
 	        <li class='links_list'><a href='https://programmingbitcoin.com/' target='_blank'>Programming Bitcoin</a></li>
@@ -363,8 +365,6 @@
 	        <li class='links_list'><a href='https://solana.stackexchange.com/' target='_blank'>StackExchange - Solana</a></li>
 	        
 	        <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a>    <span class='yellow'>(multiple GraphQL APIs)</span></li>
-	        
-	        <li class='links_list'><a href='https://trufflesuite.com/' target='_blank'>Truffle</a>   <span class='yellow'>(Ethereum program development tools)</span></li>
 	        
 	        
 	    </ul>
