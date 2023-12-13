@@ -331,7 +331,7 @@
 		}
 		
 		// PRIMARY CURRENCY CONFIG chart
-		if ( $alerts_mrkt_parse[1] != $ct['default_bitcoin_primary_currency_pair'] && in_array('[' . $alerts_mrkt_parse[0] . '_'.$ct['default_bitcoin_primary_currency_pair'].']', $ct['sel_opt']['show_charts']) ) {
+		if ( $alerts_mrkt_parse[2] != $ct['default_bitcoin_primary_currency_pair'] && in_array('[' . $alerts_mrkt_parse[0] . '_'.$ct['default_bitcoin_primary_currency_pair'].']', $ct['sel_opt']['show_charts']) ) {
 		$charts_shown = 1;
 	?>
 	

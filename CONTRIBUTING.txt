@@ -108,6 +108,9 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 !!!!
 ===> config.php (and plug-conf.php for plugins) MUST only contain STATIC VALUES,
 ===> as all configs are saved to / run from the cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
+!!!!
+===> DO *NOT* UPGRADE ZingCart, as it can be BUGGY ocassionally for auto-resizing on page showing,
+===> AND we FORCE the BRANDING LINK to show EVEN IN A LOCALHOST environment (with custom tweaks)
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
 ===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class

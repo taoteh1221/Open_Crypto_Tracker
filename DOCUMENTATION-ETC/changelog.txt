@@ -6484,6 +6484,10 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous fixes
 
+-BUG FIX: Fixed issues with the price charts in the user area, that were introduced in the previous version (v6.00.31...sorry!)
+
+-BUG FIX: Added validation checks in the chart data parser, to skip ALL non-numeric values (corrupt / 'no data' flag, etc), to avoid chart errors in the interface 
+
 -Hardened user input sanitization security checks (on top of plaintext scans, now any hexidecimal / base64 / HTML entity encoding is also decoded / scanned for attack signatures)
 
 -Migrated all chart-related settings in the "Power User" section, over to the "Price Alerts / Charts" section
@@ -6495,8 +6499,6 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 -Updated the DEMO asset markets / news feeds
 
 -Miscellaneous user experience improvements
-
--Upgraded ZingChart library to v2.9.13
 
 -Upgraded Poloniex market API support
 
