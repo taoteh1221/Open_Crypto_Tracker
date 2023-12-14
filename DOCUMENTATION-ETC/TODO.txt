@@ -181,6 +181,9 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add to resources page: https://dune.com/21co/solana-key-metrics
+
+
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
