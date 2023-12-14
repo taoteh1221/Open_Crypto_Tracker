@@ -661,6 +661,17 @@ echo " "
 echo " "
 echo " "
 
+echo "v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,"
+echo "AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT."
+echo "${reset} "
+echo " "
+echo " "
+
+echo "v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
+echo "UPGRADES FROM V6.00.31 OR LOWER."
+echo "${reset} "
+echo " "
+
 echo "v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,"
 echo "AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT."
 echo "${reset} "
@@ -677,17 +688,6 @@ echo "v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE 
 echo "AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT."
 echo "${reset} "
 echo " "
-echo " "
-
-echo "v6.00.29 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT."
-echo "${reset} "
-echo " "
-echo " "
-
-echo "v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
-echo "UPGRADES FROM V6.00.31 OR LOWER."
-echo "${reset} "
 echo " "
 
 

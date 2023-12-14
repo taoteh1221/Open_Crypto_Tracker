@@ -6482,11 +6482,11 @@ AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.32:
 
--BUG FIX: Miscellaneous fixes
-
 -BUG FIX: Fixed issues with the price charts in the user area, that were introduced in the previous version (v6.00.31...sorry!)
 
 -BUG FIX: Added validation checks in the chart data parser, to skip ALL non-numeric values (corrupt / 'no data' flag, etc), to avoid chart errors in the interface 
+
+-BUG FIX: Miscellaneous fixes
 
 -Hardened user input sanitization security checks (on top of plaintext scans, now any hexidecimal / base64 / HTML entity encoding is also decoded / scanned for attack signatures)
 
@@ -6511,6 +6511,11 @@ IMPORTANT *UPGRADE* NOTICES:
 v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
 FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation).
 
+v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
+
+-v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.31 OR LOWER.
+
 v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT.
 
@@ -6519,11 +6524,6 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT.
 
 v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
-
-v6.00.29 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
-AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
-
--v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.31 OR LOWER.
 
 -------------------------------------------------------------------
 
