@@ -472,18 +472,50 @@ var hash_check = $(location).attr('hash');
 // (based off it's height) so it ALWAYS shows no matter what zoom level (when using the sidebar zoom feature)
 function fix_zingchart_watermarks() {
      
-    // Wait 10 seconds for elements to load / render, then update CSS
+    // Wait 5 seconds for elements to load / render, then update CSS
     setTimeout(function(){
 				 
          $('div.chart_wrapper a[title="JavaScript Charts by ZingChart"]').parent().each(function(){
+              
+         // Element info
+              
+         var chart_height = $(this).parent().height();
+              
+         var watermark_link = $(this).children('a[title="JavaScript Charts by ZingChart"]');
+              
+         var watermark_text_height = watermark_link.css('font-size');
+         
+         watermark_text_height = Number( watermark_text_height.replace("px", "") );
+         
+         // Set displays / positions CSS first
                
-         $(this).css('top', 'unset', "important");
+         $(this).css('display', 'inline-block', "important"); 
                
-         $(this).css('bottom', $(this).height() + 'px', "important");
+         watermark_link.css('display', 'inline', "important");
+               
+         watermark_link.css('position', 'relative', "important");
+         
+         // Set heights next (WATERMARK LINK FIRST)
+               
+         watermark_link.css('line-height', watermark_text_height + 'px', "important");
+               
+         $(this).css('line-height', watermark_text_height + 'px', "important");
+               
+         $(this).css('height', watermark_text_height + 'px', "important"); 
+         
+         // Set top / bottom / right last
+
+         var wrapper_top = Math.round(chart_height - watermark_text_height);
+               
+         $(this).css('top', wrapper_top + 'px', "important");
+               
+         watermark_link.css('bottom', '8px', "important");
+               
+         watermark_link.css('right', '6px', "important");
                
          });
     
-    }, 10000);
+    }, 5000);
      
 }
 

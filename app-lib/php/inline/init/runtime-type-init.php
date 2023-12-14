@@ -265,16 +265,17 @@ $ct['sel_opt']['sorted_asc_desc'] = $sort_array[1];
      
           $loop = 0;
           foreach ($scan_charts as $mrkt_key) {
-               
-          $string_in_array = $ct['var']->stristr_in_array($ct['conf']['charts_alerts']['tracked_markets'], $mrkt_key);
+          
+          // WE NEED TO INCLUDE THE DELIMITER '||' IMMEADIATELY FOLLOWING THE KEY NAME, AS WE CAN HAVE MULTIPLE KEYS FOR THE SAME ASSET (asset,asset-1,asset-2,etc)
+          $string_in_array = $ct['var']->stristr_in_array($ct['conf']['charts_alerts']['tracked_markets'], $mrkt_key . '||');
           	
-          	// IF asset exists in charts app config, AND $ct['sel_opt']['show_charts'] UI key format is latest iteration
+          	// IF asset exists in charts app config (*ARRAY KEY* OF ZERO OR GREATER), AND $ct['sel_opt']['show_charts'] UI key format is latest iteration
           	// (fiat conversion charts USED TO have no underscore)
           	if ( $string_in_array >= 0 && stristr($ct['sel_opt']['show_charts'][$loop], '_') ) {
           		
           	$chart_params = explode('_', $ct['var']->strip_brackets($ct['sel_opt']['show_charts'][$loop]) );
           	
-          	$chart_conf_check = explode('||', $ct['conf']['charts_alerts']['tracked_markets'][$string_in_array]);
+          	$chart_conf_check = array_map( "trim", explode('||', $ct['conf']['charts_alerts']['tracked_markets'][$string_in_array]) );
           		
           		// If pair properly matches OR it's a conversion chart, we're good to keep this $ct['sel_opt']['show_charts'] array value 
           		if ( $chart_params[1] == $chart_conf_check[2] || $chart_params[1] == $ct['default_bitcoin_primary_currency_pair'] ) {
