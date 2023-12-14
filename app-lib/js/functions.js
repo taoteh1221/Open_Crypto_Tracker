@@ -324,7 +324,7 @@ function charts_loading_check() {
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
 	if ( charts_loaded.length >= charts_num || is_admin == true ) {
-	fix_zingchart_watermarks(set_font_size * 100);
+	fix_zingchart_watermarks();
 	return 'done';
 	}
 	else {
@@ -468,23 +468,54 @@ var hash_check = $(location).attr('hash');
 /////////////////////////////////////////////////////////////
 
 
-// Zingchart watermark does NOT always show at hi / low text zoom levels, so we adjust it's positioning dynamically,
-// so it ALWAYS shows no matter what zoom level (when using the sidebar zoom feature)
-function fix_zingchart_watermarks(font_size) {
+// Zingchart watermark does NOT always show at hi / low text zoom levels, so we adjust it's positioning,
+// (based off it's height) so it ALWAYS shows no matter what zoom level (when using the sidebar zoom feature)
+function fix_zingchart_watermarks() {
      
-    $('div.chart_wrapper a[title="JavaScript Charts by ZingChart"]').parent().each(function(){
-          
-    $(this).css('top', 'unset', "important");
-          
-    var font_measure = (font_size - 100);
-          
-    var adjust = (font_measure * 0.31);
-          
-    $(this).css('bottom', adjust + 'px', "important");
-          
-    //console.log( 'id = ' + $(this).attr("id") );
-          
-    });
+    // Wait 5 seconds for elements to load / render, then update CSS
+    setTimeout(function(){
+				 
+         $('div.chart_wrapper a[title="JavaScript Charts by ZingChart"]').parent().each(function(){
+              
+         // Element info
+              
+         var chart_height = $(this).parent().height();
+              
+         var watermark_link = $(this).children('a[title="JavaScript Charts by ZingChart"]');
+              
+         var watermark_text_height = watermark_link.css('font-size');
+         
+         watermark_text_height = Number( watermark_text_height.replace("px", "") );
+         
+         // Set displays / positions CSS first
+               
+         $(this).css('display', 'inline-block', "important"); 
+               
+         watermark_link.css('display', 'inline', "important");
+               
+         watermark_link.css('position', 'relative', "important");
+         
+         // Set heights next (WATERMARK LINK FIRST)
+               
+         watermark_link.css('line-height', watermark_text_height + 'px', "important");
+               
+         $(this).css('line-height', watermark_text_height + 'px', "important");
+               
+         $(this).css('height', watermark_text_height + 'px', "important"); 
+         
+         // Set top / bottom / right last
+
+         var wrapper_top = Math.round(chart_height - watermark_text_height);
+               
+         $(this).css('top', wrapper_top + 'px', "important");
+               
+         watermark_link.css('bottom', '8px', "important");
+               
+         watermark_link.css('right', '6px', "important");
+               
+         });
+    
+    }, 5000);
      
 }
 
@@ -2450,7 +2481,7 @@ function interface_font_percent(font_val, iframe_elm=false, specific_elm=false, 
      
 update_heading_tag_sizes(font_val);
      
-fix_zingchart_watermarks(font_val);
+fix_zingchart_watermarks();
      
 var font_size = Number(font_val) * 0.01;
 var font_size = font_size.toFixed(3);
