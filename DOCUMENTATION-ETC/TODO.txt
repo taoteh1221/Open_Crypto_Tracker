@@ -181,6 +181,26 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+"btcmarkets" is listed twice in exchange list in docs. Fix there, and in the list generator debug logs mode that prints it out.
+
+
+In the troubleshooting / FAQ docs, update the "captcha image code was invalid" entry, to include information about the new app feature that attempts to auto-correct this issue.
+
+
+Steps 14 and 15 in the plugin development docs should cite step 13 instead of step 12 (for directory creation).
+
+
+The price alerts / charts section should have "notes" for price alerts block volume error / price alerts minimum volume.
+
+
+When switching BACK TO "show last visited" page (from showing a SPECIFIC page), it always reloads to the portfolio page. Kinda confusing for end users, even though after that it works fine.
+
+
+Error during INTERNAL API runtime, on windows desktop edition:
+
+[2023-12-21 20:32:37.271] int_api => system (error): File write failed storing 24 bytes of data to file "C:/Users/taoteh1221/Desktop/Open_Crypto_Tracker-windows-desktop-TEST-2023-12-21/INSTALL_CRYPTO_TRACKER_HERE/cache/events/throttling/local*******************1.dat" (MAKE SURE YOUR DISK ISN'T FULL. Check permissions for the path "", and the file "");
+
+
 For all array values with keys INSIDE the values (charts and price alerts, price target alerts, etc), add input validation that checks for duplicate keys, by modifying the stristr_array function to not only return the array key of first match, but return HOW MANY MATCHES too (by returning a results array [position, count]).
 
 
