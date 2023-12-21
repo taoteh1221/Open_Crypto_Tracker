@@ -6,6 +6,17 @@
 
 ?>
 
+	<p class='bitcoin bitcoin_dotted'>
+	
+	NEVER <i>BLINDLY</i> &nbsp;TRUST any 3rd-party plugins, as they *MAY* contain malicious malware or viruses! Review the plugin source code, OR have somebody you trust review it.
+	
+	</p>
+	
+	
+	<div style='min-height: 1em;'></div>
+
+
+
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Plugin Settings</strong> </legend>
     
 	<?php
