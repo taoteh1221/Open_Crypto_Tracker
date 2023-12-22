@@ -348,7 +348,7 @@ Support for over 20 trading pairs (country fiat currency or secondary crypto, co
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / btcmarkets / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 
@@ -780,7 +780,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
            <div class="accordion-body">
            
            
-             If you cannot register a new admin user during a new installation of the SERVER EDITION of this app, because you ALWAYS get the error alert "Captcha image code was invalid" NO MATTER WHAT YOU DO, the issue is most-likely an error in the way you web host provider configured the directory for saving PHP SESSION DATA FILES.
+             If you cannot register a new admin user during a new installation of the SERVER EDITION of this app, because you ALWAYS get the error alert "Captcha image code was invalid" NO MATTER WHAT YOU DO, the issue is most-likely an error in the way you web host provider configured the directory for saving PHP SESSION DATA FILES. This app will attempt to auto-correct this IF detected, BUT if it can't for whatever reason, read on below to learn how to manually fix this problem.
 <br /><br /> 
 
 Luckily EVEN ON SHARED HOSTING some web host companies allow you to set the PHP sessions directory location. See the screenshot in <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/PHP-SESSIONS-DIRECTORY-SETTING.png' target='_blank'>/DOCUMENTATION-ETC/PHP-SESSIONS-DIRECTORY-SETTING.png</a> in the main directory of this app, for details on using your own directory (AFTER YOU CREATE IT IN A FILE MANAGER) on the correct php.ini setting.
@@ -1107,7 +1107,7 @@ Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
 
 
 
-<span class='blue'>14)</span> OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #12, with the name "plug-admin.php".
+<span class='blue'>14)</span> OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #13, with the name "plug-admin.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
@@ -1115,7 +1115,7 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowerca
 
 
 
-<span class='blue'>15)</span> OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #12, with the name "plug-docs.php".
+<span class='blue'>15)</span> OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #13, with the name "plug-docs.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercase)

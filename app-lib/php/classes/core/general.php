@@ -2202,7 +2202,7 @@ var $ct_array = array();
       $("#coin_amnts").submit();
       
       '>
-         <option value='index.php'> Show First: Last-Visited </option>
+         <option value='index.php#<?=$page?>'> Show First: Last-Visited </option>
          <?php
          if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;

@@ -25,7 +25,7 @@ header('Access-Control-Allow-Credentials: true');
 
 
 // Ip address information
-$store_ip = preg_replace("/\./", "_", $ct['remote_ip']);
+$store_ip = preg_replace('/[^\p{L}\p{N}\s]/u', "_", $ct['remote_ip']); // Replace ALL symbols with an underscore (for ipv6 / windows compatibility, as filenames)
 $ip_access = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat') );
 
 

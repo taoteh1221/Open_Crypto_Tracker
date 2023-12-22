@@ -3111,7 +3111,7 @@ private_data = document.getElementsByClassName('private_data');
 
             pw_prompt({
                 
-                lm:"Create 6-Digit PIN:<br /><span style='font-weight: bold;' class='bitcoin'>(requires using cookies)</span><br /><span style='font-weight: bold;' class='bitcoin'>(encrypts RENDERING, *NOT* source)</span>", 
+                lm:"Create 6-Digit PIN:<br /><span style='font-weight: bold;' class='bitcoin'>Requires using cookies</span><br /><span style='font-weight: bold;' class='bitcoin'>(encrypts RENDERING, *NOT* source)</span>", 
                 callback: function(pin) {
                     
                     
