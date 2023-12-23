@@ -185,6 +185,9 @@ Add to resources page:
 https://explorer.helium.com/
 
 
+Make the background task on the desktop edition cycle through showing that it's running too, while other tasks are also running, like we have loading charts / news feeds do. 
+
+
 For all array values with keys INSIDE the values (charts and price alerts, price target alerts, etc), add input validation that checks for duplicate keys, by modifying the stristr_array function to not only return the array key of first match, but return HOW MANY MATCHES too (by returning a results array [position, count]).
 
 
