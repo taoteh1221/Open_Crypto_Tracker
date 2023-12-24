@@ -267,7 +267,7 @@ $ct['sel_opt']['sorted_asc_desc'] = $sort_array[1];
           foreach ($scan_charts as $mrkt_key) {
           
           // WE NEED TO INCLUDE THE DELIMITER '||' IMMEADIATELY FOLLOWING THE KEY NAME, AS WE CAN HAVE MULTIPLE KEYS FOR THE SAME ASSET (asset,asset-1,asset-2,etc)
-          $string_in_array = $ct['var']->stristr_in_array($ct['conf']['charts_alerts']['tracked_markets'], $mrkt_key . '||');
+          $string_in_array = $ct['var']->stristr_in_array($ct['conf']['charts_alerts']['tracked_markets'], $mrkt_key . '||', 15)['key'];
           	
           	// IF asset exists in charts app config (*ARRAY KEY* OF ZERO OR GREATER), AND $ct['sel_opt']['show_charts'] UI key format is latest iteration
           	// (fiat conversion charts USED TO have no underscore)

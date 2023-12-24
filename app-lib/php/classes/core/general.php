@@ -561,7 +561,7 @@ var $ct_array = array();
    
    $network_name = $str[1];
    
-   $network_data = $ct['var']->stristr_in_array($ct['conf']['mobile_network']['text_gateways'], $network_name);
+   $network_data = $ct['var']->stristr_in_array($ct['conf']['mobile_network']['text_gateways'], $network_name, 50)['key'];
    
       // Set text domain
       if ( $network_data >= 0 ) {

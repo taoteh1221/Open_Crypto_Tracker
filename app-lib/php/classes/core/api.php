@@ -2593,29 +2593,62 @@ var $ct_array = array();
     
     
       elseif ( stristr( strtolower($sel_exchange) , 'coingecko_') ) {
-	         
-      $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $ct['coingecko_assets'] . '&vs_currencies='.$ct['coingecko_pairs'].'&include_24hr_vol=true';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data[$mrkt_id];
+           
+           // Coingecko terminal
+           // https://www.geckoterminal.com/dex-api
+           if ( stristr( strtolower($sel_exchange) , '_terminal') ) {
+                
+           $id_parse = array_map( "trim", explode("||", $mrkt_id) );
 
-      $paired_with = explode('_', strtolower($sel_exchange) );
-      $paired_with = $paired_with[1];
-
-	         // Use data from coingecko, if API ID / base currency exists
-             if ( isset($data[$paired_with]) ) {
-	     
-	         $result = array(
-	                        'last_trade' => $ct['var']->num_to_str($data[$paired_with]),
-	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
-	                        '24hr_pair_vol' => $ct['var']->num_to_str($data[$paired_with . "_24h_vol"])
-	                        );
-	                     		  
-             }
+           $url = 'https://api.geckoterminal.com/api/v2/networks/'.$id_parse[0].'/pools/'.$id_parse[1].'?include=base_token,quote_token';
+              
+           $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
+              
+           $data = json_decode($response, true);
+              
+           $data = $data['data'];
+     
+     	        // Use data from coingecko, if API attributes exist
+                  if ( isset($data['attributes']) ) {
+     	     
+     	         $result = array(
+     	                        'last_trade' => $ct['var']->num_to_str($data['attributes']['base_token_price_usd']),
+     	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
+     	                        '24hr_pair_vol' => $ct['var']->num_to_str($data['attributes']['volume_usd']['h24'])
+     	                        );
+     	                     		  
+                  }
          
+           
+           }
+           // Everything else
+           else {
+
+           $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $ct['coingecko_assets'] . '&vs_currencies='.$ct['coingecko_pairs'].'&include_24hr_vol=true';
+              
+           $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
+              
+           $data = json_decode($response, true);
+              
+           $data = $data[$mrkt_id];
+     
+           $paired_with = explode('_', strtolower($sel_exchange) );
+           $paired_with = $paired_with[1];
+     
+     	        // Use data from coingecko, if API ID / base currency exists
+                  if ( isset($data[$paired_with]) ) {
+     	     
+     	         $result = array(
+     	                        'last_trade' => $ct['var']->num_to_str($data[$paired_with]),
+     	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
+     	                        '24hr_pair_vol' => $ct['var']->num_to_str($data[$paired_with . "_24h_vol"])
+     	                        );
+     	                     		  
+                  }
+         
+           
+           }
+           
 	     
       }
      

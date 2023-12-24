@@ -6536,6 +6536,10 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous fixes
 
+-Added support for "CoinGecko Terminal" markets (decentralized exchange trading pools on Ethereum, Solana, etc...see documentation)
+
+-Added more validation checks on admin area user inputs
+
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup
@@ -6543,6 +6547,9 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 -Updated documentation
 
 IMPORTANT *UPGRADE* NOTICES:
+
+v6.00.33 and higher changed a few duplicate text gateway keys, so if you use
+email-to-text gateways in this app, MAKE SURE YOURS STILL HAS THE SAME NAME.
 
 v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
 FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation).

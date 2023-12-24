@@ -147,6 +147,8 @@
 	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io - Ethereum Explorer</a></li>
 	        
+	        <li class='links_list'><a href='https://explorer.helium.com/' target='_blank'>Helium Network Explorer</a></li>
+	        
 	        <li class='links_list'><a href='https://solana.fm/' target='_blank'>SolanaFM - Solana Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io - Solana Explorer</a></li>

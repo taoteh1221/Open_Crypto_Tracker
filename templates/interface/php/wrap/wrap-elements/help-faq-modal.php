@@ -413,6 +413,8 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   // GENERIC USD PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
                                   'coingecko_usd' => 'coingecko_api_id_here',
+                                  // GENERIC *DEX* USD PRICE (IF NOT LISTED *ANYWHERE* BESIDES DEXS [DECENTRALIZED EXCHANGES])
+                                  'coingecko_terminal' => 'network_name_here||pool_address_here',
                                   ),
 
                                                     
