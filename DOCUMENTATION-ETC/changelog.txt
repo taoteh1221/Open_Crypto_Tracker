@@ -6532,6 +6532,8 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.33:
 
+-BUG FIX: Fixed FALSE ALERTS in the VERY STRICT code injection security scan logic (introduced in v6.00.32...it now skips scanning randomized security nonces that are ALREADY HEAVILY SCANNED FOR VALIDITY...sorry!)
+
 -BUG FIX: Fixed SMTP error / debug logs admin interface (logs now show properly...sorry!)
 
 -BUG FIX: Miscellaneous fixes

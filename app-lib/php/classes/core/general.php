@@ -2300,7 +2300,19 @@ var $ct_array = array();
    // RECURSIVELY USED VIA sanitize_requests() (scans all subarray values too)
    function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
    
-   global $ct;
+   global $ct, $is_admin;
+
+        
+        // STRINGS THAT ARE *SECURITY TOKENS* ARE *ALREADY* HEAVILY SCANNED / CHECKED, SO WE CAN SAFELY EXCLUDE THEM 
+        // (AND THEY CAN TRIGGER FALSE POSITIVES, IF RANDOM HASHES MATCH OUR *VERY STRICT* ATTACK SIGNATURE CHECKS)
+        if (
+        $is_admin && strtolower($method) == 'get' && $ext_key == 'iframe' // Admin iframe security tokens
+        || $ext_key == 'admin_hashed_nonce' // Admin hashed nonce security tokens
+        || $ext_key == 'medium_security_nonce' // Admin medium security level's hashed nonce security token
+        ) {
+        return $data;
+        }
+
    
    $original_encoded_hex = $data;
    
