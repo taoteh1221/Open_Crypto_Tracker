@@ -46,6 +46,9 @@
 	    
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Other Stats</strong> </legend>
 	    <ul>
+	    <ul>
+	        
+	        <li class='links_list'><a href='https://dune.com/21co/solana-key-metrics' target='_blank'>21.co's Dune Metrics Page For Solana</a></li>
 	        
 	        <li class='links_list'><a href='https://www.coinglass.com/' target='_blank'>CoinGlass</a></li>
 	        
@@ -144,6 +147,8 @@
 	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io - Ethereum Explorer</a></li>
 	        
+	        <li class='links_list'><a href='https://explorer.helium.com/' target='_blank'>Helium Network Explorer</a></li>
+	        
 	        <li class='links_list'><a href='https://solana.fm/' target='_blank'>SolanaFM - Solana Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io - Solana Explorer</a></li>
@@ -184,6 +189,8 @@
 	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a>   <span class='yellow'>(open source Bitcoin hardware wallet [uses fork of trezor software interface])</span></li>
 	        
 	        <li class='links_list'><a href='https://safe.global/' target='_blank'>Gnosis Safe Multisig Wallet</a>   <span class='yellow'>(Ethereum web wallet, with hardware wallet support)</span></li>
+	        
+	        <li class='links_list'><a href='https://keyst.one/' target='_blank'>KeyStone</a>   <span class='yellow'>(touchscreen multi-network hardware wallet, with isolated bank grade security chips)</span></li>
 	        
 	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a>   <span class='yellow'>(Ethereum software wallet browser extension, with hardware wallet support)</span></li>
 	        

@@ -159,13 +159,13 @@ Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
 
 
 
-14) OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #12, with the name "plug-admin.php".
+14) OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #13, with the name "plug-admin.php".
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
 
 
 
-15) OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #12, with the name "plug-docs.php".
+15) OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #13, with the name "plug-docs.php".
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercase)
 

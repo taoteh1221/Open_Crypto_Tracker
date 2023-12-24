@@ -21,15 +21,15 @@ $pref_chart_time_period = ( isset($_COOKIE['pref_chart_time_period']) ? $_COOKIE
 		
 		// If we have disabled this chart AFTER adding it at some point earlier (fixes "loading charts" not closing)
 		if ( $alerts_mrkt_parse[3] != 'chart' && $alerts_mrkt_parse[3] != 'both' ) {
-		$chart_error_notice = 'Chart data is no longer configured for:';
+		$chart_error_notice = ' &nbsp; Chart data is no longer configured for:<br /> &nbsp; ';
 		}
 		else {
-		$chart_error_notice = 'No light chart data built / re-built yet for:';
+		$chart_error_notice = ' &nbsp; No light chart data built / re-built yet for:<br /> &nbsp; ';
 		}
 	
 	?>
 			
-			$("#<?=$alerts_mrkt_parse[0]?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <?=$chart_error_notice?> <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>');
+			$("#<?=$alerts_mrkt_parse[0]?>_<?=$charted_val?>_chart span.chart_loading").html('<?=$chart_error_notice?><?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>');
 			
 			$("#<?=$alerts_mrkt_parse[0]?>_<?=$charted_val?>_chart span.chart_loading").css({ "background-color": "#9b4b26" });
 			
@@ -51,7 +51,7 @@ var light_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$alerts_mrkt_parse[0]?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$ct['gen']->light_chart_time_period($pref_chart_time_period, 'long')?> chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
+$("#<?=$alerts_mrkt_parse[0]?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> &nbsp; Loading <?=$ct['gen']->light_chart_time_period($pref_chart_time_period, 'long')?> chart for:<br /> &nbsp; <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($alerts_mrkt_parse[0])?>_<?=$charted_val?>_chart', 'load', function() {
@@ -121,7 +121,7 @@ store_scroll_position();
   light_chart_text = light_chart_time_period(days, 'long');	
   
   
-  $("#<?=strtolower($alerts_mrkt_parse[0])?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
+  $("#<?=strtolower($alerts_mrkt_parse[0])?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for:<br /><?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
   
 	$("#<?=strtolower($alerts_mrkt_parse[0])?>_<?=$charted_val?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	

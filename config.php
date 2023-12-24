@@ -707,6 +707,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'grape-5||coingecko_gbp||gbp||none',
 					
 					
+					// PURI
+					'puri||coingecko_terminal||usd||both',
+					
+					
 					// GPVSTOCK (GreenPower Motor Company stock)
 					'gpvstock||alphavantage_stock||cad||both',
 					
@@ -1643,10 +1647,10 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         // [CANADA]
                         'bell||txt.bell.ca',
                         'koodo||msg.telus.com',
-                        'pc_telecom||mobiletxt.ca',
+                        'pc_telecom_ca||mobiletxt.ca',
                         'rogers_ca||pcs.rogers.com',
                         'sasktel||pcs.sasktelmobility.com',
-                        'telus||mms.telusmobility.com',
+                        'telus_ca||mms.telusmobility.com',
                         'virgin_ca||vmobile.ca',
                         'wind||txt.windmobile.ca',
                         
@@ -1679,7 +1683,7 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         
                         
                         // [NEW ZEALAND]
-                        'telecom||etxt.co.nz',
+                        'telecom_nz||etxt.co.nz',
                         'vodafone_nz||mtxt.co.nz',
                         
                         
@@ -1700,7 +1704,7 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         
                         
                         // [SPAIN]
-                        'esendex||esendex.net',
+                        'esendex_es||esendex.net',
                         'movistar_es||movistar.net',
                         'vodafone_es||vodafone.es',
                         
@@ -1729,7 +1733,7 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'south_central_comm||rinasms.com',
                         'sprint||messaging.sprintpcs.com',
                         'tmobile_us||tmomail.net',
-                        'telus||mms.telusmobility.com',
+                        'telus_us||mms.telusmobility.com',
                         'tracfone||mmst5.tracfone.com',
                         'union||union-tel.com',
                         'us_cellular||email.uscc.net',
@@ -2910,6 +2914,27 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                           'coingecko_usd' => 'grape-2',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // PURI
+                    'PURI' => array(
+                        
+                        'name' => 'Puri',
+                        'mcap_slug' => 'puri',
+                        'pair' => array(
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||AA4fy1fFueabPRx7F6pxghRNsgxcMVgYZFtqcBrpq4TM',
                                                     ),
 
                                                     

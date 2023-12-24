@@ -53,7 +53,7 @@ $currency_count = 0;
 				foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 					// Detects better with side space included
-					if ( stristr($supported_btc_exchange_list, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
+					if ( !preg_match("/" . $exchange_key . " \//i", $supported_btc_exchange_list) && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
 					$exchange_count = $exchange_count + 1;
 					$supported_btc_exchange_list .= ' ' . $exchange_key . ' /';
 					}
@@ -74,7 +74,7 @@ $currency_count = 0;
 					foreach ( $ct['conf']['assets'][$asset_key]['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 						// Detects better with side space included
-						if ( stristr($all_exchanges_list, ' ' . $exchange_key . ' ') == false && $exchange_key != 'misc_assets' && $exchange_key != 'btc_nfts' && $exchange_key != 'eth_nfts' && $exchange_key != 'sol_nfts' && $exchange_key != 'alt_nfts' ) {
+						if ( !preg_match("/" . $exchange_key . " \//i", $all_exchanges_list) && $exchange_key != 'misc_assets' && $exchange_key != 'btc_nfts' && $exchange_key != 'eth_nfts' && $exchange_key != 'sol_nfts' && $exchange_key != 'alt_nfts' ) {
 						$all_exchange_count = $all_exchange_count + 1;
 						$all_exchanges_list .= ' ' . $exchange_key . ' /';
 						}

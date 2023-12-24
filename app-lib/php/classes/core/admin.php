@@ -265,7 +265,7 @@ var $ct_array = array();
                
                $proxy_check = explode(":", $proxy);
                     
-                    if ( sizeof($_POST['proxy']['proxy_list']) == 1 && $proxy == '' ) {
+                    if ( sizeof($_POST['proxy']['proxy_list']) == 1 && trim($proxy) == '' ) {
      	          // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
                     }
                     elseif ( sizeof($proxy_check) < 2 ) {
@@ -302,9 +302,17 @@ var $ct_array = array();
 			
 		 $test_result = $ct['gen']->valid_email( 'test@' . $gateway_data[1] );
 		
-		      if ( $test_result != 'valid' ) {
+                    
+                if ( sizeof($_POST['mobile_network']['text_gateways']) == 1 && trim($val) == '' ) {
+     	      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
+                }
+			 elseif ( $ct['var']->stristr_in_array($_POST['mobile_network']['text_gateways'], $gateway_data[0] . '||', 15)['count'] > 1 ) {
+                $ct['update_config_error'] .= '<br />Mobile text gateway KEY was USED TWICE (DUPLICATE): "'.$gateway_data[0].'" (no duplicate keys allowed)';
+			 }
+		      elseif ( $test_result != 'valid' ) {
                 $ct['update_config_error'] .= '<br />Mobile text gateway seems INVALID: "'.$gateway_data[1].'" ('.$test_result.')';
 			 }
+			 
 		
 		 }
            
@@ -380,6 +388,9 @@ var $ct_array = array();
      	     
      	     if ( sizeof($_POST['charts_alerts']['tracked_markets']) == 1 && trim($val) == '' ) {
      	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
+     	     }
+     	     elseif ( $ct['var']->stristr_in_array($_POST['charts_alerts']['tracked_markets'], $val_config[0] . '||', 15)['count'] > 1 ) {
+               $ct['update_config_error'] .= $update_config_error_seperator . 'Charts / Alerts KEY was USED TWICE (DUPLICATE): "'.$val_config[0].'" (no duplicate keys allowed)';
      	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
      	     $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'")';

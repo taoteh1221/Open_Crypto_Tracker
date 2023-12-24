@@ -651,44 +651,46 @@ echo " "
 echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
 echo " "
 
-echo "${red}VERY IMPORTANT *UPGRADE* NOTICES:${reset}"
+echo "${red}IMPORTANT *UPGRADE* NOTICES:"
+echo " "
+echo " "
+
+echo "v6.00.33 and higher changed a few duplicate text gateway keys, so if you use"
+echo "email-to-text gateways in this app, MAKE SURE YOURS STILL HAS THE SAME NAME."
+echo " "
 echo " "
 
 echo "v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,"
 echo "FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation)."
-echo "${reset} "
-echo " "
 echo " "
 echo " "
 
 echo "v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,"
 echo "AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT."
-echo "${reset} "
 echo " "
 echo " "
 
 echo "v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
 echo "UPGRADES FROM V6.00.31 OR LOWER."
-echo "${reset} "
+echo " "
 echo " "
 
 echo "v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,"
 echo "AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT."
-echo "${reset} "
 echo " "
 echo " "
 
 echo "v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,"
 echo "AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT."
-echo "${reset} "
 echo " "
 echo " "
 
 echo "v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,"
 echo "AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT."
+echo " "
+echo " "
+
 echo "${reset} "
-echo " "
-echo " "
 
 
 fi

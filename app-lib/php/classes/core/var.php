@@ -99,25 +99,6 @@ var $ct_array = array();
    return $array[$rand];
    
    }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function stristr_in_array($arr, $str) {
-
-      foreach ($arr as $key => $val) {
-           
-         if ( stristr($val, $str) ) {
-         return $key;
-         }
-
-      }
-      
-   return -1;
-
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -177,6 +158,60 @@ var $ct_array = array();
    
    return $result;
    
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function obfusc_str($str, $show=1) {
+      
+   $len = strlen($str);
+   
+   
+      // If string is too short for the passed $show var on each end of string, 
+      // make $show roughly 20% of string length (1/5 rounded)
+      if ( $len <= ($show * 2) ) {
+      $show = round($len / 5);
+      }
+   
+   
+      if ( $show == 0 ) {
+      return str_repeat('*', $len);
+      }
+      else {
+      return substr($str, 0, $show) . str_repeat('*', $len - (2*$show) ) . substr($str, $len - $show, $show);
+      }
+      
+      
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   // See if $val is a whole number without decimals
+   function whole_int($val) {
+   
+   // We need the number to be a string to test it with ctype_digit()
+   $val = strval($val);
+   $val = str_replace('-', '', $val);
+   
+       if (ctype_digit($val)) {
+         
+           if ( $val === (string)0 ) {
+           return true;
+           }
+           elseif( ltrim($val, '0') === $val ) {
+           return true;
+           }
+               
+       }
+   
+   return false;
+       
    }
    
    
@@ -265,59 +300,47 @@ var $ct_array = array();
       }
    
    }
-   
+
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function obfusc_str($str, $show=1) {
+   function stristr_in_array($arr, $pattern_check, $max_characters_checked=1000) {
+        
+   $result = array();
+
+
+      $result['count'] = 0;
+      foreach ($arr as $key => $val) {
       
-   $len = strlen($str);
-   
-   
-      // If string is too short for the passed $show var on each end of string, 
-      // make $show roughly 20% of string length (1/5 rounded)
-      if ( $len <= ($show * 2) ) {
-      $show = round($len / 5);
-      }
-   
-   
-      if ( $show == 0 ) {
-      return str_repeat('*', $len);
-      }
-      else {
-      return substr($str, 0, $show) . str_repeat('*', $len - (2*$show) ) . substr($str, $len - $show, $show);
-      }
-      
-      
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   // See if $val is a whole number without decimals
-   function whole_int($val) {
-   
-   // We need the number to be a string to test it with ctype_digit()
-   $val = strval($val);
-   $val = str_replace('-', '', $val);
-   
-       if (ctype_digit($val)) {
+         // Max characters checked should not exceed the number of characters in a string
+         if ( strlen($val) < $max_characters_checked ) {
+         $max_characters_checked = strlen($val);
+         }
          
-           if ( $val === (string)0 ) {
-           return true;
-           }
-           elseif( ltrim($val, '0') === $val ) {
-           return true;
-           }
-               
-       }
+         // We only want to check the first $max_characters_checked characters
+         if ( stristr( substr($val, 0, $max_characters_checked), $pattern_check ) ) {
+              
+         $result['count'] = $result['count'] + 1;
+            
+            // Only the first instance
+            if ( !isset($result['key']) ) {
+            $result['key'] = $key;
+            }
+         
+         }
+
+      }
+
+      
+      if ( !isset($result['key']) ) {
+      $result['key'] = -1;
+      }
+
    
-   return false;
-       
+   return $result;
+
    }
    
    

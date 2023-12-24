@@ -83,6 +83,9 @@ $ct['admin_render_settings']['price_alert_block_volume_error']['is_radio'] = arr
                                                                              );
 
 
+$ct['admin_render_settings']['price_alert_block_volume_error']['is_notes'] = 'Skip alerts, if 24 hour trade volume DATA IS CORRUPT (only enforced IF exchange supports trade volume data)';
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
@@ -99,6 +102,8 @@ $ct['admin_render_settings']['price_alert_minimum_volume']['range_step'] = 1000;
 $ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_prefix'] = $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ];
 
 $ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_suffix'] = ' (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . ')';
+
+$ct['admin_render_settings']['price_alert_minimum_volume']['is_notes'] = 'Skip alerts, if 24 hour trade volume is less than a MINIMUM amount (BUT is greater than zero)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +131,7 @@ $ct['admin_render_settings']['price_alert_fixed_reset']['is_notes'] = 'Fixed tim
 
 $ct['admin_render_settings']['whale_alert_thresholds']['text_field_size'] = 35;
 
-$ct['admin_render_settings']['whale_alert_thresholds']['is_notes'] = 'This format MUST be used: max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg';
+$ct['admin_render_settings']['whale_alert_thresholds']['is_notes'] = 'Detect LARGE trade volume swings, that HEAVILY affect trade values.<br />This format MUST be used: max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,6 +141,9 @@ $ct['admin_render_settings']['enable_price_charts']['is_radio'] = array(
                                                                   'off',
                                                                   'on',
                                                                  );
+
+
+$ct['admin_render_settings']['enable_price_charts']['is_notes'] = 'Enable / Disable the price charts in this app.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

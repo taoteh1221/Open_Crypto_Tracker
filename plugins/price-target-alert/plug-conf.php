@@ -50,10 +50,10 @@ $plug['conf'][$this_plug]['price_targets'] = array(
 										'btc-usd-kraken = 50800',
 										'eth-btc-kraken = 0.0615',
 										'eth-usdt-binance = 3155',
-										'sol-eth-binance = 0.0425',
-										'sol-usd-kraken = 85.65',
-										'polis-sol-jupiter_ag = 0.015',
-										'amdstock-usd-alphavantage_stock = 135.50',
+										'sol-eth-binance = 0.05625',
+										'sol-usd-kraken = 125.65',
+										'polis-sol-jupiter_ag = 0.005',
+										'amdstock-usd-alphavantage_stock = 155.50',
 										
 							            ); // END price targets array
 

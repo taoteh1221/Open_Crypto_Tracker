@@ -1986,20 +1986,20 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	        
 	        <p>
 	        
-	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_error_log_space' value='1' onchange="system_logs('smtp_error');" />
+	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_error_space' value='1' onchange="system_logs('smtp_error');" />
 	        
-	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_error_log_lines' value='100' maxlength="5" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_error_lines' value='100' maxlength="5" size="4" />
 	        
-	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_error_log', 'smtp_error_log_alert');">Copy To Clipboard</button> 
+	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_error', 'smtp_error_alert');">Copy To Clipboard</button> 
 	        
 	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_error');">Refresh</button> 
 	        
-	        &nbsp; <span id='smtp_error_log_alert' class='red'></span>
+	        &nbsp; <span id='smtp_error_alert' class='red'></span>
 	        
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_error_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_error'></code></pre>
 			  
 			  <script>
 			  system_logs('smtp_error');
@@ -2014,20 +2014,20 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	        
 	        <p>
 	        
-	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_debug_log_space' value='1' onchange="system_logs('smtp_debug');" />
+	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_debug_space' value='1' onchange="system_logs('smtp_debug');" />
 	        
-	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_debug_log_lines' value='100' maxlength="5" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_debug_lines' value='100' maxlength="5" size="4" />
 	        
-	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_debug_log', 'smtp_debug_log_alert');">Copy To Clipboard</button> 
+	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_debug', 'smtp_debug_alert');">Copy To Clipboard</button> 
 	        
 	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_debug');">Refresh</button> 
 	        
-	        &nbsp; <span id='smtp_debug_log_alert' class='red'></span>
+	        &nbsp; <span id='smtp_debug_alert' class='red'></span>
 	        
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_debug_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_debug'></code></pre>
 			  
 			  <script>
 			  system_logs('smtp_debug');

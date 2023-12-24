@@ -26,9 +26,10 @@ var $array1 = array();
 	function admin_input_validation() {
 		 
 	global $ct, $plug, $this_plug;
+     
+     $update_config_error_seperator = '<br /> ';
+     
 		
-		
-     	$loop_error = false;
      	foreach ( $_POST['price-target-alert']['price_targets'] as $key => $price_target_data ) {
           
           // Auto-correct
@@ -56,21 +57,17 @@ var $array1 = array();
                
      	$mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchange, $mrkt_id)['last_trade'] );
      	
-     	
-     	     if ( $loop_error ) {
-     	     $update_config_error_seperator = '<br /> ';
-     	     }
-     	
      	     
      	     if ( sizeof($_POST['price-target-alert']['price_targets']) == 1 && trim($price_target_data) == '' ) {
      	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      	     }
+     	     elseif ( $ct['var']->stristr_in_array($_POST['price-target-alert']['price_targets'], $target_market, 75)['count'] > 1 ) {
+               $ct['update_config_error'] .= $update_config_error_seperator . 'Price target MARKET was USED TWICE (DUPLICATE): "'.$price_target_data.'" (no duplicate markets allowed)';
+     	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
-     	     $loop_error = true;
      	     $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $mrkt_asset . ' / ' . strtoupper($mrkt_pair) . ' @ ' . $ct['gen']->key_to_name($mrkt_exchange) . ' (in submission: "'.$price_target_data.'")';
      	     }
      	     elseif ( !isset($target_price) || isset($target_price) && !is_numeric($target_price) ) {
-     	     $loop_error = true;
      	     $ct['update_config_error'] .= $update_config_error_seperator . 'Please use a numeric value for target price (in submission: "'.$price_target_data.'")';
      	     }
      	     

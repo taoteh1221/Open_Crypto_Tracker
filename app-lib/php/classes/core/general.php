@@ -561,7 +561,7 @@ var $ct_array = array();
    
    $network_name = $str[1];
    
-   $network_data = $ct['var']->stristr_in_array($ct['conf']['mobile_network']['text_gateways'], $network_name);
+   $network_data = $ct['var']->stristr_in_array($ct['conf']['mobile_network']['text_gateways'], $network_name, 50)['key'];
    
       // Set text domain
       if ( $network_data >= 0 ) {
@@ -2202,7 +2202,7 @@ var $ct_array = array();
       $("#coin_amnts").submit();
       
       '>
-         <option value='index.php'> Show First: Last-Visited </option>
+         <option value='index.php#<?=$page?>'> Show First: Last-Visited </option>
          <?php
          if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;
