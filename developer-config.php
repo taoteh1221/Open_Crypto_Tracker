@@ -14,7 +14,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.33';  // 2023/DECEMBER/22ND
+$ct['app_version'] = '6.00.34';  // 2023/DECEMBER/24TH
 
 
 // #PHP# ERROR LOGGING
@@ -234,6 +234,7 @@ $ct['dev']['limited_apis'] = array(
                           		'coinbase.com',
                           		// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
                           	     'coingecko.com',
+                          	     'geckoterminal.com',
                           		'etherscan.io',
                           		'gemini.com',
                           		'solana.com',
