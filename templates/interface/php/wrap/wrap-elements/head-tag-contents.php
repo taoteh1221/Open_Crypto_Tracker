@@ -553,7 +553,14 @@
         }
         
         
-        .blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover, #sidebar ul.list-unstyled li a.blue:link {
+        .btc, .eth, .sol {
+        background: unset !important;
+        -webkit-background-clip: unset !important;
+        -webkit-text-fill-color: unset !important;
+        }
+        
+        
+        .blue, td.blue, td.blue span.blue, .green, .red, .btc, .eth, .sol, td select, .btn-link, .btn-link a, .btn-link:hover, #sidebar ul.list-unstyled li a.blue:link {
         color: blue !important;
         }
         
