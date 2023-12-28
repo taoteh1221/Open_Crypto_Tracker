@@ -1,4 +1,6 @@
 
+     <!-- !!DEBUGGING!!: (debugging logic here) -->
+
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
@@ -254,7 +256,7 @@
           
      	admin_area_sec_level = '<?=base64_encode($ct['admin_area_sec_level'])?>';
           
-     	medium_sec_token = "<?=base64_encode( $ct['gen']->admin_hashed_nonce('medium_security_mode') )?>";
+     	medium_sec_token = "<?=base64_encode( $ct['gen']->admin_nonce('medium_security_mode') )?>";
           
           <?php
           }
@@ -270,9 +272,9 @@
 	
 	admin_logged_in = true;
 	
-	gen_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_hashed_nonce('general_csrf_security') )?>';
+	gen_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_nonce('general_csrf_security') )?>';
 	
-	logs_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_hashed_nonce('logs_csrf_security') )?>';
+	logs_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_nonce('logs_csrf_security') )?>';
 	
 	admin_iframe_url = storage_app_id("admin_iframe_url");
 	

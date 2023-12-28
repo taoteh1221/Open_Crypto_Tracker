@@ -7,7 +7,7 @@
 $this_plug = $_GET['plugin'];
 
 if ( isset($_GET['plugin_docs']) ) {
-$header_link = "<a class='bitcoin' href='admin.php?iframe=" . $ct['gen']->admin_hashed_nonce('iframe_' . $this_plug) . "&plugin=" . $this_plug . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a> -> Documentation";
+$header_link = "<a class='bitcoin' href='admin.php?iframe_nonce=" . $ct['gen']->admin_nonce('iframe_' . $this_plug) . "&plugin=" . $this_plug . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a> -> Documentation";
 }
 else {
 $header_link = $plug['conf'][$this_plug]['ui_name'];
@@ -15,7 +15,7 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
 
 ?>
         
-        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin custom-unstyle-dropdown-item' href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$header_link?></h3>
+        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin custom-unstyle-dropdown-item' href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$header_link?></h3>
         
         
         <?php
@@ -40,7 +40,7 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         
         if ( !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
         ?>
-	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Usage / Documentation</a></p>
+	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Usage / Documentation</a></p>
         <?php
         }
 

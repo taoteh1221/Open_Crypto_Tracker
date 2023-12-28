@@ -12,9 +12,9 @@
 	<div class='blue_dotted'>
 	
 	
-	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
+	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('toggle_admin_security')?>' />
+	<input type='hidden' name='admin_nonce' value='<?=$ct['gen']->admin_nonce('toggle_admin_security')?>' />
 	
 	<input type='hidden' name='sel_admin_sec' id='sel_admin_sec' value='<?=$ct['admin_area_sec_level']?>' />
 	
@@ -38,9 +38,9 @@
 	 <div style='min-height: 1em;'></div>
 	
 	
-	<form name='toggle_admin_2fa' id='toggle_admin_2fa' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
+	<form name='toggle_admin_2fa' id='toggle_admin_2fa' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('toggle_admin_2fa')?>' />
+	<input type='hidden' name='admin_nonce' value='<?=$ct['gen']->admin_nonce('toggle_admin_2fa')?>' />
 	
 	<input type='hidden' name='sel_admin_2fa' id='sel_admin_2fa' value='<?=( $force_show_2fa_setup ? $force_show_2fa_setup : $ct['admin_area_2fa'] )?>' />
 	
@@ -69,7 +69,7 @@
 
 	 <p style='font-weight: bold; margin-top: 1.5em;' class='red'>Scan this QR code with your authenticator app:</p>
 			
-	 <p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct['gen']->admin_hashed_nonce('2fa_setup')?>' /></p>
+	 <p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct['gen']->admin_nonce('2fa_setup')?>' /></p>
 			
 	 <p class='red' style='font-weight: bold;'>--CLICK THE "REFRESH DATA" LINK IN THE SIDEBAR-- IF NO QR CODE IMAGE SHOWS ABOVE...</p>
 	 <p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA...</p>

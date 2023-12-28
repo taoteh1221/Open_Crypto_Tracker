@@ -27,18 +27,18 @@
 
 			<form method='post' action='<?=$ct['gen']->start_page('tools')?>'>
 
-			<p><input type='text' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' style='width: 100%;' /></p>
+			<p><input type='text' name='qr_code_crypto_address' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr_code_crypto_address'])?>' style='width: 100%;' /></p>
 
 			<p><input type='submit' value='Generate QR Code Address' /></p>
 
 			</form>
 
 			<?php
-			if ( trim($_POST['qr-string']) != '' ) {
+			if ( trim($_POST['qr_code_crypto_address']) != '' ) {
 			?>
 
 			<p style='font-weight: bold;' class='bitcoin'>Your Generated QR Code Address:</p>
-			<p><img src='templates/interface/media/images/qr-code-image.php?data=<?=urlencode(trim($_POST['qr-string']))?>' /></p>
+			<p><img src='templates/interface/media/images/qr-code-image.php?qr_code_crypto_address=<?=urlencode(trim($_POST['qr_code_crypto_address']))?>' /></p>
 			<p class='red' style='font-weight: bold;'>--ALWAYS-- VERIFY YOUR ADDRESS COPIED OVER CORRECTLY</p>
 
 			<?php

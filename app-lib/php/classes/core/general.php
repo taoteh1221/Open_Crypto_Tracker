@@ -266,7 +266,7 @@ var $ct_array = array();
         
    global $ct;
    
-      if ( !$ct['possible_input_injection'] && $this->admin_logged_in() && isset($val) && trim($val) != '' && isset($hash_key) && trim($hash_key) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      if ( !$ct['possible_input_injection'] && $this->admin_logged_in() && isset($val) && trim($val) != '' && isset($hash_key) && trim($hash_key) != '' && $this->admin_nonce($hash_key) != false && $val == $this->admin_nonce($hash_key) ) {
       return true;
       }
       else {
@@ -384,10 +384,10 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    // To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
-   function admin_hashed_nonce($key, $force=false) {
+   function admin_nonce($key, $force=false) {
       
       // WE NEED A SEPERATE FUNCTION $this->nonce_digest(), SO WE DON'T #ENDLESSLY LOOP# FROM OUR
-      // $this->admin_logged_in() CALL (WHICH ALSO USES $this->nonce_digest() INSTEAD OF $this->admin_hashed_nonce())
+      // $this->admin_logged_in() CALL (WHICH ALSO USES $this->nonce_digest() INSTEAD OF $this->admin_nonce())
       if ( $this->admin_logged_in() || $force != false ) {
       return $this->nonce_digest($key);
       }
@@ -2303,11 +2303,12 @@ var $ct_array = array();
    global $ct, $is_admin;
 
         
-        // STRINGS THAT ARE *SECURITY TOKENS* ARE *ALREADY* HEAVILY SCANNED / CHECKED, SO WE CAN SAFELY EXCLUDE THEM 
+        // STRINGS THAT ARE *SECURITY TOKENS* / QR CODE GENERATOR INPUTS ARE *ALREADY* HEAVILY SCANNED / CHECKED, SO WE CAN SAFELY EXCLUDE THEM 
         // (AND THEY CAN TRIGGER FALSE POSITIVES, IF RANDOM HASHES MATCH OUR *VERY STRICT* ATTACK SIGNATURE CHECKS)
         if (
-        $is_admin && strtolower($method) == 'get' && $ext_key == 'iframe' // Admin iframe security tokens
-        || $ext_key == 'admin_hashed_nonce' // Admin hashed nonce security tokens
+        $ext_key == 'qr_code_crypto_address' // QR Code Generator (for crypto addresses)
+        || $is_admin && strtolower($method) == 'get' && $ext_key == 'iframe_nonce' // Admin iframe security tokens
+        || $ext_key == 'admin_nonce' // Admin hashed nonce security tokens
         || $ext_key == 'medium_security_nonce' // Admin medium security level's hashed nonce security token
         ) {
         return $data;
@@ -2752,7 +2753,7 @@ var $ct_array = array();
       // Flag the runtime mode in logs if it's an iframe's runtime (for cleaner / less-confusing logs)
       // Change var name to avoid changing the GLOBAL value
       if ( $is_iframe ) {
-      $logged_runtime_mode = $ct['runtime_mode'] . ' (' . ( isset($_GET['section']) ? 'iframe=' . $_GET['section'] : 'iframe=unknown' ) . ')';
+      $logged_runtime_mode = $ct['runtime_mode'] . ' (' . ( isset($_GET['section']) ? 'iframe: ' . $_GET['section'] : 'iframe: unknown' ) . ')';
       }
       else {
       $logged_runtime_mode = $ct['runtime_mode'];
@@ -3372,7 +3373,7 @@ var $ct_array = array();
 		
    $this->store_cookie('admin_auth_' . $this->id(), $cookie_nonce, time() + ($ct['conf']['sec']['admin_cookie_expires'] * 3600) );
 				
-   $_SESSION['admin_logged_in']['auth_hash'] = $this->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
+   $_SESSION['admin_logged_in']['auth_hash'] = $this->admin_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
    
    
        // If admin login notifications are on

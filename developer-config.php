@@ -223,7 +223,9 @@ $ct['dev']['no_trade_volume_api_data'] = array(
 // #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
 // WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY FEATURE
 $ct['dev']['limited_apis'] = array(
+                          		'aevo.xyz',
                           		'alphavantage.co',
+                          		'anchor.fm',
                           		'bitforex.com',
                           		'bitflyer.com',
                           		'bitmex.com',
@@ -237,7 +239,13 @@ $ct['dev']['limited_apis'] = array(
                           	     'geckoterminal.com',
                           		'etherscan.io',
                           		'gemini.com',
+                          		'medium.com',
+                          		'megaphone.fm',
+                          		'reddit.com',
                           		'solana.com',
+                          		'substack.com',
+                          		'stackexchange.com',
+                          		'youtube.com',
           				  );
 
         
@@ -255,8 +263,8 @@ $ct['dev']['script_injection_checks'] = array(
                                                "char(", // SQL CHAR() function
                                                "javascript", // Javascript
                                                "script", // Javascript
-                                               "href", // HTML
-                                               "src", // HTML
+                                               "href=", // HTML
+                                               "src=", // HTML
                                                // ALL javascript 'on' events
                                                "onclick",
                                                "onmouse",

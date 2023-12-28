@@ -144,7 +144,7 @@ $this_plug = trim($key);
                   	// OR a webhook secret key reset from authenticated admin is verified (STRICT 2FA MODE ONLY)
                     if (
                     !$is_fast_runtime && !isset($ct['int_webhooks'][$this_plug])
-                    || $_POST['reset_' . $this_plug . '_webhook_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_' . $this_plug . '_webhook_key') && $ct['gen']->valid_2fa('strict')
+                    || $_POST['reset_' . $this_plug . '_webhook_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_' . $this_plug . '_webhook_key') && $ct['gen']->valid_2fa('strict')
                     ) {
                     	
                     $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix

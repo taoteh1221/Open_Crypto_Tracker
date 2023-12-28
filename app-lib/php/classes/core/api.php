@@ -743,8 +743,27 @@ var $ct_array = array();
     ////////////////////////////////////////////////////////////////////////////////////////////////
       
     
-    
-      if ( strtolower($sel_exchange) == 'alphavantage_stock' ) {
+      if ( strtolower($sel_exchange) == 'aevo' || stristr( strtolower($sel_exchange) , 'aevo_') ) {
+      
+      $url = 'https://api.aevo.xyz/instrument/' . $mrkt_id;
+      
+      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
+      
+      $data = json_decode($response, true);
+      
+      $result = array(
+                     'last_trade' => $data["mark_price"],
+                     '24hr_asset_vol' => null, // Unavailable, set null
+                     '24hr_pair_vol' => $ct['var']->num_to_str($data["markets"]["daily_volume_contracts"] * $data["mark_price"])
+                	   );
+      
+      }
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+      
+      
+      elseif ( strtolower($sel_exchange) == 'alphavantage_stock' ) {
    
    
           if ( trim($ct['conf']['ext_apis']['alphavantage_api_key']) == null ) {
@@ -2599,6 +2618,16 @@ var $ct_array = array();
            if ( stristr( strtolower($sel_exchange) , '_terminal') ) {
                 
            $id_parse = array_map( "trim", explode("||", $mrkt_id) );
+           
+               
+               // Auto-correct for some inconsistancies in the API's sementics
+               if ( $id_parse[0] == 'ethereum' ) {
+               $id_parse[0] = 'eth';
+               }
+               elseif ( $id_parse[0] == 'sol' ) {
+               $id_parse[0] = 'solana';
+               }
+               
 
            $url = 'https://api.geckoterminal.com/api/v2/networks/'.$id_parse[0].'/pools/'.$id_parse[1].'?include=base_token,quote_token';
               
@@ -2610,13 +2639,13 @@ var $ct_array = array();
      
      	        // Use data from coingecko, if API attributes exist
                   if ( isset($data['attributes']) ) {
-     	     
+     	        
      	         $result = array(
-     	                        'last_trade' => $ct['var']->num_to_str($data['attributes']['base_token_price_usd']),
+     	                        'last_trade' => $data['attributes']['base_token_price_usd'],
      	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
-     	                        '24hr_pair_vol' => $ct['var']->num_to_str($data['attributes']['volume_usd']['h24'])
+     	                        '24hr_pair_vol' => $data['attributes']['volume_usd']['h24']
      	                        );
-     	                     		  
+     	        
                   }
          
            
@@ -2639,9 +2668,9 @@ var $ct_array = array();
                   if ( isset($data[$paired_with]) ) {
      	     
      	         $result = array(
-     	                        'last_trade' => $ct['var']->num_to_str($data[$paired_with]),
+     	                        'last_trade' => $data[$paired_with],
      	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
-     	                        '24hr_pair_vol' => $ct['var']->num_to_str($data[$paired_with . "_24h_vol"])
+     	                        '24hr_pair_vol' => $data[$paired_with . "_24h_vol"]
      	                        );
      	                     		  
                   }
