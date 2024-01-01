@@ -191,6 +191,20 @@ Do a bitcoin timestamp for v6.00.33
 Document downloading / using 7zip on windows for windows users (for windows desktop edition).
 
 
+Consider whether we should have alpha vantage fallback to cached data, if we've detected (from the API response) that we've gone over the daily limit for the free level. It's great for UX, except we should have an error log and alert to end users if we do that. Otherwise they are flying blind, as to whether the asset prices are even getting updated or not.
+
+
+Checking for duplicate keys in user inputs should instead be done by looking for an exact match on the first X number of characters, by getting strlength() value on the passed search value, then comparing that many of the FIRST characters of the scanned input to the search value. If it's an EXACT MATCH, count it and use the first instance.
+
+
+add backpack wallet to resources page:
+https://github.com/coral-xyz/backpack
+https://backpack.app/downloads
+
+
+Add documentation to address balance tracker plugin, saying Solana tokens need to use the token address (that's different from the main address).
+
+
 Make the background task on the desktop edition cycle through showing that it's running too, while other tasks are also running, like we have loading charts / news feeds do. 
 
 
