@@ -247,6 +247,9 @@ nav_menu('.user-nav');
     // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
+
+    // Force scrolling to top of page (so end-user always sees the 'loading...' notice)    
+    scroll(0,0);
     
     form_submit_queued = true;
     
@@ -362,6 +365,7 @@ nav_menu('.user-nav');
               iframe.contentWindow.addEventListener('beforeunload', function() {
               $("#"+iframe.id+"_loading").fadeIn(250);
               $("#"+iframe.id).fadeOut(250);
+              scroll(0,0); // Force scrolling to top of iframe (so end-user always sees the 'loading...' notice)
               });
           
               // Before admin iframe submits

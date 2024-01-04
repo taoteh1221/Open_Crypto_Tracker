@@ -183,6 +183,13 @@ https://github.com/taoteh1221/Open_Crypto_Tracker/releases
 After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app (in Windows Desktop Edition, click "INSTALL_WEB_SERVER_FIRST" beforehand). TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")
 
 
+IMPORTANT NOTES FOR WINDOWS USERS: 
+
+YOU NEED "7 ZIP" INSTALLED, TO OPEN AND EXTRACT THE DOWNLOAD ARCHIVE:
+
+https://www.geeksforgeeks.org/how-to-download-and-install-7-zip-on-windows
+
+
 IMPORTANT NOTES FOR LINUX USERS: 
 
 IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED TO BUILD A PHP BINARY THAT IS COMPATIBLE WITH YOUR UNIQUE SYSTEM SETUP. Try running the script "BUILD-PHP-FOR-LINUX-DESKTOP.bash" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). IMPORTANT STEP: YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!

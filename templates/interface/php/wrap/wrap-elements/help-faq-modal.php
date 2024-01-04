@@ -124,6 +124,15 @@
 
 After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app (in Windows Desktop Edition, click "INSTALL_WEB_SERVER_FIRST" beforehand). <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
 
+
+	    <br /><br />
+<span class='bitcoin'>IMPORTANT NOTES FOR WINDOWS USERS: </span> 
+
+	    <br /><br />
+YOU NEED "7 ZIP" INSTALLED, TO OPEN AND EXTRACT THE DOWNLOAD ARCHIVE:
+<br />
+<a href='https://www.geeksforgeeks.org/how-to-download-and-install-7-zip-on-windows' target='_blank'>https://www.geeksforgeeks.org/how-to-download-and-install-7-zip-on-windows</a>
+
 	    
 	    <br /><br />
 <span class='bitcoin'>IMPORTANT NOTES FOR LINUX USERS:</span> 

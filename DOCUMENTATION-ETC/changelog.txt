@@ -6577,7 +6577,7 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.34:
 
--BUG FIX: TBD
+-BUG FIX: Fixed bugs in duplicates checks, for certain admin settings (no more "false positive" duplicate entry alerts when updating settings...sorry!)
 
 -Added support for AEVO.xyz markets
 

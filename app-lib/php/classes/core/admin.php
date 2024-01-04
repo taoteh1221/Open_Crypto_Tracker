@@ -306,8 +306,8 @@ var $ct_array = array();
                 if ( sizeof($_POST['mobile_network']['text_gateways']) == 1 && trim($val) == '' ) {
      	      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
                 }
-			 elseif ( $ct['var']->stristr_in_array($_POST['mobile_network']['text_gateways'], $gateway_data[0] . '||', 12)['count'] > 1 ) {
-                $ct['update_config_error'] .= '<br />Mobile text gateway KEY was USED TWICE (DUPLICATE): "'.$gateway_data[0].'" (no duplicate keys allowed)';
+			 elseif ( $ct['var']->begins_with_in_array($_POST['mobile_network']['text_gateways'], $gateway_data[0] . '||')['count'] > 1 ) {
+                $ct['update_config_error'] .= '<br />Mobile text gateway KEY was USED TWICE (DUPLICATE): "'.$gateway_data[0].'" (in "'.$val.'", no duplicate keys allowed)';
 			 }
 		      elseif ( $test_result != 'valid' ) {
                 $ct['update_config_error'] .= '<br />Mobile text gateway seems INVALID: "'.$gateway_data[1].'" ('.$test_result.')';
@@ -389,7 +389,7 @@ var $ct_array = array();
      	     if ( sizeof($_POST['charts_alerts']['tracked_markets']) == 1 && trim($val) == '' ) {
      	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      	     }
-     	     elseif ( $ct['var']->stristr_in_array($_POST['charts_alerts']['tracked_markets'], $val_config[0] . '||', 12)['count'] > 1 ) {
+     	     elseif ( $ct['var']->begins_with_in_array($_POST['charts_alerts']['tracked_markets'], $val_config[0] . '||')['count'] > 1 ) {
                $ct['update_config_error'] .= $update_config_error_seperator . 'Charts / Alerts KEY was USED TWICE (DUPLICATE): "'.$val_config[0].'" (no duplicate keys allowed)';
      	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {

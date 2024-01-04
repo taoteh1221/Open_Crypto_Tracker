@@ -55,8 +55,8 @@ document.getElementById(obj_id).action = set_action;
 
 
 function to_timestamp(year,month,day,hour,minute,second) {
- var datum = new Date(Date.UTC(year,month-1,day,hour,minute,second));
- return datum.getTime()/1000;
+var datum = new Date(Date.UTC(year,month-1,day,hour,minute,second));
+return datum.getTime()/1000;
 }
 
 
@@ -264,8 +264,6 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
 
 
 function cron_run_check() {
-	
-//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
 
 	if ( cron_already_ran == true ) {
 	return 'done';
@@ -406,12 +404,12 @@ document.write('<div class="footer_banner">' + notice_html + '<button class="foo
 var footer_notice = $('.footer_banner');
 
      if ( localStorage.getItem(js_storage) != "understood" ) {
-         footer_notice.slideDown(500);
+     footer_notice.slideDown(500);
      }
      
      $('.footer_banner .footer_banner_button').click(function () {
-         footer_notice.slideUp(500);
-         localStorage.setItem(js_storage, "understood");
+     footer_notice.slideUp(500);
+     localStorage.setItem(js_storage, "understood");
      });
 
 }
@@ -443,6 +441,28 @@ return new_url;
 /////////////////////////////////////////////////////////////
 
 
+function toggle_sidebar() {
+
+// open or close navbar
+$('#sidebar').toggleClass('active');
+$('#secondary_wrapper').toggleClass('active');
+              
+// close dropdowns
+$('.collapse.in').toggleClass('in');
+              
+// and also adjust aria-expanded attributes we use for the open/closed arrows
+// in our CSS
+$('a[aria-expanded="true"]').attr('aria-expanded', 'false');
+
+// Scroll left, if we are wider than the page (for UX)
+scroll_start();
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function store_scroll_position() {
      
      if ( is_iframe ) {
@@ -462,61 +482,6 @@ var hash_check = $(location).attr('hash');
      localStorage.setItem(scroll_position_storage, 0);
      }
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// Zingchart watermark does NOT always show at hi / low text zoom levels, so we adjust it's positioning,
-// (based off it's height) so it ALWAYS shows no matter what zoom level (when using the sidebar zoom feature)
-function fix_zingchart_watermarks() {
-     
-    // Wait 5 seconds for elements to load / render, then update CSS
-    setTimeout(function(){
-				 
-         $('div.chart_wrapper a[title="JavaScript Charts by ZingChart"]').parent().each(function(){
-              
-         // Element info
-              
-         var chart_height = $(this).parent().height();
-              
-         var watermark_link = $(this).children('a[title="JavaScript Charts by ZingChart"]');
-              
-         var watermark_text_height = watermark_link.css('font-size');
-         
-         watermark_text_height = Number( watermark_text_height.replace("px", "") );
-         
-         // Set displays / positions CSS first
-               
-         $(this).css('display', 'inline-block', "important"); 
-               
-         watermark_link.css('display', 'inline', "important");
-               
-         watermark_link.css('position', 'relative', "important");
-         
-         // Set heights next (WATERMARK LINK FIRST)
-               
-         watermark_link.css('line-height', watermark_text_height + 'px', "important");
-               
-         $(this).css('line-height', watermark_text_height + 'px', "important");
-               
-         $(this).css('height', watermark_text_height + 'px', "important"); 
-         
-         // Set top / bottom / right last
-
-         var wrapper_top = Math.round(chart_height - watermark_text_height);
-               
-         $(this).css('top', wrapper_top + 'px', "important");
-               
-         watermark_link.css('bottom', '8px', "important");
-               
-         watermark_link.css('right', '6px', "important");
-               
-         });
-    
-    }, 5000);
-     
 }
 
 
@@ -608,28 +573,6 @@ function compact_submenu(elm=false) {
 
      }
               
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function toggle_sidebar() {
-
-// open or close navbar
-$('#sidebar').toggleClass('active');
-$('#secondary_wrapper').toggleClass('active');
-              
-// close dropdowns
-$('.collapse.in').toggleClass('in');
-              
-// and also adjust aria-expanded attributes we use for the open/closed arrows
-// in our CSS
-$('a[aria-expanded="true"]').attr('aria-expanded', 'false');
-
-// Scroll left, if we are wider than the page (for UX)
-scroll_start();
-
 }
 
 	
@@ -1120,7 +1063,6 @@ function random_tips() {
 randomNumber= Math.floor(Math.random() * quoteSource.length);
 			
 //set a new quote
-
 newQuoteText = quoteSource[randomNumber].quote;
 newQuoteGenius = quoteSource[randomNumber].name;
 			
@@ -1128,7 +1070,8 @@ quoteContainer = $('#quoteContainer');
       
 quoteContainer.html( ajax_placeholder(15, 'left') );
 
-	//fade out animation with callback
+
+   //fade out animation with callback
    quoteContainer.fadeOut(250, function(){
 	
    quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-'+newQuoteGenius+'</p>');
@@ -1628,7 +1571,7 @@ badColor = "#ff4747";
 function background_tasks_check() {
         
         
-     if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done' ) {
+     if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
           
      all_tasks_initial_load = false; // Unset initial bg tasks loading flag
 		    
@@ -1648,9 +1591,9 @@ function background_tasks_check() {
      }
 	else {
 	     
-	     // If only emulated cron background task is running AFTER initial page load, flag as such
-	     // (so we don't reset the scroll position every minute)
-	     if ( !all_tasks_initial_load && feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() != 'done' ) {
+	     // If ONLY emulated cron background task is running AFTER initial page load, flag as such
+	     // (so we DON'T reset the scroll position every minute)
+	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
 	     emulated_cron_task_only = true;
 	     }
 		    
@@ -1856,6 +1799,61 @@ var is_showing = ( (elmBottom <= docViewBottom) && (elmTop >= docViewTop) );
      }
 
     
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// Zingchart watermark does NOT always show at hi / low text zoom levels, so we adjust it's positioning,
+// (based off it's height) so it ALWAYS shows no matter what zoom level (when using the sidebar zoom feature)
+function fix_zingchart_watermarks() {
+     
+    // Wait 5 seconds for elements to load / render, then update CSS
+    setTimeout(function(){
+				 
+         $('div.chart_wrapper a[title="JavaScript Charts by ZingChart"]').parent().each(function(){
+              
+         // Element info
+              
+         var chart_height = $(this).parent().height();
+              
+         var watermark_link = $(this).children('a[title="JavaScript Charts by ZingChart"]');
+              
+         var watermark_text_height = watermark_link.css('font-size');
+         
+         watermark_text_height = Number( watermark_text_height.replace("px", "") );
+         
+         // Set displays / positions CSS first
+               
+         $(this).css('display', 'inline-block', "important"); 
+               
+         watermark_link.css('display', 'inline', "important");
+               
+         watermark_link.css('position', 'relative', "important");
+         
+         // Set heights next (WATERMARK LINK FIRST)
+               
+         watermark_link.css('line-height', watermark_text_height + 'px', "important");
+               
+         $(this).css('line-height', watermark_text_height + 'px', "important");
+               
+         $(this).css('height', watermark_text_height + 'px', "important"); 
+         
+         // Set top / bottom / right last
+
+         var wrapper_top = Math.round(chart_height - watermark_text_height);
+               
+         $(this).css('top', wrapper_top + 'px', "important");
+               
+         watermark_link.css('bottom', '8px', "important");
+               
+         watermark_link.css('right', '6px', "important");
+               
+         });
+    
+    }, 5000);
+     
 }
 
 

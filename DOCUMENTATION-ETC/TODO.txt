@@ -181,31 +181,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Updating of "Charts Alerts" admin settings FAILED.
-Charts / Alerts KEY was USED TWICE (DUPLICATE): "btc" (no duplicate keys allowed)
-
-
-Do a bitcoin timestamp for v6.00.33
-
-
-Document downloading / using 7zip on windows for windows users (for windows desktop edition).
-
-
 Consider whether we should have alpha vantage fallback to cached data, if we've detected (from the API response) that we've gone over the daily limit for the free level. It's great for UX, except we should have an error log and alert to end users if we do that. Otherwise they are flying blind, as to whether the asset prices are even getting updated or not.
-
-
-Checking for duplicate keys in user inputs should instead be done by looking for an exact match on the first X number of characters, by getting strlength() value on the passed search value, then comparing that many of the FIRST characters of the scanned input to the search value. If it's an EXACT MATCH, count it and use the first instance.
-
-
-add backpack wallet to resources page:
-https://github.com/coral-xyz/backpack
-https://backpack.app/downloads
-
-
-Add documentation to address balance tracker plugin, saying Solana tokens need to use the token address (that's different from the main address).
-
-
-Make the background task on the desktop edition cycle through showing that it's running too, while other tasks are also running, like we have loading charts / news feeds do. 
 
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
@@ -221,12 +197,6 @@ Make sure everything STILL runs smoothly with the charts page turned off.
 
 
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
-
-
-When an SPL token is selected in the address-balance-tracker plugin, have a notes field saying they need to use the unique address dedicated to that token, that shows in block explorers.
-
-
-Linux Desktop Edition makes any buttons in an admin interface repeatable subarray element wrapper SMALLER than usual. Find out why.
 
 
 Hide dev-only plugin settings in the interface, as <input type='hidden' />
@@ -402,6 +372,9 @@ Test fully on PHP 7.4, by filling in all the settings with my personal ones on t
 DEBUGGING / TESTS / UX / QA / OTHER (*NOT* PRIORITIZED)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Linux Desktop Edition makes any buttons in an admin interface repeatable subarray element wrapper SMALLER than usual. Find out why.
 
 
 Code review all large functions, to make sure they are clean and optimized

@@ -306,25 +306,23 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function stristr_in_array($arr, $pattern_check, $max_characters_checked=1000) {
+   function begins_with_in_array($arr, $pattern_check) {
         
    $result = array();
+   
+   $max_characters_checked = strlen($pattern_check);
 
 
       $result['count'] = 0;
       foreach ($arr as $key => $val) {
-      
-         // Max characters checked should not exceed the number of characters in a string
-         if ( strlen($val) < $max_characters_checked ) {
-         $max_characters_checked = strlen($val);
-         }
          
          // We only want to check the first $max_characters_checked characters
-         if ( stristr( substr($val, 0, $max_characters_checked), $pattern_check ) ) {
+         if ( substr($val, 0, $max_characters_checked) == $pattern_check ) {
               
          $result['count'] = $result['count'] + 1;
             
-            // Only the first instance
+            // We only want the first instance
+            // (we leave duplicate checks for logic outside this function, using $result['count'])
             if ( !isset($result['key']) ) {
             $result['key'] = $key;
             }
