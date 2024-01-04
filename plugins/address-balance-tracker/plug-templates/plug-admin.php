@@ -66,7 +66,7 @@ $ct['admin_render_settings']['privacy_mode']['is_radio'] = array(
                                                           );
 
 
-$ct['admin_render_settings']['privacy_mode']['is_notes'] = 'In Privacy Mode, the current asset balance in converted to it\'s ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' value.';
+$ct['admin_render_settings']['privacy_mode']['is_notes'] = 'In Privacy Mode, the current asset balance is converted to it\'s ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' value.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
