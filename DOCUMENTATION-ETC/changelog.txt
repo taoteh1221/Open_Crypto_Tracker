@@ -6579,6 +6579,8 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed bugs in duplicates checks, for certain admin settings (no more "false positive" duplicate entry alerts when updating settings...sorry!)
 
+-BUG FIX: Fixed CoinGecko API errors, caused by v6.00.33's integration of "CoinGecko Terminal" support (sorry!)
+
 -Added support for AEVO.xyz markets
 
 -Miscellaneous user experience improvements

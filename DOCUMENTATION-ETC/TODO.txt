@@ -181,6 +181,9 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Test updating ALL admin settings in the interface on the PHP v7.4 server.
+
+
 Consider whether we should have alpha vantage fallback to cached data, if we've detected (from the API response) that we've gone over the daily limit for the free level. It's great for UX, except we should have an error log and alert to end users if we do that. Otherwise they are flying blind, as to whether the asset prices are even getting updated or not.
 
 
