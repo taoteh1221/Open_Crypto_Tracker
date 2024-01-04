@@ -180,13 +180,15 @@
 		
 	    <ul>
 	        
+	        <li class='links_list'><a href='https://backpack.app/downloads' target='_blank'>BackPack</a>   <span class='yellow'>(<a href='https://github.com/coral-xyz/backpack' target='_blank'>open source</a> Solana software wallet browser extension, with hardware wallet support)</span></li>
+	        
 	        <li class='links_list'><a href='https://www.ledger.com/' target='_blank'>Ledger</a>   <span class='yellow'>(proprietary multi-coin hardware wallet, with isolated bank grade security chip)</span></li>
 	        
-	        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a>   <span class='yellow'>(open source multi-coin hardware wallet)</span></li>
+	        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a>   <span class='yellow'>(<a href='https://github.com/trezor' target='_blank'>open source</a> multi-coin hardware wallet)</span></li>
 	        
 	        <li class='links_list'><a href='https://gridplus.io' target='_blank'>GridPlus</a>   <span class='yellow'>(high-end proprietary Ethereum hardware wallet)</span></li>
 	        
-	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a>   <span class='yellow'>(open source Bitcoin hardware wallet [uses fork of trezor software interface])</span></li>
+	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a>   <span class='yellow'>(<a href='https://github.com/Coldcard' target='_blank'>open source</a> Bitcoin hardware wallet [uses fork of trezor software interface])</span></li>
 	        
 	        <li class='links_list'><a href='https://safe.global/' target='_blank'>Gnosis Safe Multisig Wallet</a>   <span class='yellow'>(Ethereum web wallet, with hardware wallet support)</span></li>
 	        
@@ -224,6 +226,8 @@
 	        <li class='links_list'><a href='https://ournetwork.substack.com/' target='_blank'>Our Network</a></li>  
 	        
 	        <li class='links_list'><a href='https://theblockcrypto.substack.com/' target='_blank'>The Block Newsletter</a></li>
+	        
+	        <li class='links_list'><a href='https://solanafloor.substack.com/' target='_blank'>The Solana Six Newsletter</a></li>
 	        
 	        <li class='links_list'><a href='https://unchainedpodcast.com/category/newsletters/' target='_blank'>Unchained Newsletter</a></li>
 	        
@@ -289,6 +293,8 @@
 	        <li class='links_list'><a href='https://www.coindesk.com/' target='_blank'>Coin Desk</a></li>
 	        
 	        <li class='links_list'><a href='https://cointelegraph.com/' target='_blank'>Coin Telegraph</a></li>
+	        
+	        <li class='links_list'><a href='https://solanafloor.com/' target='_blank'>Solana Floor</a></li>
 	        
 	        <li class='links_list'><a href='https://www.theblockcrypto.com/' target='_blank'>The Block</a></li>
 	        

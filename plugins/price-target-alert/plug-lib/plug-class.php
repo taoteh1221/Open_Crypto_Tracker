@@ -61,7 +61,7 @@ var $array1 = array();
      	     if ( sizeof($_POST['price-target-alert']['price_targets']) == 1 && trim($price_target_data) == '' ) {
      	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      	     }
-     	     elseif ( $ct['var']->stristr_in_array($_POST['price-target-alert']['price_targets'], $target_market, 75)['count'] > 1 ) {
+     	     elseif ( $ct['var']->begins_with_in_array($_POST['price-target-alert']['price_targets'], $target_market)['count'] > 1 ) {
                $ct['update_config_error'] .= $update_config_error_seperator . 'Price target MARKET was USED TWICE (DUPLICATE): "'.$price_target_data.'" (no duplicate markets allowed)';
      	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {

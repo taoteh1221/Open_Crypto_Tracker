@@ -83,8 +83,9 @@ foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
     foreach ( $mrkts_conf['pair'] as $pair_conf ) {
                   
          foreach ( $pair_conf as $exchange_key => $exchange_val ) {
-            	            
-              if ( stristr($exchange_key, 'coingecko_') != false && trim($exchange_val) != '' ) { // In case user messes up Admin Config, this helps
+            
+              // EXCLUDE 'coingecko_terminal' markets (as they are a different format), and exchange keys that are blank (from user input error)
+              if ( stristr($exchange_key, 'coingecko_') != false && $exchange_key != 'coingecko_terminal' && trim($exchange_val) != '' ) {
             		        
               $paired_conf = explode('_', strtolower($exchange_key) );
               $paired_conf = $paired_conf[1];

@@ -630,6 +630,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'sol-4||binance||eth||chart',
 					
 					
+					// TBTC
+					'tbtc||kraken||usd||both',
+					
+					
 					// USDC
 					'usdc||kraken||usd||both',
 					
@@ -649,6 +653,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'uni||binance||btc||both',
 					'uni-3||binance||usdt||none',
 					'uni-4||coinbase||usd||none',
+					
+					
+					// JUP
+					'jup||aevo_futures||usd||both',
 					
 					
 					// RAY
@@ -701,8 +709,12 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'rndr-2||gateio||usdt||none',
 					
 					
+					// SHDW
+					'shdw||coingecko_terminal||usd||both',
+					
+					
 					// GRAPE
-					'grape||coingecko_usd||usd||both',
+					'grape||coingecko_usd||usd||chart',
 					'grape-4||coingecko_eur||eur||none',
 					'grape-5||coingecko_gbp||gbp||none',
 					
@@ -1318,6 +1330,12 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			"title" => "Newsletter - The Daily Degen",
             			"url" => "https://thedailydegen.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - The Solana Six",
+            			"url" => "https://solanafloor.substack.com/feed"
         						),
     
     
@@ -2265,6 +2283,44 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // TBTC
+                    'TBTC' => array(
+                        
+                        'name' => 'tBTC',
+                        'mcap_slug' => 'tbtc',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                    	 'kraken' => 'TBTCXBT',
+                                    	 'jupiter_ag' => 'TBTC/WBTC',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'TBTCEUR',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'TBTC/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	'kraken' => 'TBTCUSD',
+                                    	'coingecko_terminal' => 'ethereum||0xb7ecb2aa52aa64a717180e030241bc75cd946726',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // USDC
                     'USDC' => array(
                         
@@ -2460,6 +2516,27 @@ $ct['conf']['assets'] = array(
                                                     
                         ) // pair END
                                         
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // JUP
+                    'JUP' => array(
+                        
+                        'name' => 'Jupiter Aggregator',
+                        'mcap_slug' => '',
+                        'pair' => array(
+
+                                                    
+                                    'usd' => array(
+                                    	 'aevo_futures' => 'JUP-PERP',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
                     ), // Asset END
                     
                     
@@ -2837,7 +2914,7 @@ $ct['conf']['assets'] = array(
                     // RNDR
                     'RNDR' => array(
                         
-                        'name' => 'Render Token',
+                        'name' => 'Render',
                         'mcap_slug' => 'render-token',
                         'pair' => array(
 
@@ -2873,6 +2950,32 @@ $ct['conf']['assets'] = array(
                                         'gateio' => 'RNDR_USDT',
                                         'kucoin' => 'RNDR-USDT',
                                         'coinex' => 'RNDRUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SHDW
+                    'SHDW' => array(
+                        
+                        'name' => 'Shadow',
+                        'mcap_slug' => 'genesysgo-shadow',
+                        'pair' => array(
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'SHDW/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||2wbnvtStBTRRGJhCAwpLSWxrUrfRL4H2FTsujseALsm1',
                                                     ),
 
                                                     
@@ -2929,7 +3032,7 @@ $ct['conf']['assets'] = array(
                     'PURI' => array(
                         
                         'name' => 'Puri',
-                        'mcap_slug' => 'puri',
+                        'mcap_slug' => '',
                         'pair' => array(
 
                                                     

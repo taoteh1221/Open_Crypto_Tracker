@@ -42,9 +42,9 @@ else {
 
 	<div style='margin: 25px;'>
 	
-	<form id='upgrade_ct_conf' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_general')?>&section=general&refresh=all' method='post'>
+	<form id='upgrade_ct_conf' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_general')?>&section=general&refresh=all' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('upgrade_ct_conf')?>' />
+	<input type='hidden' name='admin_nonce' value='<?=$ct['gen']->admin_nonce('upgrade_ct_conf')?>' />
 	
 	<input type='hidden' name='upgrade_ct_conf' value='1' />
 	
@@ -146,7 +146,7 @@ foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $unus
 $ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
 }
 
-$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE AVAILABLE ON THE CHOSEN "Bitcoin Primary Exchange" BELOW.';
+$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE AVAILABLE ON THE CHOSEN "Bitcoin Primary Currency Exchange" BELOW.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -29,7 +29,7 @@ $check_default_ct_conf = null;
 // (!!MUST RUN *BEFORE* $ct['reset_config'], AND *BEFORE* load-config-by-security-level.php)
 if (
 $ct['upgraded_install']
-||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
+||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
 ) {
 
      // We just flag as upgraded / cache version number in high security mode
@@ -61,7 +61,7 @@ $ct['upgraded_install']
 // If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
 // (!!MUST RUN *AFTER* $ct['app_upgrade_check'], AN *BEFORE* load-config-by-security-level.php)
 // (STRICT 2FA MODE ONLY)
-if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_ct_conf') && $ct['gen']->valid_2fa('strict') ) {
+if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_ct_conf') && $ct['gen']->valid_2fa('strict') ) {
 
      if ( $ct['app_upgrade_check'] ) {
      $admin_reset_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try resetting again.';
@@ -77,7 +77,7 @@ if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_ha
 // Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
 // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
 // (CHECK 2FA UNDER ANY 2FA MODE)
-if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') && $ct['gen']->valid_2fa() ) {
+if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'toggle_admin_security') && $ct['gen']->valid_2fa() ) {
      
      // We want to load configs from the hard-coded config files if we just switched to 'high' security mode,
      // so trigger a config reset to accomplish that
@@ -97,7 +97,7 @@ $setup_admin_sec_success = 'Admin Security Level changed to "'.$ct['admin_area_s
 // Toggle 2FA SETUP off / on / scrict, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
 // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
 // *FORCE* CHECK 2FA, SINCE WE ARE RUNNING 2FA SETUP HERE
-if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
+if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'toggle_admin_2fa') ) {
      
      
      // If valid 2FA code
@@ -193,7 +193,7 @@ set_time_limit($max_exec_time); // Doc suggest this may be more reliable than in
      			
 // If no master webhook (AND not a fast runtime), or a webhook secret key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$is_fast_runtime && !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_master_key') && $ct['gen']->valid_2fa('strict') ) {
+if ( !$is_fast_runtime && !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_webhook_master_key') && $ct['gen']->valid_2fa('strict') ) {
      	
 $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -223,7 +223,7 @@ $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash conve
 
 // If no internal API key (AND not a fast runtime), OR an internal API key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$is_fast_runtime && !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_int_api_key') && $ct['gen']->valid_2fa('strict') ) {
+if ( !$is_fast_runtime && !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_int_api_key') && $ct['gen']->valid_2fa('strict') ) {
      				
 $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -396,7 +396,7 @@ $cached_light_chart_struct = trim( file_get_contents($ct['base_dir'] . '/cache/v
 // OR a user-requested light chart reset
 if (
 $conf_light_chart_struct != $cached_light_chart_struct
-|| $_POST['reset_light_charts'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_light_charts') && $ct['gen']->valid_2fa('strict')
+|| $_POST['reset_light_charts'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_light_charts') && $ct['gen']->valid_2fa('strict')
 ) {
 
 // Delete ALL light charts (this will automatically trigger a re-build)

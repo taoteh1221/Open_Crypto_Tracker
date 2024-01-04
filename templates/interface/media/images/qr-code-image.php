@@ -4,7 +4,7 @@
  */
 
 
-$original = trim($_GET['data']);
+$original = trim($_GET['qr_code_crypto_address']);
 
 $sanitized = $original;
 
@@ -19,7 +19,7 @@ $sanitized = strip_tags($sanitized);
 
 
 // Check if sanitized input matches original input (we want to use original input to play it safe or cancel the QR code output, since this is crypto-related)
-if ( trim($_GET['data']) == '' || $original != $sanitized ) {
+if ( trim($_GET['qr_code_crypto_address']) == '' || $original != $sanitized ) {
 $image = imagecreatefrompng('qr-error.png');
 header('Content-type: image/png');
 imagepng($image);

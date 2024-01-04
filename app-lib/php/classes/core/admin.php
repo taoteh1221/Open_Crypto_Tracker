@@ -37,7 +37,7 @@ var $ct_array = array();
       
         
         // Make sure security checks pass / data seems valid for updating the admin config (STRICT 2FA MODE ONLY)
-        if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($field_array_base) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
+        if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($field_array_base) && $ct['gen']->pass_sec_check($_POST['admin_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
         return $field_array_base;
         }
         else {
@@ -306,8 +306,8 @@ var $ct_array = array();
                 if ( sizeof($_POST['mobile_network']['text_gateways']) == 1 && trim($val) == '' ) {
      	      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
                 }
-			 elseif ( $ct['var']->stristr_in_array($_POST['mobile_network']['text_gateways'], $gateway_data[0] . '||', 15)['count'] > 1 ) {
-                $ct['update_config_error'] .= '<br />Mobile text gateway KEY was USED TWICE (DUPLICATE): "'.$gateway_data[0].'" (no duplicate keys allowed)';
+			 elseif ( $ct['var']->begins_with_in_array($_POST['mobile_network']['text_gateways'], $gateway_data[0] . '||')['count'] > 1 ) {
+                $ct['update_config_error'] .= '<br />Mobile text gateway KEY was USED TWICE (DUPLICATE): "'.$gateway_data[0].'" (in "'.$val.'", no duplicate keys allowed)';
 			 }
 		      elseif ( $test_result != 'valid' ) {
                 $ct['update_config_error'] .= '<br />Mobile text gateway seems INVALID: "'.$gateway_data[1].'" ('.$test_result.')';
@@ -389,7 +389,7 @@ var $ct_array = array();
      	     if ( sizeof($_POST['charts_alerts']['tracked_markets']) == 1 && trim($val) == '' ) {
      	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      	     }
-     	     elseif ( $ct['var']->stristr_in_array($_POST['charts_alerts']['tracked_markets'], $val_config[0] . '||', 15)['count'] > 1 ) {
+     	     elseif ( $ct['var']->begins_with_in_array($_POST['charts_alerts']['tracked_markets'], $val_config[0] . '||')['count'] > 1 ) {
                $ct['update_config_error'] .= $update_config_error_seperator . 'Charts / Alerts KEY was USED TWICE (DUPLICATE): "'.$val_config[0].'" (no duplicate keys allowed)';
      	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
@@ -537,7 +537,7 @@ var $ct_array = array();
    <div class='pretty_text_fields'>
    
 	
-	<form name='update_config' id='update_config' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $interface_id)?>&<?=( $is_plugin_config ? 'plugin' : 'section' )?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
+	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=( $is_plugin_config ? 'plugin' : 'section' )?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
      
      <?php
      
@@ -834,7 +834,7 @@ var $ct_array = array();
      
 	<input type='hidden' name='interface_id' id='interface_id' value='<?=$interface_id?>' />
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce($interface_id)?>' />
+	<input type='hidden' name='admin_nonce' value='<?=$ct['gen']->admin_nonce($interface_id)?>' />
 	
 	<?=$ct['gen']->input_2fa('strict')?>
 			
