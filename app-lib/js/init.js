@@ -248,7 +248,7 @@ nav_menu('.user-nav');
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
 
-    // Force scrolling to top of page (so end-user always sees the 'loading...' notice)    
+    // Force scrolling to top of page on submit (for better UX)    
     scroll(0,0);
     
     form_submit_queued = true;
@@ -298,22 +298,22 @@ nav_menu('.user-nav');
      
      // Show / hide password
      $('.toggle-show-password').on({
-        "click":function(e){
+         "click":function(e){
 
-        $(this).toggleClass("gg-eye");
+         $(this).toggleClass("gg-eye");
 
-        $(this).toggleClass("gg-eye-alt");
+         $(this).toggleClass("gg-eye-alt");
        
-        var input_elm = $("input[data-name=" + $(this).attr('data-name') + "]");
+         var input_elm = $("input[data-name=" + $(this).attr('data-name') + "]");
        
-            if ( input_elm.attr("type") === "password" ) {
-            input_elm.attr("type", "text");
-            }
-            else if ( input_elm.attr("type") === "text" ) {
-            input_elm.attr("type", "password");
-            }
+             if ( input_elm.attr("type") === "password" ) {
+             input_elm.attr("type", "text");
+             }
+             else if ( input_elm.attr("type") === "text" ) {
+             input_elm.attr("type", "password");
+             }
               
-         }
+          }
      });
 	
 
@@ -365,7 +365,7 @@ nav_menu('.user-nav');
               iframe.contentWindow.addEventListener('beforeunload', function() {
               $("#"+iframe.id+"_loading").fadeIn(250);
               $("#"+iframe.id).fadeOut(250);
-              scroll(0,0); // Force scrolling to top of iframe (so end-user always sees the 'loading...' notice)
+              scroll(0,0); // Force scrolling to top of iframe (so end-user always sees notices above iframe [iframe loading / background tasks, etc])
               });
           
               // Before admin iframe submits
