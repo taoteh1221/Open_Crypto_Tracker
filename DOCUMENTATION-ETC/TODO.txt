@@ -181,6 +181,25 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add bitcoin etf HODL to demo markets.
+
+
+Add nft charts / info site to resources page:
+https://moon.ly/
+
+
+Add IMX to demo assets
+
+
+add neon evm token $neon to demo assets
+
+
+NFT API: https://www.coingecko.com/en/api/nft
+
+
+add ezbc / fbtc etfs to app
+
+
 Test updating ALL admin settings in the interface on the PHP v7.4 server.
 
 

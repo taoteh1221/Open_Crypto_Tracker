@@ -60,12 +60,6 @@ $target_key = $parse_attributes[0];
 $target_val = $parse_attributes[1];
 
 $price_target_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
-
-
-	// If it's too early to re-send an alert again, skip this entry
-	if ( $ct['cache']->update_cache($price_target_cache_file, $plug['conf'][$this_plug]['alerts_frequency_maximum']) == false ) {
-	continue;
-	}
 	
 
 $target_val = $ct['var']->num_to_str($target_val);
@@ -81,6 +75,12 @@ $mrkt_exchange = strtolower($mrkt_conf[2]);
 $mrkt_id = $ct['conf']['assets'][$mrkt_asset]['pair'][$mrkt_pair][$mrkt_exchange];
 
 $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchange, $mrkt_id)['last_trade'] );
+
+
+	// If market value is zero, or it's too early to re-send an alert again, skip this entry
+	if ( $mrkt_val == 0 || $ct['cache']->update_cache($price_target_cache_file, $plug['conf'][$this_plug]['alerts_frequency_maximum']) == false ) {
+	continue;
+	}
 		
 	
 	// Get cache data, and / or flag a cache reset
