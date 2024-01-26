@@ -664,7 +664,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// NEON
-					'neon||jup_ag||sol||both',
+					'neon||jupiter_ag||sol||both',
 					
 					
 					// HNT
@@ -717,7 +717,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// WEN
-					'wen||jup_ag||sol||both',
+					'wen||jupiter_ag||sol||both',
 					
 					
 					// PURI
