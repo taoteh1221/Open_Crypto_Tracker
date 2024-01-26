@@ -608,6 +608,14 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'btc-28||bitmex||usd||both',
 					
 					
+					// TBTC
+					'tbtc||kraken||usd||both',
+					
+					
+					// FBTCSTOCK (Fidelity Bitcoin ETF)
+					'fbtcstock||alphavantage_stock||usd||both',
+					
+					
 					// ETH
 					'eth||coinbase||btc||none',
 					'eth-3||kraken||btc||chart',
@@ -630,12 +638,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'sol-4||binance||eth||chart',
 					
 					
-					// TBTC
-					'tbtc||kraken||usd||both',
-					
-					
-					// USDC
-					'usdc||kraken||usd||both',
+					// MKR
+					'mkr||okex||btc||none',
+					'mkr-2||kucoin||btc||none',
+					'mkr-3||coinbase||btc||both',
 					
 					
 					// DAI
@@ -643,10 +649,8 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'dai-2||kraken||usd||none',
 					
 					
-					// MKR
-					'mkr||okex||btc||none',
-					'mkr-2||kucoin||btc||none',
-					'mkr-3||coinbase||btc||both',
+					// USDC
+					'usdc||kraken||usd||both',
 					
 					
 					// UNI
@@ -659,9 +663,22 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'jup||aevo_futures||usd||both',
 					
 					
-					// RAY
-					'ray||binance||usdt||both',
-					'ray-2||coingecko_btc||btc||chart',
+					// NEON
+					'neon||jup_ag||sol||both',
+					
+					
+					// HNT
+					'hnt-2||gateio||usdt||both',
+					'hnt-3||gateio||eth||none',
+					
+					
+					// RNDR
+					'rndr||kucoin||btc||both',
+					'rndr-2||gateio||usdt||none',
+					
+					
+					// SHDW
+					'shdw||coingecko_terminal||usd||both',
 					
 					
 					// MANA
@@ -682,9 +699,14 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'atlas-3||kraken||usd||both',
 					
 					
-					// HNT
-					'hnt-2||gateio||usdt||both',
-					'hnt-3||gateio||eth||none',
+					// GRAPE
+					'grape||coingecko_usd||usd||chart',
+					'grape-4||coingecko_eur||eur||none',
+					'grape-5||coingecko_gbp||gbp||none',
+					
+					
+					// HIVE
+					'hive||binance||btc||both',
 					
 					
 					// BONK
@@ -694,37 +716,16 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'bonk-4||coingecko_eth||eth||chart',
 					
 					
-					// HIVE
-					'hive||binance||btc||both',
-					
-					
-					// ZBC
-					'zbc||coingecko_btc||btc||chart',
-					'zbc-2||coingecko_eth||eth||chart',
-					'zbc-3||gateio||usdt||both',
-					
-					
-					// RNDR
-					'rndr||kucoin||btc||both',
-					'rndr-2||gateio||usdt||none',
-					
-					
-					// SHDW
-					'shdw||coingecko_terminal||usd||both',
-					
-					
-					// GRAPE
-					'grape||coingecko_usd||usd||chart',
-					'grape-4||coingecko_eur||eur||none',
-					'grape-5||coingecko_gbp||gbp||none',
+					// WEN
+					'wen||jup_ag||sol||both',
 					
 					
 					// PURI
 					'puri||coingecko_terminal||usd||both',
 					
 					
-					// GPVSTOCK (GreenPower Motor Company stock)
-					'gpvstock||alphavantage_stock||cad||both',
+					// SHOPSTOCK (Shopify stock)
+					'shopstock||alphavantage_stock||cad||both',
 					
 					
 					// DTGSTOCK (Daimler Truck Holding stock)
@@ -1214,357 +1215,321 @@ $ct['conf']['news']['feeds'] = array(
     
     
         				array(
-            			"title" => "Blog - BitcoinCore.org",
-            			"url" => "https://bitcoincore.org/en/rss.xml"
-        						),
+            			      "title" => "Blog - BitcoinCore.org",
+            			      "url" => "https://bitcoincore.org/en/rss.xml"
+        				     ),
         
         
         				array(
-            			"title" => "Blog - Bitmex",
-            			"url" => "https://blog.bitmex.com/feed/?lang=en_us"
-        						),
+            			      "title" => "Blog - Bitmex",
+            			      "url" => "https://blog.bitmex.com/feed/?lang=en_us"
+        				     ),
         
         
         				array(
-            			"title" => "Blog - Ethereum.org (community-driven on-chain smart contracts)",
-            			"url" => "https://blog.ethereum.org/feed.xml"
-        						),
+            			      "title" => "Blog - Ethereum.org (community-driven on-chain smart contracts)",
+            			      "url" => "https://blog.ethereum.org/feed.xml"
+        				     ),
         
         
         				array(
-            			"title" => "Blog - Helium Network (community-driven global LoRaWAN network)",
-            			"url" => "https://blog.helium.com/feed"
-        						),
+            			      "title" => "Blog - Helium Network (community-driven global LoRaWAN network)",
+            			      "url" => "https://blog.helium.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Blog - Kraken",
-            			"url" => "https://blog.kraken.com/feed/"
-        						),
+            			      "title" => "Blog - Kraken",
+            			      "url" => "https://blog.kraken.com/feed/"
+        				     ),
         
         
         				array(
-            			"title" => "Blog - Raydium (Solana-based on-chain order book AMM)",
-            			"url" => "https://raydium.medium.com/feed"
-        						),
+            			      "title" => "Blog - RNDR Network (Blockchain-Distributed GPU Rendering)",
+            			      "url" => "https://medium.com/feed/render-token"
+        				     ),
         
         
         				array(
-            			"title" => "Blog - RNDR Network (Blockchain-Distributed GPU Rendering)",
-            			"url" => "https://medium.com/feed/render-token"
-        						),
+            			      "title" => "Blog - Star Atlas (NFT-based Space Shooter Metaverse on Solana)",
+            			      "url" => "https://medium.com/feed/star-atlas"
+        				     ),
         
         
         				array(
-            			"title" => "Blog - Star Atlas (NFT-based Space Shooter Metaverse on Solana)",
-            			"url" => "https://medium.com/feed/star-atlas"
-        						),
+            			      "title" => "News - Bitcoin Magazine",
+            			      "url" => "https://bitcoinmagazine.com/feed"
+        				     ),
         
         
         				array(
-            			"title" => "Blog - ZkSync (Ethereum Layer 2 Network)",
-            			"url" => "https://medium.com/feed/matter-labs"
-        						),
+            			      "title" => "News - CoinTelegraph",
+            			      "url" => "https://cointelegraph.com/feed"
+        				     ),
         
         
         				array(
-            			"title" => "News - Bitcoin Magazine",
-            			"url" => "https://bitcoinmagazine.com/feed"
-        						),
+            			      "title" => "News - Decrypt",
+            			      "url" => "https://decrypt.co/feed"
+        				     ),
         
         
         				array(
-            			"title" => "News - CoinTelegraph",
-            			"url" => "https://cointelegraph.com/feed"
-        						),
-        
-        
-        				array(
-            			"title" => "News - Decrypt",
-            			"url" => "https://decrypt.co/feed"
-        						),
-        
-        
-        				array(
-            			"title" => "News - Slashdot",
-            			"url" => "https://rss.slashdot.org/Slashdot/slashdot"
-        						),
+            			      "title" => "News - Slashdot",
+            			      "url" => "https://rss.slashdot.org/Slashdot/slashdot"
+        				     ),
     
     
         				array(
-            			"title" => "Newsletter - Alpha Please",
-            			"url" => "https://alphapls.substack.com/feed"
-        						),
+            			      "title" => "Newsletter - Alpha Please",
+            			      "url" => "https://alphapls.substack.com/feed"
+        				     ),
     					
     					
         				array(
-            			"title" => "Newsletter - Bitcoin Optech",
-            			"url" => "https://bitcoinops.org/feed.xml"
-        						),
+            			      "title" => "Newsletter - Bitcoin Optech",
+            			      "url" => "https://bitcoinops.org/feed.xml"
+        				     ),
     					
     					
         				array(
-            			"title" => "Newsletter - CoinCenter (D.C. non-profit crypto lobbying)",
-            			"url" => "https://www.newsletter.coincenter.org/feed"
-        						),
+            			      "title" => "Newsletter - CoinCenter (D.C. non-profit crypto lobbying)",
+            			      "url" => "https://www.newsletter.coincenter.org/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Newsletter - Lightning Labs (Bitcoin Layer 2 Network)",
-            			"url" => "https://lightninglabs.substack.com/feed"
-        						),
+            			      "title" => "Newsletter - Lightning Labs (Bitcoin Layer 2 Network)",
+            			      "url" => "https://lightninglabs.substack.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Newsletter - Our Network",
-            			"url" => "https://ournetwork.substack.com/feed"
-        						),
+            			      "title" => "Newsletter - Our Network",
+            			      "url" => "https://ournetwork.substack.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Newsletter - Page One",
-            			"url" => "https://page1.substack.com/feed"
-        						),
+            			      "title" => "Newsletter - Page One",
+            			      "url" => "https://page1.substack.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Newsletter - The Daily Degen",
-            			"url" => "https://thedailydegen.substack.com/feed"
-        						),
+            			      "title" => "Newsletter - The Daily Degen",
+            			      "url" => "https://thedailydegen.substack.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Newsletter - The Solana Six",
-            			"url" => "https://solanafloor.substack.com/feed"
-        						),
+            			      "title" => "Newsletter - The Solana Six",
+            			      "url" => "https://solanafloor.substack.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Newsletter - Step Data Insights (for Solana)",
-            			"url" => "https://stepdata.substack.com/feed"
-        						),
+            			      "title" => "Newsletter - Step Data Insights (for Solana)",
+            			      "url" => "https://stepdata.substack.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Newsletter - Week In Ethereum",
-            			"url" => "https://weekinethereumnews.com/feed/"
-        						),
+            			      "title" => "Newsletter - Week In Ethereum",
+            			      "url" => "https://weekinethereumnews.com/feed/"
+        				     ),
         
         
         				array(
-            			"title" => "Podcast - Bankless",
-            			"url" => "http://podcast.banklesshq.com/rss"
-        						),
+            			      "title" => "Podcast - Bankless",
+            			      "url" => "http://podcast.banklesshq.com/rss"
+        				     ),
         
         
         				array(
-            			"title" => "Podcast - Citadel Dispatch",
-            			"url" => "https://anchor.fm/s/45563e80/podcast/rss"
-        						),
+            			      "title" => "Podcast - Citadel Dispatch",
+            			      "url" => "https://anchor.fm/s/45563e80/podcast/rss"
+        				     ),
     					
     					
         				array(
-            			"title" => "Podcast - Stephan Livera",
-            			"url" => "https://anchor.fm/s/7d083a4/podcast/rss"
-        						),
+            			      "title" => "Podcast - Stephan Livera",
+            			      "url" => "https://anchor.fm/s/7d083a4/podcast/rss"
+        				     ),
 
     					
         				array(
-            			"title" => "Podcast - Tales From The Crypt",
-            			"url" => "https://anchor.fm/s/558f520/podcast/rss"
-        						),
+            			      "title" => "Podcast - Tales From The Crypt",
+            			      "url" => "https://anchor.fm/s/558f520/podcast/rss"
+        				     ),
     
     
         				array(
-            			"title" => "Podcast - The Solana Podcast",
-            			"url" => "https://feeds.simplecast.com/W1NI2v3Z"
-        						),
+            			      "title" => "Podcast - The Solana Podcast",
+            			      "url" => "https://feeds.simplecast.com/W1NI2v3Z"
+        				     ),
 
     					
         				array(
-            			"title" => "Podcast - The Scoop",
-            			"url" => "http://feeds.megaphone.fm/theblock-thescoop"
-        						),
+            			      "title" => "Podcast - The Scoop",
+            			      "url" => "http://feeds.megaphone.fm/theblock-thescoop"
+        				     ),
 
     					
         				array(
-            			"title" => "Podcast - Unchained",
-            			"url" => "https://unchained.libsyn.com/unchained"
-        						),
+            			      "title" => "Podcast - Unchained",
+            			      "url" => "https://unchained.libsyn.com/unchained"
+        				     ),
 
     					
         				array(
-            			"title" => "Podcast - Unlayered",
-            			"url" => "https://feeds.megaphone.fm/CON1529801782"
-        						),
+            			      "title" => "Podcast - Unlayered",
+            			      "url" => "https://feeds.megaphone.fm/CON1529801782"
+        				     ),
     
     
         				array(
-            			"title" => "Podcast - What Bitcoin Did",
-            			"url" => "https://www.whatbitcoindid.com/podcast?format=RSS"
-        						),
+            			      "title" => "Podcast - What Bitcoin Did",
+            			      "url" => "https://www.whatbitcoindid.com/podcast?format=RSS"
+        				     ),
     
     
         				array(
-            			"title" => "Podcast - Zero Knowledge",
-            			"url" => "https://feeds.fireside.fm/zeroknowledge/rss"
-        						),
+            			      "title" => "Podcast - Zero Knowledge",
+            			      "url" => "https://feeds.fireside.fm/zeroknowledge/rss"
+        				     ),
     
     
         				array(
-            			"title" => "Reddit - Bitcoin (hot)",
-            			"url" => "https://www.reddit.com/r/Bitcoin/hot/.rss?format=xml"
-        						),
+            			      "title" => "Reddit - Bitcoin (hot)",
+            			      "url" => "https://www.reddit.com/r/Bitcoin/hot/.rss?format=xml"
+        				     ),
     
     
         				array(
-            			"title" => "Reddit - Ethereum (hot)",
-            			"url" => "https://www.reddit.com/r/Ethereum/hot/.rss?format=xml"
-        						),
+            			      "title" => "Reddit - Ethereum (hot)",
+            			      "url" => "https://www.reddit.com/r/Ethereum/hot/.rss?format=xml"
+        				     ),
     
     
         				array(
-            			"title" => "Reddit - EthFinance (hot)",
-            			"url" => "https://www.reddit.com/r/EthFinance/hot/.rss?format=xml"
-        						),
+            			      "title" => "Reddit - Helium Network (hot)",
+            			      "url" => "https://www.reddit.com/r/heliumnetwork/hot/.rss?format=xml"
+        				     ),
     
     
         				array(
-            			"title" => "Reddit - Helium Network (hot)",
-            			"url" => "https://www.reddit.com/r/heliumnetwork/hot/.rss?format=xml"
-        						),
+            			      "title" => "Reddit - Solana (hot)",
+            			      "url" => "https://www.reddit.com/r/solana/hot/.rss?format=xml"
+        				     ),
     
     
         				array(
-            			"title" => "Reddit - Solana (hot)",
-            			"url" => "https://www.reddit.com/r/solana/hot/.rss?format=xml"
-        						),
+            			      "title" => "Reddit - StarAtlas (hot)",
+            			      "url" => "https://www.reddit.com/r/staratlas/hot/.rss?format=xml"
+        				     ),
     
     
         				array(
-            			"title" => "Reddit - StarAtlas (hot)",
-            			"url" => "https://www.reddit.com/r/staratlas/hot/.rss?format=xml"
-        						),
+            			      "title" => "StackExchange - Bitcoin (hot)",
+            			      "url" => "https://bitcoin.stackexchange.com/feeds/hot"
+        				     ),
     
     
         				array(
-            			"title" => "Reddit - ZKsync (hot)",
-            			"url" => "https://www.reddit.com/r/zksync/hot/.rss?format=xml"
-        						),
+            			      "title" => "StackExchange - Ethereum (hot)",
+            			      "url" => "https://ethereum.stackexchange.com/feeds/hot"
+        				     ),
     
     
         				array(
-            			"title" => "StackExchange - Bitcoin (hot)",
-            			"url" => "https://bitcoin.stackexchange.com/feeds/hot"
-        						),
+            			      "title" => "StackExchange - Solana (hot)",
+            			      "url" => "https://solana.stackexchange.com/feeds/hot"
+        				     ),
     
     
         				array(
-            			"title" => "StackExchange - Ethereum (hot)",
-            			"url" => "https://ethereum.stackexchange.com/feeds/hot"
-        						),
+            			      "title" => "Stocks - CNBC: US Top News and Analysis",
+            			      "url" => "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114"
+        				     ),
     
     
         				array(
-            			"title" => "StackExchange - Solana (hot)",
-            			"url" => "https://solana.stackexchange.com/feeds/hot"
-        						),
+            			      "title" => "Stocks - AlphaStreet",
+            			      "url" => "https://news.alphastreet.com/feed/"
+        				     ),
     
     
         				array(
-            			"title" => "Stocks - CNBC: US Top News and Analysis",
-            			"url" => "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114"
-        						),
+            			      "title" => "Stocks - Grit Capital",
+            			      "url" => "https://gritcapital.substack.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Stocks - AlphaStreet",
-            			"url" => "https://news.alphastreet.com/feed/"
-        						),
+            			      "title" => "Stocks - Investing.com: News",
+            			      "url" => "https://www.investing.com/rss/news.rss"
+        				     ),
     
     
         				array(
-            			"title" => "Stocks - Grit Capital",
-            			"url" => "https://gritcapital.substack.com/feed"
-        						),
+            			      "title" => "Stocks - Sunday Morning Markets",
+            			      "url" => "https://sundaymorningmarkets.substack.com/feed"
+        				     ),
     
     
         				array(
-            			"title" => "Stocks - Investing.com: News",
-            			"url" => "https://www.investing.com/rss/news.rss"
-        						),
+            			      "title" => "Youtube - BTC Sessions",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UChzLnWVsl3puKQwc5PoO6Zg"
+        				     ),
     
     
         				array(
-            			"title" => "Stocks - Sunday Morning Markets",
-            			"url" => "https://sundaymorningmarkets.substack.com/feed"
-        						),
+            			      "title" => "Youtube - Epicenter Podcast",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCh-0T48JrvvmKDX41aWB_Vg"
+        				     ),
     
     
         				array(
-            			"title" => "Youtube - Anthony Pompliano",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCevXpeL8cNyAnww-NqJ4m2w"
-        						),
+            			      "title" => "Youtube - Ethereum Foundation",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCNOfzGXD_C9YMYmnefmPH0g"
+        				     ),
     
     
         				array(
-            			"title" => "Youtube - BTC Sessions",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UChzLnWVsl3puKQwc5PoO6Zg"
-        						),
+            			      "title" => "Youtube - Helium Network",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCEdh5moyCkiIrfdkZOnG5ZQ"
+        				     ),
     
     
         				array(
-            			"title" => "Youtube - CryptoWendyO",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCla2jS8BrfLJj7kbKyy5_ew"
-        						),
+            			      "title" => "Youtube - Kripto Emre (turkish)",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC87A7vsRlyZ68gtu-z1Q3ow"
+        				     ),
     
     
         				array(
-            			"title" => "Youtube - Epicenter Podcast",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCh-0T48JrvvmKDX41aWB_Vg"
-        						),
+            			      "title" => "Youtube - Kripto Sözlük (turkish)",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC5rV0QEGbv0Y-umDwshs_HA"
+        				     ),
     
     
         				array(
-            			"title" => "Youtube - Ethereum Foundation",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCNOfzGXD_C9YMYmnefmPH0g"
-        						),
+            			      "title" => "Youtube - Lightspeed (Solana / Alt L1 podcast)",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCjsgQKPpR7ubPQhPqjf8kyA"
+        				     ),
     
     
         				array(
-            			"title" => "Youtube - Helium Network",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCEdh5moyCkiIrfdkZOnG5ZQ"
-        						),
+            			      "title" => "Youtube - Solana Labs",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
+        				     ),
     
     
         				array(
-            			"title" => "Youtube - Kripto Emre (turkish)",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC87A7vsRlyZ68gtu-z1Q3ow"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - Kripto Sözlük (turkish)",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC5rV0QEGbv0Y-umDwshs_HA"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - Lightspeed (Solana / Alt L1 podcast)",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCjsgQKPpR7ubPQhPqjf8kyA"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - Solana Labs",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - The Daily Gwei",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCvCp6vKY5jDr87htKH6hgDA"
-        						),
+            			      "title" => "Youtube - The Daily Gwei",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCvCp6vKY5jDr87htKH6hgDA"
+        				     ),
         
         
     				);
@@ -2017,6 +1982,65 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // TBTC
+                    'TBTC' => array(
+                        
+                        'name' => 'tBTC',
+                        'mcap_slug' => 'tbtc',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                    	 'kraken' => 'TBTCXBT',
+                                    	 'jupiter_ag' => 'TBTC/WBTC',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'TBTCEUR',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'TBTC/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	'kraken' => 'TBTCUSD',
+                                    	'coingecko_terminal' => 'ethereum||0xb7ecb2aa52aa64a717180e030241bc75cd946726',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // FBTCSTOCK
+                    'FBTCSTOCK' => array(
+                        
+                        'name' => 'Fidelity Bitcoin ETF',
+                        'mcap_slug' => 'FBTC:BATS',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'FBTC',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // ETH
                     'ETH' => array(
                         
@@ -2283,137 +2307,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // TBTC
-                    'TBTC' => array(
-                        
-                        'name' => 'tBTC',
-                        'mcap_slug' => 'tbtc',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                    	 'kraken' => 'TBTCXBT',
-                                    	 'jupiter_ag' => 'TBTC/WBTC',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                    	 'kraken' => 'TBTCEUR',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'TBTC/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	'kraken' => 'TBTCUSD',
-                                    	'coingecko_terminal' => 'ethereum||0xb7ecb2aa52aa64a717180e030241bc75cd946726',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // USDC
-                    'USDC' => array(
-                        
-                        'name' => 'USD Coin',
-                        'mcap_slug' => 'usd-coin',
-                        'pair' => array(
-
-                                                    
-                                    'eur' => array(
-                                    	 'kraken' => 'USDCEUR',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                    	 'kraken' => 'USDCGBP',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'USDC/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'kraken' => 'USDCUSD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                    	'kraken' => 'USDCUSDT',
-                                        'huobi' => 'usdcusdt',
-                                        'kucoin' => 'USDC-USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DAI
-                    'DAI' => array(
-                        
-                        'name' => 'Dai',
-                        'mcap_slug' => 'dai',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'upbit' => 'BTC-DAI',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                    	 'kraken' => 'DAIEUR',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                         'korbit' => 'dai_krw',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	'coinbase' => 'DAI-USD',
-                                    	'kraken' => 'DAIUSD',
-                                    	'bitfinex' => 'tDAIUSD',
-                                        'gemini' => 'daiusd',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                        'hitbtc' => 'DAIUSDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                    	'kraken' => 'DAIUSDT',
-                                        'okex' => 'DAI-USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // MKR
                     'MKR' => array(
                         
@@ -2472,6 +2365,99 @@ $ct['conf']['assets'] = array(
                                           			
                         ) // pair END
                         
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DAI
+                    'DAI' => array(
+                        
+                        'name' => 'Dai',
+                        'mcap_slug' => 'dai',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                        'upbit' => 'BTC-DAI',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'DAIEUR',
+                                                    ),
+
+                                                    
+                                    'krw' => array(
+                                         'korbit' => 'dai_krw',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	'coinbase' => 'DAI-USD',
+                                    	'kraken' => 'DAIUSD',
+                                    	'bitfinex' => 'tDAIUSD',
+                                        'gemini' => 'daiusd',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                        'hitbtc' => 'DAIUSDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                    	'kraken' => 'DAIUSDT',
+                                        'okex' => 'DAI-USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // USDC
+                    'USDC' => array(
+                        
+                        'name' => 'USD Coin',
+                        'mcap_slug' => 'usd-coin',
+                        'pair' => array(
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'USDCEUR',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                    	 'kraken' => 'USDCGBP',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'USDC/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'kraken' => 'USDCUSD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                    	'kraken' => 'USDCUSDT',
+                                        'huobi' => 'usdcusdt',
+                                        'kucoin' => 'USDC-USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
                     ), // Asset END
                     
                     
@@ -2543,54 +2529,149 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // RAY
-                    'RAY' => array(
+                    // NEON
+                    'NEON' => array(
                         
-                        'name' => 'Raydium',
-                        'mcap_slug' => 'raydium',
+                        'name' => 'Neon',
+                        'mcap_slug' => 'neon',
                         'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'coingecko_btc' => 'raydium',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'RAY_ETH',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                    	 'kraken' => 'RAYEUR',
-                                                    ),
 
                                                     
                                     'sol' => array(
-                                    	 'jupiter_ag' => 'RAY/SOL',
+                                    	 'jupiter_ag' => 'NEON/SOL',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                    	'kraken' => 'RAYUSD',
+                                    	 'coingecko_terminal' => 'solana||GUWM1arUyDnkMGCHvJu3yt1qomJ988utqC3dFN2AUCDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // HNT
+                    'HNT' => array(
+                        
+                        'name' => 'Helium',
+                        'mcap_slug' => 'helium',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                        'coingecko_btc' => 'helium',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'HNT_ETH',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'HNT/SOL',
+                                                    ),
+
+                                                    
+                                    'inr' => array(
+                                        'wazirx' => 'hntinr',
                                                     ),
 
                                                     
                                     'usdc' => array(
-                                    	 'jupiter_ag' => 'RAY/USDC',
+                                    	 'jupiter_ag' => 'HNT/USDC',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'binance' => 'RAYUSDT',
-                                        'coinex' => 'RAYUSDT',
-                                        'gateio' => 'RAY_USDT',
-                                        'bitmart' => 'RAY_USDT',
+                                        'gateio' => 'HNT_USDT',
+                                        'wazirx' => 'hntusdt',
                                                     ),
 
                                                     
                         ) // pair END
                                         
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // RNDR
+                    'RNDR' => array(
+                        
+                        'name' => 'Render',
+                        'mcap_slug' => 'render-token',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'kucoin' => 'RNDR-BTC',
+                                        'hitbtc' => 'RNDRBTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'RNDR_ETH',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'RENDER/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        'hitbtc' => 'RNDRUSD',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'RENDER/USDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'huobi' => 'rndrusdt',
+                                        'gateio' => 'RNDR_USDT',
+                                        'kucoin' => 'RNDR-USDT',
+                                        'coinex' => 'RNDRUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SHDW
+                    'SHDW' => array(
+                        
+                        'name' => 'Shadow',
+                        'mcap_slug' => 'genesysgo-shadow',
+                        'pair' => array(
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'SHDW/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||2wbnvtStBTRRGJhCAwpLSWxrUrfRL4H2FTsujseALsm1',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
                     ), // Asset END
                     
                     
@@ -2753,47 +2834,68 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // HNT
-                    'HNT' => array(
+                    // GRAPE
+                    'GRAPE' => array(
                         
-                        'name' => 'Helium',
-                        'mcap_slug' => 'helium',
+                        'name' => 'Grape Protocol',
+                        'mcap_slug' => 'grape-protocol',
                         'pair' => array(
 
-                        
-                                    'btc' => array(
-                                        'coingecko_btc' => 'helium',
+                                                    
+                                    'eur' => array(
+                                          'coingecko_eur' => 'grape-2',
                                                     ),
 
                                                     
-                                    'eth' => array(
-                                        'gateio' => 'HNT_ETH',
+                                    'gbp' => array(
+                                          'coingecko_gbp' => 'grape-2',
                                                     ),
 
                                                     
                                     'sol' => array(
-                                    	 'jupiter_ag' => 'HNT/SOL',
-                                                    ),
-
-                                                    
-                                    'inr' => array(
-                                        'wazirx' => 'hntinr',
+                                    	 'jupiter_ag' => 'GRAPE/SOL',
                                                     ),
 
                                                     
                                     'usdc' => array(
-                                    	 'jupiter_ag' => 'HNT/USDC',
+                                    	 'jupiter_ag' => 'GRAPE/USDC',
                                                     ),
 
                                                     
-                                    'usdt' => array(
-                                        'gateio' => 'HNT_USDT',
-                                        'wazirx' => 'hntusdt',
+                                    'usd' => array(
+                                          'coingecko_usd' => 'grape-2',
                                                     ),
 
                                                     
                         ) // pair END
-                                        
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // HIVE
+                    'HIVE' => array(
+                        
+                        'name' => 'Hive',
+                        'mcap_slug' => 'hive',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                        'binance' => 'HIVEBTC',
+                                                    ),
+
+                        
+                                    'usdt' => array(
+                                        'huobi' => 'hiveusdt',
+                                        'wazirx' => 'hiveusdt',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
                     ), // Asset END
                     
                     
@@ -2841,182 +2943,26 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // HIVE
-                    'HIVE' => array(
+                    // WEN
+                    'WEN' => array(
                         
-                        'name' => 'Hive',
-                        'mcap_slug' => 'hive',
+                        'name' => 'WEN',
+                        'mcap_slug' => 'wen-4',
                         'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'binance' => 'HIVEBTC',
-                                                    ),
-
-                        
-                                    'usdt' => array(
-                                        'huobi' => 'hiveusdt',
-                                        'wazirx' => 'hiveusdt',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // ZBC
-                    'ZBC' => array(
-                        
-                        'name' => 'Zebec Protocol',
-                        'mcap_slug' => 'zebec-protocol',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'coingecko_btc' => 'zebec-protocol',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'coingecko_eth' => 'zebec-protocol',
-                                                    ),
 
                                                     
                                     'sol' => array(
-                                    	 'jupiter_ag' => 'ZBC/SOL',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'ZBC/USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'huobi' => 'zbcusdt',
-                                        'gateio' => 'ZBC_USDT',
-                                        'coinex' => 'ZBCUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // RNDR
-                    'RNDR' => array(
-                        
-                        'name' => 'Render',
-                        'mcap_slug' => 'render-token',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'kucoin' => 'RNDR-BTC',
-                                        'hitbtc' => 'RNDRBTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'RNDR_ETH',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'RENDER/SOL',
+                                    	 'jupiter_ag' => 'WEN/SOL',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                        'hitbtc' => 'RNDRUSD',
+                                    	 'coingecko_terminal' => 'solana||5WGx6mE9Xww3ocYzSenGVQMJLCVVwK7ePnYV6cXcpJtK',
                                                     ),
 
                                                     
                                     'usdc' => array(
-                                    	 'jupiter_ag' => 'RENDER/USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'huobi' => 'rndrusdt',
-                                        'gateio' => 'RNDR_USDT',
-                                        'kucoin' => 'RNDR-USDT',
-                                        'coinex' => 'RNDRUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SHDW
-                    'SHDW' => array(
-                        
-                        'name' => 'Shadow',
-                        'mcap_slug' => 'genesysgo-shadow',
-                        'pair' => array(
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'SHDW/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coingecko_terminal' => 'solana||2wbnvtStBTRRGJhCAwpLSWxrUrfRL4H2FTsujseALsm1',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // GRAPE
-                    'GRAPE' => array(
-                        
-                        'name' => 'Grape Protocol',
-                        'mcap_slug' => 'grape-protocol',
-                        'pair' => array(
-
-                                                    
-                                    'eur' => array(
-                                          'coingecko_eur' => 'grape-2',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                          'coingecko_gbp' => 'grape-2',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'GRAPE/SOL',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'GRAPE/USDC',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                          'coingecko_usd' => 'grape-2',
+                                    	 'jupiter_ag' => 'WEN/USDC',
                                                     ),
 
                                                     
@@ -3049,16 +2995,16 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // GPVSTOCK
-                    'GPVSTOCK' => array(
+                    // SHOPSTOCK
+                    'SHOPSTOCK' => array(
                         
-                        'name' => 'GreenPower Motor Company Inc',
-                        'mcap_slug' => 'GPV:CVE',
+                        'name' => 'Shopify Inc',
+                        'mcap_slug' => 'SHOP:TSE',
                         'pair' => array(
 
                         
                                     'cad' => array(
-                                        'alphavantage_stock' => 'GPV.TRV',
+                                        'alphavantage_stock' => 'SHOP.TRT',
                                                     ),
 
                                                     

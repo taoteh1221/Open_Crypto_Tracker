@@ -465,7 +465,7 @@ USAGE (ADDING / UPDATING COINS):
                         TSCO.LON
                         
                         Shopify Inc (Canada - Toronto Stock Exchange):
-                        SHOP.TR
+                        SHOP.TRT
                         
                         GreenPower Motor Company Inc (Canada - Toronto Venture Exchange):
                         GPV.TRV

@@ -56,6 +56,8 @@
 	        
 	        <li class='links_list'><a href='https://studio.glassnode.com/' target='_blank'>GlassNode</a></li>
 	        
+	        <li class='links_list'><a href='https://moon.ly/' target='_blank'>Moon.ly NFT Stats / Tracking</a></li>
+	        
 	        <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
 	        
 	        <li class='links_list'><a href='https://www.validators.app/' target='_blank'>Solana Validator Metrics</a></li>
@@ -452,15 +454,11 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Youtube Channels</strong> </legend>
 	    <ul>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCevXpeL8cNyAnww-NqJ4m2w' target='_blank'>Anthony Pompliano</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a> (POW mining channel)</li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/c/BTCSessions/featured' target='_blank'>BTC Sessions</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/c/CryptoWendyO/featured' target='_blank'>CryptoWendyO</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCofTOFX4QuhT8OY-3-fFRFw' target='_blank'>Coinbase</a></li>
 	        
