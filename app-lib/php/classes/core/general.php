@@ -18,6 +18,40 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function display_xml_error($error, $xml_line_parsed) {
+   
+   //$return  = $xml_line_parsed[$error->line - 1] . "\n";
+   $return .= str_repeat('-', $error->column) . "^\n";
+
+      switch ($error->level) {
+        case LIBXML_ERR_WARNING:
+            $return .= "Warning $error->code: ";
+            break;
+         case LIBXML_ERR_ERROR:
+            $return .= "Error $error->code: ";
+            break;
+        case LIBXML_ERR_FATAL:
+            $return .= "Fatal Error $error->code: ";
+            break;
+      }
+
+   $return .= trim($error->message) .
+               "\n  Line: $error->line" .
+               "\n  Column: $error->column";
+
+      if ($error->file) {
+        $return .= "\n  File: $error->file";
+      }
+
+   return "$return\n\n------------------\n------------------\n\n";
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function timestamps_usort_num($a, $b) {
    return strcmp($a['timestamp'], $b['timestamp']); 
    }
@@ -1521,12 +1555,13 @@ var $ct_array = array();
    
    $result = array();
    
-   $num = $ct['var']->num_to_str($num);
+   // MUST BE PASSED AS ABSOLUTE, use floatval to assure it's cleaned up
+   $num = abs( floatval( $ct['var']->num_to_str($num) ) );
    
       // Unit
       if ( $mode == 'u' ) {
           
-      $result['max_dec'] = $this->dyn_max_decimals( abs( floatval($num) ) , $type); // MUST BE PASSED AS ABSOLUTE
+      $result['max_dec'] = $this->dyn_max_decimals($num , $type);
       
       $min_val = ( $type == 'fiat' ? $min_fiat_val_test : $min_crypto_val_test );
    
@@ -1547,11 +1582,11 @@ var $ct_array = array();
       // Percent 
       elseif ( $mode == 'p' ) {
           
-          if ( abs($num) >= 1000 ) {
+          if ( $num >= 1000 ) {
           $result['max_dec'] = 0;
           $result['min_dec'] = 0;
           }
-          elseif ( abs($num) >= 100 ) {
+          elseif ( $num >= 100 ) {
           $result['max_dec'] = 1;
           $result['min_dec'] = 1;
           }

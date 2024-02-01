@@ -2434,7 +2434,7 @@ var $ct_array = array();
   
   global $ct, $htaccess_username, $htaccess_password;
   
-  $cookie_jar = tempnam('/tmp','ct_cron_cookie');
+  $cookie_file = tempnam('/tmp','ct_cron_cookie.txt');
    
   // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
   $hash_check = ( $mode == 'params' ? md5( serialize($request_params) ) : md5($request_params) );
@@ -2686,7 +2686,8 @@ var $ct_array = array();
       
       }
       else {
-      curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_jar);
+      curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+      curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
       }
       
      
@@ -3012,6 +3013,7 @@ var $ct_array = array();
             || preg_match("/not found/i", $data)  // Generic
             || preg_match("/missing a valid API key/i", $data) // Google / generic
             || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
+            || preg_match("/block access from your country/i", $data)  // ByBit (via Amazon CloudFront)
             // API-specific
             || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
@@ -3046,6 +3048,21 @@ var $ct_array = array();
             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
              
+      			
+                  // Servers which are known to block API access by location / jurasdiction
+                  // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
+                  if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
+          
+                      
+                  $ct['gen']->log(
+                    		'notify_error',
+                    		'your ' . $ip_description . '\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+                    		false,
+                    		md5($endpoint_tld_or_ip) . '_possibly_blocked'
+                    		);
+                    		    
+                  }
+                  
            
             }
     

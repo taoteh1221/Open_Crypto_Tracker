@@ -52,7 +52,7 @@ $ct['admin_render_settings']['remote_api_timeout']['range_step'] = 10;
 
 $ct['admin_render_settings']['remote_api_timeout']['range_ui_suffix'] = ' Seconds';
 
-$ct['admin_render_settings']['remote_api_timeout']['is_notes'] = 'MAXIMUM wait time for the FULL response from each external API (before aborting the connection)';
+$ct['admin_render_settings']['remote_api_timeout']['is_notes'] = 'MAXIMUM wait time for the FULL response from each external API (before aborting the connection)<br />Set HIGHER if you get alert notices / error logs OFTEN about this behind slow internet connections. DON\'T SET TOO HIGH THOUGH, or it could cause the APP TO LOAD VERY SLOWLY.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -660,7 +660,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// JUP
-					'jup||aevo_futures||usd||both',
+					'jup||coingecko_terminal||usd||chart',
+					'jup-2||jupiter_ag||sol||chart',
+					'jup-3||binance||usdt||chart',
+					'jup-4||coingecko_btc||btc||both',
 					
 					
 					// NEON
@@ -957,7 +960,7 @@ $ct['conf']['power']['crypto_pair'] = array(
                						// Bluechip ERC-20 tokens on Ethereum / SPL tokens on Solana, etc...
                						'uni' => '🦄 ',
                						'mkr' => '𐌼 ',
-               						'ray' => 'Ｒ ',
+               						'jup' => 'Ɉ ',
      							    );
 
 
@@ -974,7 +977,7 @@ $ct['conf']['power']['crypto_pair_preferred_markets'] = array(
                               							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
                               							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
                               							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'ray' => 'coingecko_btc',  // coingecko global average price IN BTC
+                              							'jup' => 'coingecko_btc',  // coingecko global average price IN BTC
                							           );
 
 
@@ -1198,6 +1201,7 @@ $ct['conf']['news']['news_feed_precache_maximum'] = 45; // (default = 45), ADJUS
 // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
 // (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
 $ct['conf']['news']['strict_news_feed_servers'] = array(
+                                                      'cointelegraph.com',
                                                       'medium.com',
                                                       'reddit.com',
                                                       'whatbitcoindid.com',
@@ -1920,6 +1924,11 @@ $ct['conf']['assets'] = array(
                                           'coingecko_sgd' => 'bitcoin',
                                                     ),
 
+                        
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'WBTC/SOL',
+                                                    ),
+
                                                     
                                     'try' => array(
                                           'btcturk' => 'BTCTRY',
@@ -2070,6 +2079,7 @@ $ct['conf']['assets'] = array(
                                           'kraken' => 'XETHXXBT',
                                           'bitfinex' => 'tETHBTC',
                                           'bitmex_u20' => 'ETHU20',
+                                    	  'jupiter_ag' => 'ETH/WBTC',
                                           'hitbtc' => 'ETHBTC',
                                           'upbit' => 'BTC-ETH',
                                           'bitflyer' => 'ETH_BTC',
@@ -2158,6 +2168,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'sol' => array(
+                                    	'jupiter_ag' => 'ETH/SOL',
+                                                    ),
+
+                                                    
                                     'try' => array(
                                           'btcturk' => 'ETHTRY',
                                           'binance' => 'ETHTRY',
@@ -2237,6 +2252,7 @@ $ct['conf']['assets'] = array(
                                         'huobi' => 'solbtc',
                                         'okex' => 'SOL-BTC',
                                     	'crypto.com' => 'SOL_BTC',
+                                    	'jupiter_ag' => 'SOL/WBTC',
                                         'hitbtc' => 'SOLBTC',
                                         'coinex' => 'SOLBTC',
                                                     ),
@@ -2245,6 +2261,7 @@ $ct['conf']['assets'] = array(
                                     'eth' => array(
                                         'okex' => 'SOL-ETH',
                                         'binance' => 'SOLETH',
+                                    	'jupiter_ag' => 'SOL/ETH',
                                         'hitbtc' => 'SOLETH',
                                                     ),
 
@@ -2428,6 +2445,11 @@ $ct['conf']['assets'] = array(
                         'mcap_slug' => 'usd-coin',
                         'pair' => array(
 
+                        
+                                    'btc' => array(
+                                    	 'jupiter_ag' => 'USDC/WBTC',
+                                                    ),
+
                                                     
                                     'eur' => array(
                                     	 'kraken' => 'USDCEUR',
@@ -2512,12 +2534,42 @@ $ct['conf']['assets'] = array(
                     'JUP' => array(
                         
                         'name' => 'Jupiter Aggregator',
-                        'mcap_slug' => '',
+                        'mcap_slug' => 'jupiter',
                         'pair' => array(
+
+                        
+                                    'btc' => array(
+                                         'coingecko_btc' => 'jupiter-exchange-solana',
+                                    	 'jupiter_ag' => 'JUP/WBTC',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'JUP/SOL',
+                                                    ),
+
+                                                    
+                                    'try' => array(
+                                        'binance' => 'JUPTRY',
+                                                    ),
 
                                                     
                                     'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||FgTCR1ufcaTZMwZZYhNRhJm2K3HgMA8V8kXtdqyttm19',
                                     	 'aevo_futures' => 'JUP-PERP',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'JUP/USDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'JUPUSDT',
+                                        'gateio' => 'JUP_USDT',
+                                        'okex' => 'JUP-USDT',
+                                        'bybit' => 'JUPUSDT',
                                                     ),
 
                                                     

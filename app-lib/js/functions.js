@@ -3102,6 +3102,20 @@ private_data = document.getElementsByClassName('private_data');
     
     }
     else {
+         
+    confirm_privacy_mode = false; // Interface only, set immediately below in interfacing
+    
+         
+        if ( click == true ) {
+        var confirm_privacy_mode = confirm("Click OK to continue enabling privacy mode.");
+        }
+    
+        
+        // Only continue if clicked and confirmed by user in the interface,
+        // OR it's just running automatically during page load
+        if ( click == true && !confirm_privacy_mode ) {
+        return;
+        }
         
         
         if ( get_cookie('priv_sec') == false && click == true ) {
@@ -3152,7 +3166,7 @@ private_data = document.getElementsByClassName('private_data');
         }
         
         
-        // Check again, that 'priv_sec' cookie set
+        // Check, now that 'priv_sec' cookie set
         if ( get_cookie('priv_sec') != false && click == true || get_cookie('priv_sec') != false && click == false && get_cookie('priv_toggle') == 'on' ) {
                     
         pin = atob( get_cookie('priv_sec') );
@@ -3259,6 +3273,7 @@ private_data = document.getElementsByClassName('private_data');
              if ( is_admin && Base64.decode(gen_csrf_sec_token) != 'none' ) {
              $("#app_loading").show(250, 'linear'); // 0.25 seconds
              $("#app_loading_span").html("Please wait, logging out for privacy mode...").css("color", "#ff4747", "important");
+             $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
              window.location.href = "index.php";
              }
         

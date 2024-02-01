@@ -6618,7 +6618,13 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.35:
 
+-BUG FIX: Fixed a bug with using PHP-CLI-CURL APP SERVER cookies properly during background tasks (server-side only...NOT browser cookies), when fetching external API data / news feeds (UNLESS proxies are enabled for external data retrieval, in which case server-side CLI cookies are still NOT used)
+
 -BUG FIX: Fixed bugs / errors in the Price Target Alert plugin, so alerts are now skipped if an asset's market value is zero (due to an API network failure)
+
+-BUG FIX: Miscellaneous fixes
+
+-Additional Jupiter Aggregator market demo data (thanks for the 1500 JUP airdrop for my development work @weremeow!)
 
 -Miscellaneous user experience improvements
 

@@ -196,9 +196,6 @@ Security page should show the app version number, AND any version upgrade alerts
 Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
 
 
-Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
-
-
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 
 
