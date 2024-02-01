@@ -120,6 +120,9 @@ API INTEGRATION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Coingecko NFT API: https://www.coingecko.com/en/api/nft
+
+
 Magic eden API:
 https://docs.magiceden.io/reference/solana-api-keys
 
@@ -160,9 +163,6 @@ Add localcryptos API support whenever their API is out of private testing.
 Add clicksend.com mobile text messaging support
 
 
-https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
-
-
 // https://core.telegram.org/bots/api
 
 // https://core.telegram.org/bots/api#making-requests
@@ -181,13 +181,25 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test updating ALL admin settings in the interface on the PHP v7.4 server.
+We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
 
 
-Consider whether we should have alpha vantage fallback to cached data, if we've detected (from the API response) that we've gone over the daily limit for the free level. It's great for UX, except we should have an error log and alert to end users if we do that. Otherwise they are flying blind, as to whether the asset prices are even getting updated or not.
+Hide dev-only plugin settings in the interface, as <input type='hidden' />
 
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
+
+
+Security page should show the app version number, AND any version upgrade alerts (if available).
+
+
+Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
+
+
+Add a 24 hour time picker, in the recurring reminder plugin settings interface.
+
+
+"The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
 
 
 Review / fully test all the different SUBARRAY logic for the cached config upgrade mechanism (string-keyed / auto-indexed, etc)
@@ -195,26 +207,8 @@ Review / fully test all the different SUBARRAY logic for the cached config upgra
 
 Make sure everything STILL runs smoothly with the charts page turned off.
 
-
-"The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
-
-
-Add a 24 hour time picker, in the recurring reminder plugin settings interface.
-
-
-Hide dev-only plugin settings in the interface, as <input type='hidden' />
-
-
-We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
-
-
-Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
-Security page should show the app version number, AND a version upgrade check alert (if available).
-
-
-Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
+ 
+Test updating ALL admin settings in the interface on the PHP v7.4 server.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

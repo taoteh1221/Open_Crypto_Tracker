@@ -168,6 +168,29 @@ nav_menu('.user-nav');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
      
+     // Dynamically style / control admin logout interfacing
+     $('.admin_logout').on({
+        "click":function(e){
+         
+         var confirm_admin_logout = confirm("Click OK to continue logging out of the admin area.");
+             
+             if ( confirm_admin_logout && is_admin && Base64.decode(gen_csrf_sec_token) != 'none' ) {
+             $("#app_loading").show(250, 'linear'); // 0.25 seconds
+             $("#app_loading_span").html("Please wait, logging out...").css("color", "#ff4747", "important");
+             $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
+             return true;
+             }
+             else {
+             return false;
+             }
+              
+         }
+     });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
      // Dynamically style modals AFTER THEY OPEN (AFTER the dynamically-created elements are created)
      $('.modal_style_control').on({
         "click":function(e){

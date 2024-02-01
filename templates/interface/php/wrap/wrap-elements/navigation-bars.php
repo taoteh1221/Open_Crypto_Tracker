@@ -55,7 +55,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    
    <div class="smallnav_spacer"></div>
    
-   <div class="align_center"><a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
+   <div class="align_center"><a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$ct['sel_opt']['theme_selected']?>.png' class='admin_logout nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
    
    <?php
    }
@@ -323,7 +323,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
             ?>
    
             <li class='sidebar-item'>
-                <a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>" class="bitcoin" title='Logout from the admin area.'>Admin Logout</a>
+                <a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>" class="admin_logout bitcoin" title='Logout from the admin area.'>Admin Logout</a>
             </li>
             
             <?php

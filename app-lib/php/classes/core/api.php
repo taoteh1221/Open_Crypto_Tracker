@@ -476,13 +476,60 @@ var $ct_array = array();
       
       // Format output (UNLESS WE ARE ONLY CACHING DATA)
       if ( !$cache_only ) {
+           
+      // suppress warnings so we can handle them ourselves
+      libxml_use_internal_errors(true);
          
       $rss = simplexml_load_string($response);
       
-          if ( $rss == false ) {
-          gc_collect_cycles(); // Clean memory cache
-          return '<span class="red">Error retrieving feed data.</span>';
+      
+          // If invalid XML
+          if ( $rss === false ) {
+           
+          $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($url);
+           
+          // Log full results to file, TO GET LINE NUMBERS FOR ERRORS
+          
+          // FOR SECURE ERROR LOGS, we redact the full path
+          $xml_response_file_cache = '/cache/other/xml_error_parsing/xml-data-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'.xml';
+          
+          $xml_response_file = $ct['base_dir'] . $xml_response_file_cache;
+          
+          
+               // If we don't already have a saved XML file of this data
+               if ( !file_exists($xml_response_file) ) {
+           
+               // Log this error response from this data request
+               $ct['cache']->save_file($xml_response_file, $response);
+                    
+               libxml_clear_errors();
+               
+               sleep(2);
+               
+               // Load again, BUT FROM THE SAVED FILE (to get line numbers of all errors)
+               $rss_check = simplexml_load_string($xml_response_file);
+                
+               $xml_lines_parsed = file($xml_response_file);
+                    
+               $xml_errors = libxml_get_errors();
+               
+                    foreach ( $xml_errors as $error ) {
+                    $xml_error_summary .= $ct['gen']->display_xml_error($error, $xml_lines_parsed);
+                    }
+                    
+               libxml_clear_errors();
+           
+               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $xml_response_file_cache . $xml_error_summary);
+               
+               gc_collect_cycles(); // Clean memory cache
+
+               }
+
+
+          return '<span class="red">Error reading news feed data (XML error), see admin app logs for details.</span>';
+
           }
+                     
                      
       $html .= '<ul>';
       

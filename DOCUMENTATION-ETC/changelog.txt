@@ -6615,6 +6615,49 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.00.35:
+
+-BUG FIX: Fixed a bug with using PHP-CLI-CURL APP SERVER cookies properly during background tasks (server-side only...NOT browser cookies), when fetching external API data / news feeds (UNLESS proxies are enabled for external data retrieval, in which case server-side CLI cookies are still NOT used)
+
+-BUG FIX: Fixed bugs / errors in the Price Target Alert plugin, so alerts are now skipped if an asset's market value is zero (due to an API network failure)
+
+-BUG FIX: Miscellaneous fixes
+
+-Additional Jupiter Aggregator market demo data (thanks for the 1500 JUP airdrop for my development work @weremeow!)
+
+-Miscellaneous user experience improvements
+
+-Code optimization / cleanup
+
+-Updated documentation
+
+IMPORTANT *UPGRADE* NOTICES:
+
+v6.00.33 and higher changed a few duplicate text gateway keys, so if you use
+email-to-text gateways in this app, MAKE SURE YOURS STILL HAS THE SAME NAME.
+
+v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
+FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation).
+
+v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
+
+-v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.31 OR LOWER.
+
+v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT.
+
+v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT.
+
+v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

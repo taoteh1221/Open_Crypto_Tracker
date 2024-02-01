@@ -76,15 +76,20 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['
 
 // Stale cache files cleanup...
 
+// Every 4 days
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/light_chart_rebuilds', 4, 'dat'); // Delete light chart rebuild event tracking cache files older than 4 days
 
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/messages', 4, 'queue'); // Delete UNSENT message queue files older than 4 days
 
+// Every 3 days
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/other/xml_error_parsing', 3, 'xml'); // Delete cached invalid XML response files older than 3 days
+
+// Every day
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling', 1, 'dat'); // Delete throttling event tracking cache files older than 1 day
 
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day
-
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data', 1, 'dat'); // Delete external API cache files older than 1 day
+
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day
 
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/internal_api', 1, 'dat'); // Delete internal API cache files older than 1 day
 
