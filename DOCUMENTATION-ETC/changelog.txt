@@ -6622,6 +6622,8 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed bugs / errors in the Price Target Alert plugin, so alerts are now skipped if an asset's market value is zero (due to an API network failure)
 
+-BUG FIX: Fixed a bug in the webhook responses, where it returned "No service match for webhook", if more than one webhook plugin was enabled (sorry!) 
+
 -BUG FIX: Miscellaneous fixes
 
 -Additional Jupiter Aggregator market demo data (thanks for the 1500 JUP airdrop for my development work @weremeow!)

@@ -463,6 +463,29 @@ scroll_start();
 /////////////////////////////////////////////////////////////
 
 
+function print_object(obj) {
+
+let string = '';
+ 
+    for (let prop in obj) {
+         
+        if (typeof obj[prop] == 'string') {
+        string += prop + ': ' + obj[prop] + '; \n';
+        }
+        else {
+        string += prop + ': { \n' + print(obj[prop]) + '\n}\n';
+        }
+        
+    }
+ 
+return string;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function store_scroll_position() {
      
      if ( is_iframe ) {
@@ -1358,8 +1381,8 @@ background_tasks_check();
             background_tasks_check();  
             
             },
-            error: function(e) {
-            console.log( "cron emulation: ERROR at " + human_time( new Date().getTime() ) );
+            error: function(response) {
+            console.log( "\n\ncron emulation: *AJAX* (*NOT* PHP) ERROR response at " + human_time( new Date().getTime() ) + " (see below)...\n" + print_object(response) + "\n\n" );
             cron_already_ran = true;
             background_tasks_check(); 
             }

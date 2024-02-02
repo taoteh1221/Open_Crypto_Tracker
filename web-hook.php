@@ -40,6 +40,8 @@ foreach ( $plug['activated']['webhook'] as $plugin_key => $plugin_init ) {
 $this_plug = $plugin_key;
         	
     if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$this_plug]) && trim($ct['int_webhooks'][$this_plug]) != '' && $webhook_key == $ct['gen']->nonce_digest($this_plug, $ct['int_webhooks'][$this_plug] . $webhook_master_key) ) {
+         
+    $webhook_exists = true; // Flag webhook service as found
     
     $webhook_params = explode("/", $_GET['webhook_params']);
     unset($webhook_params[0]); // Remove webhook key
@@ -49,16 +51,18 @@ $this_plug = $plugin_key;
     include($plugin_init);
         	
     }
-    else {
-    $result = array('error' => "No service match for webhook: " . $webhook_key);
-    echo json_encode($result, JSON_PRETTY_PRINT);
-    }
         	
 // Reset $this_plug at end of loop
 unset($this_plug); 
         
 }
 
+
+// If no plugin webhook service was found
+if ( !$webhook_exists ) {
+$result = array('error' => "No service match for webhook: " . $webhook_key);
+echo json_encode($result, JSON_PRETTY_PRINT);
+}
 
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();
