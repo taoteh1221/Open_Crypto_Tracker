@@ -174,7 +174,7 @@ nav_menu('.user-nav');
          
          var confirm_admin_logout = confirm("Click OK to continue logging out of the admin area.");
              
-             if ( confirm_admin_logout && is_admin && Base64.decode(gen_csrf_sec_token) != 'none' ) {
+             if ( confirm_admin_logout && Base64.decode(gen_csrf_sec_token) != 'none' ) {
              $("#app_loading").show(250, 'linear'); // 0.25 seconds
              $("#app_loading_span").html("Please wait, logging out...").css("color", "#ff4747", "important");
              $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds

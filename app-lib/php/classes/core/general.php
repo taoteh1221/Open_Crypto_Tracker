@@ -1561,7 +1561,7 @@ var $ct_array = array();
       // Unit
       if ( $mode == 'u' ) {
           
-      $result['max_dec'] = $this->dyn_max_decimals($num , $type);
+      $result['max_dec'] = $this->dyn_max_decimals($num, $type);
       
       $min_val = ( $type == 'fiat' ? $min_fiat_val_test : $min_crypto_val_test );
    
@@ -2278,7 +2278,7 @@ var $ct_array = array();
 	  // With offset, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
       if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/system/warning-' . $type . '.dat', ($ct['system_warnings_cron_interval'][$type] * 60) + $ct['dev']['tasks_time_offset'] ) == true ) {
           
-      $this->log('system_warning', $ct['system_warnings'][$type]);
+      $this->log('system_error', $ct['system_warnings'][$type]);
       
           if ( isset($ct['system_info']['distro_name']) ) {
           $system_info_summary = "\n\nApp Server System Info: " . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );

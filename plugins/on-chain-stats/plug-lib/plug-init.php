@@ -12,7 +12,10 @@
 // DEBUGGING ONLY (checking logging capability)
 //$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
+$int_webhook_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
 
+
+if ( $runtime_mode == 'ui' ) {
 ?>
 
 <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/style.css" type="text/css" />
@@ -27,6 +30,27 @@
 		
 
 <?php
+}
+elseif ( $runtime_mode == 'webhook' ) {
+     
+
+     if ( !isset($webhook_params[0]) ) {
+     $result = array('error' => "No blockchain network specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (ethereum / solana / etc) like so: /" . $int_webhook_base_endpoint . $webhook_key . "/solana/PARAM2/PARAM3/ETC");
+     echo json_encode($result, JSON_PRETTY_PRINT);
+     }
+     elseif ( $webhook_params[0] == 'ethereum' ) {
+     echo $plug['class'][$this_plug]->ethereum_data($test_params);
+     }
+     elseif ( $webhook_params[0] == 'solana' ) {
+     echo $plug['class'][$this_plug]->solana_data($test_params);
+     }
+     else {
+     $result = array('error' => "No blockchain network match for: " . $webhook_params[0]);
+     echo json_encode($result, JSON_PRETTY_PRINT);
+     }
+     
+
+}
 
 
 // DEBUGGING ONLY (checking logging capability)
