@@ -2343,6 +2343,7 @@ var $ct_array = array();
         if (
         $ext_key == 'qr_code_crypto_address' // QR Code Generator (for crypto addresses)
         || $is_admin && strtolower($method) == 'get' && $ext_key == 'iframe_nonce' // Admin iframe security tokens
+        || strtolower($method) == 'get' && $ext_key == '2fa_setup' // Admin 2FA setup security token
         || $ext_key == 'admin_nonce' // Admin hashed nonce security tokens
         || $ext_key == 'medium_security_nonce' // Admin medium security level's hashed nonce security token
         ) {

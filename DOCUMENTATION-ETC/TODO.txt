@@ -181,6 +181,12 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Cointelegraph news feed works fine in any brand new desktop edition install, yet is stuck with an "enable JavaScript and cookies" server response on my old server edition installs. Even with curl server side cookies enabled, it's still doesn't fix it. Make sure we are definitely not stuck using data that never refreshes in the cache, due to an unknown cache logic bug.
+
+
+On windows desktop edition, when registering an admin account for the first time, if you click on certain links in the user area menu, it just hangs with a loading message, and never redirects back to the registration page like it should.
+
+
 We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
 
 
