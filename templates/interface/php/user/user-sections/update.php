@@ -531,10 +531,11 @@
     	    $asset_paid_val = 0;
     	    $asset_lvrg_val = 0;
     	    $asset_mrgntyp_val = 'long';
-    	    
     	    }
+    	    // Otherwise, just add auto-dynamic decimal rounding to unit value cost basis
     	    else {
-    	    $asset_paid_val = ( $ct['var']->num_to_str($asset_paid_val) >= 1 ? $ct['var']->num_pretty($asset_paid_val, 2) : $ct['var']->num_pretty($asset_paid_val, $ct['conf']['gen']['currency_decimals_max']) );
+         $thres_dec = $ct['gen']->thres_dec($asset_paid_val, 'u', 'fiat'); // Units mode
+         $asset_paid_val = $ct['var']->num_pretty($asset_paid_val, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
     	    }
 	    
 	    

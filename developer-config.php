@@ -14,7 +14,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.35';  // 2024/JANUARY/23RD
+$ct['app_version'] = '6.00.36';  // 2024/FEBUARY/18TH
 
 
 // #PHP# ERROR LOGGING
