@@ -820,20 +820,21 @@ var $ct_array = array();
            
            $asset_val_raw = $asset_mrkt_data['last_trade'];
            
-           // Pretty numbers
+           // Cleaned up numbers
            $asset_val_raw = $ct['var']->num_to_str($asset_val_raw);
            
            $pair_vol_raw = $ct['var']->num_to_str($asset_mrkt_data['24hr_pair_vol']);
            
            
            
-                 // More pretty numbers formatting
+                 // Rounding numbers formatting
                  if ( array_key_exists($mrkt_pair, $ct['conf']['power']['bitcoin_currency_markets']) ) {
-                 $asset_val_raw = ( $ct['var']->num_to_str($asset_val_raw) >= 1 ? round($asset_val_raw, 2) : round($asset_val_raw, $ct['conf']['gen']['currency_decimals_max']) );
+                 $thres_dec = $ct['gen']->thres_dec($asset_val_raw, 'u', 'fiat'); // Units mode
+                 $asset_val_raw = round($asset_val_raw, $thres_dec['max_dec']);
                  $vol_pair_rounded = round($pair_vol_raw);
                  }
                  else {
-                 $vol_pair_rounded = round($pair_vol_raw, 3);
+                 $vol_pair_rounded = round($pair_vol_raw, 8);
                  }
                  
            
@@ -867,8 +868,9 @@ var $ct_array = array();
                        
                        }
                  
-                 // Pretty numbers for fiat currency
-                 $asset_prim_mrkt_worth_raw = ( $ct['var']->num_to_str($asset_prim_mrkt_worth_raw) >= 1 ? round($asset_prim_mrkt_worth_raw, 2) : round($asset_prim_mrkt_worth_raw, $ct['conf']['gen']['currency_decimals_max']) );
+                 // Auto-rounded numbers for fiat currency
+                 $thres_dec = $ct['gen']->thres_dec($asset_prim_mrkt_worth_raw, 'u', 'fiat'); // Units mode
+                 $asset_prim_mrkt_worth_raw = round($asset_prim_mrkt_worth_raw, $thres_dec['max_dec']);
                  
                  // Remove any trailing zeros / scientific formatting from round()
                  $asset_prim_mrkt_worth_raw = $ct['var']->num_to_str($asset_prim_mrkt_worth_raw);
