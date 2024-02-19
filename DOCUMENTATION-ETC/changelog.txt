@@ -6667,6 +6667,10 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed "Average Paid (per-token)" on the update portfolio page NOT properly rounding automatically / dynamically
 
+-BUG FIX: Fixed proper detection of valid hexedecimal and base64 encoding formats, in security scans on user input
+
+-Refactored the attack signature scanning on user inputs, so it STILL maintains strict checks, BUT now has significantly less false positives, when checking POSSIBLE hexidecimal encoding (on VALID hex inputs)  
+
 -Miscellaneous user experience improvements
 
 IMPORTANT *UPGRADE* NOTICES:
