@@ -560,7 +560,7 @@ var $ct_array = array();
      
        
      $data['rank'] = $mcap_data[$symbol]['market_cap_rank'];
-     $data['price'] = $mcap_data[$symbol]['current_price'];
+     $data['price'] = $ct['var']->num_to_str($mcap_data[$symbol]['current_price']);
      $data['market_cap'] = round( $ct['var']->rem_num_format($mcap_data[$symbol]['market_cap']) );
      
        	if ( $ct['var']->rem_num_format($mcap_data[$symbol]['total_supply']) > $ct['var']->rem_num_format($mcap_data[$symbol]['circulating_supply']) ) {
@@ -615,7 +615,7 @@ var $ct_array = array();
        
        
      $data['rank'] = $mcap_data[$symbol]['cmc_rank'];
-     $data['price'] = $mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['price'];
+     $data['price'] = $ct['var']->num_to_str($mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['price']);
      $data['market_cap'] = round( $ct['var']->rem_num_format($mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['market_cap']) );
      
          if ( $ct['var']->rem_num_format($mcap_data[$symbol]['total_supply']) > $ct['var']->rem_num_format($mcap_data[$symbol]['circulating_supply']) ) {
@@ -640,7 +640,8 @@ var $ct_array = array();
      
      
    // UX on number values
-   $data['price'] = ( $ct['var']->num_to_str($data['price']) >= 1 ? $ct['var']->num_pretty($data['price'], 2) : $ct['var']->num_pretty($data['price'], $ct['conf']['gen']['currency_decimals_max']) );
+   $thres_dec = $ct['gen']->thres_dec($data['price'], 'u', 'fiat'); // Units mode
+   $data['price'] = $ct['var']->num_pretty($data['price'], $thres_dec['max_dec'], false, $thres_dec['min_dec']);
    
    // Return null if we don't even detect a rank
    return ( $data['rank'] != NULL ? $data : NULL );

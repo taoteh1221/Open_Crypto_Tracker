@@ -6663,7 +6663,11 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.36:
 
+-BUG FIX: Fixed false positives on attack signature checks for input data (security tokens run through the hexidecimal decoder during security scans can contain opening / closing code symbols, triggering a false positive for an attack signature...sorry!)
+
 -BUG FIX: Fixed "Average Paid (per-token)" on the update portfolio page NOT properly rounding automatically / dynamically
+
+-Miscellaneous user experience improvements
 
 IMPORTANT *UPGRADE* NOTICES:
 
