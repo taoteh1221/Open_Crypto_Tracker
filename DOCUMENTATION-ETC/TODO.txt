@@ -181,6 +181,9 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Webhooks show "file not found" when entering forward slash delimited parameters, on both desktop editions.
+
+
 Put the curl temp cookie file in /cache/other, for windows compatibility?
 
 
