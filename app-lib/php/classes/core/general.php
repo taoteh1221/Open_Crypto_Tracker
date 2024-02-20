@@ -1299,6 +1299,45 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function malware_scan($input) {
+        
+   global $ct;
+   
+   $attack_signature_count = 0;
+   
+   // Replace any backslash entity: &bsol; (PHP does NOT detect it)
+   $check_decoded_input = preg_replace('/&bsol;/', '&#92;', $input);
+   
+   // Decode ALL HTML entities
+   $check_decoded_input = html_entity_decode($check_decoded_input, ENT_QUOTES | ENT_XML1, 'UTF-8');
+   
+   $open_tags = substr_count($check_decoded_input, '<');
+   
+   $close_tags = substr_count($check_decoded_input, '>');
+   
+   $all_tags = $open_tags + $close_tags;
+
+   
+       // If code tags appear present
+       // (NOT JUST A SINGLE TAG, WHICH COULD BE VALID HEX FORMAT DECODED, ***CREATING A FALSE POSITIVE***)
+       if ( $all_tags > 1 && $open_tags > 0 && $close_tags > 0  ) {
+       $attack_signature_count = $all_tags;
+       }
+       // Scan for ADDITIONAL malicious content, ONLY IF CODE TAGS CHECK PASSED
+       else {
+       $scan_input = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_input), $attack_signature_count);
+       }
+   
+   
+   return $attack_signature_count;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function telegram_msg($full_message) {
    
    // Using 3rd party Telegram class, initiated already as $ct['telegram_connect']
@@ -2335,122 +2374,87 @@ var $ct_array = array();
    // RECURSIVELY USED VIA sanitize_requests() (scans all subarray values too)
    function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
    
-   global $ct, $is_admin;
+   global $ct;
 
         
         // STRINGS THAT ARE *SECURITY TOKENS* / QR CODE GENERATOR INPUTS ARE *ALREADY* HEAVILY SCANNED / CHECKED, SO WE CAN SAFELY EXCLUDE THEM 
-        // (AND THEY CAN TRIGGER FALSE POSITIVES, IF RANDOM HASHES MATCH OUR *VERY STRICT* ATTACK SIGNATURE CHECKS)
+        // (AND THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening and closing tag symbols <>,
+        // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
         if (
-        $ext_key == 'qr_code_crypto_address' // QR Code Generator (for crypto addresses)
-        || $is_admin && strtolower($method) == 'get' && $ext_key == 'iframe_nonce' // Admin iframe security tokens
-        || strtolower($method) == 'get' && $ext_key == '2fa_setup' // Admin 2FA setup security token
-        || $ext_key == 'admin_nonce' // Admin hashed nonce security tokens
-        || $ext_key == 'medium_security_nonce' // Admin medium security level's hashed nonce security token
+        
+        // QR Code Generator (GET / POST, for crypto addresses)
+        $ext_key == 'qr_code_crypto_address'
+        
+        // General security token (GET ONLY, for user area [NOT logged into admin])
+        || strtolower($method) == 'get' && $ext_key == 'token'
+        
+        // Admin hashed nonce security tokens (GET ONLY...for EXPIRED logout link UX, WE *CAN SAFELY* SKIP $ct['gen']->admin_logged_in() REQUIREMENT)
+        || strtolower($method) == 'get' && $ext_key == 'admin_nonce'
+        
+        // Admin 2FA setup security token (GET ONLY)
+        || $ct['gen']->admin_logged_in() && strtolower($method) == 'get' && $ext_key == '2fa_setup'
+        
+        // Admin iframe security tokens (GET ONLY)
+        || $ct['gen']->admin_logged_in() && strtolower($method) == 'get' && $ext_key == 'iframe_nonce'
+        
+        // Admin hashed nonce security tokens (POST ONLY)
+        || $ct['gen']->admin_logged_in() && strtolower($method) == 'post' && $ext_key == 'admin_nonce'
+        
+        // Admin medium security level's hashed nonce security token (POST ONLY)
+        || $ct['gen']->admin_logged_in() && strtolower($method) == 'post' && $ext_key == 'medium_security_nonce'
+
         ) {
         return $data;
         }
 
-   
-   $original_encoded_hex = $data;
-   
-   $sanitized_encoded_hex = $data;
-   
-   $original_encoded_base64 = $data;
-   
-   $sanitized_encoded_base64 = $data;
-   
-   $original_plaintext = $data;
-   
-   $sanitized_plaintext = $data;
+
+   // WE SCAN *PLAINTEXT* NO MATTER IF IT'S POSSIBLE HEX / BASE64 ENCODING OR NOT, AS THOSE COULD BE FALSE POSITIVE(S)!
+   $plaintext_attack_signature_count = $this->malware_scan($data);
    
    
    // We decode AND scan any possible / known encoding, that would obfuscate attack signatures on user-input data...
+   // NOTE: Only *POSSIBLE* ENCODING can be checked for, as technically we can only check for a valid encoding FORMAT,
+   // THEREFORE FALSE POSITIVES ARE UNAVIODABLE IN RANDOM HASHES, ETC... (SEE STRICT SECURITY EXCEPTIONS AT THE TOP OF THIS FUNCTION)
    
    
-        // Scan for malicious content in any POSSIBLE hexadecimal encoding
-        if ( $ct['var']->possible_hex_encoding( trim($data) ) ) {
-        
+        // Scan for malicious content in any POSSIBLE hexadecimal encoding (IF plaintext scan revealed nothing)
+        if ( $plaintext_attack_signature_count == 0 && $ct['var']->possible_hex_encoding( trim($data) ) ) {
         // ONLY TRIM *EN*CODED DATA (OTHERWISE WE RISK DELETING *DE*CODED DATA CONTAINING SPECIAL CHARACTERS!)
         $check_decoded_hex = hex2bin( trim($data) );
-        
-        // Replace any backslash entity: &bsol; (PHP does NOT detect it)
-        $check_decoded_hex = preg_replace('/&bsol;/', '&#92;', $check_decoded_hex);
-        
-        // Decode ALL HTML entities
-        $check_decoded_hex = html_entity_decode($check_decoded_hex, ENT_QUOTES | ENT_XML1, 'UTF-8');
-        
-        // Remove ALL HTML tags SAFELY! (strip_tags() is NOT that safe!)
-        $check_decoded_hex = preg_replace('/<[^>]*>/', '', $check_decoded_hex);
-        
-        $scan_decoded_hex = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_hex), $hex_attack_signature);
-        
-            if ( $hex_attack_signature == 0 ) {
-            $sanitized_encoded_hex = bin2hex($check_decoded_hex);
-            }
-        
+        $hex_attack_signature_count = $this->malware_scan($check_decoded_hex);
+        }
+        else {
+        $hex_attack_signature_count = 0;
         }
         
         
-        // Scan for malicious content in any POSSIBLE base64 encoding
-        if ( $ct['var']->possible_base64_encoding( trim($data) ) ) {
-        
+        // Scan for malicious content in any POSSIBLE base64 encoding (IF plaintext / hexidecimal scans revealed nothing)
+        if ( $plaintext_attack_signature_count == 0 && $hex_attack_signature_count == 0 && $ct['var']->possible_base64_encoding( trim($data) ) ) {
         // ONLY TRIM *EN*CODED DATA (OTHERWISE WE RISK DELETING *DE*CODED DATA CONTAINING SPECIAL CHARACTERS!)
         $check_decoded_base64 = base64_decode( trim($data) );
-        
-        // Replace any backslash entity: &bsol; (PHP does NOT detect it)
-        $check_decoded_base64 = preg_replace('/&bsol;/', '&#92;', $check_decoded_base64);
-        
-        // Decode ALL HTML entities
-        $check_decoded_base64 = html_entity_decode($check_decoded_base64, ENT_QUOTES | ENT_XML1, 'UTF-8');
-        
-        // Remove ALL HTML tags SAFELY! (strip_tags() is NOT that safe!)
-        $check_decoded_base64 = preg_replace('/<[^>]*>/', '', $check_decoded_base64);
-        
-        $scan_decoded_base64 = str_replace($ct['dev']['script_injection_checks'], "", strtolower($check_decoded_base64), $base64_attack_signature);
-        
-            if ( $base64_attack_signature == 0 ) {
-            $sanitized_encoded_base64 = base64_encode($check_decoded_base64);
-            }
-        
+        $base64_attack_signature_count = $this->malware_scan($check_decoded_base64);
         }
-
-
-   // WE SCAN *PLAINTEXT* NO MATTER IF IT'S POSSIBLE HEX / BASE64 ENCODING OR NOT, AS THOSE COULD BE FALSE POSITIVE(S)!
-   
-   // Replace any backslash entity: &bsol; (PHP does NOT detect it)
-   $sanitized_plaintext = preg_replace('/&bsol;/', '&#92;', $sanitized_plaintext);
-   
-   // Decode ALL HTML entities
-   $sanitized_plaintext = html_entity_decode($sanitized_plaintext, ENT_QUOTES | ENT_XML1, 'UTF-8');
-   
-   // Remove ALL HTML tags SAFELY! (strip_tags() is NOT that safe!)
-   $sanitized_plaintext = preg_replace('/<[^>]*>/', '', $sanitized_plaintext);
-        
-   // Scan for malicious content
-   $scan_plaintext = str_replace($ct['dev']['script_injection_checks'], "", strtolower($sanitized_plaintext), $plaintext_attack_signature);
+        else {
+        $base64_attack_signature_count = 0;
+        }
         
         
         // Wipe data value and flag as possible attack, if scripting / HTML detected
         if (
-        isset($hex_attack_signature) && $hex_attack_signature > 0
-        || isset($base64_attack_signature) && $base64_attack_signature > 0
-        || $plaintext_attack_signature > 0
-        || $original_encoded_hex != $sanitized_encoded_hex
-        || $original_encoded_base64 != $sanitized_encoded_base64
-        || $original_plaintext != $sanitized_plaintext
+        $plaintext_attack_signature_count > 0
+        || $hex_attack_signature_count > 0
+        || $base64_attack_signature_count > 0
         ) {
         $this->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs');
-        $data = 'possible_attack_blocked';
         $ct['possible_input_injection'] = true; // GLOBAL flag, to IMMEADIATELY HALT RUNTIME ON ANY UPCOMING SECURITY CHECKS!
+        $data = 'possible_attack_blocked';
         }
-        // OTHERWISE, ONLY USE $sanitized_plaintext, as $sanitized_encoded_[type] is only used for attack signature scanning on encoded data
-        // (as we want to KEEP encoding intact, AS LONG AS IT PASSED THE SECURITY SCANS AS CLEAN / NO ATTACK SIGNATURE MATCHES)
         // mySQLi connection is required, for escaping special characters in a string before storing any data
         elseif ( $mysqli_connection ) {
-        $data = mysqli_real_escape_string($mysqli_connection, $sanitized_plaintext);
+        $data = mysqli_real_escape_string($mysqli_connection, $data);
         }
         else {
-        $data = $sanitized_plaintext;
+        $data = $data;
         }
         
         

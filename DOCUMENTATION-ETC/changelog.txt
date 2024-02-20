@@ -6660,6 +6660,45 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.00.36:
+
+-BUG FIX: Fixed false positives on attack signature checks for input data (security tokens run through the hexidecimal decoder during security scans can contain opening / closing code symbols, triggering a false positive for an attack signature...sorry!)
+
+-BUG FIX: Fixed "Average Paid (per-token)" on the update portfolio page NOT properly rounding automatically / dynamically
+
+-BUG FIX: Fixed proper detection of valid hexedecimal and base64 encoding formats, in security scans on user input
+
+-Refactored the attack signature scanning on user inputs, so it STILL maintains strict checks, BUT now has significantly less false positives, when checking POSSIBLE hexidecimal encoding (on VALID hex inputs)  
+
+-Miscellaneous user experience improvements
+
+IMPORTANT *UPGRADE* NOTICES:
+
+v6.00.33 and higher changed a few duplicate text gateway keys, so if you use
+email-to-text gateways in this app, MAKE SURE YOURS STILL HAS THE SAME NAME.
+
+v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
+FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation).
+
+v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
+
+-v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.31 OR LOWER.
+
+v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT.
+
+v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT.
+
+v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

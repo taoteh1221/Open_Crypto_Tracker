@@ -181,6 +181,12 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Put the curl temp cookie file in /cache/other, for windows compatibility?
+
+
+Make sure ALL security tokens are skipped by the input sanitizer, since they can cause false positives, and they are already HEAVILY scanned in other ways.
+
+
 Cointelegraph news feed works fine in any brand new desktop edition install, yet is stuck with an "enable JavaScript and cookies" server response on my old server edition installs. Even with curl server side cookies enabled, it's still doesn't fix it. Make sure we are definitely not stuck using data that never refreshes in the cache, due to an unknown cache logic bug.
 
 

@@ -560,7 +560,7 @@ var $ct_array = array();
      
        
      $data['rank'] = $mcap_data[$symbol]['market_cap_rank'];
-     $data['price'] = $mcap_data[$symbol]['current_price'];
+     $data['price'] = $ct['var']->num_to_str($mcap_data[$symbol]['current_price']);
      $data['market_cap'] = round( $ct['var']->rem_num_format($mcap_data[$symbol]['market_cap']) );
      
        	if ( $ct['var']->rem_num_format($mcap_data[$symbol]['total_supply']) > $ct['var']->rem_num_format($mcap_data[$symbol]['circulating_supply']) ) {
@@ -615,7 +615,7 @@ var $ct_array = array();
        
        
      $data['rank'] = $mcap_data[$symbol]['cmc_rank'];
-     $data['price'] = $mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['price'];
+     $data['price'] = $ct['var']->num_to_str($mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['price']);
      $data['market_cap'] = round( $ct['var']->rem_num_format($mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['market_cap']) );
      
          if ( $ct['var']->rem_num_format($mcap_data[$symbol]['total_supply']) > $ct['var']->rem_num_format($mcap_data[$symbol]['circulating_supply']) ) {
@@ -640,7 +640,8 @@ var $ct_array = array();
      
      
    // UX on number values
-   $data['price'] = ( $ct['var']->num_to_str($data['price']) >= 1 ? $ct['var']->num_pretty($data['price'], 2) : $ct['var']->num_pretty($data['price'], $ct['conf']['gen']['currency_decimals_max']) );
+   $thres_dec = $ct['gen']->thres_dec($data['price'], 'u', 'fiat'); // Units mode
+   $data['price'] = $ct['var']->num_pretty($data['price'], $thres_dec['max_dec'], false, $thres_dec['min_dec']);
    
    // Return null if we don't even detect a rank
    return ( $data['rank'] != NULL ? $data : NULL );
@@ -819,20 +820,21 @@ var $ct_array = array();
            
            $asset_val_raw = $asset_mrkt_data['last_trade'];
            
-           // Pretty numbers
+           // Cleaned up numbers
            $asset_val_raw = $ct['var']->num_to_str($asset_val_raw);
            
            $pair_vol_raw = $ct['var']->num_to_str($asset_mrkt_data['24hr_pair_vol']);
            
            
            
-                 // More pretty numbers formatting
+                 // Rounding numbers formatting
                  if ( array_key_exists($mrkt_pair, $ct['conf']['power']['bitcoin_currency_markets']) ) {
-                 $asset_val_raw = ( $ct['var']->num_to_str($asset_val_raw) >= 1 ? round($asset_val_raw, 2) : round($asset_val_raw, $ct['conf']['gen']['currency_decimals_max']) );
+                 $thres_dec = $ct['gen']->thres_dec($asset_val_raw, 'u', 'fiat'); // Units mode
+                 $asset_val_raw = round($asset_val_raw, $thres_dec['max_dec']);
                  $vol_pair_rounded = round($pair_vol_raw);
                  }
                  else {
-                 $vol_pair_rounded = round($pair_vol_raw, 3);
+                 $vol_pair_rounded = round($pair_vol_raw, 8);
                  }
                  
            
@@ -866,8 +868,9 @@ var $ct_array = array();
                        
                        }
                  
-                 // Pretty numbers for fiat currency
-                 $asset_prim_mrkt_worth_raw = ( $ct['var']->num_to_str($asset_prim_mrkt_worth_raw) >= 1 ? round($asset_prim_mrkt_worth_raw, 2) : round($asset_prim_mrkt_worth_raw, $ct['conf']['gen']['currency_decimals_max']) );
+                 // Auto-rounded numbers for fiat currency
+                 $thres_dec = $ct['gen']->thres_dec($asset_prim_mrkt_worth_raw, 'u', 'fiat'); // Units mode
+                 $asset_prim_mrkt_worth_raw = round($asset_prim_mrkt_worth_raw, $thres_dec['max_dec']);
                  
                  // Remove any trailing zeros / scientific formatting from round()
                  $asset_prim_mrkt_worth_raw = $ct['var']->num_to_str($asset_prim_mrkt_worth_raw);

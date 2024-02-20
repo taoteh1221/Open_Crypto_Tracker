@@ -14,7 +14,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.35';  // 2024/JANUARY/23RD
+$ct['app_version'] = '6.00.36';  // 2024/FEBUARY/18TH
 
 
 // #PHP# ERROR LOGGING
@@ -258,8 +258,6 @@ $ct['dev']['script_injection_checks'] = array(
                                                "atob(", // base64 javascript DECODE
                                                "bin2hex", // hex PHP ENCODE
                                                "hex2bin", // hex PHP DECODE
-                                               "\u", // Unicode ENCODE
-                                               "\x", // Hex ENCODE
                                                "char(", // SQL CHAR() function
                                                "javascript", // Javascript
                                                "script", // Javascript
