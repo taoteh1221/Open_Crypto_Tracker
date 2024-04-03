@@ -138,7 +138,7 @@ YOU NEED "7 ZIP" INSTALLED, TO OPEN AND EXTRACT THE DOWNLOAD ARCHIVE:
 <span class='bitcoin'>IMPORTANT NOTES FOR LINUX USERS:</span> 
 
 	    <br /><br />
-IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED TO BUILD A PHP BINARY THAT IS COMPATIBLE WITH YOUR UNIQUE SYSTEM SETUP. Try running the script "<a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/BUILD-PHP-FOR-LINUX-DESKTOP.bash' target='_blank'>BUILD-PHP-FOR-LINUX-DESKTOP.bash</a>" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). IMPORTANT STEP: YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
+IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED TO BUILD A PHP BINARY THAT IS COMPATIBLE WITH YOUR UNIQUE SYSTEM SETUP. Try running the script "<a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/FIX-LINUX-DESKTOP.bash' target='_blank'>FIX-LINUX-DESKTOP.bash</a>" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). IMPORTANT STEP: YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
 	        
 	        
 	      </div>
@@ -830,13 +830,13 @@ If you see an error like this below, you system is NOT compatible with the inclu
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./php-cgi-custom: error while loading shared libraries: XXXXX.so.X: cannot open shared object file: No such file or directory</code></pre>
 	    <br /><br />
 
-Try running the script "BUILD-PHP-FOR-LINUX-DESKTOP.bash" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). <span class='red'>IMPORTANT NOTE:</span> YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
+Try running the script "FIX-LINUX-DESKTOP.bash" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). <span class='red'>IMPORTANT NOTE:</span> YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
 	    <br /><br />
 
 Open a terminal and use the "cd" (change directory) command to go to the main directory of the Desktop Edition, and then type this command:
 	    <br /><br />
 
-<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./BUILD-PHP-FOR-LINUX-DESKTOP.bash</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./FIX-LINUX-DESKTOP.bash</code></pre>
 	    <br /><br />
 
 If this automated script gives you issues, see manual PHP build instructions below...

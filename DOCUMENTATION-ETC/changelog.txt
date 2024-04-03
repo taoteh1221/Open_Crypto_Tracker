@@ -5754,7 +5754,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX (only for #LINUX# Desktop Edition): Updated custom PHP binary for compatibility with Ubuntu 22.xx
 
--Automated script for automatically building the PHP CGI binary for LINUX Desktop Edition ("BUILD-PHP-FOR-LINUX-DESKTOP.bash" in main folder, see Help / TROUBLESHOOTING.txt on usage and instructions)
+-Automated script for automatically building the PHP CGI binary for LINUX Desktop Edition ("FIX-LINUX-DESKTOP.bash" in main folder, see Help / TROUBLESHOOTING.txt on usage and instructions)
 
 -Documentation on troubleshooting LINUX Desktop Edition startup issues
 
