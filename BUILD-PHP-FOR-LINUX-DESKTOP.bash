@@ -562,6 +562,10 @@ echo " "
 
 sleep 2
 
+# 32-bit GTK2 RedHat support (for the 'RUN_CRYPTO_TRACKER' binary)
+$PACKAGE_INSTALL libgtk2.0-0 -y
+$PACKAGE_INSTALL gtk2 -y
+
 # Dev libs (including for the extensions we want to add)
 # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
 $PACKAGE_INSTALL openssl-devel -y
