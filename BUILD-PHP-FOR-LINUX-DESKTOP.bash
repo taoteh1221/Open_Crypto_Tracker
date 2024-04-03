@@ -8,6 +8,17 @@ echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_T
 echo " "
 echo "Initializing, please wait..."
 echo " "
+
+
+######################################
+
+
+# EXPLICITLY set any dietpi paths 
+# Export too, in case we are calling another bash instance in this script
+if [ -f /boot/dietpi/.version ]; then
+PATH=/boot/dietpi:$PATH
+export PATH=$PATH
+fi
 				
 
 # EXPLICITLY set any ~/.local/bin paths
@@ -26,45 +37,31 @@ export PATH=$PATH
 fi
 
 
-######################################
-
-
-# Path to app (CROSS-DISTRO-COMPATIBLE)
-get_app_path() {
-app_path_result=$(whereis -b $1)
-app_path_result="${app_path_result#*$1: }"
-app_path_result=${app_path_result%%[[:space:]]*}
-app_path_result="${app_path_result#*$1:}"
-echo "$app_path_result"
-}
+# In case we are recursing back into this script (for filtering params etc),
+# flag export of a few more basic sys vars if present
+export XAUTHORITY=~/.Xauthority 
+export PWD=$PWD
 
 
 ######################################
 
-# https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
-if hash tput > /dev/null 2>&1; then
+# Get date / time
+DATE=$(date '+%Y-%m-%d')
+TIME=$(date '+%H:%M:%S')
 
-red=`tput setaf 1`
-green=`tput setaf 2`
-yellow=`tput setaf 3`
-blue=`tput setaf 4`
-magenta=`tput setaf 5`
-cyan=`tput setaf 6`
+# Current timestamp
+CURRENT_TIMESTAMP=$(date +%s)
+				
 
-reset=`tput sgr0`
+######################################
 
-else
 
-red=``
-green=``
-yellow=``
-blue=``
-magenta=``
-cyan=``
-
-reset=``
-
+# Get the host ip address
+if [ -f "/etc/debian_version" ]; then
+IP=`hostname -I`
+elif [ -f "/etc/redhat-release" ]; then
+IP=$(ip -json route get 8.8.8.8 | jq -r '.[].prefsrc')
 fi
 
 
@@ -87,15 +84,26 @@ if [ -z "$TERMINAL_USERNAME" ]; then
 fi
 
 
-# Get date / time
-DATE=$(date '+%Y-%m-%d')
-TIME=$(date '+%H:%M:%S')
-
-# Current timestamp
-CURRENT_TIMESTAMP=$(date +%s)
+######################################
 
 
-SCRIPT_LOCATION="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+# If a symlink, get link target for script location
+ # WE ALWAYS WANT THE FULL PATH!
+if [[ -L "$0" ]]; then
+SCRIPT_LOCATION=$(readlink "$0")
+else
+SCRIPT_LOCATION="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/"$(basename "$0")""
+fi
+
+# Now set path / file vars, after setting SCRIPT_LOCATION
+SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
+SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
+
+# Parent directory of the script location
+PARENT_DIR="$(dirname "$SCRIPT_LOCATION")"
+
+
+######################################
 
 
 # Get the operating system and version
@@ -130,25 +138,48 @@ else
 fi
 
 
+# For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
+CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
+
+
 ######################################
 
+# https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
-echo " "
+if hash tput > /dev/null 2>&1; then
 
-        
-if [ "$EUID" == 0 ]; then 
- echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
- echo " "
- echo "${cyan}Exiting...${reset}"
- echo " "
- exit
+red=`tput setaf 1`
+green=`tput setaf 2`
+yellow=`tput setaf 3`
+blue=`tput setaf 4`
+magenta=`tput setaf 5`
+cyan=`tput setaf 6`
+
+reset=`tput sgr0`
+
+else
+
+red=``
+green=``
+yellow=``
+blue=``
+magenta=``
+cyan=``
+
+reset=``
+
 fi
+
+
+######################################
 
 
 if [ -f "/etc/debian_version" ]; then
 echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
-PACKAGE_INSTALL="sudo apt install"
-PACKAGE_REMOVE="sudo apt --purge remove"
+# USE 'apt-get' IN SCRIPTING!
+# https://askubuntu.com/questions/990823/apt-gives-unstable-cli-interface-warning
+PACKAGE_INSTALL="sudo apt-get install"
+PACKAGE_REMOVE="sudo apt-get --purge remove"
 echo " "
 echo "Continuing...${reset}"
 echo " "
@@ -164,6 +195,15 @@ echo "${red}Your system has been detected as NOT BEING Debian-based OR Redhat-ba
 echo " "
 echo "Exiting...${reset}"
 exit
+fi
+
+        
+if [ "$EUID" == 0 ]; then 
+ echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+ echo " "
+ echo "${cyan}Exiting...${reset}"
+ echo " "
+ exit
 fi
 
 
@@ -207,9 +247,7 @@ clean_system_update () {
      fi
 
 
-     if [ "$PACKAGE_CACHE_REFRESHED" != "1" ]; then
-     
-     PACKAGE_CACHE_REFRESHED=1
+     if [ -z "$PACKAGE_CACHE_REFRESHED" ]; then
 
 
           if [ -f "/etc/debian_version" ]; then
@@ -223,10 +261,7 @@ clean_system_update () {
           
           sleep 2
           
-          # Clears / updates cache, then upgrades (if NOT a rolling release)
-          clean_system_update
-          
-          sleep 2
+          sudo apt-get update
           
           echo " "
      
@@ -246,7 +281,7 @@ clean_system_update () {
           
                if [ -f "/etc/debian_version" ]; then
                #DO NOT RUN dist-upgrade, bad things can happen, lol
-               sudo apt upgrade -y
+               sudo apt-get upgrade -y
                elif [ -f "/etc/redhat-release" ]; then
                sudo yum upgrade -y
                fi
@@ -262,238 +297,135 @@ clean_system_update () {
           
           fi
      
+     
+     PACKAGE_CACHE_REFRESHED=1
+     
      fi
 
 }
 # clean_system_update function END
 
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 
 ######################################
 
 
-# Get SIMILAR (CROSS-DISTRO) primary dependency apps, if we haven't yet
+# Path to app (CROSS-DISTRO-COMPATIBLE)
+get_app_path() {
+
+app_path_result=$(whereis -b $1)
+app_path_result="${app_path_result#*$1: }"
+app_path_result=${app_path_result%%[[:space:]]*}
+app_path_result="${app_path_result#*$1:}"
+     
+     
+     # If we have found the library already installed on this system
+     if [ ! -z "$app_path_result" ]; then
+     echo "$app_path_result"
+     # If library not found, attempt package installation
+     else
+
+     echo " "
+     echo "${cyan}Installing required component $1, please wait...${reset}"
+     echo " "
+     
+     $PACKAGE_INSTALL $1 -y
+     
+     
+          # Handle package name exceptions...
+          if [ "$1" == "bsdtar" ]; then
+          
+          echo " "
+          echo "${cyan}Installing 'bsdtar' component included in an alternate package, please wait...${reset}"
+          echo " "
+          
+               # bsdtar on Ubuntu 18.x and higher
+               if [ -f "/etc/debian_version" ]; then
+               $PACKAGE_INSTALL libarchive-tools -y
+               # bsdtar on Redhat
+               elif [ -f "/etc/redhat-release" ]; then
+               $PACKAGE_INSTALL libarchive -y
+               fi
+               
+          fi
+     
+     
+          # If UBUNTU snap was detected on the system, try a snap install too
+          # (as they moved some libs over to snap-only now)
+          if [ ! -z "$UBUNTU_SNAP_INSTALL" ]; then
+          $UBUNTU_SNAP_INSTALL $1
+          fi
+          
+           
+     fi
+
+
+}
+
+
+######################################
+
+
+IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
+
+# Ubuntu uses snaps for very basic libraries these days,
+# so we need to run snap installs for every PRIMARY dependency install attempt below,
+# to try and assure we have all required PRIMARY dependencies we need
+if [ "$IS_UBUNTU" != "" ]; then
+UBUNTU_SNAP_INSTALL="$(get_app_path 'snap') install"
+fi
+
+
+######################################
+
+
+# Get PRIMARY dependency lib's paths (auto-install is attempted, if not found on system)
     
-# Install git if needed
+# git
 GIT_PATH=$(get_app_path "git")
 
-if [ -z "$GIT_PATH" ]; then
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component git, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL git -y
-
-fi
-
-
-# Install curl if needed
+# curl
 CURL_PATH=$(get_app_path "curl")
 
-if [ -z "$CURL_PATH" ]; then
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component curl, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL curl -y
-
-fi
-
-
-# Install jq if needed
+# jq
 JQ_PATH=$(get_app_path "jq")
 
-if [ -z "$JQ_PATH" ]; then
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component jq, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL jq -y
-
-fi
-
-
-# Install wget if needed
+# wget
 WGET_PATH=$(get_app_path "wget")
 
-if [ -z "$WGET_PATH" ]; then
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component wget, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL wget -y
-
-fi
-
-
-# Install sed if needed
+# sed
 SED_PATH=$(get_app_path "sed")
 
-if [ -z "$SED_PATH" ]; then
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component sed, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL sed -y
-
-fi
-
-
-# Install less if needed
+# less
 LESS_PATH=$(get_app_path "less")
-				
-if [ -z "$LESS_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component less, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL less -y
-
-fi
 
 
-# Install expect if needed
+# expect
 EXPECT_PATH=$(get_app_path "expect")
-				
-if [ -z "$EXPECT_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component expect, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL expect -y
-
-fi
 
 
-# Install avahi-daemon if needed (for .local names on internal / home network)
+# avahi-daemon (for .local names on internal / home network)
 AVAHID_PATH=$(get_app_path "avahi-daemon")
 
-if [ -z "$AVAHID_PATH" ]; then
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL avahi-daemon -y
-
-fi
-
-
-# Install bc if needed (for decimal math in bash)
+# bc (for decimal math in bash)
 BC_PATH=$(get_app_path "bc")
 
-if [ -z "$BC_PATH" ]; then
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component bc, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL bc -y
-
-fi
-
-# SIMILAR (CROSS-DISTRO) dependency check END
-
-
-######################################
-
-
-# Install bsdtar if needed (for opening archives)
+# bsdtar (for opening archives)
 BSDTAR_PATH=$(get_app_path "bsdtar")
 
-
-# Distro-specific logic, to set variables, get dependencies, etc
-if [ -f "/etc/debian_version" ]; then
-
-# Get the host ip address
-IP=`hostname -I` 
-				
-
-     if [ -z "$BSDTAR_PATH" ]; then
-     
-     # Clears / updates cache, then upgrades (if NOT a rolling release)
-     clean_system_update
-     
-     echo " "
-     echo "${cyan}Installing required component libarchive-tools, please wait...${reset}"
-     echo " "
-     
-     # Ubuntu 18.x and higher
-     $PACKAGE_INSTALL libarchive-tools -y
-     
-     fi
-     
-
-elif [ -f "/etc/redhat-release" ]; then
-
-# Get the host ip address
-IP=$(ip -json route get 8.8.8.8 | jq -r '.[].prefsrc')
-				
-
-     if [ -z "$BSDTAR_PATH" ]; then
-     
-     # Clears / updates cache, then upgrades (if NOT a rolling release)
-     clean_system_update
-     
-     echo " "
-     echo "${cyan}Installing required component libarchive, please wait...${reset}"
-     echo " "
-     
-     # Ubuntu 18.x and higher
-     $PACKAGE_INSTALL libarchive -y
-     
-     fi
-     
-
-fi
-
-
-######################################
-
-
-
-# For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
-CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
+# PRIMARY dependency lib's paths END
 				
             
 ######################################
-
-
-# Parent directory of the script location
-PARENT_DIR="$(dirname "$SCRIPT_LOCATION")"
 
 
 if [ -d "$SCRIPT_LOCATION/INSTALL_CRYPTO_TRACKER_HERE" ] && [ -f $SCRIPT_LOCATION/libcef.so ]; then
@@ -584,13 +516,9 @@ echo " "
 
 ######################################
 
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
 				
 echo " "
-echo "${cyan}Proceeding with required component installation, please wait...${reset}"
+echo "${cyan}Proceeding with installation of PHP's required system libraries, please wait...${reset}"
 echo " "
 
 
@@ -599,22 +527,7 @@ if [ -f "/etc/debian_version" ]; then
 echo "${yellow}(Debian-based system detected)${reset}"
 echo " "
 
-# bsdtar installs may fail (essentially the same package as libarchive-tools),
-# SO WE RUN BOTH SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
-
-echo "${yellow}(you can safely ignore any upcoming 'bsdtar' install errors, if 'libarchive-tools'"
-echo "installs OK...and visa versa, as they are essentially the same package)${reset}"
-echo " "
-
-# Ubuntu 16.x, and other debian-based systems
-$PACKAGE_INSTALL bsdtar -y
-
-sleep 3
-
-# Ubuntu 18.x and higher
-$PACKAGE_INSTALL libarchive-tools -y
-
-sleep 3
+sleep 2
 
 # Dev libs (including for the extensions we want to add)
 # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
@@ -631,8 +544,12 @@ sleep 1
 $PACKAGE_INSTALL libsqlite3-dev -y
 sleep 1
 $PACKAGE_INSTALL libonig-dev -y
+sleep 1
+$PACKAGE_INSTALL libpng-dev -y
+sleep 1
+$PACKAGE_INSTALL libfreetype-dev -y
 
-sleep 3
+sleep 2
 
 # Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
 $PACKAGE_INSTALL pkg-config build-essential autoconf bison re2c -y
@@ -643,9 +560,7 @@ elif [ -f "/etc/redhat-release" ]; then
 echo "${yellow}(Redhat-based system detected)${reset}"
 echo " "
 
-$PACKAGE_INSTALL libarchive -y
-
-sleep 3
+sleep 2
 
 # Dev libs (including for the extensions we want to add)
 # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
@@ -667,7 +582,7 @@ $PACKAGE_INSTALL libpng-devel -y
 sleep 1
 $PACKAGE_INSTALL freetype-devel -y
 
-sleep 3
+sleep 2
 
 sudo yum groupinstall 'Development Tools' -y
 
@@ -678,7 +593,7 @@ $PACKAGE_INSTALL autoconf bison re2c -y
 fi
 
 
-sleep 3
+sleep 2
 
 echo " "
 echo "${cyan}Required component installation completed.${reset}"
@@ -694,11 +609,11 @@ echo "${cyan}Getting PHP source code, please wait...${reset}"
 echo " "
 
 
-mkdir $HOME/php-source
+mkdir $HOME/php-source > /dev/null 2>&1
 
 cd $HOME/php-source
 
-git clone https://github.com/php/php-src.git
+git clone https://github.com/php/php-src.git > /dev/null 2>&1
 
 cd php-src
 
@@ -711,6 +626,7 @@ echo " "
 
 
 ./buildconf
+
 
 ./configure \
   --enable-bcmath \
@@ -738,6 +654,7 @@ echo " "
   --with-freetype \
   --prefix=$HOME/php-binaries
 
+
 make
 
 
@@ -748,7 +665,7 @@ echo " "
 
 make install
 
-\cp $HOME/php-binaries/bin/php-cgi $APP_ROOT/php-cgi-custom
+\cp $HOME/php-binaries/bin/php-cgi $APP_ROOT/php-cgi-custom > /dev/null 2>&1
 
 
 echo " "
@@ -771,13 +688,11 @@ echo "${reset} "
     echo "${cyan}Deleting CUSTOM PHP source / binaries, please wait...${reset}"
     echo " "
     
-    rm -rf $HOME/php-binaries
-    rm -rf $HOME/php-source
+    rm -rf $HOME/php-binaries > /dev/null 2>&1
+    rm -rf $HOME/php-source > /dev/null 2>&1
     
     echo "${green}CUSTOM PHP source / binaries were deleted, now exiting this script...${reset}"
     echo " "
-
-
     else
     echo " "
     echo "${green}Skipping deletion of CUSTOM PHP source / binaries, now exiting this script...${reset}"

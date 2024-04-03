@@ -181,6 +181,15 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add hours / minutes to price alerts and the price target plugin.
+
+
+When a price alert / chart config INTERFACE save fails due to no market data found, add a note to the error message in the interface that the market may be down temporarily for maintenance, OR permanently removed, and they should manually check by visiting the exchange website.
+
+
+Add in the external apis section, the option to change the solana RPC server, with default being the one at solana.com. Add a validity check, using a basic / simple RPC endpoint.
+
+
 Webhooks show "file not found" when entering forward slash delimited parameters, on both desktop editions.
 
 
