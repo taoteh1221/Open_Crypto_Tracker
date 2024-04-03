@@ -181,6 +181,9 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Once the PHP binary build / auto-install scripts have been fully refactored / fixed / well-debugged, don't forget to copy over these scripts to the desktop edition container's code repository, and fully backup / tag a v1.11.1 release of that.
+
+
 Add hours / minutes to price alerts and the price target plugin.
 
 
