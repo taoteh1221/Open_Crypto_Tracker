@@ -46,6 +46,7 @@ export PWD=$PWD
 ######################################
 
 
+# Are we running on Ubuntu OS?
 IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
 
 
@@ -58,17 +59,6 @@ TIME=$(date '+%H:%M:%S')
 
 # Current timestamp
 CURRENT_TIMESTAMP=$(date +%s)
-				
-
-######################################
-
-
-# Get the host ip address
-if [ -f "/etc/debian_version" ]; then
-IP=`hostname -I`
-elif [ -f "/etc/redhat-release" ]; then
-IP=$(ip -json route get 8.8.8.8 | jq -r '.[].prefsrc')
-fi
 
 
 ######################################
@@ -180,35 +170,62 @@ fi
 
 
 if [ -f "/etc/debian_version" ]; then
+
 echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+
 # USE 'apt-get' IN SCRIPTING!
 # https://askubuntu.com/questions/990823/apt-gives-unstable-cli-interface-warning
 PACKAGE_INSTALL="sudo apt-get install"
 PACKAGE_REMOVE="sudo apt-get --purge remove"
+
 echo " "
 echo "Continuing...${reset}"
 echo " "
+
 elif [ -f "/etc/redhat-release" ]; then
+
 echo "${cyan}Your system has been detected as Redhat-based, which is compatible with this automated installation script."
+
 PACKAGE_INSTALL="sudo yum install"
 PACKAGE_REMOVE="sudo yum remove"
+
 echo " "
 echo "Continuing...${reset}"
 echo " "
+
 else
+
 echo "${red}Your system has been detected as NOT BEING Debian-based OR Redhat-based. Your system is NOT compatible with this automated installation script."
-echo " "
-echo "Exiting...${reset}"
-exit
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
+
 fi
 
         
 if [ "$EUID" == 0 ]; then 
- echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
- echo " "
- echo "${cyan}Exiting...${reset}"
- echo " "
- exit
+
+echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
+
 fi
 
 
@@ -328,57 +345,94 @@ app_path_result="${app_path_result#*$1:}"
      
      # If we have found the library already installed on this system
      if [ ! -z "$app_path_result" ]; then
+     
+     PATH_CHECK_REENTRY="" # Reset reentry flag
+     
      echo "$app_path_result"
+     
+     # If we are re-entering from the else statement below, quit trying, with warning sent to terminal (NOT function output)
+     elif [ ! -z "$PATH_CHECK_REENTRY" ]; then
+     
+     PATH_CHECK_REENTRY="" # Reset reentry flag
+     
+     echo "${red} " > /dev/tty
+     echo "System path for '$1' NOT FOUND, even AFTER package installation attempts, giving up." > /dev/tty
+     echo " " > /dev/tty
+
+     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
+     echo " " > /dev/tty
+     echo "https://github.com/taoteh1221/Open_Crypto_Tracker/issues" > /dev/tty
+     echo "${reset} " > /dev/tty
+     
+     echo "${yellow} " > /dev/tty
+     read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+     echo "${reset} " > /dev/tty
+     
+         if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+         echo " " > /dev/tty
+         echo "${green}Continuing...${reset}" > /dev/tty
+         echo " " > /dev/tty
+         fi
+     
+     echo " " > /dev/tty
+     
      # If library not found, attempt package installation
      else
-
-     echo " " > /dev/tty
-     echo "${cyan}Installing required component '$1', please wait...${reset}" > /dev/tty
-     echo " " > /dev/tty
-     
-     sleep 1
-     
-     $PACKAGE_INSTALL $1 -y > /dev/tty
-     
-     sleep 3
-     
-     
-          # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
-          # (as they moved some libs over to snap-only now)
-          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
-          
-          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
-          
-          echo " " > /dev/tty
-          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$1', please wait...${reset}" > /dev/tty
-          echo " " > /dev/tty
-          
-          sleep 3
-          
-          $UBUNTU_SNAP_INSTALL $1 > /dev/tty
-          
-          fi
      
      
           # Handle package name exceptions...
           if [ "$1" == "bsdtar" ]; then
           
-          echo " " > /dev/tty
-          echo "${cyan}Installing 'bsdtar' component included in an alternate package, please wait...${reset}" > /dev/tty
-          echo " " > /dev/tty
-          
                # bsdtar on Ubuntu 18.x and higher
                if [ -f "/etc/debian_version" ]; then
-               $PACKAGE_INSTALL libarchive-tools -y > /dev/tty
+               SYS_PACK="libarchive-tools"
                # bsdtar on Redhat
                elif [ -f "/etc/redhat-release" ]; then
-               $PACKAGE_INSTALL libarchive -y > /dev/tty
+               SYS_PACK="libarchive"
                fi
+          
+          else
+          SYS_PACK="$1"
+          fi
+          
+          
+          # Terminal alert for good UX...
+          if [ "$1" != "$SYS_PACK" ]; then
+          echo " " > /dev/tty
+          echo "${yellow}'$1' is found WITHIN '$SYS_PACK', changing package request accordingly...${reset}" > /dev/tty
+          echo " " > /dev/tty
+          fi
+
+
+     echo " " > /dev/tty
+     echo "${cyan}Installing required component '$SYS_PACK', please wait...${reset}" > /dev/tty
+     echo " " > /dev/tty
+     
+     sleep 3
                
+     $PACKAGE_INSTALL $SYS_PACK -y > /dev/tty
+     
+     
+          # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
+          # (as they moved some libs over to snap / snap-only? now)
+          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
+          
+          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
+          
+          echo " " > /dev/tty
+          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
+          echo " " > /dev/tty
+          
+          sleep 3
+          
+          $UBUNTU_SNAP_INSTALL $SYS_PACK > /dev/tty
+          
           fi
      
      
      sleep 2
+     
+     PATH_CHECK_REENTRY=1 # Set reentry flag, right before reentry
      
      echo $(get_app_path "$1")
            
@@ -390,55 +444,54 @@ app_path_result="${app_path_result#*$1:}"
 
 ######################################
 
-# Ubuntu uses snaps for very basic libraries these days,
-# so we need to run snap installs for every PRIMARY dependency install attempt below,
-# to try and assure we have all required PRIMARY dependencies we need
+
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
 if [ "$IS_UBUNTU" != "" ]; then
 UBUNTU_SNAP_PATH=$(get_app_path "snap")
 fi
 
-# Get PRIMARY dependency lib's paths (auto-install is attempted, if not found on system)
-    
-# git
-GIT_PATH=$(get_app_path "git")
 
+# Get PRIMARY dependency lib's paths (for bash scripting commands...auto-install is attempted, if not found on system)
+# (our usual standard library prerequisites [ordered alphabetically], for 99% of advanced bash scripting needs)
+
+# avahi-daemon
+AVAHID_PATH=$(get_app_path "avahi-daemon")
+
+# bc
+BC_PATH=$(get_app_path "bc")
+
+# bsdtar
+BSDTAR_PATH=$(get_app_path "bsdtar")
 
 # curl
 CURL_PATH=$(get_app_path "curl")
 
+# expect
+EXPECT_PATH=$(get_app_path "expect")
+    
+# git
+GIT_PATH=$(get_app_path "git")
 
 # jq
 JQ_PATH=$(get_app_path "jq")
 
-
-# wget
-WGET_PATH=$(get_app_path "wget")
-
+# less
+LESS_PATH=$(get_app_path "less")
 
 # sed
 SED_PATH=$(get_app_path "sed")
 
-
-# less
-LESS_PATH=$(get_app_path "less")
-
-
-# expect
-EXPECT_PATH=$(get_app_path "expect")
-
-
-# avahi-daemon (for .local names on internal / home network)
-AVAHID_PATH=$(get_app_path "avahi-daemon")
-
-
-# bc (for decimal math in bash)
-BC_PATH=$(get_app_path "bc")
-
-
-# bsdtar (for opening archives)
-BSDTAR_PATH=$(get_app_path "bsdtar")
+# wget
+WGET_PATH=$(get_app_path "wget")
 
 # PRIMARY dependency lib's paths END
+				
+
+######################################
+
+
+# Get the *INTERNAL* NETWORK ip address
+IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
 				
             
 ######################################
@@ -469,10 +522,10 @@ else
 DEFAULT_LOCATION="/home/$TERMINAL_USERNAME/Desktop/Open_Crypto_Tracker-linux-desktop"
 
 echo " "
-echo "${yellow}Enter the FULL SYSTEM PATH to the Desktop Edition main folder:"
+echo "${yellow}ENTER THE FULL SYSTEM PATH to the Desktop Edition main folder:"
 echo "(DO !NOT! INCLUDE A #TRAILING# FORWARD SLASH)"
 echo " "
-echo "(leave blank / hit enter to use the default value: $DEFAULT_LOCATION)${reset}"
+echo "(LEAVE BLANK / HIT ENTER to use the default value: $DEFAULT_LOCATION)${reset}"
 echo " "
 
 read APP_ROOT
@@ -500,7 +553,7 @@ echo "${red}The defined Desktop Edition location '$APP_ROOT' does not exist yet.
 echo "Please create this directory structure before running this script again.${reset}"
 
 echo "${yellow} "
-read -n1 -s -r -p $"Press any key to exit..." key
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
 echo "${reset} "
 
     if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
@@ -527,7 +580,7 @@ echo "${reset} "
 
 
 echo "${yellow} "
-read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+read -n1 -s -r -p $"PRESS Y to continue (or PRESS N to exit)..." key
 echo "${reset} "
 
     if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
@@ -646,7 +699,6 @@ sleep 2
 
 echo " "
 echo "${cyan}Required component installation completed.${reset}"
-
 echo " "
 
 
@@ -670,7 +722,7 @@ git checkout master
 
 
 echo " "
-echo "${cyan}Building the PHP binary files, please wait...${reset}"
+echo "${cyan}Building the required PHP binary files, please wait...${reset}"
 echo " "
 
 
@@ -708,7 +760,7 @@ make
 
 
 echo " "
-echo "${cyan}Installing the PHP binary files, please wait...${reset}"
+echo "${cyan}Installing the PHP binary files (to a UNIQUE location you can remove after processing), please wait...${reset}"
 echo " "
 
 
@@ -718,9 +770,9 @@ make install
 
 
 echo " "
-echo "${cyan}UNLESS YOU SEE ANY ERRORS ABOVE, ${green}the old PHP CGI binary '$APP_ROOT/php-cgi-custom' within your Desktop Edition should have just been replaced with a new custom PHP CGI binary, that should be compatible with your system. Try to run linux Desktop Edition of this crypto tracker now, and it should work...IF it was indeed a shared library issue.${reset}"
+echo "${cyan}UNLESS YOU SEE ANY ERRORS ABOVE, ${green}the old PHP-CGI binary '$APP_ROOT/php-cgi-custom' within your Desktop Edition should have just been replaced with a new custom PHP-CGI binary, which should be compatible with your particular Linux system. Additionally, we made sure 'GTK2' for your particular Linux system was installed, which should assure compatibility with the 32-bit binary 'RUN_CRYPTO_TRACKER'.${reset}"
 echo " "
-echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+echo "${yellow}PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues${reset}"
 echo " "
 
 
@@ -728,7 +780,7 @@ echo " "
 
 
 echo "${yellow} "
-read -n1 -s -r -p $"ONE LAST THING: Press d to delete the temporary CUSTOM PHP source / binaries we created at $HOME/php-source AND $HOME/php-binaries, (or press k if you prefer to keep them [we don't need them to run the app])..." key
+read -n1 -s -r -p $"ONE LAST THING: PRESS D to delete the temporary CUSTOM PHP source / binaries we created at $HOME/php-source AND $HOME/php-binaries, (OR PRESS K if you prefer to keep them [we don't need them to run the app])..." key
 echo " "
 echo "${reset} "
 
@@ -742,12 +794,19 @@ echo "${reset} "
     
     echo "${green}CUSTOM PHP source / binaries were deleted, now exiting this script...${reset}"
     echo " "
+
     else
+    
     echo " "
     echo "${green}Skipping deletion of CUSTOM PHP source / binaries, now exiting this script...${reset}"
     echo " "
-    exit
+    
     fi
+
+
+sleep 3
+
+exit
 
 echo " "
 
