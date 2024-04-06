@@ -46,6 +46,12 @@ export PWD=$PWD
 ######################################
 
 
+IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
+
+
+######################################
+
+
 # Get date / time
 DATE=$(date '+%Y-%m-%d')
 TIME=$(date '+%H:%M:%S')
@@ -70,7 +76,6 @@ fi
 
 # Get logged-in username (if sudo, this works best with logname)
 TERMINAL_USERNAME=$(logname)
-
 
 # If logname doesn't work, use the $SUDO_USER or $USER global var
 if [ -z "$TERMINAL_USERNAME" ]; then
@@ -328,7 +333,7 @@ app_path_result="${app_path_result#*$1:}"
      else
 
      echo " " > /dev/tty
-     echo "${cyan}Installing required component $1, please wait...${reset}" > /dev/tty
+     echo "${cyan}Installing required component '$1', please wait...${reset}" > /dev/tty
      echo " " > /dev/tty
      
      sleep 1
@@ -338,12 +343,14 @@ app_path_result="${app_path_result#*$1:}"
      sleep 3
      
      
-          # If UBUNTU snap was detected on the system, try a snap install too
+          # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
           # (as they moved some libs over to snap-only now)
-          if [ ! -z "$UBUNTU_SNAP_INSTALL" ]; then
+          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
+          
+          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
           
           echo " " > /dev/tty
-          echo "${yellow}CHECKING FOR '$1' as a SNAP PACKAGE, please AUTHORIZE INSTALLATION IF PROMPTED...${reset}" > /dev/tty
+          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$1', please wait...${reset}" > /dev/tty
           echo " " > /dev/tty
           
           sleep 3
@@ -383,19 +390,12 @@ app_path_result="${app_path_result#*$1:}"
 
 ######################################
 
-
-IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
-
 # Ubuntu uses snaps for very basic libraries these days,
 # so we need to run snap installs for every PRIMARY dependency install attempt below,
 # to try and assure we have all required PRIMARY dependencies we need
 if [ "$IS_UBUNTU" != "" ]; then
-UBUNTU_SNAP_INSTALL="sudo $(get_app_path 'snap') install"
+UBUNTU_SNAP_PATH=$(get_app_path "snap")
 fi
-
-
-######################################
-
 
 # Get PRIMARY dependency lib's paths (auto-install is attempted, if not found on system)
     
@@ -496,16 +496,30 @@ fi
 
 
 if [ ! -d "$APP_ROOT" ]; then
-echo "The defined Desktop Edition location '$APP_ROOT' does not exist yet."
-echo "Please create this directory structure before running this script."
-echo "Exiting..."
+echo "${red}The defined Desktop Edition location '$APP_ROOT' does not exist yet."
+echo "Please create this directory structure before running this script again.${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"Press any key to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
+
 echo " "
-exit
 fi
 
 
-echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
-echo " "
+echo "${cyan}PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+echo "${reset} "
+
+
+echo "${yellow}THIS SCRIPT ATTEMPTS TO AUTOMATICALLY FIX LINUX-BASED 'DESKTOP EDITION' INSTALLATIONS OF OPEN CRYPTO TRACKER."
+echo "${reset} "
 
 
 echo "${red}PLEASE ***SHUT DOWN THE DESKTOP EDITION*** BEFORE CONTINUING, ***OTHERWISE WE CANNOT AUTOMATICALLY UPDATE*** THE PHP LIBRARY!"
@@ -532,21 +546,25 @@ echo " "
 
 ######################################
 
-				
-echo " "
-echo "${cyan}Proceeding with installation of PHP's required system libraries, please wait...${reset}"
-echo " "
-
 
 if [ -f "/etc/debian_version" ]; then
 
 echo "${yellow}(Debian-based system detected)${reset}"
 echo " "
 
+echo "${green}Making sure 32-bit support is enabled for GTK on Debian, please wait...${reset}"
+echo " "
+
 sleep 2
 
 # 32-bit GTK2 Debian support (for the 'RUN_CRYPTO_TRACKER' binary)
 $PACKAGE_INSTALL libgtk2.0-dev -y
+				
+echo " "
+echo "${cyan}Proceeding with installation of PHP's required Debian libraries, please wait...${reset}"
+echo " "
+
+sleep 2
 
 # Dev libs (including for the extensions we want to add)
 # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
@@ -579,10 +597,19 @@ elif [ -f "/etc/redhat-release" ]; then
 echo "${yellow}(Redhat-based system detected)${reset}"
 echo " "
 
+echo "${green}Making sure 32-bit support is enabled for GTK on RedHat, please wait...${reset}"
+echo " "
+
 sleep 2
 
 # 32-bit GTK2 RedHat support (for the 'RUN_CRYPTO_TRACKER' binary)
 $PACKAGE_INSTALL gtk2 -y
+				
+echo " "
+echo "${cyan}Proceeding with installation of PHP's required RedHat libraries, please wait...${reset}"
+echo " "
+
+sleep 2
 
 # Dev libs (including for the extensions we want to add)
 # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
