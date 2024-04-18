@@ -6704,6 +6704,8 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed the automated script (FIX-LINUX-DESKTOP.bash, located in main app directory) that repairs Linux Desktop Edition installations (runs multiple compatibility fixes, for Debian and RedHat distros)
 
+-Better Ubuntu Linux support in all auto install / fix scripts
+
 IMPORTANT *UPGRADE* NOTICES:
 
 v6.00.33 and higher changed a few duplicate text gateway keys, so if you use

@@ -47,13 +47,13 @@ $plug['conf'][$this_plug]['price_targets'] = array(
 						                    // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
 						                    // USE EXCHANGE IDS USED IN CONFIG.PHP				
 										// 'asset-pair-exchange_id = 123.4567',
-										'btc-usd-kraken = 50800',
-										'eth-btc-kraken = 0.0615',
+										'btc-usd-kraken = 75800',
+										'eth-btc-kraken = 0.0515',
 										'eth-usdt-binance = 3155',
 										'sol-eth-binance = 0.05625',
-										'sol-usd-kraken = 125.65',
-										'polis-sol-jupiter_ag = 0.005',
-										'amdstock-usd-alphavantage_stock = 155.50',
+										'sol-usd-kraken = 165.65',
+										'polis-sol-jupiter_ag = 0.004',
+										'amdstock-usd-alphavantage_stock = 175.50',
 										
 							            ); // END price targets array
 

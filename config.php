@@ -702,12 +702,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'atlas-3||kraken||usd||both',
 					
 					
-					// GRAPE
-					'grape||coingecko_usd||usd||chart',
-					'grape-4||coingecko_eur||eur||none',
-					'grape-5||coingecko_gbp||gbp||none',
-					
-					
 					// HIVE
 					'hive||binance||btc||both',
 					
@@ -721,10 +715,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// WEN
 					'wen||jupiter_ag||sol||both',
-					
-					
-					// PURI
-					'puri||coingecko_terminal||usd||both',
 					
 					
 					// SHOPSTOCK (Shopify stock)
@@ -2886,47 +2876,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // GRAPE
-                    'GRAPE' => array(
-                        
-                        'name' => 'Grape Protocol',
-                        'mcap_slug' => 'grape-protocol',
-                        'pair' => array(
-
-                                                    
-                                    'eur' => array(
-                                          'coingecko_eur' => 'grape-2',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                          'coingecko_gbp' => 'grape-2',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'GRAPE/SOL',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'GRAPE/USDC',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                          'coingecko_usd' => 'grape-2',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // HIVE
                     'HIVE' => array(
                         
@@ -3015,27 +2964,6 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usdc' => array(
                                     	 'jupiter_ag' => 'WEN/USDC',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // PURI
-                    'PURI' => array(
-                        
-                        'name' => 'Puri',
-                        'mcap_slug' => '',
-                        'pair' => array(
-
-                                                    
-                                    'usd' => array(
-                                    	 'coingecko_terminal' => 'solana||AA4fy1fFueabPRx7F6pxghRNsgxcMVgYZFtqcBrpq4TM',
                                                     ),
 
                                                     

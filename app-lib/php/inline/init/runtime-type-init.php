@@ -85,7 +85,7 @@ $_SESSION['light_charts_updated'] = 0;
     
     // EXIT IF CRON IS NOT RUNNING IN THE PROPER CONFIGURATION
     if ( !isset($_GET['cron_emulate']) && php_sapi_name() != 'cli' || isset($_GET['cron_emulate']) && $ct['app_edition'] == 'server' ) {
-    $ct['gen']->log('security_error', 'aborted cron job attempt ('.$_SERVER['REQUEST_URI'].'), INVALID CONFIG');
+    $ct['gen']->log('security_error', 'aborted cron job attempt, INVALID CONFIG (REQUEST_URI='.$_SERVER['REQUEST_URI'].'; php_sapi_name='.php_sapi_name().'); cron_emulate='.$_GET['cron_emulate'].';)');
     $ct['cache']->app_log();
     echo "Aborted, INVALID CONFIG.";
     exit; // Force exit

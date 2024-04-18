@@ -181,6 +181,10 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Check back in on PHP7.4 demo install (on live internet server), once the PHP cache has cleared, and this app log message should have more details in it (/app-lib/php/inline/runtime-type-init.php:88)...
+[2024-04-18 21:00:07.486] cron => security (error): aborted cron job attempt (), INVALID CONFIG;
+
+
 Refactor the auto-install script, based off the refactoring done in FIX-LINUX-DESKTOP.bash.
 
 
