@@ -3,8 +3,10 @@
 # Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 
+ISSUES_URL="https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+
 echo " "
-echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+echo "PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL"
 echo " "
 echo "Initializing, please wait..."
 echo " "
@@ -210,7 +212,7 @@ echo "${reset} "
 
 fi
 
-        
+
 if [ "$EUID" == 0 ]; then 
 
 echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
@@ -232,6 +234,196 @@ fi
 ######################################
 
 
+# Path to app (CROSS-DISTRO-COMPATIBLE)
+get_app_path() {
+
+app_path_result=$(whereis -b $1)
+app_path_result="${app_path_result#*$1: }"
+app_path_result=${app_path_result%%[[:space:]]*}
+app_path_result="${app_path_result#*$1:}"
+     
+     
+     # If we have found the library already installed on this system
+     if [ ! -z "$app_path_result" ]; then
+     
+     PATH_CHECK_REENTRY="" # Reset reentry flag
+     
+     echo "$app_path_result"
+     
+     # If we are re-entering from the else statement below, quit trying, with warning sent to terminal (NOT function output)
+     elif [ ! -z "$PATH_CHECK_REENTRY" ]; then
+     
+     PATH_CHECK_REENTRY="" # Reset reentry flag
+     
+     echo "${red} " > /dev/tty
+     echo "System path for '$1' NOT FOUND, even AFTER package installation attempts, giving up." > /dev/tty
+     echo " " > /dev/tty
+
+     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
+     echo " " > /dev/tty
+     echo "$ISSUES_URL" > /dev/tty
+     echo "${reset} " > /dev/tty
+     
+     echo "${yellow} " > /dev/tty
+     read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+     echo "${reset} " > /dev/tty
+     
+         if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+         echo " " > /dev/tty
+         echo "${green}Continuing...${reset}" > /dev/tty
+         echo " " > /dev/tty
+         fi
+     
+     echo " " > /dev/tty
+     
+     # If library not found, attempt package installation
+     else
+     
+     
+          # Handle package name exceptions...
+          if [ "$1" == "bsdtar" ]; then
+          
+               # bsdtar on Ubuntu 18.x and higher
+               if [ -f "/etc/debian_version" ]; then
+               SYS_PACK="libarchive-tools"
+               # bsdtar on Redhat
+               elif [ -f "/etc/redhat-release" ]; then
+               SYS_PACK="libarchive"
+               fi
+          
+          else
+          SYS_PACK="$1"
+          fi
+          
+          
+          # Terminal alert for good UX...
+          if [ "$1" != "$SYS_PACK" ]; then
+          echo " " > /dev/tty
+          echo "${yellow}'$1' is found WITHIN '$SYS_PACK', changing package request accordingly...${reset}" > /dev/tty
+          echo " " > /dev/tty
+          fi
+
+
+     echo " " > /dev/tty
+     echo "${cyan}Installing required component '$SYS_PACK', please wait...${reset}" > /dev/tty
+     echo " " > /dev/tty
+     
+     sleep 3
+               
+     $PACKAGE_INSTALL $SYS_PACK -y > /dev/tty
+     
+     
+          # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
+          # (as they moved some libs over to snap / snap-only? now)
+          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
+          
+          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
+          
+          echo " " > /dev/tty
+          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
+          echo " " > /dev/tty
+          
+          sleep 3
+          
+          $UBUNTU_SNAP_INSTALL $SYS_PACK > /dev/tty
+          
+          fi
+     
+     
+     sleep 2
+     
+     PATH_CHECK_REENTRY=1 # Set reentry flag, right before reentry
+     
+     echo $(get_app_path "$1")
+           
+     fi
+
+
+}
+
+
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+UBUNTU_SNAP_PATH=$(get_app_path "snap")
+fi
+
+
+######################################
+
+
+# ON DEBIAN-BASED SYSTEMS ONLY:
+# Do we have no swap, OR less swap than 1024MB?
+if [ -f "/etc/debian_version" ] && ( [ "$(free | awk '/^Swap:/ { print $2 }')" = "0" ] ||
+[ "$(free --bytes | awk '/^Swap:/ { print $2 }')" -lt 1024000000 ] ); then
+
+echo "${red}YOU HAVE LESS THAN 1GB SWAP MEMORY ON THIS DEBIAN-BASED SYSTEM, which MAY cause system freezing, IF you have a desktop display attached!${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to fix this, OR any other key to skip..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    echo " "
+    echo "${cyan}Changing Swap Memory size to 1GB, please wait (THIS MAY TAKE AWHILE ON SMALLER SYSTEMS)...${reset}"
+    echo " "
+    
+    # Required components check...
+    
+    # dphys-swapfile
+    DPHYS_PATH=$(get_app_path "dphys-swapfile")
+
+    # sed
+    SED_PATH=$(get_app_path "sed")
+    
+    sudo $DPHYS_PATH swapoff
+    
+    sleep 5
+         
+        if [ -f /etc/dphys-swapfile ]; then
+			    
+	   DETECT_SWAP_CONF=$(sudo sed -n '/CONF_SWAPSIZE=/p' /etc/dphys-swapfile)
+			
+		   if [ "$DETECT_SWAP_CONF" != "" ]; then 
+             sudo sed -i "s/CONF_SWAPSIZE=.*/CONF_SWAPSIZE=1024/g" /etc/dphys-swapfile
+             elif [ "$DETECT_SWAP_CONF" == "" ]; then 
+             sudo bash -c "echo 'CONF_SWAPSIZE=1024' >> /etc/dphys-swapfile"
+	        fi
+	        
+	   sudo $DPHYS_PATH setup
+	   
+	   sleep 5
+	   
+	   sudo $DPHYS_PATH swapon
+	   
+	   sleep 5
+	   
+        echo " "
+        echo "${green}Swap Memory size has been updated to 1GB.${reset}"
+        echo " "
+        
+        else
+	   
+        echo " "
+        echo "${red}Swap Memory config file could NOT be located, skipping update of Swap Memory size!${reset}"
+        echo " "
+	        
+	   fi
+	   
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
+fi
+
+
+######################################
+
+
 # clean_system_update function START
 clean_system_update () {
 
@@ -239,7 +431,7 @@ clean_system_update () {
      if [ -z "$ALLOW_FULL_UPGRADE" ]; then
      
      echo " "
-     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
+     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Debian, Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
      echo " "
      echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
      echo " "
@@ -334,123 +526,6 @@ clean_system_update
 ######################################
 
 
-# Path to app (CROSS-DISTRO-COMPATIBLE)
-get_app_path() {
-
-app_path_result=$(whereis -b $1)
-app_path_result="${app_path_result#*$1: }"
-app_path_result=${app_path_result%%[[:space:]]*}
-app_path_result="${app_path_result#*$1:}"
-     
-     
-     # If we have found the library already installed on this system
-     if [ ! -z "$app_path_result" ]; then
-     
-     PATH_CHECK_REENTRY="" # Reset reentry flag
-     
-     echo "$app_path_result"
-     
-     # If we are re-entering from the else statement below, quit trying, with warning sent to terminal (NOT function output)
-     elif [ ! -z "$PATH_CHECK_REENTRY" ]; then
-     
-     PATH_CHECK_REENTRY="" # Reset reentry flag
-     
-     echo "${red} " > /dev/tty
-     echo "System path for '$1' NOT FOUND, even AFTER package installation attempts, giving up." > /dev/tty
-     echo " " > /dev/tty
-
-     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
-     echo " " > /dev/tty
-     echo "https://github.com/taoteh1221/Open_Crypto_Tracker/issues" > /dev/tty
-     echo "${reset} " > /dev/tty
-     
-     echo "${yellow} " > /dev/tty
-     read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
-     echo "${reset} " > /dev/tty
-     
-         if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
-         echo " " > /dev/tty
-         echo "${green}Continuing...${reset}" > /dev/tty
-         echo " " > /dev/tty
-         fi
-     
-     echo " " > /dev/tty
-     
-     # If library not found, attempt package installation
-     else
-     
-     
-          # Handle package name exceptions...
-          if [ "$1" == "bsdtar" ]; then
-          
-               # bsdtar on Ubuntu 18.x and higher
-               if [ -f "/etc/debian_version" ]; then
-               SYS_PACK="libarchive-tools"
-               # bsdtar on Redhat
-               elif [ -f "/etc/redhat-release" ]; then
-               SYS_PACK="libarchive"
-               fi
-          
-          else
-          SYS_PACK="$1"
-          fi
-          
-          
-          # Terminal alert for good UX...
-          if [ "$1" != "$SYS_PACK" ]; then
-          echo " " > /dev/tty
-          echo "${yellow}'$1' is found WITHIN '$SYS_PACK', changing package request accordingly...${reset}" > /dev/tty
-          echo " " > /dev/tty
-          fi
-
-
-     echo " " > /dev/tty
-     echo "${cyan}Installing required component '$SYS_PACK', please wait...${reset}" > /dev/tty
-     echo " " > /dev/tty
-     
-     sleep 3
-               
-     $PACKAGE_INSTALL $SYS_PACK -y > /dev/tty
-     
-     
-          # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
-          # (as they moved some libs over to snap / snap-only? now)
-          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
-          
-          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
-          
-          echo " " > /dev/tty
-          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
-          echo " " > /dev/tty
-          
-          sleep 3
-          
-          $UBUNTU_SNAP_INSTALL $SYS_PACK > /dev/tty
-          
-          fi
-     
-     
-     sleep 2
-     
-     PATH_CHECK_REENTRY=1 # Set reentry flag, right before reentry
-     
-     echo $(get_app_path "$1")
-           
-     fi
-
-
-}
-
-
-######################################
-
-
-# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
-if [ "$IS_UBUNTU" != "" ]; then
-UBUNTU_SNAP_PATH=$(get_app_path "snap")
-fi
-
-
 # Get PRIMARY dependency lib's paths (for bash scripting commands...auto-install is attempted, if not found on system)
 # (our usual standard library prerequisites [ordered alphabetically], for 99% of advanced bash scripting needs)
 
@@ -492,7 +567,7 @@ WGET_PATH=$(get_app_path "wget")
 
 # Get the *INTERNAL* NETWORK ip address
 IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
-				
+
             
 ######################################
 
@@ -567,7 +642,7 @@ echo " "
 fi
 
 
-echo "${cyan}PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+echo "${cyan}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL"
 echo "${reset} "
 
 
@@ -772,7 +847,7 @@ make install
 echo " "
 echo "${cyan}UNLESS YOU SEE ANY ERRORS ABOVE, ${green}the old PHP-CGI binary '$APP_ROOT/php-cgi-custom' within your Desktop Edition should have just been replaced with a new custom PHP-CGI binary, which should be compatible with your particular Linux system. Additionally, we made sure 'GTK2' for your particular Linux system was installed, which should assure compatibility with the 32-bit binary 'RUN_CRYPTO_TRACKER'.${reset}"
 echo " "
-echo "${yellow}PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues${reset}"
+echo "${yellow}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
 echo " "
 
 

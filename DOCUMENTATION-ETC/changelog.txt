@@ -6706,6 +6706,10 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -Better Ubuntu Linux support in all auto install / fix scripts
 
+-Refactored auto-installer
+
+-Detection / (optional) fixing of low swap space on debian-based devices (so running a desktop interface doesn't use all the system memory on low power devices)
+
 IMPORTANT *UPGRADE* NOTICES:
 
 v6.00.33 and higher changed a few duplicate text gateway keys, so if you use
