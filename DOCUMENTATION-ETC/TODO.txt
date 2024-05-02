@@ -184,7 +184,7 @@ Add clicksend.com mobile text messaging support
 Add full redhat support for auto-installer.
 
 
-Add IMX to demo assets
+Add IMX / ZEUS to demo assets
 
 
 Add hours / minutes to price alerts and the price target plugin.

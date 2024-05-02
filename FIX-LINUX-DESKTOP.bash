@@ -48,13 +48,6 @@ export PWD=$PWD
 ######################################
 
 
-# Are we running on Ubuntu OS?
-IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
-
-
-######################################
-
-
 # Get date / time
 DATE=$(date '+%Y-%m-%d')
 TIME=$(date '+%H:%M:%S')
@@ -62,26 +55,8 @@ TIME=$(date '+%H:%M:%S')
 # Current timestamp
 CURRENT_TIMESTAMP=$(date +%s)
 
-
-######################################
-
-
-# Get logged-in username (if sudo, this works best with logname)
-TERMINAL_USERNAME=$(logname)
-
-# If logname doesn't work, use the $SUDO_USER or $USER global var
-if [ -z "$TERMINAL_USERNAME" ]; then
-
-    if [ -z "$SUDO_USER" ]; then
-    TERMINAL_USERNAME=$USER
-    else
-    TERMINAL_USERNAME=$SUDO_USER
-    fi
-
-fi
-
-
-######################################
+# Are we running on Ubuntu OS?
+IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
 
 
 # If a symlink, get link target for script location
@@ -98,9 +73,6 @@ SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
 
 # Parent directory of the script location
 PARENT_DIR="$(dirname "$SCRIPT_LOCATION")"
-
-
-######################################
 
 
 # Get the operating system and version
@@ -141,6 +113,7 @@ CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
 
 ######################################
 
+
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
 if hash tput > /dev/null 2>&1; then
@@ -164,6 +137,42 @@ magenta=``
 cyan=``
 
 reset=``
+
+fi
+
+
+######################################
+
+
+# Get logged-in username (if sudo, this works best with logname)
+TERMINAL_USERNAME=$(logname)
+
+# If logname doesn't work, use the $SUDO_USER or $USER global var
+if [ -z "$TERMINAL_USERNAME" ]; then
+
+    if [ -z "$SUDO_USER" ]; then
+    TERMINAL_USERNAME=$USER
+    else
+    TERMINAL_USERNAME=$SUDO_USER
+    fi
+
+fi
+
+
+if [ "$EUID" == 0 ]; then 
+
+echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
 
 fi
 
@@ -198,24 +207,6 @@ echo " "
 else
 
 echo "${red}Your system has been detected as NOT BEING Debian-based OR Redhat-based. Your system is NOT compatible with this automated installation script."
-
-echo "${yellow} "
-read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
-echo "${reset} "
-
-    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
-    echo " "
-    echo "${green}Exiting...${reset}"
-    echo " "
-    exit
-    fi
-
-fi
-
-
-if [ "$EUID" == 0 ]; then 
-
-echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
 
 echo "${yellow} "
 read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
@@ -281,16 +272,10 @@ app_path_result="${app_path_result#*$1:}"
      
      
           # Handle package name exceptions...
-          if [ "$1" == "bsdtar" ]; then
           
-               # bsdtar on Ubuntu 18.x and higher
-               if [ -f "/etc/debian_version" ]; then
-               SYS_PACK="libarchive-tools"
-               # bsdtar on Redhat
-               elif [ -f "/etc/redhat-release" ]; then
-               SYS_PACK="libarchive"
-               fi
-          
+          # bsdtar on Ubuntu 18.x and higher
+          if [ "$1" == "bsdtar" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="libarchive-tools"
           else
           SYS_PACK="$1"
           fi
@@ -352,20 +337,22 @@ fi
 
 
 # ON DEBIAN-BASED SYSTEMS ONLY:
-# Do we have no swap, OR less swap than 1024MB?
-if [ -f "/etc/debian_version" ] && ( [ "$(free | awk '/^Swap:/ { print $2 }')" = "0" ] ||
-[ "$(free --bytes | awk '/^Swap:/ { print $2 }')" -lt 1024000000 ] ); then
+# Do we have less than 900MB PHYSICAL RAM (IN KILOBYTES),
+# AND no swap / less swap virtual memory than 900MB (IN BYTES)?
+if [ -f "/etc/debian_version" ] && [ "$(awk '/MemTotal/ {print $2}' /proc/meminfo)" -lt 900000 ] && (
+[ "$(free | awk '/^Swap:/ { print $2 }')" = "0" ] || [ "$(free --bytes | awk '/^Swap:/ { print $2 }')" -lt 900000000 ]
+); then
 
-echo "${red}YOU HAVE LESS THAN 1GB SWAP MEMORY ON THIS DEBIAN-BASED SYSTEM, which MAY cause system freezing, IF you have a desktop display attached!${reset}"
+echo "${red}YOU HAVE LESS THAN 900MB *PHYSICAL* MEMORY, AND ALSO HAVE LESS THAN 900MB SWAP *VIRTUAL* MEMORY. This MAY cause your system to FREEZE, *IF* you have a desktop display attached!${reset}"
 
 echo "${yellow} "
-read -n1 -s -r -p $"PRESS F to fix this, OR any other key to skip..." key
+read -n1 -s -r -p $"PRESS F to fix this (sets swap virtual memory to 1GB), OR any other key to skip fixing..." key
 echo "${reset} "
 
     if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
 
     echo " "
-    echo "${cyan}Changing Swap Memory size to 1GB, please wait (THIS MAY TAKE AWHILE ON SMALLER SYSTEMS)...${reset}"
+    echo "${cyan}Changing Swap Virtual Memory size to 1GB, please wait (THIS MAY TAKE AWHILE ON SMALLER SYSTEMS)...${reset}"
     echo " "
     
     # Required components check...
@@ -680,13 +667,18 @@ if [ -f "/etc/debian_version" ]; then
 echo "${yellow}(Debian-based system detected)${reset}"
 echo " "
 
-echo "${green}Making sure 32-bit support is enabled for GTK on Debian, please wait...${reset}"
+echo "${green}Making sure GTK / libxss support is enabled for Debian, please wait...${reset}"
 echo " "
 
 sleep 2
 
 # 32-bit GTK2 Debian support (for the 'RUN_CRYPTO_TRACKER' binary)
 $PACKAGE_INSTALL libgtk2.0-dev -y
+
+sleep 2
+
+# libxss support
+$PACKAGE_INSTALL libxss-dev -y
 				
 echo " "
 echo "${cyan}Proceeding with installation of PHP's required Debian libraries, please wait...${reset}"
@@ -725,13 +717,19 @@ elif [ -f "/etc/redhat-release" ]; then
 echo "${yellow}(Redhat-based system detected)${reset}"
 echo " "
 
-echo "${green}Making sure 32-bit support is enabled for GTK on RedHat, please wait...${reset}"
+echo "${green}Making sure GTK / libxss support is enabled for RedHat, please wait...${reset}"
 echo " "
 
 sleep 2
 
 # 32-bit GTK2 RedHat support (for the 'RUN_CRYPTO_TRACKER' binary)
 $PACKAGE_INSTALL gtk2 -y
+
+sleep 2
+
+# libxss support
+# CASE-SENSITIVE!
+$PACKAGE_INSTALL libXScrnSaver -y
 				
 echo " "
 echo "${cyan}Proceeding with installation of PHP's required RedHat libraries, please wait...${reset}"
