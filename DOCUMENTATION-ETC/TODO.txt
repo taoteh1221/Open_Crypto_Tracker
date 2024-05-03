@@ -416,9 +416,6 @@ Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our
 Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
 
 
-Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
-
-
 Replace all tabs with spaces (for better cross-text-editor support).
 
 

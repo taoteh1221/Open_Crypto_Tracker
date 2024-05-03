@@ -196,7 +196,7 @@ echo " "
 
 elif [ -f "/etc/redhat-release" ]; then
 
-echo "${cyan}Your system has been detected as Redhat-based, which is ${red}CURRENTLY STILL IN DEVELOPMENT TO EVENTUALLY BE (BUT IS *NOT* YET) ${cyan}compatible with this automated installation script."
+echo "${cyan}Your system has been detected as RedHat-based, which is ${red}CURRENTLY STILL IN DEVELOPMENT TO EVENTUALLY BE (BUT IS *NOT* YET) ${cyan}compatible with this automated installation script."
 
 PACKAGE_INSTALL="sudo yum install"
 PACKAGE_REMOVE="sudo yum remove"
@@ -207,7 +207,7 @@ echo " "
 
 else
 
-echo "${red}Your system has been detected as NOT BEING Debian-based OR Redhat-based. Your system is NOT compatible with this automated installation script."
+echo "${red}Your system has been detected as NOT BEING Debian-based OR RedHat-based. Your system is NOT compatible with this automated installation script."
 
 echo "${yellow} "
 read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
@@ -643,10 +643,20 @@ fi
 echo " "
 
 if [ ! -d "$DOC_ROOT" ] && [ "$DOC_ROOT" != "/var/www/html" ]; then
-echo "The defined document root directory '$DOC_ROOT' does not exist yet."
-echo "Please create this directory structure before running this script."
-echo "Exiting..."
-exit
+
+echo "The defined document root directory '$DOC_ROOT' does not exist yet. Please create this directory structure before running this script."
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
+
 fi
 
 
@@ -656,11 +666,10 @@ fi
 echo " "
 echo "${yellow}TECHNICAL NOTE:"
 echo " "
-echo "This script was designed to install on popular Debian-based (MATURE / STABLE) / Arch-based (STILL UNSTABLE!!) operating systems (Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, Arch, Manjaro, etc),"
-echo "for running as an app server WHICH IS LEFT TURNED ON 24/7 (ALL THE TIME).${reset}"
+echo "This script was designed to install on popular Debian-based ${green}(STABLE / POLISHED)${yellow} / RedHat-based ${red}(UNSTABLE / WORK-IN-PROGRESS)${yellow} operating systems (Debian, Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, Fedora, REHL, CentOS, etc), for running as an app server WHICH IS LEFT TURNED ON 24/7 (ALL THE TIME).${reset}"
 echo " "
 
-echo "${yellow}This script MAY NOT work on ALL Debian-based / Arch-based system setups.${reset}"
+echo "${yellow}This script MAY NOT work on ALL Debian-based / RedHat-based system setups.${reset}"
 echo " "
 
 echo "${cyan}Your operating system has been detected as:"
@@ -673,8 +682,7 @@ echo " "
 echo "${yellow}1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 16 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)${reset}"
 echo " "
 
-echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
-echo "Please back up any important pre-existing files in that directory before proceeding.${reset}"
+echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected. Please back up any important pre-existing files in that directory before proceeding.${reset}"
 echo " "
 				
 				
@@ -689,8 +697,7 @@ echo "This will save any custom settings within them, so you can migrate setting
 echo " "
 echo "(ALL plugin configuration files will be backed up in the same manner)"
 echo " "
-echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
-echo "otherwise you can just ignore or delete the backup files."
+echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor, otherwise you can just ignore or delete the backup files."
 echo " "
 
 echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
@@ -700,38 +707,31 @@ echo "${red}IMPORTANT *UPGRADE* NOTICES:"
 echo " "
 echo " "
 
-echo "v6.00.33 and higher changed a few duplicate text gateway keys, so if you use"
-echo "email-to-text gateways in this app, MAKE SURE YOURS STILL HAS THE SAME NAME."
+echo "v6.00.33 and higher changed a few duplicate text gateway keys, so if you use email-to-text gateways in this app, MAKE SURE YOURS STILL HAS THE SAME NAME."
 echo " "
 echo " "
 
-echo "v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,"
-echo "FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation)."
+echo "v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP, FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation)."
 echo " "
 echo " "
 
-echo "v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT."
+echo "v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP, AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT."
 echo " "
 echo " "
 
-echo "v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
-echo "UPGRADES FROM V6.00.31 OR LOWER."
+echo "v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.31 OR LOWER."
 echo " "
 echo " "
 
-echo "v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT."
+echo "v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP, AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT."
 echo " "
 echo " "
 
-echo "v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT."
+echo "v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP, AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT."
 echo " "
 echo " "
 
-echo "v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT."
+echo "v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP, AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT."
 echo " "
 echo " "
 
@@ -743,24 +743,19 @@ fi
 
 echo "${red}VERY IMPORTANT *SECURITY* NOTES:"
 echo " "
-echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
-echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
-echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
+echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA), #WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#, ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 
 echo "!!VERY IMPORTANT *HOSTING* NOTICE!!:"
 echo " "
-echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY"
-echo "HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting"
-echo "environment that a service provider has already provisioned, please quit this auto-install"
-echo "session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
+echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting environment that a service provider has already provisioned, please quit this auto-install session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
 echo " "
 
 echo "PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL"
 echo " "
 
 echo "${yellow} "
-read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+read -n1 -s -r -p $"Press Y to continue (or press N to exit)..." key
 echo "${reset} "
 
     if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
@@ -788,15 +783,6 @@ echo " "
 
 ######################################
 
-
-echo " "
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-
-######################################
-
             
 echo " "
 echo "${yellow}OPTIONAL SECURITY-HARDENING:"
@@ -809,7 +795,7 @@ echo " "
 
             
 echo "${yellow} "
-read -n1 -s -r -p $'Disable bluetooth, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+read -n1 -s -r -p $'Disable bluetooth, for higher app server security? (press Y to run, or press N to skip)...\n' keystroke
 echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
@@ -899,13 +885,10 @@ fi
 
             
 echo "${yellow} "
-read -n1 -s -r -p $'Install / configure a firewall, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+read -n1 -s -r -p $'Install / configure a firewall, for higher app server security? (press Y to run, or press N to skip)...\n' keystroke
 echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
             
 echo " "
 echo "${cyan}Installing / configuring a firewall, please wait...${reset}"
@@ -942,7 +925,7 @@ fi
 if [ -f "/usr/bin/raspi-config" ]; then
 
 echo "${yellow} "
-read -n1 -s -r -p $'Require sudo password, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+read -n1 -s -r -p $'Require sudo password, for higher app server security? (press Y to run, or press N to skip)...\n' keystroke
 echo "${reset} "
         
      if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
@@ -968,7 +951,7 @@ fi
 
             
 echo "${yellow} "
-read -n1 -s -r -p $'Make your home directory private, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+read -n1 -s -r -p $'Make your home directory private, for higher app server security? (press Y to run, or press N to skip)...\n' keystroke
 echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
@@ -999,9 +982,9 @@ fi
 
 
 
-echo "We need to know which version of PHP-FPM (fcgi) to use."
-echo "Please select a PHP-FPM version NUMBER from the list below..."
-echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
+echo "${yellow}We need to know which version of PHP-FPM (fcgi) to use. Please select a PHP-FPM version NUMBER from the list below..."
+echo " "
+echo "${red}(PHP-FPM version 7.2 OR HIGHER IS REQUIRED)${reset}"
 echo " "
 
 echo "$PHP_FPM_LIST"
@@ -1041,9 +1024,6 @@ OPTIONS="install_webserver remove_webserver skip"
 
 select opt in $OPTIONS; do
         if [ "$opt" = "install_webserver" ]; then
-
-          # Clears / updates cache, then upgrades (if NOT a rolling release)
-          clean_system_update
          
           echo " "
 			
@@ -1142,8 +1122,7 @@ select opt in $OPTIONS; do
             
             if [ ! -f $APACHE_CONF ]; then
             
-            echo "${red}$APACHE_CONF could NOT be found on your system."
-            echo "Please enter the FULL path to the MAIN Apache config file:${reset}"
+            echo "${red}$APACHE_CONF could NOT be found on your system. Please enter the FULL path to the MAIN Apache config file:${reset}"
             echo " "
             
             read APACHE_CONF
@@ -1201,13 +1180,11 @@ EOF
                             
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
-                echo "${cyan}Enhanced security has been enabled for the MAIN Apache config,"
-                echo "restarting the Apache web server, please wait...${reset}"
+                echo "${cyan}Enhanced security has been enabled for the MAIN Apache config, restarting the Apache web server, please wait...${reset}"
                 /etc/init.d/apache2 restart
                 echo " "
                 else
-                echo "${red}Enhanced security has been enabled for the MAIN Apache config."
-                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
+                echo "${red}Enhanced security has been enabled for the MAIN Apache config. YOU MUST RESTART the Apache web server for this to take affect.${reset}"
                 echo " "
                 fi
             
@@ -1306,13 +1283,11 @@ EOF
                             
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
-                echo "${cyan}Htaccess has been enabled for HTTP (port 80),"
-                echo "restarting the Apache web server, please wait...${reset}"
+                echo "${cyan}Htaccess has been enabled for HTTP (port 80), restarting the Apache web server, please wait...${reset}"
                 /etc/init.d/apache2 restart
                 echo " "
                 else
-                echo "${red}Htaccess has been enabled for HTTP (port 80)."
-                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
+                echo "${red}Htaccess has been enabled for HTTP (port 80). YOU MUST RESTART the Apache web server for this to take affect.${reset}"
                 echo " "
                 fi
             
@@ -1339,8 +1314,7 @@ EOF
             
             if [ ! -f $HTTPS_CONF ]; then
             
-            echo "${red}$HTTPS_CONF could NOT be found on your system."
-            echo "Please enter the FULL Apache config file path for HTTPS (port 443):${reset}"
+            echo "${red}$HTTPS_CONF could NOT be found on your system. Please enter the FULL Apache config file path for HTTPS (port 443):${reset}"
             echo " "
             
             read HTTPS_CONF
@@ -1403,13 +1377,11 @@ EOF
                             
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
-                echo "${cyan}Htaccess has been enabled for HTTPS (port 443),"
-                echo "restarting the Apache web server, please wait...${reset}"
+                echo "${cyan}Htaccess has been enabled for HTTPS (port 443), restarting the Apache web server, please wait...${reset}"
                 /etc/init.d/apache2 restart
                 echo " "
                 else
-                echo "${red}Htaccess has been enabled for HTTPS (port 443)."
-                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
+                echo "${red}Htaccess has been enabled for HTTPS (port 443). YOU MUST RESTART the Apache web server for this to take affect.${reset}"
                 echo " "
                 fi
             
@@ -1515,20 +1487,6 @@ EOF
         	chown $RECURSIVE_CHOWN
 
 		sleep 3
-		
-		OS_INFO=$(lsb_release -a)
-		
-		
-		     # If Kali OS, set apache and php-fpm to run at boot (as they won't by default)
-		     IS_KALI='Kali'
-               if [[ "$OS_INFO" == *"$IS_KALI"* ]]; then
-		     echo " "
-		     echo "${cyan}Telling Kali to start Apache / PHP-FPM at boot, please wait...${reset}"
-		     echo " "
-               update-rc.d apache2 enable
-               systemctl enable php${PHP_FPM_VER}-fpm
-               fi
-        
         
 		echo " "
 		echo "${green}PHP web server configuration is complete.${reset}"
@@ -1547,9 +1505,6 @@ EOF
          
         break
        elif [ "$opt" = "remove_webserver" ]; then
-
-       # Clears / updates cache, then upgrades (if NOT a rolling release)
-       clean_system_update
        
         echo " "
         echo "${green}Removing PHP web server, please wait...${reset}"
@@ -1588,8 +1543,7 @@ echo " "
 ######################################
 
 
-echo "Do you want this script to automatically download the latest version of Open Crypto Tracker"
-echo "(Server Edition) from Github.com, and install / configure it?"
+echo "Do you want this script to automatically download the latest version of Open Crypto Tracker (Server Edition) from Github.com, and install / configure it?"
 echo " "
 
 echo "${yellow}Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Tracker (Server Edition), or skip.${reset}"
@@ -1603,27 +1557,14 @@ select opt in $OPTIONS; do
         if [ "$opt" = "install_portfolio_app" ]; then
         
         		if [ ! -d "$DOC_ROOT" ]; then
-
-               # Clears / updates cache, then upgrades (if NOT a rolling release)
-               clean_system_update
         		
         		echo " "
 				
-				echo "${red}Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Tracker."
-				echo "Skipping auto-install of Open Crypto Tracker.${reset}"
+				echo "${red}Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Tracker. Skipping auto-install of Open Crypto Tracker.${reset}"
 				else
 				
 				echo " "
 				echo "${cyan}Proceeding with required component installation, please wait...${reset}"
-				
-				echo " "
-				
-				# bsdtar installs may fail (essentially the same package as libarchive-tools),
-				# SO WE RUN BOTH SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES INSTALL OK AFTERWARDS
-				
-				echo "${yellow}(you can safely ignore any upcoming 'bsdtar' install errors, if 'libarchive-tools'"
-				echo "installs OK...and visa versa, as they are essentially the same package)${reset}"
-				echo " "
 				
 				sleep 3
 				
@@ -1677,11 +1618,9 @@ select opt in $OPTIONS; do
 						# If openssl fails, create manually
 						if [ -z "$RAND_STRING" ]; then
 						echo " "
-						echo "${red}Automatic random hash creation has failed, please enter a random alphanumeric string"
-						echo "of text (no spaces / symbols) at least 10 characters long."
+						echo "${red}Automatic random hash creation has failed, please enter a random alphanumeric string of text (no spaces / symbols) at least 10 characters long."
 						echo " "
-						echo "IF YOU SKIP THIS, no backup of the previous install's configuration files will be created (for security reasons),"
-						echo "and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS.${reset}"
+						echo "IF YOU SKIP THIS, no backup of the previous install's configuration files will be created (for security reasons), and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS.${reset}"
 						echo " "
   						read RAND_STRING
                         echo " "
@@ -1744,8 +1683,7 @@ select opt in $OPTIONS; do
 						
   						else
   						echo " "
-  						echo "${red}No backup of the previous install's configuration files was created (for security reasons)."
-  						echo "The new install WILL NOW OVERWRITE ALL PREVIOUSLY-CONFIGURED SETTINGS in $DOC_ROOT/config.php...${reset}"
+  						echo "${red}No backup of the previous install's configuration files was created (for security reasons). The new install WILL NOW OVERWRITE ALL PREVIOUSLY-CONFIGURED SETTINGS in $DOC_ROOT/config.php...${reset}"
   						echo " "
 						fi
 						
@@ -1943,8 +1881,7 @@ select opt in $OPTIONS; do
                             echo " "
                             echo "${yellow}Options for choosing a time interval to run the background task (cron job)..."
                             echo " "
-                            echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART"
-                            echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
+                            echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
                             echo " "
                             echo "${yellow}Enter the time interval in minutes to run this cron job:"
                             echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)${reset}"
@@ -1991,8 +1928,7 @@ select opt in $OPTIONS; do
                               
                             
                             echo " "
-                            echo "${green}A background task (cron job) has been setup for user '$APP_USER',"
-                            echo "as a command in /etc/cron.d/cryptocoin:"
+                            echo "${green}A background task (cron job) has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
                             echo " "
                             echo "$CRONJOB"
                             echo " "
@@ -2059,24 +1995,19 @@ echo " "
 ######################################
 
 
-echo "Enabling the built-in SSH server on your system allows easy remote"
-echo "installation / updating of your web site files via SFTP (from another computer"
-echo "on your home / internal network), with Filezilla or any other SFTP-enabled FTP software."
+echo "Enabling the built-in SSH server on your system allows easy remote installation / updating of your web site files via SFTP (from another computer on your home / internal network), with Filezilla or any other SFTP-enabled FTP software."
 echo " "
 
-echo "If you choose to NOT enable SSH on your system, you'll need to install / update your"
-echo "web site files directly on the device itself (not recommended)."
+echo "If you choose to NOT enable SSH on your system, you'll need to install / update your web site files directly on the device itself (not recommended)."
 echo " "
 
-echo "If you do use SSH, ---make sure the password for username '$APP_USER' is strong---,"
-echo "because anybody on your home / internal network will have access if they know the username/password!"
+echo "If you do use SSH, ---make sure the password for username '$APP_USER' is strong---, because anybody on your home / internal network will have access if they know the username/password!"
 echo " "
 
 if [ -f "/usr/bin/raspi-config" ]; then
 echo "${yellow}Select 1 or 2 to choose whether to setup SSH (under 'Interfacing Options' in raspi-config), or skip it.${reset}"
 echo " "
-echo "${red}IF YOU CHOOSE OPTION 1, AND IT ASKS IF YOU WANT TO REBOOT AFTER CONFIGURATION, CHOOSE 'NO'"
-echo "OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT #AFTER# AUTO-INSTALL WITH: sudo reboot${reset}"
+echo "${red}IF YOU CHOOSE OPTION 1, AND IT ASKS IF YOU WANT TO REBOOT AFTER CONFIGURATION, CHOOSE 'NO' OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT #AFTER# AUTO-INSTALL WITH: sudo reboot${reset}"
 else
 echo "${yellow}Select 1 or 2 to choose whether to setup SSH, or skip it.${reset}"
 fi
@@ -2099,9 +2030,6 @@ select opt in $OPTIONS; do
 				echo "${cyan}Initiating dietpi-software, please wait...${reset}"
 				dietpi-software
 				else
-
-                    # Clears / updates cache, then upgrades (if NOT a rolling release)
-                    clean_system_update
 				
 				echo " "
 				echo "${green}Proceeding with openssh-server installation, please wait...${reset}"
@@ -2155,8 +2083,7 @@ fi
 
 if [ "$APP_SETUP" = "1" ]; then
 
-echo "${cyan}Web server setup and installation / configuration of Open Crypto Tracker (Server Edition)"
-echo "should now be complete (if you chose those options), unless you saw any errors on screen during setup."
+echo "${cyan}Web server setup and installation / configuration of Open Crypto Tracker (Server Edition) should now be complete (if you chose those options), unless you saw any errors on screen during setup."
 echo " "
 
 echo "${green}Open Crypto Tracker is located at (and can be edited) inside this folder:"
@@ -2164,8 +2091,7 @@ echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "${yellow}You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php) remotely via SFTP,"
-echo "or by editing it locally with nano or any other installed text editor."
+echo "${yellow}You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php) remotely via SFTP, or by editing it locally with nano or any other installed text editor."
 echo "${reset} "
 
 
@@ -2177,8 +2103,7 @@ echo "${reset} "
 	echo " "
 	echo "${yellow}The bundled plugin's configuration files were also be backed up in the same manner."
 	echo " "
-	echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
-	echo "otherwise you can just ignore or delete the backup files."
+	echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor, otherwise you can just ignore or delete the backup files."
      echo "${reset} "
 
      echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
@@ -2207,8 +2132,7 @@ echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "${yellow}If web server setup has completed successfully, Open Crypto Tracker (Server Edition) can now be"
-echo "installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
+echo "${yellow}If web server setup has completed successfully, Open Crypto Tracker (Server Edition) can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
 echo "${reset} "
 
 fi
@@ -2252,26 +2176,16 @@ echo " "
 
 echo "${red}IMPORTANT NOTES:"
 echo " "
-echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
-echo "#WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
-echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
+echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA), #WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#, ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
-echo "The SSL certificate created on this web server is SELF-SIGNED (not issued by a CA),"
-echo "so your browser ---will give you a warning message--- when you visit the above HTTPS addresses."
-echo "This is --normal behavior for self-signed certificates--. Google search for"
-echo "'self-signed ssl certificate' for more information on the topic."
-echo "THAT SAID, ONLY TRUST SELF-SIGNED CERTIFICATES #IF YOUR COMPUTER CREATED THE CERTIFICATE#."
-echo "!NEVER! TRUST SELF-SIGNED CERTIFICATES SIGNED BY THIRD PARTIES!"
+echo "The SSL certificate created on this web server is SELF-SIGNED (not issued by a CA), so your browser ---will give you a warning message--- when you visit the above HTTPS addresses. This is --normal behavior for self-signed certificates--. Google search for 'self-signed ssl certificate' for more information on the topic."
+echo " "
+echo "THAT SAID, ONLY TRUST SELF-SIGNED CERTIFICATES #IF YOUR COMPUTER CREATED THE CERTIFICATE#. !NEVER! TRUST SELF-SIGNED CERTIFICATES SIGNED BY THIRD PARTIES!"
 echo " "
 
-echo "${yellow}If you wish to allow external access to this app (when not on your home / internal network),"
-echo "a static internal ip address / port forwarding / dynamic DNS service on your router needs to be setup"
-echo "(preferably with strict firewall rules using a 'guest network' configuration, to disallow this device"
-echo "requesting access to other machines on your home / internal network, and only allow it an access"
-echo "route through the internet gateway)."
+echo "${yellow}If you wish to allow external access to this app (when not on your home / internal network), a static internal ip address / port forwarding / dynamic DNS service on your router needs to be setup (preferably with strict firewall rules using a 'guest network' configuration, to disallow this device requesting access to other machines on your home / internal network, and only allow it an access route through the internet gateway)."
 echo " "
-echo "A #VERY HIGH# port number is recommended (NON-STANDARD is above 1,023 / UNREGISTERED is from 49,152 to 65,535),"
-echo "to help avoid port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
+echo "A #VERY HIGH# port number is recommended (NON-STANDARD is above 1,023 / UNREGISTERED is from 49,152 to 65,535), to help avoid port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
 echo " "
 
 if [ "$ALLOW_FULL_UPGRADE" == "yes" ]; then
@@ -2281,8 +2195,7 @@ echo "${green}sudo apt update;sudo apt upgrade -y"
 echo " "
 fi
 
-echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting"
-echo "up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
+echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
 echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~${reset}"
@@ -2313,8 +2226,7 @@ export FOLIO_INSTALL_RAN=1
 if [ -z "$TICKER_INSTALL_RAN" ]; then
 
 echo " "
-echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION#"
-echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
 
 echo " "
 echo "Also check out my 100% FREE open source multi-crypto slideshow ticker for Raspberry Pi LCD screens:"
@@ -2324,12 +2236,10 @@ echo " "
 echo "https://github.com/taoteh1221/Slideshow_Crypto_Ticker"
 echo " "
 
-echo "Would you like to ${red}ADDITIONALLY / OPTIONALLY${reset} install Slideshow Crypto Ticker,"
-echo "multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
+echo "Would you like to ${red}ADDITIONALLY / OPTIONALLY${reset} install Slideshow Crypto Ticker, multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
 echo " "
 
-echo "Select 1 or 2 to choose whether to ${red}optionally${reset} install the crypto ticker"
-echo "for Raspberry Pi LCD screens, or skip."
+echo "Select 1 or 2 to choose whether to ${red}optionally${reset} install the crypto ticker for Raspberry Pi LCD screens, or skip."
 echo " "
 
 OPTIONS="install_crypto_ticker skip"
@@ -2359,9 +2269,17 @@ OPTIONS="install_crypto_ticker skip"
         echo " "
         echo "${green}Skipping the ${red}OPTIONAL ${green}crypto ticker install...${reset}"
 		echo " "
-		echo "${cyan}Installation / setup has finished, exiting to terminal...${reset}"
-        echo " "
-		exit
+
+          echo "${yellow} "
+          read -n1 -s -r -p $"Installation / setup has finished, PRESS ANY KEY to exit..." key
+          echo "${reset} "
+          
+              if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+              echo " "
+              echo "${green}Exiting...${reset}"
+              echo " "
+              exit
+              fi
 		  
         break
         
@@ -2372,12 +2290,19 @@ OPTIONS="install_crypto_ticker skip"
 else
 
 echo " "
-echo "${cyan}Installation / setup has finished, exiting to terminal...${reset}"
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
 echo " "
-echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION#"
-echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
-echo " "
-exit
+
+echo "${yellow} "
+read -n1 -s -r -p $"Installation / setup has finished, PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
 
 fi
 

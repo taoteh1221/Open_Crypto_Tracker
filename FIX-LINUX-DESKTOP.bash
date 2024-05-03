@@ -611,8 +611,7 @@ fi
 
 
 if [ ! -d "$APP_ROOT" ]; then
-echo "${red}The defined Desktop Edition location '$APP_ROOT' does not exist yet."
-echo "Please create this directory structure before running this script again.${reset}"
+echo "${red}The defined Desktop Edition location '$APP_ROOT' does not exist yet. Please create this directory structure before running this script again.${reset}"
 
 echo "${yellow} "
 read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
@@ -633,7 +632,7 @@ echo "${cyan}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL"
 echo "${reset} "
 
 
-echo "${yellow}THIS SCRIPT ATTEMPTS TO AUTOMATICALLY FIX LINUX-BASED 'DESKTOP EDITION' INSTALLATIONS OF OPEN CRYPTO TRACKER."
+echo "${yellow}THIS SCRIPT ATTEMPTS TO AUTOMATICALLY FIX LINUX-BASED 'DESKTOP EDITION' INSTALLATIONS OF OPEN CRYPTO TRACKER. BUILDING PHP BINARIES WILL TAKE AWHILE, EVEN ON A FAST MACHINE (YOU WILL SEE SCROLLING MESSAGES FOR AWHILE, WHICH IS NORMAL DURING COMPILATION)."
 echo "${reset} "
 
 
@@ -795,7 +794,7 @@ git checkout master
 
 
 echo " "
-echo "${cyan}Building the required PHP binary files, please wait...${reset}"
+echo "${cyan}Building (compiling) the required PHP binary files, please wait...${reset}"
 echo " "
 
 
@@ -843,7 +842,7 @@ make install
 
 
 echo " "
-echo "${cyan}UNLESS YOU SEE ANY ERRORS ABOVE, ${green}the old PHP-CGI binary '$APP_ROOT/php-cgi-custom' within your Desktop Edition should have just been replaced with a new custom PHP-CGI binary, which should be compatible with your particular Linux system. Additionally, we made sure 'GTK2' for your particular Linux system was installed, which should assure compatibility with the 32-bit binary 'RUN_CRYPTO_TRACKER'.${reset}"
+echo "${cyan}UNLESS YOU SEE ANY ERRORS ABOVE, ${green}the old PHP-CGI binary '$APP_ROOT/php-cgi-custom' within your Desktop Edition should have just been replaced with a new custom PHP-CGI binary, which should be compatible with your particular Linux system. Additionally, we made sure 'GTK2' and 'libxss' for your particular Linux system were installed, which helps assure compatibility with the 32-bit binary 'RUN_CRYPTO_TRACKER'.${reset}"
 echo " "
 echo "${yellow}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
 echo " "
