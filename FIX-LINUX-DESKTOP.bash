@@ -41,7 +41,10 @@ fi
 
 # In case we are recursing back into this script (for filtering params etc),
 # flag export of a few more basic sys vars if present
+
+# Authentication of X sessions
 export XAUTHORITY=~/.Xauthority 
+# Working directory
 export PWD=$PWD
 
 
@@ -182,7 +185,7 @@ fi
 
 if [ -f "/etc/debian_version" ]; then
 
-echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated script."
 
 # USE 'apt-get' IN SCRIPTING!
 # https://askubuntu.com/questions/990823/apt-gives-unstable-cli-interface-warning
@@ -195,7 +198,7 @@ echo " "
 
 elif [ -f "/etc/redhat-release" ]; then
 
-echo "${cyan}Your system has been detected as Redhat-based, which is compatible with this automated installation script."
+echo "${cyan}Your system has been detected as Redhat-based, which is compatible with this automated script."
 
 PACKAGE_INSTALL="sudo yum install"
 PACKAGE_REMOVE="sudo yum remove"
@@ -206,7 +209,7 @@ echo " "
 
 else
 
-echo "${red}Your system has been detected as NOT BEING Debian-based OR Redhat-based. Your system is NOT compatible with this automated installation script."
+echo "${red}Your system has been detected as NOT BEING Debian-based OR Redhat-based. Your system is NOT compatible with this automated script."
 
 echo "${yellow} "
 read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
@@ -276,6 +279,15 @@ app_path_result="${app_path_result#*$1:}"
           # bsdtar on Ubuntu 18.x and higher
           if [ "$1" == "bsdtar" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="libarchive-tools"
+          
+          # xdg-user-dir (debian package name differs slightly)
+          elif [ "$1" == "xdg-user-dir" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="xdg-user-dirs"
+
+          # rsyslogd (debian package name differs slightly)
+          elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="rsyslog"
+
           else
           SYS_PACK="$1"
           fi
