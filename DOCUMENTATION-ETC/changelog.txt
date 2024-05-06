@@ -6708,7 +6708,7 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -Refactored auto-installer
 
--Detection / (optional) fixing of low swap space on debian-based devices (so running a desktop interface doesn't use all the system memory on low power devices)
+-Detection / (optional) fixing of low swap space on debian-based devices in ALL bash auto installer / fixer scripts (so running a desktop interface doesn't use all the system memory on low power devices)
 
 IMPORTANT *UPGRADE* NOTICES:
 
