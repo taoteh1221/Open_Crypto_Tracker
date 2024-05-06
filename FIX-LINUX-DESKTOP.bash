@@ -224,6 +224,19 @@ echo "${reset} "
 
 fi
 
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
+echo " "
+     
 
 ######################################
 

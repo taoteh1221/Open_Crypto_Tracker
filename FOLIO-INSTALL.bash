@@ -225,6 +225,19 @@ echo "${reset} "
 
 fi
 
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
+echo " "
+
 
 ######################################
 
@@ -696,6 +709,19 @@ echo " "
 
 echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected. Please back up any important pre-existing files in that directory before proceeding.${reset}"
 echo " "
+
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
+echo " "
 				
 				
 if [ -f $DOC_ROOT/config.php ]; then
@@ -714,6 +740,20 @@ echo " "
 
 echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
 echo " "
+
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
+echo " "
+
 
 echo "${red}IMPORTANT *UPGRADE* NOTICES:"
 echo " "
@@ -748,6 +788,19 @@ echo " "
 echo " "
 
 echo "${reset} "
+
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
+echo " "
 
 
 fi
@@ -2218,6 +2271,23 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~${reset}"
 echo " "
 
 
+echo " "
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
+
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
+echo " "
+
+
 ######################################
 
 
@@ -2240,9 +2310,6 @@ export FOLIO_INSTALL_RAN=1
 
                     
 if [ -z "$TICKER_INSTALL_RAN" ]; then
-
-echo " "
-echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
 
 echo " "
 echo "Also check out my 100% FREE open source multi-crypto slideshow ticker for Raspberry Pi LCD screens:"
@@ -2306,7 +2373,7 @@ OPTIONS="install_crypto_ticker skip"
 else
 
 echo " "
-echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
 echo " "
 
 echo "${yellow} "

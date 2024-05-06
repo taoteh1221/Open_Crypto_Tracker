@@ -1042,11 +1042,7 @@ select opt in $OPTIONS; do
         echo " "
         
         ######################################
-
         
-        echo "${cyan}Making sure your system is updated before installation, please wait...${reset}"
-        
-        echo " "
 
         # Clears / updates cache, then upgrades (if NOT a rolling release)
         clean_system_update

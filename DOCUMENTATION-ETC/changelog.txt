@@ -6708,9 +6708,7 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -Better Ubuntu Linux support in all auto install / fix scripts
 
--Initial (UNSTABLE) RedHat Linux support
-
--Refactored auto-installer
+-Refactored all bash scripts, for improved user experience
 
 -Optimizations for low power devices
 
