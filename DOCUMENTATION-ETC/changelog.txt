@@ -6704,13 +6704,15 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed the automated script (FIX-LINUX-DESKTOP.bash, located in main app directory) that repairs Linux Desktop Edition installations (runs multiple compatibility fixes, for Debian and RedHat distros)
 
--Detection / (optional) fixing of low swap space on debian-based devices in ALL bash auto installer / fixer scripts (so running a desktop interface doesn't use all the system memory on low power devices)
+-Detection / (optional) fixing of low swap space on debian-based devices in ALL bash auto installer / fixer scripts (so running a desktop interface doesn't use all the system memory on low memory devices)
 
--Better Ubuntu Linux support in all auto install / fix scripts
+-Better Linux support in all auto install / fix scripts
+
+-Miscellaneous user experience improvements / optimizations
 
 -Refactored all bash scripts, for improved user experience
 
--Optimizations for low power devices
+-Optimizations for installation on low memory devices
 
 IMPORTANT *UPGRADE* NOTICES:
 

@@ -41,9 +41,9 @@ var $array1 = array();
 	
      function discord_data($params) {
      
-     global $ct, $int_api_base_endpoint;
+     global $ct;
      						
-     $test_data = @$ct['cache']->ext_data('params', $params, 0, $ct['base_url'] . $int_api_base_endpoint . 'market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd', 2);
+     $test_data = @$ct['cache']->ext_data('params', $params, 0, $ct['base_url'] . $ct['int_api_base_endpoint'] . 'market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd', 2);
      
      // Already json-encoded
      return $test_data;
@@ -57,9 +57,9 @@ var $array1 = array();
    
      function telegram_data($params) {
      
-     global $ct, $int_api_base_endpoint;
+     global $ct;
      						
-     $test_data = @$ct['cache']->ext_data('params', $params, 0, $ct['base_url'] . $int_api_base_endpoint . 'market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd', 2);
+     $test_data = @$ct['cache']->ext_data('params', $params, 0, $ct['base_url'] . $ct['int_api_base_endpoint'] . 'market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd', 2);
      
      // Already json-encoded
      return $test_data;

@@ -3,10 +3,6 @@
  * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
-$webhook_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
-
-$api_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
-
 ?>
 
 
@@ -123,7 +119,7 @@ $ct['admin']->admin_config_interface('int_api', 'webhook_int_api', $ct['admin_re
 	
 	You can include ADDITIONAL PARAMETERS *AFTER* THE WEBOOK KEY, USING FORWARD SLASHES TO DELIMIT THEM: <br /><br />
 	
-	<b class='bitcoin'><?=$ct['base_url']?><?=$webhook_base_endpoint?>WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC</b>
+	<b class='bitcoin'><?=$ct['base_url']?><?=$ct['int_webhook_base_endpoint']?>WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC</b>
 	<br /><br />
 
      These parameters are then automatically put into a PHP array named: <b class='bitcoin'>$webhook_params</b>
@@ -155,7 +151,7 @@ $webhook_plug = $plugin_key;
      
      <b class='blue'>Webhook endpoint for "<?=$plug['conf'][$webhook_plug]['ui_name']?>" plugin:</b> <br /><br />
      
-     <b class='bitcoin'><?=$ct['base_url']?><?=$webhook_base_endpoint?><?=$ct['gen']->nonce_digest($webhook_plug, $ct['int_webhooks'][$webhook_plug] . $webhook_master_key)?></b>
+     <b class='bitcoin'><?=$ct['base_url']?><?=$ct['int_webhook_base_endpoint']?><?=$ct['gen']->nonce_digest($webhook_plug, $ct['int_webhooks'][$webhook_plug] . $webhook_master_key)?></b>
      
      </p>
      <br /> &nbsp; <br />
@@ -181,27 +177,27 @@ unset($webhook_plug);
 		
 		<p>To see a list of the supported assets in the API, use the endpoint: <br /><br />
 		
-		<b class='bitcoin'>/<?=$api_base_endpoint?>asset_list</b></p>
+		<b class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>asset_list</b></p>
 		
 		<p>To see a list of the supported exchanges in the API, use the endpoint: <br /><br />
 		
-		<b class='bitcoin'>/<?=$api_base_endpoint?>exchange_list</b></p>
+		<b class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>exchange_list</b></p>
 		
 		<p>To see a list of the supported markets for a particular exchange in the API, use the endpoint: <br /><br />
 		
-		<b class='bitcoin'>/<?=$api_base_endpoint?>market_list/[exchange name]</b></p>
+		<b class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>market_list/[exchange name]</b></p>
 		
 		<p>To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: <br /><br />
 		
-		<b class='bitcoin'>/<?=$api_base_endpoint?>conversion_list</b></p>
+		<b class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>conversion_list</b></p>
 		
 		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: <br /><br />
 		
-		<b class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</b></p>
+		<b class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</b></p>
 		
 		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: <br /><br />
 		
-		<b class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</b></p>
+		<b class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</b></p>
 		
 		<p>For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.</p>
 	
@@ -217,7 +213,7 @@ unset($webhook_plug);
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 # WINDOWS USERS: REMOVE THE "Invoke-WebRequest" CURL ALIAS FIRST: Remove-item alias:curl
 
-curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$ct['base_url']?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
+curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
 </code></pre>
 	        
 	        
@@ -234,7 +230,7 @@ if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_usernam
 
 var htaccess_login = new XMLHttpRequest();
 
-htaccess_login.open("GET", "<?=$ct['base_url']?><?=$api_base_endpoint?>market_conversion", true);
+htaccess_login.open("GET", "<?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion", true);
 
 htaccess_login.withCredentials = true;
 htaccess_login.setRequestHeader("Authorization", 'Basic ' + btoa('<?=$htaccess_username?>:<?=$htaccess_password?>'));
@@ -252,7 +248,7 @@ htaccess_login.send();
 
 var api_request = new XMLHttpRequest();
 
-api_request.open("POST", "<?=$ct['base_url']?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
+api_request.open("POST", "<?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
 
 var params = "api_key=<?=$int_api_key?>";
 
@@ -302,7 +298,7 @@ exit;
 }
 
 // Initiate CURL
-$ch = curl_init('<?=$ct['base_url']?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
+$ch = curl_init('<?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
 
 $params = array('api_key' => '<?=$int_api_key?>');
 
@@ -354,7 +350,7 @@ var_dump($api_data_array);
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Example API Responses (JSON format) </legend>
 	        
-	    <p class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd</p>
+	    <p class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -407,7 +403,7 @@ var_dump($api_data_array);
 }
 </code></pre>
 
-	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>market_conversion/market_only/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$ct['int_api_base_endpoint']?>market_conversion/market_only/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -441,7 +437,7 @@ var_dump($api_data_array);
 }
 </code></pre>
 	        
-	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>asset_list</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$ct['int_api_base_endpoint']?>asset_list</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -475,7 +471,7 @@ var_dump($api_data_array);
 </code></pre>
 	        
 	        
-	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>exchange_list</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$ct['int_api_base_endpoint']?>exchange_list</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -534,7 +530,7 @@ var_dump($api_data_array);
 </code></pre>
 	        
 	        
-	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>market_list/binance</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$ct['int_api_base_endpoint']?>market_list/binance</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -578,7 +574,7 @@ var_dump($api_data_array);
 </code></pre>
 	        
 	        
-	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>conversion_list</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$ct['int_api_base_endpoint']?>conversion_list</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {

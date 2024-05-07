@@ -171,8 +171,14 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
          elseif ( $last_cached_days >= 7 ) {
          $last_cached_time = number_format( ($last_cached_days / 7) , 2, '.', ',') . ' weeks';
          }
-         else {
+         elseif ( $last_cached_days >= 1 ) {
          $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
+         }
+         elseif ( $last_cached_days >= (1 / 24) ) {
+         $last_cached_time = number_format( ($last_cached_days * 24) , 2, '.', ',') . ' hours';
+         }
+         else {
+         $last_cached_time = number_format( ($last_cached_days * 1440) , 0, '.', ',') . ' minutes';
          }
    
    

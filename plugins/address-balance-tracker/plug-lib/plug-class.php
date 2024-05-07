@@ -26,9 +26,19 @@ var $array1 = array();
 	function admin_input_validation() {
 		 
 	global $ct, $plug, $this_plug;
-		
-     // Logic here
-     $ct['update_config_error'] = '';
+	
+     // Test mode (retrieves current block height)    
+	$solana_block_height = $this->sol_addr_bal(false, false, $_POST[$this_plug]['solana_rpc_server']);
+	
+	
+          if (
+          !isset($solana_block_height)
+          || isset($solana_block_height) && !is_int($solana_block_height)
+          || isset($solana_block_height) && $solana_block_height < 1
+          ) {
+          $ct['update_config_error'] .= 'Solana RPC Server "' . $_POST[$this_plug]['solana_rpc_server'] . '" query test FAILED (make sure you entered the RPC endpoint address correctly)';
+          }
+
      
      return $ct['update_config_error'];
 		
@@ -46,11 +56,11 @@ var $array1 = array();
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
 	$calc = ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
-	$recache = ( $calc >= 0 ? $calc : 0 );
+	$refresh_cache = ( $calc >= 0 ? $calc : 0 );
 		
 	$url = 'https://blockchain.info/rawaddr/' . $address;
 			 
-	$response = @$ct['cache']->ext_data('url', $url, $recache);
+	$response = @$ct['cache']->ext_data('url', $url, $refresh_cache);
 			 
 	$data = json_decode($response, true);
 		   
@@ -84,11 +94,11 @@ var $array1 = array();
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
 	$calc = ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
-	$recache = ( $calc >= 0 ? $calc : 0 );
+	$refresh_cache = ( $calc >= 0 ? $calc : 0 );
 		
 	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
 			 
-	$response = @$ct['cache']->ext_data('url', $url, $recache);
+	$response = @$ct['cache']->ext_data('url', $url, $refresh_cache);
 			 
 	$data = json_decode($response, true);
 		   
@@ -115,37 +125,60 @@ var $array1 = array();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
-	function sol_addr_bal($address, $spl_token=false) {
+	function sol_addr_bal($address=false, $spl_token=false, $rpc_test=false) {
 		 
 	global $ct, $plug, $this_plug;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
 	$calc = ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
-	$recache = ( $calc >= 0 ? $calc : 0 );
+	$refresh_cache = ( $calc >= 0 ? $calc : 0 );
 	
         
-    $headers = array(
+     $headers = array(
                     'Content-Type: application/json'
                     );
                     
-			 
-    $request_params = array(
-                           'jsonrpc' => '2.0', // Setting this right before sending
-                           'id' => 1,
-                           'method' => ( $spl_token == false ? 'getBalance' : 'getTokenAccountBalance' ),
-                           'params' => array($address),
-                           );
+	
+     	if ( $rpc_test != false ) {
+     	     
+     	$refresh_cache = 0;
+     	     
+     	$rpc_server = $rpc_test;
+     	
+          $request_params = array(
+                                'jsonrpc' => '2.0', // Setting this right before sending
+                                'id' => 1,
+                                'method' => 'getBlockHeight',
+                                );
+                                
+     	}
+     	else {
+     	     
+     	$rpc_server = $plug['conf'][$this_plug]['solana_rpc_server'];
+     	
+          $request_params = array(
+                                'jsonrpc' => '2.0', // Setting this right before sending
+                                'id' => 1,
+                                'method' => ( $spl_token == false ? 'getBalance' : 'getTokenAccountBalance' ),
+                                'params' => array($address),
+                                );
+                                
+     	}
                     
-                
-	$response = @$ct['cache']->ext_data('params', $request_params, $recache, 'https://api.mainnet-beta.solana.com', 3, null, $headers);
+     
+     // https://solana.com/docs/core/clusters#mainnet-beta-rate-limits
+	$response = @$ct['cache']->ext_data('params', $request_params, $refresh_cache, $rpc_server, 3, null, $headers);
 			 
 	$data = json_decode($response, true);
 			 
 	$data = $data['result'];
 		   
 		   
-		if ( isset($data['value']) ) {
+		if ( $rpc_test != false ) {
+		return $data;
+		}
+		elseif ( isset($data['value']) ) {
 		    
 		    
 		    if ( $spl_token == false ) {

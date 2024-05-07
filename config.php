@@ -37,7 +37,7 @@ exit;
 
 // Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 15 / 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct['conf']['gen']['local_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
+$ct['conf']['gen']['local_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75
 
 
 // Displays interface text in ANY google font found at: https://fonts.google.com
@@ -666,10 +666,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'jup-4||coingecko_btc||btc||both',
 					
 					
-					// NEON
-					'neon||jupiter_ag||sol||both',
-					
-					
 					// HNT
 					'hnt-2||gateio||usdt||both',
 					'hnt-3||gateio||eth||none',
@@ -678,6 +674,21 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					// RNDR
 					'rndr||kucoin||btc||both',
 					'rndr-2||gateio||usdt||none',
+					
+					
+					// IMX
+					'imx||coinbase||usd||both',
+					'imx-2||kraken||eur||chart',
+					'imx-3||binance||btc||chart',
+					
+					
+					// ZEUS
+					'zeus||coingecko_terminal||usd||both',
+					'zeus-2||jupiter_ag||sol||chart',
+					
+					
+					// NEON
+					'neon||jupiter_ag||sol||both',
 					
 					
 					// SHDW
@@ -778,11 +789,11 @@ $ct['conf']['plugins']['plugin_status'] = array(
           
                       						'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
           
-                      						'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
+                      						'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] address balance changes (when coins are sent / recieved)
           
-                      						'crypto-info-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+                      						'crypto-info-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNCTIONAL YET!
           
-                      						'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+                      						'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNCTIONAL YET!
           
                       					   );
 
@@ -2571,32 +2582,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // NEON
-                    'NEON' => array(
-                        
-                        'name' => 'Neon',
-                        'mcap_slug' => 'neon',
-                        'pair' => array(
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'NEON/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coingecko_terminal' => 'solana||GUWM1arUyDnkMGCHvJu3yt1qomJ988utqC3dFN2AUCDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // HNT
                     'HNT' => array(
                         
@@ -2683,6 +2668,131 @@ $ct['conf']['assets'] = array(
                                         'gateio' => 'RNDR_USDT',
                                         'kucoin' => 'RNDR-USDT',
                                         'coinex' => 'RNDRUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // IMX
+                    'IMX' => array(
+                        
+                        'name' => 'IMX',
+                        'mcap_slug' => 'immutable-x',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'binance' => 'IMXBTC',
+                                        'upbit' => 'BTC-IMX',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'IMXEUR',
+                                         'bitstamp' => 'imxeur',
+                                                    ),
+
+                                                    
+                                    'krw' => array(
+                                          'upbit' => 'KRW-IMX',
+                                                    ),
+
+                                                    
+                                    'try' => array(
+                                         'gateio' => 'IMX_TRY',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                         'coinbase' => 'IMX-USD',
+                                    	 'kraken' => 'IMXUSD',
+                                         'gemini' => 'imxusd',
+                                    	 'crypto.com' => 'IMX_USD',
+                                         'bitstamp' => 'imxusd',
+                                    	 'coingecko_terminal' => 'ethereum||0x81fbbc40cf075fd7de6afce1bc72eda1bb0e13aa',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'IMXUSDT',
+                                        'binance_us' => 'IMXUSDT',
+                                        'coinbase' => 'IMX-USDT',
+                                        'gateio' => 'IMX_USDT',
+                                        'kucoin' => 'IMX-USDT',
+                                        'bitmart' => 'IMX_USDT',
+                                        'coinex' => 'IMXUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ZEUS
+                    'ZEUS' => array(
+                        
+                        'name' => 'ZEUS',
+                        'mcap_slug' => 'zeus-network',
+                        'pair' => array(
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'ZEUS/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||exmN8ua4Y7qKXUZ2n8JugTNgFWrLGJAUkEBYeTKPNCX',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'ZEUS/USDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'ZEUS_USDT',
+                                        'okex' => 'ZEUS-USDT',
+                                        'kucoin' => 'ZEUS-USDT',
+                                        'bitmart' => 'ZEUS_USDT',
+                                        'coinex' => 'ZEUSUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // NEON
+                    'NEON' => array(
+                        
+                        'name' => 'Neon',
+                        'mcap_slug' => 'neon',
+                        'pair' => array(
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'NEON/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||GUWM1arUyDnkMGCHvJu3yt1qomJ988utqC3dFN2AUCDT',
                                                     ),
 
                                                     
