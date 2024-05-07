@@ -24,6 +24,9 @@ Step #3) Add a new blank file in the boot partition named: ssh
 --------------------------------------------------------------------------
 
 
+IMPORTANT NOTE: AUTOMATIC WIFI SETUP ONLY WORKS ON 'LEGACY' VERSION OF THE OPERATING SYSTEM!
+
+
 Step #4) Add a new blank file in the boot partition named: wpa_supplicant.conf
 
 
@@ -57,7 +60,7 @@ Step #7) Add your WiFi name / password in 'wpa_supplicant.conf', and save / clos
 --------------------------------------------------------------------------
 
 
-Step #8) Create an ENCYRPTED password for your user login with this command:
+Step #8) Create an ENCRYPTED password for your user login with this command:
 
 echo 'mypassword' | openssl passwd -6 -stdin
 

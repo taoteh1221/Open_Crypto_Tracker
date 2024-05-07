@@ -3,11 +3,16 @@
 # Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 
+ISSUES_URL="https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+
 echo " "
-echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+echo "PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL"
 echo " "
 echo "Initializing, please wait..."
 echo " "
+
+
+######################################
 
 
 # EXPLICITLY set any dietpi paths 
@@ -34,65 +39,16 @@ export PATH=$PATH
 fi
 
 
-######################################
+# In case we are recursing back into this script (for filtering params etc),
+# flag export of a few more basic sys vars if present
 
-
-# Path to app (CROSS-DISTRO-COMPATIBLE)
-get_app_path() {
-app_path_result=$(whereis -b $1)
-app_path_result="${app_path_result#*$1: }"
-app_path_result=${app_path_result%%[[:space:]]*}
-app_path_result="${app_path_result#*$1:}"
-echo "$app_path_result"
-}
+# Authentication of X sessions
+export XAUTHORITY=~/.Xauthority 
+# Working directory
+export PWD=$PWD
 
 
 ######################################
-
-# https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
-
-if hash tput > /dev/null 2>&1; then
-
-red=`tput setaf 1`
-green=`tput setaf 2`
-yellow=`tput setaf 3`
-blue=`tput setaf 4`
-magenta=`tput setaf 5`
-cyan=`tput setaf 6`
-
-reset=`tput sgr0`
-
-else
-
-red=``
-green=``
-yellow=``
-blue=``
-magenta=``
-cyan=``
-
-reset=``
-
-fi
-
-
-######################################
-
-
-# Get logged-in username (if sudo, this works best with logname)
-TERMINAL_USERNAME=$(logname)
-
-
-# If logname doesn't work, use the $SUDO_USER or $USER global var
-if [ -z "$TERMINAL_USERNAME" ]; then
-
-    if [ -z "$SUDO_USER" ]; then
-    TERMINAL_USERNAME=$USER
-    else
-    TERMINAL_USERNAME=$SUDO_USER
-    fi
-
-fi
 
 
 # Get date / time
@@ -101,6 +57,9 @@ TIME=$(date '+%H:%M:%S')
 
 # Current timestamp
 CURRENT_TIMESTAMP=$(date +%s)
+
+# Are we running on Ubuntu OS?
+IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
 
 
 # If a symlink, get link target for script location
@@ -114,6 +73,9 @@ fi
 # Now set path / file vars, after setting SCRIPT_LOCATION
 SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
 SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
+
+# Parent directory of the script location
+PARENT_DIR="$(dirname "$SCRIPT_LOCATION")"
 
 
 # Get the operating system and version
@@ -148,39 +110,327 @@ else
 fi
 
 
+# For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
+CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
+
+
 ######################################
 
 
-echo " "
+# https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
-if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
- echo "${red}Please run as a NORMAL USER WITH 'sudo' PERMISSIONS (NOT LOGGED IN AS 'root').${reset}"
- echo " "
- echo "${cyan}Exiting...${reset}"
- echo " "
- exit
+if hash tput > /dev/null 2>&1; then
+
+red=`tput setaf 1`
+green=`tput setaf 2`
+yellow=`tput setaf 3`
+blue=`tput setaf 4`
+magenta=`tput setaf 5`
+cyan=`tput setaf 6`
+
+reset=`tput sgr0`
+
+else
+
+red=``
+green=``
+yellow=``
+blue=``
+magenta=``
+cyan=``
+
+reset=``
+
 fi
 
 
+######################################
+
+
+# Get logged-in username (if sudo, this works best with logname)
+TERMINAL_USERNAME=$(logname)
+
+# If logname doesn't work, use the $SUDO_USER or $USER global var
+if [ -z "$TERMINAL_USERNAME" ]; then
+
+    if [ -z "$SUDO_USER" ]; then
+    TERMINAL_USERNAME=$USER
+    else
+    TERMINAL_USERNAME=$SUDO_USER
+    fi
+
+fi
+
+
+if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+
+echo " "
+echo "${red}Please run as a NORMAL USER WITH 'sudo' PERMISSIONS (NOT LOGGED IN AS 'root').${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
+
+fi
+
+
+######################################
+
+
 if [ -f "/etc/debian_version" ]; then
-echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
-PACKAGE_INSTALL="sudo apt install"
-PACKAGE_REMOVE="sudo apt --purge remove"
+
+echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated script."
+
+# USE 'apt-get' IN SCRIPTING!
+# https://askubuntu.com/questions/990823/apt-gives-unstable-cli-interface-warning
+PACKAGE_INSTALL="sudo apt-get install"
+PACKAGE_REMOVE="sudo apt-get --purge remove"
+
 echo " "
 echo "Continuing...${reset}"
 echo " "
-elif [ -f "/etc/arch-release" ]; then
-echo "${cyan}Your system has been detected as Arch-based, which is compatible with this automated installation script."
-PACKAGE_INSTALL="sudo pacman -S"
-PACKAGE_REMOVE="sudo pacman -R"
+
+elif [ -f "/etc/redhat-release" ]; then
+
+echo "${cyan}Your system has been detected as RedHat-based, which is ${red}CURRENTLY STILL IN DEVELOPMENT TO EVENTUALLY BE (BUT IS *NOT* YET) ${cyan}compatible with this automated script."
+
+PACKAGE_INSTALL="sudo yum install"
+PACKAGE_REMOVE="sudo yum remove"
+
 echo " "
 echo "Continuing...${reset}"
 echo " "
+
 else
-echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+
+echo "${red}Your system has been detected as NOT BEING Debian-based OR RedHat-based. Your system is NOT compatible with this automated script."
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
+
+fi
+
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
 echo " "
-echo "Exiting...${reset}"
-exit
+
+
+######################################
+
+
+# Path to app (CROSS-DISTRO-COMPATIBLE)
+get_app_path() {
+
+app_path_result=$(whereis -b $1)
+app_path_result="${app_path_result#*$1: }"
+app_path_result=${app_path_result%%[[:space:]]*}
+app_path_result="${app_path_result#*$1:}"
+     
+     
+     # If we have found the library already installed on this system
+     if [ ! -z "$app_path_result" ]; then
+     
+     PATH_CHECK_REENTRY="" # Reset reentry flag
+     
+     echo "$app_path_result"
+     
+     # If we are re-entering from the else statement below, quit trying, with warning sent to terminal (NOT function output)
+     elif [ ! -z "$PATH_CHECK_REENTRY" ]; then
+     
+     PATH_CHECK_REENTRY="" # Reset reentry flag
+     
+     echo "${red} " > /dev/tty
+     echo "System path for '$1' NOT FOUND, even AFTER package installation attempts, giving up." > /dev/tty
+     echo " " > /dev/tty
+
+     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
+     echo " " > /dev/tty
+     echo "$ISSUES_URL" > /dev/tty
+     echo "${reset} " > /dev/tty
+     
+     echo "${yellow} " > /dev/tty
+     read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+     echo "${reset} " > /dev/tty
+     
+         if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+         echo " " > /dev/tty
+         echo "${green}Continuing...${reset}" > /dev/tty
+         echo " " > /dev/tty
+         fi
+     
+     echo " " > /dev/tty
+     
+     # If library not found, attempt package installation
+     else
+     
+     
+          # Handle package name exceptions...
+          
+          # bsdtar on Ubuntu 18.x and higher
+          if [ "$1" == "bsdtar" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="libarchive-tools"
+          
+          # xdg-user-dir (debian package name differs slightly)
+          elif [ "$1" == "xdg-user-dir" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="xdg-user-dirs"
+
+          # rsyslogd (debian package name differs slightly)
+          elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="rsyslog"
+
+          else
+          SYS_PACK="$1"
+          fi
+          
+          
+          # Terminal alert for good UX...
+          if [ "$1" != "$SYS_PACK" ]; then
+          echo " " > /dev/tty
+          echo "${yellow}'$1' is found WITHIN '$SYS_PACK', changing package request accordingly...${reset}" > /dev/tty
+          echo " " > /dev/tty
+          fi
+
+
+     echo " " > /dev/tty
+     echo "${cyan}Installing required component '$SYS_PACK', please wait...${reset}" > /dev/tty
+     echo " " > /dev/tty
+     
+     sleep 3
+               
+     $PACKAGE_INSTALL $SYS_PACK -y > /dev/tty
+     
+     
+          # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
+          # (as they moved some libs over to snap / snap-only? now)
+          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
+          
+          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
+          
+          echo " " > /dev/tty
+          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
+          echo " " > /dev/tty
+          
+          sleep 3
+          
+          $UBUNTU_SNAP_INSTALL $SYS_PACK > /dev/tty
+          
+          fi
+     
+     
+     sleep 2
+     
+     PATH_CHECK_REENTRY=1 # Set reentry flag, right before reentry
+     
+     echo $(get_app_path "$1")
+           
+     fi
+
+
+}
+
+
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+UBUNTU_SNAP_PATH=$(get_app_path "snap")
+fi
+
+
+######################################
+
+
+# ON DEBIAN-BASED SYSTEMS ONLY:
+# Do we have less than 900MB PHYSICAL RAM (IN KILOBYTES),
+# AND no swap / less swap virtual memory than 900MB (IN BYTES)?
+if [ -f "/etc/debian_version" ] && [ "$(awk '/MemTotal/ {print $2}' /proc/meminfo)" -lt 900000 ] && (
+[ "$(free | awk '/^Swap:/ { print $2 }')" = "0" ] || [ "$(free --bytes | awk '/^Swap:/ { print $2 }')" -lt 900000000 ]
+); then
+
+echo "${red}YOU HAVE LESS THAN 900MB *PHYSICAL* MEMORY, AND ALSO HAVE LESS THAN 900MB SWAP *VIRTUAL* MEMORY. This MAY cause your system to FREEZE, *IF* you have a desktop display attached!${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to fix this (sets swap virtual memory to 1GB), OR any other key to skip fixing..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    echo " "
+    echo "${cyan}Changing Swap Virtual Memory size to 1GB, please wait (THIS MAY TAKE AWHILE ON SMALLER SYSTEMS)...${reset}"
+    echo " "
+    
+    # Required components check...
+    
+    # dphys-swapfile
+    DPHYS_PATH=$(get_app_path "dphys-swapfile")
+
+    # sed
+    SED_PATH=$(get_app_path "sed")
+    
+    sudo $DPHYS_PATH swapoff
+    
+    sleep 5
+         
+        if [ -f /etc/dphys-swapfile ]; then
+			    
+	   DETECT_SWAP_CONF=$(sudo sed -n '/CONF_SWAPSIZE=/p' /etc/dphys-swapfile)
+			
+		   if [ "$DETECT_SWAP_CONF" != "" ]; then 
+             sudo sed -i "s/CONF_SWAPSIZE=.*/CONF_SWAPSIZE=1024/g" /etc/dphys-swapfile
+             elif [ "$DETECT_SWAP_CONF" == "" ]; then 
+             sudo bash -c "echo 'CONF_SWAPSIZE=1024' >> /etc/dphys-swapfile"
+	        fi
+	        
+	   sudo $DPHYS_PATH setup
+	   
+	   sleep 5
+	   
+	   sudo $DPHYS_PATH swapon
+	   
+	   sleep 5
+	   
+        echo " "
+        echo "${green}Swap Memory size has been updated to 1GB.${reset}"
+        echo " "
+        
+        else
+	   
+        echo " "
+        echo "${red}Swap Memory config file could NOT be located, skipping update of Swap Memory size!${reset}"
+        echo " "
+	        
+	   fi
+	   
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
 fi
 
 
@@ -194,7 +444,7 @@ clean_system_update () {
      if [ -z "$ALLOW_FULL_UPGRADE" ]; then
      
      echo " "
-     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
+     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Debian, Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
      echo " "
      echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
      echo " "
@@ -224,9 +474,7 @@ clean_system_update () {
      fi
 
 
-     if [ "$PACKAGE_CACHE_REFRESHED" != "1" ]; then
-     
-     PACKAGE_CACHE_REFRESHED=1
+     if [ -z "$PACKAGE_CACHE_REFRESHED" ]; then
 
 
           if [ -f "/etc/debian_version" ]; then
@@ -240,9 +488,7 @@ clean_system_update () {
           
           sleep 2
           
-          sudo apt update
-          
-          sleep 2
+          sudo apt-get update
           
           echo " "
      
@@ -262,9 +508,9 @@ clean_system_update () {
           
                if [ -f "/etc/debian_version" ]; then
                #DO NOT RUN dist-upgrade, bad things can happen, lol
-               sudo apt upgrade -y
-               elif [ -f "/etc/arch-release" ]; then
-               sudo pacman -Syu
+               sudo apt-get upgrade -y
+               elif [ -f "/etc/redhat-release" ]; then
+               sudo yum upgrade -y
                fi
           
           
@@ -278,184 +524,69 @@ clean_system_update () {
           
           fi
      
+     
+     PACKAGE_CACHE_REFRESHED=1
+     
      fi
 
 }
 # clean_system_update function END
 
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 
 ######################################
 
 
-# Get SIMILAR (CROSS-DISTRO) primary dependency apps, if we haven't yet
-    
-# Install git if needed
-GIT_PATH=$(get_app_path "git")
+# Get PRIMARY dependency lib's paths (for bash scripting commands...auto-install is attempted, if not found on system)
+# (our usual standard library prerequisites [ordered alphabetically], for 99% of advanced bash scripting needs)
 
-if [ -z "$GIT_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component git, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL git -y
-
-fi
-
-
-# Install curl if needed
-CURL_PATH=$(get_app_path "curl")
-
-if [ -z "$CURL_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component curl, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL curl -y
-
-fi
-
-
-# Install jq if needed
-JQ_PATH=$(get_app_path "jq")
-
-if [ -z "$JQ_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component jq, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL jq -y
-
-fi
-
-
-# Install wget if needed
-WGET_PATH=$(get_app_path "wget")
-
-if [ -z "$WGET_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component wget, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL wget -y
-
-fi
-
-
-# Install sed if needed
-SED_PATH=$(get_app_path "sed")
-
-if [ -z "$SED_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component sed, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL sed -y
-
-fi
-
-
-# Install less if needed
-LESS_PATH=$(get_app_path "less")
-				
-if [ -z "$LESS_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component less, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL less -y
-
-fi
-
-
-# Install expect if needed
-EXPECT_PATH=$(get_app_path "expect")
-				
-if [ -z "$EXPECT_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component expect, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL expect -y
-
-fi
-
-
-# Install avahi-daemon if needed (for .local names on internal / home network)
+# avahi-daemon
 AVAHID_PATH=$(get_app_path "avahi-daemon")
 
-if [ -z "$AVAHID_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
-echo " "
-
-$PACKAGE_INSTALL avahi-daemon -y
-
-fi
-
-
-# Install bc if needed (for decimal math in bash)
+# bc
 BC_PATH=$(get_app_path "bc")
 
-if [ -z "$BC_PATH" ]; then
+# bsdtar
+BSDTAR_PATH=$(get_app_path "bsdtar")
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
+# curl
+CURL_PATH=$(get_app_path "curl")
 
-echo " "
-echo "${cyan}Installing required component bc, please wait...${reset}"
-echo " "
+# expect
+EXPECT_PATH=$(get_app_path "expect")
+    
+# git
+GIT_PATH=$(get_app_path "git")
 
-$PACKAGE_INSTALL bc -y
+# jq
+JQ_PATH=$(get_app_path "jq")
 
-fi
+# less
+LESS_PATH=$(get_app_path "less")
 
-# SIMILAR (CROSS-DISTRO) dependency check END
+# sed
+SED_PATH=$(get_app_path "sed")
 
+# wget
+WGET_PATH=$(get_app_path "wget")
+
+# PRIMARY dependency lib's paths END
+				
 
 ######################################
 
 
-# Install bsdtar if needed (for opening archives)
-BSDTAR_PATH=$(get_app_path "bsdtar")
+# Get the *INTERNAL* NETWORK ip address
+IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
+
+				
+######################################
 
 
-# Distro-specific logic, to set variables, get dependencies, etc
+# Distro-specific logic, for PHP-FPM
 if [ -f "/etc/debian_version" ]; then
-
-# Get the host ip address
-IP=`hostname -I` 
 
 # Get a list of PHP-FPM packages THAT ARE AVAILABLE TO INSTALL
 PHP_FPM_LIST=$(apt-cache search php-fpm)
@@ -463,72 +594,15 @@ PHP_FPM_LIST=$(apt-cache search php-fpm)
 FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php[0-9][.][0-9]-fpm\)'`
 
 FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
-				
 
-     if [ -z "$BSDTAR_PATH" ]; then
-     
-     # Clears / updates cache, then upgrades (if NOT a rolling release)
-     clean_system_update
-     
-     echo " "
-     echo "${cyan}Installing required component libarchive-tools, please wait...${reset}"
-     echo " "
-     
-     # Ubuntu 18.x and higher
-     $PACKAGE_INSTALL libarchive-tools -y
-     
-     fi
-     
-
-elif [ -f "/etc/arch-release" ]; then
-
-# Get the host ip address
-IP=$(ip -json route get 8.8.8.8 | jq -r '.[].prefsrc') 
+elif [ -f "/etc/redhat-release" ]; then
 
 # Get a list of PHP-FPM packages THAT ARE AVAILABLE TO INSTALL
-PHP_FPM_LIST=$(pacman --sync --search php-fpm)
+PHP_FPM_LIST=$(yum list php-fpm)
 
 FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php-fpm [0-9][.][0-9]\)'`
 
 FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
-				
-
-     if [ -z "$BSDTAR_PATH" ]; then
-     
-     # Clears / updates cache, then upgrades (if NOT a rolling release)
-     clean_system_update
-     
-     echo " "
-     echo "${cyan}Installing required component libarchive, please wait...${reset}"
-     echo " "
-     
-     # Ubuntu 18.x and higher
-     $PACKAGE_INSTALL libarchive -y
-     
-     fi
-
-
-# Install cronie if needed (for a crond impementation)
-CRONIE_PATH=$(get_app_path "crond")	
-
-
-     if [ -z "$CRONIE_PATH" ]; then
-     
-     # Clears / updates cache, then upgrades (if NOT a rolling release)
-     clean_system_update
-     
-     echo " "
-     echo "${cyan}Installing required component cronie, please wait...${reset}"
-     echo " "
-     
-     $PACKAGE_INSTALL cronie -y
-     
-     sleep 3
-     
-     systemctl enable --now cronie.service
-     
-     fi
-     
 
 fi
 
@@ -542,10 +616,6 @@ fi
 # 2) WE SET THE USER WE WANT TO INSTALL UNDER DYNAMICALLY
 # 3) IN CASE THE USER INITIATES INSTALL AS ANOTHER ADMIN USER
 cd /home/$TERMINAL_USERNAME
-
-
-# For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
-CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
 
             
 ######################################
@@ -598,10 +668,20 @@ fi
 echo " "
 
 if [ ! -d "$DOC_ROOT" ] && [ "$DOC_ROOT" != "/var/www/html" ]; then
-echo "The defined document root directory '$DOC_ROOT' does not exist yet."
-echo "Please create this directory structure before running this script."
-echo "Exiting..."
-exit
+
+echo "The defined document root directory '$DOC_ROOT' does not exist yet. Please create this directory structure before running this script."
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
+
 fi
 
 
@@ -611,11 +691,10 @@ fi
 echo " "
 echo "${yellow}TECHNICAL NOTE:"
 echo " "
-echo "This script was designed to install on popular Debian-based (MATURE / STABLE) / Arch-based (STILL UNSTABLE!!) operating systems (Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, Arch, Manjaro, etc),"
-echo "for running as an app server WHICH IS LEFT TURNED ON 24/7 (ALL THE TIME).${reset}"
+echo "This script was designed to install on popular Debian-based ${green}(STABLE / POLISHED)${yellow} / RedHat-based ${red}(UNSTABLE / WORK-IN-PROGRESS)${yellow} operating systems (Debian, Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, Fedora, REHL, CentOS, etc), for running as an app server WHICH IS LEFT TURNED ON 24/7 (ALL THE TIME).${reset}"
 echo " "
 
-echo "${yellow}This script MAY NOT work on ALL Debian-based / Arch-based system setups.${reset}"
+echo "${yellow}This script MAY NOT work on ALL Debian-based / RedHat-based system setups.${reset}"
 echo " "
 
 echo "${cyan}Your operating system has been detected as:"
@@ -628,8 +707,20 @@ echo " "
 echo "${yellow}1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 16 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)${reset}"
 echo " "
 
-echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
-echo "Please back up any important pre-existing files in that directory before proceeding.${reset}"
+echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected. Please back up any important pre-existing files in that directory before proceeding.${reset}"
+echo " "
+
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
 echo " "
 				
 				
@@ -644,53 +735,72 @@ echo "This will save any custom settings within them, so you can migrate setting
 echo " "
 echo "(ALL plugin configuration files will be backed up in the same manner)"
 echo " "
-echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
-echo "otherwise you can just ignore or delete the backup files."
+echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor, otherwise you can just ignore or delete the backup files."
 echo " "
 
 echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
 echo " "
 
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
+echo " "
+
+
 echo "${red}IMPORTANT *UPGRADE* NOTICES:"
 echo " "
 echo " "
 
-echo "v6.00.33 and higher changed a few duplicate text gateway keys, so if you use"
-echo "email-to-text gateways in this app, MAKE SURE YOURS STILL HAS THE SAME NAME."
+echo "v6.00.33 and higher changed a few duplicate text gateway keys, so if you use email-to-text gateways in this app, MAKE SURE YOURS STILL HAS THE SAME NAME."
 echo " "
 echo " "
 
-echo "v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP,"
-echo "FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation)."
+echo "v6.00.32 and higher COMPLETELY RESTRUCTURES THE PLUGIN CONFIGURATION FORMAT. USE THE LATEST/UPGRADED PLUG_CONF.PHP, FOR *ALL* BUNDLED PLUGINS, AND MIGRATE ANY CUSTOM PLUGIN CONFIGS TO THE NEW FORMAT (see revised plugin developer documentation)."
 echo " "
 echo " "
 
-echo "v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT."
+echo "v6.00.32 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP, AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT."
 echo " "
 echo " "
 
-echo "v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
-echo "UPGRADES FROM V6.00.31 OR LOWER."
+echo "v6.00.32 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.31 OR LOWER."
 echo " "
 echo " "
 
-echo "v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT."
+echo "v6.00.31 and higher restructures the mobile text gateways config formatting. USE THE LATEST/UPGRADED CONFIG.PHP, AND MIGRATE YOUR EXISTING CUSTOM GATEWAYS TO THE NEW FORMAT."
 echo " "
 echo " "
 
-echo "v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT."
+echo "v6.00.31 and higher restructures the price alerts / price charts config formatting. USE THE LATEST/UPGRADED CONFIG.PHP, AND MIGRATE YOUR EXISTING CUSTOM PRICE ALERTS / PRICE CHARTS TO THE NEW FORMAT."
 echo " "
 echo " "
 
-echo "v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,"
-echo "AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT."
+echo "v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP, AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT."
 echo " "
 echo " "
 
 echo "${reset} "
+
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
+echo " "
 
 
 fi
@@ -698,24 +808,19 @@ fi
 
 echo "${red}VERY IMPORTANT *SECURITY* NOTES:"
 echo " "
-echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
-echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
-echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
+echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA), #WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#, ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 
 echo "!!VERY IMPORTANT *HOSTING* NOTICE!!:"
 echo " "
-echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY"
-echo "HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting"
-echo "environment that a service provider has already provisioned, please quit this auto-install"
-echo "session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
+echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting environment that a service provider has already provisioned, please quit this auto-install session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
 echo " "
 
-echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+echo "${yellow}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
 echo " "
 
 echo "${yellow} "
-read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+read -n1 -s -r -p $"Press Y to continue (or press N to exit)..." key
 echo "${reset} "
 
     if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
@@ -743,15 +848,6 @@ echo " "
 
 ######################################
 
-
-echo " "
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-
-######################################
-
             
 echo " "
 echo "${yellow}OPTIONAL SECURITY-HARDENING:"
@@ -764,7 +860,7 @@ echo " "
 
             
 echo "${yellow} "
-read -n1 -s -r -p $'Disable bluetooth, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+read -n1 -s -r -p $'Disable bluetooth, for higher app server security? (press Y to run, or press N to skip)...\n' keystroke
 echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
@@ -854,16 +950,15 @@ fi
 
             
 echo "${yellow} "
-read -n1 -s -r -p $'Install / configure a firewall, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+read -n1 -s -r -p $'Install / configure a firewall, for higher app server security? (press Y to run, or press N to skip)...\n' keystroke
 echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
             
 echo " "
 echo "${cyan}Installing / configuring a firewall, please wait...${reset}"
+echo "${yellow}(THE SSH PORT *WILL* BE ALLOWED, SO IT'S SAFE TO PRESS 'Y' WHEN ASKED)${reset}"
+echo " "
                 
 $PACKAGE_INSTALL ufw -y
 
@@ -897,7 +992,7 @@ fi
 if [ -f "/usr/bin/raspi-config" ]; then
 
 echo "${yellow} "
-read -n1 -s -r -p $'Require sudo password, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+read -n1 -s -r -p $'Require sudo password, for higher app server security? (press Y to run, or press N to skip)...\n' keystroke
 echo "${reset} "
         
      if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
@@ -923,7 +1018,7 @@ fi
 
             
 echo "${yellow} "
-read -n1 -s -r -p $'Make your home directory private, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+read -n1 -s -r -p $'Make your home directory private, for higher app server security? (press Y to run, or press N to skip)...\n' keystroke
 echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
@@ -954,9 +1049,9 @@ fi
 
 
 
-echo "We need to know which version of PHP-FPM (fcgi) to use."
-echo "Please select a PHP-FPM version NUMBER from the list below..."
-echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
+echo "${yellow}We need to know which version of PHP-FPM (fcgi) to use. Please select a PHP-FPM version NUMBER from the list below..."
+echo " "
+echo "${red}(PHP-FPM version 7.2 OR HIGHER IS REQUIRED)${reset}"
 echo " "
 
 echo "$PHP_FPM_LIST"
@@ -985,22 +1080,6 @@ INSTALL_FPM_VER="php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_V
 
 INSTALL_APACHE="apache2 php php-fpm php-db php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom ssl-cert -y"
 
-# There are #NOT# PHP-FPM version choices on arch-based systems
-if [ -f "/etc/arch-release" ]; then
-
-#PHP_FPM_VER="${PHP_FPM_VER//./}"
-PHP_FPM_VER=""
-
-echo " "
-echo "${cyan}php${PHP_FPM_VER} packages will be installed on your system.${reset}"
-echo " "
-
-INSTALL_FPM_VER="php php-fpm php-cgi php-gd php-xsl -y"
-
-INSTALL_APACHE="apache php-apache -y"
-
-fi
-
 
 ######################################
 
@@ -1012,9 +1091,6 @@ OPTIONS="install_webserver remove_webserver skip"
 
 select opt in $OPTIONS; do
         if [ "$opt" = "install_webserver" ]; then
-
-          # Clears / updates cache, then upgrades (if NOT a rolling release)
-          clean_system_update
          
           echo " "
 			
@@ -1113,8 +1189,7 @@ select opt in $OPTIONS; do
             
             if [ ! -f $APACHE_CONF ]; then
             
-            echo "${red}$APACHE_CONF could NOT be found on your system."
-            echo "Please enter the FULL path to the MAIN Apache config file:${reset}"
+            echo "${red}$APACHE_CONF could NOT be found on your system. Please enter the FULL path to the MAIN Apache config file:${reset}"
             echo " "
             
             read APACHE_CONF
@@ -1172,13 +1247,11 @@ EOF
                             
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
-                echo "${cyan}Enhanced security has been enabled for the MAIN Apache config,"
-                echo "restarting the Apache web server, please wait...${reset}"
+                echo "${cyan}Enhanced security has been enabled for the MAIN Apache config, restarting the Apache web server, please wait...${reset}"
                 /etc/init.d/apache2 restart
                 echo " "
                 else
-                echo "${red}Enhanced security has been enabled for the MAIN Apache config."
-                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
+                echo "${red}Enhanced security has been enabled for the MAIN Apache config. YOU MUST RESTART the Apache web server for this to take affect.${reset}"
                 echo " "
                 fi
             
@@ -1277,13 +1350,11 @@ EOF
                             
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
-                echo "${cyan}Htaccess has been enabled for HTTP (port 80),"
-                echo "restarting the Apache web server, please wait...${reset}"
+                echo "${cyan}Htaccess has been enabled for HTTP (port 80), restarting the Apache web server, please wait...${reset}"
                 /etc/init.d/apache2 restart
                 echo " "
                 else
-                echo "${red}Htaccess has been enabled for HTTP (port 80)."
-                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
+                echo "${red}Htaccess has been enabled for HTTP (port 80). YOU MUST RESTART the Apache web server for this to take affect.${reset}"
                 echo " "
                 fi
             
@@ -1310,8 +1381,7 @@ EOF
             
             if [ ! -f $HTTPS_CONF ]; then
             
-            echo "${red}$HTTPS_CONF could NOT be found on your system."
-            echo "Please enter the FULL Apache config file path for HTTPS (port 443):${reset}"
+            echo "${red}$HTTPS_CONF could NOT be found on your system. Please enter the FULL Apache config file path for HTTPS (port 443):${reset}"
             echo " "
             
             read HTTPS_CONF
@@ -1374,13 +1444,11 @@ EOF
                             
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
-                echo "${cyan}Htaccess has been enabled for HTTPS (port 443),"
-                echo "restarting the Apache web server, please wait...${reset}"
+                echo "${cyan}Htaccess has been enabled for HTTPS (port 443), restarting the Apache web server, please wait...${reset}"
                 /etc/init.d/apache2 restart
                 echo " "
                 else
-                echo "${red}Htaccess has been enabled for HTTPS (port 443)."
-                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
+                echo "${red}Htaccess has been enabled for HTTPS (port 443). YOU MUST RESTART the Apache web server for this to take affect.${reset}"
                 echo " "
                 fi
             
@@ -1486,20 +1554,6 @@ EOF
         	chown $RECURSIVE_CHOWN
 
 		sleep 3
-		
-		OS_INFO=$(lsb_release -a)
-		
-		
-		     # If Kali OS, set apache and php-fpm to run at boot (as they won't by default)
-		     IS_KALI='Kali'
-               if [[ "$OS_INFO" == *"$IS_KALI"* ]]; then
-		     echo " "
-		     echo "${cyan}Telling Kali to start Apache / PHP-FPM at boot, please wait...${reset}"
-		     echo " "
-               update-rc.d apache2 enable
-               systemctl enable php${PHP_FPM_VER}-fpm
-               fi
-        
         
 		echo " "
 		echo "${green}PHP web server configuration is complete.${reset}"
@@ -1518,9 +1572,6 @@ EOF
          
         break
        elif [ "$opt" = "remove_webserver" ]; then
-
-       # Clears / updates cache, then upgrades (if NOT a rolling release)
-       clean_system_update
        
         echo " "
         echo "${green}Removing PHP web server, please wait...${reset}"
@@ -1536,7 +1587,7 @@ EOF
 		  sleep 3
         
         # SKIP removing openssl / ssl-cert / avahi-daemon, AS THIS WILL F!CK UP THE WHOLE SYSTEM, REMOVING ANY OTHER DEPENDANT PACKAGES TOO!!
-		  $PACKAGE_REMOVE apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine apache2-suexec-custom -y
+		  $PACKAGE_REMOVE apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom -y
         
 		  sleep 3
 			
@@ -1559,8 +1610,7 @@ echo " "
 ######################################
 
 
-echo "Do you want this script to automatically download the latest version of Open Crypto Tracker"
-echo "(Server Edition) from Github.com, and install / configure it?"
+echo "Do you want this script to automatically download the latest version of Open Crypto Tracker (Server Edition) from Github.com, and install / configure it?"
 echo " "
 
 echo "${yellow}Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Tracker (Server Edition), or skip.${reset}"
@@ -1574,35 +1624,15 @@ select opt in $OPTIONS; do
         if [ "$opt" = "install_portfolio_app" ]; then
         
         		if [ ! -d "$DOC_ROOT" ]; then
-
-               # Clears / updates cache, then upgrades (if NOT a rolling release)
-               clean_system_update
         		
         		echo " "
 				
-				echo "${red}Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Tracker."
-				echo "Skipping auto-install of Open Crypto Tracker.${reset}"
+				echo "${red}Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Tracker. Skipping auto-install of Open Crypto Tracker.${reset}"
 				else
 				
 				echo " "
 				echo "${cyan}Proceeding with required component installation, please wait...${reset}"
-				
 				echo " "
-				
-				# bsdtar installs may fail (essentially the same package as libarchive-tools),
-				# SO WE RUN BOTH SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES INSTALL OK AFTERWARDS
-				
-				echo "${yellow}(you can safely ignore any upcoming 'bsdtar' install errors, if 'libarchive-tools'"
-				echo "installs OK...and visa versa, as they are essentially the same package)${reset}"
-				echo " "
-				
-				# Ubuntu 16.x, and other debian-based systems
-				$PACKAGE_INSTALL bsdtar -y
-				
-				sleep 3
-				
-				# Ubuntu 18.x and higher
-				$PACKAGE_INSTALL libarchive-tools -y
 				
 				sleep 3
 				
@@ -1616,7 +1646,7 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				echo "${cyan}Downloading the latest version of Open Crypto Tracker (Server Edition) from Github.com, please wait...${reset}"
-            echo " "
+                    echo " "
 				
 				mkdir DFD-Cryptocoin-Values-TEMP
 				
@@ -1656,11 +1686,9 @@ select opt in $OPTIONS; do
 						# If openssl fails, create manually
 						if [ -z "$RAND_STRING" ]; then
 						echo " "
-						echo "${red}Automatic random hash creation has failed, please enter a random alphanumeric string"
-						echo "of text (no spaces / symbols) at least 10 characters long."
+						echo "${red}Automatic random hash creation has failed, please enter a random alphanumeric string of text (no spaces / symbols) at least 10 characters long."
 						echo " "
-						echo "IF YOU SKIP THIS, no backup of the previous install's configuration files will be created (for security reasons),"
-						echo "and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS.${reset}"
+						echo "IF YOU SKIP THIS, no backup of the previous install's configuration files will be created (for security reasons), and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS.${reset}"
 						echo " "
   						read RAND_STRING
                         echo " "
@@ -1723,8 +1751,7 @@ select opt in $OPTIONS; do
 						
   						else
   						echo " "
-  						echo "${red}No backup of the previous install's configuration files was created (for security reasons)."
-  						echo "The new install WILL NOW OVERWRITE ALL PREVIOUSLY-CONFIGURED SETTINGS in $DOC_ROOT/config.php...${reset}"
+  						echo "${red}No backup of the previous install's configuration files was created (for security reasons). The new install WILL NOW OVERWRITE ALL PREVIOUSLY-CONFIGURED SETTINGS in $DOC_ROOT/config.php...${reset}"
   						echo " "
 						fi
 						
@@ -1922,8 +1949,7 @@ select opt in $OPTIONS; do
                             echo " "
                             echo "${yellow}Options for choosing a time interval to run the background task (cron job)..."
                             echo " "
-                            echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART"
-                            echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
+                            echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
                             echo " "
                             echo "${yellow}Enter the time interval in minutes to run this cron job:"
                             echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)${reset}"
@@ -1970,8 +1996,7 @@ select opt in $OPTIONS; do
                               
                             
                             echo " "
-                            echo "${green}A background task (cron job) has been setup for user '$APP_USER',"
-                            echo "as a command in /etc/cron.d/cryptocoin:"
+                            echo "${green}A background task (cron job) has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
                             echo " "
                             echo "$CRONJOB"
                             echo " "
@@ -2038,24 +2063,19 @@ echo " "
 ######################################
 
 
-echo "Enabling the built-in SSH server on your system allows easy remote"
-echo "installation / updating of your web site files via SFTP (from another computer"
-echo "on your home / internal network), with Filezilla or any other SFTP-enabled FTP software."
+echo "Enabling the built-in SSH server on your system allows easy remote management via SSH / SFTP (from another computer on your home / internal network), with Putty / Filezilla or any other SSH / SFTP enabled client software."
 echo " "
 
-echo "If you choose to NOT enable SSH on your system, you'll need to install / update your"
-echo "web site files directly on the device itself (not recommended)."
+echo "If you choose to NOT enable SSH on your system, you'll need to install / update your web site files directly on the device itself (not recommended)."
 echo " "
 
-echo "If you do use SSH, ---make sure the password for username '$APP_USER' is strong---,"
-echo "because anybody on your home / internal network will have access if they know the username/password!"
+echo "If you do use SSH, ---make sure the password for username '$APP_USER' is strong---, because anybody on your home / internal network will have access if they know the username/password!"
 echo " "
 
 if [ -f "/usr/bin/raspi-config" ]; then
 echo "${yellow}Select 1 or 2 to choose whether to setup SSH (under 'Interfacing Options' in raspi-config), or skip it.${reset}"
 echo " "
-echo "${red}IF YOU CHOOSE OPTION 1, AND IT ASKS IF YOU WANT TO REBOOT AFTER CONFIGURATION, CHOOSE 'NO'"
-echo "OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT #AFTER# AUTO-INSTALL WITH: sudo reboot${reset}"
+echo "${red}IF YOU CHOOSE OPTION 1, AND IT ASKS IF YOU WANT TO REBOOT AFTER CONFIGURATION, CHOOSE 'NO' OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT #AFTER# AUTO-INSTALL WITH: sudo reboot${reset}"
 else
 echo "${yellow}Select 1 or 2 to choose whether to setup SSH, or skip it.${reset}"
 fi
@@ -2078,9 +2098,6 @@ select opt in $OPTIONS; do
 				echo "${cyan}Initiating dietpi-software, please wait...${reset}"
 				dietpi-software
 				else
-
-                    # Clears / updates cache, then upgrades (if NOT a rolling release)
-                    clean_system_update
 				
 				echo " "
 				echo "${green}Proceeding with openssh-server installation, please wait...${reset}"
@@ -2134,8 +2151,7 @@ fi
 
 if [ "$APP_SETUP" = "1" ]; then
 
-echo "${cyan}Web server setup and installation / configuration of Open Crypto Tracker (Server Edition)"
-echo "should now be complete (if you chose those options), unless you saw any errors on screen during setup."
+echo "${cyan}Web server setup and installation / configuration of Open Crypto Tracker (Server Edition) should now be complete (if you chose those options), unless you saw any errors on screen during setup."
 echo " "
 
 echo "${green}Open Crypto Tracker is located at (and can be edited) inside this folder:"
@@ -2143,8 +2159,7 @@ echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "${yellow}You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php) remotely via SFTP,"
-echo "or by editing it locally with nano or any other installed text editor."
+echo "${yellow}You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php) remotely via SFTP, or by editing it locally with nano or any other installed text editor."
 echo "${reset} "
 
 
@@ -2156,8 +2171,7 @@ echo "${reset} "
 	echo " "
 	echo "${yellow}The bundled plugin's configuration files were also be backed up in the same manner."
 	echo " "
-	echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
-	echo "otherwise you can just ignore or delete the backup files."
+	echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor, otherwise you can just ignore or delete the backup files."
      echo "${reset} "
 
      echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
@@ -2186,8 +2200,7 @@ echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "${yellow}If web server setup has completed successfully, Open Crypto Tracker (Server Edition) can now be"
-echo "installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
+echo "${yellow}If web server setup has completed successfully, Open Crypto Tracker (Server Edition) can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
 echo "${reset} "
 
 fi
@@ -2225,32 +2238,23 @@ echo " "
 echo "https://$IP"
 echo " "
 echo "HOST ADDRESS (ONLY works on linux / mac / windows, NOT android as of 2020):"
-echo " "
-echo "https://${HOSTNAME}.local${reset}"
-echo " "
+echo "${yellow}(IF YOU JUST CHANGED '${HOSTNAME}' in raspi / dietpi config, USE THAT INSTEAD)"
+echo "${green} "
+echo "https://${HOSTNAME}.local"
+echo "${reset} "
 
 echo "${red}IMPORTANT NOTES:"
 echo " "
-echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
-echo "#WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
-echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
+echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA), #WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#, ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
-echo "The SSL certificate created on this web server is SELF-SIGNED (not issued by a CA),"
-echo "so your browser ---will give you a warning message--- when you visit the above HTTPS addresses."
-echo "This is --normal behavior for self-signed certificates--. Google search for"
-echo "'self-signed ssl certificate' for more information on the topic."
-echo "THAT SAID, ONLY TRUST SELF-SIGNED CERTIFICATES #IF YOUR COMPUTER CREATED THE CERTIFICATE#."
-echo "!NEVER! TRUST SELF-SIGNED CERTIFICATES SIGNED BY THIRD PARTIES!"
+echo "The SSL certificate created on this web server is SELF-SIGNED (not issued by a CA), so your browser ---will give you a warning message--- when you visit the above HTTPS addresses. This is --normal behavior for self-signed certificates--. Google search for 'self-signed ssl certificate' for more information on the topic."
+echo " "
+echo "THAT SAID, ONLY TRUST SELF-SIGNED CERTIFICATES #IF YOUR COMPUTER CREATED THE CERTIFICATE#. !NEVER! TRUST SELF-SIGNED CERTIFICATES SIGNED BY THIRD PARTIES!"
 echo " "
 
-echo "${yellow}If you wish to allow external access to this app (when not on your home / internal network),"
-echo "a static internal ip address / port forwarding / dynamic DNS service on your router needs to be setup"
-echo "(preferably with strict firewall rules using a 'guest network' configuration, to disallow this device"
-echo "requesting access to other machines on your home / internal network, and only allow it an access"
-echo "route through the internet gateway)."
+echo "${yellow}If you wish to allow external access to this app (when not on your home / internal network), a static internal ip address / port forwarding / dynamic DNS service on your router needs to be setup (preferably with strict firewall rules using a 'guest network' configuration, to disallow this device requesting access to other machines on your home / internal network, and only allow it an access route through the internet gateway)."
 echo " "
-echo "A #VERY HIGH# port number is recommended (NON-STANDARD is above 1,023 / UNREGISTERED is from 49,152 to 65,535),"
-echo "to help avoid port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
+echo "A #VERY HIGH# port number is recommended (NON-STANDARD is above 1,023 / UNREGISTERED is from 49,152 to 65,535), to help avoid port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
 echo " "
 
 if [ "$ALLOW_FULL_UPGRADE" == "yes" ]; then
@@ -2260,11 +2264,27 @@ echo "${green}sudo apt update;sudo apt upgrade -y"
 echo " "
 fi
 
-echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting"
-echo "up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
+echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
 echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~${reset}"
+echo " "
+
+
+echo " "
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
+
+     
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+echo "${reset} "
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    fi
+     
 echo " "
 
 
@@ -2292,10 +2312,6 @@ export FOLIO_INSTALL_RAN=1
 if [ -z "$TICKER_INSTALL_RAN" ]; then
 
 echo " "
-echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION#"
-echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
-
-echo " "
 echo "Also check out my 100% FREE open source multi-crypto slideshow ticker for Raspberry Pi LCD screens:"
 echo " "
 echo "https://sourceforge.net/projects/dfd-crypto-ticker"
@@ -2303,12 +2319,10 @@ echo " "
 echo "https://github.com/taoteh1221/Slideshow_Crypto_Ticker"
 echo " "
 
-echo "Would you like to ${red}ADDITIONALLY / OPTIONALLY${reset} install Slideshow Crypto Ticker,"
-echo "multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
+echo "Would you like to ${red}ADDITIONALLY / OPTIONALLY${reset} install Slideshow Crypto Ticker, multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
 echo " "
 
-echo "Select 1 or 2 to choose whether to ${red}optionally${reset} install the crypto ticker"
-echo "for Raspberry Pi LCD screens, or skip."
+echo "Select 1 or 2 to choose whether to ${red}optionally${reset} install the crypto ticker for Raspberry Pi LCD screens, or skip."
 echo " "
 
 OPTIONS="install_crypto_ticker skip"
@@ -2338,9 +2352,17 @@ OPTIONS="install_crypto_ticker skip"
         echo " "
         echo "${green}Skipping the ${red}OPTIONAL ${green}crypto ticker install...${reset}"
 		echo " "
-		echo "${cyan}Installation / setup has finished, exiting to terminal...${reset}"
-        echo " "
-		exit
+
+          echo "${yellow} "
+          read -n1 -s -r -p $"Installation / setup has finished, PRESS ANY KEY to exit..." key
+          echo "${reset} "
+          
+              if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+              echo " "
+              echo "${green}Exiting...${reset}"
+              echo " "
+              exit
+              fi
 		  
         break
         
@@ -2351,12 +2373,19 @@ OPTIONS="install_crypto_ticker skip"
 else
 
 echo " "
-echo "${cyan}Installation / setup has finished, exiting to terminal...${reset}"
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
 echo " "
-echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION#"
-echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
-echo " "
-exit
+
+echo "${yellow} "
+read -n1 -s -r -p $"Installation / setup has finished, PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
 
 fi
 

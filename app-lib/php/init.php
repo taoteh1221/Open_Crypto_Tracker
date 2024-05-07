@@ -73,6 +73,12 @@ else {
 $ct['app_container'] = 'browser';
 }
 
+// Internal API / webhook URLs vary by edition...
+
+$ct['int_api_base_endpoint'] = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
+
+$ct['int_webhook_base_endpoint'] = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
+
 
 // Remote IP
 $ct['remote_ip'] = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );

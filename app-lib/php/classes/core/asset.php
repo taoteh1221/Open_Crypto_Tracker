@@ -1794,8 +1794,14 @@ var $ct_array = array();
               	elseif ( $last_cached_days >= 7 ) {
                $last_cached_time = number_format( ($last_cached_days / 7) , 2, '.', ',') . ' weeks';
                }
-               else {
+              	elseif ( $last_cached_days >= 1 ) {
                $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
+               }
+              	elseif ( $last_cached_days >= (1 / 24) ) {
+               $last_cached_time = number_format( ($last_cached_days * 24) , 2, '.', ',') . ' hours';
+               }
+               else {
+               $last_cached_time = number_format( ($last_cached_days * 1440) , 0, '.', ',') . ' minutes';
                }
             
                    

@@ -1,9 +1,11 @@
 #!/bin/bash
 
+
 COPYRIGHT_YEARS="2022-2024"
 
 # Version of this script
-APP_VERSION="1.09.3" # 2023/AUGUST/24TH
+APP_VERSION="1.10.0" # 2024/MAY/5TH
+
 
 ########################################################################################################################
 ########################################################################################################################
@@ -118,6 +120,21 @@ convert=$(echo "$convert" | sed -r "s/remove/11/g")
 fi
 
 
+######################################
+
+
+ISSUES_URL="https://github.com/taoteh1221/Bluetooth_Internet_Radio/issues"
+
+echo " "
+echo "PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL"
+echo " "
+echo "Initializing, please wait..."
+echo " "
+
+
+######################################
+
+
 # EXPLICITLY set any dietpi paths 
 # Export too, in case we are calling another bash instance in this script
 if [ -f /boot/dietpi/.version ]; then
@@ -142,9 +159,12 @@ export PATH=$PATH
 fi
 
 
+# In case we are recursing back into this script (for filtering params etc),
+# flag export of a few more basic sys vars if present
+
+# Authentication of X sessions
 export XAUTHORITY=~/.Xauthority 
-				
-# Export current working directory, in case we are calling another bash instance in this script
+# Working directory
 export PWD=$PWD
 
 
@@ -157,6 +177,9 @@ TIME=$(date '+%H:%M:%S')
 
 # Current timestamp
 CURRENT_TIMESTAMP=$(date +%s)
+
+# Are we running on Ubuntu OS?
+IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
 
 
 # If a symlink, get link target for script location
@@ -171,30 +194,8 @@ fi
 SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
 SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
 
-
-# pulseaudio's FULL PATH (to run checks later)
-PULSEAUDIO_PATH=$(which pulseaudio)
-
-# bluetooth-autoconnect's FULL PATH (to run checks OR install later)
-BT_AUTOCONNECT_PATH="${SCRIPT_PATH}/bluetooth-autoconnect.py"
-
-# Get logged-in username (if sudo, this works best with logname)
-TERMINAL_USERNAME=$(logname)
-
-
-# If logname doesn't work, use the $SUDO_USER or $USER global var
-if [ -z "$TERMINAL_USERNAME" ]; then
-
-    if [ -z "$SUDO_USER" ]; then
-    TERMINAL_USERNAME=$USER
-    else
-    TERMINAL_USERNAME=$SUDO_USER
-    fi
-
-fi
-
-
-######################################
+# Parent directory of the script location
+PARENT_DIR="$(dirname "$SCRIPT_LOCATION")"
 
 
 # Get the operating system and version
@@ -229,34 +230,57 @@ else
 fi
 
 
+# For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
+CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
+
+
 ######################################
 
 
-# Setup color coding
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+
 if hash tput > /dev/null 2>&1; then
+
 red=`tput setaf 1`
 green=`tput setaf 2`
 yellow=`tput setaf 3`
 blue=`tput setaf 4`
 magenta=`tput setaf 5`
 cyan=`tput setaf 6`
+
 reset=`tput sgr0`
+
 else
+
 red=``
 green=``
 yellow=``
 blue=``
 magenta=``
 cyan=``
+
 reset=``
+
 fi
 
 
 ######################################
 
 
-echo " "
+# Get logged-in username (if sudo, this works best with logname)
+TERMINAL_USERNAME=$(logname)
+
+# If logname doesn't work, use the $SUDO_USER or $USER global var
+if [ -z "$TERMINAL_USERNAME" ]; then
+
+    if [ -z "$SUDO_USER" ]; then
+    TERMINAL_USERNAME=$USER
+    else
+    TERMINAL_USERNAME=$SUDO_USER
+    fi
+
+fi
+
 
 # Quit if ACTUAL USERNAME is root
 if [ "$TERMINAL_USERNAME" == "root" ]; then 
@@ -269,17 +293,243 @@ if [ "$TERMINAL_USERNAME" == "root" ]; then
 fi
 
 
+######################################
+
+
 if [ -f "/etc/debian_version" ]; then
-echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+
+echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated script."
+
+# USE 'apt-get' IN SCRIPTING!
+# https://askubuntu.com/questions/990823/apt-gives-unstable-cli-interface-warning
+PACKAGE_INSTALL="sudo apt-get install"
+PACKAGE_REMOVE="sudo apt-get --purge remove"
+
 echo " "
 echo "Continuing...${reset}"
 echo " "
+
+elif [ -f "/etc/redhat-release" ]; then
+
+echo "${cyan}Your system has been detected as Redhat-based, which is ${red}CURRENTLY STILL IN DEVELOPMENT TO EVENTUALLY BE (BUT IS *NOT* YET) ${cyan}compatible with this automated script."
+
+PACKAGE_INSTALL="sudo yum install"
+PACKAGE_REMOVE="sudo yum remove"
+
+echo " "
+echo "Continuing...${reset}"
+echo " "
+
 else
-echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
-echo " "
-echo "Exiting...${reset}"
-echo " "
-exit
+
+echo "${red}Your system has been detected as NOT BEING Debian-based OR Redhat-based. Your system is NOT compatible with this automated script."
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS ANY KEY to exit..." key
+echo "${reset} "
+
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
+
+fi
+
+
+######################################
+
+
+# Path to app (CROSS-DISTRO-COMPATIBLE)
+get_app_path() {
+
+app_path_result=$(whereis -b $1)
+app_path_result="${app_path_result#*$1: }"
+app_path_result=${app_path_result%%[[:space:]]*}
+app_path_result="${app_path_result#*$1:}"
+     
+     
+     # If we have found the library already installed on this system
+     if [ ! -z "$app_path_result" ]; then
+     
+     PATH_CHECK_REENTRY="" # Reset reentry flag
+     
+     echo "$app_path_result"
+     
+     # If we are re-entering from the else statement below, quit trying, with warning sent to terminal (NOT function output)
+     elif [ ! -z "$PATH_CHECK_REENTRY" ]; then
+     
+     PATH_CHECK_REENTRY="" # Reset reentry flag
+     
+     echo "${red} " > /dev/tty
+     echo "System path for '$1' NOT FOUND, even AFTER package installation attempts, giving up." > /dev/tty
+     echo " " > /dev/tty
+
+     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
+     echo " " > /dev/tty
+     echo "$ISSUES_URL" > /dev/tty
+     echo "${reset} " > /dev/tty
+     
+     echo "${yellow} " > /dev/tty
+     read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
+     echo "${reset} " > /dev/tty
+     
+         if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+         echo " " > /dev/tty
+         echo "${green}Continuing...${reset}" > /dev/tty
+         echo " " > /dev/tty
+         fi
+     
+     echo " " > /dev/tty
+     
+     # If library not found, attempt package installation
+     else
+     
+     
+          # Handle package name exceptions...
+          
+          # bsdtar on Ubuntu 18.x and higher
+          if [ "$1" == "bsdtar" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="libarchive-tools"
+          
+          # xdg-user-dir (debian package name differs slightly)
+          elif [ "$1" == "xdg-user-dir" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="xdg-user-dirs"
+
+          # rsyslogd (debian package name differs slightly)
+          elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="rsyslog"
+
+          else
+          SYS_PACK="$1"
+          fi
+          
+          
+          # Terminal alert for good UX...
+          if [ "$1" != "$SYS_PACK" ]; then
+          echo " " > /dev/tty
+          echo "${yellow}'$1' is found WITHIN '$SYS_PACK', changing package request accordingly...${reset}" > /dev/tty
+          echo " " > /dev/tty
+          fi
+
+
+     echo " " > /dev/tty
+     echo "${cyan}Installing required component '$SYS_PACK', please wait...${reset}" > /dev/tty
+     echo " " > /dev/tty
+     
+     sleep 3
+               
+     $PACKAGE_INSTALL $SYS_PACK -y > /dev/tty
+     
+     
+          # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
+          # (as they moved some libs over to snap / snap-only? now)
+          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
+          
+          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
+          
+          echo " " > /dev/tty
+          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
+          echo " " > /dev/tty
+          
+          sleep 3
+          
+          $UBUNTU_SNAP_INSTALL $SYS_PACK > /dev/tty
+          
+          fi
+     
+     
+     sleep 2
+     
+     PATH_CHECK_REENTRY=1 # Set reentry flag, right before reentry
+     
+     echo $(get_app_path "$1")
+           
+     fi
+
+
+}
+
+
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+UBUNTU_SNAP_PATH=$(get_app_path "snap")
+fi
+
+
+######################################
+
+
+# ON DEBIAN-BASED SYSTEMS ONLY:
+# Do we have less than 900MB PHYSICAL RAM (IN KILOBYTES),
+# AND no swap / less swap virtual memory than 900MB (IN BYTES)?
+if [ -f "/etc/debian_version" ] && [ "$(awk '/MemTotal/ {print $2}' /proc/meminfo)" -lt 900000 ] && (
+[ "$(free | awk '/^Swap:/ { print $2 }')" = "0" ] || [ "$(free --bytes | awk '/^Swap:/ { print $2 }')" -lt 900000000 ]
+); then
+
+echo "${red}YOU HAVE LESS THAN 900MB *PHYSICAL* MEMORY, AND ALSO HAVE LESS THAN 900MB SWAP *VIRTUAL* MEMORY. This MAY cause your system to FREEZE, *IF* you have a desktop display attached!${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to fix this (sets swap virtual memory to 1GB), OR any other key to skip fixing..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    echo " "
+    echo "${cyan}Changing Swap Virtual Memory size to 1GB, please wait (THIS MAY TAKE AWHILE ON SMALLER SYSTEMS)...${reset}"
+    echo " "
+    
+    # Required components check...
+    
+    # dphys-swapfile
+    DPHYS_PATH=$(get_app_path "dphys-swapfile")
+
+    # sed
+    SED_PATH=$(get_app_path "sed")
+    
+    sudo $DPHYS_PATH swapoff
+    
+    sleep 5
+         
+        if [ -f /etc/dphys-swapfile ]; then
+			    
+	   DETECT_SWAP_CONF=$(sudo sed -n '/CONF_SWAPSIZE=/p' /etc/dphys-swapfile)
+			
+		   if [ "$DETECT_SWAP_CONF" != "" ]; then 
+             sudo sed -i "s/CONF_SWAPSIZE=.*/CONF_SWAPSIZE=1024/g" /etc/dphys-swapfile
+             elif [ "$DETECT_SWAP_CONF" == "" ]; then 
+             sudo bash -c "echo 'CONF_SWAPSIZE=1024' >> /etc/dphys-swapfile"
+	        fi
+	        
+	   sudo $DPHYS_PATH setup
+	   
+	   sleep 5
+	   
+	   sudo $DPHYS_PATH swapon
+	   
+	   sleep 5
+	   
+        echo " "
+        echo "${green}Swap Memory size has been updated to 1GB.${reset}"
+        echo " "
+        
+        else
+	   
+        echo " "
+        echo "${red}Swap Memory config file could NOT be located, skipping update of Swap Memory size!${reset}"
+        echo " "
+	        
+	   fi
+	   
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
 fi
 
 
@@ -293,7 +543,7 @@ clean_system_update () {
      if [ -z "$ALLOW_FULL_UPGRADE" ]; then
      
      echo " "
-     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
+     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Debian, Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
      echo " "
      echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
      echo " "
@@ -323,38 +573,46 @@ clean_system_update () {
      fi
 
 
-     if [ "$APT_CACHE_CLEARED" != "1" ]; then
+     if [ -z "$PACKAGE_CACHE_REFRESHED" ]; then
 
-     echo "${cyan}Making sure your APT sources list is updated before installations, please wait...${reset}"
-     
-     echo " "
-     
-     # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
-     sudo rm -rf /var/lib/apt/lists/* -vf > /dev/null 2>&1
-     
-     APT_CACHE_CLEARED=1
-     
-     sleep 2
-     
-     sudo apt update
-     
-     sleep 2
-     
-     echo " "
 
-     echo "${cyan}APT sources list update complete.${reset}"
+          if [ -f "/etc/debian_version" ]; then
+
+          echo "${cyan}Making sure your APT sources list is updated before installations, please wait...${reset}"
+          
+          echo " "
+          
+          # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
+          sudo rm -rf /var/lib/apt/lists/* -vf > /dev/null 2>&1
+          
+          sleep 2
+          
+          sudo apt-get update
+          
+          echo " "
      
-     echo " "
+          echo "${cyan}APT sources list update complete.${reset}"
+          
+          echo " "
      
-          if [ "$ALLOW_APT_UPGRADE" == "yes" ]; then
+          fi
+          
+     
+          if [ "$ALLOW_FULL_UPGRADE" == "yes" ]; then
 
           echo "${cyan}Making sure your system is updated before installations, please wait...${reset}"
           
           echo " "
           
-          #DO NOT RUN dist-upgrade, bad things can happen, lol
-          sudo apt upgrade -y
-          				
+          
+               if [ -f "/etc/debian_version" ]; then
+               #DO NOT RUN dist-upgrade, bad things can happen, lol
+               sudo apt-get upgrade -y
+               elif [ -f "/etc/redhat-release" ]; then
+               sudo yum upgrade -y
+               fi
+          
+          
           sleep 2
           
           echo " "
@@ -365,6 +623,9 @@ clean_system_update () {
           
           fi
      
+     
+     PACKAGE_CACHE_REFRESHED=1
+     
      fi
 
 }
@@ -374,227 +635,77 @@ clean_system_update () {
 ######################################
 
 
-# Get primary dependency apps, if we haven't yet
+# Get PRIMARY dependency lib's paths (for bash scripting commands...auto-install is attempted, if not found on system)
+# (our usual standard library prerequisites [ordered alphabetically], for 99% of advanced bash scripting needs)
+
+# avahi-daemon
+AVAHID_PATH=$(get_app_path "avahi-daemon")
+
+# bc
+BC_PATH=$(get_app_path "bc")
+
+# bsdtar
+BSDTAR_PATH=$(get_app_path "bsdtar")
+
+# curl
+CURL_PATH=$(get_app_path "curl")
+
+# expect
+EXPECT_PATH=$(get_app_path "expect")
     
-    
-# If 'python3' wasn't found, install it
-# python3's FULL PATH (we DONT want python [which is python2])
-PYTHON_PATH=$(which python3)
+# git
+GIT_PATH=$(get_app_path "git")
 
-if [ -z "$PYTHON_PATH" ]; then
+# jq
+JQ_PATH=$(get_app_path "jq")
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
+# less
+LESS_PATH=$(get_app_path "less")
 
-echo " "
-echo "${cyan}Installing required component python3, please wait...${reset}"
-echo " "
+# sed
+SED_PATH=$(get_app_path "sed")
 
-sudo apt install python3 -y
+# wget
+WGET_PATH=$(get_app_path "wget")
 
-fi
-
-
-# Install xdg-user-dirs if needed
-XDGUSER_PATH=$(which xdg-user-dir)
-
-if [ -z "$XDGUSER_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component xdg-user-dirs, please wait...${reset}"
-echo " "
-
-sudo apt install xdg-user-dirs -y
-
-fi
-
-
-# Install rsyslogd if needed
-SYSLOG_PATH=$(which rsyslogd)
-
-if [ -z "$SYSLOG_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component rsyslog, please wait...${reset}"
-echo " "
-
-sudo apt install rsyslog -y
-
-fi
-
-
-# Install git if needed
-GIT_PATH=$(which git)
-
-if [ -z "$GIT_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component git, please wait...${reset}"
-echo " "
-
-sudo apt install git -y
-
-fi
-
-
-# Install curl if needed
-CURL_PATH=$(which curl)
-
-if [ -z "$CURL_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component curl, please wait...${reset}"
-echo " "
-
-sudo apt install curl -y
-
-fi
-
-
-# Install jq if needed
-JQ_PATH=$(which jq)
-
-if [ -z "$JQ_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component jq, please wait...${reset}"
-echo " "
-
-sudo apt install jq -y
-
-fi
-
-
-# Install wget if needed
-WGET_PATH=$(which wget)
-
-if [ -z "$WGET_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component wget, please wait...${reset}"
-echo " "
-
-sudo apt install wget -y
-
-fi
-
-
-# Install sed if needed
-SED_PATH=$(which sed)
-
-if [ -z "$SED_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component sed, please wait...${reset}"
-echo " "
-
-sudo apt install sed -y
-
-fi
-
-
-# Install less if needed
-LESS_PATH=$(which less)
+# PRIMARY dependency lib's paths END
 				
-if [ -z "$LESS_PATH" ]; then
 
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component less, please wait...${reset}"
-echo " "
-
-sudo apt install less -y
-
-fi
+######################################
 
 
-# Install expect if needed
-EXPECT_PATH=$(which expect)
-				
-if [ -z "$EXPECT_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component expect, please wait...${reset}"
-echo " "
-
-sudo apt install expect -y
-
-fi
-
-
-# Install avahi-daemon if needed (for .local names on internal / home network)
-AVAHID_PATH=$(which avahi-daemon)
-
-if [ -z "$AVAHID_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
-echo " "
-
-sudo apt install avahi-daemon -y
-
-fi
-
-
-# Install bc if needed (for decimal math in bash)
-BC_PATH=$(which bc)
-
-if [ -z "$BC_PATH" ]; then
-
-# Clears / updates cache, then upgrades (if NOT a rolling release)
-clean_system_update
-
-echo " "
-echo "${cyan}Installing required component bc, please wait...${reset}"
-echo " "
-
-sudo apt install bc -y
-
-fi
-
-# dependency check END
+# Get the *INTERNAL* NETWORK ip address
+IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
 
 
 ######################################
 
 
-# For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
-CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
+# Dependencies SPECIFICALLY for this bluetooth internet radio script...
+
+# pulseaudio's FULL PATH (to run checks later)
+PULSEAUDIO_PATH=$(get_app_path "pulseaudio")
+
+# python3's FULL PATH (we DONT want python [which is python2])
+PYTHON_PATH=$(get_app_path "python3")
+
+# Install xdg-user-dirs if needed
+XDGUSER_PATH=$(get_app_path "xdg-user-dir")
+
+# Install rsyslogd if needed
+SYSLOG_PATH=$(get_app_path "rsyslogd")
+
+
+######################################
 
 
 ###############################################################################################
 # Primary init complete, now check bt_autoconnect_install and symbolic link status
 ###############################################################################################
 
+
+# bluetooth-autoconnect's FULL PATH (to run checks OR install later)
+BT_AUTOCONNECT_PATH="${SCRIPT_PATH}/bluetooth-autoconnect.py"
 
 # bt_autoconnect_install function START
 bt_autoconnect_install () {
@@ -610,10 +721,10 @@ bt_autoconnect_install () {
     echo " "
     
     # Install python3 prctl
-    sudo apt install python3-prctl -y
+    $PACKAGE_INSTALL python3-prctl -y
     
     # Install python3 dbus modules
-    sudo apt install python3-dbus python3-slip-dbus python3-pydbus -y
+    $PACKAGE_INSTALL python3-dbus python3-slip-dbus python3-pydbus -y
     
             
     # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
@@ -822,7 +933,7 @@ select opt in $OPTIONS; do
             echo "${yellow}Do you want to upgrade to v${LATEST_VERSION} now?${reset}"
             
             echo "${yellow} "
-            read -n1 -s -r -p $"Press y to upgrade (or press n to cancel)..." keystroke
+            read -n1 -s -r -p $"Press Y to upgrade (or press N to cancel)..." keystroke
             echo "${reset} "
                     
                     
@@ -914,7 +1025,7 @@ select opt in $OPTIONS; do
         echo "${red} "
         echo "NOTICE: YOUR COMPUTER WILL REBOOT AFTER CONFIGURATION OF THIS COMPONENT!"
         echo " "
-        read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+        read -n1 -s -r -p $"Press Y to continue (or press N to exit)..." key
         echo "${reset} "
         
             if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
@@ -931,20 +1042,14 @@ select opt in $OPTIONS; do
         echo " "
         
         ######################################
-
         
-        echo "${cyan}Making sure your system is updated before installation, please wait...${reset}"
-        
-        echo " "
 
         # Clears / updates cache, then upgrades (if NOT a rolling release)
         clean_system_update
-        
-        echo " "
-        				
-        echo "${cyan}System update completed.${reset}"
         				
         sleep 3
+        
+        echo " "
         
 
 				if [ -f /boot/dietpi/.version ]; then
@@ -959,7 +1064,7 @@ select opt in $OPTIONS; do
                 echo "You #CAN# SAFELY REBOOT if asked to, and RUN THE PULSEAUDIO INSTALL OPTION #AGAIN# AFTERWARDS."
                 
                 echo "${yellow} "
-                read -n1 -s -r -p $'Press y to run dietpi-config (or #IF# YOU DID THIS ALREADY press n to skip)...\n' keystroke
+                read -n1 -s -r -p $'Press Y to run dietpi-config (or #IF# YOU DID THIS ALREADY press N to skip)...\n' keystroke
                 echo "${reset} "
         
                     if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
@@ -999,10 +1104,6 @@ select opt in $OPTIONS; do
                 sleep 2
 				
 				fi
-        
-
-        # Clears / updates cache, then upgrades (if NOT a rolling release)
-        clean_system_update
         				
         echo " "
         
@@ -1010,9 +1111,9 @@ select opt in $OPTIONS; do
         echo " "
         
         # needed components
-        apt install alsa-utils -y
+        $PACKAGE_INSTALL alsa-utils -y
         
-        apt install pulseaudio* -y
+        $PACKAGE_INSTALL pulseaudio* -y
         
         sleep 5
         
@@ -1106,7 +1207,7 @@ select opt in $OPTIONS; do
         echo "${red} "
         echo "NOTICE: YOUR COMPUTER WILL REBOOT AFTER CONFIGURATION OF THIS COMPONENT!"
         echo " "
-        read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+        read -n1 -s -r -p $"Press Y to continue (or press N to exit)..." key
         echo "${reset} "
         
             if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
@@ -1305,7 +1406,7 @@ select opt in $OPTIONS; do
         echo "${red} "
         echo "NOTICE: YOUR COMPUTER WILL REBOOT AFTER CONFIGURATION OF THIS COMPONENT!"
         echo " "
-        read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+        read -n1 -s -r -p $"Press Y to continue (or press N to exit)..." key
         echo "${reset} "
         
             if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
@@ -1335,22 +1436,22 @@ select opt in $OPTIONS; do
         sleep 1
         
         # Install screen and mpv instead of mplayer, it's more stable
-        sudo apt install screen mpv -y
+        $PACKAGE_INSTALL screen mpv -y
         
         sleep 1
         
         # mplayer as backup if distro doesn't have an mpv package (mpv will be used first automatically if found)
-        sudo apt install mplayer -y
+        $PACKAGE_INSTALL mplayer -y
         
         sleep 1
         
         # vlc as backup if distro doesn't have an mpv or mplayer package
-        sudo apt install vlc -y
+        $PACKAGE_INSTALL vlc -y
         
         sleep 1
         
         # Install pyradio python3 dependencies
-        sudo apt install python3-setuptools python3-wheel python3-pip python3-requests python3-dnspython python3-psutil python3-rich -y
+        $PACKAGE_INSTALL python3-setuptools python3-wheel python3-pip python3-requests python3-dnspython python3-psutil python3-rich -y
         
         sleep 3
         
@@ -1418,10 +1519,10 @@ select opt in $OPTIONS; do
                 break
                elif [ "$opt" = "system_freezes" ]; then
 
-                # Clears / updates cache, then upgrades (if NOT a rolling release)
-                clean_system_update
+               # Clears / updates cache, then upgrades (if NOT a rolling release)
+               clean_system_update
                 
-                sudo apt install mplayer -y
+                $PACKAGE_INSTALL mplayer -y
                 
                 # mpv crashes low power devices, mplayer does not (and vlc doesn't handle network disruption too well)
                 sed -i 's/player = .*/player = mplayer, vlc, mpv/g' ~/.config/pyradio/config > /dev/null 2>&1
@@ -1561,7 +1662,7 @@ select opt in $OPTIONS; do
             echo "${reset} "
             
             echo "${yellow} "
-            read -n1 -s -r -p $'Press y to run pyradio first-time setup (or press n to cancel)...\n' keystroke
+            read -n1 -s -r -p $'Press Y to run pyradio first-time setup (or press N to cancel)...\n' keystroke
             echo "${reset} "
         
                 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
@@ -1768,7 +1869,7 @@ select opt in $OPTIONS; do
         echo "${red}WHEN YOU ARE DONE: hold down the 2 keys Ctrl+c at the same time, until you exit this script.${reset}"
         
         echo "${yellow} "
-        read -n1 -s -r -p $'Press y to run the bluetooth scan (or press n to cancel)...\n' keystroke
+        read -n1 -s -r -p $'Press Y to run the bluetooth scan (or press N to cancel)...\n' keystroke
         echo "${reset} "
 
             if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then

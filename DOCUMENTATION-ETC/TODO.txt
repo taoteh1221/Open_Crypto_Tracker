@@ -181,7 +181,13 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Put the curl temp cookie file in /cache/other, for windows compatibility?
+Move the Etherscan API key config into the address balance tracker plugin.
+
+
+Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on. Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
+
+
+Test fully on PHP 7.4, by filling in all the settings with my personal ones. Import my charts too. Use it for at least a few weeks, with PHP error logging on. Blank out my settings on the other local network install, so we don't get duplicate alerts. 
 
 
 Make sure ALL security tokens are skipped by the input sanitizer, since they can cause false positives, and they are already HEAVILY scanned in other ways.
@@ -191,6 +197,9 @@ Cointelegraph news feed works fine in any brand new desktop edition install, yet
 
 
 On windows desktop edition, when registering an admin account for the first time, if you click on certain links in the user area menu, it just hangs with a loading message, and never redirects back to the registration page like it should.
+
+
+Add full redhat support for auto-installer.
 
 
 We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
@@ -218,9 +227,6 @@ Review / fully test all the different SUBARRAY logic for the cached config upgra
 
 
 Make sure everything STILL runs smoothly with the charts page turned off.
-
- 
-Test updating ALL admin settings in the interface on the PHP v7.4 server.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -358,22 +364,7 @@ On admin area "assets" page, show EXISTING assets in a expandable / collapsable 
 On admin "assets" page, add a button atop the page called " Add New Asset Or Market". On page 1 of the 'add asset' wizard (multi-step on separate modal pages), only have the radio selection choices (only one can be selected): 'Add new asset' and 'Add new market to existing asset'. If 'add new asset' is selected, then page 2 has you type in the ticker symbol (otherwise you choose from a list of your already-added assets). After we have the ticker symbol one way or another, we then scan every exchange API, and return results for ALL market pairings of that asset ([greying out / disabling selection of any we ALREADY added] as a checkbox list to choose the ones you want). Should NOT need any more steps than that, keeep it simple as possible.
 
 
-When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
-
-
-Looks like we have to switch to using the snap package manager for
-ubuntu in the install bash scripts FOR ALL MY APPS. Some pre-requisite
-libraries are no longer available using apt ("Unable to locate package X"), and are only available as
-'snap install X'.
-
-
-Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
-
-
-Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on. Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
-
-
-Test fully on PHP 7.4, by filling in all the settings with my personal ones on the public demo site. Import my charts there as well. Use it for at least a few weeks, with PHP error logging on. Blank out my settings on the local network install, so we don't get duplicate alerts.  
+When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -408,9 +399,6 @@ Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our
 
 
 Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
-
-
-Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
 
 
 Replace all tabs with spaces (for better cross-text-editor support).

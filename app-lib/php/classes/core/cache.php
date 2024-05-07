@@ -2433,17 +2433,22 @@ var $ct_array = array();
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
   global $ct, $htaccess_username, $htaccess_password;
-  
-  $cookie_file = tempnam('/tmp','ct_cron_cookie.txt');
    
   // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
   $hash_check = ( $mode == 'params' ? md5( serialize($request_params) ) : md5($request_params) );
+  
+    // We should be able to make sure there is no whitespace safely on API Server
+    if ( $api_server != null ) {
+    $api_server = trim($api_server);
+    }
   
   $api_endpoint = ( $mode == 'params' ? $api_server : $request_params );
      
   $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($api_endpoint);
   
   $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
+  
+  $cookie_file = $ct['base_dir'] . '/cache/secured/external_data/cookies/ext_dat_cookie_' . $ct['app_id'] . '_' . $endpoint_tld_or_ip . '.dat';
       
   // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
   $temp_array = array();

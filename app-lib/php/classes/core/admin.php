@@ -124,7 +124,7 @@ var $ct_array = array();
    
    function valid_admin_settings() {
         
-   global $ct, $plug;
+   global $ct, $plug, $this_plug;
    
    
         if ( !isset($_POST['conf_id']) ) {
@@ -140,7 +140,9 @@ var $ct_array = array();
         
         // Plugin support (if found in plugin's class)
         if ( $is_plugin && method_exists($plug['class'][$is_plugin], 'admin_input_validation') && is_callable( array($plug['class'][$is_plugin], 'admin_input_validation') ) ) {
+        $this_plug = $is_plugin;
         $ct['update_config_error'] = $plug['class'][$is_plugin]->admin_input_validation();
+        unset($this_plug);
         }
         elseif ( $_POST['conf_id'] === 'gen' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
              
@@ -393,7 +395,7 @@ var $ct_array = array();
                $ct['update_config_error'] .= $update_config_error_seperator . 'Charts / Alerts KEY was USED TWICE (DUPLICATE): "'.$val_config[0].'" (no duplicate keys allowed)';
      	     }
      	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
-     	     $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'")';
+     	     $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'"); Market MAY be down *temporarily* for maintenance, OR permanently removed (please verify on the exchange website)';
      	     }
      	     elseif ( !in_array($mode, $allowed_modes) ) {
      	     $ct['update_config_error'] .= $update_config_error_seperator . 'Unknown mode (in submission: "'.$val.'")';

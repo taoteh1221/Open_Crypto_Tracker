@@ -12,9 +12,8 @@
 // DEBUGGING ONLY (checking logging capability)
 //$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
-$int_webhook_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
 
-
+// WE ONLY WANT ANY WHITESPACE USED IN INTERFACING TO RUN IN 'UI' RUNTIME MODE!!
 if ( $runtime_mode == 'ui' ) {
 ?>
 
@@ -35,7 +34,7 @@ elseif ( $runtime_mode == 'webhook' ) {
      
 
      if ( !isset($webhook_params[0]) ) {
-     $result = array('error' => "No blockchain network specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (ethereum / solana / etc) like so: /" . $int_webhook_base_endpoint . $webhook_key . "/solana/PARAM2/PARAM3/ETC");
+     $result = array('error' => "No blockchain network specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (ethereum / solana / etc) like so: /" . $ct['int_webhook_base_endpoint'] . $webhook_key . "/solana/PARAM2/PARAM3/ETC");
      echo json_encode($result, JSON_PRETTY_PRINT);
      }
      elseif ( $webhook_params[0] == 'ethereum' ) {

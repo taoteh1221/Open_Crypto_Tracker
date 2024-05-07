@@ -76,6 +76,9 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['
 
 // Stale cache files cleanup...
 
+// Every 30 days
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data/cookies', 30, 'dat'); // Delete external API cookie files older than 30 days
+
 // Every 4 days
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/light_chart_rebuilds', 4, 'dat'); // Delete light chart rebuild event tracking cache files older than 4 days
 
