@@ -181,19 +181,10 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Move the Etherscan API key config into the address balance tracker plugin.
-
-
 Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on. Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
 
 
-Test fully on PHP 7.4, by filling in all the settings with my personal ones. Import my charts too. Use it for at least a few weeks, with PHP error logging on. Blank out my settings on the other local network install, so we don't get duplicate alerts. 
-
-
-Make sure ALL security tokens are skipped by the input sanitizer, since they can cause false positives, and they are already HEAVILY scanned in other ways.
-
-
-Cointelegraph news feed works fine in any brand new desktop edition install, yet is stuck with an "enable JavaScript and cookies" server response on my old server edition installs. Even with curl server side cookies enabled, it's still doesn't fix it. Make sure we are definitely not stuck using data that never refreshes in the cache, due to an unknown cache logic bug.
+DOUBLE-CHECK ALL security tokens are skipped by the input sanitizer, since they can cause false positives, and they are already HEAVILY scanned in other ways.
 
 
 On windows desktop edition, when registering an admin account for the first time, if you click on certain links in the user area menu, it just hangs with a loading message, and never redirects back to the registration page like it should.

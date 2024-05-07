@@ -22,17 +22,151 @@ var $ct_array = array();
     
    global $ct;
          
-       
-      if ( $request == 'height' ) {
-      $url = 'https://blockchain.info/q/getblockcount';
-      }
-      elseif ( $request == 'difficulty' ) {
-      $url = 'https://blockchain.info/q/getdifficulty';
-      }
+   $url = 'https://blockchain.info/q/' . $request;
          
    $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
        
    return (float)$response;
+     
+   }
+		
+		
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+   function solana_rpc($method, $params=false, $cache_time=0, $rpc_test=false) {
+		 
+   global $ct;
+
+                                
+        if ( $rpc_test != false ) {
+        $rpc_server = $rpc_test;
+        }
+        else {    
+        $rpc_server = $ct['conf']['ext_apis']['solana_rpc_server'];
+        }
+
+	
+   $headers = array(
+                    'Content-Type: application/json'
+                    );
+               
+   $request_params = array(
+                           'jsonrpc' => '2.0', // Setting this right before sending
+                           'id' => 1,
+                           'method' => $method,
+                          );
+                    
+                    
+        if ( $params ) {
+        $request_params['params'] = $params;
+        }
+
+     
+   // https://solana.com/docs/core/clusters#mainnet-beta-rate-limits
+   $response = @$ct['cache']->ext_data('params', $request_params, $cache_time, $rpc_server, 3, null, $headers);
+			 
+   return json_decode($response, true);
+		
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function telegram($mode) {
+      
+   global $ct;
+   
+      if ( $mode == 'updates' ) {
+      
+      // Don't cache data, we are storing it as a specific (secured) cache var instead
+      $response = @$ct['cache']->ext_data('url', 'https://api.telegram.org/bot'.$ct['conf']['ext_apis']['telegram_bot_token'].'/getUpdates', 0);
+         
+      $telegram_chatroom = json_decode($response, true);
+   
+      $telegram_chatroom = $telegram_chatroom['result']; 
+   
+          foreach( $telegram_chatroom as $chat_key => $chat_unused ) {
+      
+              // Overwrites any earlier value while looping, so we have the latest data
+              if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($ct['conf']['ext_apis']['telegram_your_username']) ) {
+              $user_data = $telegram_chatroom[$chat_key];
+              }
+      
+          }
+   
+      return $user_data;
+      
+      }
+      elseif ( $mode == 'webhook' ) {
+         
+      // Don't cache data, we are storing it as a specific (secured) cache var instead
+      $get_telegram_webhook_data = @$ct['cache']->ext_data('url', 'https://api.telegram.org/bot'.$ct['conf']['ext_apis']['telegram_bot_token'].'/getWebhookInfo', 0);
+         
+      $telegram_webhook = json_decode($get_telegram_webhook_data, true);
+      
+      // logic here
+      
+      }
+      
+      
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function etherscan($block_info) {
+    
+   global $ct;
+   
+      if ( trim($ct['conf']['ext_apis']['etherscan_api_key']) == '' ) {
+      return false;
+      }
+   
+   $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
+     
+   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
+       
+   $data = json_decode($response, true);
+     
+   $block_number = $data['result'];
+       
+       
+      if ( !$block_number ) {
+      return;
+      }
+      else {
+            
+          // Non-dynamic cache file name, because filename would change every recache and create cache bloat
+          if ( $ct['cache']->update_cache('cache/secured/external_data/eth-stats.dat', $ct['conf']['power']['blockchain_stats_cache_time'] ) == true ) {
+            
+          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
+          $response = @$ct['cache']->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
+            
+          $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/external_data/eth-stats.dat', $response);
+            
+          $data = json_decode($response, true);
+            
+          return $data['result'][$block_info];
+            
+          }
+          else {
+               
+          $cached_data = trim( file_get_contents('cache/secured/external_data/eth-stats.dat') );
+            
+          $data = json_decode($cached_data, true);
+            
+          return $data['result'][$block_info];
+   
+          }
+     
+      }
+
      
    }
 
@@ -184,115 +318,6 @@ var $ct_array = array();
    gc_collect_cycles(); // Clean memory cache
    
    return $result;
-     
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   // https://core.telegram.org/bots/api
-   
-   // https://core.telegram.org/bots/api#making-requests
-   
-   // https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
-   
-   // https://api.telegram.org/bot{my_bot_token}/deleteWebhook
-   
-   // https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
-   
-   function telegram($mode) {
-      
-   global $ct;
-   
-      if ( $mode == 'updates' ) {
-      
-      // Don't cache data, we are storing it as a specific (secured) cache var instead
-      $response = @$ct['cache']->ext_data('url', 'https://api.telegram.org/bot'.$ct['conf']['ext_apis']['telegram_bot_token'].'/getUpdates', 0);
-         
-      $telegram_chatroom = json_decode($response, true);
-   
-      $telegram_chatroom = $telegram_chatroom['result']; 
-   
-          foreach( $telegram_chatroom as $chat_key => $chat_unused ) {
-      
-              // Overwrites any earlier value while looping, so we have the latest data
-              if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($ct['conf']['ext_apis']['telegram_your_username']) ) {
-              $user_data = $telegram_chatroom[$chat_key];
-              }
-      
-          }
-   
-      return $user_data;
-      
-      }
-      elseif ( $mode == 'webhook' ) {
-         
-      // Don't cache data, we are storing it as a specific (secured) cache var instead
-      $get_telegram_webhook_data = @$ct['cache']->ext_data('url', 'https://api.telegram.org/bot'.$ct['conf']['ext_apis']['telegram_bot_token'].'/getWebhookInfo', 0);
-         
-      $telegram_webhook = json_decode($get_telegram_webhook_data, true);
-      
-      // logic here
-      
-      }
-      
-      
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function etherscan($block_info) {
-    
-   global $ct;
-   
-      if ( trim($ct['conf']['ext_apis']['etherscan_api_key']) == '' ) {
-      return false;
-      }
-   
-   $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
-     
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
-       
-   $data = json_decode($response, true);
-     
-   $block_number = $data['result'];
-       
-       
-      if ( !$block_number ) {
-      return;
-      }
-      else {
-            
-          // Non-dynamic cache file name, because filename would change every recache and create cache bloat
-          if ( $ct['cache']->update_cache('cache/secured/external_data/eth-stats.dat', $ct['conf']['power']['blockchain_stats_cache_time'] ) == true ) {
-            
-          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
-          $response = @$ct['cache']->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
-            
-          $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/external_data/eth-stats.dat', $response);
-            
-          $data = json_decode($response, true);
-            
-          return $data['result'][$block_info];
-            
-          }
-          else {
-               
-          $cached_data = trim( file_get_contents('cache/secured/external_data/eth-stats.dat') );
-            
-          $data = json_decode($cached_data, true);
-            
-          return $data['result'][$block_info];
-   
-          }
-     
-      }
-
      
    }
    

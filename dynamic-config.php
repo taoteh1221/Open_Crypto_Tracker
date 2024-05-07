@@ -6,8 +6,8 @@
 
 
 // BTC
-$ct['conf']['power']['mining_calculators']['pow']['btc']['height'] = $ct['api']->bitcoin('height');
-$ct['conf']['power']['mining_calculators']['pow']['btc']['difficulty'] = $ct['api']->bitcoin('difficulty');
+$ct['conf']['power']['mining_calculators']['pow']['btc']['height'] = $ct['api']->bitcoin('getblockcount');
+$ct['conf']['power']['mining_calculators']['pow']['btc']['difficulty'] = $ct['api']->bitcoin('getdifficulty');
 
 
 /* // ETH (NO LONGER USED, BUT LEAVE AS EXAMPLE FOR FUTURE POW CALCS)

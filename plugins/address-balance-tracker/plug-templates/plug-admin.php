@@ -41,15 +41,6 @@ $ct['admin_render_settings']['ui_name']['is_readonly'] = 'Developer setting only
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-$ct['admin_render_settings']['solana_rpc_server']['is_trim'] = true;
-
-$ct['admin_render_settings']['solana_rpc_server']['text_field_size'] = 50;
-
-$ct['admin_render_settings']['solana_rpc_server']['is_notes'] = 'What <a href="https://solana.com/docs/core/clusters" target="_BLANK">Solana RPC Server</a> to query, for on-chain data.<br />The default one is provided by the Solana Foundation FOR FREE:<br />https://api.mainnet-beta.solana.com';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
      
 $ct['admin_render_settings']['alerts_frequency_maximum']['is_range'] = true;
 

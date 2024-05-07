@@ -259,6 +259,11 @@ $ct['conf']['ext_apis']['google_fonts_api_key'] = '';
 $ct['conf']['ext_apis']['google_fonts_cache_time'] = 24;  // (default = 24)
 
 
+// IF you are using on-chain data from the Solana blockchain, you can choose which RPC server you want to use.
+// DEFAULT = 'https://api.mainnet-beta.solana.com'
+$ct['conf']['ext_apis']['solana_rpc_server'] = 'https://api.mainnet-beta.solana.com';
+
+
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
 $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] = 100; // (default = 100), ADJUST WITH CARE!!!

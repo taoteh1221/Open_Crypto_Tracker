@@ -36,11 +36,6 @@ $plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats' (de
 $plug['conf'][$this_plug]['ui_name'] = 'Address Balance Tracker'; // (defaults to $this_plug if not set)
 
 
-// IF you are using on-chain data from the Solana blockchain, you can choose which RPC server you want to use.
-// DEFAULT = 'https://api.mainnet-beta.solana.com'
-$plug['conf'][$this_plug]['solana_rpc_server'] = 'https://api.mainnet-beta.solana.com';
-
-
 // Re-allow SAME address balance alert(s) messages after X HOURS (per alert config)
 $plug['conf'][$this_plug]['alerts_frequency_maximum'] = 1; // Can be 0, to have no limits
 
