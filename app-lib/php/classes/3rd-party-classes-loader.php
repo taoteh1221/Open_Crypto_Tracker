@@ -34,6 +34,10 @@ $totp_base32 = new \Google\Authenticator\FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQR
 
 // QR code images
 if ( $ct['runtime_mode'] == '2fa_setup' || $ct['runtime_mode'] == 'qr_code' ) {
+     
+// Play it safe, and make sure we have a high enough memory limit
+// (64M isn't enough, it makes the script throw an error 500)
+ini_set('memory_limit', '128M');
 
 require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-settings-container/SettingsContainerInterface.php'); 
 require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-settings-container/SettingsContainerAbstract.php'); 
