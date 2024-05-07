@@ -38,8 +38,8 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
      // Re-cache chain data for faster UI runtimes later
     
      // Bitcoin
-     $ct['api']->bitcoin('height');
-     $ct['api']->bitcoin('difficulty');
+     $ct['api']->bitcoin('getblockcount');
+     $ct['api']->bitcoin('getdifficulty');
     
      // Ethereum
      $ct['api']->etherscan('number');
