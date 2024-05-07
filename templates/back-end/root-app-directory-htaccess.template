@@ -64,7 +64,7 @@ RewriteRule api/([^\.]+)$ internal-api.php?data_set=$1 [NC,L]
 #PHP7
 <IfModule mod_php7.c>
 
-php_value memory_limit 64M
+php_value memory_limit 85M
 
 php_value upload_max_filesize 7M
 
@@ -79,7 +79,7 @@ php_value max_execution_time [PHP_TIMEOUT]
 #PHP8
 <IfModule mod_php8.c>
 
-php_value memory_limit 64M
+php_value memory_limit 85M
 
 php_value upload_max_filesize 7M
 
