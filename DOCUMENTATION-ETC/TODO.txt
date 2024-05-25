@@ -51,7 +51,7 @@ GENERAL REMINDERS
 ===> config.php (and plug-conf.php for plugins) MUST only contain STATIC VALUES,
 ===> as all configs are saved to / run from the cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
 !!!!
-===> DO *NOT* UPGRADE ZingCart, as it can be BUGGY ocassionally for auto-resizing on page showing,
+===> DO *NOT* UPGRADE ZingCart, as it can be BUGGY occasionally for auto-resizing on page showing,
 ===> AND we FORCE the BRANDING LINK to show EVEN IN A LOCALHOST environment (with custom tweaks)
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
@@ -72,7 +72,7 @@ GENERAL REMINDERS
 ===> Reload / refresh browser : Shift + F5 (Mac: Command + R)
 ===> Open devtools : F12 (Mac: Fn + F12)
 !!!!
-===> Ocassionally update cacert.pem in the main directory (for Windows Desktop Edition):
+===> Occasionally update cacert.pem in the main directory (for Windows Desktop Edition):
 ===> https://curl.se/ca/cacert.pem
 !!!!
 ===> "developer-config.php" contains MANY MANY MANY developer-only configs!
@@ -83,7 +83,7 @@ GENERAL REMINDERS
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Always set bluefish to "5 spaces" as a tab indentation, and enable indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!! PLEASE DO *NOT* USE REGULAR TAB INDENTATION (PLEASE ALWAYS USE MULTIPLE SPACES)!
+Always set bluefish to "5 spaces" as a tab indentation (AND enable "insert spaces instead of tabs"), and enable indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!! PLEASE DO *NOT* USE REGULAR TAB INDENTATION (PLEASE ALWAYS USE MULTIPLE SPACES)!
 
 
 ALWAYS TEST UPGRADING *AND* RE-DOWNGRADING the 'normal' security mode CACHED config on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING / DOWNGRADING GOES SMOOTHLY!
@@ -95,13 +95,13 @@ Use the app "Meld" to compare json config files from a fresh reset vs after many
 Try to prioritize building out the admin interface / responsive templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
 
 
-Ocassionally re-run the debug mode that prints out all the btc / crypto exchanges and base pairs, and update the docs (project page / README / config file / etc).
+Occasionally re-run the debug mode that prints out all the btc / crypto exchanges and base pairs, and update the docs (project page / README / config file / etc).
 
 
 Please ALWAYS use snake case (var_name), as it's way harder to accidentally format incorrectly compared to camel case, and it is WAY EASIER TO CODE REVIEW!
 
 
-Ocassionally check Youtube channels on the resources page, and news feeds latest posts timestamp, to see any that MAY BE DYING.
+Occasionally check Youtube channels on the resources page, and news feeds latest posts timestamp, to see any that MAY BE DYING.
 
 
 Post on Hive, Telegram, Discord, Twitter, and Facebook whenever there is a new release of the app.
