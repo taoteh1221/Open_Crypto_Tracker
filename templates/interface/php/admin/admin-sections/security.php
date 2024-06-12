@@ -206,6 +206,8 @@ $ct['admin_render_settings']['interface_login']['text_field_size'] = 30;
 }
 else {
 
+$ct['admin_render_settings']['interface_login']['is_text'] = true;
+
 $ct['admin_render_settings']['interface_login']['is_password'] = true;
 
 $ct['admin_render_settings']['interface_login']['text_field_size'] = 25;
@@ -218,6 +220,8 @@ $ct['admin_render_settings']['interface_login']['is_notes'] = 'Username / passwo
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['backup_archive_password']['is_text'] = true;
 
 $ct['admin_render_settings']['backup_archive_password']['is_password'] = true;
 

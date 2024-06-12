@@ -83,6 +83,8 @@ $ct['admin_render_settings']['upgrade_alert_reminder']['range_ui_suffix'] = ' Da
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['smtp_login']['is_text'] = true;
+
 $ct['admin_render_settings']['smtp_login']['is_password'] = true;
 
 $ct['admin_render_settings']['smtp_login']['text_field_size'] = 40;
@@ -92,6 +94,8 @@ $ct['admin_render_settings']['smtp_login']['is_notes'] = 'This format MUST be us
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['smtp_server']['is_text'] = true;
 
 $ct['admin_render_settings']['smtp_server']['is_password'] = true;
 
@@ -105,6 +109,8 @@ $ct['admin_render_settings']['smtp_server']['is_notes'] = 'This format MUST be u
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['from_email']['is_text'] = true;
+
 $ct['admin_render_settings']['from_email']['is_password'] = true;
 
 $ct['admin_render_settings']['from_email']['is_trim'] = true;
@@ -117,6 +123,8 @@ $ct['admin_render_settings']['from_email']['is_notes'] = 'FROM Email address MUS
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['to_email']['is_text'] = true;
+
 $ct['admin_render_settings']['to_email']['is_password'] = true;
 
 $ct['admin_render_settings']['to_email']['is_trim'] = true;
@@ -126,6 +134,8 @@ $ct['admin_render_settings']['to_email']['text_field_size'] = 40;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['to_mobile_text']['is_text'] = true;
 
 $ct['admin_render_settings']['to_mobile_text']['is_password'] = true;
 

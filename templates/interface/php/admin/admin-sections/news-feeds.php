@@ -97,6 +97,8 @@ $ct['admin_render_settings']['news_feed_email_entries_include']['is_notes'] = '(
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['news_feed_cache_min_max']['is_text'] = true;
+
 $ct['admin_render_settings']['news_feed_cache_min_max']['is_notes'] = 'IN MINUTES (between 30-720). This format MUST be used: number_min,number_max';
 
 

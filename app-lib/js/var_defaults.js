@@ -154,6 +154,8 @@ var collapsed_sidebar_scroll_position;
 
 // With defaults
 
+var unsaved_admin_config = false;
+
 var emulated_cron_enabled = false;
 	
 var emulated_cron_task_only = false;
@@ -174,6 +176,8 @@ var is_login_form = false;
 var is_iframe = false;
 
 var form_submit_queued = false;
+
+var corrupt_admin_config = false;
 	
 var gen_csrf_sec_token = Base64.encode('none');
 	

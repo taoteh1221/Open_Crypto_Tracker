@@ -39,6 +39,8 @@ $ct['admin_render_settings']['allow_proxies']['is_notes'] = 'Enable / Disable us
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['proxy_login']['is_text'] = true;
+
 $ct['admin_render_settings']['proxy_login']['is_password'] = true;
 
 $ct['admin_render_settings']['proxy_login']['text_field_size'] = 25;

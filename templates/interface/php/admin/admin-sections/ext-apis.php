@@ -68,6 +68,8 @@ $ct['admin_render_settings']['notifyme_access_code']['is_notes'] = '<a href="htt
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['telegram_your_username']['is_text'] = true;
+
 $ct['admin_render_settings']['telegram_your_username']['is_password'] = true;
 
 $ct['admin_render_settings']['telegram_your_username']['is_notes'] = '(WITHOUT the "@" symbol)';
@@ -75,6 +77,8 @@ $ct['admin_render_settings']['telegram_your_username']['is_notes'] = '(WITHOUT t
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['telegram_bot_username']['is_text'] = true;
 
 $ct['admin_render_settings']['telegram_bot_username']['is_password'] = true;
 
@@ -84,6 +88,8 @@ $ct['admin_render_settings']['telegram_bot_username']['is_notes'] = '(WITHOUT th
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['telegram_bot_name']['is_text'] = true;
+
 $ct['admin_render_settings']['telegram_bot_name']['is_password'] = true;
 
 $ct['admin_render_settings']['telegram_bot_name']['is_notes'] = '(any name, spaces allowed)';
@@ -91,6 +97,8 @@ $ct['admin_render_settings']['telegram_bot_name']['is_notes'] = '(any name, spac
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['telegram_bot_token']['is_text'] = true;
 
 $ct['admin_render_settings']['telegram_bot_token']['is_password'] = true;
 
@@ -102,6 +110,8 @@ $ct['admin_render_settings']['telegram_bot_token']['is_notes'] = '<a href="https
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['twilio_number']['is_text'] = true;
+
 $ct['admin_render_settings']['twilio_number']['is_password'] = true;
 
 $ct['admin_render_settings']['twilio_number']['is_notes'] = 'Format: "12223334444" (no plus symbol)';
@@ -110,6 +120,8 @@ $ct['admin_render_settings']['twilio_number']['is_notes'] = 'Format: "1222333444
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['twilio_sid']['is_text'] = true;
+
 $ct['admin_render_settings']['twilio_sid']['is_password'] = true;
 
 $ct['admin_render_settings']['twilio_sid']['text_field_size'] = 40;
@@ -117,6 +129,8 @@ $ct['admin_render_settings']['twilio_sid']['text_field_size'] = 40;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['twilio_token']['is_text'] = true;
 
 $ct['admin_render_settings']['twilio_token']['is_password'] = true;
 
@@ -128,6 +142,8 @@ $ct['admin_render_settings']['twilio_token']['is_notes'] = '<a href="https://twi
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['textbelt_api_key']['is_text'] = true;
+
 $ct['admin_render_settings']['textbelt_api_key']['is_password'] = true;
 
 $ct['admin_render_settings']['textbelt_api_key']['text_field_size'] = 40;
@@ -138,11 +154,15 @@ $ct['admin_render_settings']['textbelt_api_key']['is_notes'] = '<a href="https:/
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['textlocal_sender']['is_text'] = true;
+
 $ct['admin_render_settings']['textlocal_sender']['is_password'] = true;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['textlocal_api_key']['is_text'] = true;
 
 $ct['admin_render_settings']['textlocal_api_key']['is_password'] = true;
 
@@ -153,6 +173,8 @@ $ct['admin_render_settings']['textlocal_api_key']['is_notes'] = '<a href="https:
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['google_fonts_api_key']['is_text'] = true;
 
 $ct['admin_render_settings']['google_fonts_api_key']['is_password'] = true;
 
@@ -179,6 +201,18 @@ $ct['admin_render_settings']['google_fonts_cache_time']['range_ui_suffix'] = ' H
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['solana_rpc_server']['is_text'] = true;
+
+$ct['admin_render_settings']['solana_rpc_server']['is_trim'] = true;
+
+$ct['admin_render_settings']['solana_rpc_server']['text_field_size'] = 50;
+
+$ct['admin_render_settings']['solana_rpc_server']['is_notes'] = 'What <a href="https://solana.com/docs/core/clusters" target="_BLANK">Solana RPC Server</a> to query, for on-chain data.<br />The default one is provided by the Solana Foundation FOR FREE:<br />https://api.mainnet-beta.solana.com';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
      
 $ct['admin_render_settings']['coingecko_api_batched_maximum']['is_range'] = true;
 
@@ -196,6 +230,8 @@ $ct['admin_render_settings']['coingecko_api_batched_maximum']['range_ui_suffix']
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['coinmarketcap_api_key']['is_text'] = true;
+
 $ct['admin_render_settings']['coinmarketcap_api_key']['is_password'] = true;
 
 $ct['admin_render_settings']['coinmarketcap_api_key']['text_field_size'] = 40;
@@ -205,6 +241,8 @@ $ct['admin_render_settings']['coinmarketcap_api_key']['is_notes'] = '<a href="ht
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['etherscan_api_key']['is_text'] = true;
 
 $ct['admin_render_settings']['etherscan_api_key']['is_password'] = true;
 
@@ -216,15 +254,7 @@ $ct['admin_render_settings']['etherscan_api_key']['is_notes'] = '<a href="https:
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['solana_rpc_server']['is_trim'] = true;
-
-$ct['admin_render_settings']['solana_rpc_server']['text_field_size'] = 50;
-
-$ct['admin_render_settings']['solana_rpc_server']['is_notes'] = 'What <a href="https://solana.com/docs/core/clusters" target="_BLANK">Solana RPC Server</a> to query, for on-chain data.<br />The default one is provided by the Solana Foundation FOR FREE:<br />https://api.mainnet-beta.solana.com';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
+$ct['admin_render_settings']['alphavantage_api_key']['is_text'] = true;
 
 $ct['admin_render_settings']['alphavantage_api_key']['is_password'] = true;
 

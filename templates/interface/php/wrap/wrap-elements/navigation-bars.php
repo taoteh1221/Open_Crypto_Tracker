@@ -37,6 +37,19 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
    
    <div class="smallnav_spacer"></div>
+   
+   <?php
+   if ( $ct['gen']->admin_logged_in() && $is_admin ) {
+   ?>
+   
+   <div class="align_center"><a href='javascript:' class='admin_settings_save bitcoin' style='font-weight: bold;' title='Save settings for this admin section.'><img src='templates/interface/media/images/auto-preloaded/icons8-save-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
+
+   
+   <div class="smallnav_spacer"></div>
+   
+   <?php
+   }
+   ?>
 
    
    <div class="align_center"><a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='Use this to Refresh / Reload the app data. <?=$refresh_link_documentation?>'><img src='templates/interface/media/images/auto-preloaded/icons8-refresh-64-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
@@ -70,95 +83,91 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
      
           <a href="admin.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Admin Config area.' /></a>
      
-          <ul class="admin-nav all-nav dropdown-menu" style="" role="tablist">
+          <ul class="admin-nav all-nav dropdown-menu" style="">
 
         
                     <?php
                     if ( $ct['gen']->admin_logged_in() ) {
-                         
-                    // Links won't work in NON-ADMIN AREAS without this logic
-                    $content_toggle = ( preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ? 'data-bs-toggle="tab"' : '' );
-                    
                     ?>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general" title='General admin settings.'>General</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_general" title='General admin settings.'>General</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_ext_apis" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook_int_api" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_security" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_portfolio_assets" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_plugins" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_news_feeds" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
                     </li>
 
 
                     <li class='sys_stats_admin_link'>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_access_stats" href="admin.php#admin_access_stats" title='View user access stats, to track IP addresses / Browser versions of who has been using your app.'>Access Stats</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_access_stats" title='View user access stats, to track IP addresses / Browser versions of who has been using your app.'>Access Stats</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_logs" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset_backup_restore" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
                     </li>
 
 
@@ -306,6 +315,18 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
         <ul id='sidebar_menu' class="list-unstyled components">
+   
+            <?php
+            if ( $ct['gen']->admin_logged_in() && $is_admin ) {
+            ?>
+   
+            <li class='sidebar-item'>
+                <a href='javascript:' class='admin_settings_save bitcoin' title='Save settings for this admin section.'>Save Setting Changes</a>
+            </li>
+        
+            <?php
+            }
+            ?>
         
             
             <li class='sidebar-item'>
@@ -336,55 +357,51 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                 
                 <a href="#adminSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle <?=( preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ? 'active' : '' )?>">Admin Area</a>
                 
-                <ul class="admin-nav all-nav collapse list-unstyled" id="adminSubmenu" role="tablist">
+                <ul class="admin-nav all-nav collapse list-unstyled" id="adminSubmenu">
                 
         
                     <?php
                     if ( $ct['gen']->admin_logged_in() ) {
-                         
-                    // Links won't work in NON-ADMIN AREAS without this logic
-                    $content_toggle = ( preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ? 'data-bs-toggle="tab"' : '' );
-                    
                     ?>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general" title='General admin settings.'>General</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_general" title='General admin settings.'>General</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_ext_apis" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook_int_api" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_security" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_portfolio_assets" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
                     </li>
                     
                     
@@ -424,7 +441,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         
                         <li>
                         
-                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")' title='<?=$plug['conf'][$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug['conf'][$plugin_key]['ui_name']?></a>
+                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript: setTimeout(function(){ load_iframe("iframe_plugins", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>") }, 1000);' title='<?=$plug['conf'][$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug['conf'][$plugin_key]['ui_name']?></a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->
@@ -447,7 +464,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                     
                     <!-- NO PLUGINS activated -->
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_plugins" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
                     </li>
 
                     <?php
@@ -456,37 +473,37 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_news_feeds" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item sys_stats_admin_link'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_access_stats" href="admin.php#admin_access_stats" title='View user access stats, to track IP addresses / Browser versions of who has been using your app.'>Access Stats</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_access_stats" title='View user access stats, to track IP addresses / Browser versions of who has been using your app.'>Access Stats</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_logs" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset_backup_restore" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
                     </li>
 
 
