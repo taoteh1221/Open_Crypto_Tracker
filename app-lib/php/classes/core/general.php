@@ -2293,12 +2293,12 @@ var $ct_array = array();
       <?php
       if ( $another_set == 1 ) {
       ?>
-      <span class='red'>&nbsp;(other shows first)</span>
+      <b class='red'>&nbsp;(other shows first)</b>
       <?php
       }
       elseif ( $_GET['start_page'] == $page ) {
       ?>
-      <span class='red'>&nbsp;(current shows first)</span>
+      <b class='red'>&nbsp;(current shows first)</b>
       <?php
       }
       
