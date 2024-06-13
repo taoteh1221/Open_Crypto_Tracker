@@ -268,7 +268,7 @@ Change the last option in the ext_data() function to a human-readable value, to 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
-Create documentation for exposing plugin settings into it's admin interface.
+Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
 
 
 Add new plugin standard config 'ui_display_mode':
