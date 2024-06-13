@@ -122,6 +122,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_currency" title='Admin area for adding / removing currencies.'>Currency Support</a>
+                    </li>
+
+
+                    <li>
                         <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
                     </li>
 
@@ -392,6 +397,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
                     <li class='sidebar-item nav-item'>
                         <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_currency" title='Admin area for adding / removing currencies.'>Currency Support</a>
                     </li>
 
 

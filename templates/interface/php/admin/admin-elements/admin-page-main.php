@@ -103,6 +103,21 @@
                 </div> 
 		  
 		  </div>
+		
+		
+		  <div id="admin_currency">
+	
+	            <h2 class='bitcoin page_title'>Currency Support</h2>
+
+                <div class='full_width_wrapper'>
+
+                   <div id='iframe_currency_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_currency" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_currency')?>&section=currency" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
 		  
 		  
 		  <div id="admin_portfolio_assets">

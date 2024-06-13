@@ -244,7 +244,7 @@ Create / refresh a cache file with a key order mapping array (in json format) of
 Admin iframes: ADD A 'REVERT TO LAST-KNOWN WORKING CONFIG' OPTION ON RESET PAGE, IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG (WE ALREADY SAVE AS "restore_conf" in secured cache folder)
 
 
-Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
+Merge System stats / access stats / app logs into one area called: System / App Monitoring. Add horizontal tabs a top of this area, for each subsection.
 
 
 Look into adding temperature / CPU monitoring support for systems other than linux devices: https://phoenixnap.com/kb/linux-cpu-temp

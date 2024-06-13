@@ -16,8 +16,8 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-// DATE VERSION NUMBER WORK STARTED: 2024/APRIL/3RD
-$ct['app_version'] = '6.00.37';
+// DATE VERSION NUMBER WORK STARTED: 2024/JUNE/13TH
+$ct['app_version'] = '6.01.0';
 
 
 // #PHP# ERROR LOGGING

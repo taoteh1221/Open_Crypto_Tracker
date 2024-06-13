@@ -19,6 +19,9 @@
     elseif ( $_GET['section'] == 'security' ) {
     require("templates/interface/php/admin/admin-sections/security.php");
     }
+    elseif ( $_GET['section'] == 'currency' ) {
+    require("templates/interface/php/admin/admin-sections/currency-support.php");
+    }
     elseif ( $_GET['section'] == 'portfolio_assets' ) {
     require("templates/interface/php/admin/admin-sections/portfolio-assets.php");
     }

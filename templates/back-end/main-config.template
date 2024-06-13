@@ -439,6 +439,126 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 
 
 ////////////////////////////////////////
+// !START! CURRENCY SUPPORT
+////////////////////////////////////////
+
+
+// Auto-activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
+// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
+// Bitcoin's $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
+// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['power']['crypto_pair'], 
+// !AS LONG AS THERE IS A PAIR CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
+$ct['conf']['currency']['bitcoin_currency_markets'] = array(
+                              						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'CURRENCY_SYMBOL',
+                              						'aed' => 'د.إ',
+                              						'ars' => 'ARS$',
+                              						'aud' => 'A$',
+                              						'bam' => 'KM ',
+                              						'bdt' => '৳',
+                              						'bob' => 'Bs ',
+                              						'brl' => 'R$',
+                              						'bwp' => 'P ',
+                              						'byn' => 'Br ',
+                              						'cad' => 'C$',
+                              						'chf' => 'CHf ',
+                              						'clp' => 'CLP$',
+                              						'cny' => 'C¥',
+                              						'cop' => 'Col$',
+                              						'crc' => '₡',
+                              						'czk' => 'Kč ',
+                              						'dai' => '◈ ',
+                              						'dkk' => 'Kr. ',
+                              						'dop' => 'RD$',
+                              						'egp' => 'ج.م',
+                              						'eth' => 'Ξ ',
+                              						'eur' => '€',
+                              						'gbp' => '£',
+                              						'gel' => 'ლ',
+                              						'ghs' => 'GH₵',
+                              						'gtq' => 'Q ',
+                              						'hkd' => 'HK$',
+                              						'huf' => 'Ft ',
+                              						'idr' => 'Rp ',
+                              						'ils' => '₪',
+                              						'inr' => '₹',
+                              						'irr' => '﷼',
+                              						'jmd' => 'JA$',
+                              						'jod' => 'د.ا',
+                              						'jpy' => 'J¥',
+                              						'kes' => 'Ksh ',
+                              						'krw' => '₩',
+                              						'kwd' => 'د.ك',
+                              						'kzt' => '₸',
+                              						'lkr' => 'රු, ரூ',
+                              						'mad' => 'د.م.',
+                              						'mur' => '₨ ',
+                              						'mwk' => 'MK ',
+                              						'mxn' => 'Mex$',
+                              						'myr' => 'RM ',
+                              						'ngn' => '₦',
+                              						'nis' => '₪',
+                              						'nok' => 'kr ',
+                              						'nzd' => 'NZ$',
+                              						'pab' => 'B/. ',
+                              						'pen' => 'S/ ',
+                              						'php' => '₱',
+                              						'pkr' => '₨ ',
+                              						'pln' => 'zł ',
+                              						'pyg' => '₲',
+                              						'qar' => 'ر.ق',
+                              						'ron' => 'lei ',
+                              						'rsd' => 'din ',
+                              						'rub' => '₽',
+                              						'rwf' => 'R₣ ',
+                              						'sar' => '﷼',
+                              						'sek' => 'kr ',
+                              						'sgd' => 'S$',
+                              						'thb' => '฿',
+                              						'try' => '₺',
+                              						'tusd' => 'Ⓢ ',
+                              						'twd' => 'NT$',
+                              						'tzs' => 'TSh ',
+                              						'uah' => '₴',
+                              						'ugx' => 'USh ',
+                              						'usd' => '$',
+                              						'usdc' => 'Ⓢ ',
+                              						'usdt' => '₮ ',
+                              						'uyu' => '$U ',
+                              						'vnd' => '₫',
+                              						'ves' => 'Bs ',
+                              						'xaf' => 'FCFA ',
+                              						'xof' => 'CFA ',
+                              						'zar' => 'R ',
+                              						'zmw' => 'ZK ',
+                         						);
+
+
+
+// Preferred BITCOIN market(s) for getting a certain currency's value
+// (when other exchanges for this currency have poor api / volume / price discovery / etc)
+// EACH CURRENCY LISTED HERE MUST EXIST IN $ct['conf']['currency']['bitcoin_currency_markets'] ABOVE
+// #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CURRENCY'S VALUE
+$ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array(
+                                   						     //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
+                                   							'aud' => 'kraken',  // WAY BETTER api than ALL alternatives
+                                   							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
+                                   							'dai' => 'kraken',  // WAY MORE reputable than ALL alternatives
+                                   							'eur' => 'kraken',  // WAY BETTER api than ALL alternatives
+                                   							'gbp' => 'kraken',  // WAY BETTER api than ALL alternatives
+                                   							'jpy' => 'kraken',  // WAY MORE reputable than ALL alternatives
+                                   							'inr' => 'wazirx',  // One of the biggest exchanges in India (should be good price discovery)
+                                   							'rub' => 'binance',  // WAY MORE volume / price discovery than ALL alternatives
+                                   							'usd' => 'kraken',  // WAY BETTER api than ALL alternatives
+                                   					       );
+
+
+
+////////////////////////////////////////
+// !END! CURRENCY SUPPORT
+////////////////////////////////////////
+
+
+////////////////////////////////////////
 // !START! CHART AND PRICE ALERT MARKETS
 ////////////////////////////////////////
 
@@ -954,7 +1074,7 @@ $ct['conf']['power']['strict_consecutive_connect_servers'] = array(
 // $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
 // THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
 // AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
-// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct['conf']['power']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
+// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct['conf']['currency']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
 $ct['conf']['power']['crypto_pair'] = array(
                                              // !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
                                              ////
@@ -985,116 +1105,6 @@ $ct['conf']['power']['crypto_pair_preferred_markets'] = array(
                               							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
                               							'jup' => 'coingecko_btc',  // coingecko global average price IN BTC
                							           );
-
-
-
-// Auto-activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
-// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
-// Bitcoin's $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['power']['crypto_pair'], 
-// !AS LONG AS THERE IS A PAIR CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
-$ct['conf']['power']['bitcoin_currency_markets'] = array(
-                              						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'CURRENCY_SYMBOL',
-                              						'aed' => 'د.إ',
-                              						'ars' => 'ARS$',
-                              						'aud' => 'A$',
-                              						'bam' => 'KM ',
-                              						'bdt' => '৳',
-                              						'bob' => 'Bs ',
-                              						'brl' => 'R$',
-                              						'bwp' => 'P ',
-                              						'byn' => 'Br ',
-                              						'cad' => 'C$',
-                              						'chf' => 'CHf ',
-                              						'clp' => 'CLP$',
-                              						'cny' => 'C¥',
-                              						'cop' => 'Col$',
-                              						'crc' => '₡',
-                              						'czk' => 'Kč ',
-                              						'dai' => '◈ ',
-                              						'dkk' => 'Kr. ',
-                              						'dop' => 'RD$',
-                              						'egp' => 'ج.م',
-                              						'eth' => 'Ξ ',
-                              						'eur' => '€',
-                              						'gbp' => '£',
-                              						'gel' => 'ლ',
-                              						'ghs' => 'GH₵',
-                              						'gtq' => 'Q ',
-                              						'hkd' => 'HK$',
-                              						'huf' => 'Ft ',
-                              						'idr' => 'Rp ',
-                              						'ils' => '₪',
-                              						'inr' => '₹',
-                              						'irr' => '﷼',
-                              						'jmd' => 'JA$',
-                              						'jod' => 'د.ا',
-                              						'jpy' => 'J¥',
-                              						'kes' => 'Ksh ',
-                              						'krw' => '₩',
-                              						'kwd' => 'د.ك',
-                              						'kzt' => '₸',
-                              						'lkr' => 'රු, ரூ',
-                              						'mad' => 'د.م.',
-                              						'mur' => '₨ ',
-                              						'mwk' => 'MK ',
-                              						'mxn' => 'Mex$',
-                              						'myr' => 'RM ',
-                              						'ngn' => '₦',
-                              						'nis' => '₪',
-                              						'nok' => 'kr ',
-                              						'nzd' => 'NZ$',
-                              						'pab' => 'B/. ',
-                              						'pen' => 'S/ ',
-                              						'php' => '₱',
-                              						'pkr' => '₨ ',
-                              						'pln' => 'zł ',
-                              						'pyg' => '₲',
-                              						'qar' => 'ر.ق',
-                              						'ron' => 'lei ',
-                              						'rsd' => 'din ',
-                              						'rub' => '₽',
-                              						'rwf' => 'R₣ ',
-                              						'sar' => '﷼',
-                              						'sek' => 'kr ',
-                              						'sgd' => 'S$',
-                              						'thb' => '฿',
-                              						'try' => '₺',
-                              						'tusd' => 'Ⓢ ',
-                              						'twd' => 'NT$',
-                              						'tzs' => 'TSh ',
-                              						'uah' => '₴',
-                              						'ugx' => 'USh ',
-                              						'usd' => '$',
-                              						'usdc' => 'Ⓢ ',
-                              						'usdt' => '₮ ',
-                              						'uyu' => '$U ',
-                              						'vnd' => '₫',
-                              						'ves' => 'Bs ',
-                              						'xaf' => 'FCFA ',
-                              						'xof' => 'CFA ',
-                              						'zar' => 'R ',
-                              						'zmw' => 'ZK ',
-                         						);
-
-
-
-// Preferred BITCOIN market(s) for getting a certain currency's value
-// (when other exchanges for this currency have poor api / volume / price discovery / etc)
-// EACH CURRENCY LISTED HERE MUST EXIST IN $ct['conf']['power']['bitcoin_currency_markets'] ABOVE
-// #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CURRENCY'S VALUE
-$ct['conf']['power']['bitcoin_preferred_currency_markets'] = array(
-                                   						     //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
-                                   							'aud' => 'kraken',  // WAY BETTER api than ALL alternatives
-                                   							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
-                                   							'dai' => 'kraken',  // WAY MORE reputable than ALL alternatives
-                                   							'eur' => 'kraken',  // WAY BETTER api than ALL alternatives
-                                   							'gbp' => 'kraken',  // WAY BETTER api than ALL alternatives
-                                   							'jpy' => 'kraken',  // WAY MORE reputable than ALL alternatives
-                                   							'inr' => 'wazirx',  // One of the biggest exchanges in India (should be good price discovery)
-                                   							'rub' => 'binance',  // WAY MORE volume / price discovery than ALL alternatives
-                                   							'usd' => 'kraken',  // WAY BETTER api than ALL alternatives
-                                   					       );
 
 
 

@@ -213,10 +213,10 @@ foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
 
 
 // Remove primary currency pairs that have no configged markets
-foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
 
      if ( !isset($ct['conf']['assets']['BTC']['pair'][$pair_key]) ) {
-     unset($ct['conf']['power']['bitcoin_currency_markets'][$pair_key]);
+     unset($ct['conf']['currency']['bitcoin_currency_markets'][$pair_key]);
      }
 
 }
@@ -242,7 +242,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['MISCASSETS']['pair']) ) {
@@ -265,7 +265,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['BTCNFTS']['pair']) ) {
@@ -288,7 +288,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['ETHNFTS']['pair']) ) {
@@ -311,7 +311,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['SOLNFTS']['pair']) ) {
@@ -334,7 +334,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['ALTNFTS']['pair']) ) {

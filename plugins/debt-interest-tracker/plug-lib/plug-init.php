@@ -73,7 +73,7 @@ $debt_form_action = $ct['gen']->start_page($plug['conf'][$this_plug]['ui_locatio
                           			</div>
                           			
                           			<div class="extra_margins col-lg-2">
-                          			<label class='blue' for="amount_<?=$key?>">Debt Amount <?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?></label>
+                          			<label class='blue' for="amount_<?=$key?>">Debt Amount <?=$ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?></label>
                           			<input data-track-index='<?=$key?>' type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][amount]" value="<?=number_format($val['amount'], 2, '.', ',')?>" id="amount_<?=$key?>">
                         			</div>
                     			
@@ -147,8 +147,8 @@ $debt_form_action = $ct['gen']->start_page($plug['conf'][$this_plug]['ui_locatio
 
         
         <p class='debt_results_total'>
-        Total Monthly Interest: <?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($debt_monthly_interest_total, 2, '.', ',')?><br />
-        Total Yearly Interest: <?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($debt_yearly_interest_total, 2, '.', ',')?>
+        Total Monthly Interest: <?=$ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($debt_monthly_interest_total, 2, '.', ',')?><br />
+        Total Yearly Interest: <?=$ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($debt_yearly_interest_total, 2, '.', ',')?>
         </p>
         
 
@@ -171,7 +171,7 @@ $debt_form_action = $ct['gen']->start_page($plug['conf'][$this_plug]['ui_locatio
   			<input data-track-index='{?}' type="text" class="span6 form-control" name="accounts_labels[{?}][account]" value="{account}" id="account_{?}">
   			</div>
   			<div class="extra_margins col-lg-2">
-  			<label class='blue' for="amount_{?}">Debt Amount <?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?></label>
+  			<label class='blue' for="amount_{?}">Debt Amount <?=$ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?></label>
   			<input data-track-index='{?}' type="text" class="span2 form-control" name="accounts_labels[{?}][amount]" value="{amount}" id="amount_{?}">
 			</div>
   			<div class="extra_margins col-lg-2">

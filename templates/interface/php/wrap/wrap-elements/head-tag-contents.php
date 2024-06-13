@@ -332,7 +332,7 @@
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	
-	foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $key => $unused ) {
+	foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	
@@ -346,7 +346,7 @@
 	secondary_mrkt_currencies = <?=$secondary_mrkt_currencies?>;
 	
 	<?php
-	foreach ( $ct['conf']['power']['bitcoin_preferred_currency_markets'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
+	foreach ( $ct['conf']['currency']['bitcoin_preferred_currency_markets'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
 	?>
 
 	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";

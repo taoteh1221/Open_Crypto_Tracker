@@ -22,7 +22,7 @@
 		
 		<?php
 		$supported_prim_currency_count = 0;
-		foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $key => $unused ) {
+		foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $key => $unused ) {
 		$supported_prim_currency_list .= strtoupper($key) . ' / ';
 		$supported_prim_currency_count = $supported_prim_currency_count + 1;
 		}
