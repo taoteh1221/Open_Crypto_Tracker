@@ -451,7 +451,8 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         
                         <li>
                         
-                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript: setTimeout(function(){ load_iframe("iframe_plugins", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>") }, 1000);' title='<?=$plug['conf'][$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug['conf'][$plugin_key]['ui_name']?></a>
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript: setTimeout(function(){ load_iframe("iframe_plugins", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>") }, <?=( $is_admin ? '1000' : '0' )?>);' title='<?=$plug['conf'][$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug['conf'][$plugin_key]['ui_name']?></a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->

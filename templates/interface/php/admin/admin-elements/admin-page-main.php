@@ -278,9 +278,9 @@
                 	
                 	var iframe_section_id = $("#" + section_id + " iframe").attr('id');
                 	
-                	//console.log('iframe ID = ' + iframe_section_id);
+                	console.log('iframe ID = ' + iframe_section_id);
      
-                    //console.log('iframe URL = ' + iframe_url(admin_iframe_url) );
+                    console.log('iframe URL = ' + iframe_url(admin_iframe_url) );
                 	     
                 	load_iframe( iframe_section_id, iframe_url(admin_iframe_url) );
                 	

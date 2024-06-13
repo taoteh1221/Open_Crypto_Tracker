@@ -81,9 +81,13 @@ $(document).ready(function() {
 
      <?php
      if ( $is_admin ) {
+     
+     // If it's not a 'section', it's a specific plugin loaded in the 'plugins' section iframe
+     $iframe_id = ( $_GET['section'] ? $_GET['section'] : 'plugins' );
+     
      ?>
      
-     //console.log('admin iframe "<?=$_GET['section']?>" loaded.'); // DEBUGGING
+     console.log('admin iframe "<?=$iframe_id?>" loaded.'); // DEBUGGING
          
      function reload_iframes() {
          
@@ -141,7 +145,7 @@ $(document).ready(function() {
              foreach ( $refresh_admin as $refresh ) {
          
                  // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
-                 if ( isset($refresh) && trim($refresh) != '' && $refresh != 'iframe_' . $_GET['section'] ) {
+                 if ( isset($refresh) && trim($refresh) != '' && $refresh != 'iframe_' . $iframe_id ) {
                  ?>
                  
                  // Skip 'about:blank' pages (when an iframe has not 'lazy loaded' yet)

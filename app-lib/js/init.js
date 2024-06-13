@@ -96,6 +96,16 @@ nav_menu('.user-nav');
 	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
      $("#notes").val( localStorage.getItem(notes_storage) );
 	}
+    
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+     // If all cookie data is above threshold trigger, warn end-user in UI
+     if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
+     $("#header_size_warning").css({ "display": "block" });
+     $("#header_size_warning").html(cookies_size_warning + '. (warning thresholds are adjustable in the Admin Config Power User section)');
+     }
      
 
      /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,43 +116,6 @@ nav_menu('.user-nav');
      $("#sidebar #quant_font_percent").css('padding-left', '0.35rem', "important");
      $("#sidebar #quant_font_percent").css('padding-right', '0.1rem', "important");
      }
-
-
-     /////////////////////////////////////////////////////////////////////////////////////////////////////
-     
-
-     // Monitor admin iframes for load / unload events
-     if ( is_iframe ) {
-     admin_iframe_load = window.parent.document.querySelectorAll('.admin_iframe');
-     }
-     else {
-     admin_iframe_load = document.querySelectorAll('.admin_iframe');
-     }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
-    // INITIAL vertical scroll should always start at top for UX
-    $('html, body').animate({
-    scrollTop: 0
-    }, 'slow');
-	
-    // Load our vertical scroll position (if checks pass within the function's logic)
-    // (WE ALREADY LOAD set_scroll_position() in background_tasks_check() FOR NEWS / CHARTS PAGES [ONLY AFTER THEY ARE FULLY LOADED])
-    if ( !is_admin && $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
-    set_scroll_position(); // Run AFTER showing content
-    }
-    
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // If all cookie data is above threshold trigger, warn end-user in UI
-    if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
-    $("#header_size_warning").css({ "display": "block" });
-    $("#header_size_warning").html(cookies_size_warning + '. (warning thresholds are adjustable in the Admin Config Power User section)');
-    }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,70 +136,33 @@ nav_menu('.user-nav');
      // If overriding any responsive menu CSS is needed
      responsive_menu_override();
 	});
-	
+
+
+     /////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+
+     // Monitor admin iframes for load / unload events
+     if ( is_iframe ) {
+     admin_iframe_load = window.parent.document.querySelectorAll('.admin_iframe');
+     }
+     else {
+     admin_iframe_load = document.querySelectorAll('.admin_iframe');
+     }
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-     
-     // Do setting changes check for 3-deep sidebar menu area
-     $('#sidebar ul li ul.dropdown-menu a.dropdown-item').on({
-        "click":function(e){
-         
-                  
-              // IF user CHANGED admin config settings data via interface,
-              // confirm whether or not they want to skip saving their changes
-              if ( unsaved_admin_config ) {
-                       
-              var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
-                  
-                  if ( !confirm_skip_saving_changes ) {
-                       
-                  e.preventDefault();
 
-                  $("a.dropdown-item").removeClass("secondary-select");
-                  $(this).addClass("secondary-select");
-
-                  return false;                 
-
-                  }
-                  else {        
-                  
-                  unsaved_admin_config = false;
-
-                  $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-                  $('#sidebar .admin_settings_save').addClass('bitcoin');
-                  $('#sidebar .admin_settings_save').removeClass('red_bright');
-
-                  }
-
-              }
-                  
-              
-         }
-     });
+     // INITIAL vertical scroll should always start at top for UX
+     $('html, body').animate({
+     scrollTop: 0
+     }, 'slow');
 	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-     
-     // Dynamically style / control admin logout interfacing
-     $('.admin_logout').on({
-        "click":function(e){
-         
-         var confirm_admin_logout = confirm("Click OK to continue logging out of the admin area.");
-             
-             if ( confirm_admin_logout && Base64.decode(gen_csrf_sec_token) != 'none' ) {
-             $("#app_loading").show(250, 'linear'); // 0.25 seconds
-             $("#app_loading_span").html("Please wait, logging out...").css("color", "#ff4747", "important");
-             $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
-             return true;
-             }
-             else {
-             return false;
-             }
-              
-         }
-     });
+     // Load our vertical scroll position (if checks pass within the function's logic)
+     // (WE ALREADY LOAD set_scroll_position() in background_tasks_check() FOR NEWS / CHARTS PAGES [ONLY AFTER THEY ARE FULLY LOADED])
+     if ( !is_admin && $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
+     set_scroll_position(); // Run AFTER showing content
+     }
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -257,6 +193,29 @@ nav_menu('.user-nav');
     $('#alert_bell_area').on('click', function () {
              $('#alert_bell_area').toggleClass('hidden');
     });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Dynamically style / control admin logout interfacing
+     $('.admin_logout').on({
+        "click":function(e){
+         
+         var confirm_admin_logout = confirm("Click OK to continue logging out of the admin area.");
+             
+             if ( confirm_admin_logout && Base64.decode(gen_csrf_sec_token) != 'none' ) {
+             $("#app_loading").show(250, 'linear'); // 0.25 seconds
+             $("#app_loading_span").html("Please wait, logging out...").css("color", "#ff4747", "important");
+             $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
+             return true;
+             }
+             else {
+             return false;
+             }
+              
+         }
+     });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -410,6 +369,47 @@ nav_menu('.user-nav');
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+     
+     // Do setting changes check for 3-deep sidebar menu area
+     $('#sidebar ul li ul.dropdown-menu a.dropdown-item').on({
+        "click":function(e){
+         
+                  
+              // IF user CHANGED admin config settings data via interface,
+              // confirm whether or not they want to skip saving their changes
+              if ( unsaved_admin_config ) {
+                       
+              var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
+                  
+                  if ( !confirm_skip_saving_changes ) {
+                       
+                  e.preventDefault();
+
+                  $("a.dropdown-item").removeClass("secondary-select");
+                  $(this).addClass("secondary-select");
+
+                  return false;                 
+
+                  }
+                  else {        
+                  
+                  unsaved_admin_config = false;
+
+                  $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+                  $('#sidebar .admin_settings_save').addClass('bitcoin');
+                  $('#sidebar .admin_settings_save').removeClass('red_bright');
+
+                  }
+
+              }
+                  
+              
+         }
+     });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
      // Updating admin settings
 	if ( is_iframe ) {
@@ -423,14 +423,7 @@ nav_menu('.user-nav');
 
                // Listen for input events on the form
                check_update_form.addEventListener('input', function (event) {
-                    
-               parent.unsaved_admin_config = true;
-     
-               $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
-     
-               $('#sidebar .admin_settings_save', window.parent.document).removeClass('bitcoin');
-               $('#sidebar .admin_settings_save', window.parent.document).addClass('red_bright');
-     
+               red_save_button('iframe');
                });
           
           

@@ -941,6 +941,8 @@ var $ct_array = array();
           				template: "#<?=$repeat_id?>",
           				itemContainer: ".subarray_<?=$subarray_class?>",
           				afterAdd: function () {
+                              
+                              red_save_button('iframe');
                                 
                                   // Wait 1 seconds before Initiating the admin settings range sliders
                                   // (otherwise widths aren't always registered yet for CSS style manipulations)
@@ -948,7 +950,8 @@ var $ct_array = array();
                                   init_range_sliders();
                                   }, 1000);
      
-               				    // Make any added textarea autosize
+               			
+               			    // Make any added textarea autosize
                                   $('textarea[data-autoresize]').each(function(){
                                   autosize(this);
                                   }).on('autosize:resized', function(){
@@ -959,12 +962,17 @@ var $ct_array = array();
                                        });
                                    
                                   });
+
                          
           				},
           				afterDelete: function () {
+          				     
+          				red_save_button('iframe');
+          				     
           				// Update seperators beetween repeatables
-                         $("div.repeatable > div.subarray_item:first-child").css("border-top", "0.0em solid #808080");
-                         $("div.repeatable > div.subarray_item:first-child").css("padding-top", "0.0em");
+                              $("div.repeatable > div.subarray_item:first-child").css("border-top", "0.0em solid #808080");
+                              $("div.repeatable > div.subarray_item:first-child").css("padding-top", "0.0em");
+
           				},
           				min: 1,
           				max: 999
