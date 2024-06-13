@@ -9,12 +9,15 @@
 ///////////////////////////////////////////////////
 
 
+// ***************************************************************
 // Runs in /app-lib/php/init.php
+// ***************************************************************
 if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.37';  // 2024/APRIL/3RD
+// DATE VERSION NUMBER WORK STARTED: 2024/JUNE/13TH
+$ct['app_version'] = '6.01.0';
 
 
 // #PHP# ERROR LOGGING
@@ -216,7 +219,7 @@ $ct['dev']['no_trade_volume_api_data'] = array(
 							
 
 // PRIMARY Domain only (NO SUBDOMAINS), for each API service that requires multiple calls (for each data set)
-// Used to throttle these market calls a tiny bit (0.35 seconds), so we don't get easily blocked / throttled by external APIs etc
+// Used to throttle these market calls a tiny bit (0.55 seconds), so we don't get easily blocked / throttled by external APIs etc
 // (ANY EXCHANGES LISTED HERE ARE FLAGGED IN THE INTERFACE AS !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASSION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
 // !MUST BE LOWERCASE!
@@ -250,7 +253,7 @@ $ct['dev']['limited_apis'] = array(
 
         
 // Attack signatures, used when scanning for script / HTML injection attacks
-// (via sanitize_string(), called in sanitize_requests() / early-security-logic.php, when scanning all POST / GET data submissions)
+// (via sanitize_string() [which is called in sanitize_requests()] in early-security-logic.php, when scanning all POST / GET data submissions)
 // MUST BE LOWERCASE!!! (AS WE TEMPORARILY CONVERT THE DATA SUBMISSION TO LOWERCASE WHEN SCANNING!!!)
 $ct['dev']['script_injection_checks'] = array(
                                                "base64", // base64 PHP ENCODE / DECODE
@@ -285,7 +288,14 @@ $ct['dev']['script_injection_checks'] = array(
                            
 
 }
+// ***************************************************************
+// ***************************************************************
+
+
+
+// ***************************************************************
 // Runs in /app-lib/php/inline/init/config-init.php, within the logic that runs during upgrade checks
+// ***************************************************************
 elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 
 
@@ -299,7 +309,14 @@ elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
      
                                      
 }
+// ***************************************************************
+// ***************************************************************
+
+
+
+// ***************************************************************
 // Runs in /app-lib/php/inline/config/after-load-config.php (because user config values are used)
+// ***************************************************************
 elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 
 
@@ -324,6 +341,9 @@ $ct['dev']['data_obfuscating'] = array(
                                      
                                      
 }
+// ***************************************************************
+// ***************************************************************
+
 
 
 ///////////////////////////////////////////////////

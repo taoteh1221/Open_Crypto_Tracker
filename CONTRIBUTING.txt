@@ -9,19 +9,19 @@ ETHOS OF THIS PROJECT:
 =========================
 
 
-- This app is ment to serve the cryptocurrency community as a simple / easy-to-use, HIGHLY secured / optimized, and PRIVATE / ALWAYS 100% FREE and open source cryptocurrency portfolio tracker. 
+- The primary goal of the Open Crypto Tracker project is to provide a 100% FREE / PRIVATE / Open Source cryptocurrency tracker to the crypto community, that 'just works', is easy to use, AND maintains a high level of user privacy / security.
 
 
-- The "server edition" of this app can run 24/7 (with very little elecricity usage costs, depending on what machine runs it) on a Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows / Mac installation on a user's internal / home network, saving price chart data and sending out price alerts (or doing any other background task) any time of the day or night...even on a raspberry pi zero ($10 chipset / $30 kit / ~1 watt power usage). The "desktop edition" of this app runs as a local / native app on a PC (just download / run it), allowing for easy installation by less technically-advanced users. 
+- The "server edition" of this app can run 24/7 (with very little electricity usage costs, depending on what machine runs it) on a Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows / Mac installation on a user's internal / home network, saving price chart data and sending out price alerts (or doing any other background task) any time of the day or night...even on a raspberry pi zero ($30 kit / ~1 watt power usage). The "desktop edition" of this app runs as a local / native app on a PC (just download / run it), allowing for easy installation by less technically-advanced users. 
 
 
-- The design of this app is minimalistic ON PURPOSE to achieve all the above-mentioned important properties, all while still able to run on low power hardware (raspberry pi / pine64 / etc), which in turn makes this app a feasible choice for end-users of ANY portfolio size large or small. 
+- The design of this app is minimalist ON PURPOSE to achieve all the above-mentioned important properties, all while still ABLE TO RUN ON LOW POWER hardware (raspberry pi / pine64 / etc). This helps to make the app a feasible choice for end-users of ANY portfolio size large or small, in ANY country in the world. 
 
 
-- By MINIMIZING exposure to user details (in case a user's operating system is ever hacked), security / privacy within this app is actually ENHANCED. In this specific case of attempting to maintain security and privacy of an end-user, the "less is more" approach works best (features / security is always a balance that must be considered in any app, but ESPECIALLY in a cryptocurrency app). ADDITIONALLY, these considerations become EVEN MORE IMPORTANT if an end-user's portfolio grows in value over the years.
+- This app is primarily PHP-based, allowing it to easily run on any PHP-enabled website server (on the web, OR your local network). Therefore we *MUST* MINIMIZE *potential* exposure of user information (in case the app server's operating system is ever hacked, OR their is a vulnerability bug in the app's code), so that security / privacy within this app is MAXIMIZED, thereby MINIMIZING detrimental impacts of unauthorized (hacked) access to user data. In this specific case of attempting to maximize security / privacy of user data, the "less is more" approach works best (features / security is always a balance that must be considered in any app, but ESPECIALLY in a cryptocurrency app). ADDITIONALLY, these considerations become EVEN MORE IMPORTANT if an end-user's portfolio grows in value over the years.
 
 
-- There is no rush here to add features EVER, as this is a "passion project" (NOT for profit). There is also no "paying for a feature". If end-users want to donate twords the project, it must be a "generalized donation" not tied to any specific contract / agreement between the donors and developers. One of the primary pillars as mentioned above is "ALWAYS 100% FREE and open source". This is how the backbone of the ENTIRE underlying internet was built out in the mid / late 1990's and early 2000's. This project is HEAVILY COMMITED to this ideal. Accepting donations must NEVER prioritize development for the few over the many, PERIOD. The goal here is to create / maintain software that ANYBODY can use, redistribute, fork, and modify to their liking (WITH ATTRIBUTION / under the GPLv3 license).
+- There is no rush here to add features EVER, as this is a "passion project" (NOT for profit). There is also NO "paying for a feature". If entities want to donate to the project, it must be a "GENERALIZED donation" NOT tied to any specific contract / agreement between the donors and developers. One of the primary pillars as mentioned above is "ALWAYS 100% FREE and open source". This is how the backbone of the ENTIRE underlying internet was built out in the mid / late 1990's and early 2000's. This project is HEAVILY COMMITTED to this ideal. Accepting donations must NEVER prioritize development for the few over the many, PERIOD. The goal here is to create / maintain software that ANYBODY can find useful, redistribute, fork, and modify to their liking (WITH ATTRIBUTION / under the GPLv3 license...NEVER REMOVE ANY ATTRIBUTION WHEN REDISTRIBUTING).
 
 
 ===============================================================================================================================================
@@ -34,40 +34,43 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ============================================
 
 
+- NEVER REMOVE ANY ATTRIBUTION WHEN CONTRIBUTING OR REDISTRIBUTING. NEVER CHANGE THE LICENSING ON THIS APP, OR ANY 3RD-PARTY LIBRARIES YOU USE OR THAT ARE ALREADY INCLUDED IN THIS APP.
+
+
 - Please review the above "ETHOS OF THIS PROJECT" section, to see if your planned iterations are in line with this project's main pillars / objectives. Maybe even contact the project lead, to run your ideas by them and get feedback before you start coding. Remember you also can fork this project, if you have a different set of objectives in mind.
 
 
-- NO PACKAGE MANAGERS (Composer etc)!!! This app is built with STRICT SECURITY AS A CORE ETHOS VALUE. Using package managers opens an app up to supply chain attack vectors, not to mention could potentially bloat the codebase beyond practicality of security code reviews (of however many 'recently-auto-updated' dependencies there are). If a library can install WITHOUT a package manager (even if it requires a few dependancies), THAT IS OK / GO FOR IT. Otherwise, don't use that library.
+- NO PACKAGE MANAGERS (Composer etc)!!! This app is built with STRICT SECURITY AS A CORE ETHOS VALUE, AND *ALL* PACKAGE MANAGERS ARE VULNERABLE TO SUPPLY CHAIN ATTACKS! Using package managers opens an app up to supply chain attack vectors, not to mention could potentially bloat the codebase beyond practicality of security code reviews (of however many 'recently-auto-updated' dependencies there are). If a library can install WITHOUT a package manager (even if it requires a few dependencies), THAT IS OK / GO FOR IT. Otherwise, don't use that library.
 
 
-- Please consider using "snake case" when creating variables / classes / etc, to match the coding style of the app. This helps a lot during code reviews to find bugs and security issues in more complex code, by making the code easier to read through. 
+- Please consider using "snake case" when creating variables / classes / etc, to match the coding style of the app. This helps a lot during code reviews to find bugs and security issues in more complex code, by making the code easier to read through. Camel-case is VERY EASY to forget to ALWAYS use uppercase properly in heavy amounts of code, and finding BUGGY code can be a real PITA!
 
 
 - Please consider using spaces instead of tab spacing when nesting / indenting. This makes it easier when refactoring code, if we need more nested indentation to read code cleaner for code reviews.
 
 
-- Please optimize your logic after fleshing it out, and make sure everything works as intended, AND reads clean during code reviews. Other contributors should NOT need to 'fix' much in your code contributions, as this defeats the purpose of having multiple contributors. There is no rush here, this is free software. You can take all the time you need, and get it right.
+- Please optimize your logic after fleshing it out, and make sure everything works as intended, AND assure it reads clean during code reviews. Other contributors should NOT need to 'fix' much in your code contributions, as this defeats the purpose of having multiple contributors. THERE IS NO RUSH HERE, THIS IS FREE SOFTWARE. You can take all the time you need, and get it right.
 
 
-- Please make sure you use decent semantics for your variable / class names, etc. This goes a VERY long way twords making code readable during code reviews.
+- Please make sure you use decent SEMANTICS for your variable / class names, etc. This goes a VERY long way twords making code readable during code reviews.
 
 
-- Please add enough comments to your code to clarify what's going on, especially for moderate to heavy logic. Just like good semantic naming, this ALSO goes a VERY long way twords making code readable during code reviews.
+- Please add enough comments to your code to clarify what's going on, ESPECIALLY for moderate to heavy logic. Just like good semantic naming, this ALSO goes a VERY long way twords making code readable during code reviews.
 
 
 - Be liberal with spacing and new lines in your logic. This ALSO goes a VERY long way twords making code readable during code reviews.
 
 
-- Consider breaking up LARGE class functions into child functions in some areas, EVEN IF IT'S NOT RE-USED ANYWHERE ELSE, IF the code in that area is HEAVILY REPETITIVE (A MILE LONG). This ALSO goes a VERY long way twords making code readable during code reviews.
+- CONSIDER when you should be breaking up LARGE class functions into child functions in some areas, EVEN IF IT'S NOT RE-USED ANYWHERE ELSE, IF the code in that area is HEAVILY REPETITIVE (A MILE LONG). This ALSO goes a VERY long way twords making code readable during code reviews.
 
 
 - ALL code you include in your contribution MUST BE COMPATIBLE WITH THE GPLv3 LICENSE that this app is released under. If you include any code licensed by somebody other than yourself, you MUST leave attribution for them in your contribution. Also ALWAYS include the open source license the code was ORIGINALLY released under (EVEN IF IT IS THE SAME LICENSE THIS APP IS RELEASED UNDER).
 
 
--DEV NOTES: This app was developed with bluefish on ubuntu (*NOT* the un-polished windows version) set to "5 spaces" as a tab indentation (and enabling indentation of selected text). THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, JUST SO YOU KNOW WHY THE NESTED INDENTS MAY NOT LOOK GOOD ON YOUR SETUP.
+-DEV NOTES: This app was developed with bluefish on ubuntu (*NOT* the un-polished windows version) set to "5 spaces" as a tab indentation (AND enable "insert spaces instead of tabs"), and enabling indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, JUST SO YOU KNOW WHY THE NESTED INDENTS MAY NOT LOOK GOOD ON YOUR SETUP.
 
 
--LAST IMPORTANT NOTES BELOW, and thank you in advance for any considerations by you on contributing to this app's codebase. It's much appreciated, happy coding! :)
+-LAST IMPORTANT APP-SPECIFIC NOTES BELOW, and thank you in advance for any considerations by you on contributing to this app's codebase. It's much appreciated, happy coding! :)
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -109,7 +112,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> config.php (and plug-conf.php for plugins) MUST only contain STATIC VALUES,
 ===> as all configs are saved to / run from the cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
 !!!!
-===> DO *NOT* UPGRADE ZingCart, as it can be BUGGY ocassionally for auto-resizing on page showing,
+===> DO *NOT* UPGRADE ZingCart, as it can be BUGGY occasionally for auto-resizing on page showing,
 ===> AND we FORCE the BRANDING LINK to show EVEN IN A LOCALHOST environment (with custom tweaks)
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
@@ -130,7 +133,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> Reload / refresh browser : Shift + F5 (Mac: Command + R)
 ===> Open devtools : F12 (Mac: Fn + F12)
 !!!!
-===> Ocassionally update cacert.pem in the main directory (for Windows Desktop Edition):
+===> Occasionally update cacert.pem in the main directory (for Windows Desktop Edition):
 ===> https://curl.se/ca/cacert.pem
 !!!!
 ===> "developer-config.php" contains MANY MANY MANY developer-only configs!

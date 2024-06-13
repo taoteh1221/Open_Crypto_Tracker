@@ -559,7 +559,7 @@ color: #10d602 !important;
 }
 
 
-.red_bright, .balloon-tooltips .red {
+.red_bright, .balloon-tooltips .red, #sidebar ul.list-unstyled li a.red_bright:link {
 color: #ff4747 !important;
 }
 

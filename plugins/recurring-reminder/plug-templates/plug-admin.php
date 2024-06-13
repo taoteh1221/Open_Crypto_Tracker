@@ -25,24 +25,6 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['runtime_mode']['is_readonly'] = 'Developer setting only';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$ct['admin_render_settings']['ui_location']['is_readonly'] = 'Developer setting only';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$ct['admin_render_settings']['ui_name']['is_readonly'] = 'Developer setting only';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 $ct['admin_render_settings']['do_not_disturb']['is_notes'] = '(BLANK OUT TO DISABLE, 24 hour format MUST be used: 00:00)';
 
 
@@ -144,9 +126,6 @@ $ct['admin_render_settings']['reminders']['has_subarray'][0]['range_ui_suffix'] 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
 $ct['admin_render_settings']['is_refresh_admin'] = 'none';
-
-// $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

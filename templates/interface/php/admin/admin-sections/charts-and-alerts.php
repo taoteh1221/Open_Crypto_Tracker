@@ -99,7 +99,7 @@ $ct['admin_render_settings']['price_alert_minimum_volume']['range_max'] = 500000
 
 $ct['admin_render_settings']['price_alert_minimum_volume']['range_step'] = 1000;
 
-$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_prefix'] = $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ];
+$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_prefix'] = $ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ];
 
 $ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_suffix'] = ' (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . ')';
 
@@ -128,6 +128,8 @@ $ct['admin_render_settings']['price_alert_fixed_reset']['is_notes'] = 'Fixed tim
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['whale_alert_thresholds']['is_text'] = true;
 
 $ct['admin_render_settings']['whale_alert_thresholds']['text_field_size'] = 35;
 
@@ -229,11 +231,15 @@ $ct['admin_render_settings']['charts_tooltip_text']['is_color'] = true;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['asset_performance_chart_defaults']['is_text'] = true;
+
 $ct['admin_render_settings']['asset_performance_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['asset_marketcap_chart_defaults']['is_text'] = true;
 
 $ct['admin_render_settings']['asset_marketcap_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
 
@@ -268,6 +274,8 @@ $ct['admin_render_settings']['system_stats_second_chart_maximum_scale']['is_note
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['light_chart_day_intervals']['is_text'] = true;
 
 $ct['admin_render_settings']['light_chart_day_intervals']['text_field_size'] = 40;
 
@@ -332,6 +340,8 @@ $ct['admin_render_settings']['light_chart_first_build_hard_limit']['is_notes'] =
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['light_chart_all_rebuild_min_max']['is_text'] = true;
 
 $ct['admin_render_settings']['light_chart_all_rebuild_min_max']['is_notes'] = 'How often to rebuild each chart\'s "ALL" light chart, IN HOURS (between 3-12).<br />This format MUST be used: number_min,number_max';
 

@@ -508,6 +508,37 @@ var hash_check = $(location).attr('hash');
 }
 
 
+/////////////////////////////////////////////////////////////
+
+
+function red_save_button(mode=false) {
+
+
+     if ( mode == 'iframe' ) {
+     
+     parent.unsaved_admin_config = true;
+          
+     $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
+          
+     $('#sidebar .admin_settings_save', window.parent.document).removeClass('bitcoin');
+     $('#sidebar .admin_settings_save', window.parent.document).addClass('red_bright');
+     
+     }
+     else {
+     
+     unsaved_admin_config = true;
+          
+     $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
+          
+     $('#sidebar .admin_settings_save').removeClass('bitcoin');
+     $('#sidebar .admin_settings_save').addClass('red_bright');
+     
+     }
+     
+
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -1240,12 +1271,22 @@ function resize_password_notes() {
 
 function load_iframe(id, url=null) {
 
+     
+     // Skip if there is an unsaved admin config
+     // (we handle UX in init.js [for 3-deep nav])
+     if ( unsaved_admin_config ) {
+     console.log('unsaved_admin_config: true');
+     return;
+     }
+
+
 var $iframe = $('#' + id);
     
     
     // If the iframe exists in the current main page
     if ($iframe.length) {
-         
+     
+    console.log('admin iframe exists');
          
          // Save the original frame src if not done yet
          if ( !orig_iframe_src[id] ) {
@@ -1275,6 +1316,7 @@ var $iframe = $('#' + id);
     // (unless it's a null value [used on index links etc])
     else if ( url != null ) {
     iframe_url(admin_iframe_url, url, 'set');
+    console.log('admin iframe url set: ' + url);
     }
     
     
@@ -2861,6 +2903,26 @@ function nav_menu($chosen_menu) {
      	    // Bind the click event handling for clicking different nav item's 'a' tags
      	    $(this).on('click', 'a', function(e){
               
+                  
+                  // IF user CHANGED admin config settings data via interface,
+                  // confirm whether or not they want to skip saving their changes
+                  if ( unsaved_admin_config ) {
+                       
+                  var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
+                  
+                      if ( !confirm_skip_saving_changes ) {
+                      return false;                 
+                      }
+                      else {        
+                      unsaved_admin_config = false;
+                      $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+                      $('#sidebar .admin_settings_save').addClass('bitcoin');
+                      $('#sidebar .admin_settings_save').removeClass('red_bright');
+                      }
+
+                  }
+                  
+                  
               var click_href = $(this).attr('href');   
               
               var scan_href = click_href.split('/').pop();   

@@ -2557,12 +2557,12 @@ var $ct_array = array();
     }
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    // Live data retrieval (if no runtime cache exists yet)
+    // Live data retrieval (if no RUNTIME cache exists yet, OR ttl set to zero [explicit request to NOT use cached data])
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     elseif ( !isset($ct['api_runtime_cache'][$hash_check]) && $this->update_cache($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
     
-    // Time the request
+    // Track the request response time
     $api_time = microtime();
     $api_time = explode(' ', $api_time);
     $api_time = $api_time[1] + $api_time[0];
@@ -2570,7 +2570,7 @@ var $ct_array = array();
               
       
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
-      // (are processed by this->api_throttling(), to avoid using up daily request limits getting LIVE DATA)
+      // (are processed by api_throttling(), to avoid using up request limits getting LIVE DATA)
       if ( isset($ct['dev']['tracked_throttle_limited_servers'][$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
               
             
@@ -2611,19 +2611,19 @@ var $ct_array = array();
       }
               
       
-      // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)
+      // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.26 seconds to the wait between consecutive connections)
       if ( in_array($endpoint_tld_or_ip, $ct['conf']['power']['strict_consecutive_connect_servers']) ) {
         
       $ct['api_connections'][$tld_session_prefix] = $ct['api_connections'][$tld_session_prefix] + 1;
       
         if ( $ct['api_connections'][$tld_session_prefix] > 1 ) {
-        usleep(1110000); // Throttle 1.11 seconds
+        usleep(1260000); // Throttle 1.26 seconds
         }
        
       }
     
     
-      // Throttled endpoints in $ct['dev']['limited_apis']
+      // LIMITED endpoints we should throttle (APIs with poor multiple-data-sets support) in $ct['dev']['limited_apis']
       // If this is an API service that requires multiple calls (for each market), 
       // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
       if ( in_array($endpoint_tld_or_ip, $ct['dev']['limited_apis']) ) {
@@ -2632,7 +2632,7 @@ var $ct_array = array();
         $ct['limited_api_calls'][$tld_session_prefix . '_calls'] = 1;
         }
         elseif ( $ct['limited_api_calls'][$tld_session_prefix . '_calls'] == 1 ) {
-        usleep(350000); // Throttle 0.35 seconds
+        usleep(550000); // Throttle 0.55 seconds
         }
     
       }
@@ -2654,7 +2654,7 @@ var $ct_array = array();
       }
       
       
-      // If proxies are configured
+      // If proxies are configured FOR PRIVACY
       if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
        
       $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct['var']->random_array_var($ct['conf']['proxy']['proxy_list']) );
@@ -2690,6 +2690,7 @@ var $ct_array = array();
         
       
       }
+      // Otherwise, allow using cookies
       else {
       curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
       curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
@@ -2716,9 +2717,12 @@ var $ct_array = array();
       }
     
     
+    // Compatibility settings
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+    
+    // Timeout settings
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct['conf']['ext_apis']['remote_api_timeout']);
     curl_setopt($ch, CURLOPT_TIMEOUT, $ct['conf']['ext_apis']['remote_api_timeout']);
               
@@ -2732,9 +2736,11 @@ var $ct_array = array();
       if ( in_array($endpoint_tld_or_ip, $strict_news_feed_servers) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
+      // Strict user agent
       elseif ( in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['strict_curl_user_agent']);
       }
+      // Regular user agent
       elseif ( isset($ct['curl_user_agent']) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['curl_user_agent']);
       }
@@ -2871,8 +2877,7 @@ var $ct_array = array();
       }
      
      
-      // No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST
-      // NEW INSTALLS WILL RUN
+      // No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST NEW INSTALLS WILL RUN
       // !!!!!!!!!!!!!!!!!NEVER RUN $data THROUGH trim() FOR CHECKS ETC, AS trim() CAN FLIP OUT AND RETURN NULL IF OBSCURE SYMBOLS ARE PRESENT!!!!!!!!!!!!!!!!!
       if ( $data == '' && $is_self_security_test != 1 ) {
        
@@ -2902,24 +2907,31 @@ var $ct_array = array();
       
       // LOG-SAFE VERSION (no post data with API keys etc)
       $ct['gen']->log(
+      
       			'ext_data_error',
       							
       			$ip_description . ' connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
       			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+      			
       			);
       			
       			
-        // Servers which are known to block API access by location / jurasdiction
-        // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
+        // Servers which are known to block API access by location / jurisdiction
+        // (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
         if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
 
             
         $ct['gen']->log(
+        
           		'notify_error',
-          		'your ' . $ip_description . '\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+
+          		'your ' . $ip_description . '\'S IP ADDRESS location / jurisdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+
           		false,
+
           		md5($endpoint_tld_or_ip) . '_possibly_blocked'
+
           		);
           		    
         }
@@ -2951,7 +2963,7 @@ var $ct_array = array();
         || preg_match("/\"error\":\[\],/i", $data) // kraken.com / generic
         || preg_match("/warning-icon/i", $data)  // Medium.com RSS feeds
         || preg_match("/\"error_code\":0/i", $data) // Generic
-        ) { // coinmarketcap.com / generic
+        ) {
         $false_positive = 1;
         }
        
@@ -2970,11 +2982,13 @@ var $ct_array = array();
             
             // LOG-SAFE VERSION (no post data with API keys etc)
              $ct['gen']->log(
+             
              			'ext_data_error',
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
              							
              			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			
              			);
             
             // Log this error response from this data request
@@ -2996,7 +3010,6 @@ var $ct_array = array();
             // !!!!!DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!!!!
             if ( 
             // Errors / unavailable / null / throttled / maintenance
-            // Generic
             preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)
             || preg_match("/cf-browser/i", $data) // Cloudflare (DDOS protection service)
             || preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
@@ -3046,24 +3059,31 @@ var $ct_array = array();
              
             // LOG-SAFE VERSION (no post data with API keys etc)
             $ct['gen']->log(
+            
             			'ext_data_error',
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
             							
             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			
             			);
              
       			
-                  // Servers which are known to block API access by location / jurasdiction
-                  // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
+                  // Servers which are known to block API access by location / jurisdiction
+                  // (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
                   if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
           
                       
                   $ct['gen']->log(
+                  
                     		'notify_error',
-                    		'your ' . $ip_description . '\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+
+                    		'your ' . $ip_description . '\'S IP ADDRESS location / jurisdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+
                     		false,
+
                     		md5($endpoint_tld_or_ip) . '_possibly_blocked'
+
                     		);
                     		    
                   }
@@ -3128,6 +3148,7 @@ var $ct_array = array();
       if ( $data_bytes > 0 && $ct['var']->num_to_str($ct['conf']['ext_apis']['remote_api_timeout'] - 1) <= $ct['var']->num_to_str($api_total_time) ) {
       	
       $ct['gen']->log(
+      
       			'notify_error',
       							
       			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in EXTERNAL APIS config *IF* this persists OFTEN',
@@ -3135,6 +3156,7 @@ var $ct_array = array();
       			'remote_api_timeout: ' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
       			$hash_check
+      			
       			);
       
       }
@@ -3143,7 +3165,7 @@ var $ct_array = array();
     }
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    // IF --FILE-- CACHE DATA WITHIN IT'S TTL EXISTS
+    // IF --FILE-- CACHE DATA WITHIN IT'S TTL EXISTS (so we use CACHED data)
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     else {
@@ -3212,6 +3234,7 @@ var $ct_array = array();
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
       
       $ct['gen']->log(
+      
       			'cache_error',
       							
       			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
@@ -3219,6 +3242,7 @@ var $ct_array = array();
       			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
+      			
       			);
        
       }
@@ -3242,6 +3266,7 @@ var $ct_array = array();
       // Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
       
       $ct['gen']->log(
+      
       			'cache_debug',
       							
       			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
@@ -3249,6 +3274,7 @@ var $ct_array = array();
       			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
+      			
       			);
       
       }

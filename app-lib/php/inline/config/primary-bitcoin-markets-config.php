@@ -29,8 +29,8 @@ $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = 'futures_mrkts_not_all
 // Re-set default primary currency 'pref_bitcoin_mrkts' value, ONLY IF THIS VALUE #EXISTS ALREADY#
 // (for UX, to override the pre-existing value...if we have set this as the global default currency market, we obviously prefer it)
 // SHOULD ONLY BE STATIC, NOT MANIPULATEBLE DYNAMICALLY IN THE INTERFACE...SO WE JUST RUN EARLY HERE ONLY IN INIT.
-if ( isset($ct['conf']['power']['bitcoin_preferred_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]) ) {
-$ct['conf']['power']['bitcoin_preferred_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] = $ct['conf']['gen']['bitcoin_primary_currency_exchange'];
+if ( isset($ct['conf']['currency']['bitcoin_preferred_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]) ) {
+$ct['conf']['currency']['bitcoin_preferred_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] = $ct['conf']['gen']['bitcoin_primary_currency_exchange'];
 }
 
 

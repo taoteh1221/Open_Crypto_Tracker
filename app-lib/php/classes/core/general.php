@@ -2293,12 +2293,12 @@ var $ct_array = array();
       <?php
       if ( $another_set == 1 ) {
       ?>
-      <span class='red'>&nbsp;(other shows first)</span>
+      <b class='red'>&nbsp;(other shows first)</b>
       <?php
       }
       elseif ( $_GET['start_page'] == $page ) {
       ?>
-      <span class='red'>&nbsp;(current shows first)</span>
+      <b class='red'>&nbsp;(current shows first)</b>
       <?php
       }
       
@@ -2867,7 +2867,7 @@ var $ct_array = array();
    
    
          // Pretty up all asset market symbols
-         foreach($ct['conf']['power']['bitcoin_currency_markets'] as $asset_key => $unused) {
+         foreach($ct['conf']['currency']['bitcoin_currency_markets'] as $asset_key => $unused) {
                
              if ( strtolower($val) == strtolower($asset_key) ) {
              $words[$key] = strtoupper($asset_key); // All uppercase
@@ -3643,7 +3643,7 @@ var $ct_array = array();
    $data = array();
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($chart_format, $ct['conf']['power']['bitcoin_currency_markets']) && !array_key_exists($chart_format, $ct['conf']['power']['crypto_pair']) ) {
+      if ( array_key_exists($chart_format, $ct['conf']['currency']['bitcoin_currency_markets']) && !array_key_exists($chart_format, $ct['conf']['power']['crypto_pair']) ) {
       $fiat_formatting = true;
       }
       elseif ( $chart_format == 'system' ) {

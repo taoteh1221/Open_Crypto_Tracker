@@ -80,6 +80,12 @@ IDs
 ////////////////////////////// */
 
 
+#sidebar .admin_settings_save.red_bright {
+border-radius: 8px;
+border: 3px dotted #ff4747;
+}
+
+
 #admin_tabs li a {
 	position: relative;
 	left: 2px;

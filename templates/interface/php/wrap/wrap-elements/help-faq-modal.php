@@ -991,7 +991,7 @@ echo $plug['class'][$this_plug]->my_function_1('Kitty');
 ADDING USER-INPUT VALIDATION FOR THE PLUGIN'S ADMIN SETTINGS PAGE:
 <br /><br />
 
-To AUTOMATICALLY INCLUDE your custom user-input validation logic for your plugin's admin settings page, add the EXACT function name "admin_input_validation" into your class file mentioned above:
+To AUTOMATICALLY INCLUDE your custom user-input validation logic for your plugin's admin settings page (created in step 14 below), add the EXACT function name "admin_input_validation" into your class file mentioned above:
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
@@ -1122,6 +1122,9 @@ Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
+<br /><br />
+
+<span class='bitcoin'>IMPORTANT NOTES:</span> Since <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'runtime_mode'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_location'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_name'</code></pre> (mentioned further up in steps 8, 9, and 10) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this admin interface template.
 <br /><br /><br />
 
 
