@@ -22,19 +22,23 @@
 
 var modal_windows = new Array(); // Set the modal windows array (to dynamically populate)
 
+var orig_iframe_src = new Array();
+
+var limited_apis = new Array();
+
+var heading_tag_sizes = new Array();
+
+var admin_interface_check = new Array();
+
+var skip_corrupt_sections = new Array();
+
 var feeds_loaded = new Array();
 
 var charts_loaded = new Array();
 	
 var pref_bitcoin_mrkts = new Array();
 
-var limited_apis = new Array();
-
 var secondary_mrkt_currencies = new Array();
-
-var orig_iframe_src = new Array();
-
-var heading_tag_sizes = new Array();
 
 // Strings
 
@@ -45,20 +49,38 @@ var app_edition;
 var app_platform;
 
 var app_container;
+	
+var logs_csrf_sec_token;
 
-var global_line_height_percent;
+var medium_sec_token;
+	
+var admin_iframe_url;
 
-var font_name_url_formatting;
+var admin_area_sec_level;
 
-var set_font_size;
+var admin_area_2fa;
+
+var admin_iframe_load;
+	
+var sorted_by_col;
+
+var sorted_asc_desc;
+	
+var theme_selected;
+
+var scrollbar_theme;
+	
+var charts_background;
+
+var charts_border;
 
 var heading_css_unit;
 
-var info_icon_size_css_selector;
+var global_line_height_percent;
 
-var ajax_loading_size_css_selector;
+var set_font_size;
 
-var password_eye_size_css_selector;
+var font_name_url_formatting;
 
 var font_size_css_selector;
 
@@ -73,18 +95,12 @@ var medium_font_size_css_percent;
 var small_font_size_css_percent;
 
 var tiny_font_size_css_percent;
-	
-var theme_selected;
 
-var scrollbar_theme;
-	
-var sorted_by_col;
+var info_icon_size_css_selector;
 
-var sorted_asc_desc;
-	
-var charts_background;
+var ajax_loading_size_css_selector;
 
-var charts_border;
+var password_eye_size_css_selector;
 
 var sidebar_toggle_storage;
 
@@ -99,28 +115,12 @@ var refresh_cache_upgrade_notice_storage;
 var scroll_position_storage;
 
 var notes_storage;
-	
-var watch_only_flag_val;
-
-var cookies_size_warning;
-	
-var admin_iframe_url;
-	
-var logs_csrf_sec_token;
-
-var admin_area_sec_level;
-
-var admin_area_2fa;
-
-var medium_sec_token;
 
 var reload_time;
 
 var reload_countdown;
 	
 var reload_recheck;
-	
-var background_tasks_recheck;
 
 var alert_color_gain;
 
@@ -128,15 +128,11 @@ var alert_color_loss;
 
 var audio_alert_played;
 
-var admin_iframe_load;
-
-var range_inputs;
-
-var iframe_font_val;
-
 var iframe_height_adjuster;
 
 var iframe_text_adjuster;
+
+var iframe_font_val;
 	
 var min_fiat_val_test;
 	
@@ -149,42 +145,50 @@ var charts_num;
 var btc_prim_currency_val;
 
 var bitcoin_primary_currency_pair;
+	
+var watch_only_flag_val;
+
+var cookies_size_warning;
+	
+var background_tasks_recheck;
+
+var range_inputs;
 
 var collapsed_sidebar_scroll_position;
 
 // With defaults
-
-var unsaved_admin_config = false;
-
-var emulated_cron_enabled = false;
 	
-var emulated_cron_task_only = false;
-	
-var all_tasks_initial_load = true;
-	
-// Register as no-action-needed (if cron is enabled in header.php, this will reset properly in init.js)
-var cron_already_ran = true; 
+var gen_csrf_sec_token = Base64.encode('none');
 
-var custom_3deep_menu_open = false;
+var form_submit_queued = false;
+
+var is_login_form = false;
+
+var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
+var is_iframe = false;
 
 var is_admin = false;
 
 var admin_logged_in = false;
 
-var is_login_form = false;
+var unsaved_admin_config = false;
 
-var is_iframe = false;
+var admin_settings_save_init = false;
 
-var form_submit_queued = false;
-
-var corrupt_admin_config = false;
+var emulated_cron_enabled = false;
 	
-var gen_csrf_sec_token = Base64.encode('none');
+var emulated_cron_task_only = false;
+	
+// Register as no-action-needed (if cron is enabled in header.php, this will reset properly in init.js)
+var cron_already_ran = true; 
+	
+var all_tasks_initial_load = true;
 	
 var background_tasks_status = 'wait';
 
-var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+var custom_3deep_menu_open = false;
 
 

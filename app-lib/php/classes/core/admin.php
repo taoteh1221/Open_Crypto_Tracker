@@ -19,7 +19,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function unconfigured_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
+   function unconfigured_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false, $conf_id=false, $interface_id=false) {
         
    global $ct;
    
@@ -34,7 +34,17 @@ var $ct_array = array();
          </p>
          
          <script>
-         corrupt_admin_config = true;
+         
+         parent.admin_interface_check['<?=md5($conf_id)?>'] = new Array();
+
+         parent.admin_interface_check['<?=md5($conf_id)?>']['interface_id'] = '<?=$interface_id?>';
+
+         parent.admin_interface_check['<?=md5($conf_id)?>']['interface_config_type'] = '<?=( $conf_id && preg_match('/plug_conf\|/', $conf_id) ? 'plugin' : 'section' )?>';
+
+         parent.admin_interface_check['<?=md5($conf_id)?>']['missing_interface_configs'] = true;
+
+         parent.admin_interface_check['<?=md5($conf_id)?>']['affected_section'] = '<?=$field_array_base?>';
+
          </script>
          
          <?php  
@@ -989,7 +999,7 @@ var $ct_array = array();
          }
          // Everything else should just render as AN ALERT TO ADD THIS SETTING'S CONFIG PARAMETERS
          else {
-         $this->unconfigured_form_fields($field_array_base, $key, $val, $render_params);
+         $this->unconfigured_form_fields($field_array_base, $key, $val, $render_params, false, $conf_id, $interface_id);
          }
          
      }
