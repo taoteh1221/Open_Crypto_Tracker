@@ -434,6 +434,8 @@ nav_menu('.user-nav');
              "click":function(e){
                   
                   
+                  // This makes sure only the VISIBLE PAGE'S FORM IS SUBMITTED (otherwise EVERY page submits!)
+                  // (the form fields DON'T NEED TO BE SHOWING 'IN THE TOP FOLD', SO THIS *IS* RELIABLE)
                   if ( $("#update_config").is(":visible") ) {
                        
                   parent.admin_settings_save_init = false; // Reset
@@ -442,7 +444,7 @@ nav_menu('.user-nav');
                        // We used hash of conf_id, so we can always access the slot without parsing non-alphanumeric characters
                        if ( typeof parent.admin_interface_check[hashed_id] != 'undefined' && parent.admin_interface_check[hashed_id]['missing_interface_configs'] ) {
                        
-                       alert('INCOMPLETE admin INTERFACING config detected for the "' + parent.admin_interface_check[hashed_id]['affected_section'] + '" ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '. Please have your web developer add the required INTERFACING config parameters for this ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '.');
+                       alert('INCOMPLETE admin INTERFACING config detected for the "' + parent.admin_interface_check[hashed_id]['affected_section'] + '" ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '. The missing config(s) are HIGHLIGHTED IN RED below in this section. Please have your web developer add these required INTERFACING config parameters for this ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '.');
      
                        event.preventDefault();
                        
