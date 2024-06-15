@@ -16,7 +16,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-// DATE VERSION NUMBER WORK STARTED: 2024/JUNE/13TH
+// TIMESTAMP FOR DATE LATEST VERSION BUMP: 2024/JUNE/13TH
 $ct['app_version'] = '6.01.0';
 
 

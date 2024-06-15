@@ -55,7 +55,9 @@ $system_uptime_warning = explode('||', $ct['conf']['power']['system_uptime_warni
      	
      	
 $system_load_warning = explode('||', $ct['conf']['power']['system_load_warning']);
-     
+
+//echo $default_ct_conf['conf']['power']['system_load_warning']; exit; // DEBUGGING
+
 
      if ( $system_load > ($system_load_redline * $system_load_warning[0]) ) {
      $ct['system_warnings']['system_load'] = 'High 15 minute CPU load [' . $system_load_all . ']';
