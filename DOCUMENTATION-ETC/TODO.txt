@@ -184,7 +184,13 @@ Add clicksend.com mobile text messaging support
 Add input validation to the new section: Currency Support
 
 
+Add power user admin interface, and all corrisponding user input validation.
+
+
 Update screenshots, since we overhauled everything in the interface.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on. Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
