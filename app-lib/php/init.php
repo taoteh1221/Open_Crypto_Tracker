@@ -13,6 +13,11 @@ $ct = array(); // Main app
 $plug = array(); // Plugins
 
 
+// Subsections
+
+$ct['opt_conf'] = array(); // Optimized config (from interface-friendly over to logic-friendly)
+
+
 // Developer-only configs
 $dev_only_configs_mode = 'init'; // Flag to only run 'init' section
 require('developer-config.php');

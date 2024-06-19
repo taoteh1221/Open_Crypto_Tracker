@@ -9,13 +9,19 @@
 //////////////////////////////////////////////////////////////////
 
 
-// API configs need to be loaded IMMEADIATELY after loading the cached config
-require_once('app-lib/php/inline/config/batched-api-config.php');
-require_once('app-lib/php/inline/config/throttled-api-config.php');
+// NEVER USE REQUIRE ONCE IN THIS FILE!
+
+// MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
+
+// To be loaded IMMEADIATELY after loading the cached config
+
+// API configs
+require('app-lib/php/inline/config/batched-api-config.php');
+require('app-lib/php/inline/config/throttled-api-config.php');
 
 
 // Get / check system info for debugging / stats (MUST run IMMEADIATELY AFTER loading the cached config)
-require_once($ct['base_dir'] . '/app-lib/php/inline/system/system-info.php');
+require($ct['base_dir'] . '/app-lib/php/inline/system/system-info.php');
 
 
 // STRICT curl user agent (for strict API servers list in proxy mode, etc, etc)

@@ -16,8 +16,8 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-// TIMESTAMP FOR DATE LATEST VERSION BUMP: 2024/JUNE/13TH
-$ct['app_version'] = '6.01.0';
+// TIMESTAMP FOR DATE LATEST VERSION BUMP: 2024/JUNE/19TH
+$ct['app_version'] = '6.00.38';
 
 
 // #PHP# ERROR LOGGING
@@ -174,6 +174,9 @@ $ct['dev']['config_allow_resets'] = array();
 $ct['dev']['config_deny_additions'] = array(
                                            'anti_proxy_servers', // Subarray setting (anti-proxy servers)
                                            'proxy_list', // Subarray setting (proxy servers)
+                                           'tracked_markets', // Subarray setting (asset charts / price alerts)
+                                           'bitcoin_currency_markets', // Subarray setting (currency support)
+                                           'bitcoin_preferred_currency_markets', // Subarray setting (currency support)
                                            );
 
 
@@ -186,6 +189,8 @@ $ct['dev']['config_deny_removals'] = array(
                                            'strict_news_feed_servers', // Subarray setting (strict news feed servers)
                                            'feeds', // Subarray setting (news feeds)
                                            'tracked_markets', // Subarray setting (asset charts / price alerts)
+                                           'bitcoin_currency_markets', // Subarray setting (currency support)
+                                           'bitcoin_preferred_currency_markets', // Subarray setting (currency support)
                                            'text_gateways', // Subarray setting (mobile text gateways)
                                            'assets', // Main category (portfolio assets)
                                           );
@@ -318,6 +323,8 @@ elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 // Runs in /app-lib/php/inline/config/after-load-config.php (because user config values are used)
 // ***************************************************************
 elseif ( $dev_only_configs_mode == 'after-load-config' ) {
+
+// MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
 
 
 // Obfuscate these matches in ALL error / debugging logs

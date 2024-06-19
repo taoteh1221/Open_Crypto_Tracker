@@ -9,6 +9,8 @@
 // THROTTLED MARKET SETTINGS
 //////////////////////////////////////////////////////////////////
 
+// MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
+
 
 // THROTTLE ALPHAVANTAGE - START
 
@@ -26,6 +28,7 @@ $alphavantage_per_day_limit = $ct['conf']['ext_apis']['alphavantage_free_plan_da
 // (zero is the flag for UNLIMITED daily requests, auto-adjusted in config-init.php)
 if ( $alphavantage_per_day_limit > 0 ) {
 
+$ct['alphavantage_pairs'] = 0; // RESET, since we reload this logic on config resets / user updates
 
      // Figure out what our throttled cache time has to be for alphavantage stock asset API calls
      foreach ( $ct['conf']['assets'] as $markets ) {

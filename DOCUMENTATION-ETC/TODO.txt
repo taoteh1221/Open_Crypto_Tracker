@@ -181,6 +181,9 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add input validation to the new section: Currency Support
+
+
 Update screenshots, since we overhauled everything in the interface.
 
 

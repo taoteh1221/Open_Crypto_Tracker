@@ -53,7 +53,7 @@ var $array1 = array();
                                 
        $result['monthly_interest'] = round( ($result['yearly_interest'] / 12) , 2);
                                 
-       $result['summary'] = '<fieldset class="debt_results"><legend>' . $account . '</legend>Monthly Interest: ' . $ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($result['monthly_interest'], 2, '.', ',') . '<br />Yearly Interest: ' . $ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($result['yearly_interest'], 2, '.', ',') . '</fieldset>';
+       $result['summary'] = '<fieldset class="debt_results"><legend>' . $account . '</legend>Monthly Interest: ' . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($result['monthly_interest'], 2, '.', ',') . '<br />Yearly Interest: ' . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($result['yearly_interest'], 2, '.', ',') . '</fieldset>';
        
        return $result;
         

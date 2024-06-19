@@ -142,7 +142,7 @@ $ct['admin_render_settings']['default_theme']['is_radio'] = array(
 
 $ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_confirm'] = 'This will PERMANENTLY DELETE any ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' *CONVERSION* price charts (' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' *BASE-PAIRED [MARKET]* price charts WILL *NOT* BE DELETED). Do you still wish to select a new primary currency pair?';
 
-foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $pair_key => $unused ) {
+foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pair_key => $unused ) {
 $ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
 }
 
