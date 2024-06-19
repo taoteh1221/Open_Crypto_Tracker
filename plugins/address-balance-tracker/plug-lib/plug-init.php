@@ -203,10 +203,10 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
         $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['gen']['currency_decimals_max']);
             
             
-	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
+	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
+        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
 	   $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
@@ -223,10 +223,10 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
         $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['gen']['crypto_decimals_max']);
             
             
-	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ").";
+	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ").";
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ")";
+        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ")";
 	    
 
     		// Add blockchain explorer link to email message

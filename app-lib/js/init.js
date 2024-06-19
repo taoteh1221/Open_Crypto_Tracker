@@ -419,13 +419,13 @@ nav_menu('.user-nav');
 
           
           if ( check_update_form != null ) {
-          
+             
+          var hashed_id = CryptoJS.MD5(check_update_form.conf_id.value).toString();
 
                // Listen for input events on the form
                check_update_form.addEventListener('input', function (event) {
                red_save_button('iframe');
                });
-          
           
           }
           
@@ -433,22 +433,42 @@ nav_menu('.user-nav');
           $('.admin_settings_save', window.parent.document).on({
              "click":function(e){
                   
-                  if ( corrupt_admin_config ) {
-                  alert('Corrupted admin INTERFACING config detected. Please have your web developer add the required INTERFACING config parameters.');
-                  return false;
+                  
+                  // This makes sure only the VISIBLE PAGE'S FORM IS SUBMITTED (otherwise EVERY page submits!)
+                  // (the form fields DON'T NEED TO BE SHOWING 'IN THE TOP FOLD', SO THIS *IS* RELIABLE)
+                  if ( $("#update_config").is(":visible") ) {
+                       
+                  parent.admin_settings_save_init = false; // Reset
+                  
+                  
+                       // We used hash of conf_id, so we can always access the slot without parsing non-alphanumeric characters
+                       if ( typeof parent.admin_interface_check[hashed_id] != 'undefined' && parent.admin_interface_check[hashed_id]['missing_interface_configs'] ) {
+                       
+                       alert('INCOMPLETE admin INTERFACING config detected for the "' + parent.admin_interface_check[hashed_id]['affected_section'] + '" ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '. The missing config(s) are HIGHLIGHTED IN RED below in this section. Please have your web developer add these required INTERFACING config parameters for this ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '.');
+     
+                       event.preventDefault();
+                       
+                       return false;
+     
+                       }
+                       else {
+     
+                       $("#update_config").submit();
+     
+                       parent.unsaved_admin_config = false;
+     
+                       $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+     
+                       $('#sidebar .admin_settings_save', window.parent.document).addClass('bitcoin');
+                       $('#sidebar .admin_settings_save', window.parent.document).removeClass('red_bright');
+     
+                       }
+              
+              
+                  parent.admin_settings_save_init = true;
+
                   }
-                  else {
-
-                  $("#update_config").submit();
-
-                  parent.unsaved_admin_config = false;
-
-                  $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-
-                  $('#sidebar .admin_settings_save', window.parent.document).addClass('bitcoin');
-                  $('#sidebar .admin_settings_save', window.parent.document).removeClass('red_bright');
-
-                  }
+              
               
               }
           });

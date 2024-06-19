@@ -9,8 +9,12 @@
 // BATCHED MARKET SETTINGS
 //////////////////////////////////////////////////////////////////
 
+// MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
+
 
 // KRAKEN - START
+
+$ct['kraken_pairs'] = null; // RESET, since we reload this logic on config resets / user updates
 
 foreach ( $ct['conf']['assets'] as $markets ) {
               
@@ -30,6 +34,8 @@ $ct['kraken_pairs'] = substr($ct['kraken_pairs'], 0, -1);
 
 
 // JUP AG - START
+
+$ct['jupiter_ag_pairs'] = array(); // RESET, since we reload this logic on config resets / user updates
 
 foreach ( $ct['conf']['assets'] as $markets ) {
               
@@ -56,6 +62,8 @@ $ct['jupiter_ag_pairs'][$key] = substr($val, 0, -1);
 
 // UPBIT - START
 
+$ct['upbit_pairs'] = null; // RESET, since we reload this logic on config resets / user updates
+
 foreach ( $ct['conf']['assets'] as $markets ) {
               
     foreach ( $markets['pair'] as $exchange_pairs ) {
@@ -75,8 +83,13 @@ $ct['upbit_pairs'] = substr($ct['upbit_pairs'], 0, -1);
 
 // COINGECKO - START
 
+// RESET, since we reload this logic on config resets / user updates
+
 $check_pairs = array();
 $check_assets = array();
+
+$ct['coingecko_pairs'] = null;
+$ct['coingecko_assets'] = null;
             
 foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
                   

@@ -99,7 +99,7 @@ $ct['admin_render_settings']['price_alert_minimum_volume']['range_max'] = 500000
 
 $ct['admin_render_settings']['price_alert_minimum_volume']['range_step'] = 1000;
 
-$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_prefix'] = $ct['conf']['currency']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ];
+$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_prefix'] = $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ];
 
 $ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_suffix'] = ' (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . ')';
 

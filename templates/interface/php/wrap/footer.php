@@ -89,9 +89,29 @@ $(document).ready(function() {
      
      console.log('admin iframe "<?=$iframe_id?>" loaded.'); // DEBUGGING
          
-     function reload_iframes() {
          
+     function reload_iframes() {
+    
+
          if ( is_iframe ) {
+    
+    
+              // Wait until admin_settings_save_init == true (in init.js)
+              if ( !parent.admin_settings_save_init ) {
+              reload_recheck = setTimeout(reload_iframes, 1000);  // Re-check every 1 seconds (in milliseconds)
+              return;
+              }
+                 
+
+              //console.log(parent.admin_interface_check);                 
+                 
+              
+              // Add any corrupted config sections to blacklist
+              for (var hashed_id in parent.admin_interface_check) {
+              skip_corrupt_sections.push( 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
+              //console.log('corrupt section = ' + 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
+              }
+              
               
          <?php
          // If we need to refresh an admin iframe, to show the updated data
@@ -145,15 +165,23 @@ $(document).ready(function() {
              foreach ( $refresh_admin as $refresh ) {
          
                  // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
-                 if ( isset($refresh) && trim($refresh) != '' && $refresh != 'iframe_' . $iframe_id ) {
+                 if ( trim($refresh) != '' && $refresh != 'iframe_' . $iframe_id ) {
                  ?>
                  
-                 // Skip 'about:blank' pages (when an iframe has not 'lazy loaded' yet)
-                 if ( parent.document.getElementById('<?=$refresh?>').contentWindow.location.href != 'about:blank' ) {
+                 
+                 // Skip any corrupt interface config sections
+                 if ( skip_corrupt_sections.includes("<?=$refresh?>") ) {
+                 console.log('SKIPPING CORRUPT CONFIG SECTION IFRAME: <?=$refresh?> (in "<?=$iframe_id?>")');
+                 }
+                 // Skip any about:blank pages
+                 else if ( parent.document.getElementById('<?=$refresh?>').contentWindow.location.href == 'about:blank' ) {
+                 //console.log('SKIPPING ABOUT:BLANK IFRAME: <?=$refresh?> (in "<?=$iframe_id?>")');
+                 }
+                 else {
                       
                  var refresh_url = update_url_param(parent.document.getElementById('<?=$refresh?>').contentWindow.location.href, 'refresh', 'auto');
                  
-                 console.log('auto-refreshing: ' + refresh_url);
+                 console.log('AUTO-REFRESHING (safely avoiding data submissions / runaway loops) CONFIG SECTION IFRAME: <?=$refresh?> ( ' + refresh_url + ' ) (in "<?=$iframe_id?>")');
                  
                  // Remove any POST data (so we don't get endless loops under certain conditions)
                  parent.document.getElementById('<?=$refresh?>').contentWindow.location.replace(refresh_url);

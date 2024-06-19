@@ -116,14 +116,6 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/security/early-security-logi
 // Load any 3RD PARTY classes WITHOUT CONFIGS (MUST run after system-config / early-security-logic)
 require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party-classes-loader.php');
 
-// Get / check system info for debugging / stats (MUST run AFTER cache-directories [for error logging], AND AFTER core-classes-loader.php)
-require_once($ct['base_dir'] . '/app-lib/php/inline/system/system-info.php');
-
-
-// STRICT curl user agent (for strict API servers list in proxy mode, etc, etc)
-// MUST BE SET IMMEDIATELY AFTER system-info.php (AS EARLY AS POSSIBLE FOR ADMIN INPUT VALIDATION)
-$ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct['system_info']['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
-
 
 //////////////////////////////////////////////////////////////////
 // END PRIMARY INIT 

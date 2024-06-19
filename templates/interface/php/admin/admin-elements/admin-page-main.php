@@ -30,66 +30,6 @@
 		  </div>
 		
 		
-		  <div id="admin_comms">
-	
-	            <h2 class='bitcoin page_title'>Communications</h2>
-
-                <div class='full_width_wrapper'>
-
-                   <div id='iframe_comms_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_comms" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_comms')?>&section=comms" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
-		  <div id="admin_ext_apis">
-	
-	            <h2 class='bitcoin page_title'>External APIs</h2>
-
-                <div class='full_width_wrapper'>
-                	
-                   <div id='iframe_ext_apis_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_ext_apis" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_ext_apis')?>&section=ext_apis" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
-		  <div id="admin_webhook_int_api">
-	
-	            <h2 class='bitcoin page_title'>Internal API / Webhook</h2>
-
-                <div class='full_width_wrapper'>
-                	
-                   <div id='iframe_webhook_int_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_webhook_int_api" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_webhook_int_api')?>&section=webhook_int_api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
-		  <div id="admin_proxy">
-	
-	            <h2 class='bitcoin page_title'>Proxies</h2>
-
-                <div class='full_width_wrapper'>
-                	
-                   <div id='iframe_proxy_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_proxy" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_proxy')?>&section=proxy" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		
-		
 		  <div id="admin_security">
 	
 	            <h2 class='bitcoin page_title'>Security</h2>
@@ -105,6 +45,36 @@
 		  </div>
 		
 		
+		  <div id="admin_comms">
+	
+	            <h2 class='bitcoin page_title'>Communications</h2>
+
+                <div class='full_width_wrapper'>
+
+                   <div id='iframe_comms_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_comms" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_comms')?>&section=comms" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div id="admin_plugins">
+	
+	            <h2 class='bitcoin page_title'>Plugins</h2>
+
+                <div class='full_width_wrapper'>
+                	
+                   <div id='iframe_plugins_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_plugins" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_plugins')?>&section=plugins" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		
+		
 		  <div id="admin_currency">
 	
 	            <h2 class='bitcoin page_title'>Currency Support</h2>
@@ -114,6 +84,36 @@
                    <div id='iframe_currency_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
                 	<iframe id="iframe_currency" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_currency')?>&section=currency" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div id="admin_reset_backup_restore">
+	
+	            <h2 class='bitcoin page_title'>Reset / Backup & Restore</h2>
+
+                <div class='full_width_wrapper'>
+                	
+                   <div id='iframe_reset_backup_restore_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_reset_backup_restore" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div id="admin_ext_apis">
+	
+	            <h2 class='bitcoin page_title'>External APIs</h2>
+
+                <div class='full_width_wrapper'>
+                	
+                   <div id='iframe_ext_apis_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_ext_apis" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_ext_apis')?>&section=ext_apis" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -149,36 +149,6 @@
 		  </div>
 		  
 		  
-		  <div id="admin_plugins">
-	
-	            <h2 class='bitcoin page_title'>Plugins</h2>
-
-                <div class='full_width_wrapper'>
-                	
-                   <div id='iframe_plugins_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_plugins" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_plugins')?>&section=plugins" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
-		  <div id="admin_power_user">
-	
-	            <h2 class='bitcoin page_title'>Power User</h2>
-
-                <div class='full_width_wrapper'>
-                	
-                   <div id='iframe_power_user_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_power_user" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_power_user')?>&section=power_user" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
 		  <div id="admin_news_feeds">
 	
 	            <h2 class='bitcoin page_title'>News Feeds</h2>
@@ -203,6 +173,51 @@
                    <div id='iframe_text_gateways_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
                 	<iframe id="iframe_text_gateways" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_text_gateways')?>&section=text_gateways" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div id="admin_proxy">
+	
+	            <h2 class='bitcoin page_title'>Proxies</h2>
+
+                <div class='full_width_wrapper'>
+                	
+                   <div id='iframe_proxy_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_proxy" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_proxy')?>&section=proxy" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div id="admin_power_user">
+	
+	            <h2 class='bitcoin page_title'>Power User</h2>
+
+                <div class='full_width_wrapper'>
+                	
+                   <div id='iframe_power_user_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_power_user" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_power_user')?>&section=power_user" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div id="admin_webhook_int_api">
+	
+	            <h2 class='bitcoin page_title'>Internal API / Webhook</h2>
+
+                <div class='full_width_wrapper'>
+                	
+                   <div id='iframe_webhook_int_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_webhook_int_api" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_webhook_int_api')?>&section=webhook_int_api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -248,21 +263,6 @@
                    <div id='iframe_logs_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
                 	<iframe id="iframe_logs" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_logs')?>&section=logs" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
-		  <div id="admin_reset_backup_restore">
-	
-	            <h2 class='bitcoin page_title'>Reset / Backup & Restore</h2>
-
-                <div class='full_width_wrapper'>
-                	
-                   <div id='iframe_reset_backup_restore_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_reset_backup_restore" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  

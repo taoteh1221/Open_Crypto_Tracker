@@ -6741,7 +6741,13 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-6.01.0:
+6.00.38:
+
+-BUG FIX: Fixed issues with some app configs not reloading properly on config reset / user update
+
+-BUG FIX: Miscellaneous fixes
+
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Currency Support
 
 -Miscellaneous user experience improvements / optimizations / refactoring
 

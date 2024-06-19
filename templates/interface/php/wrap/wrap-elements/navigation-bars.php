@@ -97,32 +97,32 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
-                    </li>
-
-
-                    <li>
                         <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
                     </li>
 
 
                     <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
+                    </li>
+
+
+                    <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
+                    </li>
+
+
+                    <li>
                         <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_currency" title='Admin area for adding / removing currencies.'>Currency Support</a>
+                    </li>
+
+
+                    <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
+                    </li>
+
+
+                    <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
                     </li>
 
 
@@ -137,7 +137,17 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
+                    </li>
+
+
+                    <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
+                    </li>
+
+
+                    <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
                     </li>
 
 
@@ -147,12 +157,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
                     </li>
 
 
@@ -168,11 +173,6 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
                     <li>
                         <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
                     </li>
 
 
@@ -376,42 +376,12 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
                         <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_currency" title='Admin area for adding / removing currencies.'>Currency Support</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
                     </li>
                     
                     
@@ -484,7 +454,27 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_currency" title='Admin area for adding / removing currencies.'>Currency Support</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
                     </li>
 
 
@@ -495,6 +485,21 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
                     <li class='sidebar-item nav-item'>
                         <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Mobile Text Gateways</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
+                    </li>
+                    
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
                     </li>
 
 
@@ -510,11 +515,6 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
                     <li class='sidebar-item nav-item'>
                         <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
                     </li>
 
 

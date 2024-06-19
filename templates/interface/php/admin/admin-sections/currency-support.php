@@ -20,16 +20,88 @@ if ( $ct['admin_area_sec_level'] == 'high' ) {
 <?php
 }
 else {
-?>
-	
-	<p> Coming Soon&trade; </p>
-	
-	<p class='bitcoin bitcoin_dotted'>
-	
-	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of NORMAL / MEDIUM / HIGH MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Normal" OR "Medium" mode of the Admin Interface security level (at the top of the "Security" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
-	
-	</p>
-	
-<?php
+
+
+// Render config settings for this section...
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// EMPTY add / remove (repeatable) fields TEMPLATE rendering
+
+$ct['admin_render_settings']['bitcoin_currency_markets']['is_repeatable']['add_button'] = 'Add Currency (at bottom)';
+
+$ct['admin_render_settings']['bitcoin_currency_markets']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
+$ct['admin_render_settings']['bitcoin_currency_markets']['is_repeatable']['text_field_size'] = 15;
+               
+
+// FILLED IN setting values
+
+
+if ( sizeof($ct['conf']['currency']['bitcoin_currency_markets']) > 0 ) {
+
+     foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $key => $val ) {
+     $ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][$key]['is_text'] = true;
+     $ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][$key]['text_field_size'] = 15;
+     }
+
+}
+else {
+$ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][0]['is_text'] = true;
+$ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][0]['text_field_size'] = 15;
+}
+
+
+$ct['admin_render_settings']['bitcoin_currency_markets']['is_notes'] = 'Add different currencies here (country fiat, stablecoin, or secondary crypto)<br />This format MUST be used:<br />
+TICKER = SYMBOL<br /><span class="red">IMPORTANT NOTE: If currencies added here do NOT have a BITCOIN MARKET added, THEY WILL NOT BE USED BY THE APP!</span>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// EMPTY add / remove (repeatable) fields TEMPLATE rendering
+
+$ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_repeatable']['add_button'] = 'Add Preferred Bitcoin Market (at bottom)';
+
+$ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
+$ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_repeatable']['text_field_size'] = 20;
+               
+
+// FILLED IN setting values
+
+
+if ( sizeof($ct['conf']['currency']['bitcoin_preferred_currency_markets']) > 0 ) {
+
+     foreach ( $ct['conf']['currency']['bitcoin_preferred_currency_markets'] as $key => $val ) {
+     $ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_subarray'][$key]['is_text'] = true;
+     $ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_subarray'][$key]['text_field_size'] = 20;
+     }
+
+}
+else {
+$ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_subarray'][0]['is_text'] = true;
+$ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_subarray'][0]['text_field_size'] = 20;
+}
+
+
+$ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_notes'] = 'Set which Bitcoin markets you PREFER for each currency<br />This format MUST be used:<br />
+TICKER = EXCHANGE_NAME<br /><span class="red">IMPORTANT NOTE: If settings added here do NOT have corresponding currency / exchange that already exists in the app, THEY WILL NOT BE USED BY THE APP!</span>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// What OTHER admin pages should be refreshed AFTER this settings update runs
+// (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
+$ct['admin_render_settings']['is_refresh_admin'] = 'all';
+
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('currency', 'currency', $ct['admin_render_settings']);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 }
 ?>	

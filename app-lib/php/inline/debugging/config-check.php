@@ -70,7 +70,7 @@ function ct_include_try($cont_func, $cont_param_arr, $output = false) {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
-function ct_config_error() {
+function ct_config_error($empty_file=false) {
 
 global $ct;
 
@@ -86,7 +86,7 @@ $config_file = $ct['base_dir'] . '/config.php';
      
      sleep(1);
      
-     $desc = 'CONTAINS SIGNIFICANT ERRORS IN FORMATTING';
+     $desc = ( $empty_file ? 'IS EMPTY, WITH NO DATA INSIDE IT' : 'CONTAINS SIGNIFICANT ERRORS IN FORMATTING' );
      $desc2 = 'BACKED UP AS config.php.BACKUP-' . $ct['year_month_day'] . '-XXXXXXXXXXXX, AND ';
      
      }
@@ -145,8 +145,13 @@ $data = include($ct_config_file);
 $ct_config_error = ct_include_catch();
 
 
+// If there is a PHP error in config.php
 if ( $ct_config_error ) {
 ct_config_error();
+}
+// OR IT'S BLANK WITH NO CODE
+elseif ( filesize($ct_config_file) == 0 ) {
+ct_config_error(true);
 }
 
 

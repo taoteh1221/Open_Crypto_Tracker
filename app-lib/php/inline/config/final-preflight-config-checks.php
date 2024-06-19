@@ -222,7 +222,6 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
       $price_alert_type_text = substr($price_alert_type_text, 0, -3);
           		
           		
-
 	    // Check $ct['conf']['charts_alerts']['tracked_markets'] config
 	    if ( !is_array($ct['conf']['charts_alerts']['tracked_markets']) ) {
 	    $ct['conf_parse_error'][] = 'The asset / exchange / pair price alert formatting is corrupt, or not configured yet.';
@@ -404,7 +403,17 @@ $ct['conf_parse_error'] = array(); // Blank it out for any other config checks
 }
           	
 
+// Check $ct['conf']['currency']['bitcoin_currency_markets'] config
+if ( !is_array($ct['conf']['currency']['bitcoin_currency_markets']) ) {
+$ct['gen']->log('conf_error', 'The the currency conversion markets are corrupt, or not configured yet');
+}
+          	
 
+// Check $ct['conf']['currency']['bitcoin_preferred_currency_markets'] config
+if ( !is_array($ct['conf']['currency']['bitcoin_preferred_currency_markets']) ) {
+$ct['gen']->log('conf_error', 'The the PREFERRED currency conversion markets are corrupt, or not configured yet');
+}
+          	
 
 // Check $ct['conf']['assets'] config
 if ( !is_array($ct['conf']['assets']) ) {
