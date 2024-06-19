@@ -7,7 +7,12 @@
 if ( !$is_fast_runtime ) {
 
 
-// Fetch ALL system info
+// NEVER USE REQUIRE ONCE IN THIS FILE!
+
+// MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
+
+
+// Fetch ALL system info (OVERWRITES / RESETS CLEANLY, EVEN IF RELOADING AFTER A CONFIG RESET / USER UPDATE)
 $ct['system_info'] = $ct['gen']->system_info(); // MUST RUN AFTER SETTING $ct['base_dir']
 ////
     			
@@ -55,8 +60,6 @@ $system_uptime_warning = explode('||', $ct['conf']['power']['system_uptime_warni
      	
      	
 $system_load_warning = explode('||', $ct['conf']['power']['system_load_warning']);
-
-//echo $default_ct_conf['conf']['power']['system_load_warning']; exit; // DEBUGGING
 
 
      if ( $system_load > ($system_load_redline * $system_load_warning[0]) ) {

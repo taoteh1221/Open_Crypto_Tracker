@@ -106,7 +106,7 @@ $(document).ready(function() {
               //console.log(parent.admin_interface_check);                 
                  
               
-              // Ad any corrupted config sections to blacklist
+              // Add any corrupted config sections to blacklist
               for (var hashed_id in parent.admin_interface_check) {
               skip_corrupt_sections.push( 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
               //console.log('corrupt section = ' + 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );

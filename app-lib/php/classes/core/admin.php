@@ -73,7 +73,8 @@ var $ct_array = array();
         }
       
         
-        // Make sure security checks pass / data seems valid for updating the admin config (STRICT 2FA MODE ONLY)
+        // Make sure ALL security checks pass / data seems valid for updating the admin config
+        // (INCLUDES 'STRICT' 2FA MODE CHECK [returns true if 'strict' 2fa is turned off, OR 'strict' 2fa checked out as valid])
         if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($field_array_base) && $ct['gen']->pass_sec_check($_POST['admin_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
         return $field_array_base;
         }

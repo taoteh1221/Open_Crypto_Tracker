@@ -54,7 +54,7 @@ $ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][0]['text
 
 
 $ct['admin_render_settings']['bitcoin_currency_markets']['is_notes'] = 'Add different currencies here (country fiat, stablecoin, or secondary crypto)<br />This format MUST be used:<br />
-TICKER = UNICODE_SYMBOL<br /><span class="red">IMPORTANT NOTE: If currencies added here do NOT have a BITCOIN MARKET added, THEY WILL NOT BE USED BY THE APP!</span>';
+TICKER = SYMBOL<br /><span class="red">IMPORTANT NOTE: If currencies added here do NOT have a BITCOIN MARKET added, THEY WILL NOT BE USED BY THE APP!</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ TICKER = UNICODE_SYMBOL<br /><span class="red">IMPORTANT NOTE: If currencies add
 
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
 
-$ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_repeatable']['add_button'] = 'Add Preferred Market (at bottom)';
+$ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_repeatable']['add_button'] = 'Add Preferred Bitcoin Market (at bottom)';
 
 $ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
 $ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_repeatable']['text_field_size'] = 20;
