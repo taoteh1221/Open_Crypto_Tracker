@@ -6743,6 +6743,10 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.38:
 
+-BUG FIX: Upgraded Desktop Editions to PHP v8.3.8 (fixes multiple security vulnerabilities: https://www.cvedetails.com/vulnerability-list/vendor_id-74/PHP.html )
+
+-BUG FIX: Fixed issues with Desktop Editions being able to run security checks, IF you enabled  "Security => Interface Login" in the admin area (sorry!)
+
 -BUG FIX: Fixed issues with some app configs not reloading properly on config reset / user update
 
 -BUG FIX: Miscellaneous fixes

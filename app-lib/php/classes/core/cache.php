@@ -2748,50 +2748,55 @@ var $ct_array = array();
       else {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['strict_curl_user_agent']);
       }
+      
+    
+    // Are we calling an endpoint that needs login authorization?
+    
+    // In case we are calling an endpoint on this local machine, we need to make a valid regex to check for that
+    $regex_base_url = $ct['gen']->regex_compat_path($ct['base_url']);
+       
+    // Secure random hash to nullify any preg_match() below, if $regex_base_url FAILS to set a value above,
+    // as we may be submitting out htaccess user/pass (if setup)
+    $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct['gen']->rand_hash(8) );
+      
+      
+      // If we are making a request to our own base URL (self-security-checks / calls to internal API endpoints / etc)
+      if ( isset($scan_base_url) && $scan_base_url != '' && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
+          
+          
+        // Flag if this is an htaccess security check
+        if ( preg_match("/htaccess_security_check/i", $api_endpoint) ) {
+        $is_self_security_test = 1;
+        }
+          
+         
+        // If we have password protection on in the app
+        if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
+        curl_setopt($ch, CURLOPT_USERPWD, $htaccess_username . ':' . $htaccess_password); 
+        }
+         
+         
+      // We don't want strict SSL checks since this is our app calling itself
+      // (as we may be running our own self-signed certificate),
+      // so flag it as such for the SSL config later
+      $remote_api_is_self = true;
+        
+      }
+      // If this is a twilio endpoint, we need to authenticate
+      elseif ( $endpoint_tld_or_ip == 'twilio.com' ) {
+      curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+      // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
+      curl_setopt($ch, CURLOPT_USERPWD, $ct['conf']['ext_apis']['twilio_sid'] . ':' . $ct['conf']['ext_apis']['twilio_token']); 
+      }
      
      
       // If this is an SSL connection, add SSL parameters
       if ( preg_match("/https:\/\//i", $api_endpoint) ) {
       
-      $remote_api_strict_ssl = $ct['conf']['sec']['remote_api_strict_ssl']; // Default
-      
-      $regex_base_url = $ct['gen']->regex_compat_path($ct['base_url']);
-       
-      // Secure random hash to nullify any preg_match() below (if $regex_base_url FAILS to set a value above),
-      // as we may be submitting out htaccess user/pass (if setup)
-      $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct['gen']->rand_hash(8) );
-      
-      
-        // If we are making a request to our own base URL (self-security-checks / calls to internal API endpoints / etc)
-        if ( isset($scan_base_url) && $scan_base_url != '' && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
-        
-          
-          // Flag if this is an htaccess security check
-          if ( preg_match("/htaccess_security_check/i", $api_endpoint) ) {
-          $is_self_security_test = 1;
-          }
-          
-         
-          // If we have password protection on in the app
-          if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
-          curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-          // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
-          curl_setopt($ch, CURLOPT_USERPWD, $htaccess_username . ':' . $htaccess_password); 
-          }
-         
-         
-        // We don't want strict SSL checks since this is our app calling itself
-        // (as we may be running our own self-signed certificate)
-        $remote_api_strict_ssl = 'off'; // (Overwrite / Reset)
-        
-        }
-        // If this is a twilio endpoint, we need to authenticate
-        elseif ( $endpoint_tld_or_ip == 'twilio.com' ) {
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-        // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
-        curl_setopt($ch, CURLOPT_USERPWD, $ct['conf']['ext_apis']['twilio_sid'] . ':' . $ct['conf']['ext_apis']['twilio_token']); 
-        }
-       
+      // Skip any strict SSL setting, IF we are calling the same machine we are running this app on
+      $remote_api_strict_ssl = ( $remote_api_is_self ? 'off' : $ct['conf']['sec']['remote_api_strict_ssl'] );
       
       curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $remote_api_strict_ssl == 'on' ? true : false ) ); 
       curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $remote_api_strict_ssl == 'on' ? 2 : 0 ) );
@@ -2803,7 +2808,6 @@ var $ct_array = array();
     
     
       }
-     
     
      
      // DEBUGGING FOR PROBLEM ENDPOINT (DEVELOPER ONLY, #DISABLE THIS SECTION# AFTER DEBUGGING)

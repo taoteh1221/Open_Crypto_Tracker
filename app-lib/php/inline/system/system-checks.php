@@ -109,9 +109,11 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['app_edition'] == 'server' ) {
 
 
 // Exit, if server / app setup requirements not met
+// (WE DON'T HAVE LOGGING CAPABILITY AT THIS EARLY RUNTIME STAGE, SO JUST OUTPUT THE ERROR TO THE WEB BROWSER)
 if ( $force_exit == 1 ) {
-$system_error = '<br />Server / app setup requirements not met (SEE LOGGED SETUP DEFICIENCIES), exiting application. <br /><br />';
-echo $system_error;
+$system_error = 'Server / app setup requirements not met (SEE LOGGED SETUP DEFICIENCIES), exiting application.';
+echo "<br />" . $system_error;
+echo "<br /><br />PLEASE <a href='javascript:location.reload(true);'>RELOAD / RESTART THIS APP</a> TO CONTINUE.<br /><br />";
 exit;
 }
 
