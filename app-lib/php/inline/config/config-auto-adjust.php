@@ -70,6 +70,10 @@ $ct['conf']['currency']['bitcoin_currency_markets'] = array_map("strtolower", $c
 
 $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array_map("strtolower", $ct['conf']['currency']['bitcoin_preferred_currency_markets']);
 
+$ct['conf']['currency']['crypto_pair'] = array_map("strtolower", $ct['conf']['currency']['crypto_pair']);
+
+$ct['conf']['currency']['crypto_pair_preferred_markets'] = array_map("strtolower", $ct['conf']['currency']['crypto_pair_preferred_markets']);
+
 $ct['conf']['charts_alerts']['tracked_markets'] = array_map("strtolower", $ct['conf']['charts_alerts']['tracked_markets']);
 
 $ct['conf']['mobile_network']['text_gateways'] = array_map("strtolower", $ct['conf']['mobile_network']['text_gateways']);
@@ -86,6 +90,10 @@ $ct['conf']['news']['strict_news_feed_servers'] = array_map("trim", $ct['conf'][
 $ct['conf']['currency']['bitcoin_currency_markets'] = array_map("trim", $ct['conf']['currency']['bitcoin_currency_markets']);
 
 $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array_map("trim", $ct['conf']['currency']['bitcoin_preferred_currency_markets']);
+
+$ct['conf']['currency']['crypto_pair'] = array_map("trim", $ct['conf']['currency']['crypto_pair']);
+
+$ct['conf']['currency']['crypto_pair_preferred_markets'] = array_map("trim", $ct['conf']['currency']['crypto_pair_preferred_markets']);
 
 $ct['conf']['charts_alerts']['tracked_markets'] = array_map("trim", $ct['conf']['charts_alerts']['tracked_markets']);
 
@@ -205,6 +213,70 @@ ksort($ct['opt_conf']['bitcoin_preferred_currency_markets']);
 }
 
 
+if ( is_array($ct['conf']['currency']['crypto_pair']) ) {
+     
+     if ( sizeof($ct['conf']['currency']['crypto_pair']) == 1 ) {
+          
+          // We are NOT assured key == 0, if it was updated via the admin interface
+          foreach ( $ct['conf']['currency']['crypto_pair'] as $key => $val ) {
+          
+               if ( trim($val) == '' ) {
+               unset($ct['conf']['currency']['crypto_pair']);
+               }
+          
+          }
+          
+     }
+     
+     
+     // Convert stored format (that's easily editable in user interfacing) 
+     // to an optimized format for using in programming logic
+     $ct['opt_conf']['crypto_pair'] = array();
+     foreach ( $ct['conf']['currency']['crypto_pair'] as $val ) {
+     $conversion_array = explode('=', $val);
+     $conversion_array = array_map("trim", $conversion_array);
+     $ct['opt_conf']['crypto_pair'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
+     }
+     
+// Alphabetically sort
+sort($ct['conf']['currency']['crypto_pair']);
+ksort($ct['opt_conf']['crypto_pair']);
+     
+}
+
+
+if ( is_array($ct['conf']['currency']['crypto_pair_preferred_markets']) ) {
+     
+     if ( sizeof($ct['conf']['currency']['crypto_pair_preferred_markets']) == 1 ) {
+          
+          // We are NOT assured key == 0, if it was updated via the admin interface
+          foreach ( $ct['conf']['currency']['crypto_pair_preferred_markets'] as $key => $val ) {
+          
+               if ( trim($val) == '' ) {
+               unset($ct['conf']['currency']['crypto_pair_preferred_markets']);
+               }
+          
+          }
+          
+     }
+     
+     
+     // Convert stored format (that's easily editable in user interfacing) 
+     // to an optimized format for using in programming logic
+     $ct['opt_conf']['crypto_pair_preferred_markets'] = array();
+     foreach ( $ct['conf']['currency']['crypto_pair_preferred_markets'] as $val ) {
+     $conversion_array = explode('=', $val);
+     $conversion_array = array_map("trim", $conversion_array);
+     $ct['opt_conf']['crypto_pair_preferred_markets'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
+     }
+     
+// Alphabetically sort
+sort($ct['conf']['currency']['crypto_pair_preferred_markets']);
+ksort($ct['opt_conf']['crypto_pair_preferred_markets']);
+     
+}
+
+
 if ( is_array($ct['conf']['charts_alerts']['tracked_markets']) && sizeof($ct['conf']['charts_alerts']['tracked_markets']) == 1 ) {
      
      // We are NOT assured key == 0, if it was updated via the admin interface
@@ -261,7 +333,7 @@ ksort($ct['conf']['plugins']['plugin_status']);
 
 // Default BTC CRYPTO/CRYPTO market pair support, BEFORE GENERATING MISCASSETS / BTCNFTS / ETHNFTS / SOLNFTS / ALTNFTS ARRAYS
 // (so we activate it here instead of in Admin Config, for good UX adding ONLY altcoin markets dynamically there)
-$ct['conf']['power']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct['conf']['power']['crypto_pair']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
+$ct['opt_conf']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct['opt_conf']['crypto_pair']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
 
 
 // Idiot-proof maximum of +-35 on captcha text contrast
@@ -278,7 +350,7 @@ $ct['conf']['sec']['captcha_text_angle'] = 35;
 
 // Remove SECONDARY crypto pairs that have no configged markets
 // (EXCEPT BTC, AS ITS **THE PRIMARY CRYPTO MARKET** [WE ADD ABOVE IN THIS FILE])
-foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
 
      foreach ( $ct['conf']['assets'] as $asset_key => $asset_unused ) {
      
@@ -289,7 +361,7 @@ foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
      }
      
      if ( !isset($ct['check_crypto_pair'][$pair_key]) ) {
-     unset($ct['conf']['power']['crypto_pair'][$pair_key]);
+     unset($ct['opt_conf']['crypto_pair'][$pair_key]);
      }
 
 }
@@ -320,7 +392,7 @@ if ( is_array($ct['conf']['assets']) ) {
                                         );
             
             
-            foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
             $ct['conf']['assets']['MISCASSETS']['pair'][$pair_key] = array('misc_assets' => $pair_key);
             }
             
@@ -343,7 +415,7 @@ if ( is_array($ct['conf']['assets']) ) {
                                         );
             
             
-            foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
             $ct['conf']['assets']['BTCNFTS']['pair'][$pair_key] = array('btc_nfts' => $pair_key);
             }
             
@@ -366,7 +438,7 @@ if ( is_array($ct['conf']['assets']) ) {
                                         );
             
             
-            foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
             $ct['conf']['assets']['ETHNFTS']['pair'][$pair_key] = array('eth_nfts' => $pair_key);
             }
             
@@ -389,7 +461,7 @@ if ( is_array($ct['conf']['assets']) ) {
                                         );
             
             
-            foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
             $ct['conf']['assets']['SOLNFTS']['pair'][$pair_key] = array('sol_nfts' => $pair_key);
             }
             
@@ -412,7 +484,7 @@ if ( is_array($ct['conf']['assets']) ) {
                                         );
             
             
-            foreach ( $ct['conf']['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
             $ct['conf']['assets']['ALTNFTS']['pair'][$pair_key] = array('alt_nfts' => $pair_key);
             }
             

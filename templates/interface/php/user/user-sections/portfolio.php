@@ -511,7 +511,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 				
 				// Control the ordering with corrisponding app config array (which is already ordered properly), for UX
 				$loop = 0;
-				foreach ( $ct['conf']['power']['crypto_pair'] as $key => $val ) {
+				foreach ( $ct['opt_conf']['crypto_pair'] as $key => $val ) {
 						
 						if ( in_array($key, $scan_crypto_val) ) {
 						

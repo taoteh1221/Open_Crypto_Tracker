@@ -19,7 +19,7 @@
           ?>
           	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct['conf']['charts_alerts']['price_alert_threshold']?>% or more <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> price change<?=( $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] > 0 ? ' / max every ' . $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] . ' hours per-alert' : '' )?><?=( $ct['conf']['charts_alerts']['price_alert_minimum_volume'] > 0 ? ' / ' . $ct['opt_conf']['bitcoin_currency_markets'][$ct['default_bitcoin_primary_currency_pair']] . number_format($ct['conf']['charts_alerts']['price_alert_minimum_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days' : '' )?>). 
           	
-          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your app server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( isset($price_change_conf_alert) && $price_change_conf_alert != '' ? '<br />' . $price_change_conf_alert : '' )?>
           		
@@ -49,7 +49,7 @@
           ?>
           	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$ct['conf']['comms']['logs_email']?> days, log files purged every <?=$ct['conf']['power']['logs_purge']?> days).
           	
-          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work RELIABLY.</i> 
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your app server</a>, or this feature will not work RELIABLY.</i> 
           	
           		<?=( isset($logs_conf_alert) && $logs_conf_alert != '' ? '<br />' . $logs_conf_alert : '' )?>
           	
@@ -61,7 +61,7 @@
           ?>
           	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$ct['conf']['charts_alerts']['charts_backup_frequency']?> days, purged after <?=$ct['conf']['power']['backup_archive_delete_old']?> days old).
           	
-          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your app server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( isset($backuparchive_conf_alert) && $backuparchive_conf_alert != '' ? '<br />' . $backuparchive_conf_alert : '' )?>
           	
@@ -511,7 +511,7 @@
 			     
 			<?php
 			$loop = 0;
-			foreach ( $ct['conf']['power']['crypto_pair'] as $key => $unused ) {
+			foreach ( $ct['opt_conf']['crypto_pair'] as $key => $unused ) {
 			?>
 			<?=( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' )?> 
 			<input type='checkbox' value='<?=$key?>' onchange='crypto_val_toggle(this);' <?=( in_array("[".$key."]", $ct['sel_opt']['show_crypto_val']) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
@@ -575,7 +575,7 @@
 			'>
 			<option value=''> None </option>
 			<?php
-			foreach ( $ct['conf']['power']['crypto_pair'] as $key => $unused ) {
+			foreach ( $ct['opt_conf']['crypto_pair'] as $key => $unused ) {
 			?>
 			<option value='<?=$key?>' <?=( $ct['sel_opt']['show_secondary_trade_val'] == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
 			<?php

@@ -140,7 +140,7 @@ $ct['conf']['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade che
 // Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
 // #REQUIRED WHEN INSTALLED ON A HOME NETWORK#, OR ALL YOUR EMAIL ALERTS WILL BE BLACKHOLED / SEEN AS SPAM EMAIL BY EMAIL SERVERS!
 // If SMTP credentials / configuration is filled in, BUT not setup properly, APP EMAILING WILL FAIL!
-// !!USE A THROWAWAY ACCOUNT ONLY!! If this web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
+// !!USE A THROWAWAY ACCOUNT ONLY!! If this app server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
 $ct['conf']['comms']['smtp_login'] = ''; // This format MUST be used: 'username||password'
 ////
@@ -418,8 +418,8 @@ $ct['conf']['sec']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 
 
 // Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's admin / user pages, AJAX scripts, etc)
-// Set to 'any' if this web server's domain can vary / redirect (eg: some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
-// Set to 'strict' if this web server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
+// Set to 'any' if this app server's domain can vary / redirect (eg: some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
+// Set to 'strict' if this app server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
 // 'strict' mode blocks all CSRF / XSS attacks on resources using this setting, ALTHOUGH NOT REALLY NEEDED AS SERVER EDITIONS USE STRICT / SECURE COOKIES
 // #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / NEWS FEEDS / ADMIN SECTIONS / ETC FROM LOADING# ON SOME SETUPS!
 $ct['conf']['sec']['access_control_origin'] = 'any'; // 'any' / 'strict' (default = 'any')
@@ -446,7 +446,7 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 // Auto-activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
 // EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
 // Bitcoin's $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['power']['crypto_pair'], 
+// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['currency']['crypto_pair'], 
 // !AS LONG AS THERE IS A PAIR CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
 $ct['conf']['currency']['bitcoin_currency_markets'] = array(
                               						//'lowercase_btc_mrkt_or_stablecoin_pair = CURRENCY_SYMBOL',
@@ -551,6 +551,45 @@ $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array(
                                    							'usd = kraken',  // WAY BETTER api than ALL alternatives
                                    					       );
 
+							
+
+// Auto-activate support for ALTCOIN PAIRED MARKETS (like COIN/sol or COIN/eth, etc...markets where the base pair is an altcoin)
+// EACH CRYPTO COIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
+// $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
+// THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
+// AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
+// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct['conf']['currency']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
+$ct['conf']['currency']['crypto_pair'] = array(
+                                             // !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
+                                             ////
+               						//'lowercase_altcoin_ticker = UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
+               						////
+               						// Bluechip native tokens...
+               						'eth = Ξ ',
+               						'sol = ◎ ',
+               						// Bluechip ERC-20 tokens on Ethereum / SPL tokens on Solana, etc...
+               						'uni = 🦄 ',
+               						'mkr = 𐌼 ',
+               						'jup = Ɉ ',
+     							    );
+
+
+
+// Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
+// EACH ALTCOIN LISTED HERE MUST EXIST IN $ct['conf']['currency']['crypto_pair'] ABOVE,
+// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
+// $ct['conf']['assets'] listing (further down in this config file),
+// AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
+// #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
+$ct['conf']['currency']['crypto_pair_preferred_markets'] = array(
+                              						     //'lowercase_btc_mrkt_or_stablecoin_pair = PREFERRED_MRKT',
+                              							'eth = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'sol = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'uni = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'mkr = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'jup = coingecko_btc',  // coingecko global average price IN BTC
+               							           );
+
 
 
 ////////////////////////////////////////
@@ -563,7 +602,7 @@ $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array(
 ////////////////////////////////////////
 
 
-// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information)
+// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR APP SERVER (see README.txt for setup information)
 
 
 // Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
@@ -901,7 +940,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 // ADD ANY NEW PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
 // !!NEVER ADD A PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-// PLUGINS *MAY REQUIRE* A CRON JOB / SCHEDULED TASK RUNNING ON YOUR WEB SERVER (if built for cron jobs...see README.txt for setup information)
+// PLUGINS *MAY REQUIRE* A CRON JOB / SCHEDULED TASK RUNNING ON YOUR APP SERVER (if built for cron jobs...see README.txt for setup information)
 // PLUGIN CONFIGS are in the /plugins/ directory associated with that plugin
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct['conf']['plugins']['plugin_status'] = array(
@@ -933,7 +972,7 @@ $ct['conf']['plugins']['plugin_status'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// Enable / disable PHP error reporting (to error logs on the web server)
+// Enable / disable PHP error reporting (to error logs on the app server)
 // https://www.php.net/manual/en/function.error-reporting.php
 $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 
@@ -1067,45 +1106,6 @@ $ct['conf']['power']['cookies_size_warning'] = '7000||6'; // 'cookies_size_bytes
 $ct['conf']['power']['strict_consecutive_connect_servers'] = array(
                                       					       'alphavantage.co',
                                       					      );
-							
-
-// Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pair is an altcoin)
-// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
-// $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
-// AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
-// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct['conf']['currency']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
-$ct['conf']['power']['crypto_pair'] = array(
-                                             // !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
-                                             ////
-               						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
-               						////
-               						// Bluechip native tokens...
-               						'eth' => 'Ξ ',
-               						'sol' => '◎ ',
-               						// Bluechip ERC-20 tokens on Ethereum / SPL tokens on Solana, etc...
-               						'uni' => '🦄 ',
-               						'mkr' => '𐌼 ',
-               						'jup' => 'Ɉ ',
-     							    );
-
-
-
-// Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
-// EACH ALTCOIN LISTED HERE MUST EXIST IN $ct['conf']['power']['crypto_pair'] ABOVE,
-// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
-// $ct['conf']['assets'] listing (further down in this config file),
-// AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
-// #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
-$ct['conf']['power']['crypto_pair_preferred_markets'] = array(
-                              						     //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
-                              							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'jup' => 'coingecko_btc',  // coingecko global average price IN BTC
-               							           );
-
 
 
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
@@ -1116,7 +1116,6 @@ $ct['conf']['power']['ethereum_erc20_icos'] = array(
                                                       'DECENTRALAND' => '0.00008',
                                                    );
 						
-
 
 // HIVE INTEREST CALCULATOR SETTINGS
 // Weeks to power down all HIVE Power holdings

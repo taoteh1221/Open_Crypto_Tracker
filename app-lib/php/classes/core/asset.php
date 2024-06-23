@@ -982,7 +982,7 @@ var $ct_array = array();
       return $ct['btc_pair_mrkts'][$pair.'_btc'];
       }
       // If we need an ALTCOIN/BTC market value (RUN BEFORE CURRENCIES FOR BEST MARKET DATA, AS SOME CRYPTOS ARE INCLUDED IN BOTH)
-      elseif ( array_key_exists($pair, $ct['conf']['power']['crypto_pair']) ) {
+      elseif ( array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
         
         
 	        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
@@ -997,8 +997,8 @@ var $ct_array = array();
 	        
 	        }
 	        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-	        elseif ( is_array($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) && sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) > 1 && array_key_exists($pair, $ct['conf']['power']['crypto_pair_preferred_markets']) ) {
-	        $mrkt_override = $ct['conf']['power']['crypto_pair_preferred_markets'][$pair];
+	        elseif ( is_array($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) && sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) > 1 && array_key_exists($pair, $ct['opt_conf']['crypto_pair_preferred_markets']) ) {
+	        $mrkt_override = $ct['opt_conf']['crypto_pair_preferred_markets'][$pair];
 	        }
 	      
 	      
@@ -1238,7 +1238,7 @@ var $ct_array = array();
        
       // FLAG SELECTED PAIR IF FIAT EQUIVALENT formatting should be used, AS SUCH
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($sel_pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($sel_pair, $ct['conf']['power']['crypto_pair']) ) {
+      if ( array_key_exists($sel_pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($sel_pair, $ct['opt_conf']['crypto_pair']) ) {
       $fiat_eqiv = 1;
       }
       
@@ -1419,7 +1419,7 @@ var $ct_array = array();
    
       // Fiat or equivalent pair?
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($pair, $ct['conf']['power']['crypto_pair']) ) {
+      if ( array_key_exists($pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
       $fiat_eqiv = 1;
       $min_vol_val_test = $min_fiat_val_test;
       }
