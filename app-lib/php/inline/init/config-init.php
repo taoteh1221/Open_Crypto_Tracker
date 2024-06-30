@@ -142,6 +142,38 @@ if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_
 // END 2FA SETUP
 
 
+// CURL CA certificate WEEKLY update
+
+$cached_curl_cacert_path = $ct['base_dir'] . '/cache/other/recent-cacert.pem';
+
+// IF update fails, we fallback to this cert (that we always include with releases)
+$failsafe_curl_cacert_path = $ct['base_dir'] . '/cacert.pem';
+
+
+// (10080 minutes is 1 week)
+if ( $ct['cache']->update_cache($cached_curl_cacert_path, 10080) == true ) {
+
+$curl_cacert_data = @$ct['cache']->ext_data('url', 'https://curl.se/ca/cacert.pem', 0);
+
+$ct['cache']->save_file($cached_curl_cacert_path, $curl_cacert_data);
+
+sleep(2); // Give time for file save, before checks below
+
+}
+
+     
+// Run checks on curl CA certificate file(s)
+if ( file_exists($cached_curl_cacert_path) && filesize($cached_curl_cacert_path) > 0 ) {
+$ct['curl_cacert_path'] = $cached_curl_cacert_path;
+}
+else if ( file_exists($failsafe_curl_cacert_path) && filesize($failsafe_curl_cacert_path) > 0 ) {
+$ct['curl_cacert_path'] = $cached_curl_cacert_path;
+}
+else {
+$ct['curl_cacert_path'] = false;
+}
+
+
 // Load config type based on admin security level
 require_once('app-lib/php/inline/config/load-config-by-security-level.php');
 
