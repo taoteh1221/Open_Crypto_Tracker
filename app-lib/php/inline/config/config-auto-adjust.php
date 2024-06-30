@@ -193,7 +193,8 @@ if ( is_array($ct['conf']['currency']['bitcoin_currency_markets']) ) {
      foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $val ) {
      $conversion_array = explode('=', $val);
      $conversion_array = array_map("trim", $conversion_array);
-     $ct['opt_conf']['bitcoin_currency_markets'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
+     // Auto-formatting
+     $ct['opt_conf']['bitcoin_currency_markets'][ strtolower($conversion_array[0]) ] = strtoupper($conversion_array[1]);
      }
      
 // Alphabetically sort
@@ -257,7 +258,8 @@ if ( is_array($ct['conf']['currency']['crypto_pair']) ) {
      foreach ( $ct['conf']['currency']['crypto_pair'] as $val ) {
      $conversion_array = explode('=', $val);
      $conversion_array = array_map("trim", $conversion_array);
-     $ct['opt_conf']['crypto_pair'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
+     // Auto-formatting
+     $ct['opt_conf']['crypto_pair'][ strtolower($conversion_array[0]) ] = strtoupper($conversion_array[1]);
      }
      
 // Alphabetically sort
