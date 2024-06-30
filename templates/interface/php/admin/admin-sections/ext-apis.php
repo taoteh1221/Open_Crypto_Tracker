@@ -276,7 +276,7 @@ $ct['admin_render_settings']['alphavantage_per_minute_limit']['range_ui_prefix']
 
 $ct['admin_render_settings']['alphavantage_per_minute_limit']['range_ui_suffix'] = ' LIVE updates PER MINUTE';
 
-$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_ui_meta_data'] = 'is_custom_steps';
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['range_ui_meta_data'] .= 'is_custom_steps;';
      
 $ct['admin_render_settings']['alphavantage_per_minute_limit']['is_custom_steps'] = array(
                                                                                    '5',

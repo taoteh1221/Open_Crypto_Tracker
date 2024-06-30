@@ -2358,7 +2358,18 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
      var rangeUiMetaData = range_wrap.getElementsByClassName('range-ui-meta-data')[0];
      
-     var metaDataToUi = (rangeUiMetaData.textContent).replace("zero_is_", "");
+     
+         // Dynamic interface UX
+         if ( (rangeUiMetaData.textContent).includes("zero_is_disabled") ) {
+         var metaDataToUi = 'Disabled';
+         }
+         else if ( (rangeUiMetaData.textContent).includes("zero_is_unlimited") ) {
+         var metaDataToUi = 'Unlimited';
+         }
+         else {
+         var metaDataToUi = false;
+         }
+         
      
      var still_updating = false;
        
@@ -2378,7 +2389,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
      var uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
      
      // INITIAL: Process some different meta data values (if they exist)
-     uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
+     uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
      
      rangeValue.innerHTML = `${uiValue}`;
      
@@ -2401,7 +2412,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
               
              
              // If flagged as using custom steps (not every step is the same value)
-             if ( rangeUiMetaData.textContent == 'is_custom_steps' ) {
+             if ( (rangeUiMetaData.textContent).includes("is_custom_steps") ) {
              
              // MUST BE ABOVE custom_range_steps()
              still_updating = true;
@@ -2447,7 +2458,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
          uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
      
          // Process some different meta data values (if they exist)
-         uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
+         uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
               
          rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
        

@@ -443,6 +443,26 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 ////////////////////////////////////////
 
 
+// HIVE INTEREST CALCULATOR SETTINGS
+// Weeks to power down all HIVE Power holdings
+$ct['conf']['currency']['hive_powerdown_time'] = 13; 
+////
+// HIVE Power yearly interest rate AS OF 11/29/2023 (0.9%, decreasing every year by roughly 0.075%, until it hits a minimum of 0.075% and stays there)
+// (DO NOT INCLUDE PERCENT SIGN), see above for manual yearly adjustment
+$ct['conf']['currency']['hivepower_yearly_interest'] = 0.9; // (Default = 0.9 as of 11/29/23)
+
+
+// Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)
+// RAW NUMBERS ONLY (NO THOUSANDTHS FORMATTING)
+$ct['conf']['currency']['token_presales_usd'] = array(
+                                                      // 'TOKENNAME = 1.23',
+                                                      'ETHEREUM = 0.3',
+                                                      'SOLANA = 0.22',
+                                                      'DECENTRALAND = 0.025',
+                                                   );
+                                                   
+
+
 // Auto-activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
 // EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
 // Bitcoin's $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
@@ -589,7 +609,7 @@ $ct['conf']['currency']['crypto_pair_preferred_markets'] = array(
                               							'mkr = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
                               							'jup = coingecko_btc',  // coingecko global average price IN BTC
                							           );
-
+						
 
 
 ////////////////////////////////////////
@@ -830,11 +850,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'jup-4||coingecko_btc||btc||both',
 					
 					
-					// HNT
-					'hnt-2||gateio||usdt||both',
-					'hnt-3||gateio||eth||none',
-					
-					
 					// RNDR
 					'rndr||kucoin||btc||both',
 					'rndr-2||gateio||usdt||none',
@@ -1041,7 +1056,7 @@ $ct['conf']['power']['override_curl_user_agent'] = '';
 $ct['conf']['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables this feature)
 
 
-// MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
+// MINUTES to cache real-time exchange price data...can be zero to DISABLE cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO IT'S RECOMMENDED TO KEEP FAIRLY HIGH
 $ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4)
 
@@ -1052,24 +1067,24 @@ $ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60)
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct['conf']['power']['marketcap_cache_time'] = 90;  // (default = 90)
+$ct['conf']['power']['marketcap_cache_time'] = 100;  // (default = 100)
 ////
 // Number of marketcap rankings to request from API.
-// 500 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
+// 300 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
 $ct['conf']['power']['marketcap_ranks_max'] = 300; // (default = 300)
 
 
-// Maximum margin leverage available in the user interface ('Update' page, etc)
+// Maximum margin leverage available in the user interface ('Update Portfolio' page, etc)
 $ct['conf']['power']['margin_leverage_maximum'] = 150; 
 
 
 // Days TO WAIT UNTIL DELETING OLD backup archives (chart data archives, etc)
-$ct['conf']['power']['backup_archive_delete_old'] = 14; 
+$ct['conf']['power']['backup_archive_delete_old'] = 15; 
 
 
 // Keep logs X DAYS before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$ct['conf']['power']['logs_purge'] = 7; // (default = 7)
+$ct['conf']['power']['logs_purge'] = 5; // (default = 5)
 			
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
@@ -1107,68 +1122,6 @@ $ct['conf']['power']['strict_consecutive_connect_servers'] = array(
                                       					       'alphavantage.co',
                                       					      );
 
-
-// Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
-$ct['conf']['power']['ethereum_erc20_icos'] = array(
-                                                      'ETHSUBTOKENNAME' => '0.15',
-                                                      'GOLEM' => '0.001',
-                                                      'ARAGON' => '0.01',
-                                                      'DECENTRALAND' => '0.00008',
-                                                   );
-						
-
-// HIVE INTEREST CALCULATOR SETTINGS
-// Weeks to power down all HIVE Power holdings
-$ct['conf']['power']['hive_powerdown_time'] = 13; 
-////
-// HIVE Power yearly interest rate AS OF 11/29/2022 (0.975%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
-// (DO NOT INCLUDE PERCENT SIGN), see above for manual yearly adjustment
-$ct['conf']['power']['hivepower_yearly_interest'] = 0.975; // (Default = 0.975 as of 11/29/22)
-
-
-
-// Mining calculator configs for different crypto networks (SEMI-AUTOMATICALLY adds mining calculators to the Mining page)
-// FOR #DYNAMIC# CHAIN STATS (height / difficuly / rewards / etc), API CALL FUNCTIONS NEED TO BE CUSTOM-WRITTEN FOR ANY #CUSTOM# ASSETS ADDED HERE,
-// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/inline/config/config-auto-adjust.php
-// 'mining_time_formula' ALSO NEEDS TO BE DYNAMICALLY ADDED IN THAT SAME SECTION, #OR YOUR CUSTOM CALCULATOR WILL NOT WORK AT ALL#
-// ('PLACEHOLDER' values are dynamically populated during app runtime)
-$ct['conf']['power']['mining_calculators'] = array(
-					
-					
-			// POW CALCULATORS
-			'pow' => array(
-					
-					
-					// BTC
-					'btc' => array(
-									'name' => 'Bitcoin', // Coin name
-									'symbol' => 'btc', // Coin symbol (lowercase)
-									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
-									'exchange_mrkt' => 'BTCUSDT', // Market pair name (for price data)
-									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
-									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED IN:
-									// dynamic-config.php (in main directory...so we can run a cached config)
-									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
-									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
-									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
-									'other_network_data' => '', // Leave blank to skip (OPTIONAL)
-									),
-					
-					
-			), // POW END
-					
-					
-			// POS CALCULATORS (#NOT FUNCTIONAL YET#)
-			'pos' => array(
-			
-			// CALCULATORS HERE
-			
-			), // POS END
-					
-			
-); // MINING CALCULATORS END
-				
 
 ////////////////////////////////////////
 // !END! POWER USER CONFIGURATION
@@ -1248,12 +1201,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Blog - Ethereum.org (community-driven on-chain smart contracts)",
             			      "url" => "https://blog.ethereum.org/feed.xml"
-        				     ),
-        
-        
-        				array(
-            			      "title" => "Blog - Helium Network (community-driven global LoRaWAN network)",
-            			      "url" => "https://blog.helium.com/feed"
         				     ),
     
     
@@ -1432,12 +1379,6 @@ $ct['conf']['news']['feeds'] = array(
     
     
         				array(
-            			      "title" => "Reddit - Helium Network (hot)",
-            			      "url" => "https://www.reddit.com/r/heliumnetwork/hot/.rss?format=xml"
-        				     ),
-    
-    
-        				array(
             			      "title" => "Reddit - Solana (hot)",
             			      "url" => "https://www.reddit.com/r/solana/hot/.rss?format=xml"
         				     ),
@@ -1512,12 +1453,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Youtube - Ethereum Foundation",
             			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCNOfzGXD_C9YMYmnefmPH0g"
-        				     ),
-    
-    
-        				array(
-            			      "title" => "Youtube - Helium Network",
-            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCEdh5moyCkiIrfdkZOnG5ZQ"
         				     ),
     
     
@@ -2205,6 +2140,7 @@ $ct['conf']['assets'] = array(
                                           'bitmex_u20' => 'ETHUSDU20',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
+                                          'presale_usd_value' => 'ETHEREUM',
                                                     ),
 
                                                     
@@ -2306,6 +2242,7 @@ $ct['conf']['assets'] = array(
                                     	 'bitfinex' => 'tSOLUSD',
                                          'hitbtc' => 'SOLUSD',
                                          'cex' => 'SOL:USD',
+                                         'presale_usd_value' => 'SOLANA',
                                                     ),
 
                                                     
@@ -2596,53 +2533,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // HNT
-                    'HNT' => array(
-                        
-                        'name' => 'Helium',
-                        'mcap_slug' => 'helium',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'coingecko_btc' => 'helium',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'HNT_ETH',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'HNT/SOL',
-                                                    ),
-
-                                                    
-                                    'inr' => array(
-                                        'wazirx' => 'hntinr',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'HNT/USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'HNT_USDT',
-                                        'wazirx' => 'hntusdt',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // RNDR
                     'RNDR' => array(
                         
@@ -2881,6 +2771,7 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                           'coinbase' => 'MANA-USD',
+                                          'presale_usd_value' => 'DECENTRALAND',
                                                     ),
 
                                                     

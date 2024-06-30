@@ -6751,7 +6751,11 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous fixes
 
--Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Currency Support
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Currency Support, Power User
+
+-Converted the old ETH ICOs config to a generalized presale tokens config, and moved to the new admin section CURRENCY SUPPORT
+
+-Moved ENTIRE mining page config into dynamic-config.php (except for HIVE power down settings)
 
 -Miscellaneous user experience improvements / optimizations / refactoring
 

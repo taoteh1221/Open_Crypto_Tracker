@@ -4,16 +4,53 @@
  */
 	
 
+// Mining calculator configs for different crypto networks (SEMI-AUTOMATICALLY adds mining calculators to the Mining page)
+// FOR #DYNAMIC# CHAIN STATS (height / difficuly / rewards / etc), API CALL FUNCTIONS NEED TO BE CUSTOM-WRITTEN FOR ANY #CUSTOM# ASSETS ADDED HERE,
+// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/inline/config/config-auto-adjust.php
+// 'mining_time_formula' ALSO NEEDS TO BE DYNAMICALLY ADDED IN THAT SAME SECTION, #OR YOUR CUSTOM CALCULATOR WILL NOT WORK AT ALL#
+// ('PLACEHOLDER' values are dynamically populated during app runtime)
+$ct['opt_conf']['mining_calculators'] = array(
+					
+					
+			// POW CALCULATORS
+			'pow' => array(
+					
+					
+					// BTC
+					'btc' => array(
+									'name' => 'Bitcoin', // Coin name
+									'symbol' => 'btc', // Coin symbol (lowercase)
+									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
+									'exchange_mrkt' => 'BTCUSDT', // Market pair name (for price data)
+									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
+									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
+									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED (for a clean / non-confusing PRIMARY config)
+									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
+									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
+									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
+									'other_network_data' => '', // Leave blank to skip (OPTIONAL)
+									),
+					
+					
+			), // POW END
+					
+			
+); // MINING CALCULATORS END
+				
+				
+
+// MINING DYNAMIC CONFIGS
+
 
 // BTC
-$ct['conf']['power']['mining_calculators']['pow']['btc']['height'] = $ct['api']->bitcoin('getblockcount');
-$ct['conf']['power']['mining_calculators']['pow']['btc']['difficulty'] = $ct['api']->bitcoin('getdifficulty');
+$ct['opt_conf']['mining_calculators']['pow']['btc']['height'] = $ct['api']->bitcoin('getblockcount');
+$ct['opt_conf']['mining_calculators']['pow']['btc']['difficulty'] = $ct['api']->bitcoin('getdifficulty');
 
 
 /* // ETH (NO LONGER USED, BUT LEAVE AS EXAMPLE FOR FUTURE POW CALCS)
-$ct['conf']['power']['mining_calculators']['pow']['eth']['height'] = hexdec( $ct['api']->etherscan('number') );      
-$ct['conf']['power']['mining_calculators']['pow']['eth']['difficulty'] = hexdec( $ct['api']->etherscan('difficulty') );
-$ct['conf']['power']['mining_calculators']['pow']['eth']['other_network_data'] = '<p><b>Gas limit:</b> ' . number_format( hexdec( $ct['api']->etherscan('gasLimit') ) ) . '</p>' . ( $ct['api']->etherscan('number') == false ? '<p><a class="red" href="https://etherscan.io/apis/" target="_blank"><b>EtherScan.io (free) API key is required.</b></a></p>' : '' );
+$ct['opt_conf']['mining_calculators']['pow']['eth']['height'] = hexdec( $ct['api']->etherscan('number') );      
+$ct['opt_conf']['mining_calculators']['pow']['eth']['difficulty'] = hexdec( $ct['api']->etherscan('difficulty') );
+$ct['opt_conf']['mining_calculators']['pow']['eth']['other_network_data'] = '<p><b>Gas limit:</b> ' . number_format( hexdec( $ct['api']->etherscan('gasLimit') ) ) . '</p>' . ( $ct['api']->etherscan('number') == false ? '<p><a class="red" href="https://etherscan.io/apis/" target="_blank"><b>EtherScan.io (free) API key is required.</b></a></p>' : '' );
 */
 
 	
@@ -28,16 +65,18 @@ $ct['conf']['power']['mining_calculators']['pow']['eth']['other_network_data'] =
 	
 	
 		// Mining time formulas can be different per network, unless they copy Bitcoin's formula
+		
+		
 		// BTC
 		if ( $_POST['pow_calc'] == 'btc' ) {
 		// https://en.bitcoin.it/wiki/Difficulty (How soon might I expect to generate a block?)
-		$ct['conf']['power']['mining_calculators']['pow']['btc']['mining_time_formula'] = trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate;
+		$ct['opt_conf']['mining_calculators']['pow']['btc']['mining_time_formula'] = trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate;
 		}
 		
 		
 		/* // ETH (NO LONGER USED, BUT LEAVE AS EXAMPLE FOR FUTURE POW CALCS)
 		elseif ( $_POST['pow_calc'] == 'eth' ) {
-		$ct['conf']['power']['mining_calculators']['pow']['eth']['mining_time_formula'] = trim($_POST['network_measure']) / $miner_hashrate;
+		$ct['opt_conf']['mining_calculators']['pow']['eth']['mining_time_formula'] = trim($_POST['network_measure']) / $miner_hashrate;
 		}
 		*/
 		

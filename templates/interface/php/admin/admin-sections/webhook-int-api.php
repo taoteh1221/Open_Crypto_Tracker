@@ -43,7 +43,7 @@ else {
      
 $ct['admin_render_settings']['int_api_rate_limit']['is_range'] = true;
 
-$ct['admin_render_settings']['int_api_rate_limit']['range_ui_meta_data'] = 'zero_is_unlimited';
+$ct['admin_render_settings']['int_api_rate_limit']['range_ui_meta_data'] .= 'zero_is_unlimited;';
 
 $ct['admin_render_settings']['int_api_rate_limit']['range_min'] = 0;
 

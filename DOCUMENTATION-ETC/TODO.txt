@@ -181,16 +181,16 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Add input validation to the new section: Currency Support
+Add input validation to the new sections: Currency Support, Power User
 
 
-Add power user admin interface, and all corrisponding user input validation.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Update screenshots, since we overhauled everything in the interface.
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Ad a GENERAL / GENERIC POS rewards calculator to the tools page.
 
 
 Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on. Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
@@ -326,9 +326,6 @@ Start creating github wiki with USER AND DEVELOPER documentation.
 
 
 Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD), OR it's a pairing itself in the Bitcoin pairings. Then have the BTC pairing value function look for that if there is no BTC market for in the asset's own pairings. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
-
-
-Change the 'ethereum_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
 
 
 Add a check (every X days with a config setting), to see if a market's trade value has NOT changed in a long time (assure accuracy with resetting a 'no_change' count [store delimited with market value] if change is detected). Add an alert threshold config setting (after no change has been detected X times), which sends comms alerts if the threshold has been met. This way end users can be informed if a market seems to have stale trade values from lack of trades / taken offline. HAVE THIS HAPPEN IN THE BACKGROUND #ONLY WHEN LIVE DATA IS FETCHED# WITHIN $ct['cache']->ext_data(), VIA USER-INRTERACTION OR A BACKGROUND TASK (DOES NOT CHECK MARKETS THAT ARE NOT USED BY END USERS OR THE BACKGROUND TASKS).

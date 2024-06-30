@@ -213,6 +213,7 @@ $ct['dev']['plugin_allow_resets'] = array(
 $ct['dev']['no_trade_volume_api_data'] = array(
                                                 // 'exchange-config-key-name-here',
                                                 'misc_assets',
+                                                'presale_usd_value',
                                                 'btc_nfts',
                                                 'eth_nfts',
                                                 'sol_nfts',

@@ -19,9 +19,9 @@ $hive_mrkt = $ct['api']->market('HIVE', 'binance', 'HIVEBTC')['last_trade'];
 <div>
     <form action='<?=$ct['gen']->start_page('mining')?>' method='post'>
         
-        <p><b>Power Down Period:</b> <?=$ct['conf']['power']['hive_powerdown_time']?> weeks</p>
+        <p><b>Power Down Period:</b> <?=$ct['conf']['currency']['hive_powerdown_time']?> weeks</p>
 	
-        <p><b>HIVE Power Interest Rate:</b> <?=($ct['conf']['power']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
+        <p><b>HIVE Power Interest Rate:</b> <?=($ct['conf']['currency']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
 	
         <p><b>HIVE Power Purchased:</b> <input type='text' name='hp_purchased' value='<?=$_POST['hp_purchased']?>' placeholder="(from trading etc)" size='45' /></p>
         

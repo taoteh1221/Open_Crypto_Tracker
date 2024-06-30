@@ -78,6 +78,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array_map("strtolower", $ct['c
 
 $ct['conf']['mobile_network']['text_gateways'] = array_map("strtolower", $ct['conf']['mobile_network']['text_gateways']);
 
+$ct['conf']['currency']['token_presales_usd'] = array_map("strtolower", $ct['conf']['currency']['token_presales_usd']);
+
+$ct['conf']['power']['strict_consecutive_connect_servers'] = array_map("strtolower", $ct['conf']['power']['strict_consecutive_connect_servers']);
+
 
 // Trim whitepace from some values THAT ARE SAFE TO RUN TRIMMING ON...
 
@@ -98,6 +102,10 @@ $ct['conf']['currency']['crypto_pair_preferred_markets'] = array_map("trim", $ct
 $ct['conf']['charts_alerts']['tracked_markets'] = array_map("trim", $ct['conf']['charts_alerts']['tracked_markets']);
 
 $ct['conf']['mobile_network']['text_gateways'] = array_map("trim", $ct['conf']['mobile_network']['text_gateways']);
+
+$ct['conf']['currency']['token_presales_usd'] = array_map("trim", $ct['conf']['currency']['token_presales_usd']);
+
+$ct['conf']['power']['strict_consecutive_connect_servers'] = array_map("trim", $ct['conf']['power']['strict_consecutive_connect_servers']);
 
 
 foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
@@ -142,6 +150,20 @@ if ( is_array($ct['conf']['news']['strict_news_feed_servers']) && sizeof($ct['co
      
           if ( trim($val) == '' ) {
           unset($ct['conf']['news']['strict_news_feed_servers'][$key]);
+          }
+     
+     }
+     
+}
+
+
+if ( is_array($ct['conf']['power']['strict_consecutive_connect_servers']) && sizeof($ct['conf']['power']['strict_consecutive_connect_servers']) == 1 ) {
+     
+     // We are NOT assured key == 0, if it was updated via the admin interface
+     foreach ( $ct['conf']['power']['strict_consecutive_connect_servers'] as $key => $val ) {
+     
+          if ( trim($val) == '' ) {
+          unset($ct['conf']['power']['strict_consecutive_connect_servers'][$key]);
           }
      
      }
@@ -273,6 +295,38 @@ if ( is_array($ct['conf']['currency']['crypto_pair_preferred_markets']) ) {
 // Alphabetically sort
 sort($ct['conf']['currency']['crypto_pair_preferred_markets']);
 ksort($ct['opt_conf']['crypto_pair_preferred_markets']);
+     
+}
+
+
+if ( is_array($ct['conf']['currency']['token_presales_usd']) ) {
+     
+     if ( sizeof($ct['conf']['currency']['token_presales_usd']) == 1 ) {
+          
+          // We are NOT assured key == 0, if it was updated via the admin interface
+          foreach ( $ct['conf']['currency']['token_presales_usd'] as $key => $val ) {
+          
+               if ( trim($val) == '' ) {
+               unset($ct['conf']['currency']['token_presales_usd']);
+               }
+          
+          }
+          
+     }
+     
+     
+     // Convert stored format (that's easily editable in user interfacing) 
+     // to an optimized format for using in programming logic
+     $ct['opt_conf']['token_presales_usd'] = array();
+     foreach ( $ct['conf']['currency']['token_presales_usd'] as $val ) {
+     $conversion_array = explode('=', $val);
+     $conversion_array = array_map("trim", $conversion_array);
+     $ct['opt_conf']['token_presales_usd'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
+     }
+     
+// Alphabetically sort
+sort($ct['conf']['currency']['token_presales_usd']);
+ksort($ct['opt_conf']['token_presales_usd']);
      
 }
 
@@ -540,7 +594,7 @@ sort($ct['conf']['charts_alerts']['tracked_markets']);
 // Better decimal support for these vars...
 $ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale']); 
 $ct['conf']['charts_alerts']['price_alert_threshold'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['price_alert_threshold']); 
-$ct['conf']['power']['hivepower_yearly_interest'] = $ct['var']->num_to_str($ct['conf']['power']['hivepower_yearly_interest']); 
+$ct['conf']['currency']['hivepower_yearly_interest'] = $ct['var']->num_to_str($ct['conf']['currency']['hivepower_yearly_interest']); 
 
 
 // Admin login MAX expiration time
@@ -549,8 +603,8 @@ $ct['conf']['sec']['admin_cookie_expires'] = 6;
 }
 
 
-// Update dynamic mining calculator settings (DURING 'ui' ONLY), since we are running the app's main settings from a cache
-if ( $ct['runtime_mode'] == 'ui' && is_array($ct['conf']['power']['mining_calculators']) ) {
+// Mining calculator settings (DURING 'ui' ONLY, since we run the interface mining settings from here)
+if ( $ct['runtime_mode'] == 'ui' ) {
 require('dynamic-config.php');
 }
 
