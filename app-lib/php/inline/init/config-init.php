@@ -142,8 +142,7 @@ if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_
 // END 2FA SETUP
 
 
-// CURL CA certificate WEEKLY update
-
+// CURL CA certificate WEEKLY update...
 $cached_curl_cacert_path = $ct['base_dir'] . '/cache/other/recent-cacert.pem';
 
 // IF update fails, we fallback to this cert (that we always include with releases)
@@ -153,9 +152,27 @@ $failsafe_curl_cacert_path = $ct['base_dir'] . '/cacert.pem';
 // (10080 minutes is 1 week)
 if ( $ct['cache']->update_cache($cached_curl_cacert_path, 10080) == true ) {
 
-$curl_cacert_data = @$ct['cache']->ext_data('url', 'https://curl.se/ca/cacert.pem', 0);
+// SSL support for file_get_contents(), since we don't want to use CURL,
+// as we are getting CURL's latest CA cert file to ASSURE IT WILL RUN AFTERWARDS
+// (CURL-PHP ON WINDOWS CAN FAIL IN SOME APP SERVER SETUPS, IF WE DON'T UPDATE THE CACERT)
+$file_ssl_params = array(
+                         "ssl" => array(
+                                        "verify_peer" => false,
+                                        "verify_peer_name" => false,
+                                       ),
+                        );  
 
-$ct['cache']->save_file($cached_curl_cacert_path, $curl_cacert_data);
+$file_ssl_context = stream_context_create($file_ssl_params);
+        
+$curl_cacert_data = file_get_contents('https://curl.se/ca/cacert.pem', false, $file_ssl_context);
+
+     // If data was received, save it, otherwise reset with touch(), to wait another week before trying again
+     if ( $curl_cacert_data ) {
+     $ct['cache']->save_file($cached_curl_cacert_path, $curl_cacert_data);
+     }
+     else {
+     touch($cached_curl_cacert_path);
+     }
 
 sleep(2); // Give time for file save, before checks below
 

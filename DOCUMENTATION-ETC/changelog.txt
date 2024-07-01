@@ -6759,6 +6759,8 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -Miscellaneous user experience improvements / optimizations / refactoring
 
+-Increased reliability of CURL (in PHP) for API data requests
+
 -Updated documentation
 
 IMPORTANT *UPGRADE* NOTICES:

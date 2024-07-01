@@ -751,8 +751,8 @@ class Sender {
 		$handle = curl_init($url);
      
      
-          // If this is a windows desktop edition (to avoid invalid CA cert errors)
-          if ( $ct['app_edition'] == 'desktop' && $ct['app_platform'] == 'windows' && $ct['curl_cacert_path'] ) {
+          // Use our own cached CURL CACERT data (to avoid invalid CA cert errors)
+          if ( $ct['curl_cacert_path'] ) {
           curl_setopt($handle, CURLOPT_CAINFO, $ct['curl_cacert_path']);
           }
       

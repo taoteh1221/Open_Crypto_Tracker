@@ -136,7 +136,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> Reload / refresh browser : Shift + F5 (Mac: Command + R)
 ===> Open devtools : F12 (Mac: Fn + F12)
 !!!!
-===> Occasionally update cacert.pem in the main directory (for Windows Desktop Edition):
+===> Occasionally update cacert.pem in the main directory:
 ===> https://curl.se/ca/cacert.pem
 !!!!
 ===> "developer-config.php" contains MANY MANY MANY developer-only configs!
