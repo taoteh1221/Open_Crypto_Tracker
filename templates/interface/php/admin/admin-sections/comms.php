@@ -151,7 +151,7 @@ $ct['admin_render_settings']['to_mobile_text']['is_notes'] = 'USE "skip_network_
      
 $ct['admin_render_settings']['logs_email']['is_range'] = true;
 
-$ct['admin_render_settings']['logs_email']['range_ui_meta_data'] = 'zero_is_disabled';
+$ct['admin_render_settings']['logs_email']['range_ui_meta_data'] .= 'zero_is_disabled;';
 
 $ct['admin_render_settings']['logs_email']['range_min'] = 0;
 

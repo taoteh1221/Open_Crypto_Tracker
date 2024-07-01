@@ -557,26 +557,26 @@ var $ct_array = array();
               foreach( $render_params[$passed_key]['is_radio'] as $radio_key => $radio_val ) {
               
               
-              // If it's flagged as an associative array
-              if ( $radio_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-                   
-                   foreach( $render_params[$passed_key]['is_radio']['is_assoc'] as $assoc_val ) {
+                   // If it's flagged as an associative array
+                   if ( $radio_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                        
+                        foreach( $render_params[$passed_key]['is_radio']['is_assoc'] as $assoc_val ) {
+                        ?>
+                        
+                        <input type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
+                        
+                        <?php
+                        }
+                        
+                   }
+                   // Everything else
+                   else {
                    ?>
                    
-                   <input type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
+                   <input type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$radio_val?>' <?=( $passed_val == $radio_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($radio_val)?> &nbsp;
                    
                    <?php
                    }
-                   
-              }
-              // Everything else
-              else {
-              ?>
-              
-              <input type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$radio_val?>' <?=( $passed_val == $radio_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($radio_val)?> &nbsp;
-              
-              <?php
-              }
               
               
               }

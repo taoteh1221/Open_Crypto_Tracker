@@ -328,7 +328,7 @@
 	
 	<?php
 	
-	foreach ( $ct['conf']['power']['crypto_pair_preferred_markets'] as $key => $unused ) {
+	foreach ( $ct['opt_conf']['crypto_pair_preferred_markets'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	

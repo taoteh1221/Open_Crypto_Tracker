@@ -3,7 +3,15 @@
 # Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 
+# Sets which version of PHP to use, via github.com release tags:
+# https://github.com/php/php-src/tags
+# ALWAYS verify the version used here is secure (with NO vulnerabilities):
+# https://www.cvedetails.com/vulnerability-list/vendor_id-74/PHP.html
+PHP_GITHUB_RELEASE_TAG="php-8.3.8"
+
+
 ISSUES_URL="https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+
 
 echo " "
 echo "PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL"
@@ -815,7 +823,7 @@ git clone https://github.com/php/php-src.git
 
 cd php-src
 
-git checkout master
+git checkout tags/$PHP_GITHUB_RELEASE_TAG
 
 
 echo " "
@@ -823,7 +831,7 @@ echo "${cyan}Building (compiling) the required PHP binary files, please wait...$
 echo " "
 
 
-./buildconf
+./buildconf --force
 
 
 ./configure \

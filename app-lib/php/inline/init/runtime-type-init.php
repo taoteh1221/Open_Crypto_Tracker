@@ -186,7 +186,7 @@ $ct['sel_opt']['sorted_asc_desc'] = $sort_array[1];
     
     
     	// Remove any stale secondary trade value
-    	if ( isset($ct['sel_opt']['show_secondary_trade_val']) && !array_key_exists($ct['sel_opt']['show_secondary_trade_val'], $ct['conf']['power']['crypto_pair']) ) {
+    	if ( isset($ct['sel_opt']['show_secondary_trade_val']) && !array_key_exists($ct['sel_opt']['show_secondary_trade_val'], $ct['opt_conf']['crypto_pair']) ) {
     	unset($ct['sel_opt']['show_secondary_trade_val']);
     	unset($_POST['show_secondary_trade_val']);  
     	unset($_COOKIE['show_secondary_trade_val']);  
@@ -203,7 +203,7 @@ $ct['sel_opt']['sorted_asc_desc'] = $sort_array[1];
      $scan_crypto_val = array_map( array($ct['var'], 'strip_brackets') , $scan_crypto_val); // Strip brackets
      $loop = 0;
      foreach ($scan_crypto_val as $key) {
-     	if ( array_key_exists($key, $ct['conf']['power']['crypto_pair']) ) {
+     	if ( array_key_exists($key, $ct['opt_conf']['crypto_pair']) ) {
      	$temp_show_crypto_val[$loop] = $ct['sel_opt']['show_crypto_val'][$loop];
      	}
      $loop = $loop + 1;

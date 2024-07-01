@@ -5,7 +5,7 @@ CREATING CUSTOM PLUGINS
 ##########################################################################################
 
 
-IMPORTANT NOTICE: PLUGINS *MAY REQUIRE* A CRON JOB (OR SCHEDULED TASK) RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information).
+IMPORTANT NOTICE: PLUGINS *MAY REQUIRE* A CRON JOB (OR SCHEDULED TASK) RUNNING ON YOUR APP SERVER (see README.txt for cron job setup information).
 
 
 Take advantage of this app's built-in functions / classes, and your config settings (alert comm channels setup, etc) to create your own custom plugins WITH MINIMAL CODING REQUIRED, to add features to this app.

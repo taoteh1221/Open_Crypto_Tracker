@@ -63,7 +63,7 @@ $ct['admin_render_settings']['mark_as_new']['range_ui_suffix'] = ' Days Old';
      
 $ct['admin_render_settings']['news_feed_email_frequency']['is_range'] = true;
 
-$ct['admin_render_settings']['news_feed_email_frequency']['range_ui_meta_data'] = 'zero_is_disabled';
+$ct['admin_render_settings']['news_feed_email_frequency']['range_ui_meta_data'] .= 'zero_is_disabled;';
 
 $ct['admin_render_settings']['news_feed_email_frequency']['range_min'] = 0;
 

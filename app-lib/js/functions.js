@@ -894,7 +894,7 @@ function get_coords(elem) { // crossbrowser version
 function set_admin_security(obj) {
 
 		if ( obj.value == "normal" || obj.value == "medium" ) {
-	     var admin_sec_level_set = confirm("'Medium' and 'Normal' admin security modes are currently BETA (TEST) FEATURES, AND USING THEM MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE these BETA features AFTER activating them (by setting the security mode back to 'High'), and you will be able to update your app configuration from the PHP config files again.");
+	     var admin_sec_level_set = confirm("In 'Normal' and 'Medium' admin security modes, editing from the PHP config files will be DISABLED.\n\nAll app configuration editing will need to be done within this admin interface.");
 		}
 		else {
 	     var admin_sec_level_set = confirm("High security admin mode requires you to update your app configuration from the PHP config files (config.php in app main directory / plug-conf.php for each plugin in the plugins subdirectory).\n\nWARNING: IF YOU SWITCH TO HIGH SECURITY MODE, ANY SETTING CHANGES YOU MADE IN A LOWER SECURITY MODE *WILL BE LOST*!");
@@ -2358,7 +2358,18 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
      var rangeUiMetaData = range_wrap.getElementsByClassName('range-ui-meta-data')[0];
      
-     var metaDataToUi = (rangeUiMetaData.textContent).replace("zero_is_", "");
+     
+         // Dynamic interface UX
+         if ( (rangeUiMetaData.textContent).includes("zero_is_disabled") ) {
+         var metaDataToUi = 'Disabled';
+         }
+         else if ( (rangeUiMetaData.textContent).includes("zero_is_unlimited") ) {
+         var metaDataToUi = 'Unlimited';
+         }
+         else {
+         var metaDataToUi = false;
+         }
+         
      
      var still_updating = false;
        
@@ -2378,7 +2389,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
      var uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
      
      // INITIAL: Process some different meta data values (if they exist)
-     uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
+     uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
      
      rangeValue.innerHTML = `${uiValue}`;
      
@@ -2401,7 +2412,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
               
              
              // If flagged as using custom steps (not every step is the same value)
-             if ( rangeUiMetaData.textContent == 'is_custom_steps' ) {
+             if ( (rangeUiMetaData.textContent).includes("is_custom_steps") ) {
              
              // MUST BE ABOVE custom_range_steps()
              still_updating = true;
@@ -2447,7 +2458,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
          uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
      
          // Process some different meta data values (if they exist)
-         uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
+         uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
               
          rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
        

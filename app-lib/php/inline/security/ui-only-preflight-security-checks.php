@@ -288,7 +288,10 @@ $system_error = 'Server OR app SECURITY issues detected (SEE LOGGED SETUP ISSUES
 
 $ct['gen']->log('system_error', $system_error);
 
-echo $system_error;
+echo "<br />" . $system_error . '.';
+echo "<br /><br />PLEASE <a href='javascript:location.reload(true);'>RELOAD / RESTART THIS APP</a> TO CONTINUE.<br /><br />";
+
+//echo 'result: ' . $base_url_check['response_output']; // DEBUGGING
 
 // Log errors / send any notifications before exiting
 $ct['cache']->app_log();

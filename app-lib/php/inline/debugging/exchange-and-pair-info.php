@@ -30,7 +30,7 @@ $currency_count = 0;
 		$pairs_count = $currency_count;
 		$all_supported_pairs_list = $supported_prim_currency_list;
 		
-		foreach ( $ct['conf']['power']['crypto_pair'] as $key => $unused ) {
+		foreach ( $ct['opt_conf']['crypto_pair'] as $key => $unused ) {
 			
 			// Detects better with side space included
 			if ( stristr($all_supported_pairs_list, ' ' . $key . ' ') == false ) {
