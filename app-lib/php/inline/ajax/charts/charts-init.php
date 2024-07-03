@@ -43,6 +43,9 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/charts/types/system.php
 }
  
  
+// Access stats logging
+$ct['cache']->log_access_stats();
+
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();
 $ct['cache']->send_notifications();

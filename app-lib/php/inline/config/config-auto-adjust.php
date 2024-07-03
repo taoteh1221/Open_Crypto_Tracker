@@ -407,9 +407,9 @@ if ( abs($ct['conf']['power']['last_trade_cache_time']) > 60 || $ct['conf']['pow
 $ct['conf']['power']['last_trade_cache_time'] = 60;
 }
 
-// Idiot-proof visitor_stats_delete_old
-if ( abs($ct['conf']['power']['visitor_stats_delete_old']) > 360 || $ct['conf']['power']['visitor_stats_delete_old'] < 0 ) {
-$ct['conf']['power']['visitor_stats_delete_old'] = 360;
+// Idiot-proof access_stats_delete_old
+if ( abs($ct['conf']['power']['access_stats_delete_old']) > 360 || $ct['conf']['power']['access_stats_delete_old'] < 0 ) {
+$ct['conf']['power']['access_stats_delete_old'] = 360;
 }
 
 // Idiot-proof blockchain_stats_cache_time

@@ -6757,6 +6757,8 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 -Moved ENTIRE mining page config into dynamic-config.php (except for HIVE power down settings)
 
+-Moved the user area 'Save Changes' button into the sidebar (like the Admin Area has)
+
 -Miscellaneous user experience improvements / optimizations / refactoring
 
 -Increased reliability of CURL (in PHP) for API data requests

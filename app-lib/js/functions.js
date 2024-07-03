@@ -2086,9 +2086,10 @@ function sorting_generic_tables(paginated=false) {
 	     
 	          console.log('adding table sorting to GENERIC table (with "data_table" class)');
                
+               var pager_id = typeof table.id != 'undefined' ? table.id : false;
                    	
                    	if ( paginated ) {
-                    paginated_tables( $(table), generic_sort_list );
+                    paginated_tables( $(table), generic_sort_list, table.id );
                     }
                     else {
                     
@@ -2119,7 +2120,7 @@ function sorting_generic_tables(paginated=false) {
 
 
 https://mottie.github.io/tablesorter/beta-testing/example-pager-custom-controls.html
-function paginated_tables(element, generic_sort_list) {
+function paginated_tables(element, generic_sort_list, pager_id=false) {
 
   // initialize custom pager script BEFORE initializing tablesorter/tablesorter pager
   // custom pager looks like this:
@@ -2130,7 +2131,7 @@ function paginated_tables(element, generic_sort_list) {
   //         _________            aroundCurrent (1 default)
 
   var $table = element,
-    $pager = $('.table_pager');
+    $pager = $('.table_pager_' + pager_id);
 
   $.tablesorter.customPagerControls({
     table          : $table,                   // point at correct table (string or jQuery object)

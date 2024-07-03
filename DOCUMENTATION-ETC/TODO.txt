@@ -196,10 +196,10 @@ Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' P
 Merge System stats / access stats / app logs into one area called: "App Monitoring => Telemetry | Access | Logs". Add horizontal tabs a top of this area, for each subsection. Store stats for each ip address in /cache/events/access_stats/, USING THE SAME FILENAME COMPATIBILITY LOGIC WE USE TO SAFELY CREATE IPV6-BASED-FREINDLY FILENAMES IN /cache/events/throttling/.
 
 
-Ad a GENERAL / GENERIC POS rewards calculator to the tools page.
-
-
 Move all admin-related functions into the new 'ct_admin' PHP class.
+
+
+Ad a GENERAL / GENERIC POS rewards calculator to the tools page.
 
 
 Security page should show the app version number, AND any version upgrade alerts (if available).

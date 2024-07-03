@@ -29,11 +29,11 @@ var $ct_array = array();
   
   ?>
 
-  <h3 class='bitcoin'>(<?=$ct['conf']['power']['visitor_stats_delete_old']?> Day Report)</h3>
+  <h3 class='bitcoin'>(<?=$ct['conf']['power']['access_stats_delete_old']?> Day Report)</h3>
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
 	
-	<li class='bitcoin' style='font-weight: bold;'>You can adjust how long to store access stats for, in the Admin -> Power User section (with the "Visitor Stats Delete Old" setting).</li>
+	<li class='bitcoin' style='font-weight: bold;'>You can adjust how long to store access stats for, in the Admin -> Power User section (with the "Access Stats Delete Old" setting).</li>
 	
    </ul>		
   
@@ -101,6 +101,9 @@ var $ct_array = array();
       
       
       foreach ( $ct['show_access_stats'] as $key => $val ) {
+      
+      $safe_name = $ct['gen']->safe_name($val['ip']);
+           
       ?>
 
           <fieldset class='subsection_fieldset'>
@@ -108,7 +111,7 @@ var $ct_array = array();
                <legend class='subsection_legend'> IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits) </legend>
                
                <!-- table_pager -->
-               <div class="table_pager">
+               <div class="table_pager_<?=$safe_name?>">
 
                	<span class="pagedisplay"></span> 
                	
@@ -137,7 +140,7 @@ var $ct_array = array();
 
                </div>
                
-               <table border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
+               <table id='<?=$safe_name?>' border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
                 <thead>
                    <tr>
                     <th class="filter-match" data-placeholder="Filter Results">Last Visit Time</th>
@@ -204,7 +207,7 @@ var $ct_array = array();
                      
                      <p style='border: 0.05em solid #808080; padding: 0.3em; border-radius: 0.4em;'>
                      
-                     <span class='red'><?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <?=$user_agent_desc?>:</span>
+                     <span class='<?=( $user_agent_desc != 'Other' ? 'green' : 'bitcoin' )?>'><?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <?=$user_agent_desc?>:</span>
                      
                      <br />
                      <span class='blue'><?=$ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?></span>
@@ -278,8 +281,8 @@ var $ct_array = array();
                                                            
       foreach ( $ct['log_access_stats'][$safe_name]['visits'] as $key => $unused ) {
           
-          // Purge any old records based on 'visitor_stats_delete_old' user setting
-          if ( $ct['var']->num_to_str($key) < $ct['var']->num_to_str( time() - ($ct['conf']['power']['visitor_stats_delete_old'] * 86400) ) ) {
+          // Purge any old records based on 'access_stats_delete_old' user setting
+          if ( $ct['var']->num_to_str($key) < $ct['var']->num_to_str( time() - ($ct['conf']['power']['access_stats_delete_old'] * 86400) ) ) {
           unset($ct['log_access_stats'][$safe_name]['visits'][$key]);
           }
       

@@ -105,7 +105,7 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
-	    	quote:"Speculating on popular \"meme coins\" (dog / cat / ape / frog coins, etc) is <u>EXTREMELY RISKY</u>. <i>NEVER</i> put more than ~5% of your total investment worth into ALL your meme coin assets COMBINED (AKA small \"moon bags\"), or you will <u>RISK LOSING EVERYTHING</u>! They are EXTREMELY VOLITILE becuase they are HEAVILY SPECULATED ON (NOT long term investments for many traders).",
+	    	quote:"Speculating on popular \"meme coins\" (dog / cat / ape / frog coins, etc) is <u>EXTREMELY RISKY</u>. <i>NEVER</i> put more than ~5% of your total investment worth into ALL your meme coin assets COMBINED (AKA small \"moon bags\"), or you will <u>RISK LOSING EVERYTHING</u>! They are EXTREMELY VOLITILE because they are HEAVILY SPECULATED ON (NOT long term investments for many traders).",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
@@ -153,7 +153,7 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
-	    	quote:"Coins that are mined into creation (via Proof-of-Work or Proof-of-Stake) are commodities from a LEGAL standpoint. Coins that are created without cost by network operators for sale to private OR public investors are securities from a LEGAL standpoint. A securities-class token MAY OVER TIME be deemed a commodities-class token by authorities of jusidictions, IF IT HAS ENOUGH UTILITY ON A FULLY FUNCTIONAL / ACTIVELY USED NETWORK. It's VERY IMPORTANT to know which class of tokens you are buying, becuase securities-class tokens are #HEAVILY REGULATED# and may NEVER get listed on highly-regulated exchanges.",
+	    	quote:"Coins that are mined into creation (via Proof-of-Work or Proof-of-Stake) are commodities from a LEGAL standpoint. Coins that are created without cost by network operators for sale to private OR public investors are securities from a LEGAL standpoint. A securities-class token MAY OVER TIME be deemed a commodities-class token by authorities of jusidictions, IF IT HAS ENOUGH UTILITY ON A FULLY FUNCTIONAL / ACTIVELY USED NETWORK. It's VERY IMPORTANT to know which class of tokens you are buying, because securities-class tokens are #HEAVILY REGULATED# and may NEVER get listed on highly-regulated exchanges.",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {

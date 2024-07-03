@@ -1057,7 +1057,7 @@ $ct['conf']['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables
 
 
 // Delete visitor stats older than X DAYS
-$ct['conf']['power']['visitor_stats_delete_old'] = 30; // (default = 30, MAX = 360)
+$ct['conf']['power']['access_stats_delete_old'] = 30; // (default = 30, MAX = 360)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to DISABLE cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED

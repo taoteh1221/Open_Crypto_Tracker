@@ -204,7 +204,7 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								Speculating on popular "meme coins" (dog / cat / ape / frog coins, etc) is <u>EXTREMELY RISKY</u>. <i>NEVER</i> put more than ~5% of your total investment worth into ALL your meme coin assets COMBINED (AKA small "moon bags"), or you will <u>RISK LOSING EVERYTHING</u>! They are EXTREMELY VOLITILE becuase they are HEAVILY SPECULATED ON (NOT long term investments for many traders).
+								Speculating on popular "meme coins" (dog / cat / ape / frog coins, etc) is <u>EXTREMELY RISKY</u>. <i>NEVER</i> put more than ~5% of your total investment worth into ALL your meme coin assets COMBINED (AKA small "moon bags"), or you will <u>RISK LOSING EVERYTHING</u>! They are EXTREMELY VOLITILE because they are HEAVILY SPECULATED ON (NOT long term investments for many traders).
 							</li>
 						
 							<li class='bitcoin disclaimer'>
@@ -316,11 +316,6 @@
 	<div class='align_left clear_both' style='margin-top: 40px; margin-bottom: 15px; white-space: nowrap;'>
 	
 		
-		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-		<button class='force_button_style' onclick='
-		$("#coin_amnts").submit();
-		'>Save Updated Portfolio</button>
-	
 		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=$ct['gen']->start_page($_GET['start_page'])?>" method="post">
 		
 	    <input type="hidden" name="csv_check" value="1" />
@@ -806,8 +801,7 @@
 	<input type='hidden' id='prim_currency_mrkt_standalone' name='prim_currency_mrkt_standalone' value='<?=( isset($_POST['prim_currency_mrkt_standalone']) ? $_POST['prim_currency_mrkt_standalone'] : $_COOKIE['prim_currency_mrkt_standalone'] )?>' />
 	
 	<input type='hidden' id='prim_currency_mrkt' name='prim_currency_mrkt' value='<?=( isset($_POST['prim_currency_mrkt']) ? $_POST['prim_currency_mrkt'] : $_COOKIE['prim_currency_mrkt'] )?>' />
-			
-	<p><input type='submit' value='Save Updated Portfolio' /></p>
+	
 	
 	</form>
 	
