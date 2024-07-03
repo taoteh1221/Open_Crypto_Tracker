@@ -142,15 +142,18 @@ if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_
 // END 2FA SETUP
 
 
-// CURL CA certificate WEEKLY update...
+// CURL CA certificate MONTHLY update...
+// WE USE NATIVE PHP FUNCTIONS HERE AS MUCH AS POSSIBLE, AS WE HAVEN'T FULLY INITIATED THE APP CONFIG YET!
+
+// CACHED / UPDATED CACERT FILE PATH
 $cached_curl_cacert_path = $ct['base_dir'] . '/cache/other/recent-cacert.pem';
 
 // IF update fails, we fallback to this cert (that we always include with releases)
 $failsafe_curl_cacert_path = $ct['base_dir'] . '/cacert.pem';
 
 
-// (10080 minutes is 1 week)
-if ( $ct['cache']->update_cache($cached_curl_cacert_path, 10080) == true ) {
+// (43200 minutes is 30 days)
+if ( $ct['cache']->update_cache($cached_curl_cacert_path, 43200) == true ) {
 
 // SSL support for file_get_contents(), since we don't want to use CURL,
 // as we are getting CURL's latest CA cert file to ASSURE IT WILL RUN AFTERWARDS
@@ -168,7 +171,7 @@ $curl_cacert_data = file_get_contents('https://curl.se/ca/cacert.pem', false, $f
 
      // If data was received, save it, otherwise reset with touch(), to wait another week before trying again
      if ( $curl_cacert_data ) {
-     $ct['cache']->save_file($cached_curl_cacert_path, $curl_cacert_data);
+     file_put_contents($cached_curl_cacert_path, $curl_cacert_data, LOCK_EX);
      }
      else {
      touch($cached_curl_cacert_path);

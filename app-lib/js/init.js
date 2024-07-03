@@ -371,13 +371,13 @@ nav_menu('.user-nav');
 	
      
      // Do setting changes check for 3-deep sidebar menu area
-     $('#sidebar ul li ul.dropdown-menu a.dropdown-item').on({
+     $('#sidebar ul li ul.dropdown-menu a:not(.settings_save)').on({
         "click":function(e){
          
                   
               // IF user CHANGED admin config settings data via interface,
               // confirm whether or not they want to skip saving their changes
-              if ( unsaved_admin_config ) {
+              if ( is_admin && unsaved_admin_config ) {
                        
               var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
                   
@@ -402,6 +402,31 @@ nav_menu('.user-nav');
                   }
 
               }
+              else if ( !is_admin && unsaved_user_config ) {
+                       
+              var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
+                  
+                  if ( !confirm_skip_saving_changes ) {
+                       
+                  e.preventDefault();
+
+                  $("a.dropdown-item").removeClass("secondary-select");
+                  $(this).addClass("secondary-select");
+
+                  return false;                 
+
+                  }
+                  else {        
+                  
+                  unsaved_user_config = false;
+
+                  $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+                  $('#sidebar .user_settings_save').addClass('bitcoin');
+                  $('#sidebar .user_settings_save').removeClass('red_bright');
+
+                  }
+
+              }
                   
               
          }
@@ -412,7 +437,7 @@ nav_menu('.user-nav');
 	
 	
      // Updating admin settings
-	if ( is_iframe ) {
+	if ( is_admin && is_iframe ) {
               
      // Checking for CHANGED form data          
      var check_update_form = document.querySelector('#update_config');
@@ -452,15 +477,10 @@ nav_menu('.user-nav');
      
                        }
                        else {
+    
+                       form_submit_queued = true;
      
                        $("#update_config").submit();
-     
-                       parent.unsaved_admin_config = false;
-     
-                       $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-     
-                       $('#sidebar .admin_settings_save', window.parent.document).addClass('bitcoin');
-                       $('#sidebar .admin_settings_save', window.parent.document).removeClass('red_bright');
      
                        }
               
@@ -469,6 +489,38 @@ nav_menu('.user-nav');
 
                   }
               
+              
+              }
+          });
+     
+     }
+     // Update user area
+	else if ( !is_admin ) {
+              
+     // Checking for CHANGED form data          
+     var check_update_form = document.querySelector('#coin_amnts');
+
+          
+          if ( check_update_form != null ) {
+
+               // Listen for input events on the form
+               check_update_form.addEventListener('input', function (event) {
+               red_save_button();
+               });
+          
+          }
+          
+     
+          $('.user_settings_save').on({
+             "click":function(e){
+                  
+              user_settings_save_init = false; // Reset
+    
+              form_submit_queued = true;
+                  
+              $("#coin_amnts").submit();
+     
+              user_settings_save_init = true;
               
               }
           });
@@ -545,6 +597,11 @@ nav_menu('.user-nav');
         
         e.returnValue = '';
         
+        return false;
+        
+        }
+        else {
+        app_reload_notice('Reloading...');
         }
         
     }); 
@@ -1093,6 +1150,8 @@ nav_menu('.user-nav');
      
     // Sort the portfolio AFTER checking for privacy mode
     sorting_portfolio_table();
+    
+    sorting_generic_tables(true);
     
     resize_password_notes();
 

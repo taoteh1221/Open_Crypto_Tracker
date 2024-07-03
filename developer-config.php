@@ -172,11 +172,20 @@ $ct['dev']['config_allow_resets'] = array();
 // (can manipulate later on, based on app version number / user input / etc)
 // INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
 $ct['dev']['config_deny_additions'] = array(
+                                           //////// STANDARD LIST //////////////////////
+                                           'strict_consecutive_connect_servers', // Subarray setting (power user)
+                                           'strict_news_feed_servers', // Subarray setting (strict news feed servers)
+                                           'feeds', // Subarray setting (news feeds)
                                            'anti_proxy_servers', // Subarray setting (anti-proxy servers)
                                            'proxy_list', // Subarray setting (proxy servers)
                                            'tracked_markets', // Subarray setting (asset charts / price alerts)
                                            'bitcoin_currency_markets', // Subarray setting (currency support)
                                            'bitcoin_preferred_currency_markets', // Subarray setting (currency support)
+                                           'crypto_pair', // Subarray setting (currency support)
+                                           'crypto_pair_preferred_markets', // Subarray setting (currency support)
+                                           'token_presales_usd', // Subarray setting (currency support)
+                                           'text_gateways', // Subarray setting (mobile text gateways)
+                                           'assets', // Main category (portfolio assets)
                                            );
 
 
@@ -184,13 +193,18 @@ $ct['dev']['config_deny_additions'] = array(
 // (can manipulate later on, based on app version number / user input / etc)
 // INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
 $ct['dev']['config_deny_removals'] = array(
-                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
-                                           'proxy_list', // Subarray setting (proxy servers)
+                                           //////// STANDARD LIST //////////////////////
+                                           'strict_consecutive_connect_servers', // Subarray setting (power user)
                                            'strict_news_feed_servers', // Subarray setting (strict news feed servers)
                                            'feeds', // Subarray setting (news feeds)
+                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
+                                           'proxy_list', // Subarray setting (proxy servers)
                                            'tracked_markets', // Subarray setting (asset charts / price alerts)
                                            'bitcoin_currency_markets', // Subarray setting (currency support)
                                            'bitcoin_preferred_currency_markets', // Subarray setting (currency support)
+                                           'crypto_pair', // Subarray setting (currency support)
+                                           'crypto_pair_preferred_markets', // Subarray setting (currency support)
+                                           'token_presales_usd', // Subarray setting (currency support)
                                            'text_gateways', // Subarray setting (mobile text gateways)
                                            'assets', // Main category (portfolio assets)
                                           );

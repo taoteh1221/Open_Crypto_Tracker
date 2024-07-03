@@ -19,6 +19,283 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
+  function show_access_stats() {
+  
+  global $ct;
+  
+      if ( $ct['gen']->admin_logged_in() == false ) {
+      return false;
+      }
+  
+  ?>
+
+  <h3 class='bitcoin'>(<?=$ct['conf']['power']['visitor_stats_delete_old']?> Day Report)</h3>
+    		
+   <ul style='margin-top: 25px; font-weight: bold;'>
+	
+	<li class='bitcoin' style='font-weight: bold;'>You can adjust how long to store access stats for, in the Admin -> Power User section (with the "Visitor Stats Delete Old" setting).</li>
+	
+   </ul>		
+  
+  <?php
+  
+  $access_stats_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/events/access_stats', 'dat', 'desc');
+  
+  
+      foreach( $access_stats_files as $ip_access_file ) {
+      
+      $access_stats_check = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/events/access_stats/' . $ip_access_file) ) , TRUE);
+      
+      
+          // Check for valid data
+          if ( $access_stats_check != false && $access_stats_check != null && $access_stats_check != "null" ) {
+          
+          // Counting for url / user agent visits (PER-IP)
+          $url_visit_count = array();
+          $user_agent_visit_count = array();
+               
+          $safe_name = $ct['gen']->safe_name($access_stats_check['ip']);
+          
+          $ct['show_access_stats'][$safe_name]['ip'] = $access_stats_check['ip'];
+          
+          $ct['show_access_stats'][$safe_name]['ip_total_visits'] = sizeof($access_stats_check['visits']);
+          
+          krsort($access_stats_check['visits']); // Sort by latest timestamp
+               
+               foreach ( $access_stats_check['visits'] as $key => $val ) {
+                    
+                    
+                    // For UX, we only want one table row per-page (no duplicates same page)
+                    // (an we just include page / user agent counts in this row)
+                    // $key is the visited timestamp, we only want the MOST RECENT
+                    if ( !isset($url_visit_count[ md5($val['url']) ]) ) {
+                    $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($val['url']) ]['last_visit'] = $key;
+                    $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($val['url']) ]['url'] = $val['url'];
+                    }
+                    
+                    // Add the user agent name, IF not added yet
+                    if ( !isset($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ]) ) {
+                    $ct['show_access_stats'][$safe_name]['user_agents'][ md5($val['url']) ][ md5($val['user_agent']) ] = $val['user_agent'];
+                    }
+               
+               
+               // URL visits
+               $url_visit_count[ md5($val['url']) ] = ( isset($url_visit_count[ md5($val['url']) ]) ? ($url_visit_count[ md5($val['url']) ] + 1) : 1 );
+               
+               $ct['show_access_stats'][$safe_name]['ip_url_visits'][ md5($val['url']) ] = $url_visit_count[ md5($val['url']) ];
+               
+               
+               // User agent visits
+               $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] = ( isset($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ]) ? ($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] + 1) : 1 );
+               
+               $ct['show_access_stats'][$safe_name]['ip_user_agent_visits'][ md5($val['url']) ][ md5($val['user_agent']) ] = $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ];
+
+               
+               }
+               
+
+          }
+          
+      
+      }
+      
+      
+      foreach ( $ct['show_access_stats'] as $key => $val ) {
+      ?>
+
+          <fieldset class='subsection_fieldset'>
+               
+               <legend class='subsection_legend'> IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits) </legend>
+               
+               <!-- table_pager -->
+               <div class="table_pager">
+
+               	<span class="pagedisplay"></span> 
+               	
+               	<br /><br />
+               	<span class="left">
+					&nbsp;<span class="bitcoin">Show Per Page:</span>
+					<a href="#" class="current">25</a> |
+					<a href="#">50</a> |
+					<a href="#">75</a> |
+					<a href="#">100</a>
+				</span>
+				
+               	<br /><br />
+				<span class="right">
+
+					&nbsp;<span class="bitcoin">View Page:</span> <span class="prev">
+						Prev
+					</span>&nbsp;
+
+					<span class="pagecount"></span>
+					
+					&nbsp;<span class="next">Next
+					</span>
+					
+				</span>
+
+               </div>
+               
+               <table border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
+                <thead>
+                   <tr>
+                    <th class="filter-match" data-placeholder="Filter Results">Last Visit Time</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Total Visits</th>
+                    <th class="filter-match" data-placeholder="Filter Results">URL</th>
+                    <th class="filter-match" data-placeholder="Filter Results">User Agents</th>
+                   </tr>
+                 </thead>
+                 
+                <tbody>
+                   
+                   <?php
+                   foreach ( $ct['show_access_stats'][$key]['visited_pages'] as $visited_pages ) {
+                   ?>
+                   
+                   <tr>
+                   
+                     <td><?=date("Y-m-d H:i:s", $visited_pages['last_visit'])?></td>
+                     <td> <?=$ct['show_access_stats'][$key]['ip_url_visits'][ md5($visited_pages['url']) ]?> </td>
+                     <td style='word-break: break-all;'> <?=$visited_pages['url']?> </td>
+                     <td> 
+                     
+                     <?php
+                     foreach ( $ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ] as $user_agent_key => $user_agent_val ) {
+                     
+                     
+                         // Known user agents (for description in the interface)
+                         if ( stristr($user_agent_val, 'googlebot') ) {
+                         $user_agent_desc = 'GoogleBot';
+                         }
+                         elseif ( stristr($user_agent_val, 'bingbot') ) {
+                         $user_agent_desc = 'BingBot';
+                         }
+                         elseif ( stristr($user_agent_val, 'slurp') ) {
+                         $user_agent_desc = 'YahooSlurpBot';
+                         }
+                         elseif ( stristr($user_agent_val, 'firefox/') ) {
+                         $user_agent_desc = 'FireFox';
+                         }
+                         elseif ( stristr($user_agent_val, 'edge/') ) {
+                         $user_agent_desc = 'Edge';
+                         }
+                         elseif ( stristr($user_agent_val, 'epiphany/') ) {
+                         $user_agent_desc = 'Epiphany';
+                         }
+                         elseif ( stristr($user_agent_val, 'brave/') ) {
+                         $user_agent_desc = 'Brave';
+                         }
+                         elseif ( stristr($user_agent_val, 'opera/') ) {
+                         $user_agent_desc = 'Opera';
+                         }
+                         elseif ( stristr($user_agent_val, 'chrome/') ) {
+                         $user_agent_desc = 'Chrome';
+                         }
+                         elseif ( stristr($user_agent_val, 'safari/') ) {
+                         $user_agent_desc = 'Safari';
+                         }
+                         else {
+                         $user_agent_desc = 'Other';
+                         }
+                         
+                         
+                     ?>
+                     
+                     <p style='border: 0.05em solid #808080; padding: 0.3em; border-radius: 0.4em;'>
+                     
+                     <span class='red'><?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <?=$user_agent_desc?>:</span>
+                     
+                     <br />
+                     <span class='blue'><?=$ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?></span>
+                     
+                     </p>
+                     
+                     <?php
+                     }
+                     ?>
+                     
+                     </td>
+                   
+                   </tr>
+                   
+                   <?php
+                   }
+                   ?>
+
+                </tbody>
+                </table>
+               
+           
+          </fieldset>
+
+      <?php
+      }
+
+  
+  }
+  
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function log_access_stats() {
+  
+  global $ct;
+  
+  // We wait until we are in this function, to grab any cached data at the last minute,
+  // to assure we get anything written recently by other runtimes
+  
+  $safe_name = $ct['gen']->safe_name($ct['remote_ip']);
+  
+  $file_save_path = $ct['base_dir'] . '/cache/events/access_stats/' . $safe_name . '.dat';
+  
+  $access_stats_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
+  
+  
+     // If there is ALREADY valid data cached, import it into the $ct['log_access_stats'] array
+     if ( $access_stats_check != false && $access_stats_check != null && $access_stats_check != "null" ) {
+     $ct['log_access_stats'][$safe_name] = $access_stats_check;
+     }
+     else {
+     $ct['log_access_stats'][$safe_name] = array();
+     }
+     
+     
+     // Set IP if needed
+     if ( !isset($ct['log_access_stats'][$safe_name]['ip']) ) {
+     $ct['log_access_stats'][$safe_name]['ip'] = $ct['remote_ip'];
+     }
+  
+  
+  // We DONT include the host / iframe_nonce in the URL, for UX
+  $ct['log_access_stats'][$safe_name]['visits'][time()] = array(
+                                                           'user_agent' => $ct['user_agent'],
+                                                           'url' => $ct['gen']->get_url(false, true),
+                                                           );
+
+                                                           
+      foreach ( $ct['log_access_stats'][$safe_name]['visits'] as $key => $unused ) {
+          
+          // Purge any old records based on 'visitor_stats_delete_old' user setting
+          if ( $ct['var']->num_to_str($key) < $ct['var']->num_to_str( time() - ($ct['conf']['power']['visitor_stats_delete_old'] * 86400) ) ) {
+          unset($ct['log_access_stats'][$safe_name]['visits'][$key]);
+          }
+      
+      }
+
+
+  $store_access_stats = json_encode($ct['log_access_stats'][$safe_name], JSON_PRETTY_PRINT);
+  $store_file_contents = $this->save_file($file_save_path, $store_access_stats);
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
   function update_cache($cache_file, $minutes) {
   
     if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - ( 60 * $minutes ) )  ) {
@@ -516,47 +793,49 @@ var $ct_array = array();
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   
-  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $tld_or_ip . '.dat';
+  $safe_name = $ct['gen']->safe_name($tld_or_ip);
+  
+  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $safe_name . '.dat';
   
   $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
   
   
      // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $ct['api_throttle_count'] array
-     if ( !isset($ct['api_throttle_flag']['init'][$tld_or_ip]) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
-     $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
+     if ( !isset($ct['api_throttle_flag']['init'][$safe_name]) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
+     $ct['api_throttle_count'][$safe_name] = $api_throttle_count_check;
      }
      
      
-     $ct['api_throttle_flag']['init'][$tld_or_ip] = true; // Flag as initiated this runtime (AFTER above logic)
+     $ct['api_throttle_flag']['init'][$safe_name] = true; // Flag as initiated this runtime (AFTER above logic)
 
      
      // Set OR reset MINUTE start time / counts, if needed
      if (
-     !$cached_path && isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'])
-     || isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'] <= ( time() - 60 )
+     !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name]) && !isset($ct['api_throttle_count'][$safe_name]['minute_count']['start'])
+     || isset($ct['api_throttle_count'][$safe_name]['minute_count']['start']) && $ct['api_throttle_count'][$safe_name]['minute_count']['start'] <= ( time() - 60 )
      ) {
-     $ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'] = time();
-     $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = 0;
+     $ct['api_throttle_count'][$safe_name]['minute_count']['start'] = time();
+     $ct['api_throttle_count'][$safe_name]['minute_count']['count'] = 0;
      }
      
      
      // Set OR reset HOUR start time / counts, if needed
      // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
      if (
-     !$cached_path && isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['hour_count']['start'])
-     || isset($ct['api_throttle_count'][$tld_or_ip]['hour_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['hour_count']['start'] <= ( time() - 3600 )
+     !$cached_path && isset($ct['throttled_api_per_day_limit'][$safe_name]) && !isset($ct['api_throttle_count'][$safe_name]['hour_count']['start'])
+     || isset($ct['api_throttle_count'][$safe_name]['hour_count']['start']) && $ct['api_throttle_count'][$safe_name]['hour_count']['start'] <= ( time() - 3600 )
      ) {
-     $ct['api_throttle_count'][$tld_or_ip]['hour_count']['start'] = time();
-     $ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'] = 0;
+     $ct['api_throttle_count'][$safe_name]['hour_count']['start'] = time();
+     $ct['api_throttle_count'][$safe_name]['hour_count']['count'] = 0;
      }
      
      
      // Thresholds for API servers (we throttle-limit, to have reliable LIVE data EVERY HOUR OF THE DAY) 
-     // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $ct['api_throttle_flag'][$tld_or_ip] *AND* THE FUNCTION CALL)
+     // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $ct['api_throttle_flag'][$safe_name] *AND* THE FUNCTION CALL)
      
      
      // CACHE TIME BASED
-     if ( $cached_path && isset($ct['throttled_api_cache_time'][$tld_or_ip]) && $this->update_cache($cached_path, $ct['throttled_api_cache_time'][$tld_or_ip]) == false ) {
+     if ( $cached_path && isset($ct['throttled_api_cache_time'][$safe_name]) && $this->update_cache($cached_path, $ct['throttled_api_cache_time'][$safe_name]) == false ) {
      
      $minutes_old = round( ( time() - filemtime($cached_path) ) / 60 );
      
@@ -568,31 +847,31 @@ var $ct_array = array();
           // Log for each cache file's throttle
           $ct['gen']->log(
                        'notify_debug',
-                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct['var']->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $ct['throttled_api_cache_time'][$tld_or_ip] . ')'
+                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct['var']->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $ct['throttled_api_cache_time'][$safe_name] . ')'
                	  );
           	  
           }
      
      
      // For dev-notes ONLY (so it's realized IN THIS INSTANCE we throttle this API server by cache time, instead of API request counts)
-     $ct['api_throttle_count'][$tld_or_ip]['cache_time_based'][$cache_file_name] = array(
+     $ct['api_throttle_count'][$safe_name]['cache_time_based'][$cache_file_name] = array(
                                                                              'minutes_cached' => $minutes_old,
-                                                                             'minimum_cache_minutes' => $ct['throttled_api_cache_time'][$tld_or_ip],
+                                                                             'minimum_cache_minutes' => $ct['throttled_api_cache_time'][$safe_name],
                                                                             );
                   
-     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
      $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
          
-     $ct['api_throttle_flag'][$tld_or_ip] = true;
+     $ct['api_throttle_flag'][$safe_name] = true;
      
-     return $ct['api_throttle_flag'][$tld_or_ip];
+     return $ct['api_throttle_flag'][$safe_name];
      
      }
      // API REQUEST COUNTING BASED
      // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
      elseif (
-     !$cached_path && isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['throttled_api_per_minute_limit'][$tld_or_ip]
-     || !$cached_path && isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && $ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'] >= floor($ct['throttled_api_per_day_limit'][$tld_or_ip] / 24)
+     !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name]) && $ct['api_throttle_count'][$safe_name]['minute_count']['count'] >= $ct['throttled_api_per_minute_limit'][$safe_name]
+     || !$cached_path && isset($ct['throttled_api_per_day_limit'][$safe_name]) && $ct['api_throttle_count'][$safe_name]['hour_count']['count'] >= floor($ct['throttled_api_per_day_limit'][$safe_name] / 24)
      ) {
           
           
@@ -601,7 +880,7 @@ var $ct_array = array();
           // Only log once, as it's the minute / hour thresholds met
           $ct['gen']->log(
                        'notify_debug',
-                       'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests='.$ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'].', hour_requests='.$ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'].')',
+                       'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests='.$ct['api_throttle_count'][$safe_name]['minute_count']['count'].', hour_requests='.$ct['api_throttle_count'][$safe_name]['hour_count']['count'].')',
                	   false,
                	   md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
                	  );
@@ -609,29 +888,29 @@ var $ct_array = array();
           }
           
                   
-     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
      $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
          
-     $ct['api_throttle_flag'][$tld_or_ip] = true;
+     $ct['api_throttle_flag'][$safe_name] = true;
      
-     return $ct['api_throttle_flag'][$tld_or_ip];
+     return $ct['api_throttle_flag'][$safe_name];
      
      }
-     elseif ( !$cached_path && isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) || !$cached_path && isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) ) {
+     elseif ( !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name]) || !$cached_path && isset($ct['throttled_api_per_day_limit'][$safe_name]) ) {
          
-         if ( isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) ) {
-         $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] + 1;
+         if ( isset($ct['throttled_api_per_minute_limit'][$safe_name]) ) {
+         $ct['api_throttle_count'][$safe_name]['minute_count']['count'] = $ct['api_throttle_count'][$safe_name]['minute_count']['count'] + 1;
          }
          
          // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
-         if ( isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) ) {
-         $ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['hour_count']['count'] + 1;
+         if ( isset($ct['throttled_api_per_day_limit'][$safe_name]) ) {
+         $ct['api_throttle_count'][$safe_name]['hour_count']['count'] = $ct['api_throttle_count'][$safe_name]['hour_count']['count'] + 1;
          }
                   
-     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
      $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
          
-     unset($ct['api_throttle_flag'][$tld_or_ip]);
+     unset($ct['api_throttle_flag'][$safe_name]);
      
      return false;
      
@@ -2446,6 +2725,9 @@ var $ct_array = array();
      
   $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($api_endpoint);
   
+  // IPV6 friendly filename (no illegal filename characters)
+  $safe_name = $ct['gen']->safe_name($endpoint_tld_or_ip);
+  
   $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
   
   $cookie_file = $ct['base_dir'] . '/cache/secured/external_data/cookies/ext_dat_cookie_' . $ct['app_id'] . '_' . $endpoint_tld_or_ip . '.dat';
@@ -2840,7 +3122,7 @@ var $ct_array = array();
       // Debugging output
       $debug_data = "\n\n\n" . 'header_size: ' . $debug_header_size . ' bytes' . "\n\n\n" . 'header: ' . "\n\n\n" . $debug_header . "\n\n\n" . 'body: ' . "\n\n\n" . $debug_body . "\n\n\n";
       
-      $debug_response_log = $ct['base_dir'] . '/cache/logs/debug/external_data/problem-endpoint-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
+      $debug_response_log = $ct['base_dir'] . '/cache/logs/debug/external_data/problem-endpoint-' . $safe_name . '-hash-'.$hash_check.'-timestamp-'.time().'.log';
       
       // Store to file
       $this->save_file($debug_response_log, $debug_data);
@@ -2876,7 +3158,7 @@ var $ct_array = array();
         			);
         
       // Log this as the latest response from this data request
-      $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
+      $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-' . $safe_name . '-'.$hash_check.'.log', $data);
         
       }
      
@@ -2982,7 +3264,7 @@ var $ct_array = array();
             if ( $ct['var']->substri_count($data, 'error') > 0 && !preg_match("/terror/i", $data) ) {
              
             // Log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
-            $error_response_log = '/cache/logs/error/external_data/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
+            $error_response_log = '/cache/logs/error/external_data/error-response-' . $safe_name . '-hash-'.$hash_check.'-timestamp-'.time().'.log';
             
             // LOG-SAFE VERSION (no post data with API keys etc)
              $ct['gen']->log(

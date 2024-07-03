@@ -402,6 +402,26 @@ if ( abs($ct['conf']['sec']['captcha_text_angle']) > 35 || $ct['conf']['sec']['c
 $ct['conf']['sec']['captcha_text_angle'] = 35;
 }
 
+// Idiot-proof last_trade_cache_time
+if ( abs($ct['conf']['power']['last_trade_cache_time']) > 60 || $ct['conf']['power']['last_trade_cache_time'] < 0 ) {
+$ct['conf']['power']['last_trade_cache_time'] = 60;
+}
+
+// Idiot-proof visitor_stats_delete_old
+if ( abs($ct['conf']['power']['visitor_stats_delete_old']) > 360 || $ct['conf']['power']['visitor_stats_delete_old'] < 0 ) {
+$ct['conf']['power']['visitor_stats_delete_old'] = 360;
+}
+
+// Idiot-proof blockchain_stats_cache_time
+if ( abs($ct['conf']['power']['blockchain_stats_cache_time']) > 100 || $ct['conf']['power']['blockchain_stats_cache_time'] < 0 ) {
+$ct['conf']['power']['blockchain_stats_cache_time'] = 100;
+}
+
+// Idiot-proof marketcap_cache_time
+if ( abs($ct['conf']['power']['marketcap_cache_time']) > 120 || $ct['conf']['power']['marketcap_cache_time'] < 0 ) {
+$ct['conf']['power']['marketcap_cache_time'] = 120;
+}
+
 
 
 // Remove SECONDARY crypto pairs that have no configged markets

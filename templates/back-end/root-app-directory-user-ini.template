@@ -8,5 +8,7 @@ post_max_size = "15M"
 
 max_input_time = "50"
 
+allow_url_fopen = "on"
+
 max_execution_time = "[PHP_TIMEOUT]"
 

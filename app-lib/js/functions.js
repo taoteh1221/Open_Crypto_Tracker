@@ -5,6 +5,25 @@
 /////////////////////////////////////////////////////////////
 
 
+function app_reload_notice(loading_message) {
+        
+// Transition effects
+$("#app_loading").show(250, 'linear'); // 0.25 seconds
+$("#app_loading_span").html(loading_message);
+            
+$("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
+            
+      // Close any open modal windows
+      modal_windows.forEach(function(open_modal) {
+      $(open_modal).modaal("close");
+      });
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function ucfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -205,6 +224,8 @@ function update_alert_percent() {
 	else {
 	document.getElementById("use_alert_percent").value = "";
 	}
+
+red_save_button();
 
 }
 
@@ -514,7 +535,7 @@ var hash_check = $(location).attr('hash');
 function red_save_button(mode=false) {
 
 
-     if ( mode == 'iframe' ) {
+     if ( is_admin && mode == 'iframe' ) {
      
      parent.unsaved_admin_config = true;
           
@@ -524,7 +545,7 @@ function red_save_button(mode=false) {
      $('#sidebar .admin_settings_save', window.parent.document).addClass('red_bright');
      
      }
-     else {
+     else if ( is_admin ) {
      
      unsaved_admin_config = true;
           
@@ -532,6 +553,16 @@ function red_save_button(mode=false) {
           
      $('#sidebar .admin_settings_save').removeClass('bitcoin');
      $('#sidebar .admin_settings_save').addClass('red_bright');
+     
+     }
+     else if ( !is_admin && !mode ) {
+     
+     unsaved_user_config = true;
+          
+     $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
+          
+     $('#sidebar .user_settings_save').removeClass('bitcoin');
+     $('#sidebar .user_settings_save').addClass('red_bright');
      
      }
      
@@ -633,7 +664,7 @@ function compact_submenu(elm=false) {
 /////////////////////////////////////////////////////////////
 
 
-function app_reloading_check(form_submission=0, new_location=0) {
+function app_reloading_check(form_submission=0, new_location=false) {
 
         
     // Disable form updating in privacy mode
@@ -643,11 +674,47 @@ function app_reloading_check(form_submission=0, new_location=0) {
     }
     // If this is an ADMIN submenu section, AND we are NOT in the admin area,
     // AND no iframe URL has been set yet, don't reload / load new page yet (we want to show the submenu options first)
-    else if ( new_location != 0 && !is_admin && new_location.split('#')[1] == 'admin_plugins' && iframe_url(admin_iframe_url) == null ) {
+    else if ( new_location && !is_admin && new_location.split('#')[1] == 'admin_plugins' && iframe_url(admin_iframe_url) == null ) {
     return;
     }
     else {
-    app_reload(form_submission, new_location);
+         
+         if ( unsaved_user_config && !form_submit_queued || parent.unsaved_admin_config && !form_submit_queued ) {
+         
+         var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
+                  
+               if ( !confirm_skip_saving_changes ) {
+               return false;         
+               }
+               else if ( unsaved_user_config ) {        
+               
+               unsaved_user_config = false;
+
+               $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+               $('#sidebar .user_settings_save').addClass('bitcoin');
+               $('#sidebar .user_settings_save').removeClass('red_bright');
+               
+               app_reload(form_submission, new_location);
+               
+               }
+               else if ( unsaved_admin_config ) {        
+               
+               parent.unsaved_admin_config = false;
+
+               $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+               $('#sidebar .admin_settings_save', window.parent.document).addClass('bitcoin');
+               $('#sidebar .admin_settings_save', window.parent.document).removeClass('red_bright');
+               
+               app_reload(form_submission, new_location);
+               
+               }
+               
+         }
+         else {
+         app_reload(form_submission, new_location);
+         }
+
+         
     }
 
 }
@@ -672,6 +739,8 @@ show_charts = $("#show_charts").val(); // Reset var with any new data
 
 // Error checking
 $("#show_charts").val( show_charts.replace(",,", ",") );
+
+red_save_button();
 	
 }
 
@@ -695,6 +764,8 @@ show_crypto_val = $("#show_crypto_val").val(); // Reset var with any new data
 
 // Error checking
 $("#show_crypto_val").val( show_crypto_val.replace(",,", ",") );
+
+red_save_button();
 	
 }
 
@@ -718,6 +789,8 @@ show_feeds = $("#show_feeds").val(); // Reset var with any new data
 
 // Error checking
 $("#show_feeds").val( show_feeds.replace(",,", ",") );
+
+red_save_button();
 	
 }
 
@@ -1274,8 +1347,12 @@ function load_iframe(id, url=null) {
      
      // Skip if there is an unsaved admin config
      // (we handle UX in init.js [for 3-deep nav])
-     if ( unsaved_admin_config ) {
+     if ( is_admin && unsaved_admin_config ) {
      console.log('unsaved_admin_config: true');
+     return;
+     }
+     else if ( !is_admin && unsaved_user_config ) {
+     console.log('unsaved_user_config: true');
      return;
      }
 
@@ -1283,8 +1360,8 @@ function load_iframe(id, url=null) {
 var $iframe = $('#' + id);
     
     
-    // If the iframe exists in the current main page
-    if ($iframe.length) {
+    // If the admin iframe exists in the current main page
+    if (is_admin && $iframe.length) {
      
     console.log('admin iframe exists');
          
@@ -1458,27 +1535,24 @@ function app_reload(form_submission, new_location) {
     
     clearTimeout(reload_recheck);
     
-        if ( form_submission == 0 || new_location != 0 || form_submit_queued == true ) {
+        if ( form_submission == 0 || new_location || form_submit_queued ) {
              
-        var loading_message = new_location != 0 ? 'Loading...' : 'Reloading...';
+        console.log('form_submission = ' + form_submission);
+             
+        console.log('new_location = ' + new_location);
+             
+        console.log('form_submit_queued = ' + form_submit_queued);
+             
+        var loading_message = new_location ? 'Loading...' : 'Reloading...';
             
-        $("#app_loading").show(250, 'linear'); // 0.25 seconds
-        $("#app_loading_span").html(loading_message);
-            
-        // Transition effects
-        $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
-            
-           // Close any open modal windows
-     	 modal_windows.forEach(function(open_modal) {
-           $(open_modal).modaal("close");
-     	 });
+        app_reload_notice(loading_message);
         
         }
     
     
         // Reload, ONLY IF WE ARE NOT #ALREADY RELOADING# VIA SUBMITTING DATA (so we don't cancel data submission!),
         // OR IF WE ARE LOADING A #NEW# LOCATION
-        if ( form_submission == 0 && typeof new_location != 'undefined' && new_location != 0 ) {
+        if ( form_submission == 0 && new_location ) {
         window.location = new_location;
         }
         else if ( form_submission == 0 ) {
@@ -1931,14 +2005,16 @@ function sorting_portfolio_table() {
     // https://mottie.github.io/tablesorter/docs/
 	// Table data sorter config
 	if ( document.getElementById("coins_table") ) {
+	     
+	console.log('adding table sorting to PORTFOLIO table (with "coins_table" id)');
 	        
 	// Set default sort, based on whether privacy mode is on        
-	set_sort_list = get_cookie('priv_toggle') == 'on' ? [0,0] : [sorted_by_col, sorted_asc_desc];
+	var folio_sort_list = get_cookie('priv_toggle') == 'on' ? [0,0] : [sorted_by_col, sorted_asc_desc];
 		
 		
     	$("#coins_table").tablesorter({
     			
-    			sortList: [ set_sort_list ],
+    			sortList: [ folio_sort_list ],
     			theme : theme_selected, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
     			textExtraction: sort_extraction,
     			widgets: ['zebra'],
@@ -1983,6 +2059,107 @@ function sorting_portfolio_table() {
 	
 	}
 
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function sorting_generic_tables(paginated=false) {
+
+
+    // https://mottie.github.io/tablesorter/docs/
+	// Table data sorter config
+	if ( document.getElementsByClassName('data_table') ) {
+	     
+	var all_tables = document.getElementsByClassName("data_table");
+	
+	// Sort 1st / 2nd columns descending (1)
+	var generic_sort_list = is_iframe ? [ [0,1],[1,1] ] : [];
+
+
+          Array.prototype.forEach.call(all_tables, function(table) {
+
+               
+               if ( typeof table.id == 'undefined' || table.id != 'coins_table' ) {
+	     
+	          console.log('adding table sorting to GENERIC table (with "data_table" class)');
+               
+                   	
+                   	if ( paginated ) {
+                    paginated_tables( $(table), generic_sort_list );
+                    }
+                    else {
+                    
+                        	$(table).tablesorter({
+                        	 
+         			      sortList: generic_sort_list,
+                          theme: theme_selected,
+                          widgets: ['zebra', 'columns', 'filter']
+                        
+                        	});
+                    
+                    }
+                    
+                   	
+               }
+
+               
+          });
+
+	
+	}
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+https://mottie.github.io/tablesorter/beta-testing/example-pager-custom-controls.html
+function paginated_tables(element, generic_sort_list) {
+
+  // initialize custom pager script BEFORE initializing tablesorter/tablesorter pager
+  // custom pager looks like this:
+  // 1 | 2 … 5 | 6 | 7 … 99 | 100
+  //   _       _   _        _     adjacentSpacer
+  //       _           _          distanceSpacer
+  // _____               ________ ends (2 default)
+  //         _________            aroundCurrent (1 default)
+
+  var $table = element,
+    $pager = $('.table_pager');
+
+  $.tablesorter.customPagerControls({
+    table          : $table,                   // point at correct table (string or jQuery object)
+    pager          : $pager,                   // pager wrapper (string or jQuery object)
+    pageSize       : '.left a',                // container for page sizes
+    currentPage    : '.right a',               // container for page selectors
+    ends           : 2,                        // number of pages to show of either end
+    aroundCurrent  : 1,                        // number of pages surrounding the current page
+    link           : '<a href="#">{page}</a>', // page element; use {page} to include the page number
+    currentClass   : 'current',                // current page class name
+    adjacentSpacer : '<span> | </span>',       // spacer for page numbers next to each other
+    distanceSpacer : '<span> &#133; <span>',   // spacer for page numbers away from each other (ellipsis = &#133;)
+    addKeyboard    : true,                     // use left,right,up,down,pageUp,pageDown,home, or end to change current page
+    pageKeyStep    : 25                        // page step to use for pageUp and pageDown
+  });
+
+  // initialize tablesorter & pager
+  $table.tablesorter({
+      // Sort 1st / 2nd columns descending (1)
+      sortList: generic_sort_list,
+      theme: theme_selected,
+      widgets: ['zebra', 'columns', 'filter']
+    })
+    .tablesorterPager({
+      // target the pager markup - see the HTML block below
+      container: $pager,
+      size: 25,
+      output: '<span class="bitcoin">Showing:</span> {startRow} through {endRow} (of {filteredRows} total data rows)'
+    });
 
 }
 
@@ -2917,7 +3094,7 @@ function nav_menu($chosen_menu) {
                   
                   // IF user CHANGED admin config settings data via interface,
                   // confirm whether or not they want to skip saving their changes
-                  if ( unsaved_admin_config ) {
+                  if ( is_admin && unsaved_admin_config ) {
                        
                   var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
                   
@@ -2929,6 +3106,21 @@ function nav_menu($chosen_menu) {
                       $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
                       $('#sidebar .admin_settings_save').addClass('bitcoin');
                       $('#sidebar .admin_settings_save').removeClass('red_bright');
+                      }
+
+                  }
+                  else if ( !is_admin && unsaved_user_config ) {
+                       
+                  var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
+                  
+                      if ( !confirm_skip_saving_changes ) {
+                      return false;                 
+                      }
+                      else {        
+                      unsaved_user_config = false;
+                      $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+                      $('#sidebar .user_settings_save').addClass('bitcoin');
+                      $('#sidebar .user_settings_save').removeClass('red_bright');
                       }
 
                   }

@@ -72,6 +72,8 @@ php_value post_max_size 15M
 
 php_value max_input_time 50
 
+php_value allow_url_fopen on
+
 php_value max_execution_time [PHP_TIMEOUT]
 
 </IfModule>
@@ -86,6 +88,8 @@ php_value upload_max_filesize 7M
 php_value post_max_size 15M
 
 php_value max_input_time 50
+
+php_value allow_url_fopen on
 
 php_value max_execution_time [PHP_TIMEOUT]
 

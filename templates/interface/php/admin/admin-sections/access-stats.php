@@ -6,8 +6,7 @@
 
 ?>
 
-	<p> Coming Soon&trade; </p>
-				
+	<?=$ct['cache']->show_access_stats()?>	
 	
 			    
 

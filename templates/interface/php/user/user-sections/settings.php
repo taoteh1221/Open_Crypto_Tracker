@@ -99,6 +99,7 @@
 			    
 			    <select class='browser-default custom-select' onchange='
 			    $("#theme_selected").val(this.value);
+                   red_save_button();
 			    '>
 				<option value='dark' <?=( $ct['sel_opt']['theme_selected'] == 'dark' ? ' selected ' : '' )?>> Dark </option>
 				<option value='light' <?=( $ct['sel_opt']['theme_selected'] == 'light' ? ' selected ' : '' )?>> Light </option>
@@ -114,6 +115,7 @@
 			    
 			    <select class='browser-default custom-select' id='sorted_by_col' onchange='
 			    $("#sort_by").val( this.value + "|" + $("#sorted_asc_desc").val() );
+                   red_save_button();
 			    '>
 				<option value='0' <?=( $ct['sel_opt']['sorted_by_col'] == 0 ? ' selected ' : '' )?>> Rank </option>
 				<option value='1' <?=( $ct['sel_opt']['sorted_by_col'] == 1 ? ' selected ' : '' )?>> Asset Name </option>
@@ -130,6 +132,7 @@
 			    
 			     <select class='browser-default custom-select' id='sorted_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
+                   red_save_button();
 			    '>
 				<option value='0' <?=( $ct['sel_opt']['sorted_asc_desc'] == 0 ? ' selected ' : '' )?>> Ascending </option>
 				<option value='1' <?=( $ct['sel_opt']['sorted_asc_desc'] == 1 ? ' selected ' : '' )?>> Decending </option>
@@ -218,6 +221,8 @@
 				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    }
 				    
+                        red_save_button();
+				    
 				    '>
 					
 					<?php
@@ -269,7 +274,8 @@
 				    exchange_name_check = exchange_name.replace(" ", "_");
 				    
 				    btc_prim_currency = $("#btc_prim_currency").val();
-					 prim_currency_mrkt = this.value;
+				    
+				    prim_currency_mrkt = this.value;
 				    
 				    if ( limited_apis.indexOf(exchange_name_check) != -1 ) { // MSIE-compatible
 				    $("#prim_currency_mrkts_alert").html("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating enough API requests into one single call per session). It is recommended to use a different marketplace IF FEASIBLE, as there MAY be occasional API data retrieval issues with some BTC / " + btc_prim_currency.toUpperCase() + " marketplaces like " + exchange_name_ui + ".<br /><br />If you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " marketplace (or your other crypto apps get " + exchange_name_ui + " data requests refused), try a different exchange for your preferred primary currency market, and the issue should go away.");
@@ -293,6 +299,8 @@
 				    else {
 				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    }
+				    
+                        red_save_button();
 				    
 				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $ct['conf']['gen']['bitcoin_primary_currency_pair'] == $key ? 'inline' : 'none' )?>;'>
 				    
@@ -333,6 +341,7 @@
 				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    }
 				    
+                        red_save_button();
 				    
 				    ' <?=( is_array($ct['sel_opt']['prim_currency_mrkt_standalone']) ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
 				    
@@ -471,7 +480,9 @@
 			     
 			     
 			    <select class='browser-default custom-select' name='percent_change_alert_type' id='percent_change_alert_type' onchange='
+			    
 			    update_alert_percent();
+
 			    if ( this.value == "visual_audio" ) {
 				 $("#percent_change_alert_type_alert").html("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences. <br /><br />Chrome users can open chrome://settings/content/sound, enable \"Sites can play sound\", and under \"Allowed to play sound\" add the address: <?=$ct['app_host']?>");
 				 $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
@@ -480,6 +491,7 @@
 				 $("#percent_change_alert_type_alert").html("");
 				 $("#percent_change_alert_type_alert").hide(250, "linear"); // 0.25 seconds
 			    }
+			    
 			    '>
 			    <option value='visual_only' <?=( $ct['sel_opt']['alert_percent'][4] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
 			    <option value='visual_audio' <?=( $ct['sel_opt']['alert_percent'][4] == 'visual_audio' ? ' selected ' : '' )?>> Visual and Audio </option>
@@ -571,6 +583,8 @@
 			<select class='browser-default custom-select' onchange='
 			
 			 document.getElementById("show_secondary_trade_val").value = this.value;
+			 
+			 red_save_button();
 			
 			'>
 			<option value=''> None </option>
@@ -631,12 +645,16 @@
          <p class='settings_sections'>
          
          <b>Use cookies to save data:</b> <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
+         
          if ( this.checked == true ) {
 			document.getElementById("use_cookies").value = "1";
          }
          else {
 			document.getElementById("use_cookies").value = "";
          }
+         
+         red_save_button();
+         
          ' <?php echo ( isset($_COOKIE['coin_amnts']) ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
          
          </p>

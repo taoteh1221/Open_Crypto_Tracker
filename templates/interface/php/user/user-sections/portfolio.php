@@ -83,7 +83,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 ?>
 
 
-<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="align_center" style='margin-top: 10px !important;'>
+<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="data_table align_center" style='margin-top: 10px !important;'>
  <thead>
     <tr>
 <th class='border_lt num-sort'>Rank</th>
@@ -1867,48 +1867,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	<br clear='all' />
 	<br clear='all' />
 			
-	
-	<p> &nbsp; </p>
-	
-	<p> Coming Soon&trade; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
+	<?=$ct['cache']->show_access_stats()?>
 		
 	</div>
 	

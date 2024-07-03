@@ -1056,18 +1056,22 @@ $ct['conf']['power']['override_curl_user_agent'] = '';
 $ct['conf']['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables this feature)
 
 
+// Delete visitor stats older than X DAYS
+$ct['conf']['power']['visitor_stats_delete_old'] = 30; // (default = 30, MAX = 360)
+
+
 // MINUTES to cache real-time exchange price data...can be zero to DISABLE cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO IT'S RECOMMENDED TO KEEP FAIRLY HIGH
-$ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4)
+$ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4, MAX = 60)
 
 
 // MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-$ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60)
+$ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60, MAX = 100)
 
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct['conf']['power']['marketcap_cache_time'] = 100;  // (default = 100)
+$ct['conf']['power']['marketcap_cache_time'] = 100;  // (default = 100, MAX = 120)
 ////
 // Number of marketcap rankings to request from API.
 // 300 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED

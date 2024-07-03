@@ -151,13 +151,31 @@ $ct['admin_render_settings']['desktop_cron_interval']['is_notes'] = 'MINUTES to 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
+$ct['admin_render_settings']['visitor_stats_delete_old']['is_range'] = true;
+
+$ct['admin_render_settings']['visitor_stats_delete_old']['range_min'] = 15;
+
+$ct['admin_render_settings']['visitor_stats_delete_old']['range_max'] = 360;
+
+$ct['admin_render_settings']['visitor_stats_delete_old']['range_step'] = 15;
+
+$ct['admin_render_settings']['visitor_stats_delete_old']['range_ui_prefix'] = 'Delete After ';
+
+$ct['admin_render_settings']['visitor_stats_delete_old']['range_ui_suffix'] = ' Days';
+
+$ct['admin_render_settings']['visitor_stats_delete_old']['is_notes'] = 'Delete visitor stats older than X DAYS';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
 $ct['admin_render_settings']['last_trade_cache_time']['is_range'] = true;
 
 $ct['admin_render_settings']['last_trade_cache_time']['range_ui_meta_data'] .= 'zero_is_disabled;';
 
 $ct['admin_render_settings']['last_trade_cache_time']['range_min'] = 0;
 
-$ct['admin_render_settings']['last_trade_cache_time']['range_max'] = 10;
+$ct['admin_render_settings']['last_trade_cache_time']['range_max'] = 60;
 
 $ct['admin_render_settings']['last_trade_cache_time']['range_step'] = 1;
 
