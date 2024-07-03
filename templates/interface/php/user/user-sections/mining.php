@@ -18,7 +18,9 @@
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
 	
-	<li class='bitcoin' style='font-weight: bold;'>Chain data (block height, difficulty, etc) is cached for <?=$ct['conf']['power']['blockchain_stats_cache_time']?> minute(s).</li>	
+	<li class='bitcoin' style='font-weight: bold;'>Chain data (block height, difficulty, etc) is cached for <?=$ct['conf']['power']['blockchain_stats_cache_time']?> minute(s).</li>
+	
+	<li class='bitcoin' style='font-weight: bold;'>*CUSTOM* POW mining calculators can be added in the file "dynamic-config.php" (in the app's main directory).</li>	
    
    </ul>		
 			
@@ -26,7 +28,7 @@
 			<p style='margin-top: 25px;' class='red'>*Using these mining calculators <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using these mining calculators.</p>
 			 
 			 <?php
-			 foreach( $ct['conf']['power']['mining_calculators']['pow'] as $pow_asset_data ) {
+			 foreach( $ct['opt_conf']['mining_calculators']['pow'] as $pow_asset_data ) {
 			 ?>
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b><?=$pow_asset_data['name']?> Mining Calculator</b> </legend>

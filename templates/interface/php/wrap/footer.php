@@ -93,7 +93,7 @@ $(document).ready(function() {
      function reload_iframes() {
     
 
-         if ( is_iframe ) {
+         if ( is_admin && is_iframe ) {
     
     
               // Wait until admin_settings_save_init == true (in init.js)
@@ -334,7 +334,10 @@ footer_banner(desktop_windows_notice_storage, 'This web app *SOMETIMES* MAY NOT 
 
  
  <?php
- 
+
+// Access stats logging
+$ct['cache']->log_access_stats();
+
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache
 

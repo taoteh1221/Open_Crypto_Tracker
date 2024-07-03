@@ -80,6 +80,10 @@ $ct['throttled_api_cache_time'] = array();
 $ct['throttled_api_per_day_limit'] = array();
         
 $ct['throttled_api_per_minute_limit'] = array();
+        
+$ct['log_access_stats'] = array();
+        
+$ct['show_access_stats'] = array();
 
 $ct['jupiter_ag_pairs'] =  array();
 

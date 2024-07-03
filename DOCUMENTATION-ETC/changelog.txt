@@ -2875,7 +2875,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.9:
 
--!CRITICAL! bug fix in the $ct['asset']->pair_btc_val() function (web server get overloaded and crashes)
+-!CRITICAL! bug fix in the $ct['asset']->pair_btc_val() function (app server get overloaded and crashes)
 
 -Execution time config settings
 
@@ -3515,7 +3515,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.4:
 
--Bug fix for too many selected news feeds crashing the web server (feeds are now loaded individually in the background, like charts are)
+-Bug fix for too many selected news feeds crashing the app server (feeds are now loaded individually in the background, like charts are)
 
 -Bug fix for light charts (correctly pruning light charts with low time spans / data points less than allowed maximum)
 
@@ -4254,7 +4254,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.24.1:
 
--Bug fixes / UX / code cleanup for auto-install script (try PHP web server un-install / re-install options if you have issues)
+-Bug fixes / UX / code cleanup for auto-install script (try PHP app server un-install / re-install options if you have issues)
 
 -Optionally allow DeFi liquidity pools to be specified for defipulse markets (see README.txt for usage)
 
@@ -5788,7 +5788,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -SECURITY BUG FIX (MODERATE STATUS): Security checks are now performed on the app's base URL / hostname detection (to block any hostname header injection attacks...includes comms alerts so you are informed when a blocking incident happens)
 
--BUG FIX: Fixed edge-case where a web server with page redirects configured set the wrong domain for cookies (now cookie's domain is auto-chosen via PHP's setcookie function)
+-BUG FIX: Fixed edge-case where a app server with page redirects configured set the wrong domain for cookies (now cookie's domain is auto-chosen via PHP's setcookie function)
 
 -BUG FIX: Fixed the app's system check that assures a secure HTTPS / SSL connection in the Server Edition (no longer says 'mod_ssl is required', as long as a secure connection is detected)
 
@@ -6743,13 +6743,27 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.38:
 
+-BUG FIX: Upgraded Desktop Editions to PHP v8.3.8 (fixes multiple security vulnerabilities: https://www.cvedetails.com/vulnerability-list/vendor_id-74/PHP.html )
+
+-BUG FIX: Fixed issues with Desktop Editions being able to run security checks, IF you enabled  "Security => Interface Login" in the admin area (sorry!)
+
 -BUG FIX: Fixed issues with some app configs not reloading properly on config reset / user update
 
 -BUG FIX: Miscellaneous fixes
 
--Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Currency Support
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Currency Support, Power User, Access Stats
+
+-Converted the old ETH ICOs config to a generalized presale tokens config, and moved to the new admin section CURRENCY SUPPORT
+
+-Moved ENTIRE mining page config into dynamic-config.php (except for HIVE power down settings)
 
 -Miscellaneous user experience improvements / optimizations / refactoring
+
+-Increased reliability of CURL (in PHP) for API data requests
+
+-Made API throttling more reliable
+
+-Updated documentation
 
 IMPORTANT *UPGRADE* NOTICES:
 

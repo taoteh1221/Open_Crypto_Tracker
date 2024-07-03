@@ -32,12 +32,12 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function static_erc20_price($chosen_mrkt, $mrkt_pair) {
+   function static_usd_price($chosen_mrkt, $mrkt_pair) {
    
    global $ct;
    
-     if ( strtolower($chosen_mrkt) == 'ico_erc20_value' ) {
-     return $ct['conf']['power']['ethereum_erc20_icos'][$mrkt_pair];
+     if ( strtolower($chosen_mrkt) == 'presale_usd_value' ) {
+     return $ct['opt_conf']['token_presales_usd'][$mrkt_pair];
      }
     
    }
@@ -346,7 +346,7 @@ var $ct_array = array();
    $hive_total = null;
    $prim_currency_total = null;
    
-   $decimal_yearly_interest = $ct['conf']['power']['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
+   $decimal_yearly_interest = $ct['conf']['currency']['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
    
    $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest per minute
    
@@ -386,7 +386,7 @@ var $ct_array = array();
    $power_earned = ( $_POST['hp_earned'] / $hive_total );
    $power_interest = 1 - ( $power_purchased + $power_earned );
        
-   $powerdown_total = ( $hive_total / $ct['conf']['power']['hive_powerdown_time'] );
+   $powerdown_total = ( $hive_total / $ct['conf']['currency']['hive_powerdown_time'] );
    $powerdown_purchased = ( $powerdown_total * $power_purchased );
    $powerdown_earned = ( $powerdown_total * $power_earned );
    $powerdown_interest = ( $powerdown_total * $power_interest );
@@ -982,7 +982,7 @@ var $ct_array = array();
       return $ct['btc_pair_mrkts'][$pair.'_btc'];
       }
       // If we need an ALTCOIN/BTC market value (RUN BEFORE CURRENCIES FOR BEST MARKET DATA, AS SOME CRYPTOS ARE INCLUDED IN BOTH)
-      elseif ( array_key_exists($pair, $ct['conf']['power']['crypto_pair']) ) {
+      elseif ( array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
         
         
 	        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
@@ -997,8 +997,8 @@ var $ct_array = array();
 	        
 	        }
 	        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-	        elseif ( is_array($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) && sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) > 1 && array_key_exists($pair, $ct['conf']['power']['crypto_pair_preferred_markets']) ) {
-	        $mrkt_override = $ct['conf']['power']['crypto_pair_preferred_markets'][$pair];
+	        elseif ( is_array($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) && sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) > 1 && array_key_exists($pair, $ct['opt_conf']['crypto_pair_preferred_markets']) ) {
+	        $mrkt_override = $ct['opt_conf']['crypto_pair_preferred_markets'][$pair];
 	        }
 	      
 	      
@@ -1238,7 +1238,7 @@ var $ct_array = array();
        
       // FLAG SELECTED PAIR IF FIAT EQUIVALENT formatting should be used, AS SUCH
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($sel_pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($sel_pair, $ct['conf']['power']['crypto_pair']) ) {
+      if ( array_key_exists($sel_pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($sel_pair, $ct['opt_conf']['crypto_pair']) ) {
       $fiat_eqiv = 1;
       }
       
@@ -1266,7 +1266,7 @@ var $ct_array = array();
       $loop = 0;
       foreach ( $all_pair_mrkts as $key => $val ) {
         
-	      if ( $loop == $sel_exchange || $key == "ico_erc20_value" ) {
+	      if ( $loop == $sel_exchange ) {
 	      $sel_exchange = $key;
 	      }
            
@@ -1283,9 +1283,9 @@ var $ct_array = array();
    $asset_mrkt_data = $ct['api']->market($asset_symb, $sel_exchange, $mrkt_id, $sel_pair);
     
         
-      // ETH ICOS (OVERWRITE W/ DIFF LOGIC)
-      if ( $sel_exchange == 'ico_erc20_value' ) {
-      $asset_val_raw = $this->static_erc20_price($sel_exchange, $mrkt_id);
+      // TOKEN PRESALES (OVERWRITE W/ DIFF LOGIC)
+      if ( $sel_exchange == 'presale_usd_value' ) {
+      $asset_val_raw = $this->static_usd_price($sel_exchange, strtolower($mrkt_id) ); // We ALWAYS force ID to lowercase in config-auto-adjust.php
       }
       else {
       $asset_val_raw = $asset_mrkt_data['last_trade'];
@@ -1419,7 +1419,7 @@ var $ct_array = array();
    
       // Fiat or equivalent pair?
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($pair, $ct['conf']['power']['crypto_pair']) ) {
+      if ( array_key_exists($pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
       $fiat_eqiv = 1;
       $min_vol_val_test = $min_fiat_val_test;
       }

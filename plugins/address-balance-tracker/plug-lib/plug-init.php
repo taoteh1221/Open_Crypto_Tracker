@@ -73,15 +73,15 @@ $label = $target_val['label'];
 $ct['dev']['data_obfuscating'][] = $address;
 
 
-    // Add this altcoin to $ct['conf']['power']['crypto_pair'] DYNAMICALLY #IF# it doesn't exist there, #IF# it has a BTC market configured
+    // Add this altcoin to $ct['opt_conf']['crypto_pair'] DYNAMICALLY #IF# it doesn't exist there, #IF# it has a BTC market configured
     // (For conversion of it's BTC value to the user's fiat value, set in $ct['conf']['gen']['bitcoin_primary_currency_pair'])
     // ONLY IF THIS COIN IS NOT ON SOLANA (as we can easily get solana SPL token value from on-chain data with the jupiter aggregator API)
-    if ( $asset != 'btc' && $chain != 'sol' && !isset($ct['conf']['power']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
-    $ct['conf']['power']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
+    if ( $asset != 'btc' && $chain != 'sol' && !isset($ct['opt_conf']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
+    $ct['opt_conf']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
     }
-    // Make sure we can get the SOL / BTC trade value (if user removed SOL from $ct['conf']['power']['crypto_pair'])
-    elseif ( $chain == 'sol' && !isset($ct['conf']['power']['crypto_pair']['sol']) ) {
-    $ct['conf']['power']['crypto_pair']['sol'] = '◎ ';
+    // Make sure we can get the SOL / BTC trade value (if user removed SOL from $ct['opt_conf']['crypto_pair'])
+    elseif ( $chain == 'sol' && !isset($ct['opt_conf']['crypto_pair']['sol']) ) {
+    $ct['opt_conf']['crypto_pair']['sol'] = '◎ ';
     }  
 
 

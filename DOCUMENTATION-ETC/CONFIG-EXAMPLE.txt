@@ -140,7 +140,7 @@ $ct['conf']['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade che
 // Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
 // #REQUIRED WHEN INSTALLED ON A HOME NETWORK#, OR ALL YOUR EMAIL ALERTS WILL BE BLACKHOLED / SEEN AS SPAM EMAIL BY EMAIL SERVERS!
 // If SMTP credentials / configuration is filled in, BUT not setup properly, APP EMAILING WILL FAIL!
-// !!USE A THROWAWAY ACCOUNT ONLY!! If this web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
+// !!USE A THROWAWAY ACCOUNT ONLY!! If this app server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
 $ct['conf']['comms']['smtp_login'] = ''; // This format MUST be used: 'username||password'
 ////
@@ -418,8 +418,8 @@ $ct['conf']['sec']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 
 
 // Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's admin / user pages, AJAX scripts, etc)
-// Set to 'any' if this web server's domain can vary / redirect (eg: some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
-// Set to 'strict' if this web server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
+// Set to 'any' if this app server's domain can vary / redirect (eg: some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
+// Set to 'strict' if this app server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
 // 'strict' mode blocks all CSRF / XSS attacks on resources using this setting, ALTHOUGH NOT REALLY NEEDED AS SERVER EDITIONS USE STRICT / SECURE COOKIES
 // #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / NEWS FEEDS / ADMIN SECTIONS / ETC FROM LOADING# ON SOME SETUPS!
 $ct['conf']['sec']['access_control_origin'] = 'any'; // 'any' / 'strict' (default = 'any')
@@ -443,10 +443,30 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 ////////////////////////////////////////
 
 
+// HIVE INTEREST CALCULATOR SETTINGS
+// Weeks to power down all HIVE Power holdings
+$ct['conf']['currency']['hive_powerdown_time'] = 13; 
+////
+// HIVE Power yearly interest rate AS OF 11/29/2023 (0.9%, decreasing every year by roughly 0.075%, until it hits a minimum of 0.075% and stays there)
+// (DO NOT INCLUDE PERCENT SIGN), see above for manual yearly adjustment
+$ct['conf']['currency']['hivepower_yearly_interest'] = 0.9; // (Default = 0.9 as of 11/29/23)
+
+
+// Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)
+// RAW NUMBERS ONLY (NO THOUSANDTHS FORMATTING)
+$ct['conf']['currency']['token_presales_usd'] = array(
+                                                      // 'TOKENNAME = 1.23',
+                                                      'ETHEREUM = 0.3',
+                                                      'SOLANA = 0.22',
+                                                      'DECENTRALAND = 0.025',
+                                                   );
+                                                   
+
+
 // Auto-activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
 // EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
 // Bitcoin's $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['power']['crypto_pair'], 
+// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['currency']['crypto_pair'], 
 // !AS LONG AS THERE IS A PAIR CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
 $ct['conf']['currency']['bitcoin_currency_markets'] = array(
                               						//'lowercase_btc_mrkt_or_stablecoin_pair = CURRENCY_SYMBOL',
@@ -551,6 +571,45 @@ $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array(
                                    							'usd = kraken',  // WAY BETTER api than ALL alternatives
                                    					       );
 
+							
+
+// Auto-activate support for ALTCOIN PAIRED MARKETS (like COIN/sol or COIN/eth, etc...markets where the base pair is an altcoin)
+// EACH CRYPTO COIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
+// $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
+// THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
+// AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
+// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct['conf']['currency']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
+$ct['conf']['currency']['crypto_pair'] = array(
+                                             // !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
+                                             ////
+               						//'lowercase_altcoin_ticker = UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
+               						////
+               						// Bluechip native tokens...
+               						'eth = Ξ ',
+               						'sol = ◎ ',
+               						// Bluechip ERC-20 tokens on Ethereum / SPL tokens on Solana, etc...
+               						'uni = 🦄 ',
+               						'mkr = 𐌼 ',
+               						'jup = Ɉ ',
+     							    );
+
+
+
+// Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
+// EACH ALTCOIN LISTED HERE MUST EXIST IN $ct['conf']['currency']['crypto_pair'] ABOVE,
+// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
+// $ct['conf']['assets'] listing (further down in this config file),
+// AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
+// #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
+$ct['conf']['currency']['crypto_pair_preferred_markets'] = array(
+                              						     //'lowercase_btc_mrkt_or_stablecoin_pair = PREFERRED_MRKT',
+                              							'eth = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'sol = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'uni = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'mkr = binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'jup = coingecko_btc',  // coingecko global average price IN BTC
+               							           );
+						
 
 
 ////////////////////////////////////////
@@ -563,7 +622,7 @@ $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array(
 ////////////////////////////////////////
 
 
-// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information)
+// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR APP SERVER (see README.txt for setup information)
 
 
 // Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
@@ -791,11 +850,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'jup-4||coingecko_btc||btc||both',
 					
 					
-					// HNT
-					'hnt-2||gateio||usdt||both',
-					'hnt-3||gateio||eth||none',
-					
-					
 					// RNDR
 					'rndr||kucoin||btc||both',
 					'rndr-2||gateio||usdt||none',
@@ -901,7 +955,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 // ADD ANY NEW PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
 // !!NEVER ADD A PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-// PLUGINS *MAY REQUIRE* A CRON JOB / SCHEDULED TASK RUNNING ON YOUR WEB SERVER (if built for cron jobs...see README.txt for setup information)
+// PLUGINS *MAY REQUIRE* A CRON JOB / SCHEDULED TASK RUNNING ON YOUR APP SERVER (if built for cron jobs...see README.txt for setup information)
 // PLUGIN CONFIGS are in the /plugins/ directory associated with that plugin
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct['conf']['plugins']['plugin_status'] = array(
@@ -933,7 +987,7 @@ $ct['conf']['plugins']['plugin_status'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// Enable / disable PHP error reporting (to error logs on the web server)
+// Enable / disable PHP error reporting (to error logs on the app server)
 // https://www.php.net/manual/en/function.error-reporting.php
 $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 
@@ -1002,35 +1056,39 @@ $ct['conf']['power']['override_curl_user_agent'] = '';
 $ct['conf']['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables this feature)
 
 
-// MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
+// Delete visitor stats older than X DAYS
+$ct['conf']['power']['visitor_stats_delete_old'] = 30; // (default = 30, MAX = 360)
+
+
+// MINUTES to cache real-time exchange price data...can be zero to DISABLE cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO IT'S RECOMMENDED TO KEEP FAIRLY HIGH
-$ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4)
+$ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4, MAX = 60)
 
 
 // MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-$ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60)
+$ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60, MAX = 100)
 
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct['conf']['power']['marketcap_cache_time'] = 90;  // (default = 90)
+$ct['conf']['power']['marketcap_cache_time'] = 100;  // (default = 100, MAX = 120)
 ////
 // Number of marketcap rankings to request from API.
-// 500 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
+// 300 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
 $ct['conf']['power']['marketcap_ranks_max'] = 300; // (default = 300)
 
 
-// Maximum margin leverage available in the user interface ('Update' page, etc)
+// Maximum margin leverage available in the user interface ('Update Portfolio' page, etc)
 $ct['conf']['power']['margin_leverage_maximum'] = 150; 
 
 
 // Days TO WAIT UNTIL DELETING OLD backup archives (chart data archives, etc)
-$ct['conf']['power']['backup_archive_delete_old'] = 14; 
+$ct['conf']['power']['backup_archive_delete_old'] = 15; 
 
 
 // Keep logs X DAYS before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$ct['conf']['power']['logs_purge'] = 7; // (default = 7)
+$ct['conf']['power']['logs_purge'] = 5; // (default = 5)
 			
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
@@ -1067,109 +1125,7 @@ $ct['conf']['power']['cookies_size_warning'] = '7000||6'; // 'cookies_size_bytes
 $ct['conf']['power']['strict_consecutive_connect_servers'] = array(
                                       					       'alphavantage.co',
                                       					      );
-							
 
-// Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pair is an altcoin)
-// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
-// $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
-// AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
-// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct['conf']['currency']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
-$ct['conf']['power']['crypto_pair'] = array(
-                                             // !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
-                                             ////
-               						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
-               						////
-               						// Bluechip native tokens...
-               						'eth' => 'Ξ ',
-               						'sol' => '◎ ',
-               						// Bluechip ERC-20 tokens on Ethereum / SPL tokens on Solana, etc...
-               						'uni' => '🦄 ',
-               						'mkr' => '𐌼 ',
-               						'jup' => 'Ɉ ',
-     							    );
-
-
-
-// Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
-// EACH ALTCOIN LISTED HERE MUST EXIST IN $ct['conf']['power']['crypto_pair'] ABOVE,
-// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
-// $ct['conf']['assets'] listing (further down in this config file),
-// AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
-// #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
-$ct['conf']['power']['crypto_pair_preferred_markets'] = array(
-                              						     //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
-                              							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                              							'jup' => 'coingecko_btc',  // coingecko global average price IN BTC
-               							           );
-
-
-
-// Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
-$ct['conf']['power']['ethereum_erc20_icos'] = array(
-                                                      'ETHSUBTOKENNAME' => '0.15',
-                                                      'GOLEM' => '0.001',
-                                                      'ARAGON' => '0.01',
-                                                      'DECENTRALAND' => '0.00008',
-                                                   );
-						
-
-
-// HIVE INTEREST CALCULATOR SETTINGS
-// Weeks to power down all HIVE Power holdings
-$ct['conf']['power']['hive_powerdown_time'] = 13; 
-////
-// HIVE Power yearly interest rate AS OF 11/29/2022 (0.975%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
-// (DO NOT INCLUDE PERCENT SIGN), see above for manual yearly adjustment
-$ct['conf']['power']['hivepower_yearly_interest'] = 0.975; // (Default = 0.975 as of 11/29/22)
-
-
-
-// Mining calculator configs for different crypto networks (SEMI-AUTOMATICALLY adds mining calculators to the Mining page)
-// FOR #DYNAMIC# CHAIN STATS (height / difficuly / rewards / etc), API CALL FUNCTIONS NEED TO BE CUSTOM-WRITTEN FOR ANY #CUSTOM# ASSETS ADDED HERE,
-// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/inline/config/config-auto-adjust.php
-// 'mining_time_formula' ALSO NEEDS TO BE DYNAMICALLY ADDED IN THAT SAME SECTION, #OR YOUR CUSTOM CALCULATOR WILL NOT WORK AT ALL#
-// ('PLACEHOLDER' values are dynamically populated during app runtime)
-$ct['conf']['power']['mining_calculators'] = array(
-					
-					
-			// POW CALCULATORS
-			'pow' => array(
-					
-					
-					// BTC
-					'btc' => array(
-									'name' => 'Bitcoin', // Coin name
-									'symbol' => 'btc', // Coin symbol (lowercase)
-									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
-									'exchange_mrkt' => 'BTCUSDT', // Market pair name (for price data)
-									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
-									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED IN:
-									// dynamic-config.php (in main directory...so we can run a cached config)
-									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
-									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
-									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
-									'other_network_data' => '', // Leave blank to skip (OPTIONAL)
-									),
-					
-					
-			), // POW END
-					
-					
-			// POS CALCULATORS (#NOT FUNCTIONAL YET#)
-			'pos' => array(
-			
-			// CALCULATORS HERE
-			
-			), // POS END
-					
-			
-); // MINING CALCULATORS END
-				
 
 ////////////////////////////////////////
 // !END! POWER USER CONFIGURATION
@@ -1249,12 +1205,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Blog - Ethereum.org (community-driven on-chain smart contracts)",
             			      "url" => "https://blog.ethereum.org/feed.xml"
-        				     ),
-        
-        
-        				array(
-            			      "title" => "Blog - Helium Network (community-driven global LoRaWAN network)",
-            			      "url" => "https://blog.helium.com/feed"
         				     ),
     
     
@@ -1433,12 +1383,6 @@ $ct['conf']['news']['feeds'] = array(
     
     
         				array(
-            			      "title" => "Reddit - Helium Network (hot)",
-            			      "url" => "https://www.reddit.com/r/heliumnetwork/hot/.rss?format=xml"
-        				     ),
-    
-    
-        				array(
             			      "title" => "Reddit - Solana (hot)",
             			      "url" => "https://www.reddit.com/r/solana/hot/.rss?format=xml"
         				     ),
@@ -1513,12 +1457,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Youtube - Ethereum Foundation",
             			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCNOfzGXD_C9YMYmnefmPH0g"
-        				     ),
-    
-    
-        				array(
-            			      "title" => "Youtube - Helium Network",
-            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCEdh5moyCkiIrfdkZOnG5ZQ"
         				     ),
     
     
@@ -2206,6 +2144,7 @@ $ct['conf']['assets'] = array(
                                           'bitmex_u20' => 'ETHUSDU20',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
+                                          'presale_usd_value' => 'ETHEREUM',
                                                     ),
 
                                                     
@@ -2307,6 +2246,7 @@ $ct['conf']['assets'] = array(
                                     	 'bitfinex' => 'tSOLUSD',
                                          'hitbtc' => 'SOLUSD',
                                          'cex' => 'SOL:USD',
+                                         'presale_usd_value' => 'SOLANA',
                                                     ),
 
                                                     
@@ -2597,53 +2537,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // HNT
-                    'HNT' => array(
-                        
-                        'name' => 'Helium',
-                        'mcap_slug' => 'helium',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'coingecko_btc' => 'helium',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'HNT_ETH',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'HNT/SOL',
-                                                    ),
-
-                                                    
-                                    'inr' => array(
-                                        'wazirx' => 'hntinr',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'HNT/USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'HNT_USDT',
-                                        'wazirx' => 'hntusdt',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // RNDR
                     'RNDR' => array(
                         
@@ -2882,6 +2775,7 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                           'coinbase' => 'MANA-USD',
+                                          'presale_usd_value' => 'DECENTRALAND',
                                                     ),
 
                                                     

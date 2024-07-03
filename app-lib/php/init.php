@@ -88,6 +88,10 @@ $ct['int_webhook_base_endpoint'] = ( $ct['app_edition'] == 'server' || $ct['app_
 // Remote IP
 $ct['remote_ip'] = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
 
+// User Agent
+$ct['user_agent'] = ( isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Unknown' );
+
+
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
 $ct['base_dir'] = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
 // WITH dirname(__FILE__), WE ONLY NEED TO COVER THE app-lib/php PATH (AS WE ALWAYS GET THE PATH TO THIS CURRENT FILE)

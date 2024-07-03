@@ -45,7 +45,7 @@ $ct['admin_render_settings']['price_alert_channels']['is_notes'] = '(see "Extern
      
 $ct['admin_render_settings']['price_alert_threshold']['is_range'] = true;
 
-$ct['admin_render_settings']['price_alert_threshold']['range_ui_meta_data'] = 'zero_is_disabled';
+$ct['admin_render_settings']['price_alert_threshold']['range_ui_meta_data'] .= 'zero_is_disabled;';
 
 $ct['admin_render_settings']['price_alert_threshold']['range_min'] = 0;
 
@@ -61,7 +61,7 @@ $ct['admin_render_settings']['price_alert_threshold']['range_ui_suffix'] = '% Pr
      
 $ct['admin_render_settings']['price_alert_frequency_maximum']['is_range'] = true;
 
-$ct['admin_render_settings']['price_alert_frequency_maximum']['range_ui_meta_data'] = 'zero_is_unlimited';
+$ct['admin_render_settings']['price_alert_frequency_maximum']['range_ui_meta_data'] .= 'zero_is_unlimited;';
 
 $ct['admin_render_settings']['price_alert_frequency_maximum']['range_min'] = 0;
 
@@ -91,7 +91,7 @@ $ct['admin_render_settings']['price_alert_block_volume_error']['is_notes'] = 'Sk
      
 $ct['admin_render_settings']['price_alert_minimum_volume']['is_range'] = true;
 
-$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_meta_data'] = 'zero_is_disabled';
+$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_meta_data'] .= 'zero_is_disabled;';
 
 $ct['admin_render_settings']['price_alert_minimum_volume']['range_min'] = 0;
 
@@ -111,7 +111,7 @@ $ct['admin_render_settings']['price_alert_minimum_volume']['is_notes'] = 'Skip a
      
 $ct['admin_render_settings']['price_alert_fixed_reset']['is_range'] = true;
 
-$ct['admin_render_settings']['price_alert_fixed_reset']['range_ui_meta_data'] = 'zero_is_disabled';
+$ct['admin_render_settings']['price_alert_fixed_reset']['range_ui_meta_data'] .= 'zero_is_disabled;';
 
 $ct['admin_render_settings']['price_alert_fixed_reset']['range_min'] = 0;
 
@@ -165,7 +165,7 @@ $ct['admin_render_settings']['chart_crypto_volume_decimals']['range_step'] = 1;
      
 $ct['admin_render_settings']['charts_backup_frequency']['is_range'] = true;
 
-$ct['admin_render_settings']['charts_backup_frequency']['range_ui_meta_data'] = 'zero_is_disabled';
+$ct['admin_render_settings']['charts_backup_frequency']['range_ui_meta_data'] .= 'zero_is_disabled;';
 
 $ct['admin_render_settings']['charts_backup_frequency']['range_min'] = 0;
 

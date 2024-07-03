@@ -189,7 +189,7 @@ IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED T
 
 	    <br /><br />
 
-Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+Follow the prompts. This automated script gives you the options to: install / uninstall a PHP app server automatically, download / install / configure / uninstall the latest version of the Open Crypto Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the app server via SFTP) automatically. 
 	    <br /><br />
 
 <span class='bitcoin'>When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).</span>
@@ -221,7 +221,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
            <div class="accordion-body">
            
            
-             Just upload / move this app's files to your PHP-based web server directory (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '770' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
+             Just upload / move this app's files to your PHP-based app server directory (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '770' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
 	    <br /><br />
 	        
 	        Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
@@ -272,7 +272,7 @@ Once a cron job or scheduled task is setup ON YOUR APP SERVER, there is no need 
 If you decide to turn on cron job / scheduled task based features, then the file cron.php (located in the primary directory of this app) must be setup as a cron job or scheduled task on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 / website server device. 
 	    <br /><br />
 
-As mentioned previously, if you run the automated setup / install script for Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 devices on home / internal networks, automatic cron job / scheduled task setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
+As mentioned previously, if you run the automated setup / install script for Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 devices on home / internal networks, automatic cron job / scheduled task setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your app server host's documentation or help desk for their particular method of setting up a cron job. 
 	    <br /><br />
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, light (time period) chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
@@ -403,8 +403,6 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'lowercase_exchange3' => 'ASSET-ETH',
                                   'lowercase_exchange4' => 'ASSET_ETH',
                                   'lowercase_exchange5' => 'ASSETETH',
-                                  // ETH ICOs...ETHSUBTOKENNAME MUST be defined in 'ethereum_erc20_icos' (Admin Config POWER USER section)
-                                  'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                   // GENERIC ETH PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION)
                                   'coingecko_eth' => 'coingecko_api_id_here',
@@ -424,6 +422,8 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'coingecko_usd' => 'coingecko_api_id_here',
                                   // GENERIC *DEX* USD PRICE (IF NOT LISTED *ANYWHERE* BESIDES DEXS [DECENTRALIZED EXCHANGES])
                                   'coingecko_terminal' => 'network_name_here||pool_address_here',
+                                  // Token Presales IN USD...TOKENNAME MUST be defined in 'token_presales_usd' (Admin Config CURRENCY SUPPORT section)
+                                  'presale_usd_value' => 'TOKENNAME', 
                                   ),
 
                                                     
@@ -902,7 +902,7 @@ After using the above configuration, and then running "make", when you then run 
            <div class="accordion-body">
            
            
-             <span class='bitcoin'>IMPORTANT NOTICE:</span> PLUGINS *MAY REQUIRE* A CRON JOB (OR SCHEDULED TASK) RUNNING ON YOUR WEB SERVER (see <a href='README.txt' target='_blank'>README.txt</a> for cron job setup information).
+             <span class='bitcoin'>IMPORTANT NOTICE:</span> PLUGINS *MAY REQUIRE* A CRON JOB (OR SCHEDULED TASK) RUNNING ON YOUR APP SERVER (see <a href='README.txt' target='_blank'>README.txt</a> for cron job setup information).
 <br /><br />
 
 

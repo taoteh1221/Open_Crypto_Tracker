@@ -28,6 +28,8 @@
 	
 	<link rel="preload" href="templates/interface/css/jquery-ui/jquery-ui.css" as="style" />
 	
+	<link rel="preload" href="templates/interface/css/tablesorter/jquery.tablesorter.pager.css" as="style" />
+	
 	<link rel="preload" href="templates/interface/css/jquery.mCustomScrollbar.min.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/style.css" as="style" />
@@ -61,6 +63,10 @@
 	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.min.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.widgets.min.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.pager.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.pager-custom-controls.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/jquery/jquery.balloon.min.js" as="script" />
 
@@ -105,6 +111,10 @@
 	<script src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
 
 	<script src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
+
+	<script src="app-lib/js/jquery/jquery.tablesorter.pager.js"></script>
+
+	<script src="app-lib/js/jquery/jquery.tablesorter.pager-custom-controls.js"></script>
 
 	<script src="app-lib/js/jquery/jquery.balloon.min.js"></script>
 
@@ -328,7 +338,7 @@
 	
 	<?php
 	
-	foreach ( $ct['conf']['power']['crypto_pair_preferred_markets'] as $key => $unused ) {
+	foreach ( $ct['opt_conf']['crypto_pair_preferred_markets'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	
@@ -419,6 +429,8 @@
 	<link rel="stylesheet" href="templates/interface/css/responsive-menus.css" type="text/css" title="responsive-menus" />
 	
 	<link rel="stylesheet" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.style.css" type="text/css" />
+	
+	<link rel="stylesheet" href="templates/interface/css/tablesorter/jquery.tablesorter.pager.css" type="text/css" />
 	
 	
 	<?php

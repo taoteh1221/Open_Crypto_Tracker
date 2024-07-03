@@ -68,7 +68,7 @@ $ct['admin_render_settings']['proxy_alert_channels']['is_notes'] = 'Receive aler
      
 $ct['admin_render_settings']['proxy_alert_frequency_maximum']['is_range'] = true;
 
-$ct['admin_render_settings']['proxy_alert_frequency_maximum']['range_ui_meta_data'] = 'zero_is_unlimited';
+$ct['admin_render_settings']['proxy_alert_frequency_maximum']['range_ui_meta_data'] .= 'zero_is_unlimited;';
 
 $ct['admin_render_settings']['proxy_alert_frequency_maximum']['range_min'] = 0;
 

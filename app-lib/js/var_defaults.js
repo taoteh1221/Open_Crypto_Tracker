@@ -174,9 +174,13 @@ var is_admin = false;
 
 var admin_logged_in = false;
 
+var admin_settings_save_init = false;
+
 var unsaved_admin_config = false;
 
-var admin_settings_save_init = false;
+var user_settings_save_init = false;
+
+var unsaved_user_config = false;
 
 var emulated_cron_enabled = false;
 	

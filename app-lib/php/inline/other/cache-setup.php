@@ -43,6 +43,7 @@ if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != tr
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/light_chart_rebuilds/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/system/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/throttling/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/access_stats/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/upgrading/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/logging/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/first_run/') != true

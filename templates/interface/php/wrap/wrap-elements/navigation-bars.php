@@ -42,7 +42,17 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    if ( $ct['gen']->admin_logged_in() && $is_admin ) {
    ?>
    
-   <div class="align_center"><a href='javascript:' class='admin_settings_save bitcoin' style='font-weight: bold;' title='Save settings for this admin section.'><img src='templates/interface/media/images/auto-preloaded/icons8-save-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
+   <div class="align_center"><a href='javascript:' class='admin_settings_save settings_save bitcoin' style='font-weight: bold;' title='Save settings for this admin section.'><img src='templates/interface/media/images/auto-preloaded/icons8-save-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
+
+   
+   <div class="smallnav_spacer"></div>
+   
+   <?php
+   }
+   else if ( !$is_admin ) {
+   ?>
+   
+   <div class="align_center"><a href='javascript:' class='user_settings_save settings_save bitcoin' style='font-weight: bold;' title='Save settings for the user area.'><img src='templates/interface/media/images/auto-preloaded/icons8-save-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
 
    
    <div class="smallnav_spacer"></div>
@@ -326,7 +336,16 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
             ?>
    
             <li class='sidebar-item'>
-                <a href='javascript:' class='admin_settings_save bitcoin' title='Save settings for this admin section.'>Save Setting Changes</a>
+                <a href='javascript:' class='admin_settings_save settings_save bitcoin' title='Save settings for this admin section.'>Save Admin Changes</a>
+            </li>
+        
+            <?php
+            }
+            else if ( !$is_admin ) {
+            ?>
+   
+            <li class='sidebar-item'>
+                <a href='javascript:' class='user_settings_save settings_save bitcoin' title='Save settings for the user area.'>Save User Changes</a>
             </li>
         
             <?php

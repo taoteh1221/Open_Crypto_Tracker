@@ -197,6 +197,23 @@ CLASSES
 ////////////////////////////// */
 
 
+#sidebar .user_settings_save.red_bright, #sidebar .admin_settings_save.red_bright {
+border-radius: 8px;
+border: 3px dotted #ff4747;
+}
+
+
+.tablesorter-filter-row td input::placeholder {
+color: #F7931A !important;
+}
+
+
+div.table_pager span.prev, div.table_pager span.next {
+text-decoration: underline !important;
+cursor: pointer !important;
+}
+
+
 .range-wrap{
   font-weight: bold;
   min-width: 100%;
@@ -1034,12 +1051,7 @@ text-align: right;
 }
 
 
-/* //////////////////////////////
-IDs
-////////////////////////////// */
-
-
-#coins_table th, #coins_table  td.data {
+table.data_table th, table.data_table  td.data {
 margin: 0px !important;
 padding-top: 0.2em !important;
 padding-bottom: 0.2em !important;
@@ -1051,29 +1063,34 @@ line-height: 1em !important;
 }
 
 
-#coins_table thead tr th.border_lt:first-child {
+table.data_table thead tr:first-child th:first-child {
 border-top-left-radius: 0.6em;
 }
 
 
-#coins_table thead tr th.border_rt:last-child {
+table.data_table thead tr:first-child th:last-child {
 border-top-right-radius: 0.6em;
 }
 
 
-#coins_table tbody tr:last-child td.border_lb:first-child {
+table.data_table tbody tr:last-child td:first-child {
 border-bottom-left-radius: 0.6em;
 }
 
 
-#coins_table tbody tr:last-child td.border_rb:last-child {
+table.data_table tbody tr:last-child td:last-child {
 border-bottom-right-radius: 0.6em;
 }
 
 
-#coins_table select {
+table.data_table select {
 border: 0.1em solid #808080 !important;
 }
+
+
+/* //////////////////////////////
+IDs
+////////////////////////////// */
 
 
 #pm_link_icon_div {

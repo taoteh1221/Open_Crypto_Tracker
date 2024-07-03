@@ -9,13 +9,33 @@ ELEMENTS
 
 
 body, table, div.tabdiv {
-background: #202020;
-color: white;
+background: #202020 !important;
+color: white !important;
 }
 
 
 input:not(.range-field), textarea {
 background-color: #dbd9d9;
+}
+
+
+.tablesorter-filter-row td {
+background-color: #343f49 !important;
+color: white !important;
+}
+
+
+.tablesorter-dark .tablesorter-filter {
+color: white !important;
+}
+
+
+.tablesorter-dark tbody > tr.odd:hover > td, .tablesorter-dark tr.odd td.primary, .tablesorter-dark tr.odd td.secondary {
+background-color: #28313a !important;
+}
+
+.tablesorter-dark tbody > tr.even:hover > td, .tablesorter-dark tr.even td.primary, .tablesorter-dark tr.even td.secondary {
+background-color: #343f49 !important;
 }
 
 

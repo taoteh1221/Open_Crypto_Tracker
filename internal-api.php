@@ -25,13 +25,13 @@ header('Access-Control-Allow-Credentials: true');
 
 
 // Ip address information
-$store_ip = preg_replace('/[^\p{L}\p{N}\s]/u', "_", $ct['remote_ip']); // Replace ALL symbols with an underscore (for ipv6 / windows compatibility, as filenames)
-$ip_access = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat') );
+$safe_name = $ct['gen']->safe_name($ct['remote_ip']); 
+$ip_access = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat') );
 
 
 
 // Throttle ip addresses reconnecting before $ct['conf']['int_api']['int_api_rate_limit'] interval passes
-if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ct['conf']['int_api']['int_api_rate_limit'] / 60) ) == false ) {
+if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat', ($ct['conf']['int_api']['int_api_rate_limit'] / 60) ) == false ) {
 
 $result = array('error' => "Rate limit (maximum of once every " . $ct['conf']['int_api']['int_api_rate_limit'] . " seconds) reached for ip address: " . $ct['remote_ip']);
 
@@ -87,7 +87,7 @@ $hash_check = md5($_GET['data_set']);
 	$json_result = trim( file_get_contents($ct['base_dir'] . '/cache/internal_api/'.$hash_check.'.dat') );
 
 	// Log access event for this ip address (for throttling)
-	$ct['cache']->save_file($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
+	$ct['cache']->save_file($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
 	
 	}
 	// No cache / expired cache
@@ -157,7 +157,7 @@ $hash_check = md5($_GET['data_set']);
 	$ct['cache']->save_file($ct['base_dir'] . '/cache/internal_api/'.$hash_check.'.dat', $json_result);
 
 	// Log access event for this ip address (for throttling)
-	$ct['cache']->save_file($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
+	$ct['cache']->save_file($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
 
 
 	}

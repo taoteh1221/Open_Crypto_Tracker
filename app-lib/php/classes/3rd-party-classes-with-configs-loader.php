@@ -41,9 +41,9 @@ $telegram_bot = new Telegram\Bot($ct['conf']['ext_apis']['telegram_bot_token'], 
 $ct['telegram_connect'] = new Telegram\Receiver($telegram_bot);
 
 
-        // IF THE BOT CHATROOM DATA IS NOT STORED, attempt to refresh it via the telegram API
+        // IF COMMS ARE ENABLED, AND THE BOT CHATROOM DATA IS NOT STORED, attempt to refresh it via the telegram API
         // (ONLY IF RUNTIME MODE IS UI / CRON [as this logic isn't compatible with any other runtimes])
-        if ( !is_array($ct['telegram_user_data']) || is_array($ct['telegram_user_data']) && sizeof($ct['telegram_user_data']) < 1 ) {
+        if ( $ct['conf']['comms']['allow_comms'] != 'off' && !is_array($ct['telegram_user_data']) || $ct['conf']['comms']['allow_comms'] != 'off' && is_array($ct['telegram_user_data']) && sizeof($ct['telegram_user_data']) < 1 ) {
         
         
             if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {

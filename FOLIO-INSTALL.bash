@@ -789,7 +789,7 @@ echo " "
 
 echo "!!VERY IMPORTANT *HOSTING* NOTICE!!:"
 echo " "
-echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting environment that a service provider has already provisioned, please quit this auto-install session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
+echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY HAVE A APP SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting environment that a service provider has already provisioned, please quit this auto-install session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
 echo " "
 
 echo "${yellow}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
@@ -1535,7 +1535,7 @@ EOF
 		echo "${green}PHP web server configuration is complete.${reset}"
         	echo " "
 
-          echo "${red}You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP WEB SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
+          echo "${red}You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP APP SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
           echo " "
           echo "sudo reboot"
           echo "${reset} "
@@ -2117,7 +2117,7 @@ echo "${reset} "
 
 if [ "$SERVER_SETUP" = "1" ]; then
 
-echo "${red}REMINDER...You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP WEB SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
+echo "${red}REMINDER...You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP APP SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
 echo " "
 echo "sudo reboot"
 echo "${reset} "
