@@ -127,6 +127,8 @@ $ct['usort_alpha'] = null;
 
 // Initial zero-set / false strings
 
+$ct['is_subsection_config'] = false;
+
 $ct['verified_update_request'] = false;
 
 $ct['plugins_checked_registered'] = false;

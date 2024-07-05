@@ -672,6 +672,13 @@ var $ct_array = array();
 	 $refresh_admin_sections = 'none';
 	 }
 	 
+	 if ( isset($render_params['exclude_refresh_admin']) ) {
+	 $exclude_refresh_admin_sections = $render_params['exclude_refresh_admin'];
+	 }
+	 else {
+	 $exclude_refresh_admin_sections = 'none';
+	 }
+	 
 	 ?>
 	
 	
@@ -696,8 +703,21 @@ var $ct_array = array();
 	 
    <div class='pretty_text_fields'>
    
+	<?php
 	
-	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=( $is_plugin_config ? 'plugin' : 'section' )?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
+	if ( $is_plugin_config ) {
+	$cat_key = 'plugin';
+	}
+	elseif ( $ct['is_subsection_config'] ) {
+	$cat_key = 'parent=' . $_GET['parent'] . '&subsection';
+	}
+	else {
+	$cat_key = 'section';
+	}
+	
+	?>
+	
+	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=$cat_key?>=<?=$interface_id?>&exclude_refresh=<?=$exclude_refresh_admin_sections?>&refresh=<?=$refresh_admin_sections?>' method='post'>
      
      <?php
      
@@ -968,7 +988,7 @@ var $ct_array = array();
                                   }).on('autosize:resized', function(){
                                    
                                        // Resize admin iframes after resizing textareas
-                                       admin_iframe_load.forEach(function(iframe) {
+                                       admin_iframe_dom.forEach(function(iframe) {
                                        iframe_size_adjust(iframe);
                                        });
                                    
@@ -1054,342 +1074,28 @@ var $ct_array = array();
         unset($this_plug);
         }
         elseif ( $_POST['conf_id'] === 'gen' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-             
-           // Make sure primary currency conversion params are set properly
-           if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['gen']['bitcoin_primary_currency_pair'] ][ $_POST['gen']['bitcoin_primary_currency_exchange'] ] ) {
-           $ct['update_config_error'] = 'Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['gen']['bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($_POST['gen']['bitcoin_primary_currency_pair']) . '" market';
-           }
-        
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-general.php');
         }
         elseif ( $_POST['conf_id'] === 'comms' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        
-        $smtp_login_check = explode("||", $_POST['comms']['smtp_login']);
-        
-        $smtp_server_check = explode(":", $_POST['comms']['smtp_server']);
-        
-        $to_mobile_text_check = explode("||", $_POST['comms']['to_mobile_text']);
-             
-             
-           // Make sure SMTP emailing params are set properly
-           if ( isset($_POST['comms']['smtp_login']) && $_POST['comms']['smtp_login'] != '' && sizeof($smtp_login_check) < 2 ) {
-           $ct['update_config_error'] = 'SMTP Login formatting is NOT valid (format MUST be: username||password)';
-           }
-           elseif ( isset($_POST['comms']['smtp_server']) && $_POST['comms']['smtp_server'] != '' && sizeof($smtp_server_check) < 2 ) {
-           $ct['update_config_error'] = 'SMTP Server formatting is NOT valid (format MUST be: domain_or_ip:port_number)';
-           }
-           // Mobile text check
-           elseif ( isset($_POST['comms']['to_mobile_text']) && $_POST['comms']['to_mobile_text'] != '' && sizeof($to_mobile_text_check) < 2 ) {
-           $ct['update_config_error'] = 'To Mobile Text formatting is NOT valid (format MUST be: mobile_number||network_name)';
-           }
-           // Email FROM service check
-           elseif ( isset($_POST['comms']['from_email']) && $_POST['comms']['from_email'] != '' && $ct['gen']->valid_email($_POST['comms']['from_email']) != 'valid' ) {
-           $ct['update_config_error'] = 'FROM Email is NOT valid: ' . $_POST['comms']['from_email'] . ' (' . $ct['gen']->valid_email($_POST['comms']['from_email']) . ')';
-           }
-           // Email TO service check
-           elseif ( isset($_POST['comms']['to_email']) && $_POST['comms']['to_email'] != '' && $ct['gen']->valid_email($_POST['comms']['to_email']) != 'valid' ) {
-           $ct['update_config_error'] = 'TO Email is NOT valid: ' . $_POST['comms']['to_email'] . ' (' . $ct['gen']->valid_email($_POST['comms']['to_email']) . ')';
-           }
-        
-        
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-comms.php');
         }
         elseif ( $_POST['conf_id'] === 'ext_apis' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-	
-        // Test mode (retrieves current block height)    
-	   $solana_block_height = $ct['api']->solana_rpc('getBlockHeight', false, 0, $_POST['ext_apis']['solana_rpc_server'])['result'];
-	
-	
-           if (
-           !isset($solana_block_height)
-           || isset($solana_block_height) && !is_int($solana_block_height)
-           || isset($solana_block_height) && $solana_block_height < 1
-           ) {
-           $ct['update_config_error'] .= 'Solana RPC Server "' . $_POST['ext_apis']['solana_rpc_server'] . '" query test FAILED (make sure you entered the RPC endpoint address correctly)';
-           }
-             
-             
-           // Make sure Twilio number is set properly
-           if ( isset($_POST['ext_apis']['twilio_number']) && $_POST['ext_apis']['twilio_number'] != '' && !preg_match("/^\\d+$/", $_POST['ext_apis']['twilio_number']) ) {
-           $ct['update_config_error'] = 'Twilio Number formatting is NOT valid: ' . $_POST['ext_apis']['twilio_number'] . ' (format MUST be ONLY NUMBERS)';
-           }
-        
-        
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-ext-apis.php');
         }
         elseif ( $_POST['conf_id'] === 'sec' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        
-        
-           if ( isset($_POST['sec']['interface_login']) && $_POST['sec']['interface_login'] != '' ) {
-                
-           $is_interface_login = true;
-        
-           $interface_login_check = explode("||", $_POST['sec']['interface_login']);
-              
-           $htaccess_username_check = $interface_login_check[0];
-           $htaccess_password_check = $interface_login_check[1];
-             
-           $valid_username_check = $ct['gen']->valid_username($htaccess_username_check);
-             
-           // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
-           $password_strength_check = $ct['gen']->pass_strength($htaccess_password_check, 8, 8);
-             
-           }
-        
-             
-           // Make sure interface login params are set properly
-           if ( $is_interface_login && sizeof($interface_login_check) < 2 ) {
-           $ct['update_config_error'] = 'Interface Login formatting is NOT valid (format MUST be: username||password)';
-           }
-           elseif ( $is_interface_login && $valid_username_check != 'valid' ) {
-           $ct['update_config_error'] = 'Interface Login USERNAME requirements NOT met  (' . $valid_username_check . ')';
-           }
-           elseif ( $is_interface_login && $password_strength_check != 'valid' ) {
-           $ct['update_config_error'] = 'Interface Login PASSWORD requirements NOT met  (' . $password_strength_check . ')';
-           }
-        
-        
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-security.php');
         }
         elseif ( $_POST['conf_id'] === 'news' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-		
-        $news_feed_cache_min_max = array_map('trim', explode(',', $_POST['news']['news_feed_cache_min_max']) );
-             
-             
-            // Make sure min / max cache time is set properly
-            if ( isset($_POST['news']['news_feed_cache_min_max']) && trim($_POST['news']['news_feed_cache_min_max']) == '' ) {
-            $ct['update_config_error'] = '"News Feed Cache Min Max" value is REQUIRED';
-            }
-            else if (
-            !isset($news_feed_cache_min_max[0]) || !$ct['var']->whole_int($news_feed_cache_min_max[0]) || $news_feed_cache_min_max[0] < 30 || $news_feed_cache_min_max[0] > 720 
-            || !isset($news_feed_cache_min_max[1]) || !$ct['var']->whole_int($news_feed_cache_min_max[1]) || $news_feed_cache_min_max[1] < 30 || $news_feed_cache_min_max[1] > 720
-            || $news_feed_cache_min_max[0] > $news_feed_cache_min_max[1]
-            ) {
-            $ct['update_config_error'] = '"News Feed Cache Min Max" values MUST be between 30 and 720 (LARGER number last)';
-            }
-        
-        
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-news.php');
         }
         elseif ( $_POST['conf_id'] === 'proxy' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        
-        
-           if ( isset($_POST['proxy']['proxy_login']) && $_POST['proxy']['proxy_login'] != '' && !preg_match('/\s/', $_POST['proxy']['proxy_login']) ) {
-           $is_proxy_login = true;
-           $proxy_login_check = explode("||", $_POST['proxy']['proxy_login']);
-           }
-        
-           
-           if ( preg_match('/\s/', $_POST['proxy']['proxy_login']) ) {
-           $ct['update_config_error'] .= 'WHITESPACE is not allowed in the Proxy LOGIN';
-           }
-           // Make sure proxy login params are set properly
-           elseif ( $is_proxy_login && sizeof($proxy_login_check) < 2 ) {
-           $ct['update_config_error'] .= 'Proxy LOGIN formatting is NOT valid (format MUST be: username||password)';
-           }
-           elseif ( isset($_POST['proxy']['allow_proxies']) && $_POST['proxy']['allow_proxies'] == 'on' && is_array($_POST['proxy']['proxy_list']) ) {
-           
-               foreach ( $_POST['proxy']['proxy_list'] as $proxy ) {
-                    
-               $proxy = trim($proxy);
-               
-               $proxy_check = explode(":", $proxy);
-                    
-                    if ( sizeof($_POST['proxy']['proxy_list']) == 1 && trim($proxy) == '' ) {
-     	          // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
-                    }
-                    elseif ( sizeof($proxy_check) < 2 ) {
-                    $ct['update_config_error'] .= '<br />Proxy LIST formatting is NOT valid (format MUST be: ip_address:port_number [in submission: "'.$proxy.'"])';
-                    }
-                    else {
-                         
-                         if ( $proxy_checked ) {
-                         sleep(2); // Don't want to hit the testing server too hard too quick on consecutive requests
-                         }
-                    
-                    $check_proxy = $ct['gen']->connect_test($proxy, 'proxy');
-                    
-                         if ( $check_proxy['status'] != 'ok' ) {
-                         $ct['update_config_error'] .= '<br />Proxy TEST failed for submission: "'.$proxy.'" ('.$check_proxy['status'].')';
-                         }
-                         
-                    $proxy_checked = true;
-                    
-                    }
-               
-               }
-           
-           }
-           
-        
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-proxy.php');
         }
         elseif ( $_POST['conf_id'] === 'mobile_network' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        
-        
-		 foreach ( $_POST['mobile_network']['text_gateways'] as $val ) {
-		     
-		 $gateway_data = array_map( "trim", explode("||", $val) );
-			
-		 $test_result = $ct['gen']->valid_email( 'test@' . $gateway_data[1] );
-		
-                    
-                if ( sizeof($_POST['mobile_network']['text_gateways']) == 1 && trim($val) == '' ) {
-     	      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
-                }
-			 elseif ( $ct['var']->begins_with_in_array($_POST['mobile_network']['text_gateways'], $gateway_data[0] . '||')['count'] > 1 ) {
-                $ct['update_config_error'] .= '<br />Mobile text gateway KEY was USED TWICE (DUPLICATE): "'.$gateway_data[0].'" (in "'.$val.'", no duplicate keys allowed)';
-			 }
-		      elseif ( $test_result != 'valid' ) {
-                $ct['update_config_error'] .= '<br />Mobile text gateway seems INVALID: "'.$gateway_data[1].'" ('.$test_result.')';
-			 }
-			 
-		
-		 }
-           
-        
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-mobile-network.php');
         }
         elseif ( $_POST['conf_id'] === 'charts_alerts' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-     	     
-        $update_config_error_seperator = '<br /> ';
-        
-        $light_chart_day_intervals = array_map( "trim", explode(',', $_POST['charts_alerts']['light_chart_day_intervals']) );
-		
-        $light_chart_all_rebuild_min_max = array_map('trim', explode(',', $_POST['charts_alerts']['light_chart_all_rebuild_min_max']) );
-		
-        $asset_performance_chart_defaults = array_map('trim', explode('||', $_POST['charts_alerts']['asset_performance_chart_defaults']) );
-		
-        $asset_marketcap_chart_defaults = array_map('trim', explode('||', $_POST['charts_alerts']['asset_marketcap_chart_defaults']) );
-        
-        $allowed_modes = array(
-                               'chart',
-                               'alert',
-                               'both',
-                               'none',
-                              );
-        
-        
-           if ( isset($_POST['charts_alerts']['whale_alert_thresholds']) && trim($_POST['charts_alerts']['whale_alert_thresholds']) != '' ) {
-                
-           $is_whale_alert = true;
-        
-           $whale_alert_check = array_map( "trim", explode("||", $_POST['charts_alerts']['whale_alert_thresholds']) );
-               
-               if ( sizeof($whale_alert_check) == 4 ) {
-               
-                    foreach ( $whale_alert_check as $val ) {
-                         
-                         if ( !is_numeric($val) ) {
-                         $is_whale_alert = false;
-                         }
-                         
-                    }
-                    
-               }
-               else {
-               $is_whale_alert = false;
-               }
-             
-           }
-           
-           
-           foreach ( $_POST['charts_alerts']['tracked_markets'] as $key => $val ) {
-           
-           // Auto-correct
-           $_POST['charts_alerts']['tracked_markets'][$key] = $ct['var']->auto_correct_str($val, 'lower');
-           
-           $val = $ct['var']->auto_correct_str($val, 'lower');
-            
-           $val_config = array_map( "trim", explode("||", $val) ); // Convert $val into an array
-			
-		 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		 $chart_asset = ( stristr($val_config[0], "-") == false ? $val_config[0] : substr( $val_config[0], 0, mb_strpos($val_config[0], "-", 0, 'utf-8') ) );
-		 $chart_asset = strtoupper($chart_asset);
-            
-           $exchange = $val_config[1];
-
-           $pair = $val_config[2];
-
-           $mode = $val_config[3];
-     
-     	 $mrkt_id = $ct['conf']['assets'][$chart_asset]['pair'][$pair][$exchange];
-               
-     	 $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($chart_asset, $exchange, $mrkt_id)['last_trade'] );
-     	
-     	     
-     	     if ( sizeof($_POST['charts_alerts']['tracked_markets']) == 1 && trim($val) == '' ) {
-     	     // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
-     	     }
-     	     elseif ( $ct['var']->begins_with_in_array($_POST['charts_alerts']['tracked_markets'], $val_config[0] . '||')['count'] > 1 ) {
-               $ct['update_config_error'] .= $update_config_error_seperator . 'Charts / Alerts KEY was USED TWICE (DUPLICATE): "'.$val_config[0].'" (no duplicate keys allowed)';
-     	     }
-     	     elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
-     	     $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'"); Market MAY be down *temporarily* for maintenance, OR permanently removed (please verify on the exchange website)';
-     	     }
-     	     elseif ( !in_array($mode, $allowed_modes) ) {
-     	     $ct['update_config_error'] .= $update_config_error_seperator . 'Unknown mode (in submission: "'.$val.'")';
-     	     }
-     	
-     	 
-           }
-        
-             
-           // Make whale alert params are set properly
-           if ( !$is_whale_alert ) {
-           $ct['update_config_error'] .= $update_config_error_seperator . 'Whale Alert Thresholds formatting is NOT valid';
-           }
-             
-             
-           // Make sure light chart day intervals is set
-           if ( isset($_POST['charts_alerts']['light_chart_day_intervals']) && trim($_POST['charts_alerts']['light_chart_day_intervals']) == '' ) {
-           $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be filled in';
-           }
-           else {
-           
-                foreach ( $light_chart_day_intervals as $days ) {
-                
-                    if ( $days == 0 || !$ct['var']->whole_int($days) ) {
-                    $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be whole numbers greater than zero ("'.$days.'" is invalid)';
-                    }
-                
-                }
-                
-           }
-             
-             
-           // Make sure asset performance chart config is set
-           if ( isset($_POST['charts_alerts']['asset_performance_chart_defaults']) && trim($_POST['charts_alerts']['asset_performance_chart_defaults']) == '' ) {
-           $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Performance Chart Defaults" MUST be filled in';
-           }
-           else if (
-           !isset($asset_performance_chart_defaults[0]) || !$ct['var']->whole_int($asset_performance_chart_defaults[0]) || $asset_performance_chart_defaults[0] < 400 || $asset_performance_chart_defaults[0] > 900 
-           || !isset($asset_performance_chart_defaults[1]) || !$ct['var']->whole_int($asset_performance_chart_defaults[1]) || $asset_performance_chart_defaults[1] < 7 || $asset_performance_chart_defaults[1] > 16
-           || !$ct['var']->whole_int($asset_performance_chart_defaults[0] / 100)
-           ) {
-           $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Performance Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
-           }
-             
-             
-           // Make sure marketcap chart config is set
-           if ( isset($_POST['charts_alerts']['asset_marketcap_chart_defaults']) && trim($_POST['charts_alerts']['asset_marketcap_chart_defaults']) == '' ) {
-           $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" MUST be filled in';
-           }
-           else if (
-           !isset($asset_marketcap_chart_defaults[0]) || !$ct['var']->whole_int($asset_marketcap_chart_defaults[0]) || $asset_marketcap_chart_defaults[0] < 400 || $asset_marketcap_chart_defaults[0] > 900 
-           || !isset($asset_marketcap_chart_defaults[1]) || !$ct['var']->whole_int($asset_marketcap_chart_defaults[1]) || $asset_marketcap_chart_defaults[1] < 7 || $asset_marketcap_chart_defaults[1] > 16
-           || !$ct['var']->whole_int($asset_marketcap_chart_defaults[0] / 100)
-           ) {
-           $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
-           }
-           
-           
-           // Make sure min / max 'all' light chart rebuild time is set properly
-           if ( isset($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) && trim($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) == '' ) {
-           $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" MUST be filled in';
-           }
-           else if (
-           !isset($light_chart_all_rebuild_min_max[0]) || !$ct['var']->whole_int($light_chart_all_rebuild_min_max[0]) || $light_chart_all_rebuild_min_max[0] < 3 || $light_chart_all_rebuild_min_max[0] > 12 
-           || !isset($light_chart_all_rebuild_min_max[1]) || !$ct['var']->whole_int($light_chart_all_rebuild_min_max[1]) || $light_chart_all_rebuild_min_max[1] < 3 || $light_chart_all_rebuild_min_max[1] > 12
-           || $light_chart_all_rebuild_min_max[0] > $light_chart_all_rebuild_min_max[1]
-           ) {
-           $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" values MUST be between 3 and 12 (LARGER number last)';
-           }
-        
-        
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-charts-alerts.php');
         }
         
         

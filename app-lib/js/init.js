@@ -143,10 +143,10 @@ nav_menu('.user-nav');
 
      // Monitor admin iframes for load / unload events
      if ( is_iframe ) {
-     admin_iframe_load = window.parent.document.querySelectorAll('.admin_iframe');
+     admin_iframe_dom = window.parent.document.querySelectorAll('.admin_iframe');
      }
      else {
-     admin_iframe_load = document.querySelectorAll('.admin_iframe');
+     admin_iframe_dom = document.querySelectorAll('.admin_iframe');
      }
 
 
@@ -253,7 +253,7 @@ nav_menu('.user-nav');
                // Reset iframe heights after 1 second
                setTimeout(function() {
                     
-                   admin_iframe_load.forEach(function(iframe) {
+                   admin_iframe_dom.forEach(function(iframe) {
                    iframe_size_adjust(iframe);
                    });
                    
@@ -532,12 +532,27 @@ nav_menu('.user-nav');
 	
 
     // Admin iframes LOADING
-    admin_iframe_load.forEach(function(iframe) {
-	     
+    admin_iframe_dom.forEach(function(iframe) {
+         
+    
+          // Store an array of all admin iframe IDs, for use in footer.php
+          if ( typeof iframe.id != 'undefined' ) {
+          all_admin_iframe_ids.push(iframe.id);
+          }
           
        
           // When admin iframe loads / reloads
           iframe.addEventListener('load', function() {
+          
+          // Reset selected dropdown navs being selected in 3-deep nav
+          $(".custom-3deep a.dropdown-item").removeClass("secondary-select");
+          
+          // Reset admin 'save settings' tracking
+          unsaved_admin_config = false;
+
+          $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+          $('#sidebar .admin_settings_save').addClass('bitcoin');
+          $('#sidebar .admin_settings_save').removeClass('red_bright');
           
           // Always scroll to top left on load / reload for UX
           iframe.contentWindow.scrollTo(0,0);
@@ -1167,7 +1182,7 @@ nav_menu('.user-nav');
       autosize(this);
     }).on('autosize:resized', function(){
     
-         admin_iframe_load.forEach(function(iframe) {
+         admin_iframe_dom.forEach(function(iframe) {
          iframe_size_adjust(iframe);
          });
                                    

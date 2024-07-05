@@ -131,75 +131,89 @@ $(document).ready(function() {
              // 'auto' is the 'refresh' param value we set further down here in footer.php,
              // so we never get stuck in endless loops with refresh=all when refreshing here
              if ( $halt_iframe_refreshing || $_GET['refresh'] == 'none' || $_GET['refresh'] == 'auto' ) {
-             $refresh_admin = array(); // SET TO BLANK (no iframe refreshing)
+             ?>
+             selected_admin_iframe_ids = new Array(); // SET TO BLANK (no iframe refreshing)
+             <?php
              }
              // Refreshing ALL admin sections
              elseif ( $_GET['refresh'] == 'all' ) {
-             
-             $refresh_admin = array(
-                                     'iframe_general',
-                                     'iframe_comms',
-                                     'iframe_ext_apis',
-                                     'iframe_proxy',
-                                     'iframe_security',
-                                     'iframe_portfolio_assets',
-                                     'iframe_charts_alerts',
-                                     'iframe_plugins',
-                                     'iframe_power_user',
-                                     'iframe_news_feeds',
-                                     'iframe_webhook_int_api',
-                                     'iframe_text_gateways',
-                                     'iframe_system_stats',
-                                     'iframe_access_stats',
-                                     'iframe_logs',
-                                     'iframe_reset_backup_restore',
-                                    );
-                                    
+             ?>
+             selected_admin_iframe_ids = parent.all_admin_iframe_ids; // ALL admin iframes refreshed
+             <?php                   
              }
              // Refreshing the passed list of admin sections
              else {
+             
              $refresh_admin = explode(',', $_GET['refresh']);
+             $refresh_admin = array_map("trim", $refresh_admin);
+             
+             
+                  foreach ( $refresh_admin as $refresh ) {
+                       
+                       // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
+                       if ( trim($refresh) != '' && $refresh != 'iframe_' . $iframe_id ) {
+                       ?>
+                       selected_admin_iframe_ids.push("<?=$refresh?>"); // SELECTED admin iframes refreshed
+                       <?php 
+                       }
+                       
+                  }
+
+             
              }
              
+             
+         $exclude_refresh_admin = explode(',', $_GET['exclude_refresh']);
+         $exclude_refresh_admin = array_map("trim", $exclude_refresh_admin);
+             
+             foreach ( $exclude_refresh_admin as $exclude_refresh ) {
+             ?>
+             
+             // Remove any ids marked as excluded explicitly
+             var excluded_iframe = selected_admin_iframe_ids.indexOf("<?=$exclude_refresh?>");
+             
+             if ( excluded_iframe > -1 ) {
+             selected_admin_iframe_ids.splice(excluded_iframe, 1); // 2nd parameter means remove one item only
+             }
+             
+             <?php
+             }
          
-             foreach ( $refresh_admin as $refresh ) {
-         
-                 // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
-                 if ( trim($refresh) != '' && $refresh != 'iframe_' . $iframe_id ) {
-                 ?>
-                 
+         ?>
+             
+             selected_admin_iframe_ids.forEach(function(refresh_iframe) {
+                  
                  
                  // Skip any corrupt interface config sections
-                 if ( skip_corrupt_sections.includes("<?=$refresh?>") ) {
-                 console.log('SKIPPING CORRUPT CONFIG SECTION IFRAME: <?=$refresh?> (in "<?=$iframe_id?>")');
+                 if ( skip_corrupt_sections.includes(refresh_iframe) ) {
+                 console.log('SKIPPING CORRUPT CONFIG SECTION IFRAME: ' + refresh_iframe + ' (in "<?=$iframe_id?>")');
                  }
                  // Skip any about:blank pages
-                 else if ( parent.document.getElementById('<?=$refresh?>').contentWindow.location.href == 'about:blank' ) {
-                 //console.log('SKIPPING ABOUT:BLANK IFRAME: <?=$refresh?> (in "<?=$iframe_id?>")');
+                 else if ( parent.document.getElementById(refresh_iframe).contentWindow.location.href == 'about:blank' ) {
+                 //console.log('SKIPPING ABOUT:BLANK IFRAME: ' + refresh_iframe + ' (in "<?=$iframe_id?>")');
                  }
                  else {
                       
-                 var refresh_url = update_url_param(parent.document.getElementById('<?=$refresh?>').contentWindow.location.href, 'refresh', 'auto');
+                 var refresh_url = update_url_param(parent.document.getElementById(refresh_iframe).contentWindow.location.href, 'refresh', 'auto');
                  
-                 console.log('AUTO-REFRESHING (safely avoiding data submissions / runaway loops) CONFIG SECTION IFRAME: <?=$refresh?> ( ' + refresh_url + ' ) (in "<?=$iframe_id?>")');
+                 console.log('AUTO-REFRESHING (safely avoiding data submissions / runaway loops) CONFIG SECTION IFRAME: ' + refresh_iframe + ' ( ' + refresh_url + ' ) (in "<?=$iframe_id?>")');
                  
                  // Remove any POST data (so we don't get endless loops under certain conditions)
-                 parent.document.getElementById('<?=$refresh?>').contentWindow.location.replace(refresh_url);
+                 parent.document.getElementById(refresh_iframe).contentWindow.location.replace(refresh_url);
+                 
                  
                       // Remove any POST data AGAIN, IN A DIFFERENT WAY (JUST TO BE SURE!)
-                      if ( parent.document.getElementById('<?=$refresh?>').contentWindow.history.replaceState ) {
-                      parent.document.getElementById('<?=$refresh?>').contentWindow.history.replaceState(null, null, refresh_url);
+                      if ( parent.document.getElementById(refresh_iframe).contentWindow.history.replaceState ) {
+                      parent.document.getElementById(refresh_iframe).contentWindow.history.replaceState(null, null, refresh_url);
                       }
+
                  
                  }
                  
+      
+             });
                  
-                 <?php
-                 }
-             
-             }
-             
-         
+         <?php
          }
          ?>
          

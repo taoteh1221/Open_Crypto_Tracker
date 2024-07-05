@@ -62,8 +62,6 @@
 	}
 	?>
 	
-	</div>
-	
 	</fieldset>
 
 	
@@ -106,8 +104,15 @@
           if ( sizeof($ct['conf']['plugins']['plugin_status']) > 0 ) {
      
           // What OTHER admin pages should be refreshed AFTER this settings update runs
-          // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
+          // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED
+          // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
           $ct['admin_render_settings']['is_refresh_admin'] = 'all';
+          ////
+          // Page refresh exclusions (for any MAIN subsection ID this page may be loaded into, etc)
+          // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED
+          // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
+          // (SHOULD BE COMMA-SEPARATED [NO SPACES] FOR MULTIPLE VALUES)
+          $ct['admin_render_settings']['exclude_refresh_admin'] = 'none';
           
           // $ct['admin']->admin_config_interface($conf_id, $interface_id)
           $ct['admin']->admin_config_interface('plugins', 'plugins', $ct['admin_render_settings']);
@@ -124,5 +129,22 @@
 				
 	
 	</fieldset>
+
+
+<script>
+
+// Wait until the DOM has loaded before running DOM-related scripting
+$(document).ready(function() {
+
+
+var section_id = window.parent.location.href.split('#')[1];
+
+// Change page title
+
+$('#' + section_id + ' h2.page_title', window.parent.document).html(parent.original_page_title[section_id]); // Restore previous page title
+     
+});
+
+</script>
 				    
 				    

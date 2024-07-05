@@ -379,6 +379,9 @@ var $ct_array = array();
       elseif ( $_GET['section'] ) {
       $url .= $_SERVER['SCRIPT_NAME'] . '?section=' . $_GET['section'];
       }
+      elseif ( $_GET['subsection'] ) {
+      $url .= $_SERVER['SCRIPT_NAME'] . '?parent=' . $_GET['parent'] . '&subsection=' . $_GET['subsection'];
+      }
       elseif ( $_GET['plugin'] ) {
       $url .= $_SERVER['SCRIPT_NAME'] . '?plugin=' . $_GET['plugin'];
       }

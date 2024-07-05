@@ -23,7 +23,10 @@ if ( !$passed_medium_security_check ) {
 require("templates/interface/php/admin/admin-elements/iframe-security-mode.php");
 }
 elseif ( isset($_GET['section']) ) {
-require("templates/interface/php/admin/admin-elements/iframe-content-category.php");
+require("templates/interface/php/admin/admin-elements/iframe-content-section.php");
+}
+elseif ( isset($_GET['subsection']) ) {
+require("templates/interface/php/admin/admin-elements/iframe-content-subsection.php");
 }
 elseif ( isset($_GET['plugin']) ) {
 require("templates/interface/php/admin/admin-elements/iframe-content-plugin.php");

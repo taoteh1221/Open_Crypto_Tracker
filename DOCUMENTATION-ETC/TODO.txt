@@ -181,6 +181,9 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Work on better automation of showing the FULL title for SECONDARY subsection pages. Right now we are using the interface ids passed by url params.
+
+
 Add input validation to the new sections: Currency Support, Power User
 
 
@@ -191,9 +194,6 @@ Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' P
 
 
 'access stats' only allows 'zebra' striped data rows to be enabled in the ADMIN AREA iframe version, so our custom CSS logic is screwed up when rendered in the USER AREA 'system monitoring' links version, to the point we have to disable the onload / initial table sorting for that area (so it's only enabled when 'is_iframe' is set, in functions.js). Find out why, and fix it.
-
-
-Merge System stats / access stats / app logs into one area called: "App Monitoring => Telemetry | Access | Logs". Add horizontal tabs a top of this area, for each subsection. Store stats for each ip address in /cache/events/access_stats/, USING THE SAME FILENAME COMPATIBILITY LOGIC WE USE TO SAFELY CREATE IPV6-BASED-FREINDLY FILENAMES IN /cache/events/throttling/.
 
 
 Move all admin-related functions into the new 'ct_admin' PHP class.

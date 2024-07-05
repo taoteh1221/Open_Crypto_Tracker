@@ -107,6 +107,16 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_asset_tracking" title='Admin area for adding / removing currencies and markets.'>Asset Tracking</a>
+                    </li>
+
+
+                    <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
+                    </li>
+
+
+                    <li>
                         <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
                     </li>
 
@@ -117,37 +127,22 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_apis" title='Configure options for external third party APIs, and available internal APIs / Webhooks.'>APIs</a>
+                    </li>
+
+
+                    <li>
                         <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
                     </li>
 
 
                     <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_currency" title='Admin area for adding / removing currencies.'>Currency Support</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
-                    </li>
-
-
-                    <li>
                         <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
+                    </li>
+
+
+                    <li>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
                     </li>
 
 
@@ -161,28 +156,8 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                     </li>
 
 
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
-                    </li>
-
-
                     <li class='sys_stats_admin_link'>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_access_stats" title='View user access stats, to track IP addresses / Browser versions of who has been using your app.'>Access Stats</a>
-                    </li>
-
-
-                    <li>
-                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
+                        <a class="dropdown-item admin_change_width" data-width="fixed_max" href="admin.php#admin_system_monitoring" title='View system / access stats, and app logs.'>System Monitoring<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
                     </li>
 
 
@@ -392,6 +367,39 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                     <li class='sidebar-item nav-item'>
                         <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_general" title='General admin settings.'>General</a>
                     </li>
+                    
+                    
+                    <!-- START custom 3-deep config -->
+                    <li class="nav-item dropdown custom-3deep open-first">
+                        
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="admin.php#admin_asset_tracking" onclick='javascript:load_iframe("iframe_asset_tracking")' title='Admin area for adding / removing currencies and markets.'>Asset Tracking</a>
+                        
+                        <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                        
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_currency" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_currency')?>&parent=asset_tracking&subsection=currency") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Admin area for adding / removing currencies.'>Currency Support</a>
+                        
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_portfolio_assets" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_portfolio_assets')?>&parent=asset_tracking&subsection=portfolio_assets") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
+                        
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_charts_alerts" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_charts_alerts')?>&parent=asset_tracking&subsection=charts_alerts") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure charts and price alerts.'>Price Alerts / Charts</a>
+                        
+                        </li>
+                          <!-- <li><hr class="dropdown-divider"></li> -->
+                        
+                        </ul>
+                        
+                    </li>
+                    <!-- END custom 3-deep config -->
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
+                    </li>
 
 
                     <li class='sidebar-item nav-item'>
@@ -402,6 +410,31 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                     <li class='sidebar-item nav-item'>
                         <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
                     </li>
+                    
+                    
+                    <!-- START custom 3-deep config -->
+                    <li class="nav-item dropdown custom-3deep open-first">
+                        
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="admin.php#admin_apis" onclick='javascript:load_iframe("iframe_apis")' title='Configure options for external third party APIs, and available internal APIs / Webhooks.'>APIs</a>
+                        
+                        <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                        
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_apis" submenu-id="admin_apis_ext_apis" onclick='javascript: setTimeout(function(){ load_iframe("iframe_apis", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_ext_apis')?>&parent=apis&subsection=ext_apis") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure options for external third party APIs.'>External APIs</a>
+                        
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_apis" submenu-id="admin_apis_webhook_int_api" onclick='javascript: setTimeout(function(){ load_iframe("iframe_apis", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_webhook_int_api')?>&parent=apis&subsection=webhook_int_api") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
+                        
+                        </li>
+                          <!-- <li><hr class="dropdown-divider"></li> -->
+                        
+                        </ul>
+                        
+                    </li>
+                    <!-- END custom 3-deep config -->
                     
                     
                         <?php
@@ -473,32 +506,12 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_currency" title='Admin area for adding / removing currencies.'>Currency Support</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_charts_alerts" title='Configure charts and price alerts'>Price Alerts / Charts</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
                         <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
+                    </li>
+                    
+
+                    <li class='sidebar-item nav-item'>
+                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
                     </li>
 
 
@@ -511,30 +524,33 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
                     </li>
                     
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
+                    
+                    <!-- START custom 3-deep config -->
+                    <li class="nav-item dropdown custom-3deep open-first">
+                        
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="admin.php#admin_system_monitoring" onclick='javascript:load_iframe("iframe_system_monitoring")' title='View system / access stats, and app logs.'>System Monitoring</a>
+                        
+                        <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                        
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_system_stats" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_system_stats')?>&parent=system_monitoring&subsection=system_stats") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View system stats, to keep track of your app server system health.'>System Stats</a>
+                        
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_access_stats" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_access_stats')?>&parent=system_monitoring&subsection=access_stats") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View user access stats, to track IP addresses / Browser versions / page views of who has been accessing this app.'>Access Stats</a>
+                        
+                        <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
+                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_logs" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_logs')?>&parent=system_monitoring&subsection=logs") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure charts and price alerts.'>App Logs</a>
+                        
+                        </li>
+                          <!-- <li><hr class="dropdown-divider"></li> -->
+                        
+                        </ul>
+                        
                     </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item sys_stats_admin_link'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_access_stats" title='View user access stats, to track IP addresses / Browser versions of who has been using your app.'>Access Stats</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a class="nav-link admin_change_width" data-width="fixed_max" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
-                    </li>
+                    <!-- END custom 3-deep config -->
 
 
                     <?php

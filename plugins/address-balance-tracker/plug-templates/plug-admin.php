@@ -54,7 +54,7 @@ $ct['admin_render_settings']['privacy_mode']['is_notes'] = 'In Privacy Mode, the
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['tracking']['is_notes'] = 'Track address balance changes, on popular blockchains.<br />Solana SPL tokens MUST:<br /> 1) Have a Jupiter Aggregator SOL market in the portfolio assets configuration, for "Privacy Mode" to work properly<br />2) Use the TOKEN address (NOT the primary wallet address)';
+$ct['admin_render_settings']['tracking']['is_notes'] = 'Track address balance changes, on popular blockchains.<br />Solana SPL tokens MUST:<br /> 1) Have a Jupiter Aggregator SOL market in the portfolio assets configuration, for "Privacy Mode" to work properly<br />2) Use your wallet\'s TOKEN address (NOT your primary wallet address, as Solana SPL tokens DERIVE *secondary addresses* for each token in your wallet)';
 
 
 $sol_subtokens = array();
@@ -180,8 +180,15 @@ $ct['admin_render_settings']['tracking']['has_subarray'][0]['text_field_size'] =
 
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
-// (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
+// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED
+// (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
 $ct['admin_render_settings']['is_refresh_admin'] = 'none';
+////
+// Page refresh exclusions (for any MAIN subsection ID this page may be loaded into, etc)
+// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED
+// (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
+// (SHOULD BE COMMA-SEPARATED [NO SPACES] FOR MULTIPLE VALUES)
+$ct['admin_render_settings']['exclude_refresh_admin'] = 'none';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
