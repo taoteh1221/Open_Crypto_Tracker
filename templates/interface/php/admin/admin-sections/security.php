@@ -322,12 +322,14 @@ $ct['admin_render_settings']['captcha_text_angle']['range_ui_suffix'] = ' degree
 
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
-// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED
+// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
+// ***UNLESS IT IS IN A SUBSECTION***, IN WHICH CASE USE 'exclude_refresh_admin' BELOW!
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
 $ct['admin_render_settings']['is_refresh_admin'] = 'all';
 ////
 // Page refresh exclusions (for any MAIN subsection ID this page may be loaded into, etc)
-// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED
+// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
+// ***UNLESS IT IS IN A SUBSECTION***, IN WHICH CASE USE 'exclude_refresh_admin' BELOW!
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
 // (SHOULD BE COMMA-SEPARATED [NO SPACES] FOR MULTIPLE VALUES)
 $ct['admin_render_settings']['exclude_refresh_admin'] = 'none';

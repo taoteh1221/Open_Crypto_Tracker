@@ -82,8 +82,16 @@ $(document).ready(function() {
      <?php
      if ( $is_admin ) {
      
-     // If it's not a 'section', it's a specific plugin loaded in the 'plugins' section iframe
-     $iframe_id = ( $_GET['section'] ? $_GET['section'] : 'plugins' );
+     
+          if ( isset($_GET['section']) ) {
+          $iframe_id = $_GET['section'];
+          }
+          elseif ( isset($_GET['subsection']) ) {
+          $iframe_id = $_GET['parent']; // PARENT HERE, AS THAT'S THE PARENT IFRAME ID SUFFIX FOR GENERIC SUBSECTIONS
+          }
+          elseif ( isset($_GET['plugin']) ) {
+          $iframe_id = $_GET['plugins']; // PLURAL HERE, AS THAT'S THE PARENT IFRAME ID SUFFIX FOR THE PLUGINS SUBSECTION
+          }
      
      ?>
      
@@ -130,7 +138,7 @@ $(document).ready(function() {
              
              // 'auto' is the 'refresh' param value we set further down here in footer.php,
              // so we never get stuck in endless loops with refresh=all when refreshing here
-             if ( $halt_iframe_refreshing || $_GET['refresh'] == 'none' || $_GET['refresh'] == 'auto' ) {
+             if ( $halt_iframe_refreshing || $_GET['refresh'] == 'none' || $_GET['refresh'] == 'auto' || $_GET['exclude_refresh'] == 'all' ) {
              ?>
              selected_admin_iframe_ids = new Array(); // SET TO BLANK (no iframe refreshing)
              <?php
@@ -190,7 +198,7 @@ $(document).ready(function() {
                  }
                  // Skip any about:blank pages
                  else if ( parent.document.getElementById(refresh_iframe).contentWindow.location.href == 'about:blank' ) {
-                 //console.log('SKIPPING ABOUT:BLANK IFRAME: ' + refresh_iframe + ' (in "<?=$iframe_id?>")');
+                 console.log('SKIPPING ABOUT:BLANK IFRAME: ' + refresh_iframe + ' (in "<?=$iframe_id?>")');
                  }
                  else {
                       

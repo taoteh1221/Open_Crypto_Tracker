@@ -196,6 +196,9 @@ Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' P
 'access stats' only allows 'zebra' striped data rows to be enabled in the ADMIN AREA iframe version, so our custom CSS logic is screwed up when rendered in the USER AREA 'system monitoring' links version, to the point we have to disable the onload / initial table sorting for that area (so it's only enabled when 'is_iframe' is set, in functions.js). Find out why, and fix it.
 
 
+Get a border around the outside of the access stats tables, and any other table CSS tidying up noticed.
+
+
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 

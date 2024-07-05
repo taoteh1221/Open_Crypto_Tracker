@@ -2138,14 +2138,14 @@ function paginated_tables(element, generic_sort_list, pager_id=false) {
     pager          : $pager,                   // pager wrapper (string or jQuery object)
     pageSize       : '.left a',                // container for page sizes
     currentPage    : '.right a',               // container for page selectors
-    ends           : 2,                        // number of pages to show of either end
-    aroundCurrent  : 1,                        // number of pages surrounding the current page
+    ends           : 10,                        // number of pages to show of either end
+    aroundCurrent  : 10,                        // number of pages surrounding the current page
     link           : '<a href="#">{page}</a>', // page element; use {page} to include the page number
     currentClass   : 'current',                // current page class name
     adjacentSpacer : '<span> | </span>',       // spacer for page numbers next to each other
     distanceSpacer : '<span> &#133; <span>',   // spacer for page numbers away from each other (ellipsis = &#133;)
     addKeyboard    : true,                     // use left,right,up,down,pageUp,pageDown,home, or end to change current page
-    pageKeyStep    : 25                        // page step to use for pageUp and pageDown
+    pageKeyStep    : 5                        // page step to use for pageUp and pageDown
   });
 
   // initialize tablesorter & pager
@@ -2158,7 +2158,7 @@ function paginated_tables(element, generic_sort_list, pager_id=false) {
     .tablesorterPager({
       // target the pager markup - see the HTML block below
       container: $pager,
-      size: 25,
+      size: 5,
       output: '<span class="bitcoin">Showing:</span> {startRow} through {endRow} (of {filteredRows} total data rows)'
     });
 

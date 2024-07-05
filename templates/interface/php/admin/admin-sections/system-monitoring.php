@@ -7,7 +7,7 @@
 ?>
 
 
-    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Asset Tracking</strong> </legend>
+    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>System Monitoring</strong> </legend>
     
 	   
     <ul>  

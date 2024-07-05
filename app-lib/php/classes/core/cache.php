@@ -35,6 +35,8 @@ var $ct_array = array();
 	
 	<li class='bitcoin' style='font-weight: bold;'>You can adjust how long to store access stats for, in the Admin -> Power User section (with the "Access Stats Delete Old" setting).</li>
 	
+	<li class='bitcoin' style='font-weight: bold;'>Hover your mouse over the browser name, to see the full user agent string.</li>
+	
    </ul>		
   
   <?php
@@ -118,10 +120,10 @@ var $ct_array = array();
                	<br /><br />
                	<span class="left">
 					&nbsp;<span class="bitcoin">Show Per Page:</span>
-					<a href="#" class="current">25</a> |
-					<a href="#">50</a> |
-					<a href="#">75</a> |
-					<a href="#">100</a>
+					<a href="#">5</a> |
+					<a href="#">10</a> |
+					<a href="#">25</a> |
+					<a href="#">50</a>
 				</span>
 				
                	<br /><br />
@@ -205,12 +207,9 @@ var $ct_array = array();
                          
                      ?>
                      
-                     <p style='border: 0.05em solid #808080; padding: 0.3em; border-radius: 0.4em;'>
+                     <p style='border: 0.05em solid #808080; padding: 0.25em; border-radius: 0.4em; margin-bottom: 0px !important; margin: 0.25em !important;'>
                      
-                     <span class='<?=( $user_agent_desc != 'Other' ? 'green' : 'bitcoin' )?>'><?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <?=$user_agent_desc?>:</span>
-                     
-                     <br />
-                     <span class='blue'><?=$ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?></span>
+                     <?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <a style='cursor: pointer;' class='<?=( $user_agent_desc != 'Other' ? 'green' : 'bitcoin' )?>' title='<?=htmlspecialchars($ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ][ md5($user_agent_val) ], ENT_QUOTES)?>'><?=$user_agent_desc?></a>
                      
                      </p>
                      
