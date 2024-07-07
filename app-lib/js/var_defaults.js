@@ -24,6 +24,10 @@ var modal_windows = new Array(); // Set the modal windows array (to dynamically 
 
 var orig_iframe_src = new Array();
 
+var all_admin_iframe_ids = new Array();
+
+var selected_admin_iframe_ids = new Array();
+
 var limited_apis = new Array();
 
 var heading_tag_sizes = new Array();
@@ -39,6 +43,8 @@ var charts_loaded = new Array();
 var pref_bitcoin_mrkts = new Array();
 
 var secondary_mrkt_currencies = new Array();
+
+var original_page_title = new Array();
 
 // Strings
 
@@ -60,7 +66,7 @@ var admin_area_sec_level;
 
 var admin_area_2fa;
 
-var admin_iframe_load;
+var admin_iframe_dom;
 	
 var sorted_by_col;
 

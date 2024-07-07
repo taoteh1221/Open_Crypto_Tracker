@@ -77,7 +77,7 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['
 // Stale cache files cleanup...
 
 // Custom
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/access_stats', $ct['conf']['power']['visitor_stats_delete_old'], 'dat'); // Delete visitor stats event tracking cache files older than X days
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/access_stats', $ct['conf']['power']['access_stats_delete_old'], 'dat'); // Delete visitor stats event tracking cache files older than X days
 
 // Every 30 days
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data/cookies', 30, 'dat'); // Delete external API cookie files older than 30 days

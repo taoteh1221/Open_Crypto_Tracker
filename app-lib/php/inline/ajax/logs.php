@@ -54,6 +54,9 @@ $lines[] = 'No logs yet for log file: ' . $filename;
 echo json_encode($lines);
  
  
+// Access stats logging
+$ct['cache']->log_access_stats();
+
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();
 $ct['cache']->send_notifications();

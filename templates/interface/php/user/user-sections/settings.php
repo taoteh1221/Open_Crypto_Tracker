@@ -659,12 +659,6 @@
          
          </p>
 			
-			
-			
-          <p class='settings_sections'>
-          <input type='button' value='Save Updated Settings' onclick='$("#coin_amnts").submit();' />
-          </p>
-                        
                         
                          
 			<?php

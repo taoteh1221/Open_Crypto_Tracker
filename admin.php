@@ -21,6 +21,7 @@ $is_admin = true;
 // (no need for security checks here, we are just saying if this is an iframe)
 if (
 isset($_GET['section']) && trim($_GET['section']) != ''
+|| isset($_GET['subsection']) && trim($_GET['subsection']) != ''
 || isset($_GET['plugin']) && trim($_GET['plugin']) != ''
 ) {
 $is_iframe = true;
@@ -64,6 +65,7 @@ require("templates/interface/php/wrap/footer.php");
 // Iframe admin pages
 elseif (
 isset($_GET['section']) && trim($_GET['section']) != '' && $ct['gen']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['section'])
+|| isset($_GET['subsection']) && trim($_GET['subsection']) != '' && $ct['gen']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['subsection'])
 || isset($_GET['plugin']) && trim($_GET['plugin']) != '' && $ct['gen']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['plugin'])
 ) {
 require("templates/interface/php/admin/admin-elements/admin-page-iframe.php");

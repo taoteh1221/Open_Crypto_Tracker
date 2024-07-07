@@ -407,9 +407,9 @@ if ( abs($ct['conf']['power']['last_trade_cache_time']) > 60 || $ct['conf']['pow
 $ct['conf']['power']['last_trade_cache_time'] = 60;
 }
 
-// Idiot-proof visitor_stats_delete_old
-if ( abs($ct['conf']['power']['visitor_stats_delete_old']) > 360 || $ct['conf']['power']['visitor_stats_delete_old'] < 0 ) {
-$ct['conf']['power']['visitor_stats_delete_old'] = 360;
+// Idiot-proof access_stats_delete_old
+if ( abs($ct['conf']['power']['access_stats_delete_old']) > 360 || $ct['conf']['power']['access_stats_delete_old'] < 0 ) {
+$ct['conf']['power']['access_stats_delete_old'] = 360;
 }
 
 // Idiot-proof blockchain_stats_cache_time
@@ -443,11 +443,26 @@ foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
 }
 
 
-// Remove primary currency pairs that have no configged markets
+// REMOVE primary BTC currency pairs that have no configged markets
 foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
 
      if ( !isset($ct['conf']['assets']['BTC']['pair'][$pair_key]) ) {
      unset($ct['opt_conf']['bitcoin_currency_markets'][$pair_key]);
+     }
+
+}
+
+
+// ADD primary BTC currency pairs NOT YET ADDED, THAT HAVE BTC MARKETS CONFIGGED
+foreach ( $ct['conf']['assets']['BTC']['pair'] as $btc_currency_pair => $unused ) {
+
+     if (
+     is_array($ct['conf']['assets']['BTC']['pair'][$btc_currency_pair])
+     && sizeof($ct['conf']['assets']['BTC']['pair'][$btc_currency_pair]) > 0
+     && !isset($ct['opt_conf']['bitcoin_currency_markets'][$btc_currency_pair])
+     ) {
+     // Just set the ticker as the symbol, since we really should include this automatically for better (more) currency support
+     $ct['opt_conf']['bitcoin_currency_markets'][$btc_currency_pair] = strtoupper($btc_currency_pair);
      }
 
 }

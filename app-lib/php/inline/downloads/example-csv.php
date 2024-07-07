@@ -60,6 +60,12 @@ $example_download_array[] = array(
 	        							);							
 	        							
 
+// Access stats logging
+$ct['cache']->log_access_stats();
+
+// Log errors / debugging, send notifications
+$ct['cache']->app_log();
+$ct['cache']->send_notifications();
 
 // Run last, as it exits when completed
 $ct['gen']->create_csv('temp', 'Crypto_Portfolio_Example.csv', $example_download_array); 

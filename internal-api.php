@@ -168,6 +168,9 @@ $hash_check = md5($_GET['data_set']);
 // Echo result in json format
 echo $json_result;
 
+// Access stats logging
+$ct['cache']->log_access_stats();
+
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();
 $ct['cache']->send_notifications();

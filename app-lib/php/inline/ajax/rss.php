@@ -47,6 +47,9 @@ $_SESSION[$fetched_feeds] = false;
 	
 }
  
+
+// Access stats logging
+$ct['cache']->log_access_stats();
  
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();

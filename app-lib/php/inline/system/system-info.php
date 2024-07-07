@@ -50,7 +50,7 @@ $system_load_redline = ( $ct['system_info']['cpu_threads'] > 1 ? ($ct['system_in
 // Interface alert messages (UI / email / etc), and error logging
 
 
-$system_uptime_warning = explode('||', $ct['conf']['power']['system_uptime_warning']);
+$system_uptime_warning = array_map( "trim", explode('||', $ct['conf']['power']['system_uptime_warning']) ); 
 
 
      if ( substr($ct['system_info']['uptime'], 0, 6) == $system_uptime_warning[0] . ' days' ) {
@@ -59,7 +59,7 @@ $system_uptime_warning = explode('||', $ct['conf']['power']['system_uptime_warni
      }
      	
      	
-$system_load_warning = explode('||', $ct['conf']['power']['system_load_warning']);
+$system_load_warning = array_map( "trim", explode('||', $ct['conf']['power']['system_load_warning']) ); 
 
 
      if ( $system_load > ($system_load_redline * $system_load_warning[0]) ) {
@@ -68,7 +68,7 @@ $system_load_warning = explode('||', $ct['conf']['power']['system_load_warning']
      }
      
      	
-$system_temperature_warning = explode('||', $ct['conf']['power']['system_temperature_warning']);
+$system_temperature_warning = array_map( "trim", explode('||', $ct['conf']['power']['system_temperature_warning']) ); 
      
 
      if ( $system_temp >= $system_temperature_warning[0] ) {
@@ -77,7 +77,7 @@ $system_temperature_warning = explode('||', $ct['conf']['power']['system_tempera
      }
 
 	
-$memory_used_percent_warning = explode('||', $ct['conf']['power']['memory_used_percent_warning']);
+$memory_used_percent_warning = array_map( "trim", explode('||', $ct['conf']['power']['memory_used_percent_warning']) ); 
 
 
      if ( $ct['system_info']['memory_used_percent'] >= $memory_used_percent_warning[0] ) {
@@ -86,7 +86,7 @@ $memory_used_percent_warning = explode('||', $ct['conf']['power']['memory_used_p
      }
 
 	
-$free_partition_space_warning = explode('||', $ct['conf']['power']['free_partition_space_warning']);
+$free_partition_space_warning = array_map( "trim", explode('||', $ct['conf']['power']['free_partition_space_warning']) ); 
 
 
      if ( $system_free_space_mb <= $free_partition_space_warning[0] ) {
@@ -95,7 +95,7 @@ $free_partition_space_warning = explode('||', $ct['conf']['power']['free_partiti
      }
 
 	
-$portfolio_cache_warning = explode('||', $ct['conf']['power']['portfolio_cache_warning']);
+$portfolio_cache_warning = array_map( "trim", explode('||', $ct['conf']['power']['portfolio_cache_warning']) ); 
 
 
      if ( $portfolio_cache_size_mb >= $portfolio_cache_warning[0] ) {
@@ -104,7 +104,7 @@ $portfolio_cache_warning = explode('||', $ct['conf']['power']['portfolio_cache_w
      }
 
 	
-$cookies_size_warning = explode('||', $ct['conf']['power']['cookies_size_warning']);
+$cookies_size_warning = array_map( "trim", explode('||', $ct['conf']['power']['cookies_size_warning']) ); 
 
 
      if ( $ct['system_info']['portfolio_cookies'] >= $cookies_size_warning[0] ) {

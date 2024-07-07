@@ -385,11 +385,20 @@ ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker[-number]) SE
 
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
-// (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
+// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
+// ***UNLESS IT IS IN A SUBSECTION***, IN WHICH CASE USE 'exclude_refresh_admin' BELOW!
+// (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
 $ct['admin_render_settings']['is_refresh_admin'] = 'none';
+////
+// Page refresh exclusions (for any MAIN subsection ID this page may be loaded into, etc)
+// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
+// ***UNLESS IT IS IN A SUBSECTION***, IN WHICH CASE USE 'exclude_refresh_admin' BELOW!
+// (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
+// (SHOULD BE COMMA-SEPARATED [NO SPACES] FOR MULTIPLE VALUES)
+$ct['admin_render_settings']['exclude_refresh_admin'] = 'iframe_asset_tracking';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('charts_alerts', 'charts_alerts', $ct['admin_render_settings']);
+$ct['admin']->admin_config_interface('charts_alerts', 'price_alerts_charts', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

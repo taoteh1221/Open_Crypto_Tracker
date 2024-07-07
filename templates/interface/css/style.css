@@ -208,9 +208,16 @@ color: #F7931A !important;
 }
 
 
-div.table_pager span.prev, div.table_pager span.next {
+span.right span.prev, span.right span.next {
 text-decoration: underline !important;
 cursor: pointer !important;
+}
+
+
+span.pagecount a.current {
+text-decoration: none !important;
+cursor: default !important;
+color: #808080;
 }
 
 

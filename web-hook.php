@@ -64,6 +64,9 @@ $result = array('error' => "No service match for webhook: " . $webhook_key);
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
+// Access stats logging
+$ct['cache']->log_access_stats();
+
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();
 $ct['cache']->send_notifications();

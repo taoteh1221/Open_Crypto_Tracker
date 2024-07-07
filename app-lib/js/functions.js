@@ -5,25 +5,6 @@
 /////////////////////////////////////////////////////////////
 
 
-function app_reload_notice(loading_message) {
-        
-// Transition effects
-$("#app_loading").show(250, 'linear'); // 0.25 seconds
-$("#app_loading_span").html(loading_message);
-            
-$("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
-            
-      // Close any open modal windows
-      modal_windows.forEach(function(open_modal) {
-      $(open_modal).modaal("close");
-      });
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function ucfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -371,6 +352,25 @@ listen_for_visibility = function(element, callback) {
   }, options);
 
   observer.observe(element);
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function app_reload_notice(loading_message) {
+        
+// Transition effects
+$("#app_loading").show(250, 'linear'); // 0.25 seconds
+$("#app_loading_span").html(loading_message);
+            
+$("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
+            
+      // Close any open modal windows
+      modal_windows.forEach(function(open_modal) {
+      $(open_modal).modaal("close");
+      });
+
 }
 
 
@@ -2086,9 +2086,10 @@ function sorting_generic_tables(paginated=false) {
 	     
 	          console.log('adding table sorting to GENERIC table (with "data_table" class)');
                
+               var pager_id = typeof table.id != 'undefined' ? table.id : false;
                    	
                    	if ( paginated ) {
-                    paginated_tables( $(table), generic_sort_list );
+                    paginated_tables( $(table), generic_sort_list, table.id );
                     }
                     else {
                     
@@ -2119,7 +2120,7 @@ function sorting_generic_tables(paginated=false) {
 
 
 https://mottie.github.io/tablesorter/beta-testing/example-pager-custom-controls.html
-function paginated_tables(element, generic_sort_list) {
+function paginated_tables(element, generic_sort_list, pager_id=false) {
 
   // initialize custom pager script BEFORE initializing tablesorter/tablesorter pager
   // custom pager looks like this:
@@ -2130,21 +2131,21 @@ function paginated_tables(element, generic_sort_list) {
   //         _________            aroundCurrent (1 default)
 
   var $table = element,
-    $pager = $('.table_pager');
+    $pager = $('.table_pager_' + pager_id);
 
   $.tablesorter.customPagerControls({
     table          : $table,                   // point at correct table (string or jQuery object)
     pager          : $pager,                   // pager wrapper (string or jQuery object)
     pageSize       : '.left a',                // container for page sizes
     currentPage    : '.right a',               // container for page selectors
-    ends           : 2,                        // number of pages to show of either end
-    aroundCurrent  : 1,                        // number of pages surrounding the current page
+    ends           : 10,                        // number of pages to show of either end
+    aroundCurrent  : 10,                        // number of pages surrounding the current page
     link           : '<a href="#">{page}</a>', // page element; use {page} to include the page number
     currentClass   : 'current',                // current page class name
     adjacentSpacer : '<span> | </span>',       // spacer for page numbers next to each other
     distanceSpacer : '<span> &#133; <span>',   // spacer for page numbers away from each other (ellipsis = &#133;)
     addKeyboard    : true,                     // use left,right,up,down,pageUp,pageDown,home, or end to change current page
-    pageKeyStep    : 25                        // page step to use for pageUp and pageDown
+    pageKeyStep    : 5                        // page step to use for pageUp and pageDown
   });
 
   // initialize tablesorter & pager
@@ -2157,7 +2158,7 @@ function paginated_tables(element, generic_sort_list) {
     .tablesorterPager({
       // target the pager markup - see the HTML block below
       container: $pager,
-      size: 25,
+      size: 5,
       output: '<span class="bitcoin">Showing:</span> {startRow} through {endRow} (of {filteredRows} total data rows)'
     });
 
@@ -2877,7 +2878,7 @@ var tiny_line_height = tiny_line_height.toFixed(3);
           // Reset iframe heights after 3.5 seconds (to give above loops time to finish)
           setTimeout(function() {
                
-              admin_iframe_load.forEach(function(iframe) {
+              admin_iframe_dom.forEach(function(iframe) {
               iframe_size_adjust(iframe);
               });
               
@@ -3219,7 +3220,7 @@ function nav_menu($chosen_menu) {
           	         // Make sure admin iframe heights are adjusted
           	         // (even if viewing again, AFTER initial load / view)
                         if ( is_admin == true ) {
-                            admin_iframe_load.forEach(function(iframe) {
+                            admin_iframe_dom.forEach(function(iframe) {
                             iframe_size_adjust(iframe);
                             });
                         }

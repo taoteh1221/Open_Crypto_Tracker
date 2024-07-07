@@ -13,283 +13,6 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-  
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function show_access_stats() {
-  
-  global $ct;
-  
-      if ( $ct['gen']->admin_logged_in() == false ) {
-      return false;
-      }
-  
-  ?>
-
-  <h3 class='bitcoin'>(<?=$ct['conf']['power']['visitor_stats_delete_old']?> Day Report)</h3>
-    		
-   <ul style='margin-top: 25px; font-weight: bold;'>
-	
-	<li class='bitcoin' style='font-weight: bold;'>You can adjust how long to store access stats for, in the Admin -> Power User section (with the "Visitor Stats Delete Old" setting).</li>
-	
-   </ul>		
-  
-  <?php
-  
-  $access_stats_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/events/access_stats', 'dat', 'desc');
-  
-  
-      foreach( $access_stats_files as $ip_access_file ) {
-      
-      $access_stats_check = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/events/access_stats/' . $ip_access_file) ) , TRUE);
-      
-      
-          // Check for valid data
-          if ( $access_stats_check != false && $access_stats_check != null && $access_stats_check != "null" ) {
-          
-          // Counting for url / user agent visits (PER-IP)
-          $url_visit_count = array();
-          $user_agent_visit_count = array();
-               
-          $safe_name = $ct['gen']->safe_name($access_stats_check['ip']);
-          
-          $ct['show_access_stats'][$safe_name]['ip'] = $access_stats_check['ip'];
-          
-          $ct['show_access_stats'][$safe_name]['ip_total_visits'] = sizeof($access_stats_check['visits']);
-          
-          krsort($access_stats_check['visits']); // Sort by latest timestamp
-               
-               foreach ( $access_stats_check['visits'] as $key => $val ) {
-                    
-                    
-                    // For UX, we only want one table row per-page (no duplicates same page)
-                    // (an we just include page / user agent counts in this row)
-                    // $key is the visited timestamp, we only want the MOST RECENT
-                    if ( !isset($url_visit_count[ md5($val['url']) ]) ) {
-                    $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($val['url']) ]['last_visit'] = $key;
-                    $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($val['url']) ]['url'] = $val['url'];
-                    }
-                    
-                    // Add the user agent name, IF not added yet
-                    if ( !isset($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ]) ) {
-                    $ct['show_access_stats'][$safe_name]['user_agents'][ md5($val['url']) ][ md5($val['user_agent']) ] = $val['user_agent'];
-                    }
-               
-               
-               // URL visits
-               $url_visit_count[ md5($val['url']) ] = ( isset($url_visit_count[ md5($val['url']) ]) ? ($url_visit_count[ md5($val['url']) ] + 1) : 1 );
-               
-               $ct['show_access_stats'][$safe_name]['ip_url_visits'][ md5($val['url']) ] = $url_visit_count[ md5($val['url']) ];
-               
-               
-               // User agent visits
-               $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] = ( isset($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ]) ? ($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] + 1) : 1 );
-               
-               $ct['show_access_stats'][$safe_name]['ip_user_agent_visits'][ md5($val['url']) ][ md5($val['user_agent']) ] = $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ];
-
-               
-               }
-               
-
-          }
-          
-      
-      }
-      
-      
-      foreach ( $ct['show_access_stats'] as $key => $val ) {
-      ?>
-
-          <fieldset class='subsection_fieldset'>
-               
-               <legend class='subsection_legend'> IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits) </legend>
-               
-               <!-- table_pager -->
-               <div class="table_pager">
-
-               	<span class="pagedisplay"></span> 
-               	
-               	<br /><br />
-               	<span class="left">
-					&nbsp;<span class="bitcoin">Show Per Page:</span>
-					<a href="#" class="current">25</a> |
-					<a href="#">50</a> |
-					<a href="#">75</a> |
-					<a href="#">100</a>
-				</span>
-				
-               	<br /><br />
-				<span class="right">
-
-					&nbsp;<span class="bitcoin">View Page:</span> <span class="prev">
-						Prev
-					</span>&nbsp;
-
-					<span class="pagecount"></span>
-					
-					&nbsp;<span class="next">Next
-					</span>
-					
-				</span>
-
-               </div>
-               
-               <table border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
-                <thead>
-                   <tr>
-                    <th class="filter-match" data-placeholder="Filter Results">Last Visit Time</th>
-                    <th class="filter-match" data-placeholder="Filter Results">Total Visits</th>
-                    <th class="filter-match" data-placeholder="Filter Results">URL</th>
-                    <th class="filter-match" data-placeholder="Filter Results">User Agents</th>
-                   </tr>
-                 </thead>
-                 
-                <tbody>
-                   
-                   <?php
-                   foreach ( $ct['show_access_stats'][$key]['visited_pages'] as $visited_pages ) {
-                   ?>
-                   
-                   <tr>
-                   
-                     <td><?=date("Y-m-d H:i:s", $visited_pages['last_visit'])?></td>
-                     <td> <?=$ct['show_access_stats'][$key]['ip_url_visits'][ md5($visited_pages['url']) ]?> </td>
-                     <td style='word-break: break-all;'> <?=$visited_pages['url']?> </td>
-                     <td> 
-                     
-                     <?php
-                     foreach ( $ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ] as $user_agent_key => $user_agent_val ) {
-                     
-                     
-                         // Known user agents (for description in the interface)
-                         if ( stristr($user_agent_val, 'googlebot') ) {
-                         $user_agent_desc = 'GoogleBot';
-                         }
-                         elseif ( stristr($user_agent_val, 'bingbot') ) {
-                         $user_agent_desc = 'BingBot';
-                         }
-                         elseif ( stristr($user_agent_val, 'slurp') ) {
-                         $user_agent_desc = 'YahooSlurpBot';
-                         }
-                         elseif ( stristr($user_agent_val, 'firefox/') ) {
-                         $user_agent_desc = 'FireFox';
-                         }
-                         elseif ( stristr($user_agent_val, 'edge/') ) {
-                         $user_agent_desc = 'Edge';
-                         }
-                         elseif ( stristr($user_agent_val, 'epiphany/') ) {
-                         $user_agent_desc = 'Epiphany';
-                         }
-                         elseif ( stristr($user_agent_val, 'brave/') ) {
-                         $user_agent_desc = 'Brave';
-                         }
-                         elseif ( stristr($user_agent_val, 'opera/') ) {
-                         $user_agent_desc = 'Opera';
-                         }
-                         elseif ( stristr($user_agent_val, 'chrome/') ) {
-                         $user_agent_desc = 'Chrome';
-                         }
-                         elseif ( stristr($user_agent_val, 'safari/') ) {
-                         $user_agent_desc = 'Safari';
-                         }
-                         else {
-                         $user_agent_desc = 'Other';
-                         }
-                         
-                         
-                     ?>
-                     
-                     <p style='border: 0.05em solid #808080; padding: 0.3em; border-radius: 0.4em;'>
-                     
-                     <span class='red'><?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <?=$user_agent_desc?>:</span>
-                     
-                     <br />
-                     <span class='blue'><?=$ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?></span>
-                     
-                     </p>
-                     
-                     <?php
-                     }
-                     ?>
-                     
-                     </td>
-                   
-                   </tr>
-                   
-                   <?php
-                   }
-                   ?>
-
-                </tbody>
-                </table>
-               
-           
-          </fieldset>
-
-      <?php
-      }
-
-  
-  }
-  
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function log_access_stats() {
-  
-  global $ct;
-  
-  // We wait until we are in this function, to grab any cached data at the last minute,
-  // to assure we get anything written recently by other runtimes
-  
-  $safe_name = $ct['gen']->safe_name($ct['remote_ip']);
-  
-  $file_save_path = $ct['base_dir'] . '/cache/events/access_stats/' . $safe_name . '.dat';
-  
-  $access_stats_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
-  
-  
-     // If there is ALREADY valid data cached, import it into the $ct['log_access_stats'] array
-     if ( $access_stats_check != false && $access_stats_check != null && $access_stats_check != "null" ) {
-     $ct['log_access_stats'][$safe_name] = $access_stats_check;
-     }
-     else {
-     $ct['log_access_stats'][$safe_name] = array();
-     }
-     
-     
-     // Set IP if needed
-     if ( !isset($ct['log_access_stats'][$safe_name]['ip']) ) {
-     $ct['log_access_stats'][$safe_name]['ip'] = $ct['remote_ip'];
-     }
-  
-  
-  // We DONT include the host / iframe_nonce in the URL, for UX
-  $ct['log_access_stats'][$safe_name]['visits'][time()] = array(
-                                                           'user_agent' => $ct['user_agent'],
-                                                           'url' => $ct['gen']->get_url(false, true),
-                                                           );
-
-                                                           
-      foreach ( $ct['log_access_stats'][$safe_name]['visits'] as $key => $unused ) {
-          
-          // Purge any old records based on 'visitor_stats_delete_old' user setting
-          if ( $ct['var']->num_to_str($key) < $ct['var']->num_to_str( time() - ($ct['conf']['power']['visitor_stats_delete_old'] * 86400) ) ) {
-          unset($ct['log_access_stats'][$safe_name]['visits'][$key]);
-          }
-      
-      }
-
-
-  $store_access_stats = json_encode($ct['log_access_stats'][$safe_name], JSON_PRETTY_PRINT);
-  $store_file_contents = $this->save_file($file_save_path, $store_access_stats);
-  
-  }
 
   
   ////////////////////////////////////////////////////////
@@ -368,6 +91,62 @@ var $ct_array = array();
     }
   
   rmdir($dir);
+  
+  }
+  
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function log_access_stats() {
+  
+  global $ct;
+  
+  // We wait until we are in this function, to grab any cached data at the last minute,
+  // to assure we get anything written recently by other runtimes
+  
+  $safe_name = $ct['gen']->safe_name($ct['remote_ip']);
+  
+  $file_save_path = $ct['base_dir'] . '/cache/events/access_stats/' . $safe_name . '.dat';
+  
+  $access_stats_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
+  
+  
+     // If there is ALREADY valid data cached, import it into the $ct['log_access_stats'] array
+     if ( $access_stats_check != false && $access_stats_check != null && $access_stats_check != "null" ) {
+     $ct['log_access_stats'][$safe_name] = $access_stats_check;
+     }
+     else {
+     $ct['log_access_stats'][$safe_name] = array();
+     }
+     
+     
+     // Set IP if needed
+     if ( !isset($ct['log_access_stats'][$safe_name]['ip']) ) {
+     $ct['log_access_stats'][$safe_name]['ip'] = $ct['remote_ip'];
+     }
+  
+  
+  // We DONT include the host / iframe_nonce in the URL, for UX
+  $ct['log_access_stats'][$safe_name]['visits'][time()] = array(
+                                                           'user_agent' => $ct['user_agent'],
+                                                           'url' => $ct['gen']->get_url(false, true),
+                                                           );
+
+                                                           
+      foreach ( $ct['log_access_stats'][$safe_name]['visits'] as $key => $unused ) {
+          
+          // Purge any old records based on 'access_stats_delete_old' user setting
+          if ( $ct['var']->num_to_str($key) < $ct['var']->num_to_str( time() - ($ct['conf']['power']['access_stats_delete_old'] * 86400) ) ) {
+          unset($ct['log_access_stats'][$safe_name]['visits'][$key]);
+          }
+      
+      }
+
+
+  $store_access_stats = json_encode($ct['log_access_stats'][$safe_name], JSON_PRETTY_PRINT);
+  $store_file_contents = $this->save_file($file_save_path, $store_access_stats);
   
   }
   
@@ -1068,6 +847,229 @@ var $ct_array = array();
    
      }
     
+  
+  }
+  
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function show_access_stats() {
+  
+  global $ct;
+  
+      if ( $ct['gen']->admin_logged_in() == false ) {
+      return false;
+      }
+  
+  ?>
+
+  <h3 class='bitcoin'>(<?=$ct['conf']['power']['access_stats_delete_old']?> Day Report)</h3>
+    		
+   <ul style='margin-top: 25px; font-weight: bold;'>
+	
+	<li class='bitcoin' style='font-weight: bold;'>You can adjust how long to store access stats for, in the Admin -> Power User section (with the "Access Stats Delete Old" setting).</li>
+	
+	<li class='bitcoin' style='font-weight: bold;'>Hover your mouse over the browser name, to see the full user agent string.</li>
+	
+   </ul>		
+  
+  <?php
+  
+  $access_stats_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/events/access_stats', 'dat', 'desc');
+  
+  
+      foreach( $access_stats_files as $ip_access_file ) {
+      
+      $access_stats_check = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/events/access_stats/' . $ip_access_file) ) , TRUE);
+      
+      
+          // Check for valid data
+          if ( $access_stats_check != false && $access_stats_check != null && $access_stats_check != "null" ) {
+          
+          // Counting for url / user agent visits (PER-IP)
+          $url_visit_count = array();
+          $user_agent_visit_count = array();
+               
+          $safe_name = $ct['gen']->safe_name($access_stats_check['ip']);
+          
+          $ct['show_access_stats'][$safe_name]['ip'] = $access_stats_check['ip'];
+          
+          $ct['show_access_stats'][$safe_name]['ip_total_visits'] = sizeof($access_stats_check['visits']);
+          
+          krsort($access_stats_check['visits']); // Sort by latest timestamp
+               
+               foreach ( $access_stats_check['visits'] as $key => $val ) {
+                    
+                    
+                    // For UX, we only want one table row per-page (no duplicates same page)
+                    // (an we just include page / user agent counts in this row)
+                    // $key is the visited timestamp, we only want the MOST RECENT
+                    if ( !isset($url_visit_count[ md5($val['url']) ]) ) {
+                    $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($val['url']) ]['last_visit'] = $key;
+                    $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($val['url']) ]['url'] = $val['url'];
+                    }
+                    
+                    // Add the user agent name, IF not added yet
+                    if ( !isset($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ]) ) {
+                    $ct['show_access_stats'][$safe_name]['user_agents'][ md5($val['url']) ][ md5($val['user_agent']) ] = $val['user_agent'];
+                    }
+               
+               
+               // URL visits
+               $url_visit_count[ md5($val['url']) ] = ( isset($url_visit_count[ md5($val['url']) ]) ? ($url_visit_count[ md5($val['url']) ] + 1) : 1 );
+               
+               $ct['show_access_stats'][$safe_name]['ip_url_visits'][ md5($val['url']) ] = $url_visit_count[ md5($val['url']) ];
+               
+               
+               // User agent visits
+               $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] = ( isset($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ]) ? ($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] + 1) : 1 );
+               
+               $ct['show_access_stats'][$safe_name]['ip_user_agent_visits'][ md5($val['url']) ][ md5($val['user_agent']) ] = $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ];
+
+               
+               }
+               
+
+          }
+          
+      
+      }
+      
+      
+      foreach ( $ct['show_access_stats'] as $key => $val ) {
+      
+      $safe_name = $ct['gen']->safe_name($val['ip']);
+           
+      ?>
+
+          <fieldset class='subsection_fieldset'>
+               
+               <legend class='subsection_legend'> IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits) </legend>
+               
+               <!-- table_pager -->
+               <div class="table_pager_<?=$safe_name?>">
+
+               	<span class="pagedisplay"></span> 
+               	
+               	<br /><br />
+               	<span class="left">
+					&nbsp;<span class="bitcoin">Show Per Page:</span>
+					<a href="#">5</a> |
+					<a href="#">10</a> |
+					<a href="#">25</a> |
+					<a href="#">50</a>
+				</span>
+				
+               	<br /><br />
+				<span class="right">
+
+					&nbsp;<span class="bitcoin">View Page:</span> <span class="prev">
+						Prev
+					</span>&nbsp;
+
+					<span class="pagecount"></span>
+					
+					&nbsp;<span class="next">Next
+					</span>
+					
+				</span>
+
+               </div>
+               
+               <table id='<?=$safe_name?>' border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
+                <thead>
+                   <tr>
+                    <th class="filter-match" data-placeholder="Filter Results">Last Visit Time</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Total Visits</th>
+                    <th class="filter-match" data-placeholder="Filter Results">URL</th>
+                    <th class="filter-match" data-placeholder="Filter Results">User Agents</th>
+                   </tr>
+                 </thead>
+                 
+                <tbody>
+                   
+                   <?php
+                   foreach ( $ct['show_access_stats'][$key]['visited_pages'] as $visited_pages ) {
+                   ?>
+                   
+                   <tr>
+                   
+                     <td><?=date("Y-m-d H:i:s", $visited_pages['last_visit'])?></td>
+                     <td> <?=$ct['show_access_stats'][$key]['ip_url_visits'][ md5($visited_pages['url']) ]?> </td>
+                     <td style='word-break: break-all;'> <?=$visited_pages['url']?> </td>
+                     <td> 
+                     
+                     <?php
+                     foreach ( $ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ] as $user_agent_key => $user_agent_val ) {
+                     
+                     
+                         // Known user agents (for description in the interface)
+                         if ( stristr($user_agent_val, 'googlebot') ) {
+                         $user_agent_desc = 'GoogleBot';
+                         }
+                         elseif ( stristr($user_agent_val, 'bingbot') ) {
+                         $user_agent_desc = 'BingBot';
+                         }
+                         elseif ( stristr($user_agent_val, 'slurp') ) {
+                         $user_agent_desc = 'YahooSlurpBot';
+                         }
+                         elseif ( stristr($user_agent_val, 'firefox/') ) {
+                         $user_agent_desc = 'FireFox';
+                         }
+                         elseif ( stristr($user_agent_val, 'edge/') ) {
+                         $user_agent_desc = 'Edge';
+                         }
+                         elseif ( stristr($user_agent_val, 'epiphany/') ) {
+                         $user_agent_desc = 'Epiphany';
+                         }
+                         elseif ( stristr($user_agent_val, 'brave/') ) {
+                         $user_agent_desc = 'Brave';
+                         }
+                         elseif ( stristr($user_agent_val, 'opera/') ) {
+                         $user_agent_desc = 'Opera';
+                         }
+                         elseif ( stristr($user_agent_val, 'chrome/') ) {
+                         $user_agent_desc = 'Chrome';
+                         }
+                         elseif ( stristr($user_agent_val, 'safari/') ) {
+                         $user_agent_desc = 'Safari';
+                         }
+                         else {
+                         $user_agent_desc = 'Other';
+                         }
+                         
+                         
+                     ?>
+                     
+                     <p style='border: 0.05em solid #808080; padding: 0.25em; border-radius: 0.4em; margin-bottom: 0px !important; margin: 0.25em !important;'>
+                     
+                     <?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <a style='cursor: pointer;' class='<?=( $user_agent_desc != 'Other' ? 'green' : 'bitcoin' )?>' title='<?=htmlspecialchars($ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ][ md5($user_agent_val) ], ENT_QUOTES)?>'><?=$user_agent_desc?></a>
+                     
+                     </p>
+                     
+                     <?php
+                     }
+                     ?>
+                     
+                     </td>
+                   
+                   </tr>
+                   
+                   <?php
+                   }
+                   ?>
+
+                </tbody>
+                </table>
+               
+           
+          </fieldset>
+
+      <?php
+      }
+
   
   }
    

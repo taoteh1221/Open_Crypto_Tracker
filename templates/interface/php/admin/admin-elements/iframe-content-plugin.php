@@ -67,6 +67,14 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         $ct['admin_render_settings'] = array();
 
         require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
+        
+             // We need to make sure we are EXCLUDING refreshing the plugins subsection!
+             if ( !isset($ct['admin_render_settings']['exclude_refresh_admin']) ) {
+             $ct['admin_render_settings']['exclude_refresh_admin'] = 'iframe_plugins';
+             }
+             elseif ( !strstr($ct['admin_render_settings']['exclude_refresh_admin'], 'iframe_plugins') ) {
+             $ct['admin_render_settings']['exclude_refresh_admin'] .= ',iframe_plugins';
+             }
 
         // $ct['admin']->admin_config_interface($conf_id, $interface_id)
         $ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $ct['admin_render_settings']);
@@ -94,15 +102,24 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
 
 <script>
 
-// Highlight corrisponding sidebar menu entry
+// Wait until the DOM has loaded before running DOM-related scripting
+$(document).ready(function() {
+
 
 var section_id = window.parent.location.href.split('#')[1];
 
-//console.log('parent doc location hash = ' + section_id);
+// Change page title
 
-$("a.dropdown-item", window.parent.document).removeClass("secondary-select");
-          
-$('a[submenu-id="' + section_id + '_<?=$this_plug?>"]', window.parent.document).addClass("secondary-select");
+$('#' + section_id + ' h2.page_title', window.parent.document).html("<?=$ct['gen']->key_to_name($_GET['plugin'])?>");
+
+
+    // Highlight corresponding sidebar menu entry AFTER 3 SECONDS (for any core DOM manipulation to complete first)
+    setTimeout(function(){
+    $('a[submenu-id="' + section_id + '_<?=$this_plug?>"]', window.parent.document).addClass("secondary-select");
+    }, 3000);
+     
+     
+});
 
 </script>
 
