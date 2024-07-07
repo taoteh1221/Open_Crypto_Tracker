@@ -50,6 +50,17 @@ elseif ( isset($_POST['proxy']['allow_proxies']) && $_POST['proxy']['allow_proxi
     }
 
 }
+
+
+$_POST['proxy']['anti_proxy_servers'] = array_map( "trim", $_POST['proxy']['anti_proxy_servers']); 
+
+foreach ( $_POST['proxy']['anti_proxy_servers'] as $domain ) {
+
+     if ( !$ct['gen']->valid_domain($domain) ) {
+     $ct['update_config_error'] .= '<br />"anti_proxy_servers" seems INVALID (NOT a domain): ' . $domain;
+     }
+
+}
         
         
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

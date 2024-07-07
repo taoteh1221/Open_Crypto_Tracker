@@ -90,6 +90,69 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function valid_admin_settings() {
+        
+   global $ct, $plug, $this_plug;
+   
+   
+        if ( !isset($_POST['conf_id']) ) {
+        return false;
+        }
+        elseif ( preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
+        $parse_plugin_name = explode('|', $_POST['conf_id']);
+        $is_plugin = $parse_plugin_name[1];
+        }
+   
+        
+        // ADD VALIDATION CHECKS HERE, BEFORE ALLOWING UPDATE OF THIS CONFIG SECTION
+        
+        // Plugin support (if found in plugin's class)
+        if ( $is_plugin && method_exists($plug['class'][$is_plugin], 'admin_input_validation') && is_callable( array($plug['class'][$is_plugin], 'admin_input_validation') ) ) {
+        $this_plug = $is_plugin;
+        $ct['update_config_error'] = $plug['class'][$is_plugin]->admin_input_validation();
+        unset($this_plug);
+        }
+        elseif ( $_POST['conf_id'] === 'gen' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-general.php');
+        }
+        elseif ( $_POST['conf_id'] === 'comms' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-comms.php');
+        }
+        elseif ( $_POST['conf_id'] === 'ext_apis' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-ext-apis.php');
+        }
+        elseif ( $_POST['conf_id'] === 'sec' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-security.php');
+        }
+        elseif ( $_POST['conf_id'] === 'news' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-news.php');
+        }
+        elseif ( $_POST['conf_id'] === 'proxy' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-proxy.php');
+        }
+        elseif ( $_POST['conf_id'] === 'mobile_network' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-mobile-network.php');
+        }
+        elseif ( $_POST['conf_id'] === 'charts_alerts' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-charts-alerts.php');
+        }
+        elseif ( $_POST['conf_id'] === 'currency' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-currency.php');
+        }
+        elseif ( $_POST['conf_id'] === 'power' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-power.php');
+        }
+        
+        
+   return ( isset($ct['update_config_error']) && trim($ct['update_config_error']) != '' ? false : true );
+        
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function queue_config_update() {
         
    global $ct;
@@ -1044,63 +1107,6 @@ var $ct_array = array();
    <?php
    
    
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function valid_admin_settings() {
-        
-   global $ct, $plug, $this_plug;
-   
-   
-        if ( !isset($_POST['conf_id']) ) {
-        return false;
-        }
-        elseif ( preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
-        $parse_plugin_name = explode('|', $_POST['conf_id']);
-        $is_plugin = $parse_plugin_name[1];
-        }
-   
-        
-        // ADD VALIDATION CHECKS HERE, BEFORE ALLOWING UPDATE OF THIS CONFIG SECTION
-        
-        // Plugin support (if found in plugin's class)
-        if ( $is_plugin && method_exists($plug['class'][$is_plugin], 'admin_input_validation') && is_callable( array($plug['class'][$is_plugin], 'admin_input_validation') ) ) {
-        $this_plug = $is_plugin;
-        $ct['update_config_error'] = $plug['class'][$is_plugin]->admin_input_validation();
-        unset($this_plug);
-        }
-        elseif ( $_POST['conf_id'] === 'gen' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-general.php');
-        }
-        elseif ( $_POST['conf_id'] === 'comms' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-comms.php');
-        }
-        elseif ( $_POST['conf_id'] === 'ext_apis' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-ext-apis.php');
-        }
-        elseif ( $_POST['conf_id'] === 'sec' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-security.php');
-        }
-        elseif ( $_POST['conf_id'] === 'news' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-news.php');
-        }
-        elseif ( $_POST['conf_id'] === 'proxy' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-proxy.php');
-        }
-        elseif ( $_POST['conf_id'] === 'mobile_network' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-mobile-network.php');
-        }
-        elseif ( $_POST['conf_id'] === 'charts_alerts' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-charts-alerts.php');
-        }
-        
-        
-   return ( isset($ct['update_config_error']) && trim($ct['update_config_error']) != '' ? false : true );
-        
    }
 
    

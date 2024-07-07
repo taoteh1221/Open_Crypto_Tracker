@@ -18,6 +18,17 @@ else if (
 ) {
 $ct['update_config_error'] = '"News Feed Cache Min Max" values MUST be between 30 and 720 (LARGER number last)';
 }
+
+
+$_POST['news']['strict_news_feed_servers'] = array_map( "trim", $_POST['news']['strict_news_feed_servers']); 
+
+foreach ( $_POST['news']['strict_news_feed_servers'] as $domain ) {
+
+     if ( !$ct['gen']->valid_domain($domain) ) {
+     $ct['update_config_error'] .= '<br />"strict_news_feed_servers" seems INVALID (NOT a domain): ' . $domain;
+     }
+
+}
         
         
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

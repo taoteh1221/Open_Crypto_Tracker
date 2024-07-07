@@ -16,7 +16,7 @@ var $ct_array = array();
 
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
-   
+
    
    function timestamps_usort_num($a, $b) {
    return strcmp($a['timestamp'], $b['timestamp']); 
@@ -350,6 +350,46 @@ var $ct_array = array();
    return $result;
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function valid_domain($url) {
+
+    $validation = FALSE;
+    /*Parse URL*/
+    $urlparts = parse_url(filter_var($url, FILTER_SANITIZE_URL));
+    
+         /*Check host exist else path assign to host*/
+         if(!isset($urlparts['host'])){
+             $urlparts['host'] = $urlparts['path'];
+         }
+     
+         if($urlparts['host']!=''){
+            /*Add scheme if not found*/
+             if (!isset($urlparts['scheme'])){
+                 $urlparts['scheme'] = 'http';
+             }
+             /*Validation*/
+             if(checkdnsrr($urlparts['host'], 'A') && in_array($urlparts['scheme'],array('http','https')) && ip2long($urlparts['host']) === FALSE){ 
+                 $urlparts['host'] = preg_replace('/^www\./', '', $urlparts['host']);
+                 $url = $urlparts['scheme'].'://'.$urlparts['host']. "/";            
+                 
+                 if (filter_var($url, FILTER_VALIDATE_URL) !== false && @get_headers($url)) {
+                     $validation = TRUE;
+                 }
+             }
+         }
+     
+         if(!$validation){
+         return false;
+         }else{
+         return true;
+         }
+
+    }
 
 
    ////////////////////////////////////////////////////////

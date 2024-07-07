@@ -181,13 +181,19 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Work on better automation of showing the FULL title for SECONDARY subsection pages. Right now we are using the interface ids passed by url params.
-
-
-Add input validation to the new sections: Currency Support, Power User
+Make sure our new admin input validation on domains works on Windows Desktop Edition.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Work on better automation of showing the FULL title for SECONDARY subsection pages. Right now we are using the interface ids passed by url params.
+
+
+For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp. Convert the user agent info to show using info balloons as well (instead of in a title tag), BUT make sure it still renders safe by escaping HTML characters. Also, convert the access stats data retrieval to AJAX, using roughly the same logic we use for news feeds. Then we have 'shock absorbers ' for when it's loaded in the user area admin quick links.
+
+
+Add a drop-down or radio buttons above the "access stats" data, with another option to "view all IP addresses combined" (in one data table instead of their own). Still keep the per-ip option we have now, but add this as an additional option too.
 
 
 Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' PAGE (AND WHEREVER IT'S CALLED BY THAT ID IN THE APP), as it now also handles charts / news feeds / etc.

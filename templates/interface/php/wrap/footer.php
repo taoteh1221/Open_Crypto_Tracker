@@ -155,18 +155,11 @@ $(document).ready(function() {
              $refresh_admin = explode(',', $_GET['refresh']);
              $refresh_admin = array_map("trim", $refresh_admin);
              
-             
                   foreach ( $refresh_admin as $refresh ) {
-                       
-                       // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
-                       if ( trim($refresh) != '' && $refresh != 'iframe_' . $iframe_id ) {
-                       ?>
-                       selected_admin_iframe_ids.push("<?=$refresh?>"); // SELECTED admin iframes refreshed
-                       <?php 
-                       }
-                       
+                  ?>
+                  selected_admin_iframe_ids.push("<?=$refresh?>"); // SELECTED admin iframes refreshed
+                  <?php 
                   }
-
              
              }
              
@@ -188,6 +181,15 @@ $(document).ready(function() {
              }
          
          ?>
+
+
+             // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
+             var excluded_iframe = selected_admin_iframe_ids.indexOf("iframe_<?=$iframe_id?>");
+             if ( excluded_iframe > -1 ) {
+             selected_admin_iframe_ids.splice(excluded_iframe, 1); // 2nd parameter means remove one item only
+             console.log('SKIPPING auto-refresh of current page iframe: "iframe_<?=$iframe_id?>" (array index = ' + excluded_iframe + ')');
+             }
+
              
              selected_admin_iframe_ids.forEach(function(refresh_iframe) {
                   

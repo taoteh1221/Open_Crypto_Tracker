@@ -5,25 +5,6 @@
 /////////////////////////////////////////////////////////////
 
 
-function app_reload_notice(loading_message) {
-        
-// Transition effects
-$("#app_loading").show(250, 'linear'); // 0.25 seconds
-$("#app_loading_span").html(loading_message);
-            
-$("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
-            
-      // Close any open modal windows
-      modal_windows.forEach(function(open_modal) {
-      $(open_modal).modaal("close");
-      });
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function ucfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -371,6 +352,25 @@ listen_for_visibility = function(element, callback) {
   }, options);
 
   observer.observe(element);
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function app_reload_notice(loading_message) {
+        
+// Transition effects
+$("#app_loading").show(250, 'linear'); // 0.25 seconds
+$("#app_loading_span").html(loading_message);
+            
+$("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
+            
+      // Close any open modal windows
+      modal_windows.forEach(function(open_modal) {
+      $(open_modal).modaal("close");
+      });
+
 }
 
 
