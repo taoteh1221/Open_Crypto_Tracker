@@ -19,7 +19,7 @@ $ct['update_config_error'] .= 'Solana RPC Server "' . $_POST['ext_apis']['solana
   
 // Make sure Twilio number is set properly
 if ( isset($_POST['ext_apis']['twilio_number']) && $_POST['ext_apis']['twilio_number'] != '' && !preg_match("/^\\d+$/", $_POST['ext_apis']['twilio_number']) ) {
-$ct['update_config_error'] = 'Twilio Number formatting is NOT valid: ' . $_POST['ext_apis']['twilio_number'] . ' (format MUST be ONLY NUMBERS)';
+$ct['update_config_error'] = 'Twilio Number formatting is NOT valid: ' . $_POST['ext_apis']['twilio_number'] . ' (MUST be ONLY NUMBERS)';
 }
         
 

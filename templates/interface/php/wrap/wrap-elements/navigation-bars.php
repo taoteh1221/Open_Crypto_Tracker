@@ -380,13 +380,13 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         <li>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_currency" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_currency')?>&parent=asset_tracking&subsection=currency") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Admin area for adding / removing currencies.'>Currency Support</a>
+                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_currency_support" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_currency_support')?>&parent=asset_tracking&subsection=currency_support") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Admin area for adding / removing currencies.'>Currency Support</a>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
                         <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_portfolio_assets" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_portfolio_assets')?>&parent=asset_tracking&subsection=portfolio_assets") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_charts_alerts" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_charts_alerts')?>&parent=asset_tracking&subsection=charts_alerts") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure charts and price alerts.'>Price Alerts / Charts</a>
+                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_price_alerts_charts" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_price_alerts_charts')?>&parent=asset_tracking&subsection=price_alerts_charts") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure charts and price alerts.'>Price Alerts / Charts</a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->

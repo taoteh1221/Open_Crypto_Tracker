@@ -187,7 +187,10 @@ Make sure our new admin input validation on domains works on Windows Desktop Edi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Work on better automation of showing the FULL title for SECONDARY subsection pages. Right now we are using the interface ids passed by url params.
+Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
+
+
+Add the ability to allow a BLANK single array item admin user input for domains arrays IN THE INTERFACE (strict servers, etc), in the corrisponding admin user input validation files in: /app-lib/php/classes/includes/admin/. Use the same logic we already do this for in other admin input arrays. TEST ALL THESE OUT BY DELETING ALL ITEMS VIA INTERFACE, INCLUDING ALL THE OTHER ONES WE ALREADY SETUP.
 
 
 For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp. Convert the user agent info to show using info balloons as well (instead of in a title tag), BUT make sure it still renders safe by escaping HTML characters. Also, convert the access stats data retrieval to AJAX, using roughly the same logic we use for news feeds. Then we have 'shock absorbers ' for when it's loaded in the user area admin quick links.

@@ -3088,6 +3088,7 @@ var $ct_array = array();
    $pretty_str = preg_replace("/alphavantage/i", 'AlphaVantage.co', $pretty_str);
    $pretty_str = preg_replace("/anti proxy/i", 'Anti-Proxy', $pretty_str);
    $pretty_str = preg_replace("/int api/i", 'Internal API', $pretty_str);
+   $pretty_str = preg_replace("/price alerts charts/i", 'Price Alerts / Charts', $pretty_str);
    
    
    return trim($pretty_str);

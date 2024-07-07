@@ -15,7 +15,7 @@ $ct['update_config_error'] .= 'WHITESPACE is not allowed in the Proxy LOGIN';
 }
 // Make sure proxy login params are set properly
 elseif ( $is_proxy_login && sizeof($proxy_login_check) < 2 ) {
-$ct['update_config_error'] .= 'Proxy LOGIN formatting is NOT valid (format MUST be: username||password)';
+$ct['update_config_error'] .= 'Proxy LOGIN formatting is NOT valid (MUST be: username||password)';
 }
 elseif ( isset($_POST['proxy']['allow_proxies']) && $_POST['proxy']['allow_proxies'] == 'on' && is_array($_POST['proxy']['proxy_list']) ) {
 
@@ -29,7 +29,7 @@ elseif ( isset($_POST['proxy']['allow_proxies']) && $_POST['proxy']['allow_proxi
      	          // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
          }
          elseif ( sizeof($proxy_check) < 2 ) {
-         $ct['update_config_error'] .= '<br />Proxy LIST formatting is NOT valid (format MUST be: ip_address:port_number [in submission: "'.$proxy.'"])';
+         $ct['update_config_error'] .= '<br />Proxy LIST formatting is NOT valid (MUST be: ip_address:port_number [in submission: "'.$proxy.'"])';
          }
          else {
    

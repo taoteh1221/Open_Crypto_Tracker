@@ -13,13 +13,13 @@ $ct['is_subsection_config'] = true;
 
 <?php
 
-    if ( $_GET['subsection'] == 'currency' ) {
+    if ( $_GET['subsection'] == 'currency_support' ) {
     require("templates/interface/php/admin/admin-sections/asset-tracking/currency-support.php");
     }
     elseif ( $_GET['subsection'] == 'portfolio_assets' ) {
     require("templates/interface/php/admin/admin-sections/asset-tracking/portfolio-assets.php");
     }
-    elseif ( $_GET['subsection'] == 'charts_alerts' ) {
+    elseif ( $_GET['subsection'] == 'price_alerts_charts' ) {
     require("templates/interface/php/admin/admin-sections/asset-tracking/charts-and-alerts.php");
     }
     elseif ( $_GET['subsection'] == 'system_stats' ) {

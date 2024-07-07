@@ -117,8 +117,8 @@ $ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][0]['text
 }
 
 
-$ct['admin_render_settings']['bitcoin_currency_markets']['is_notes'] = 'Add different currencies here (country fiat, stablecoin, or secondary crypto)<br />This format MUST be used:<br />
-TICKER = SYMBOL<br /><span class="red">IMPORTANT NOTE: If currencies added here do NOT have a BITCOIN MARKET added, THEY WILL NOT BE USED BY THE APP!</span>';
+$ct['admin_render_settings']['bitcoin_currency_markets']['is_notes'] = 'Add different currency\'s CORRESPONDING SYMBOLS here (country fiat, stablecoin, or secondary crypto)<br />This format MUST be used:<br />
+TICKER = SYMBOL<br /><span class="red">IMPORTANT NOTE: If currency symbols added here do NOT have a BITCOIN MARKET added, THEY WILL NOT BE USED (WILL BE SAFELY IGNORED) BY THE APP! This setting MERELY ADDS CURRENCY SYMBOLS for currencies ALREADY ADDED TO THE BITCOIN MARKETS.</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ $ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_subarray'
 
 
 $ct['admin_render_settings']['bitcoin_preferred_currency_markets']['is_notes'] = 'Set which Bitcoin markets you PREFER for each currency<br />This format MUST be used:<br />
-TICKER = EXCHANGE_NAME<br /><span class="red">IMPORTANT NOTE: If coins added here do NOT already have the corresponding EXCHANGES in the "Portfolio Assets => Bitcoin" section, THESE PREFERRED MARKETS CAN *NOT* BE USED BY THE APP!</span>';
+TICKER = EXCHANGE_NAME<br /><span class="red">IMPORTANT NOTE: If coins added here do NOT already have the corresponding EXCHANGES in the "Portfolio Assets => Bitcoin" section, THESE PREFERRED MARKETS WILL SAFELY *NOT* BE USED BY THE APP!</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -235,7 +235,7 @@ $ct['admin_render_settings']['is_refresh_admin'] = 'all';
 $ct['admin_render_settings']['exclude_refresh_admin'] = 'iframe_asset_tracking';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('currency', 'currency', $ct['admin_render_settings']);
+$ct['admin']->admin_config_interface('currency', 'currency_support', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

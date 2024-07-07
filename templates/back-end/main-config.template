@@ -463,9 +463,9 @@ $ct['conf']['currency']['token_presales_usd'] = array(
                                                    
 
 
-// Auto-activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
+// ADD CORRESPONDING CURRENCY SYMBOLS for PRIMARY BTC CURRENCY MARKETS (to use with your preferred local currency in the app)
 // EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
-// Bitcoin's $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
+// Bitcoin's $ct['conf']['assets'] listing (further down in this config file) TO BE USED (otherwise it will be safely ignored)
 // #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['currency']['crypto_pair'], 
 // !AS LONG AS THERE IS A PAIR CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
 $ct['conf']['currency']['bitcoin_currency_markets'] = array(
@@ -556,7 +556,7 @@ $ct['conf']['currency']['bitcoin_currency_markets'] = array(
 
 // Preferred BITCOIN market(s) for getting a certain currency's value
 // (when other exchanges for this currency have poor api / volume / price discovery / etc)
-// EACH CURRENCY LISTED HERE MUST EXIST IN $ct['conf']['currency']['bitcoin_currency_markets'] ABOVE
+// EACH CURRENCY LISTED HERE MUST EXIST AS A BITCOIN MARKET!
 // #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CURRENCY'S VALUE
 $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array(
                                    						     //'lowercase_btc_mrkt_or_stablecoin_pair = PREFERRED_MRKT',

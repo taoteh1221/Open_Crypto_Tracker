@@ -398,7 +398,7 @@ $ct['admin_render_settings']['is_refresh_admin'] = 'none';
 $ct['admin_render_settings']['exclude_refresh_admin'] = 'iframe_asset_tracking';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-$ct['admin']->admin_config_interface('charts_alerts', 'charts_alerts', $ct['admin_render_settings']);
+$ct['admin']->admin_config_interface('charts_alerts', 'price_alerts_charts', $ct['admin_render_settings']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
