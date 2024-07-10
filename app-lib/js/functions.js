@@ -966,12 +966,19 @@ function get_coords(elem) { // crossbrowser version
 
 function set_admin_security(obj) {
 
+
+          if ( !is_iframe ) {
+          return false;
+          }
+
+          
 		if ( obj.value == "normal" || obj.value == "medium" ) {
 	     var admin_sec_level_set = confirm("In 'Normal' and 'Medium' admin security modes, editing from the PHP config files will be DISABLED.\n\nAll app configuration editing will need to be done within this admin interface.");
 		}
 		else {
 	     var admin_sec_level_set = confirm("High security admin mode requires you to update your app configuration from the PHP config files (config.php in app main directory / plug-conf.php for each plugin in the plugins subdirectory).\n\nWARNING: IF YOU SWITCH TO HIGH SECURITY MODE, ANY SETTING CHANGES YOU MADE IN A LOWER SECURITY MODE *WILL BE LOST*!");
 		}
+
 		
 		if ( admin_sec_level_set ) {
 		$("#toggle_admin_security").submit(); // Triggers iframe "reloading" sequence
@@ -980,6 +987,7 @@ function set_admin_security(obj) {
 		$('input[name=opt_admin_sec]:checked').prop('checked',false);
 		$('#opt_admin_sec_' + $("#sel_admin_sec").val() ).prop('checked',true);
 		}
+
 
 }
 
@@ -1144,6 +1152,8 @@ num_val = num_val.replace(/,/g, '');
 		
 		}
 	
+red_save_button();
+
 }
 
 
@@ -1537,6 +1547,10 @@ function app_reload(form_submission, new_location) {
     
         if ( form_submission == 0 || new_location || form_submit_queued ) {
              
+        console.log('is_iframe = ' + is_iframe);
+             
+        console.log('is_admin = ' + is_admin);
+             
         console.log('form_submission = ' + form_submission);
              
         console.log('new_location = ' + new_location);
@@ -1544,6 +1558,18 @@ function app_reload(form_submission, new_location) {
         console.log('form_submit_queued = ' + form_submit_queued);
              
         var loading_message = new_location ? 'Loading...' : 'Reloading...';
+        
+        
+          // Allows auto-refreshing of any admin areas that require it
+          if ( is_iframe && is_admin && form_submit_queued ) {
+		parent.admin_settings_save_init = true;
+		console.log('parent.admin_settings_save_init = ' + parent.admin_settings_save_init);
+          }
+          else if ( is_admin && form_submit_queued ) {
+		admin_settings_save_init = true;
+		console.log('admin_settings_save_init = ' + admin_settings_save_init);
+          }
+
             
         app_reload_notice(loading_message);
         

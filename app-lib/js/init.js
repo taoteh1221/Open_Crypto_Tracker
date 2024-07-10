@@ -80,6 +80,19 @@ nav_menu('.admin-nav');
 nav_menu('.user-nav');
 
 
+     /////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+
+     // Monitor admin iframes for load / unload events
+     // MUST BE SET VERY EARLY, TO USE FURTHER BELOW!!!
+     if ( is_iframe ) {
+     admin_iframe_dom = window.parent.document.querySelectorAll('.admin_iframe');
+     }
+     else {
+     admin_iframe_dom = document.querySelectorAll('.admin_iframe');
+     }
+
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
@@ -138,18 +151,6 @@ nav_menu('.user-nav');
 	});
 
 
-     /////////////////////////////////////////////////////////////////////////////////////////////////////
-     
-
-     // Monitor admin iframes for load / unload events
-     if ( is_iframe ) {
-     admin_iframe_dom = window.parent.document.querySelectorAll('.admin_iframe');
-     }
-     else {
-     admin_iframe_dom = document.querySelectorAll('.admin_iframe');
-     }
-
-
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
@@ -163,6 +164,26 @@ nav_menu('.user-nav');
      if ( !is_admin && $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
      set_scroll_position(); // Run AFTER showing content
      }
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Dynamically adjust admin iframe heights, for any SHOW PER PAGE CHANGES to GENERIC table sorting WITH PAGINATION
+     $('div.table_pager span.choose_pp').on({
+        "click":function(e){
+              
+              if ( is_admin && !is_iframe ) {            
+
+                   // Resize admin iframes after resizing textareas
+                   admin_iframe_dom.forEach(function(iframe) {
+                   iframe_size_adjust(iframe);
+                   });
+              
+              }
+                                  
+         }
+     });
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -485,7 +506,7 @@ nav_menu('.user-nav');
                        }
               
               
-                  parent.admin_settings_save_init = true;
+                  parent.admin_settings_save_init = true; // Allows auto-refreshing of any admin areas that require it
 
                   }
               

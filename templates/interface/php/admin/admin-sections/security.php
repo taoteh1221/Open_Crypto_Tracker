@@ -200,9 +200,12 @@ else {
 
 
 if ( $ct['app_container'] == 'phpdesktop' ) {
-// We use readonly instead of disabled, so we don't accidentally delete the empty value from the cached config
-$ct['admin_render_settings']['interface_login']['is_readonly'] = 'Unavailable in PHPdesktop container';
-$ct['admin_render_settings']['interface_login']['text_field_size'] = 30;
+     
+// We use hidden, so we don't accidentally delete the empty value from the cached config
+$ct['admin_render_settings']['interface_login']['is_hidden'] = true;
+
+$ct['admin_render_settings']['interface_login']['is_notes'] = '<span class="red">NOTICE: The "Interface Login" setting is unavailable in PHPdesktop (used for LINUX Desktop Edition)</span>';
+
 }
 else {
 
@@ -212,10 +215,10 @@ $ct['admin_render_settings']['interface_login']['is_password'] = true;
 
 $ct['admin_render_settings']['interface_login']['text_field_size'] = 25;
 
-}
-
 
 $ct['admin_render_settings']['interface_login']['is_notes'] = 'Username / password protection for remote access to the app\'s web address (using web server "<a href="https://httpd.apache.org/docs/current/programs/htpasswd.html" target="_BLANK">htpasswd</a>" support)<br />This format MUST be used: username||password<br />SEE ANY ALERTS (after saving changes), for weak username / password failures.';
+
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

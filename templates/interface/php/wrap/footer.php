@@ -97,40 +97,51 @@ $(document).ready(function() {
      
      console.log('admin iframe "<?=$iframe_id?>" loaded.'); // DEBUGGING
          
+     //console.log('parent.admin_settings_save_init ("<?=$iframe_id?>") = ' + parent.admin_settings_save_init);
+                 
+     //console.log('CURRENT URI: <?=$_SERVER['REQUEST_URI']?>');
          
-     function reload_iframes() {
+         
+     function refresh_iframes() {
     
 
          if ( is_admin && is_iframe ) {
-    
+
     
               // Wait until admin_settings_save_init == true (in init.js)
               if ( !parent.admin_settings_save_init ) {
-              reload_recheck = setTimeout(reload_iframes, 1000);  // Re-check every 1 seconds (in milliseconds)
+              reload_recheck = setTimeout(refresh_iframes, 1000);  // Re-check every 1 seconds (in milliseconds)
               return;
               }
-                 
-
-              //console.log(parent.admin_interface_check);                 
+	
+	
+	         parent.admin_settings_save_init = false; // RESET ONLY AFTER RUNNING FROM BEING SET!
+                  
+              //console.log(parent.admin_interface_check);                
                  
               
               // Add any corrupted config sections to blacklist
               for (var hashed_id in parent.admin_interface_check) {
               skip_corrupt_sections.push( 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
-              //console.log('corrupt section = ' + 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
+              console.log('corrupt section = ' + 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
               }
               
               
          <?php
          // If we need to refresh an admin iframe, to show the updated data
          if ( isset($_GET['refresh']) ) {
-              
+         ?>
+         //console.log('refresh param = <?=$_GET['refresh']?>')
+         <?php
               
              // Flag as config NOT updated if it was halted (so we skip refreshing any other admin sections)
              if ( !$ct['app_upgrade_check'] && !$ct['reset_config'] && !$ct['update_config'] ) {
              
                  if ( $ct['check_2fa_error'] != null || $ct['update_config_error'] != null || $admin_general_error != null || $admin_reset_error != null ) {
                  $halt_iframe_refreshing = true;
+                 ?>
+                 console.log('halt_iframe_refreshing = "<?=$halt_iframe_refreshing?>"');
+                 <?php
                  }
              
              }
@@ -230,9 +241,18 @@ $(document).ready(function() {
          }
          
      }
-     
-     // Reload all flagged iframes after 3 seconds (to give any newly-revised ct_conf re-cache time to 'settle in')
-     setTimeout(reload_iframes, 3000); 
+         
+         <?php
+         // If we need to refresh an admin iframe, to show the updated data
+         if ( isset($_GET['refresh']) ) {
+         ?>
+
+         // Reload all flagged iframes after 3 seconds (to give any newly-revised ct_conf re-cache time to 'settle in')
+         setTimeout(refresh_iframes, 3000);          
+         
+         <?php
+         }
+         ?>
      
      <?php
      } // END admin

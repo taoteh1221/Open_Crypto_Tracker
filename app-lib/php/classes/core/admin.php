@@ -441,10 +441,17 @@ var $ct_array = array();
          }
          ?>
           
-              <input type='hidden' data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' />
+         <input type='hidden' data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' />
               
-         <?php 
-         
+         <?php
+         if ( isset($render_params[$passed_key]['is_notes']) ) {
+         ?>
+          
+         <p><span class='admin_settings_notes red red_dotted'><?=$render_params[$passed_key]['is_notes']?></span></p>
+              
+         <?php
+         }
+              
                 
    }
 
@@ -1039,7 +1046,7 @@ var $ct_array = array();
                               red_save_button('iframe');
                                 
                                   // Wait 1 seconds before Initiating the admin settings range sliders
-                                  // (otherwise widths aren't always registered yet for CSS style manipulations)
+                                  // (otherwise WIDTHS aren't always registered yet for CSS style manipulations)
                                   setTimeout(function(){
                                   init_range_sliders();
                                   }, 1000);
@@ -1055,6 +1062,12 @@ var $ct_array = array();
                                        iframe_size_adjust(iframe);
                                        });
                                    
+                                  });
+                                   
+                                       
+                                  // Resize admin iframes after adding repeatable elements
+                                  admin_iframe_dom.forEach(function(iframe) {
+                                  iframe_size_adjust(iframe);
                                   });
 
                          
