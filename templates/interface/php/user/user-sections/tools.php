@@ -38,7 +38,7 @@
 			?>
 
 			<p style='font-weight: bold;' class='bitcoin'>Your Generated QR Code Address:</p>
-			<p><img src='templates/interface/media/images/qr-code-image.php?qr_code_crypto_address=<?=urlencode(trim($_POST['qr_code_crypto_address']))?>' /></p>
+			<p><img class='qr_code' src='templates/interface/media/images/qr-code-image.php?qr_code_crypto_address=<?=urlencode(trim($_POST['qr_code_crypto_address']))?>' /></p>
 			<p class='red' style='font-weight: bold;'>--ALWAYS-- VERIFY YOUR ADDRESS COPIED OVER CORRECTLY</p>
 
 			<?php

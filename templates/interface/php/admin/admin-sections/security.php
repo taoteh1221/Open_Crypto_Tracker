@@ -69,7 +69,7 @@
 
 	 <p style='font-weight: bold; margin-top: 1.5em;' class='red'>Scan this QR code with your authenticator app:</p>
 			
-	 <p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct['gen']->admin_nonce('2fa_setup')?>' /></p>
+	 <p><img class='qr_code' src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct['gen']->admin_nonce('2fa_setup')?>' /></p>
 			
 	 <p class='red' style='font-weight: bold;'>--CLICK THE "REFRESH DATA" LINK IN THE SIDEBAR-- IF NO QR CODE IMAGE SHOWS ABOVE...</p>
 	 <p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA...</p>

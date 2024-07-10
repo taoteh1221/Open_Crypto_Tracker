@@ -1036,6 +1036,9 @@ var $ct_array = array();
                          elseif ( stristr($user_agent_val, 'safari/') ) {
                          $user_agent_desc = 'Safari';
                          }
+                         elseif ( stristr($user_agent_val, 'curl/') ) {
+                         $user_agent_desc = 'Curl';
+                         }
                          else {
                          $user_agent_desc = 'Other';
                          }

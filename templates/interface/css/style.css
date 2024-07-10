@@ -197,6 +197,11 @@ CLASSES
 ////////////////////////////// */
 
 
+.qr_code {
+	margin: 3em !important;
+}
+
+
 #sidebar .user_settings_save.red_bright, #sidebar .admin_settings_save.red_bright {
 border-radius: 8px;
 border: 3px dotted #ff4747;
