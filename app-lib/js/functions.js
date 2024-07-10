@@ -1373,7 +1373,7 @@ var $iframe = $('#' + id);
     // If the admin iframe exists in the current main page
     if (is_admin && $iframe.length) {
      
-    console.log('admin iframe exists');
+    //console.log('admin iframe exists');
          
          // Save the original frame src if not done yet
          if ( !orig_iframe_src[id] ) {

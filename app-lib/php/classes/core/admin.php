@@ -742,13 +742,6 @@ var $ct_array = array();
 	 $refresh_admin_sections = 'none';
 	 }
 	 
-	 if ( isset($render_params['exclude_refresh_admin']) ) {
-	 $exclude_refresh_admin_sections = $render_params['exclude_refresh_admin'];
-	 }
-	 else {
-	 $exclude_refresh_admin_sections = 'none';
-	 }
-	 
 	 ?>
 	
 	
@@ -787,7 +780,7 @@ var $ct_array = array();
 	
 	?>
 	
-	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=$cat_key?>=<?=$interface_id?>&exclude_refresh=<?=$exclude_refresh_admin_sections?>&refresh=<?=$refresh_admin_sections?>' method='post'>
+	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=$cat_key?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
      
      <?php
      
@@ -1045,30 +1038,34 @@ var $ct_array = array();
                               
                               red_save_button('iframe');
                                 
-                                  // Wait 1 seconds before Initiating the admin settings range sliders
-                                  // (otherwise WIDTHS aren't always registered yet for CSS style manipulations)
+                                
+                                  // Wait 1.5 seconds before Initiating
+                                  // (otherwise ELEMENT SIZES / ETC aren't always registered yet for DOM manipulations)
                                   setTimeout(function(){
-                                  init_range_sliders();
-                                  }, 1000);
-     
+                                       
                			
-               			    // Make any added textarea autosize
-                                  $('textarea[data-autoresize]').each(function(){
-                                  autosize(this);
-                                  }).on('autosize:resized', function(){
-                                   
-                                       // Resize admin iframes after resizing textareas
+                    			    // Make any added textarea autosize
+                                       $('textarea[data-autoresize]').each(function(){
+                                       autosize(this);
+                                       }).on('autosize:resized', function(){
+                                        
+                                            // Resize admin iframes after resizing textareas
+                                            admin_iframe_dom.forEach(function(iframe) {
+                                            iframe_size_adjust(iframe);
+                                            });
+                                        
+                                       });
+                                        
+                                            
+                                       // Resize admin iframes after adding repeatable elements
                                        admin_iframe_dom.forEach(function(iframe) {
                                        iframe_size_adjust(iframe);
                                        });
-                                   
-                                  });
-                                   
                                        
-                                  // Resize admin iframes after adding repeatable elements
-                                  admin_iframe_dom.forEach(function(iframe) {
-                                  iframe_size_adjust(iframe);
-                                  });
+                                       
+                                  init_range_sliders();
+                                  
+                                  }, 1500);
 
                          
           				},
