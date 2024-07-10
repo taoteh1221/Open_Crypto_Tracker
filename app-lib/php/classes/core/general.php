@@ -60,6 +60,17 @@ var $ct_array = array();
    $cookies = isset($_SERVER['HTTP_COOKIE']) ? $_SERVER['HTTP_COOKIE'] : null;
    return mb_strlen($cookies);
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function valid_domain($url) {
+   return (preg_match("/^([a-zd](-*[a-zd])*)(.([a-zd](-*[a-zd])*))*$/i", $url) //valid characters check
+   && preg_match("/^.{1,253}$/", $url) //overall length check
+   && preg_match("/^[^.]{1,63}(.[^.]{1,63})*$/", $url) ); //length of every label
+    }
    
 
    ////////////////////////////////////////////////////////
@@ -356,40 +367,16 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function valid_domain($url) {
-
-    $validation = FALSE;
-    /*Parse URL*/
-    $urlparts = parse_url(filter_var($url, FILTER_SANITIZE_URL));
-    
-         /*Check host exist else path assign to host*/
-         if(!isset($urlparts['host'])){
-             $urlparts['host'] = $urlparts['path'];
-         }
-     
-         if($urlparts['host']!=''){
-            /*Add scheme if not found*/
-             if (!isset($urlparts['scheme'])){
-                 $urlparts['scheme'] = 'http';
-             }
-             /*Validation*/
-             if(checkdnsrr($urlparts['host'], 'A') && in_array($urlparts['scheme'],array('http','https')) && ip2long($urlparts['host']) === FALSE){ 
-                 $urlparts['host'] = preg_replace('/^www\./', '', $urlparts['host']);
-                 $url = $urlparts['scheme'].'://'.$urlparts['host']. "/";            
-                 
-                 if (filter_var($url, FILTER_VALIDATE_URL) !== false && @get_headers($url)) {
-                     $validation = TRUE;
-                 }
-             }
-         }
-     
-         if(!$validation){
-         return false;
-         }else{
-         return true;
-         }
-
-    }
+   function checkdns($host) {
+      
+      if ( function_exists('checkdnsrr')  ) {
+      return checkdnsrr($host, 'A');
+      }
+      else {
+      return true; // Skip check, as function does NOT exist
+      }
+      
+   }
 
 
    ////////////////////////////////////////////////////////
