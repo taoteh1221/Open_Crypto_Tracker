@@ -80,6 +80,19 @@ nav_menu('.admin-nav');
 nav_menu('.user-nav');
 
 
+     /////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+
+     // Monitor admin iframes for load / unload events
+     // MUST BE SET VERY EARLY, TO USE FURTHER BELOW!!!
+     if ( is_iframe ) {
+     admin_iframe_dom = window.parent.document.querySelectorAll('.admin_iframe');
+     }
+     else {
+     admin_iframe_dom = document.querySelectorAll('.admin_iframe');
+     }
+
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
@@ -138,18 +151,6 @@ nav_menu('.user-nav');
 	});
 
 
-     /////////////////////////////////////////////////////////////////////////////////////////////////////
-     
-
-     // Monitor admin iframes for load / unload events
-     if ( is_iframe ) {
-     admin_iframe_dom = window.parent.document.querySelectorAll('.admin_iframe');
-     }
-     else {
-     admin_iframe_dom = document.querySelectorAll('.admin_iframe');
-     }
-
-
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
@@ -163,6 +164,36 @@ nav_menu('.user-nav');
      if ( !is_admin && $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
      set_scroll_position(); // Run AFTER showing content
      }
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Dynamically adjust any iframe heights, for any SHOW PER PAGE CHANGES to GENERIC table sorting WITH PAGINATION
+     $('div span.left.choose_pp a').on({
+        "click":function(e){
+             
+        console.log('div span.left.choose_pp a CLICKED');
+              
+              if ( is_admin ) {            
+             
+              console.log('div span.left.choose_pp a CLICKED IN ADMIN AREA');
+
+                   // Wait 1.5 seconds before Initiating
+                   // (otherwise ELEMENT SIZES / ETC aren't always registered yet for DOM manipulations)
+                   setTimeout(function(){
+                                       
+                        // Resize admin iframes after resizing textareas
+                        admin_iframe_dom.forEach(function(iframe) {
+                        iframe_size_adjust(iframe);
+                        });
+                                  
+                   }, 1500);
+              
+              }
+                                  
+         }
+     });
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -447,51 +478,56 @@ nav_menu('.user-nav');
              
           var hashed_id = CryptoJS.MD5(check_update_form.conf_id.value).toString();
 
+
                // Listen for input events on the form
                check_update_form.addEventListener('input', function (event) {
                red_save_button('iframe');
                });
           
-          }
           
      
-          $('.admin_settings_save', window.parent.document).on({
-             "click":function(e){
-                  
-                  
-                  // This makes sure only the VISIBLE PAGE'S FORM IS SUBMITTED (otherwise EVERY page submits!)
-                  // (the form fields DON'T NEED TO BE SHOWING 'IN THE TOP FOLD', SO THIS *IS* RELIABLE)
-                  if ( $("#update_config").is(":visible") ) {
+               $('.admin_settings_save', window.parent.document).on({
+                  "click":function(e){
                        
-                  parent.admin_settings_save_init = false; // Reset
-                  
-                  
-                       // We used hash of conf_id, so we can always access the slot without parsing non-alphanumeric characters
-                       if ( typeof parent.admin_interface_check[hashed_id] != 'undefined' && parent.admin_interface_check[hashed_id]['missing_interface_configs'] ) {
                        
-                       alert('INCOMPLETE admin INTERFACING config detected for the "' + parent.admin_interface_check[hashed_id]['affected_section'] + '" ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '. The missing config(s) are HIGHLIGHTED IN RED below in this section. Please have your web developer add these required INTERFACING config parameters for this ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '.');
-     
-                       event.preventDefault();
+                       // This makes sure only the VISIBLE PAGE'S FORM IS SUBMITTED (otherwise EVERY page submits!)
+                       // (the form fields DON'T NEED TO BE SHOWING 'IN THE TOP FOLD', SO THIS *IS* RELIABLE)
+                       var admin_id = window.frameElement.id.replace("iframe", "admin");
                        
-                       return false;
+                       if ( $('#' + admin_id, window.parent.document).is(":visible") ) {
+                       
+                       console.log('admin area id IS VISIBLE = ' + admin_id);
+                       
+                       
+                            // We used hash of conf_id, so we can always access the slot without parsing non-alphanumeric characters
+                            if ( typeof parent.admin_interface_check[hashed_id] != 'undefined' && parent.admin_interface_check[hashed_id]['missing_interface_configs'] ) {
+                            
+                            alert('INCOMPLETE admin INTERFACING config detected for the "' + parent.admin_interface_check[hashed_id]['affected_section'] + '" ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '. The missing config(s) are HIGHLIGHTED IN RED below in this section. Please have your web developer add these required INTERFACING config parameters for this ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '.');
+          
+                            event.preventDefault();
+                            
+                            return false;
+          
+                            }
+                            else {
+         
+                            form_submit_queued = true;
+                   
+                            parent.admin_settings_save_init = true; // Allows auto-refreshing of any admin areas that require it
+          
+                            $(window.frameElement).contents().find("#update_config").submit();
+          
+                            }
      
                        }
-                       else {
-    
-                       form_submit_queued = true;
+                   
+                   
+                   }
+               });
+          
+          
+          }
      
-                       $("#update_config").submit();
-     
-                       }
-              
-              
-                  parent.admin_settings_save_init = true;
-
-                  }
-              
-              
-              }
-          });
      
      }
      // Update user area
@@ -503,27 +539,26 @@ nav_menu('.user-nav');
           
           if ( check_update_form != null ) {
 
+
                // Listen for input events on the form
                check_update_form.addEventListener('input', function (event) {
                red_save_button();
                });
           
-          }
+     
+               $('.user_settings_save').on({
+                  "click":function(e){
+         
+                   form_submit_queued = true;
+                       
+                   $(check_update_form).submit();
+                   
+                   }
+               });
+               
           
-     
-          $('.user_settings_save').on({
-             "click":function(e){
-                  
-              user_settings_save_init = false; // Reset
-    
-              form_submit_queued = true;
-                  
-              $("#coin_amnts").submit();
-     
-              user_settings_save_init = true;
-              
-              }
-          });
+          }
+
      
      }
 	
@@ -537,7 +572,18 @@ nav_menu('.user-nav');
     
           // Store an array of all admin iframe IDs, for use in footer.php
           if ( typeof iframe.id != 'undefined' ) {
+
           all_admin_iframe_ids.push(iframe.id);
+          
+               if ( is_iframe ) {
+               var iframe_desc = '(scanned from iframe)';
+               }
+               else {
+               var iframe_desc = '(scanned from parent)';
+               }
+
+          //console.log('admin iframe ID '+iframe_desc+' = ' + iframe.id);
+          
           }
           
        

@@ -200,9 +200,12 @@ else {
 
 
 if ( $ct['app_container'] == 'phpdesktop' ) {
-// We use readonly instead of disabled, so we don't accidentally delete the empty value from the cached config
-$ct['admin_render_settings']['interface_login']['is_readonly'] = 'Unavailable in PHPdesktop container';
-$ct['admin_render_settings']['interface_login']['text_field_size'] = 30;
+     
+// We use hidden, so we don't accidentally delete the empty value from the cached config
+$ct['admin_render_settings']['interface_login']['is_hidden'] = true;
+
+$ct['admin_render_settings']['interface_login']['is_notes'] = '<span class="red">NOTICE: The "Interface Login" setting is unavailable in PHPdesktop (used for LINUX Desktop Edition)</span>';
+
 }
 else {
 
@@ -212,10 +215,10 @@ $ct['admin_render_settings']['interface_login']['is_password'] = true;
 
 $ct['admin_render_settings']['interface_login']['text_field_size'] = 25;
 
-}
-
 
 $ct['admin_render_settings']['interface_login']['is_notes'] = 'Username / password protection for remote access to the app\'s web address (using web server "<a href="https://httpd.apache.org/docs/current/programs/htpasswd.html" target="_BLANK">htpasswd</a>" support)<br />This format MUST be used: username||password<br />SEE ANY ALERTS (after saving changes), for weak username / password failures.';
+
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -323,16 +326,8 @@ $ct['admin_render_settings']['captcha_text_angle']['range_ui_suffix'] = ' degree
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
-// ***UNLESS IT IS IN A SUBSECTION***, IN WHICH CASE USE 'exclude_refresh_admin' BELOW!
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
 $ct['admin_render_settings']['is_refresh_admin'] = 'all';
-////
-// Page refresh exclusions (for any MAIN subsection ID this page may be loaded into, etc)
-// CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
-// ***UNLESS IT IS IN A SUBSECTION***, IN WHICH CASE USE 'exclude_refresh_admin' BELOW!
-// (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
-// (SHOULD BE COMMA-SEPARATED [NO SPACES] FOR MULTIPLE VALUES)
-$ct['admin_render_settings']['exclude_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
 $ct['admin']->admin_config_interface('sec', 'security', $ct['admin_render_settings']);

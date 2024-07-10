@@ -949,12 +949,12 @@ var $ct_array = array();
                <legend class='subsection_legend'> IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits) </legend>
                
                <!-- table_pager -->
-               <div class="table_pager_<?=$safe_name?>">
+               <div class="table_pager table_pager_<?=$safe_name?>">
 
                	<span class="pagedisplay"></span> 
                	
                	<br /><br />
-               	<span class="left">
+               	<span class="left choose_pp">
 					&nbsp;<span class="bitcoin">Show Per Page:</span>
 					<a href="#">5</a> |
 					<a href="#">10</a> |

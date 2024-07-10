@@ -83,47 +83,56 @@ $(document).ready(function() {
      if ( $is_admin ) {
      
      
-          if ( isset($_GET['section']) ) {
-          $iframe_id = $_GET['section'];
+          if ( isset($_GET['plugin']) ) {
+          $iframe_id = 'plugins'; // PLURAL HERE, AS THAT'S THE PARENT IFRAME ID SUFFIX FOR THE PLUGINS SUBSECTION
           }
-          elseif ( isset($_GET['subsection']) ) {
+          elseif ( isset($_GET['parent']) ) {
           $iframe_id = $_GET['parent']; // PARENT HERE, AS THAT'S THE PARENT IFRAME ID SUFFIX FOR GENERIC SUBSECTIONS
           }
-          elseif ( isset($_GET['plugin']) ) {
-          $iframe_id = $_GET['plugins']; // PLURAL HERE, AS THAT'S THE PARENT IFRAME ID SUFFIX FOR THE PLUGINS SUBSECTION
+          // MUST BE LAST, AS 'section' IS ALWAYS OVERRIDDEN IF INSIDE A SUBSECTION, REGARDING IFRAME IDS
+          elseif ( isset($_GET['section']) ) {
+          $iframe_id = $_GET['section'];
           }
      
      ?>
      
      console.log('admin iframe "<?=$iframe_id?>" loaded.'); // DEBUGGING
          
+     console.log('parent.admin_settings_save_init ("<?=$iframe_id?>") = ' + parent.admin_settings_save_init);
+                 
+     //console.log('CURRENT URI: <?=$_SERVER['REQUEST_URI']?>');
          
-     function reload_iframes() {
+         
+     function refresh_iframes() {
     
 
          if ( is_admin && is_iframe ) {
-    
+
     
               // Wait until admin_settings_save_init == true (in init.js)
               if ( !parent.admin_settings_save_init ) {
-              reload_recheck = setTimeout(reload_iframes, 1000);  // Re-check every 1 seconds (in milliseconds)
+              reload_recheck = setTimeout(refresh_iframes, 1000);  // Re-check every 1 seconds (in milliseconds)
               return;
               }
-                 
-
-              //console.log(parent.admin_interface_check);                 
+	
+              
+              // RESET ONLY AFTER CONFIRMED AS RUNNING FROM BEING SET!
+              parent.admin_settings_save_init = false; 
+              console.log('RESET parent.admin_settings_save_init ("<?=$iframe_id?>") = ' + parent.admin_settings_save_init);
+                  
+              //console.log(parent.admin_interface_check);                
                  
               
               // Add any corrupted config sections to blacklist
               for (var hashed_id in parent.admin_interface_check) {
               skip_corrupt_sections.push( 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
-              //console.log('corrupt section = ' + 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
+              console.log('corrupt section = ' + 'iframe_' + parent.admin_interface_check[hashed_id]['interface_id'] );
               }
               
               
          <?php
          // If we need to refresh an admin iframe, to show the updated data
-         if ( isset($_GET['refresh']) ) {
+         if ( isset($_GET['refresh']) && $_GET['refresh'] != 'none' && $_GET['refresh'] != 'auto' ) {
               
               
              // Flag as config NOT updated if it was halted (so we skip refreshing any other admin sections)
@@ -131,6 +140,9 @@ $(document).ready(function() {
              
                  if ( $ct['check_2fa_error'] != null || $ct['update_config_error'] != null || $admin_general_error != null || $admin_reset_error != null ) {
                  $halt_iframe_refreshing = true;
+                 ?>
+                 console.log('halt_iframe_refreshing = "<?=$halt_iframe_refreshing?>"');
+                 <?php
                  }
              
              }
@@ -138,7 +150,7 @@ $(document).ready(function() {
              
              // 'auto' is the 'refresh' param value we set further down here in footer.php,
              // so we never get stuck in endless loops with refresh=all when refreshing here
-             if ( $halt_iframe_refreshing || $_GET['refresh'] == 'none' || $_GET['refresh'] == 'auto' || $_GET['exclude_refresh'] == 'all' ) {
+             if ( $halt_iframe_refreshing ) {
              ?>
              selected_admin_iframe_ids = new Array(); // SET TO BLANK (no iframe refreshing)
              <?php
@@ -146,7 +158,7 @@ $(document).ready(function() {
              // Refreshing ALL admin sections
              elseif ( $_GET['refresh'] == 'all' ) {
              ?>
-             selected_admin_iframe_ids = parent.all_admin_iframe_ids; // ALL admin iframes refreshed
+             selected_admin_iframe_ids = all_admin_iframe_ids; // ALL admin iframes refreshed
              <?php                   
              }
              // Refreshing the passed list of admin sections
@@ -162,26 +174,9 @@ $(document).ready(function() {
                   }
              
              }
-             
-             
-         $exclude_refresh_admin = explode(',', $_GET['exclude_refresh']);
-         $exclude_refresh_admin = array_map("trim", $exclude_refresh_admin);
-             
-             foreach ( $exclude_refresh_admin as $exclude_refresh ) {
-             ?>
-             
-             // Remove any ids marked as excluded explicitly
-             var excluded_iframe = selected_admin_iframe_ids.indexOf("<?=$exclude_refresh?>");
-             
-             if ( excluded_iframe > -1 ) {
-             selected_admin_iframe_ids.splice(excluded_iframe, 1); // 2nd parameter means remove one item only
-             }
-             
-             <?php
-             }
          
          ?>
-
+         
 
              // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
              var excluded_iframe = selected_admin_iframe_ids.indexOf("iframe_<?=$iframe_id?>");
@@ -230,9 +225,32 @@ $(document).ready(function() {
          }
          
      }
-     
-     // Reload all flagged iframes after 3 seconds (to give any newly-revised ct_conf re-cache time to 'settle in')
-     setTimeout(reload_iframes, 3000); 
+
+         
+         <?php
+         // If we need to refresh an admin iframe, to show the updated data
+         if ( isset($_GET['refresh']) && $_GET['refresh'] != 'none' && $_GET['refresh'] != 'auto' ) {
+         ?>
+
+         console.log('refreshing: <?=$_GET['refresh']?>');
+         
+         // Reload all flagged iframes after 3 seconds (to give any newly-revised ct_conf re-cache time to 'settle in')
+         setTimeout(refresh_iframes, 3000);          
+         
+         <?php
+         }
+         elseif ( isset($_GET['refresh']) && $_GET['refresh'] == 'none' ) {
+         ?>
+         
+         console.log('refreshing: <?=$_GET['refresh']?>');
+         
+         // RESET, SINCE REFRESH IS SET TO 'none'
+         parent.admin_settings_save_init = false; 
+         console.log('RESET parent.admin_settings_save_init ("<?=$iframe_id?>") = ' + parent.admin_settings_save_init);
+              
+         <?php
+         }
+         ?>
      
      <?php
      } // END admin

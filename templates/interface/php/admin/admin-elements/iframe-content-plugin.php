@@ -67,14 +67,6 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         $ct['admin_render_settings'] = array();
 
         require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
-        
-             // We need to make sure we are EXCLUDING refreshing the plugins subsection!
-             if ( !isset($ct['admin_render_settings']['exclude_refresh_admin']) ) {
-             $ct['admin_render_settings']['exclude_refresh_admin'] = 'iframe_plugins';
-             }
-             elseif ( !strstr($ct['admin_render_settings']['exclude_refresh_admin'], 'iframe_plugins') ) {
-             $ct['admin_render_settings']['exclude_refresh_admin'] .= ',iframe_plugins';
-             }
 
         // $ct['admin']->admin_config_interface($conf_id, $interface_id)
         $ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $ct['admin_render_settings']);
