@@ -548,14 +548,10 @@ nav_menu('.user-nav');
      
                $('.user_settings_save').on({
                   "click":function(e){
-                       
-                   user_settings_save_init = false; // Reset
          
                    form_submit_queued = true;
                        
                    $(check_update_form).submit();
-          
-                   user_settings_save_init = true;
                    
                    }
                });
