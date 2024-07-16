@@ -342,17 +342,32 @@ echo nl2br($ui_upgrade_alert['message']);
 
 <script>
 
+
 // Creates Cookie notice footer banner
 footer_banner(cookies_notice_storage, 'This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.');
 
-// Otherwise, creates Safari notice footer banner (if using safari / has ALREADY ACKNOWLEDGED the cookie banner)
-if ( is_safari && localStorage.getItem(cookies_notice_storage) == "understood" ) {
+
+// Donations reminder (if has ALREADY ACKNOWLEDGED the cookies banner)
+if ( localStorage.getItem(cookies_notice_storage) == "understood" ) {
+
+footer_banner(donations_notice_storage, 'Please show your appreciation for my crypto apps, IF you enjoy using them. Buying me a coffee / beer means WAY MORE to me than large donations. It\'s about <a href="https://taoteh1221.github.io/#donations" target="_BLANK">letting me know</a> you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :) All crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...<a href="https://taoteh1221.github.io/#donations" target="_BLANK"><img height="200" src="templates/interface/media/images/donate-banner.png" alt="" class="image_border" /></a>');
+
+}
+
+
+// Otherwise, creates Safari notice footer banner (if using safari / has ALREADY ACKNOWLEDGED the cookies / donations banners)
+if ( is_safari && localStorage.getItem(cookies_notice_storage) == "understood" && localStorage.getItem(donations_notice_storage) == "understood" ) {
+
 footer_banner(safari_notice_storage, 'This web app MAY NOT WORK PROPERLY on the Apple Safari web browser. FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are highly recommended for the best user experience.');
+
 }
-// Creates 'Desktop on Windows has issues' notice footer banner (if using Desktop on Windows / has ALREADY ACKNOWLEDGED the cookie banner)
-else if ( app_edition == 'desktop' && app_platform == 'windows' && app_container == 'phpdesktop' && localStorage.getItem(cookies_notice_storage) == "understood" ) {
+// OR creates windows phpdesktop notice footer banner (if using Desktop on Windows / has ALREADY ACKNOWLEDGED the cookies / donations banners)
+else if ( app_edition == 'desktop' && app_platform == 'windows' && app_container == 'phpdesktop' && localStorage.getItem(cookies_notice_storage) == "understood" && localStorage.getItem(donations_notice_storage) == "understood" ) {
+
 footer_banner(desktop_windows_notice_storage, 'This web app *SOMETIMES* MAY NOT WORK PROPERLY for this "PHPdesktop"-based WINDOWS DESKTOP EDITION (all other Editions work fine). Try installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Newest Windows Desktop Edition of this app</a>, as we now use "PHPbrowserBox" instead of "PHPdesktop", which makes the Windows Edition RUN WAY BETTER.');
+
 }
+
 
 </script>
 

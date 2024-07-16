@@ -34,7 +34,7 @@ else {
     <div align='center' style='position: relative;'>
     
     
-               <h4>Please show your appreciation for this app. Buying me a coffee / beer means WAY MORE to me than large donations. It's about letting me know you appreciate this app, NOT about me making money. Think of it as a PRIVATE app usage survey anaon! :) All crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...  </h4>
+               <h4>Please show your appreciation for my crypto apps, IF you enjoy using them. Buying me a coffee / beer means WAY MORE to me than large donations. It's about letting me know you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :) All crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...  </h4>
             	
             	<div style='min-height: 15px; min-width: 100px;'></div>
             	

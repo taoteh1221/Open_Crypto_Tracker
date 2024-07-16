@@ -184,6 +184,9 @@ Add clicksend.com mobile text messaging support
 'Show per page' on access stats page has a 'current' class added dynamically, so we can style it like we did for the page number.
 
 
+Add a drop-down menu on the access stats page, to switch between listing visits as 'per ip address' (which we have already) OR 'per visit time' (combining all visits into one list, based of visit timestamp).
+
+
 Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
 
 
