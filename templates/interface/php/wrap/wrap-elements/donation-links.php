@@ -1,9 +1,13 @@
 
-    <p class='align_center'><a title='Click to show / hide donation addresses.' href='javascript: show_more("donate");'>Donations Support Development</a></p>
+    <p class='align_center'><a title='Click to show / hide more information.' href='javascript: show_more("donate");'>Please Show Your Appreciation For This App</a></p>
     
             	<div style='display: none;' id='donate' class='align_center'>
+    
+               <h4>Please show your appreciation for this app. Buying me a coffee / beer means WAY MORE to me than large donations. It's about letting me know you appreciate this app, NOT about me making money. Think of it as a PRIVATE app usage survey anaon! :) All crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...  </h4>
             	
-            	<span class='bitcoin' style='font-weight: bold;'>Open Crypto Tracker <i>WILL ALWAYS REMAIN 100% FREE / OPEN SOURCE SOFTWARE</i> (<a href='https://en.wikipedia.org/wiki/Free_and_open-source_software' target='_blank'>FOSS</a>),<br />so please consider donating any amount <i>large or small</i> to help support time spent on this project...</span>
+            	<div style='min-height: 15px; min-width: 100px;'></div>
+            	
+            	<span class='bitcoin' style='font-weight: bold;'>Open Crypto Tracker <i>WILL ALWAYS REMAIN 100% FREE / OPEN SOURCE SOFTWARE</i> (<a href='https://en.wikipedia.org/wiki/Free_and_open-source_software' target='_blank'>FOSS</a>),<br />so please let me know you appreciate my time spent, and buy me a coffee or beer! :)</span>
             	
             	<br /><br /><b class='btc'>Bitcoin:</b> <br /><span class='underline_pointer' id='btc_donate' title='Click to show / hide address copying details.'>3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW</span>
             	
@@ -33,7 +37,7 @@
 			
 			+'<p class="coin_info align_center"><b>QR Code For Phones:</b></p>'
 			
-			+'<p class="coin_info align_center"><img src="templates/interface/media/images/auto-preloaded/btc-donations.png" width="200" title="Bitcoin (BTC) Donation Address" /></p>'
+			+'<p class="coin_info align_center"><img src="templates/interface/media/images/auto-preloaded/btc-donations.png" width="400" title="Bitcoin (BTC) Donation Address" /></p>'
 			
 			+'<p> </p>';
 			
@@ -104,7 +108,7 @@
 			
 			+'<p class="coin_info align_center"><b>QR Code For Phones:</b></p>'
 			
-			+'<p class="coin_info align_center"><img src="templates/interface/media/images/auto-preloaded/eth-donations.png" width="200" title="Ethereum (ETH) Donation Address" /></p>'
+			+'<p class="coin_info align_center"><img src="templates/interface/media/images/auto-preloaded/eth-donations.png" width="400" title="Ethereum (ETH) Donation Address" /></p>'
 			
 			+'<p> </p>';
 			
@@ -172,7 +176,7 @@
 			
 			+'<p class="coin_info align_center"><b>QR Code For Phones:</b></p>'
 			
-			+'<p class="coin_info align_center"><img src="templates/interface/media/images/auto-preloaded/sol-donations.png" width="200" title="Solana (SOL) Donation Address" /></p>'
+			+'<p class="coin_info align_center"><img src="templates/interface/media/images/auto-preloaded/sol-donations.png" width="400" title="Solana (SOL) Donation Address" /></p>'
 			
 			+'<p> </p>';
 			

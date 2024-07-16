@@ -759,7 +759,7 @@ echo "${red}IMPORTANT *UPGRADE* NOTICES:"
 echo " "
 echo " "
 
-echo "v6.01.0 and higher restructures CURRENCY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP, AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT."
+echo "v6.00.38 and higher restructures CURRENCY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP, AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT."
 echo " "
 echo " "
 

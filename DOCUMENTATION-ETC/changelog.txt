@@ -6769,7 +6769,7 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
 IMPORTANT *UPGRADE* NOTICES:
 
-v6.01.0 and higher restructures CURRENCY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
+v6.00.38 and higher restructures CURRENCY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -------------------------------------------------------------------

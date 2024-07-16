@@ -181,10 +181,7 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Make sure our new admin input validation on domains works on Windows Desktop Edition.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+'Show per page' on access stats page has a 'current' class added dynamically, so we can style it like we did for the page number.
 
 
 Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
