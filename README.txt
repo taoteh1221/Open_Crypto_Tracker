@@ -22,6 +22,9 @@ Please review the possible solutions below for any issues you may have, before c
 Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
 
+(p̶̬͑ḧ̴͓i̶͖͆s̴̼͒h̸͇̾i̸̝̒n̷̟͂g̴̖͌ ̶̨͑m̵̝̚é̴͎ ̶̦̋w̸̫̍i̴̜͗l̷͇̊ḽ̷͌ ̷̛͙N̸̦̒Ȯ̴͜Ť̸̜ ̵̣͠w̶͙̾o̶̫̎ŕ̷͇k̵̹̆ ̵̑ͅf̷̈́ͅő̶̯ȓ̷͓ ̸͚̐y̵͈͆ö̷͎ũ̸̘)
+
+
 Project Website: https://taoteh1221.github.io
 
 LIVE PUBLIC DEMO: https://dragonfrugal.org/open-crypto-tracker

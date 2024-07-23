@@ -57,6 +57,8 @@
              Please review the possible solutions below for any issues you may have, before contacting the developers for support. If you are still having issues after trying everything relevant in this document, please reach out to the developers for help in the comm channels listed below. Any feedback is GREATLY appreciated, as it helps make this app better for everyone! :)
 	        
 			  <br /><br />Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.<br /><br />
+			  
+			  (p̶̬͑ḧ̴͓i̶͖͆s̴̼͒h̸͇̾i̸̝̒n̷̟͂g̴̖͌ ̶̨͑m̵̝̚é̴͎ ̶̦̋w̸̫̍i̴̜͗l̷͇̊ḽ̷͌ ̷̛͙N̸̦̒Ȯ̴͜Ť̸̜ ̵̣͠w̶͙̾o̶̫̎ŕ̷͇k̵̹̆ ̵̑ͅf̷̈́ͅő̶̯ȓ̷͓ ̸͚̐y̵͈͆ö̷͎ũ̸̘)<br /><br />
 	      
 	      
 	        <span class='blue'>Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...</span><br /><br />

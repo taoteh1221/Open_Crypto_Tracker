@@ -11,8 +11,298 @@ var $ct_var1;
 var $ct_var2;
 var $ct_var3;
 
-var $ct_array = array();
+// We need an architecture that 'registers' each exchange API in the app,
+// for scanning ALL exchanges for a ticker when ADDING A NEW COIN VIA ADMIN INTERFACING
+var $exchange_apis = array(
 
+
+                           'aevo' => array(
+                                                   'endpoint' => 'https://api.aevo.xyz/instrument/[MARKET]',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'alphavantage_stock' => array(
+                                                   'endpoint' => 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=[MARKET]&apikey=[ALPHAVANTAGE_KEY]',
+                                                   'response_path' => 'Global Quote', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'binance' => array(
+                                                   'endpoint' => 'https://www.binance.com/api/v3/ticker/24hr',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'binance_us' => array(
+                                                   'endpoint' => 'https://api.binance.us/api/v3/ticker/24hr',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bit2c' => array(
+                                                   'endpoint' => 'https://bit2c.co.il/Exchanges/[MARKET]/Ticker.json',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bitbns' => array(
+                                                   'endpoint' => 'https://bitbns.com/order/getTickerWithVolume',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bitfinex' => array(
+                                                   'endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'ethfinex' => array(
+                                                   'endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bitforex' => array(
+                                                   'endpoint' => 'https://api.bitforex.com/api/v1/market/ticker?symbol=[MARKET]',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bitflyer' => array(
+                                                   'endpoint' => 'https://api.bitflyer.com/v1/getticker?product_code=[MARKET]',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bitmart' => array(
+                                                   'endpoint' => 'https://api-cloud.bitmart.com/spot/v1/ticker',
+                                                   'response_path' => 'data>tickers', // Delimit multiple depths with >
+                                                  ),
+
+
+                           // GET NEWEST DATA SETS (25 one hour buckets, SINCE WE #NEED# THE CURRENT PARTIAL DATA SET, 
+                           // OTHERWISE WE DON'T GET THE LATEST TRADE VALUE AND CAN'T CALCULATE REAL-TIME VOLUME)
+                           // Sort NEWEST first
+                           'bitmex' => array(
+                                                   'endpoint' => 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol=[MARKET]&reverse=true',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bitpanda' => array(
+                                                   'endpoint' => 'https://api.exchange.bitpanda.com/public/v1/market-ticker',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bitso' => array(
+                                                   'endpoint' => 'https://api.bitso.com/v3/ticker/?book=[MARKET]',
+                                                   'response_path' => 'payload', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bitstamp' => array(
+                                                   'endpoint' => 'https://www.bitstamp.net/api/v2/ticker/[MARKET]',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'btcmarkets' => array(
+                                                   'endpoint' => 'https://api.btcmarkets.net/market/[MARKET]/tick',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'btcturk' => array(
+                                                   'endpoint' => 'https://api.btcturk.com/api/v2/ticker',
+                                                   'response_path' => 'data', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'buyucoin' => array(
+                                                   'endpoint' => 'https://api.buyucoin.com/ticker/v1.0/liveData',
+                                                   'response_path' => 'data', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'bybit' => array(
+                                                   'endpoint' => 'https://api-testnet.bybit.com/v2/public/tickers',
+                                                   'response_path' => 'result', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'cex' => array(
+                                                   'endpoint' => 'https://cex.io/api/tickers/BTC/USD/USDT/EUR/GBP',
+                                                   'response_path' => 'data', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'coinbase' => array(
+                                                   'endpoint' => 'https://api.pro.coinbase.com/products/[MARKET]/ticker',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'coindcx' => array(
+                                                   'endpoint' => 'https://public.coindcx.com/exchange/ticker',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'coinex' => array(
+                                                   'endpoint' => 'https://api.coinex.com/v1/market/ticker/all',
+                                                   'response_path' => 'data>ticker', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'coinspot' => array(
+                                                   'endpoint' => 'https://www.coinspot.com.au/pubapi/latest',
+                                                   'response_path' => 'prices', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'crypto.com' => array(
+                                                   'endpoint' => 'https://api.crypto.com/v2/public/get-ticker',
+                                                   'response_path' => 'result>data', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'gateio' => array(
+                                                   'endpoint' => 'https://api.gateio.ws/api/v4/spot/tickers',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'gemini' => array(
+                                                   'endpoint' => 'https://api.gemini.com/v1/pubticker/[MARKET]',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'graviex' => array(
+                                                   'endpoint' => 'https://graviex.net//api/v2/tickers.json',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'hitbtc' => array(
+                                                   'endpoint' => 'https://api.hitbtc.com/api/2/public/ticker',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'huobi' => array(
+                                                   'endpoint' => 'https://api.huobi.pro/market/tickers',
+                                                   'response_path' => 'data', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'idex' => array(
+                                                   'endpoint' => 'https://api.idex.market/returnTicker',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'jupiter_ag' => array(
+                                                   'endpoint' => 'https://price.jup.ag/v4/price?ids=[JUP_AG_PAIRS]&vsToken=[JUP_AG_SEL_PAIR]',
+                                                   'response_path' => 'data', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'korbit' => array(
+                                                   'endpoint' => 'https://api.korbit.co.kr/v1/ticker/detailed/all',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'kraken' => array(
+                                                   'endpoint' => 'https://api.kraken.com/0/public/Ticker?pair=[KRAKEN_PAIRS]',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'kucoin' => array(
+                                                   'endpoint' => 'https://api.kucoin.com/api/v1/market/allTickers',
+                                                   'response_path' => 'data>ticker', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'liquid' => array(
+                                                   'endpoint' => 'https://api.liquid.com/products',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'loopring' => array(
+                                                   'endpoint' => 'https://api3.loopring.io/api/v3/allTickers',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'luno' => array(
+                                                   'endpoint' => 'https://api.mybitx.com/api/1/tickers',
+                                                   'response_path' => 'tickers', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'okcoin' => array(
+                                                   'endpoint' => 'https://www.okcoin.com/api/v5/market/tickers?instType=SPOT',
+                                                   'response_path' => 'data', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'okex' => array(
+                                                   'endpoint' => 'https://www.okx.com/api/v5/market/tickers?instType=SPOT',
+                                                   'response_path' => 'data', // Delimit multiple depths with >
+                                                  ),
+
+
+                           'poloniex' => array(
+                                                   'endpoint' => 'https://api.poloniex.com/markets/ticker24h',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'southxchange' => array(
+                                                   'endpoint' => 'https://www.southxchange.com/api/prices',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'tradeogre' => array(
+                                                   'endpoint' => 'https://tradeogre.com/api/v1/markets',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'unocoin' => array(
+                                                   'endpoint' => 'https://api.unocoin.com/api/trades/in/all/all',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'upbit' => array(
+                                                   'endpoint' => 'https://api.upbit.com/v1/ticker?markets=[UPBIT_PAIRS]',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'wazirx' => array(
+                                                   'endpoint' => 'https://api.wazirx.com/api/v2/tickers',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+
+
+                           'zebpay' => array(
+                                                   'endpoint' => 'https://www.zebapi.com/pro/v1/market',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                  ),
+                                                  
+                                                  
+                           );
+   
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -231,6 +521,103 @@ var $ct_array = array();
       	           
    return $result;
      
+   }
+                           
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function exchange_api_data($selected_exchange, $market_id) {
+   
+   global $ct;
+   
+   
+      foreach ( $this->exchange_apis as $exchange_key => $exchange_api ) {
+      
+      $exchange_key = strtolower($exchange_key);
+      
+          
+          // AUTO-CHECK FOR PREFIX USAGE TOO: KEY_
+          if ( $exchange_key == $selected_exchange || stristr($selected_exchange, $exchange_key . '_') ) {
+          
+          // DEFAULTS               
+          $cache_time = $ct['conf']['power']['last_trade_cache_time'];
+          
+          $url = $exchange_api['endpoint'];
+          
+          
+          // When we are getting SPECIFIED markets (NOT all markets on the exchange)
+          $url = preg_replace("/\[MARKET\]/i", $market_id, $url);
+                   
+               
+               if ( $selected_exchange == 'alphavantage_stock' ) {
+                    
+               $cache_time = $ct['throttled_api_cache_time']['alphavantage.co'];
+                    
+               $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
+               
+               }
+               elseif ( $selected_exchange == 'kraken' ) {
+               $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $ct['kraken_pairs'], $url);
+               }
+               elseif ( $selected_exchange == 'upbit' ) {
+               $url = preg_replace("/\[UPBIT_PAIRS\]/i", $ct['upbit_pairs'], $url);
+               }
+               elseif ( $selected_exchange == 'jupiter_ag' ) {
+           
+               $jup_pairs = explode('/', $market_id);
+               
+               $url = preg_replace("/\[JUP_AG_PAIRS\]/i", $ct['jupiter_ag_pairs'][ $jup_pairs[1] ], $url);
+               
+               $url = preg_replace("/\[JUP_AG_SEL_PAIR\]/i", $jup_pairs[1], $url);
+
+               }
+          
+          
+          // API response data
+          $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+          
+          $data = json_decode($response, true);
+               
+               
+               // If our data set is in a subarray, dig down to SET IT AS THE BASE in $data
+               if ( is_array($data) && $exchange_api['response_path'] ) {
+                    
+               $response_path = explode('>', $exchange_api['response_path']);
+
+                    foreach( $response_path as $val ) {
+                    $data = $data[$val];
+                    }
+
+               }
+               
+               
+               if ( !is_array($data) ) {
+               
+               $ct['gen']->log(
+               		    'notify_error',
+               		    'NO DATA for market: "' . $market_id . '" @ ' . $exchange_key,
+               		    false,
+               		    'no_market_data_' . $exchange_key . $market_id
+               		    );
+               
+               return false;
+          
+               }
+               else {
+               return $data;
+               }
+               
+
+          // will assure leaving the foreach loop immediately
+          break;
+
+          }
+          
+      
+      }
+   
    }
    
    
@@ -810,18 +1197,16 @@ var $ct_array = array();
    function market($asset_symb, $sel_exchange, $mrkt_id, $pair=false) {
    
    global $ct;
+   
+   $sel_exchange = strtolower($sel_exchange);
+   
+   $data = $this->exchange_api_data($sel_exchange, $mrkt_id);
     
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
       
     
-      if ( strtolower($sel_exchange) == 'aevo' || stristr( strtolower($sel_exchange) , 'aevo_') ) {
-      
-      $url = 'https://api.aevo.xyz/instrument/' . $mrkt_id;
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-      
-      $data = json_decode($response, true);
+      if ( $sel_exchange == 'aevo' || stristr( $sel_exchange , 'aevo_') ) {
       
       $result = array(
                      'last_trade' => $data["mark_price"],
@@ -835,7 +1220,7 @@ var $ct_array = array();
      ////////////////////////////////////////////////////////////////////////////////////////////////
       
       
-      elseif ( strtolower($sel_exchange) == 'alphavantage_stock' ) {
+      elseif ( $sel_exchange == 'alphavantage_stock' ) {
    
    
           if ( trim($ct['conf']['ext_apis']['alphavantage_api_key']) == null ) {
@@ -850,20 +1235,9 @@ var $ct_array = array();
           return false;
           
           }
-      
-         
-      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $mrkt_id . '&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['throttled_api_cache_time']['alphavantage.co']);
-         
-      $data = json_decode($response, true);
-      
-      $data = $data["Global Quote"];
-       
-      
-	          if ( is_array($data) ) {
+          
 	      
-	            foreach ($data as $key => $val) {
+	     foreach ($data as $key => $val) {
 	              
 	              
 	              if ( $key == '05. price' && trim($val) != '' ) {
@@ -877,9 +1251,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	     }
       
       
       }
@@ -889,18 +1261,10 @@ var $ct_array = array();
       
     
     
-      elseif ( strtolower($sel_exchange) == 'binance' ) {
-         
-      $url = 'https://www.binance.com/api/v3/ticker/24hr';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-       
-      
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+      elseif ( $sel_exchange == 'binance' ) {
+           
+           
+	       foreach ($data as $key => $val) {
 	              
 	              
 	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
@@ -914,9 +1278,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -927,18 +1289,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'binance_us' ) {
-         
-      $url = 'https://api.binance.us/api/v3/ticker/24hr';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'binance_us' ) {
        
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              
 	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
@@ -952,9 +1306,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -965,13 +1317,7 @@ var $ct_array = array();
       
       
     
-      elseif ( strtolower($sel_exchange) == 'bit2c' ) {
-      
-      $url = 'https://bit2c.co.il/Exchanges/'.$mrkt_id.'/Ticker.json';
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-      
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'bit2c' ) {
       
       $result = array(
                      'last_trade' => $data["ll"],
@@ -987,18 +1333,10 @@ var $ct_array = array();
       
       
     
-      elseif ( strtolower($sel_exchange) == 'bitbns' ) {
+      elseif ( $sel_exchange == 'bitbns' ) {
          
-      $url = 'https://bitbns.com/order/getTickerWithVolume';
          
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              if ( $key == $mrkt_id ) {
 	               
@@ -1010,9 +1348,7 @@ var $ct_array = array();
 	     
 	              }
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1023,18 +1359,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'bitfinex' || strtolower($sel_exchange) == 'ethfinex' ) {
-         
-      $url = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'bitfinex' || $sel_exchange == 'ethfinex' ) {
       
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ( $data as $object ) {
+	       foreach ( $data as $object ) {
 	              
 	              if ( is_array($object) && $object[0] == $mrkt_id ) {
 	                      
@@ -1047,9 +1375,7 @@ var $ct_array = array();
 	               
 	              }
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1060,13 +1386,7 @@ var $ct_array = array();
       
       
     
-      elseif ( strtolower($sel_exchange) == 'bitforex' ) {
-      
-      $url = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $mrkt_id;
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-      
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'bitforex' ) {
       
       $result = array(
                      'last_trade' => $data["data"]["last"],
@@ -1082,13 +1402,7 @@ var $ct_array = array();
       
       
     
-      elseif ( strtolower($sel_exchange) == 'bitflyer' ) {
-      
-      $url = 'https://api.bitflyer.com/v1/getticker?product_code=' . $mrkt_id;
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-      
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'bitflyer' ) {
       
       $result = array(
                      'last_trade' => $data["ltp"],
@@ -1104,20 +1418,10 @@ var $ct_array = array();
       
       
     
-      elseif ( strtolower($sel_exchange) == 'bitmart' ) {
-         
-      $url = 'https://api-cloud.bitmart.com/spot/v1/ticker';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['data']['tickers'];
+      elseif ( $sel_exchange == 'bitmart' ) {
          
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
 	               
@@ -1129,9 +1433,7 @@ var $ct_array = array();
 	               
 	              }
 	          
-	            }
-	          
-	          }
+	       }
       
       }
      
@@ -1141,20 +1443,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'bitmex' || strtolower($sel_exchange) == 'bitmex_u20' || strtolower($sel_exchange) == 'bitmex_z20' ) {
+      elseif ( $sel_exchange == 'bitmex' || $sel_exchange == 'bitmex_u20' || $sel_exchange == 'bitmex_z20' ) {
       
-      // GET NEWEST DATA SETS (25 one hour buckets, SINCE WE #NEED# THE CURRENT PARTIAL DATA SET, 
-      // OTHERWISE WE DON'T GET THE LATEST TRADE VALUE AND CAN'T CALCULATE REAL-TIME VOLUME)
-      $url = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol='.$mrkt_id.'&reverse=true'; // Sort NEWEST first
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
        
-      
-	         if ( is_array($data) ) {
-	      
-	             foreach ($data as $key => $val) {
+	        foreach ($data as $key => $val) {
 	                
 			         // We only want the FIRST data set for trade value
 			         if ( !$last_trade && isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
@@ -1175,20 +1467,16 @@ var $ct_array = array();
 			                 
 			         }
 	              
-	             }
+	        }
 	          
 	          
-	          $result = array(
+	  $result = array(
 	                           'last_trade' => $last_trade,
 	                           // Average of 24 hours, since we are always between 23.5 and 24.5
 	                           // (least resource-intensive way to get close enough to actual 24 hour volume)
 	                           '24hr_asset_vol' => $ct['var']->num_to_str($asset_vol - $half_oldest_hour_asset_vol),
 	                           '24hr_pair_vol' =>  $ct['var']->num_to_str($pair_vol - $half_oldest_hour_pair_vol)
 	                    	   );
-	      
-	      
-	         }
-          
       
       }
      
@@ -1198,18 +1486,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'bitpanda' ) {
-         
-      $url = 'https://api.exchange.bitpanda.com/public/v1/market-ticker';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'bitpanda' ) {
        
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              if ( isset($val['instrument_code']) && $val['instrument_code'] == $mrkt_id ) {
 	               
@@ -1221,9 +1501,7 @@ var $ct_array = array();
 	     
 	              }
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1234,15 +1512,7 @@ var $ct_array = array();
       
       
     
-      elseif ( strtolower($sel_exchange) == 'bitso' ) {
-      
-      $url = 'https://api.bitso.com/v3/ticker/?book='.$mrkt_id;
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-      
-      $data = json_decode($response, true);
-      
-      $data = $data['payload'];
+      elseif ( $sel_exchange == 'bitso' ) {
       
       $result = array(
                      'last_trade' => $data["last"],
@@ -1258,13 +1528,7 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'bitstamp' ) {
-      
-      $url = 'https://www.bitstamp.net/api/v2/ticker/' . $mrkt_id;
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-        
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'bitstamp' ) {
         
       $result = array(
                      'last_trade' => number_format( $data['last'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
@@ -1280,13 +1544,7 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'btcmarkets' ) {
-      
-      $url = 'https://api.btcmarkets.net/market/'.$mrkt_id.'/tick';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'btcmarkets' ) {
     
       $result = array(
                      'last_trade' => $data['lastPrice'],
@@ -1302,20 +1560,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'btcturk' ) {
-         
-      $url = 'https://api.btcturk.com/api/v2/ticker';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['data'];
-         
+      elseif ( $sel_exchange == 'btcturk' ) {
+           
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              if ( isset($val['pair']) && $val['pair'] == $mrkt_id ) {
 	               
@@ -1327,9 +1575,7 @@ var $ct_array = array();
 	               
 	              }
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1340,20 +1586,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'buyucoin' ) {
-         
-      $url = 'https://api.buyucoin.com/ticker/v1.0/liveData';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['data'];
+      elseif ( $sel_exchange == 'buyucoin' ) {
          
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              if ( isset($val["marketName"]) && $val["marketName"] == $mrkt_id ) {
 	               
@@ -1365,9 +1601,7 @@ var $ct_array = array();
 	               
 	              }
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1378,20 +1612,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'bybit' ) {
-         
-      $url = 'https://api-testnet.bybit.com/v2/public/tickers';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['result'];
+      elseif ( $sel_exchange == 'bybit' ) {
          
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
 	                   
@@ -1408,9 +1632,7 @@ var $ct_array = array();
 	               
 	              }
 	          
-	            }
-	          
-	          }
+	      }
       
       
       }
@@ -1421,20 +1643,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'cex' ) {
-         
-      $url = 'https://cex.io/api/tickers/BTC/USD/USDT/EUR/GBP';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['data'];
+      elseif ( $sel_exchange == 'cex' ) {
          
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              
 	              if ( isset($val["pair"]) && $val["pair"] == $mrkt_id ) {
@@ -1448,9 +1660,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1461,13 +1671,7 @@ var $ct_array = array();
       
       
     
-      elseif ( strtolower($sel_exchange) == 'coinbase' ) {
-      
-      $url = 'https://api.pro.coinbase.com/products/'.$mrkt_id.'/ticker';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'coinbase' ) {
     
       $result = array(
                      'last_trade' => $data['price'],
@@ -1484,18 +1688,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'coindcx' ) {
-         
-      $url = 'https://public.coindcx.com/exchange/ticker';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'coindcx' ) {
          
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              
 	              if ( isset($val["market"]) && $val["market"] == $mrkt_id ) {
@@ -1509,9 +1705,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1522,20 +1716,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'coinex' ) {
-         
-      $url = 'https://api.coinex.com/v1/market/ticker/all';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['data']['ticker'];
-         
+      elseif ( $sel_exchange == 'coinex' ) {
       
-	          if ( is_array($data) ) {
 	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              
 	              if ( $key == $mrkt_id ) {
@@ -1549,9 +1733,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1562,20 +1744,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'coinspot' ) {
-         
-      $url = 'https://www.coinspot.com.au/pubapi/latest';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['prices'];
+      elseif ( $sel_exchange == 'coinspot' ) {
          
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	      foreach ($data as $key => $val) {
 	              
 	              
 	              if ( $key == $mrkt_id ) {
@@ -1589,9 +1761,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1602,20 +1772,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'crypto.com' ) {
-         
-      $url = 'https://api.crypto.com/v2/public/get-ticker';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['result']['data'];
+      elseif ( $sel_exchange == 'crypto.com' ) {
          
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              
 	              if ( isset($val['i']) && $val['i'] == $mrkt_id ) {
@@ -1629,9 +1789,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -1642,18 +1800,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'gateio' ) {
-    
-      $url = 'https://api.gateio.ws/api/v4/spot/tickers';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'gateio' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val["currency_pair"]) && $val["currency_pair"] == $mrkt_id ) {
                
@@ -1665,9 +1815,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -1678,13 +1826,7 @@ var $ct_array = array();
       
     
     
-      elseif ( strtolower($sel_exchange) == 'gemini' ) {
-      
-      $url = 'https://api.gemini.com/v1/pubticker/' . $mrkt_id;
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-        
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'gemini' ) {
         
       $result = array(
                      'last_trade' => $data['last'],
@@ -1701,18 +1843,10 @@ var $ct_array = array();
       
       
       
-      elseif ( strtolower($sel_exchange) == 'graviex' ) {
-    
-      $url = 'https://graviex.net//api/v2/tickers.json';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'graviex' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $unused) {
+         foreach ($data as $unused) {
               
               if ( isset($data[$mrkt_id]) && $data[$mrkt_id] != '' ) {
                
@@ -1724,9 +1858,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -1737,18 +1869,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'hitbtc' ) {
-    
-      $url = 'https://api.hitbtc.com/api/2/public/ticker';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'hitbtc' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
                
@@ -1760,9 +1884,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -1773,20 +1895,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'huobi' ) {
-         
-      $url = 'https://api.huobi.pro/market/tickers';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['data'];
+      elseif ( $sel_exchange == 'huobi' ) {
          
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
                
@@ -1798,9 +1910,7 @@ var $ct_array = array();
      
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -1812,18 +1922,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'idex' ) {
-         
-     	$url = 'https://api.idex.market/returnTicker';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'idex' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( $key == $mrkt_id ) {
                
@@ -1836,9 +1938,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -1849,36 +1949,25 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'jupiter_ag' ) {
-           
+      elseif ( $sel_exchange == 'jupiter_ag' ) {
+      
       $jup_pairs = explode('/', $mrkt_id);
       
-      $url = 'https://price.jup.ag/v4/price?ids=' . $ct['jupiter_ag_pairs'][ $jup_pairs[1] ] . '&vsToken=' . $jup_pairs[1];
       
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-        
-      $data = json_decode($response, true);
-      
-      $data = $data['data'];
-      
-      
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( $key == $jup_pairs[0] ) {
                
               $result = array(
                               'last_trade' => number_format( $data[$key]['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
-                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
                               '24hr_pair_vol' => null // Unavailable, set null
                     	      );
                
               }
           
-            }
-          
-          }
+         }
+        
         
       }
      
@@ -1889,18 +1978,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'korbit' ) {
-         
-      $url = 'https://api.korbit.co.kr/v1/ticker/detailed/all';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'korbit' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( $key == $mrkt_id ) {
                
@@ -1912,9 +1993,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -1925,20 +2004,12 @@ var $ct_array = array();
       
     
     
-      elseif ( strtolower($sel_exchange) == 'kraken' ) {
-       
-      $url = 'https://api.kraken.com/0/public/Ticker?pair=' . $ct['kraken_pairs'];
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-      
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'kraken' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
-              if ( $key == 'result' ) {
+            if ( $key == 'result' ) {
               
                foreach ($val as $key2 => $unused) {
                  
@@ -1954,11 +2025,9 @@ var $ct_array = array();
              
                }
             
-              }
-          
             }
           
-          }
+         }
       
       
       }
@@ -1969,20 +2038,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'kucoin' ) {
-    
-      $url = 'https://api.kucoin.com/api/v1/market/allTickers';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-      
-      $data = $data['data']['ticker'];
+      elseif ( $sel_exchange == 'kucoin' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val["symbol"]) && $val['symbol'] == $mrkt_id ) {
                
@@ -1994,9 +2053,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2007,18 +2064,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'liquid' ) {
-         
-      $url = 'https://api.liquid.com/products';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'liquid' ) {
          
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val["currency_pair_code"]) && $val["currency_pair_code"] == $mrkt_id ) {
                
@@ -2030,9 +2079,7 @@ var $ct_array = array();
      
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2044,13 +2091,7 @@ var $ct_array = array();
     
      // https://github.com/Loopring/protocols/wiki/Loopring-Exchange-Data-API
      
-      elseif ( strtolower($sel_exchange) == 'loopring' || strtolower($sel_exchange) == 'loopring_amm' ) {
-         
-      $url = 'https://api3.loopring.io/api/v3/allTickers';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'loopring' || $sel_exchange == 'loopring_amm' ) {
          
          
 	     if ( substr($mrkt_id, 0, 4) == "AMM-" ) {
@@ -2061,9 +2102,7 @@ var $ct_array = array();
 	     }
 	             
 	      
-	     if ( is_array($data) ) {
-	      
-	         foreach ($data as $key => $val) {
+	     foreach ($data as $key => $val) {
 	             
 	              if ( $key == $mrkt_id ) {
 	               
@@ -2075,8 +2114,6 @@ var $ct_array = array();
 	     
 	              }
 	          
-	         }
-	          
 	     }
       
       
@@ -2088,20 +2125,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'luno' ) {
-         
-      $url = 'https://api.mybitx.com/api/1/tickers';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['tickers'];
+      elseif ( $sel_exchange == 'luno' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val["pair"]) && $val["pair"] == $mrkt_id ) {
                
@@ -2113,9 +2140,7 @@ var $ct_array = array();
      
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2126,20 +2151,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'okcoin' ) {
-      
-      $url = 'https://www.okcoin.com/api/v5/market/tickers?instType=SPOT';
-        
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-        
-      $data = json_decode($response, true);
-      
-      $data = $data['data'];
+      elseif ( $sel_exchange == 'okcoin' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
              
               
               if ( isset($val['instId']) && $val['instId'] == $mrkt_id ) {
@@ -2153,9 +2168,7 @@ var $ct_array = array();
               }
             
           
-            }
-          
-          }
+         }
       
         
       }
@@ -2166,20 +2179,10 @@ var $ct_array = array();
       
     
     
-      elseif ( strtolower($sel_exchange) == 'okex' ) {
-      
-      $url = 'https://www.okx.com/api/v5/market/tickers?instType=SPOT';
-      
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-        
-      $data = json_decode($response, true);
-      
-      $data = $data['data'];
+      elseif ( $sel_exchange == 'okex' ) {
        
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val['instId']) && $val['instId'] == $mrkt_id ) {
                
@@ -2191,9 +2194,7 @@ var $ct_array = array();
      
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2204,18 +2205,10 @@ var $ct_array = array();
       
     
     
-      elseif ( strtolower($sel_exchange) == 'poloniex' ) {
-    
-      $url = 'https://api.poloniex.com/markets/ticker24h';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'poloniex' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $val) {
+         foreach ($data as $val) {
                  
             //var_dump($val);
               
@@ -2230,9 +2223,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2243,18 +2234,10 @@ var $ct_array = array();
       
     
     
-      elseif ( strtolower($sel_exchange) == 'southxchange' ) {
-    
-      $url = 'https://www.southxchange.com/api/prices';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'southxchange' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val["Market"]) && $val["Market"] == $mrkt_id ) {
                
@@ -2266,9 +2249,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2279,18 +2260,10 @@ var $ct_array = array();
       
       
       
-      elseif ( strtolower($sel_exchange) == 'tradeogre' ) {
-    
-      $url = 'https://tradeogre.com/api/v1/markets';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'tradeogre' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val[$mrkt_id]) && $val[$mrkt_id] != '' ) {
                
@@ -2302,9 +2275,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2315,18 +2286,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'unocoin' ) {
-         
-      $url = 'https://api.unocoin.com/api/trades/in/all/all';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'unocoin' ) {
          
       
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
+	       foreach ($data as $key => $val) {
 	              
 	              
 	              if ( $key == $mrkt_id ) {
@@ -2340,9 +2303,7 @@ var $ct_array = array();
 	              }
 	            
 	          
-	            }
-	          
-	          }
+	       }
       
       
       }
@@ -2353,18 +2314,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'upbit' ) {
-    
-      $url = 'https://api.upbit.com/v1/ticker?markets=' . $ct['upbit_pairs'];
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'upbit' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ( $data as $key => $val ) {
+         foreach ( $data as $key => $val ) {
               
               if ( isset($val["market"]) && $val["market"] == $mrkt_id ) {
                
@@ -2376,9 +2329,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2389,18 +2340,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'wazirx' ) {
-    
-      $url = 'https://api.wazirx.com/api/v2/tickers';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'wazirx' ) {
       
       
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( $key == $mrkt_id ) {
                
@@ -2412,9 +2355,7 @@ var $ct_array = array();
                
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2425,17 +2366,10 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'zebpay' ) {
-    
-      $url = 'https://www.zebapi.com/pro/v1/market';
-         
-      $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
+      elseif ( $sel_exchange == 'zebpay' ) {
       
-          if ( is_array($data) ) {
       
-            foreach ($data as $key => $val) {
+         foreach ($data as $key => $val) {
               
               if ( isset($val['pair']) && $val['pair'] == $mrkt_id ) {
                   
@@ -2455,9 +2389,7 @@ var $ct_array = array();
                   
               }
           
-            }
-          
-          }
+         }
       
       
       }
@@ -2468,7 +2400,7 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'misc_assets' || strtolower($sel_exchange) == 'alt_nfts' ) {
+      elseif ( $sel_exchange == 'misc_assets' || $sel_exchange == 'alt_nfts' ) {
       
           
          // BTC value of 1 unit of the default primary currency
@@ -2527,7 +2459,7 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'btc_nfts' ) {
+      elseif ( $sel_exchange == 'btc_nfts' ) {
       
       // BTC value of 1 unit of BTC
       $currency_to_btc = 1;	
@@ -2579,7 +2511,7 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'eth_nfts' ) {
+      elseif ( $sel_exchange == 'eth_nfts' ) {
       
       // BTC value of 1 unit of ETH
       $currency_to_btc = $ct['asset']->pair_btc_val('eth');	
@@ -2631,7 +2563,7 @@ var $ct_array = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'sol_nfts' ) {
+      elseif ( $sel_exchange == 'sol_nfts' ) {
       
       // BTC value of 1 unit of SOL
       $currency_to_btc = $ct['asset']->pair_btc_val('sol');	
@@ -2683,11 +2615,11 @@ var $ct_array = array();
     
     
     
-      elseif ( stristr( strtolower($sel_exchange) , 'coingecko_') ) {
+      elseif ( stristr( $sel_exchange , 'coingecko_') ) {
            
            // Coingecko terminal
            // https://www.geckoterminal.com/dex-api
-           if ( stristr( strtolower($sel_exchange) , '_terminal') ) {
+           if ( stristr( $sel_exchange , '_terminal') ) {
                 
            $id_parse = array_map( "trim", explode("||", $mrkt_id) );
            
@@ -2733,7 +2665,7 @@ var $ct_array = array();
               
            $data = $data[$mrkt_id];
      
-           $paired_with = explode('_', strtolower($sel_exchange) );
+           $paired_with = explode('_', $sel_exchange );
            $paired_with = $paired_with[1];
      
      	        // Use data from coingecko, if API ID / base currency exists
@@ -2758,7 +2690,7 @@ var $ct_array = array();
      ////////////////////////////////////////////////////////////////////////////////////////////////
     
     
-      if ( strtolower($sel_exchange) != 'misc_assets' && strtolower($sel_exchange) != 'btc_nfts' && strtolower($sel_exchange) != 'eth_nfts' && strtolower($sel_exchange) != 'sol_nfts' && strtolower($sel_exchange) != 'alt_nfts' ) {
+      if ( $sel_exchange != 'misc_assets' && $sel_exchange != 'btc_nfts' && $sel_exchange != 'eth_nfts' && $sel_exchange != 'sol_nfts' && $sel_exchange != 'alt_nfts' ) {
         
       // Better large / small number support
       $result['last_trade'] = $ct['var']->num_to_str($result['last_trade']);
