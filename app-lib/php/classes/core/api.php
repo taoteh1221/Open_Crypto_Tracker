@@ -1658,9 +1658,12 @@ var $exchange_apis = array(
     
     
       elseif ( $sel_exchange == 'bybit' ) {
+      
+      // If FLAGGED AS A '1000XXXXX' BYBIT MARKET ID, DIVIDE BY 1000
+      $last_trade = ( stristr($mrkt_id, '1000') == true ? ($data["last_price"] / 1000) : $data["last_price"] );
              
-	 $result = array(             // If FLAGGED AS A '1000XXXXX' BYBIT MARKET ID, DIVIDE BY 1000
-	                              'last_trade' => ( stristr($mrkt_id, '1000') == true ? ($data["last_price"] / 1000) : $data["last_price"] ),
+	 $result = array(             
+	                              'last_trade' => number_format( $last_trade, $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
 	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
 	                              '24hr_pair_vol' => $data["volume_24h"] 
 	                     		  );
