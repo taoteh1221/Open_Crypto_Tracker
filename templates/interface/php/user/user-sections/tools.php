@@ -140,6 +140,8 @@
         			<!-- alternate if any issues occur: https://dgi.io/ots/#ots_stampverify -->
         
         			<li class='links_list'><a href='https://calendar.google.com/' target='_blank'>Google Calendar to Send Yourself Reminders For Important Crypto Times</a> ;-)</li>
+        
+        			<li class='links_list'><a href='http://www.hbr1.com/' target='_blank'>Get *In The Zone* While Writing Computer Code, With HBR1 Radio</a> ;-)</li>
 				
 				
     			</ul>

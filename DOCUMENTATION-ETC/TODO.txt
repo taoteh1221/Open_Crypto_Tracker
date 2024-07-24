@@ -113,6 +113,9 @@ Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
 Keep github price chart bootstrap download updated weekly at the least.
 
 
+If you need MORE debug backtracing in any error / debug logging, use the fairly polished backtrace logging in: $ct['var']->num_to_str()
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 API INTEGRATION
@@ -181,10 +184,64 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Make sure our new admin input validation on domains works on Windows Desktop Edition.
+BLACKHAT NOTES: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add to news feeds: https://devclass.com/feed/
+
+
+Run full market unit tests, since we heavily refactored the exchange APIs logic
+
+
+'Show per page' on access stats page has a 'current' class added dynamically, so we can style it like we did for the page number.
+
+
+Add a drop-down menu on the access stats page, to switch between listing visits as 'per ip address' (which we have already) OR 'per visit time' (combining all visits into one list, based of visit timestamp).
+
+
+For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp. Convert the user agent info to show using info balloons as well (instead of in a title tag), BUT make sure it still renders safe by escaping HTML characters. Also, convert the access stats data retrieval to AJAX, using roughly the same logic we use for news feeds. Then we have 'shock absorbers ' for when it's loaded in the user area admin quick links.
+
+
+'access stats' only allows 'zebra' striped data rows to be enabled in the ADMIN AREA iframe version, so our custom CSS logic is screwed up when rendered in the USER AREA 'system monitoring' links version, to the point we have to disable the onload / initial table sorting for that area (so it's only enabled when 'is_iframe' is set, in functions.js). Find out why, and fix it.
+
+
+Get a border around the outside of the access stats tables, and any other table CSS tidying up noticed.
+
+
+For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
+https://www.alphavantage.co/query?function=OVERVIEW&symbol=TICKER_HERE&apikey=API_KEY_HERE
+
+There are also endpoints available for income statement / balance sheet / cash flow / earnings / etc here:
+https://www.alphavantage.co/documentation/#fundamentals
+
+Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
+
+
+HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
+
+
+Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
+
+
+Add new plugin standard config 'ui_display_mode':
+
+$plug['conf'][$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
+
+Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
+
+Defaults to 'inline' if not set.
+
+
+Add new plugin standard config 'admin_page_width':
+
+$plug['conf'][$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
+
+'full' makes the plugin's admin page full width (like we do for app logs / system stats admin pages already).
+
+Defaults to 'standard' if not set.
+
+
+Document the ABOVE new plugin settings, and fully test before public release.
 
 
 Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
@@ -193,19 +250,13 @@ Add setting upper / lower case auto-correction for the portfolio assets array ke
 Add the ability to allow a BLANK single array item admin user input for domains arrays IN THE INTERFACE (strict servers, etc), in the corrisponding admin user input validation files in: /app-lib/php/classes/includes/admin/. Use the same logic we already do this for in other admin input arrays. TEST ALL THESE OUT BY DELETING ALL ITEMS VIA INTERFACE, INCLUDING ALL THE OTHER ONES WE ALREADY SETUP.
 
 
-For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp. Convert the user agent info to show using info balloons as well (instead of in a title tag), BUT make sure it still renders safe by escaping HTML characters. Also, convert the access stats data retrieval to AJAX, using roughly the same logic we use for news feeds. Then we have 'shock absorbers ' for when it's loaded in the user area admin quick links.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Add a drop-down or radio buttons above the "access stats" data, with another option to "view all IP addresses combined" (in one data table instead of their own). Still keep the per-ip option we have now, but add this as an additional option too.
+Create logic in $ct['api']->exchange_api_data() for it's NEW $search_only PARAMETER, so we can scan for a ticker symbol in all exchange APIs, when adding a NEW asset via the admin 'postfolio assets' INTERFACE.
 
 
 Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' PAGE (AND WHEREVER IT'S CALLED BY THAT ID IN THE APP), as it now also handles charts / news feeds / etc.
-
-
-'access stats' only allows 'zebra' striped data rows to be enabled in the ADMIN AREA iframe version, so our custom CSS logic is screwed up when rendered in the USER AREA 'system monitoring' links version, to the point we have to disable the onload / initial table sorting for that area (so it's only enabled when 'is_iframe' is set, in functions.js). Find out why, and fix it.
-
-
-Get a border around the outside of the access stats tables, and any other table CSS tidying up noticed.
 
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
@@ -233,15 +284,6 @@ Make sure everything STILL runs smoothly with the charts page turned off.
 
 
 Review / fully test all the different SUBARRAY logic for the cached config upgrade mechanism (string-keyed / auto-indexed, etc)
-
-
-For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
-https://www.alphavantage.co/query?function=OVERVIEW&symbol=TICKER_HERE&apikey=API_KEY_HERE
-
-There are also endpoints available for income statement / balance sheet / cash flow / earnings / etc here:
-https://www.alphavantage.co/documentation/#fundamentals
-
-Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
 
 
 Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
@@ -290,30 +332,6 @@ Change the last option in the ext_data() function to a human-readable value, to 
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
-
-
-Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
-
-
-Add new plugin standard config 'ui_display_mode':
-
-$plug['conf'][$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
-
-Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
-
-Defaults to 'inline' if not set.
-
-
-Add new plugin standard config 'admin_page_width':
-
-$plug['conf'][$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
-
-'full' makes the plugin's admin page full width (like we do for app logs / system stats admin pages already).
-
-Defaults to 'standard' if not set.
-
-
-Document the ABOVE new plugin settings, and fully test before public release.
 
 
 Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.
@@ -475,9 +493,6 @@ Add Google or Microsoft translate API as options to translate the english defaul
 
 
 For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call (instead of using cached data), and also save the new hash digest of the current English text as well.
-
-
-HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
 
 
 For config RESETS, a user should be able to choose whether to: add only new OPTIONAL (demo) vars, delete only removed OPTIONAL (demo) vars, or reset their current data set with AN EXACT COPY of the latest default OPTIONAL (demo) values. WE CAN DO THIS BY DYNAMICALLY ADDING / REMOVING CATEGORY KEYS IN $ct['dev']['config_allow_resets'] / $ct['dev']['config_deny_additions'] / $ct['dev']['config_deny_removals'] (in developer-config.php). Below the config reset button, have an expandable tree list with a DROP-DOWN MENU next to each entry (including an 'all' field at the top), for each config subarray key name, including the plug_conf section. Then users can decide which sections to reset, and which to leave alone.

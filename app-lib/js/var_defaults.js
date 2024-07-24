@@ -116,6 +116,8 @@ var safari_notice_storage;
 
 var desktop_windows_notice_storage;
 
+var donations_notice_storage;
+
 var refresh_cache_upgrade_notice_storage;
 
 var scroll_position_storage;
