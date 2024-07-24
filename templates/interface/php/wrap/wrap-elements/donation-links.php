@@ -1,12 +1,11 @@
 
-    <p class='align_center'><a title='Click to show / hide more information.' href='javascript: show_more("donate");'>Please Show Your Appreciation For My Apps</a></p>
     
-            	<div style='display: none; margin: 3em;' id='donate' class='align_center'>
+            	<div style='display: none; margin: 3em; margin-top: 1em;' id='donate' class='align_center'>
     
                <h4>Please show your appreciation for my crypto apps, IF you enjoy using them. Buying me a coffee / beer means WAY MORE to me than large donations. It's about letting me know you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :) All crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...  </h4>
             	
             
-            	<div style='padding: 15px; min-width: 100px;'>(p̶̬͑ḧ̴͓i̶͖͆s̴̼͒h̸͇̾i̸̝̒n̷̟͂g̴̖͌ ̶̨͑m̵̝̚é̴͎ ̶̦̋w̸̫̍i̴̜͗l̷͇̊ḽ̷͌ ̷̛͙N̸̦̒Ȯ̴͜Ť̸̜ ̵̣͠w̶͙̾o̶̫̎ŕ̷͇k̵̹̆ ̵̑ͅf̷̈́ͅő̶̯ȓ̷͓ ̸͚̐y̵͈͆ö̷͎ũ̸̘)</div>
+            	<div style='padding: 15px; min-width: 100px;'>BLACKHAT NOTES: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓</div>
             	
             	<span class='bitcoin' style='font-weight: bold;'>Open Crypto Tracker <i>WILL ALWAYS REMAIN 100% FREE / OPEN SOURCE SOFTWARE</i> (<a href='https://en.wikipedia.org/wiki/Free_and_open-source_software' target='_blank'>FOSS</a>),<br />so please let me know you appreciate my time spent, and buy me a coffee or beer! :)</span>
             	

@@ -6,304 +6,358 @@
 
 class ct_api {
 	
+	
 // Class variables / arrays
 var $ct_var1;
 var $ct_var2;
 var $ct_var3;
 
-// We need an architecture that 'registers' each exchange API in the app,
-// for scanning ALL exchanges for a ticker when ADDING A NEW COIN VIA ADMIN INTERFACING
+
+// We need an architecture that 'registers' each exchange API's specs / params in the app,
+// for scanning ALL exchanges for a specific NEW ticker, when ADDING A NEW COIN VIA ADMIN INTERFACING
 var $exchange_apis = array(
 
 
                            'aevo' => array(
                                                    'endpoint' => 'https://api.aevo.xyz/instrument/[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'alphavantage_stock' => array(
                                                    'endpoint' => 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=[MARKET]&apikey=[ALPHAVANTAGE_KEY]',
                                                    'response_path' => 'Global Quote', // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'binance' => array(
                                                    'endpoint' => 'https://www.binance.com/api/v3/ticker/24hr',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'binance_us' => array(
                                                    'endpoint' => 'https://api.binance.us/api/v3/ticker/24hr',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bit2c' => array(
                                                    'endpoint' => 'https://bit2c.co.il/Exchanges/[MARKET]/Ticker.json',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bitbns' => array(
                                                    'endpoint' => 'https://bitbns.com/order/getTickerWithVolume',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bitfinex' => array(
                                                    'endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => '0', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'ethfinex' => array(
                                                    'endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => '0', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bitforex' => array(
                                                    'endpoint' => 'https://api.bitforex.com/api/v1/market/ticker?symbol=[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bitflyer' => array(
                                                    'endpoint' => 'https://api.bitflyer.com/v1/getticker?product_code=[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bitmart' => array(
                                                    'endpoint' => 'https://api-cloud.bitmart.com/spot/v1/ticker',
                                                    'response_path' => 'data>tickers', // Delimit multiple depths with >
+                                                   'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            // GET NEWEST DATA SETS (25 one hour buckets, SINCE WE #NEED# THE CURRENT PARTIAL DATA SET, 
                            // OTHERWISE WE DON'T GET THE LATEST TRADE VALUE AND CAN'T CALCULATE REAL-TIME VOLUME)
-                           // Sort NEWEST first
+                           // Sort NEWEST first, 'multiple_results' MUST BE FALSE,
+                           // (as we need to CUSTOM parse 25 different 1-hour data sets, AFTER generic data retrieval)
                            'bitmex' => array(
                                                    'endpoint' => 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol=[MARKET]&reverse=true',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bitpanda' => array(
                                                    'endpoint' => 'https://api.exchange.bitpanda.com/public/v1/market-ticker',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'instrument_code', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bitso' => array(
                                                    'endpoint' => 'https://api.bitso.com/v3/ticker/?book=[MARKET]',
                                                    'response_path' => 'payload', // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bitstamp' => array(
                                                    'endpoint' => 'https://www.bitstamp.net/api/v2/ticker/[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'btcmarkets' => array(
                                                    'endpoint' => 'https://api.btcmarkets.net/market/[MARKET]/tick',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'btcturk' => array(
                                                    'endpoint' => 'https://api.btcturk.com/api/v2/ticker',
                                                    'response_path' => 'data', // Delimit multiple depths with >
+                                                   'multiple_results' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'buyucoin' => array(
                                                    'endpoint' => 'https://api.buyucoin.com/ticker/v1.0/liveData',
                                                    'response_path' => 'data', // Delimit multiple depths with >
+                                                   'multiple_results' => 'marketName', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'bybit' => array(
                                                    'endpoint' => 'https://api-testnet.bybit.com/v2/public/tickers',
                                                    'response_path' => 'result', // Delimit multiple depths with >
+                                                   'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'cex' => array(
                                                    'endpoint' => 'https://cex.io/api/tickers/BTC/USD/USDT/EUR/GBP',
                                                    'response_path' => 'data', // Delimit multiple depths with >
+                                                   'multiple_results' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'coinbase' => array(
                                                    'endpoint' => 'https://api.pro.coinbase.com/products/[MARKET]/ticker',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'coindcx' => array(
                                                    'endpoint' => 'https://public.coindcx.com/exchange/ticker',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'market', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'coinex' => array(
                                                    'endpoint' => 'https://api.coinex.com/v1/market/ticker/all',
                                                    'response_path' => 'data>ticker', // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'coinspot' => array(
                                                    'endpoint' => 'https://www.coinspot.com.au/pubapi/latest',
                                                    'response_path' => 'prices', // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'crypto.com' => array(
                                                    'endpoint' => 'https://api.crypto.com/v2/public/get-ticker',
                                                    'response_path' => 'result>data', // Delimit multiple depths with >
+                                                   'multiple_results' => 'i', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'gateio' => array(
                                                    'endpoint' => 'https://api.gateio.ws/api/v4/spot/tickers',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'currency_pair', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'gemini' => array(
                                                    'endpoint' => 'https://api.gemini.com/v1/pubticker/[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'graviex' => array(
                                                    'endpoint' => 'https://graviex.net//api/v2/tickers.json',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'hitbtc' => array(
                                                    'endpoint' => 'https://api.hitbtc.com/api/2/public/ticker',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'huobi' => array(
                                                    'endpoint' => 'https://api.huobi.pro/market/tickers',
                                                    'response_path' => 'data', // Delimit multiple depths with >
+                                                   'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'idex' => array(
                                                    'endpoint' => 'https://api.idex.market/returnTicker',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
-
+                           
+                           // 'multiple_results' MUST BE FALSE, as we have to CUSTOM parse through pairings etc
                            'jupiter_ag' => array(
                                                    'endpoint' => 'https://price.jup.ag/v4/price?ids=[JUP_AG_PAIRS]&vsToken=[JUP_AG_SEL_PAIR]',
                                                    'response_path' => 'data', // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'korbit' => array(
                                                    'endpoint' => 'https://api.korbit.co.kr/v1/ticker/detailed/all',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
-
+                           
+                           // 'multiple_results' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
                            'kraken' => array(
                                                    'endpoint' => 'https://api.kraken.com/0/public/Ticker?pair=[KRAKEN_PAIRS]',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'kucoin' => array(
                                                    'endpoint' => 'https://api.kucoin.com/api/v1/market/allTickers',
                                                    'response_path' => 'data>ticker', // Delimit multiple depths with >
+                                                   'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'liquid' => array(
                                                    'endpoint' => 'https://api.liquid.com/products',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'currency_pair_code', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
+                           // 'response_path' MUST BE FALSE, as it varies dynamically (we set it dynamically later on in logic)
                            'loopring' => array(
                                                    'endpoint' => 'https://api3.loopring.io/api/v3/allTickers',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'luno' => array(
                                                    'endpoint' => 'https://api.mybitx.com/api/1/tickers',
                                                    'response_path' => 'tickers', // Delimit multiple depths with >
+                                                   'multiple_results' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'okcoin' => array(
                                                    'endpoint' => 'https://www.okcoin.com/api/v5/market/tickers?instType=SPOT',
                                                    'response_path' => 'data', // Delimit multiple depths with >
+                                                   'multiple_results' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'okex' => array(
                                                    'endpoint' => 'https://www.okx.com/api/v5/market/tickers?instType=SPOT',
                                                    'response_path' => 'data', // Delimit multiple depths with >
+                                                   'multiple_results' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'poloniex' => array(
                                                    'endpoint' => 'https://api.poloniex.com/markets/ticker24h',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'southxchange' => array(
                                                    'endpoint' => 'https://www.southxchange.com/api/prices',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'Market', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
+                           // 'multiple_results' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
                            'tradeogre' => array(
                                                    'endpoint' => 'https://tradeogre.com/api/v1/markets',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'unocoin' => array(
                                                    'endpoint' => 'https://api.unocoin.com/api/trades/in/all/all',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'upbit' => array(
                                                    'endpoint' => 'https://api.upbit.com/v1/ticker?markets=[UPBIT_PAIRS]',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'market', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'wazirx' => array(
                                                    'endpoint' => 'https://api.wazirx.com/api/v2/tickers',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
                            'zebpay' => array(
                                                    'endpoint' => 'https://www.zebapi.com/pro/v1/market',
                                                    'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
                                                   
                                                   
                            );
    
-   
+
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
@@ -528,9 +582,13 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function exchange_api_data($selected_exchange, $market_id) {
+   function exchange_api_data($selected_exchange, $market_id, $search_only=false) {
    
    global $ct;
+   
+   $unsafe_prefixing = array(
+                              'binance', // Because 'binance_us' is a separate API
+                             );
    
    
       foreach ( $this->exchange_apis as $exchange_key => $exchange_api ) {
@@ -538,8 +596,11 @@ var $exchange_apis = array(
       $exchange_key = strtolower($exchange_key);
       
           
-          // AUTO-CHECK FOR PREFIX USAGE TOO: KEY_
-          if ( $exchange_key == $selected_exchange || stristr($selected_exchange, $exchange_key . '_') ) {
+          // AUTO-CHECK FOR PREFIX USAGE TOO (WHERE SAFE): KEY_
+          if (
+          $exchange_key == $selected_exchange
+          || !in_array($selected_exchange, $unsafe_prefixing) && stristr($selected_exchange, $exchange_key . '_')
+          ) {
           
           // DEFAULTS               
           $cache_time = $ct['conf']['power']['last_trade_cache_time'];
@@ -559,10 +620,14 @@ var $exchange_apis = array(
                
                }
                elseif ( $selected_exchange == 'kraken' ) {
+                    
                $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $ct['kraken_pairs'], $url);
+
                }
                elseif ( $selected_exchange == 'upbit' ) {
+
                $url = preg_replace("/\[UPBIT_PAIRS\]/i", $ct['upbit_pairs'], $url);
+
                }
                elseif ( $selected_exchange == 'jupiter_ag' ) {
            
@@ -572,6 +637,16 @@ var $exchange_apis = array(
                
                $url = preg_replace("/\[JUP_AG_SEL_PAIR\]/i", $jup_pairs[1], $url);
 
+               }
+               elseif ( stristr($selected_exchange, 'loopring') ) {
+               
+                    if ( substr($market_id, 0, 4) == "AMM-" ) {
+                    $exchange_api['response_path'] = 'pools';
+                    }
+                    else {
+                    $exchange_api['response_path'] = 'markets';
+                    }
+                    
                }
           
           
@@ -593,6 +668,72 @@ var $exchange_apis = array(
                }
                
                
+               // Optimize results
+               // $exchange_api['multiple_results'] can be these values: false|true|[associative key, including numbers]
+               if (
+               is_array($data) && $exchange_api['multiple_results']
+               || is_array($data) && is_bool($exchange_api['multiple_results']) !== true
+               ) {
+               
+                    
+                    // If a specific key name is always holding the market ID info as a value
+                    if ( is_bool($exchange_api['multiple_results']) !== true ) {
+                    
+               
+                         foreach ($data as $val) {
+                              
+                              
+                              if (
+                              isset($val[ $exchange_api['multiple_results'] ])
+                              && $val[ $exchange_api['multiple_results'] ] == $market_id
+                              ) {
+                                   
+                              
+                                   // Workaround for weird zebpay API bug, where they include a second array object
+                                   // with same 'multiple_results' (key name = 'pair') property, that's mostly a NULL data set
+                                   if ( $selected_exchange == 'zebpay' ) {
+                                        
+                                   $test_data = $val;
+                              
+                              
+                                        if ( isset($test_data["market"]) && $test_data["market"] > 0 ) {
+                                        
+                                        $data = $test_data;
+                                        
+                                        // will assure leaving the foreach loop immediately
+                                        break;
+                                        
+                                        }
+
+                                        
+                                   }
+                                   else {
+                                   
+                                   $data = $val;
+     
+                                   // will assure leaving the foreach loop immediately
+                                   break;
+                              
+                                   }
+
+
+                              }
+                              
+                         
+                         }
+                         
+                         
+                    }
+                    // If the top level (parent) key name IS THE MARKET ID ITSELF
+                    elseif ( isset($data[$market_id]) ) {
+                    $data = $data[$market_id];
+                    }
+
+               
+               }
+               
+               
+               // If no data
                if ( !is_array($data) ) {
                
                $ct['gen']->log(
@@ -1237,21 +1378,11 @@ var $exchange_apis = array(
           }
           
 	      
-	     foreach ($data as $key => $val) {
-	              
-	              
-	              if ( $key == '05. price' && trim($val) != '' ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val,
+	 $result = array(
+	                              'last_trade' => $data["05. price"],
 	                              '24hr_asset_vol' => null,
 	                              '24hr_pair_vol' => $data["06. volume"]
 	                     		    );
-	     
-	              }
-	            
-	          
-	     }
       
       
       }
@@ -1263,23 +1394,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'binance' ) {
            
-           
-	       foreach ($data as $key => $val) {
-	              
-	              
-	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["lastPrice"],
-	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pair_vol' => $val["quoteVolume"]
+      $result = array(
+	                              'last_trade' => $data["lastPrice"],
+	                              '24hr_asset_vol' => $data["volume"],
+	                              '24hr_pair_vol' => $data["quoteVolume"]
 	                     		    );
-	     
-	              }
-	            
-	          
-	       }
-      
       
       }
      
@@ -1291,23 +1410,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'binance_us' ) {
        
-      
-	       foreach ($data as $key => $val) {
-	              
-	              
-	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["lastPrice"],
-	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pair_vol' => $val["quoteVolume"]
+      $result = array(
+	                              'last_trade' => $data["lastPrice"],
+	                              '24hr_asset_vol' => $data["volume"],
+	                              '24hr_pair_vol' => $data["quoteVolume"]
 	                     			);
-	     
-	              }
-	            
-	          
-	       }
-      
       
       }
      
@@ -1335,21 +1442,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'bitbns' ) {
          
-         
-	       foreach ($data as $key => $val) {
-	              
-	              if ( $key == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last_traded_price"],
-	                              '24hr_asset_vol' => $val["volume"]["volume"],
+      $result = array(
+	                              'last_trade' => $data["last_traded_price"],
+	                              '24hr_asset_vol' => $data["volume"]["volume"],
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                    		  );
-	     
-	              }
-	          
-	       }
-      
       
       }
      
@@ -1361,22 +1458,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'bitfinex' || $sel_exchange == 'ethfinex' ) {
       
-      
-	       foreach ( $data as $object ) {
-	              
-	              if ( is_array($object) && $object[0] == $mrkt_id ) {
-	                      
-	               
-	              $result = array(
-	                              'last_trade' => $object[( sizeof($object) - 4 )],
-	                              '24hr_asset_vol' => $object[( sizeof($object) - 3 )],
+      $result = array(
+	                              'last_trade' => $data[( sizeof($data) - 4 )],
+	                              '24hr_asset_vol' => $data[( sizeof($data) - 3 )],
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
-	               
-	              }
-	          
-	       }
-      
       
       }
      
@@ -1420,20 +1506,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'bitmart' ) {
          
-      
-	       foreach ($data as $key => $val) {
-	              
-	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => $val["base_volume_24h"],
-	                              '24hr_pair_vol' => $val["quote_volume_24h"]
+      $result = array(
+	                              'last_trade' => $data["last_price"],
+	                              '24hr_asset_vol' => $data["base_volume_24h"],
+	                              '24hr_pair_vol' => $data["quote_volume_24h"]
 	                    		  );
-	               
-	              }
-	          
-	       }
       
       }
      
@@ -1446,24 +1523,22 @@ var $exchange_apis = array(
       elseif ( $sel_exchange == 'bitmex' || $sel_exchange == 'bitmex_u20' || $sel_exchange == 'bitmex_z20' ) {
       
        
-	        foreach ($data as $key => $val) {
+	        foreach ($data as $hourly_data) {
 	                
+			         
+			         if ( isset($hourly_data['symbol']) && $hourly_data['symbol'] == $mrkt_id ) {
+			              
 			         // We only want the FIRST data set for trade value
-			         if ( !$last_trade && isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
-			         $last_trade = $val['close'];
-			         $asset_vol = $val['homeNotional'];
-			         $pair_vol = $val['foreignNotional'];
-			         }
-			         elseif ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
-			                   
-			         $asset_vol = $ct['var']->num_to_str($asset_vol + $val['homeNotional']);
-			         $pair_vol = $ct['var']->num_to_str($pair_vol + $val['foreignNotional']);
+			         $last_trade = ( !$last_trade ? $hourly_data['close'] : $last_trade );
+
+			         $asset_vol = $ct['var']->num_to_str($asset_vol + $hourly_data['homeNotional']);
+			         $pair_vol = $ct['var']->num_to_str($pair_vol + $hourly_data['foreignNotional']);
 			                 
 			         // Average of 24 hours, since we are always between 23.5 and 24.5
-			         // (least resource-intensive way to get close enough to actual 24 hour volume)
-			         // Overwrites until it's the last values
-			         $half_oldest_hour_asset_vol = round($val['homeNotional'] / 2);
-			         $half_oldest_hour_pair_vol = round($val['foreignNotional'] / 2);
+			         // (least resource-intensive way to get close enough to actual 24 hour volume,
+			         // overwrites until it's the last values)
+			         $half_oldest_hour_asset_vol = round($hourly_data['homeNotional'] / 2);
+			         $half_oldest_hour_pair_vol = round($hourly_data['foreignNotional'] / 2);
 			                 
 			         }
 	              
@@ -1488,21 +1563,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'bitpanda' ) {
        
-      
-	       foreach ($data as $key => $val) {
-	              
-	              if ( isset($val['instrument_code']) && $val['instrument_code'] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => $val["base_volume"],
-	                              '24hr_pair_vol' => $val["quote_volume"]
+      $result = array(
+	                              'last_trade' => $data["last_price"],
+	                              '24hr_asset_vol' => $data["base_volume"],
+	                              '24hr_pair_vol' => $data["quote_volume"]
 	                     	       );
-	     
-	              }
-	          
-	       }
-      
       
       }
      
@@ -1562,21 +1627,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'btcturk' ) {
            
-      
-	       foreach ($data as $key => $val) {
-	              
-	              if ( isset($val['pair']) && $val['pair'] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => $val["volume"],
+      $result = array(
+	                              'last_trade' => $data["last"],
+	                              '24hr_asset_vol' => $data["volume"],
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                    		  );
-	               
-	              }
-	          
-	       }
-      
       
       }
      
@@ -1588,21 +1643,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'buyucoin' ) {
          
-      
-	       foreach ($data as $key => $val) {
-	              
-	              if ( isset($val["marketName"]) && $val["marketName"] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["LTRate"],
-	                              '24hr_asset_vol' => $val["v24"], 
-	                              '24hr_pair_vol' => $val["tp24"] 
+      $result = array(
+	                              'last_trade' => $data["LTRate"],
+	                              '24hr_asset_vol' => $data["v24"], 
+	                              '24hr_pair_vol' => $data["tp24"] 
 	                     		  );
-	               
-	              }
-	          
-	       }
-      
       
       }
      
@@ -1613,28 +1658,13 @@ var $exchange_apis = array(
     
     
       elseif ( $sel_exchange == 'bybit' ) {
-         
-      
-	       foreach ($data as $key => $val) {
-	              
-	              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
-	                   
-	                   // If FLAGGED AS A '1000XXXXX' BYBIT MARKET ID, DIVIDE BY 1000
-	                   if ( stristr($mrkt_id, '1000') == true ) {
-	                   $val["last_price"] = $val["last_price"] / 1000;
-	                   }
-	               
-	              $result = array(
-	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
-	                              '24hr_pair_vol' => $val["volume_24h"] 
+             
+	 $result = array(             // If FLAGGED AS A '1000XXXXX' BYBIT MARKET ID, DIVIDE BY 1000
+	                              'last_trade' => ( stristr($mrkt_id, '1000') == true ? ($data["last_price"] / 1000) : $data["last_price"] ),
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
+	                              '24hr_pair_vol' => $data["volume_24h"] 
 	                     		  );
-	               
-	              }
-	          
-	      }
-      
-      
+	                     		  
       }
      
      
@@ -1645,23 +1675,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'cex' ) {
          
-      
-	       foreach ($data as $key => $val) {
-	              
-	              
-	              if ( isset($val["pair"]) && $val["pair"] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => $val["volume"],
+      $result = array(
+	                              'last_trade' => $data["last"],
+	                              '24hr_asset_vol' => $data["volume"],
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     	       );
-	     
-	              }
-	            
-	          
-	       }
-      
       
       }
      
@@ -1679,7 +1697,6 @@ var $exchange_apis = array(
                      '24hr_pair_vol' => null // Unavailable, set null
                   	 );
        
-       
       }
      
      
@@ -1690,23 +1707,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'coindcx' ) {
          
-      
-	       foreach ($data as $key => $val) {
-	              
-	              
-	              if ( isset($val["market"]) && $val["market"] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
-	                              '24hr_pair_vol' => $val["volume"]
+      $result = array(
+	                              'last_trade' => $data["last_price"],
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
+	                              '24hr_pair_vol' => $data["volume"]
 	                     		  );
-	     
-	              }
-	            
-	          
-	       }
-      
       
       }
      
@@ -1718,23 +1723,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'coinex' ) {
       
-	      
-	       foreach ($data as $key => $val) {
-	              
-	              
-	              if ( $key == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => $val["vol"],
+	 $result = array(
+	                              'last_trade' => $data["last"],
+	                              '24hr_asset_vol' => $data["vol"],
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
-	     
-	              }
-	            
-	          
-	       }
-      
       
       }
      
@@ -1746,23 +1739,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'coinspot' ) {
          
-      
-	      foreach ($data as $key => $val) {
-	              
-	              
-	              if ( $key == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
+      $result = array(
+	                              'last_trade' => $data["last"],
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
-	     
-	              }
-	            
-	          
-	       }
-      
       
       }
      
@@ -1774,23 +1755,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'crypto.com' ) {
          
-      
-	       foreach ($data as $key => $val) {
-	              
-	              
-	              if ( isset($val['i']) && $val['i'] == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["a"],
-	                              '24hr_asset_vol' => $val["v"],
+      $result = array(
+	                              'last_trade' => $data["a"],
+	                              '24hr_asset_vol' => $data["v"],
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
-	     
-	              }
-	            
-	          
-	       }
-      
       
       }
      
@@ -1802,21 +1771,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'gateio' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val["currency_pair"]) && $val["currency_pair"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last"],
-                              '24hr_asset_vol' => $val["base_volume"],
-                              '24hr_pair_vol' => $val["quote_volume"]
+      $result = array(
+                              'last_trade' => $data["last"],
+                              '24hr_asset_vol' => $data["base_volume"],
+                              '24hr_pair_vol' => $data["quote_volume"]
                               );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -1845,21 +1804,11 @@ var $exchange_apis = array(
       
       elseif ( $sel_exchange == 'graviex' ) {
       
-      
-         foreach ($data as $unused) {
-              
-              if ( isset($data[$mrkt_id]) && $data[$mrkt_id] != '' ) {
-               
-              $result = array(
-                              'last_trade' => $data[$mrkt_id]['ticker']['last'],
-                              '24hr_asset_vol' => $data[$mrkt_id]['ticker']['vol'],
+      $result = array(
+                              'last_trade' => $data['ticker']['last'],
+                              '24hr_asset_vol' => $data['ticker']['vol'],
                               '24hr_pair_vol' => null // Weird pair volume always in BTC according to array keyname, skipping
                      	      );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -1871,21 +1820,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'hitbtc' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last"],
-                              '24hr_asset_vol' => $val["volume"],
-                              '24hr_pair_vol' => $val["volumeQuote"]
+      $result = array(
+                              'last_trade' => $data["last"],
+                              '24hr_asset_vol' => $data["volume"],
+                              '24hr_pair_vol' => $data["volumeQuote"]
                               );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -1897,21 +1836,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'huobi' ) {
          
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["close"],
-                              '24hr_asset_vol' => $val["amount"],
-                              '24hr_pair_vol' => $val["vol"]
+      $result = array(
+                              'last_trade' => $data["close"],
+                              '24hr_asset_vol' => $data["amount"],
+                              '24hr_pair_vol' => $data["vol"]
                               );
-     
-              }
-          
-         }
-      
       
       }
      
@@ -1924,22 +1853,12 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'idex' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( $key == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last"],
+      $result = array(
+                              'last_trade' => $data["last"],
                               // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-                              '24hr_asset_vol' => $val["quoteVolume"],
-                              '24hr_pair_vol' => $val["baseVolume"]
+                              '24hr_asset_vol' => $data["quoteVolume"],
+                              '24hr_pair_vol' => $data["baseVolume"]
                      		  );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -1959,7 +1878,7 @@ var $exchange_apis = array(
               if ( $key == $jup_pairs[0] ) {
                
               $result = array(
-                              'last_trade' => number_format( $data[$key]['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
+                              'last_trade' => number_format( $val['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
                               '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
                               '24hr_pair_vol' => null // Unavailable, set null
                     	      );
@@ -1980,21 +1899,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'korbit' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( $key == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last"],
-                              '24hr_asset_vol' => $val["volume"],
+      $result = array(
+                              'last_trade' => $data["last"],
+                              '24hr_asset_vol' => $data["volume"],
                               '24hr_pair_vol' => null // Unavailable, set null
                     	      );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -2040,21 +1949,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'kucoin' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val["symbol"]) && $val['symbol'] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last"],
-                              '24hr_asset_vol' => $val["vol"],
-                              '24hr_pair_vol' => $val["volValue"]
+      $result = array(
+                              'last_trade' => $data["last"],
+                              '24hr_asset_vol' => $data["vol"],
+                              '24hr_pair_vol' => $data["volValue"]
                      		  );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -2066,21 +1965,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'liquid' ) {
          
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val["currency_pair_code"]) && $val["currency_pair_code"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last_traded_price"],
-                              '24hr_asset_vol' => $val["volume_24h"],
+      $result = array(
+                              'last_trade' => $data["last_traded_price"],
+                              '24hr_asset_vol' => $data["volume_24h"],
                               '24hr_pair_vol' => null // Unavailable, set null
                      	        );
-     
-              }
-          
-         }
-      
       
       }
      
@@ -2092,30 +1981,12 @@ var $exchange_apis = array(
      // https://github.com/Loopring/protocols/wiki/Loopring-Exchange-Data-API
      
       elseif ( $sel_exchange == 'loopring' || $sel_exchange == 'loopring_amm' ) {
-         
-         
-	     if ( substr($mrkt_id, 0, 4) == "AMM-" ) {
-	     $data = $data['pools'];
-	     }
-	     else {
-	     $data = $data['markets'];
-	     }
-	             
-	      
-	     foreach ($data as $key => $val) {
-	             
-	              if ( $key == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => $val["base_volume"],
-	                              '24hr_pair_vol' => $val["quote_volume"]
+           
+	 $result = array(
+	                              'last_trade' => $data["last_price"],
+	                              '24hr_asset_vol' => $data["base_volume"],
+	                              '24hr_pair_vol' => $data["quote_volume"]
 	                     	       );
-	     
-	              }
-	          
-	     }
-      
       
       }
      
@@ -2127,21 +1998,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'luno' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val["pair"]) && $val["pair"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $ct['var']->num_to_str($val["last_trade"]), // Handle large / small values better with $ct['var']->num_to_str()
-                              '24hr_asset_vol' => $val["rolling_24_hour_volume"],
+      $result = array(
+                              'last_trade' => $ct['var']->num_to_str($data["last_trade"]), // Handle large / small values better with $ct['var']->num_to_str()
+                              '24hr_asset_vol' => $data["rolling_24_hour_volume"],
                               '24hr_pair_vol' => null // Unavailable, set null
                      		  );
-     
-              }
-          
-         }
-      
       
       }
      
@@ -2153,23 +2014,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'okcoin' ) {
       
-      
-         foreach ($data as $key => $val) {
-             
-              
-              if ( isset($val['instId']) && $val['instId'] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val['last'],
-                              '24hr_asset_vol' => $val['vol24h'],
-                              '24hr_pair_vol' => $val['volCcy24h']
+      $result = array(
+                              'last_trade' => $data['last'],
+                              '24hr_asset_vol' => $data['vol24h'],
+                              '24hr_pair_vol' => $data['volCcy24h']
                               );
-     
-              }
-            
-          
-         }
-      
         
       }
      
@@ -2181,21 +2030,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'okex' ) {
        
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val['instId']) && $val['instId'] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last"],
-                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
-                              '24hr_pair_vol' => $val['volCcy24h']
+      $result = array(
+                              'last_trade' => $data["last"],
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
+                              '24hr_pair_vol' => $data['volCcy24h']
                      		  );
-     
-              }
-          
-         }
-      
       
       }
      
@@ -2207,24 +2046,12 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'poloniex' ) {
       
-      
-         foreach ($data as $val) {
-                 
-            //var_dump($val);
-              
-              if ( $val["symbol"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["markPrice"],
+      $result = array(
+                              'last_trade' => $data["markPrice"],
                               // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-                              '24hr_asset_vol' => $val["quantity"],
-                              '24hr_pair_vol' => $val["amount"]
+                              '24hr_asset_vol' => $data["quantity"],
+                              '24hr_pair_vol' => $data["amount"]
                      	     );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -2236,21 +2063,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'southxchange' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val["Market"]) && $val["Market"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["Last"],
-                              '24hr_asset_vol' => $val["Volume24Hr"],
+      $result = array(
+                              'last_trade' => $data["Last"],
+                              '24hr_asset_vol' => $data["Volume24Hr"],
                               '24hr_pair_vol' => null // Unavailable, set null
                      		  );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -2263,13 +2080,13 @@ var $exchange_apis = array(
       elseif ( $sel_exchange == 'tradeogre' ) {
       
       
-         foreach ($data as $key => $val) {
+         foreach ($data as $val) {
               
               if ( isset($val[$mrkt_id]) && $val[$mrkt_id] != '' ) {
                
               $result = array(
                               'last_trade' => $val[$mrkt_id]["price"],
-                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
                               '24hr_pair_vol' => $val[$mrkt_id]["volume"]
                      		  );
                
@@ -2288,23 +2105,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'unocoin' ) {
          
-      
-	       foreach ($data as $key => $val) {
-	              
-	              
-	              if ( $key == $mrkt_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["average_price"],
-	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
+      $result = array(
+	                              'last_trade' => $data["average_price"],
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
-	     
-	              }
-	            
-	          
-	       }
-      
       
       }
      
@@ -2316,21 +2121,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'upbit' ) {
       
-      
-         foreach ( $data as $key => $val ) {
-              
-              if ( isset($val["market"]) && $val["market"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["trade_price"],
-                              '24hr_asset_vol' => $val["acc_trade_volume_24h"],
+      $result = array(
+                              'last_trade' => $data["trade_price"],
+                              '24hr_asset_vol' => $data["acc_trade_volume_24h"],
                               '24hr_pair_vol' => null // No 24 hour trade volume going by array keynames, skipping
                      		  );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -2342,21 +2137,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'wazirx' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( $key == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last"],
-                              '24hr_asset_vol' => $val["volume"],
+      $result = array(
+                              'last_trade' => $data["last"],
+                              '24hr_asset_vol' => $data["volume"],
                               '24hr_pair_vol' => null // Unavailable, set null
                      		  );
-               
-              }
-          
-         }
-      
       
       }
      
@@ -2368,29 +2153,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'zebpay' ) {
       
-      
-         foreach ($data as $key => $val) {
-              
-              if ( isset($val['pair']) && $val['pair'] == $mrkt_id ) {
-                  
-                  // Workaround for weird zebpay API bug, where they include a second
-                  // array object with same 'pair' property, that's mostly a null data set
-                  if ( isset($val["market"]) && $val["market"] > 0 && $zebapi_bug_workaround != true ) {
-                  
-                  $zebapi_bug_workaround = true;
-                   
-                  $result = array(
-                                  'last_trade' => $val["market"],
-                                  '24hr_asset_vol' => $val["volume"],
+      $result = array(
+                                  'last_trade' => $data["market"],
+                                  '24hr_asset_vol' => $data["volume"],
                                   '24hr_pair_vol' => null // Unavailable, set null
                          		  );
-               
-                  }
-                  
-              }
-          
-         }
-      
       
       }
      
@@ -2646,7 +2413,7 @@ var $exchange_apis = array(
      	        
      	         $result = array(
      	                        'last_trade' => $data['attributes']['base_token_price_usd'],
-     	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
+     	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
      	                        '24hr_pair_vol' => $data['attributes']['volume_usd']['h24']
      	                        );
      	        
@@ -2673,7 +2440,7 @@ var $exchange_apis = array(
      	     
      	         $result = array(
      	                        'last_trade' => $data[$paired_with],
-     	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
+     	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
      	                        '24hr_pair_vol' => $data[$paired_with . "_24h_vol"]
      	                        );
      	                     		  

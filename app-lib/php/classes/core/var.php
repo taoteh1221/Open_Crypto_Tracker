@@ -386,6 +386,19 @@ var $ct_array = array();
    function num_to_str($val) {
         
    global $ct;
+
+   
+       if ( is_array($val) ) {
+       
+       $ct['gen']->log(
+    		'other_error',
+    		'num_to_str() cannot parse arrays (ONLY strings allowed): ' . json_encode($val) . '(DEBUG_BACKTRACE: ' . json_encode( debug_backtrace(2) ) . ')'
+    		);
+    		
+       return false;
+
+       }
+
    
    $orig_val = $val;
    

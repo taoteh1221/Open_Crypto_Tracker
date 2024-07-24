@@ -6776,6 +6776,20 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.01.00
+
+-Refactoring / optimization of ENTIRE markets API data parsing logic (prep for UPCOMING 'Add New Asset' feature, in admin 'Portfolio Assets' WEB INTERFACE)
+
+IMPORTANT *UPGRADE* NOTICES:
+
+v6.00.38 and higher restructures CURRENCY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

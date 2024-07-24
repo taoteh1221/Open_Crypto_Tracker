@@ -285,12 +285,21 @@ else {
     
            <div class='footer_content'>
     
-    <p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a></p>
-            	
-    <div id="app_error_alert" style='display: none;'><?php echo $ct['alerts_gui_logs']; ?></div>
-            	
-    <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($ct['app_edition'])?> Edition<?=( $ct['gen']->admin_logged_in() ? ' v' . $ct['app_version'] : '' )?></a>
-    
+              <p class='align_center' style='margin: 15px;'>
+              
+              <a href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a>
+              
+              &nbsp;&nbsp; || &nbsp;&nbsp; 
+              
+              <a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($ct['app_edition'])?> Edition<?=( $ct['gen']->admin_logged_in() ? ' v' . $ct['app_version'] : '' )?></a>
+              
+              &nbsp;&nbsp; || &nbsp;&nbsp; 
+              
+              <a title='Let me know (anonymously OR otherwise) you enjoy my apps.' href='javascript: show_more("donate");'>Show Your Appreciation</a>
+              
+              </p>
+                      	
+              <div id="app_error_alert" style='display: none;'><?php echo $ct['alerts_gui_logs']; ?></div>
 
 <?php
 
