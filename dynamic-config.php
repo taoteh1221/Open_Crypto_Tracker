@@ -23,7 +23,7 @@ $ct['opt_conf']['mining_calculators'] = array(
 									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
 									'exchange_mrkt' => 'BTCUSDT', // Market pair name (for price data)
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
+									'block_reward' => 3.125, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED (for a clean / non-confusing PRIMARY config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
