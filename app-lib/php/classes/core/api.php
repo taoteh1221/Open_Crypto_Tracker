@@ -373,6 +373,48 @@ var $exchange_apis = array(
    return (float)$response;
      
    }
+   
+         
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function exchange_api_data($selected_exchange, $market_id, $search_only=false) {
+   
+   global $ct;
+   
+   $selected_exchange = strtolower($selected_exchange);
+   
+   $prefixing_blacklist = array(
+                             'binance', // Because 'binance_us' is a separate API
+                            );
+   
+      // IF exchange API exists
+      if ( isset($this->exchange_apis[$selected_exchange]) ) {
+      return $this->fetch_exchange_data($selected_exchange, $this->exchange_apis[$selected_exchange], $market_id, $search_only);
+      }
+      // IF exchange API doesn't exist, check to see if we are using our prefix delimiter, for a possible 'prefixed' exchange name
+      // (for end-user descriptiveness / UX, BUT ONLY IF NOT A BLACKLISTED PREFIX!)
+      elseif ( !in_array($selected_exchange, $prefixing_blacklist) && stristr($selected_exchange, '_') ) {
+        
+           foreach ( $this->exchange_apis as $exchange_key => $exchange_api ) {
+           
+           $exchange_key = strtolower($exchange_key);
+               
+               // AUTO-CHECK FOR PREFIX USAGE: EXCHANGEKEY_
+               if ( stristr($selected_exchange, $exchange_key . '_') ) {
+               return $this->fetch_exchange_data($exchange_key, $exchange_api, $market_id, $search_only);
+               break; // will assure leaving the foreach loop immediately
+               }
+           
+           }
+      
+      }
+      else {
+      return false;
+      }
+   
+   }
 		
 		
    ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -576,190 +618,6 @@ var $exchange_apis = array(
    return $result;
      
    }
-                           
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function exchange_api_data($selected_exchange, $market_id, $search_only=false) {
-   
-   global $ct;
-   
-   $unsafe_prefixing = array(
-                              'binance', // Because 'binance_us' is a separate API
-                             );
-   
-   
-      foreach ( $this->exchange_apis as $exchange_key => $exchange_api ) {
-      
-      $exchange_key = strtolower($exchange_key);
-      
-          
-          // AUTO-CHECK FOR PREFIX USAGE TOO (WHERE SAFE): KEY_
-          if (
-          $exchange_key == $selected_exchange
-          || !in_array($selected_exchange, $unsafe_prefixing) && stristr($selected_exchange, $exchange_key . '_')
-          ) {
-          
-          // DEFAULTS               
-          $cache_time = $ct['conf']['power']['last_trade_cache_time'];
-          
-          $url = $exchange_api['endpoint'];
-          
-          
-          // When we are getting SPECIFIED markets (NOT all markets on the exchange)
-          $url = preg_replace("/\[MARKET\]/i", $market_id, $url);
-                   
-               
-               if ( $selected_exchange == 'alphavantage_stock' ) {
-                    
-               $cache_time = $ct['throttled_api_cache_time']['alphavantage.co'];
-                    
-               $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
-               
-               }
-               elseif ( $selected_exchange == 'kraken' ) {
-                    
-               $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $ct['kraken_pairs'], $url);
-
-               }
-               elseif ( $selected_exchange == 'upbit' ) {
-
-               $url = preg_replace("/\[UPBIT_PAIRS\]/i", $ct['upbit_pairs'], $url);
-
-               }
-               elseif ( $selected_exchange == 'jupiter_ag' ) {
-           
-               $jup_pairs = explode('/', $market_id);
-               
-               $url = preg_replace("/\[JUP_AG_PAIRS\]/i", $ct['jupiter_ag_pairs'][ $jup_pairs[1] ], $url);
-               
-               $url = preg_replace("/\[JUP_AG_SEL_PAIR\]/i", $jup_pairs[1], $url);
-
-               }
-               elseif ( stristr($selected_exchange, 'loopring') ) {
-               
-                    if ( substr($market_id, 0, 4) == "AMM-" ) {
-                    $exchange_api['response_path'] = 'pools';
-                    }
-                    else {
-                    $exchange_api['response_path'] = 'markets';
-                    }
-                    
-               }
-          
-          
-          // API response data
-          $response = @$ct['cache']->ext_data('url', $url, $cache_time);
-          
-          $data = json_decode($response, true);
-               
-               
-               // If our data set is in a subarray, dig down to SET IT AS THE BASE in $data
-               if ( is_array($data) && $exchange_api['response_path'] ) {
-                    
-               $response_path = explode('>', $exchange_api['response_path']);
-
-                    foreach( $response_path as $val ) {
-                    $data = $data[$val];
-                    }
-
-               }
-               
-               
-               // Optimize results
-               // $exchange_api['multiple_results'] can be these values: false|true|[associative key, including numbers]
-               if (
-               is_array($data) && $exchange_api['multiple_results']
-               || is_array($data) && is_bool($exchange_api['multiple_results']) !== true
-               ) {
-               
-                    
-                    // If a specific key name is always holding the market ID info as a value
-                    if ( is_bool($exchange_api['multiple_results']) !== true ) {
-                    
-               
-                         foreach ($data as $val) {
-                              
-                              
-                              if (
-                              isset($val[ $exchange_api['multiple_results'] ])
-                              && $val[ $exchange_api['multiple_results'] ] == $market_id
-                              ) {
-                                   
-                              
-                                   // Workaround for weird zebpay API bug, where they include a second array object
-                                   // with same 'multiple_results' (key name = 'pair') property, that's mostly a NULL data set
-                                   if ( $selected_exchange == 'zebpay' ) {
-                                        
-                                   $test_data = $val;
-                              
-                              
-                                        if ( isset($test_data["market"]) && $test_data["market"] > 0 ) {
-                                        
-                                        $data = $test_data;
-                                        
-                                        // will assure leaving the foreach loop immediately
-                                        break;
-                                        
-                                        }
-
-                                        
-                                   }
-                                   else {
-                                   
-                                   $data = $val;
-     
-                                   // will assure leaving the foreach loop immediately
-                                   break;
-                              
-                                   }
-
-
-                              }
-                              
-                         
-                         }
-                         
-                         
-                    }
-                    // If the top level (parent) key name IS THE MARKET ID ITSELF
-                    elseif ( isset($data[$market_id]) ) {
-                    $data = $data[$market_id];
-                    }
-
-               
-               }
-               
-               
-               // If no data
-               if ( !is_array($data) ) {
-               
-               $ct['gen']->log(
-               		    'notify_error',
-               		    'NO DATA for market: "' . $market_id . '" @ ' . $exchange_key,
-               		    false,
-               		    'no_market_data_' . $exchange_key . $market_id
-               		    );
-               
-               return false;
-          
-               }
-               else {
-               return $data;
-               }
-               
-
-          // will assure leaving the foreach loop immediately
-          break;
-
-          }
-          
-      
-      }
-   
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -937,6 +795,166 @@ var $exchange_apis = array(
       }
    
            
+   }
+                           
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function fetch_exchange_data($exchange_key, $exchange_api, $market_id, $search_only) {
+        
+   global $ct;
+
+   // DEFAULTS         
+   $cache_time = $ct['conf']['power']['last_trade_cache_time'];
+          
+   $url = $exchange_api['endpoint'];
+          
+          
+   // When we are getting SPECIFIED markets (NOT all markets on the exchange)
+   $url = preg_replace("/\[MARKET\]/i", $market_id, $url);
+             
+         
+         if ( $exchange_key == 'alphavantage_stock' ) {
+              
+         $cache_time = $ct['throttled_api_cache_time']['alphavantage.co'];
+              
+         $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
+         
+         }
+         elseif ( $exchange_key == 'kraken' ) {
+              
+         $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $ct['kraken_pairs'], $url);
+
+         }
+         elseif ( $exchange_key == 'upbit' ) {
+
+         $url = preg_replace("/\[UPBIT_PAIRS\]/i", $ct['upbit_pairs'], $url);
+
+         }
+         elseif ( $exchange_key == 'jupiter_ag' ) {
+           
+         $jup_pairs = explode('/', $market_id);
+         
+         $url = preg_replace("/\[JUP_AG_PAIRS\]/i", $ct['jupiter_ag_pairs'][ $jup_pairs[1] ], $url);
+         
+         $url = preg_replace("/\[JUP_AG_SEL_PAIR\]/i", $jup_pairs[1], $url);
+
+         }
+         elseif ( $exchange_key == 'loopring' ) {
+         
+              if ( substr($market_id, 0, 4) == "AMM-" ) {
+              $exchange_api['response_path'] = 'pools';
+              }
+              else {
+              $exchange_api['response_path'] = 'markets';
+              }
+              
+         }
+          
+          
+   // API response data
+   $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+          
+   $data = json_decode($response, true);
+         
+         
+         // If our data set is in a subarray, dig down to SET IT AS THE BASE in $data
+         if ( is_array($data) && $exchange_api['response_path'] ) {
+              
+         $response_path = explode('>', $exchange_api['response_path']);
+
+              foreach( $response_path as $val ) {
+              $data = $data[$val];
+              }
+
+         }
+         
+         
+         // Optimize results
+         // $exchange_api['multiple_results'] can be these values: false|true|[associative key, including numbers]
+         if (
+         is_array($data) && $exchange_api['multiple_results']
+         || is_array($data) && is_bool($exchange_api['multiple_results']) !== true
+         ) {
+         
+              
+              // If a specific key name is always holding the market ID info as a value
+              if ( is_bool($exchange_api['multiple_results']) !== true ) {
+              
+         
+                   foreach ($data as $val) {
+                  
+                  
+                       if (
+                       isset($val[ $exchange_api['multiple_results'] ])
+                       && $val[ $exchange_api['multiple_results'] ] == $market_id
+                       ) {
+                            
+                       
+                            // Workaround for weird zebpay API bug, where they include a second array object
+                            // with same 'multiple_results' (key name = 'pair') property, that's mostly a NULL data set
+                            if ( $exchange_key == 'zebpay' ) {
+                                 
+                            $test_data = $val;
+                       
+                       
+                                 if ( isset($test_data["market"]) && $test_data["market"] > 0 ) {
+                                 
+                                 $data = $test_data;
+                                 
+                                 // will assure leaving the foreach loop immediately
+                                 break;
+                                 
+                                 }
+     
+                                 
+                            }
+                            else {
+                            
+                            $data = $val;
+          
+                            // will assure leaving the foreach loop immediately
+                            break;
+                       
+                            }
+     
+     
+                       }
+                  
+                   
+                   }
+                   
+                   
+              }
+              // If the top level (parent) key name IS THE MARKET ID ITSELF
+              elseif ( isset($data[$market_id]) ) {
+              $data = $data[$market_id];
+              }
+
+         
+         }
+         
+         
+         // If no data
+         if ( !is_array($data) ) {
+         
+         $ct['gen']->log(
+         		    'notify_error',
+         		    'NO DATA for market: "' . $market_id . '" @ ' . $exchange_key,
+         		    false,
+         		    'no_market_data_' . $exchange_key . $market_id
+         		    );
+         
+         return false;
+          
+         }
+         else {
+         return $data;
+         }
+         
+   
    }
    
    
