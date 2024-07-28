@@ -67,10 +67,10 @@ $ct['conf']['gen']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGL
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex
-// bitpanda / bitso / bitstamp / btcmarkets / btcturk / buyucoin / cex
-// coinbase / coindcx / coingecko_sgd / coingecko_twd / coingecko_usd
-// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid
-// loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
+// bitso / bitstamp / btcmarkets / btcturk / buyucoin / cex
+// coinbase / coindcx / coingecko_hkd / coingecko_sgd / coingecko_twd / coingecko_usd
+// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin
+// loopring_amm / luno / okcoin / okex / unocoin / upbit / wazirx
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct['conf']['gen']['bitcoin_primary_currency_pair'] directly above)
 $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
@@ -782,7 +782,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'btc-12||btcmarkets||aud||none',
 					'btc-13||bitbns||inr||none',
 					'btc-16||bitflyer||jpy||chart',
-					'btc-17||liquid||hkd||none',
+					'btc-17||coingecko_hkd||hkd||chart',
 					'btc-19||upbit||krw||none',
 					'btc-20||bitso||mxn||none',
 					'btc-24||btcturk||try||none',
@@ -813,6 +813,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'eth-11||coinbase||eur||chart',
 					'eth-13||bitbns||inr||none',
 					'eth-14||bitmex||usd||both',
+					'eth-15||coingecko_hkd||hkd||chart',
 					
 					
 					// SOL
@@ -1818,7 +1819,6 @@ $ct['conf']['assets'] = array(
                                           'binance' => 'BTCEUR',
                                           'kraken' => 'XXBTZEUR',
                                           'bitstamp' => 'btceur',
-                                          'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
                                           'cex' => 'BTC:EUR',
                                           'luno' => 'XBTEUR',
@@ -1834,7 +1834,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'hkd' => array(
-                                          'liquid' => 'BTCHKD',
+                                          'coingecko_hkd' => 'bitcoin',
                                                     ),
 
                                                     
@@ -1915,7 +1915,6 @@ $ct['conf']['assets'] = array(
                                     'usdc' => array(
                                           'kraken' => 'XBTUSDC',
                                           'binance_us' => 'BTCUSDC',
-                                          'southxchange' => 'BTC/USDC',
                                                     ),
 
                                                     
@@ -1927,7 +1926,6 @@ $ct['conf']['assets'] = array(
                                           'okex' => 'BTC-USDT',
                                           'bitbns' => 'BTCUSDT',
                                           'wazirx' => 'btcusdt',
-                                          'southxchange' => 'BTC/USDT',
                                                     ),
 
                                                     
@@ -2084,7 +2082,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'hkd' => array(
-                                          'liquid' => 'ETHHKD',
+                                          'coingecko_hkd' => 'ethereum',
                                                     ),
 
                                                     
@@ -2144,6 +2142,7 @@ $ct['conf']['assets'] = array(
                                           'bitmex_u20' => 'ETHUSDU20',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
+                                          'idex' => 'ETH-USD',
                                           'presale_usd_value' => 'ETHEREUM',
                                                     ),
 

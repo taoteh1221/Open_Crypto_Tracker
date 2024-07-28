@@ -106,13 +106,6 @@ var $exchange_apis = array(
                                                   ),
 
 
-                           'bitpanda' => array(
-                                                   'endpoint' => 'https://api.exchange.bitpanda.com/public/v1/market-ticker',
-                                                   'response_path' => false, // Delimit multiple depths with >
-                                                   'multiple_results' => 'instrument_code', // false|true[IF key name is the ID]|market_info_key_name
-                                                  ),
-
-
                            'bitso' => array(
                                                    'endpoint' => 'https://api.bitso.com/v3/ticker/?book=[MARKET]',
                                                    'response_path' => 'payload', // Delimit multiple depths with >
@@ -233,9 +226,9 @@ var $exchange_apis = array(
 
 
                            'idex' => array(
-                                                   'endpoint' => 'https://api.idex.market/returnTicker',
+                                                   'endpoint' => 'https://api-sandbox.idex.io/v4/tickers',
                                                    'response_path' => false, // Delimit multiple depths with >
-                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'multiple_results' => 'market', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
                            
@@ -243,7 +236,7 @@ var $exchange_apis = array(
                            'jupiter_ag' => array(
                                                    'endpoint' => 'https://price.jup.ag/v4/price?ids=[JUP_AG_PAIRS]&vsToken=[JUP_AG_SEL_PAIR]',
                                                    'response_path' => 'data', // Delimit multiple depths with >
-                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
@@ -266,13 +259,6 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.kucoin.com/api/v1/market/allTickers',
                                                    'response_path' => 'data>ticker', // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
-                                                  ),
-
-
-                           'liquid' => array(
-                                                   'endpoint' => 'https://api.liquid.com/products',
-                                                   'response_path' => false, // Delimit multiple depths with >
-                                                   'multiple_results' => 'currency_pair_code', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
@@ -309,13 +295,6 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.poloniex.com/markets/ticker24h',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
-                                                  ),
-
-
-                           'southxchange' => array(
-                                                   'endpoint' => 'https://www.southxchange.com/api/prices',
-                                                   'response_path' => false, // Delimit multiple depths with >
-                                                   'multiple_results' => 'Market', // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
 
 
@@ -371,6 +350,39 @@ var $exchange_apis = array(
    $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
        
    return (float)$response;
+     
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function ticker_markets_search($ticker) {
+    
+   global $ct;
+   
+   $temp = array();
+   
+   $results = array();
+         
+       foreach ( $this->exchange_apis as $key => $val ) {
+           
+          // We GENERALLY only search APIs that ARE REGISTERED AS returning MULTIPLE tickers per endpoint data set
+          // (KRAKEN returns multiple results, BUT is not 'registered' in the app as such [due to parsing requirements])
+          if ( $val['multiple_results'] || $key == 'kraken' ) {
+            
+          $temp[$key] = $this->exchange_api_data($key, $ticker, true); // SEARCH ONLY MODE
+            
+              if ( $temp[$key] ) {
+              $results[$key] = $temp[$key];
+              }
+              
+          }
+
+       }
+       
+   return $results;
      
    }
    
@@ -805,15 +817,21 @@ var $exchange_apis = array(
    function fetch_exchange_data($exchange_key, $exchange_api, $market_id, $search_only) {
         
    global $ct;
+   
+   $possible_market_ids = array();
 
    // DEFAULTS         
+   $dyn_id = $market_id;
+   
    $cache_time = $ct['conf']['power']['last_trade_cache_time'];
           
    $url = $exchange_api['endpoint'];
-          
-          
-   // When we are getting SPECIFIED markets (NOT all markets on the exchange)
-   $url = preg_replace("/\[MARKET\]/i", $market_id, $url);
+   
+   
+         // When we are getting SPECIFIED markets (NOT all markets on the exchange)
+         if ( !$search_only ) {
+         $url = preg_replace("/\[MARKET\]/i", $dyn_id, $url);
+         }
              
          
          if ( $exchange_key == 'alphavantage_stock' ) {
@@ -824,18 +842,35 @@ var $exchange_apis = array(
          
          }
          elseif ( $exchange_key == 'kraken' ) {
-              
-         $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $ct['kraken_pairs'], $url);
+         
+             if ( $search_only ) {
+             $url = preg_replace("/\[KRAKEN_PAIRS\]/i", strtoupper($dyn_id) . 'USD', $url);
+             }
+             else {
+             $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $ct['kraken_pairs'], $url);
+             }
 
          }
          elseif ( $exchange_key == 'upbit' ) {
-
-         $url = preg_replace("/\[UPBIT_PAIRS\]/i", $ct['upbit_pairs'], $url);
+         
+             if ( $search_only ) {
+             $url = preg_replace("/\[UPBIT_PAIRS\]/i", 'USDT-' . strtoupper($dyn_id), $url);
+             }
+             else {
+             $url = preg_replace("/\[UPBIT_PAIRS\]/i", $ct['upbit_pairs'], $url);
+             }
 
          }
          elseif ( $exchange_key == 'jupiter_ag' ) {
-           
-         $jup_pairs = explode('/', $market_id);
+         
+             if ( $search_only ) {
+             $jup_pairs = explode('/', $dyn_id . '/SOL');
+             }
+             else {
+             $jup_pairs = explode('/', $dyn_id);
+             }
+         
+         $dyn_id = $jup_pairs[0];
          
          $url = preg_replace("/\[JUP_AG_PAIRS\]/i", $ct['jupiter_ag_pairs'][ $jup_pairs[1] ], $url);
          
@@ -844,13 +879,20 @@ var $exchange_apis = array(
          }
          elseif ( $exchange_key == 'loopring' ) {
          
-              if ( substr($market_id, 0, 4) == "AMM-" ) {
+              if ( substr($dyn_id, 0, 4) == "AMM-" ) {
               $exchange_api['response_path'] = 'pools';
               }
               else {
               $exchange_api['response_path'] = 'markets';
               }
               
+         }
+         elseif ( $exchange_key == 'luno' ) {
+         
+             if ( $search_only && strtolower($dyn_id) == 'btc' ) {
+             $dyn_id = 'xbt';
+             }
+
          }
           
           
@@ -873,7 +915,7 @@ var $exchange_apis = array(
          
          
          // Optimize results
-         // $exchange_api['multiple_results'] can be these values: false|true|[associative key, including numbers]
+         // IF $exchange_api['multiple_results'] SET AS: true|[associative key, including numbers]
          if (
          is_array($data) && $exchange_api['multiple_results']
          || is_array($data) && is_bool($exchange_api['multiple_results']) !== true
@@ -887,10 +929,18 @@ var $exchange_apis = array(
                    foreach ($data as $val) {
                   
                   
-                       if (
-                       isset($val[ $exchange_api['multiple_results'] ])
-                       && $val[ $exchange_api['multiple_results'] ] == $market_id
-                       ) {
+                       if ( isset($val[ $exchange_api['multiple_results'] ]) ) {
+                            
+                            
+                            if (
+                            !$search_only && $val[ $exchange_api['multiple_results'] ] == $dyn_id
+                            || $search_only && stristr($val[ $exchange_api['multiple_results'] ], $dyn_id)
+                            ) {
+                            // Do nothing
+                            }
+                            else {
+                            continue; // Skip this loop
+                            }
                             
                        
                             // Workaround for weird zebpay API bug, where they include a second array object
@@ -899,24 +949,36 @@ var $exchange_apis = array(
                                  
                             $test_data = $val;
                        
-                       
                                  if ( isset($test_data["market"]) && $test_data["market"] > 0 ) {
                                  
-                                 $data = $test_data;
-                                 
-                                 // will assure leaving the foreach loop immediately
-                                 break;
+                                    if ( $search_only ) {
+                                         
+                                    $possible_market_ids[] = array(
+                                                                   'id' => $val[ $exchange_api['multiple_results'] ],
+                                                                   'data' => $test_data,
+                                                                  );
+                                    }
+                                    else {
+                                    $data = $test_data;
+                                    break; // will assure leaving the foreach loop immediately
+                                    }
                                  
                                  }
-     
                                  
                             }
                             else {
                             
-                            $data = $val;
-          
-                            // will assure leaving the foreach loop immediately
-                            break;
+                                 if ( $search_only ) {
+                                         
+                                 $possible_market_ids[] = array(
+                                                                   'id' => $val[ $exchange_api['multiple_results'] ],
+                                                                   'data' => $val,
+                                                                  );
+                                 }
+                                 else {
+                                 $data = $val;
+                                 break; // will assure leaving the foreach loop immediately
+                                 }
                        
                             }
      
@@ -928,17 +990,55 @@ var $exchange_apis = array(
                    
                    
               }
+              // SEARCH ONLY on top level key name
+              elseif ( $search_only ) {
+         
+                   foreach ($data as $key => $val) {
+                       
+                       if ( stristr($key, $dyn_id) ) {
+                       
+                       $possible_market_ids[] = array(
+                                                                   'id' => $key,
+                                                                   'data' => $val,
+                                                                  );
+                       }                      
+                        
+                   }
+                   
+              }
               // If the top level (parent) key name IS THE MARKET ID ITSELF
-              elseif ( isset($data[$market_id]) ) {
-              $data = $data[$market_id];
+              elseif ( isset($data[$dyn_id]) ) {
+              $data = $data[$dyn_id];
               }
 
          
          }
+         elseif ( $search_only && $exchange_key == 'kraken' ) {
+      
+              foreach ($data as $key => $val) {
+                   
+                 if ( $key == 'result' ) {
+                   
+                    foreach ($val as $key2 => $unused) {
+                       
+                    $possible_market_ids[] = array(
+                                                                   'id' => $key,
+                                                                   'data' => $val,
+                                                                  );
+                       
+                    }
+                 
+                 }
+               
+              }
+                   
+         }
          
          
          // If no data
-         if ( !is_array($data) ) {
+         if ( !$search_only && !is_array($data) || $search_only && sizeof($possible_market_ids) < 1 ) {
+              
+         $exchange_key = ( $search_only ? $exchange_key . '-SEARCH_ONLY' : $exchange_key );
          
          $ct['gen']->log(
          		    'notify_error',
@@ -949,6 +1049,9 @@ var $exchange_apis = array(
          
          return false;
           
+         }
+         elseif ( $search_only  ) {
+         return $possible_market_ids;  
          }
          else {
          return $data;
@@ -1572,23 +1675,7 @@ var $exchange_apis = array(
 	                    	   );
       
       }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-      elseif ( $sel_exchange == 'bitpanda' ) {
-       
-      $result = array(
-	                              'last_trade' => $data["last_price"],
-	                              '24hr_asset_vol' => $data["base_volume"],
-	                              '24hr_pair_vol' => $data["quote_volume"]
-	                     	       );
       
-      }
-     
      
      
      ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1875,7 +1962,7 @@ var $exchange_apis = array(
       elseif ( $sel_exchange == 'idex' ) {
       
       $result = array(
-                              'last_trade' => $data["last"],
+                              'last_trade' => $data["close"],
                               // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
                               '24hr_asset_vol' => $data["quoteVolume"],
                               '24hr_pair_vol' => $data["baseVolume"]
@@ -1891,23 +1978,11 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'jupiter_ag' ) {
       
-      $jup_pairs = explode('/', $mrkt_id);
-      
-      
-         foreach ($data as $key => $val) {
-              
-              if ( $key == $jup_pairs[0] ) {
-               
-              $result = array(
-                              'last_trade' => number_format( $val['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
+      $result = array(
+                              'last_trade' => number_format( $data['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
                               '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
                               '24hr_pair_vol' => null // Unavailable, set null
                     	      );
-               
-              }
-          
-         }
-        
         
       }
      
@@ -1975,22 +2050,6 @@ var $exchange_apis = array(
                               '24hr_asset_vol' => $data["vol"],
                               '24hr_pair_vol' => $data["volValue"]
                      		  );
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-      elseif ( $sel_exchange == 'liquid' ) {
-         
-      $result = array(
-                              'last_trade' => $data["last_traded_price"],
-                              '24hr_asset_vol' => $data["volume_24h"],
-                              '24hr_pair_vol' => null // Unavailable, set null
-                     	        );
       
       }
      
@@ -2073,22 +2132,6 @@ var $exchange_apis = array(
                               '24hr_asset_vol' => $data["quantity"],
                               '24hr_pair_vol' => $data["amount"]
                      	     );
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-      
-    
-    
-      elseif ( $sel_exchange == 'southxchange' ) {
-      
-      $result = array(
-                              'last_trade' => $data["Last"],
-                              '24hr_asset_vol' => $data["Volume24Hr"],
-                              '24hr_pair_vol' => null // Unavailable, set null
-                     		  );
       
       }
      

@@ -22,7 +22,7 @@ Please review the possible solutions below for any issues you may have, before c
 Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
 
-BLACKHAT NOTES: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓
+NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓
 
 
 Project Website: https://taoteh1221.github.io
@@ -353,7 +353,7 @@ AUD / BRL / BTC / CAD / CHF / DAI / ETH / EUR / GBP / HKD / INR / JPY / KRW / MK
 
 Support for over 40 exchanges (contact me to request more): 
 
-alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay
+alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_hkd / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / loopring_amm / luno / okcoin / okex / poloniex / unocoin / upbit / wazirx / zebpay
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).

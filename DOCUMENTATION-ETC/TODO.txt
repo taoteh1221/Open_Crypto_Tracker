@@ -184,7 +184,7 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-BLACKHAT NOTES: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓
+NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓
 
 
 Run full market unit tests, since we heavily refactored the exchange APIs logic
@@ -251,9 +251,6 @@ Add the ability to allow a BLANK single array item admin user input for domains 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Create logic in $ct['api']->exchange_api_data() for it's NEW $search_only PARAMETER, so we can scan for a ticker symbol in all exchange APIs, when adding a NEW asset via the admin 'postfolio assets' INTERFACE.
 
 
 Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' PAGE (AND WHEREVER IT'S CALLED BY THAT ID IN THE APP), as it now also handles charts / news feeds / etc.
