@@ -234,7 +234,7 @@ var $exchange_apis = array(
                            
                            // 'multiple_results' MUST BE FALSE, as we have to CUSTOM parse through pairings etc
                            'jupiter_ag' => array(
-                                                   'endpoint' => 'https://price.jup.ag/v4/price?ids=[JUP_AG_PAIRS]&vsToken=[JUP_AG_SEL_PAIR]',
+                                                   'endpoint' => 'https://price.jup.ag/v4/price?ids=[JUP_AG_ASSETS]&vsToken=[JUP_AG_PAIRING]',
                                                    'response_path' => 'data', // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                   ),
@@ -366,21 +366,69 @@ var $exchange_apis = array(
    
    $results = array();
          
+         
        foreach ( $this->exchange_apis as $key => $val ) {
+       
+       $try_pairing = false; // RESET
+           
            
           // We GENERALLY only search APIs that ARE REGISTERED AS returning MULTIPLE tickers per endpoint data set
           // (KRAKEN returns multiple results, BUT is not 'registered' in the app as such [due to parsing requirements])
           if ( $val['multiple_results'] || $key == 'kraken' ) {
-            
-          $temp[$key] = $this->exchange_api_data($key, $ticker, true); // SEARCH ONLY MODE
-            
-              if ( $temp[$key] ) {
-              $results[$key] = $temp[$key];
+               
+               
+              if ( $key == 'kraken' || $key == 'upbit' ) {
+              $try_pairing = 'BTC,ETH,USD,USDC,USDT';
+              }
+              elseif ( $key == 'jupiter_ag' ) {
+              $try_pairing = 'SOL,USDC,USDT,ETH,WBTC';
+              }
+          
+              
+              // Trying different pairings
+              if ( $try_pairing ) {
+          
+              $pairing_array = explode(',', $try_pairing);
+              
+              
+                   $run_already = false;
+                   foreach ( $pairing_array as $pairing_val ) {
+                        
+                        if ( $run_already ) {
+                        sleep(1); // Throttle multiple requests, to avoid be blocked
+                        }
+
+                   $check_results = $this->exchange_api_data($key, $ticker, $pairing_val); // SEARCH ONLY MODE (TICKER WITH PAIRING)
+                   
+                   $run_already = true;
+
+                       if ( $check_results ) {
+                       $results[$key][] = $check_results;
+                       }
+
+
+                   }
+
+              
+              }
+              else {
+
+              $check_results = $this->exchange_api_data($key, $ticker, true); // SEARCH ONLY MODE (TICKER ONLY)
+
+
+                       if ( $check_results ) {
+                       $results[$key] = $check_results;
+                       }
+
+
               }
               
+              
           }
+          
 
        }
+
        
    return $results;
      
@@ -391,7 +439,7 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function exchange_api_data($selected_exchange, $market_id, $search_only=false) {
+   function exchange_api_data($selected_exchange, $market_id, $ticker_pairing_search=false) {
    
    global $ct;
    
@@ -403,7 +451,7 @@ var $exchange_apis = array(
    
       // IF exchange API exists
       if ( isset($this->exchange_apis[$selected_exchange]) ) {
-      return $this->fetch_exchange_data($selected_exchange, $this->exchange_apis[$selected_exchange], $market_id, $search_only);
+      return $this->fetch_exchange_data($selected_exchange, $this->exchange_apis[$selected_exchange], $market_id, $ticker_pairing_search);
       }
       // IF exchange API doesn't exist, check to see if we are using our prefix delimiter, for a possible 'prefixed' exchange name
       // (for end-user descriptiveness / UX, BUT ONLY IF NOT A BLACKLISTED PREFIX!)
@@ -415,7 +463,7 @@ var $exchange_apis = array(
                
                // AUTO-CHECK FOR PREFIX USAGE: EXCHANGEKEY_
                if ( stristr($selected_exchange, $exchange_key . '_') ) {
-               return $this->fetch_exchange_data($exchange_key, $exchange_api, $market_id, $search_only);
+               return $this->fetch_exchange_data($exchange_key, $exchange_api, $market_id, $ticker_pairing_search);
                break; // will assure leaving the foreach loop immediately
                }
            
@@ -814,7 +862,7 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function fetch_exchange_data($exchange_key, $exchange_api, $market_id, $search_only) {
+   function fetch_exchange_data($exchange_key, $exchange_api, $market_id, $ticker_pairing_search) {
         
    global $ct;
    
@@ -827,9 +875,15 @@ var $exchange_apis = array(
           
    $url = $exchange_api['endpoint'];
    
+         
+         // IF $ticker_pairing_search is NOT boolean, it's a REQUIRED pairing for SEARCHING this exchange for a certain ticker
+         if ( is_bool($ticker_pairing_search) !== true ) {
+         $required_pairing = strtoupper($ticker_pairing_search);
+         }
+   
    
          // When we are getting SPECIFIED markets (NOT all markets on the exchange)
-         if ( !$search_only ) {
+         if ( !$ticker_pairing_search ) {
          $url = preg_replace("/\[MARKET\]/i", $dyn_id, $url);
          }
              
@@ -842,39 +896,58 @@ var $exchange_apis = array(
          
          }
          elseif ( $exchange_key == 'kraken' ) {
+              
+         $dyn_id = strtoupper($dyn_id);
          
-             if ( $search_only ) {
-             $url = preg_replace("/\[KRAKEN_PAIRS\]/i", strtoupper($dyn_id) . 'USD', $url);
+         
+             if ( $required_pairing ) {
+             $url = preg_replace("/\[KRAKEN_PAIRS\]/i", strtoupper($dyn_id) . $required_pairing, $url);
              }
              else {
              $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $ct['kraken_pairs'], $url);
              }
 
+
          }
          elseif ( $exchange_key == 'upbit' ) {
+              
+         $dyn_id = strtoupper($dyn_id);
+
          
-             if ( $search_only ) {
-             $url = preg_replace("/\[UPBIT_PAIRS\]/i", 'USDT-' . strtoupper($dyn_id), $url);
+             if ( $required_pairing ) {
+             $url = preg_replace("/\[UPBIT_PAIRS\]/i", $required_pairing . '-' . strtoupper($dyn_id), $url);
              }
              else {
              $url = preg_replace("/\[UPBIT_PAIRS\]/i", $ct['upbit_pairs'], $url);
              }
 
+
          }
          elseif ( $exchange_key == 'jupiter_ag' ) {
+              
+         $dyn_id = strtoupper($dyn_id);
+
          
-             if ( $search_only ) {
-             $jup_pairs = explode('/', $dyn_id . '/SOL');
+             if ( $required_pairing ) {
+                  
+             $jup_pairs = explode('/', $dyn_id . '/' . $required_pairing);
+         
+             $url = preg_replace("/\[JUP_AG_ASSETS\]/i", $jup_pairs[0], $url);
+             
              }
              else {
+             
              $jup_pairs = explode('/', $dyn_id);
+         
+             $url = preg_replace("/\[JUP_AG_ASSETS\]/i", $ct['jupiter_ag_pairs'][ $jup_pairs[1] ], $url);
+             
              }
+         
          
          $dyn_id = $jup_pairs[0];
          
-         $url = preg_replace("/\[JUP_AG_PAIRS\]/i", $ct['jupiter_ag_pairs'][ $jup_pairs[1] ], $url);
-         
-         $url = preg_replace("/\[JUP_AG_SEL_PAIR\]/i", $jup_pairs[1], $url);
+         $url = preg_replace("/\[JUP_AG_PAIRING\]/i", $jup_pairs[1], $url);
+
 
          }
          elseif ( $exchange_key == 'loopring' ) {
@@ -889,7 +962,7 @@ var $exchange_apis = array(
          }
          elseif ( $exchange_key == 'luno' ) {
          
-             if ( $search_only && strtolower($dyn_id) == 'btc' ) {
+             if ( $ticker_pairing_search && strtolower($dyn_id) == 'btc' ) {
              $dyn_id = 'xbt';
              }
 
@@ -933,8 +1006,8 @@ var $exchange_apis = array(
                             
                             
                             if (
-                            !$search_only && $val[ $exchange_api['multiple_results'] ] == $dyn_id
-                            || $search_only && stristr($val[ $exchange_api['multiple_results'] ], $dyn_id)
+                            !$ticker_pairing_search && $val[ $exchange_api['multiple_results'] ] == $dyn_id
+                            || $ticker_pairing_search && stristr($val[ $exchange_api['multiple_results'] ], $dyn_id)
                             ) {
                             // Do nothing
                             }
@@ -951,7 +1024,7 @@ var $exchange_apis = array(
                        
                                  if ( isset($test_data["market"]) && $test_data["market"] > 0 ) {
                                  
-                                    if ( $search_only ) {
+                                    if ( $ticker_pairing_search ) {
                                          
                                     $possible_market_ids[] = array(
                                                                    'id' => $val[ $exchange_api['multiple_results'] ],
@@ -968,7 +1041,7 @@ var $exchange_apis = array(
                             }
                             else {
                             
-                                 if ( $search_only ) {
+                                 if ( $ticker_pairing_search ) {
                                          
                                  $possible_market_ids[] = array(
                                                                    'id' => $val[ $exchange_api['multiple_results'] ],
@@ -991,7 +1064,7 @@ var $exchange_apis = array(
                    
               }
               // SEARCH ONLY on top level key name
-              elseif ( $search_only ) {
+              elseif ( $ticker_pairing_search ) {
          
                    foreach ($data as $key => $val) {
                        
@@ -1013,7 +1086,7 @@ var $exchange_apis = array(
 
          
          }
-         elseif ( $search_only && $exchange_key == 'kraken' ) {
+         elseif ( $ticker_pairing_search && $exchange_key == 'kraken' ) {
       
               foreach ($data as $key => $val) {
                    
@@ -1022,7 +1095,7 @@ var $exchange_apis = array(
                     foreach ($val as $key2 => $unused) {
                        
                     $possible_market_ids[] = array(
-                                                                   'id' => $key,
+                                                                   'id' => $key2,
                                                                    'data' => $val,
                                                                   );
                        
@@ -1036,21 +1109,21 @@ var $exchange_apis = array(
          
          
          // If no data
-         if ( !$search_only && !is_array($data) || $search_only && sizeof($possible_market_ids) < 1 ) {
+         if ( !$ticker_pairing_search && !is_array($data) || $ticker_pairing_search && sizeof($possible_market_ids) < 1 ) {
               
-         $exchange_key = ( $search_only ? $exchange_key . '-SEARCH_ONLY' : $exchange_key );
+         $exchange_key = ( $ticker_pairing_search ? $exchange_key . '-SEARCH_ONLY' : $exchange_key );
          
          $ct['gen']->log(
          		    'notify_error',
-         		    'NO DATA for market: "' . $market_id . '" @ ' . $exchange_key,
+         		    'NO DATA for market: "' . $dyn_id . ( $required_pairing ? '/' . $required_pairing : '' ) . '" @ ' . $exchange_key,
          		    false,
-         		    'no_market_data_' . $exchange_key . $market_id
+         		    'no_market_data_' . $exchange_key . $dyn_id . ( $required_pairing ? $required_pairing : '' )
          		    );
          
          return false;
           
          }
-         elseif ( $search_only  ) {
+         elseif ( $ticker_pairing_search  ) {
          return $possible_market_ids;  
          }
          else {

@@ -187,6 +187,15 @@ Add clicksend.com mobile text messaging support
 NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓
 
 
+Separate the "add asset market" and "delete asset market" subsections in the "portfolio assets" main admin section, by splitting the page into TABBED divs. Each subsection's div should have its own "data" child div, with an id attribute that is populated via AJAX. Then we don't need to have endless iframes within iframes, and it keeps the developer AND user experience both good without any noticeable compromise.
+
+
+Add a 'manual' mode for the 'add new asset market' feature, on the portfolio assets admin config interface, whereby you get a drop down menu of ALL the exchanges, and you select ONLY ONE, and then you add a market id MANUALLY BY HAND in a text field. The app then does an input validation check to make sure the market exists, and shows a rejection (if market doesn't exist) OR 'click to confirm' confirmation page / modal to add the new asset market. Then we have support for 'limited APIs' within the feature. We can eventually map any 'available assets' API endpoints for 'limited APIs' into the 'add new asset' feature in the future, so we can eventually add auto-scanning for 'limited APIs' exchange's markets.
+
+
+For the 'add new asset market' feature, add an OPTIONAL SEARCH parameter of a specific PAIRING, merely by adding a forwardslash followed by the pairing.
+
+
 Run full market unit tests, since we heavily refactored the exchange APIs logic
 
 

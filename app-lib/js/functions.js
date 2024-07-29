@@ -1914,7 +1914,7 @@ var docViewBottom = docViewTop + $(window).height();
 var elmTop = $(elm).offset().top;
 var elmBottom = elmTop + $(elm).height();
 
-var is_showing = ( (elmBottom <= docViewBottom) && (elmTop >= docViewTop) );
+var is_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
 
      
      // IF compact sidebar, we tweak things differently
@@ -1924,9 +1924,9 @@ var is_showing = ( (elmBottom <= docViewBottom) && (elmTop >= docViewTop) );
      }
 
 
-     // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT
+     // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT +100 px
      // (otherwise we allow scrolling the elements contents to be fully viewable)
-     if ( mode == 'emulate_sticky' && $(elm).height() <= $(window).height() ) {
+     if ( mode == 'emulate_sticky' && ( $(elm).height() + 100 ) < $(window).height() ) {
      $(elm).css("top", Math.round(docViewTop) + "px", "important");
      }
      // If element isn't fully showing on page (and we are NOT emulating sticky), try to make it show as fully as possible

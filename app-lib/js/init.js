@@ -169,36 +169,6 @@ nav_menu('.user-nav');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
      
-     // Dynamically adjust any iframe heights, for any SHOW PER PAGE CHANGES to GENERIC table sorting WITH PAGINATION
-     $('div span.left.choose_pp a').on({
-        "click":function(e){
-             
-        console.log('div span.left.choose_pp a CLICKED');
-              
-              if ( is_admin ) {            
-             
-              console.log('div span.left.choose_pp a CLICKED IN ADMIN AREA');
-
-                   // Wait 1.5 seconds before Initiating
-                   // (otherwise ELEMENT SIZES / ETC aren't always registered yet for DOM manipulations)
-                   setTimeout(function(){
-                                       
-                        // Resize admin iframes after resizing textareas
-                        admin_iframe_dom.forEach(function(iframe) {
-                        iframe_size_adjust(iframe);
-                        });
-                                  
-                   }, 1500);
-              
-              }
-                                  
-         }
-     });
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-     
      // Dynamically style modals AFTER THEY OPEN (AFTER the dynamically-created elements are created)
      $('.modal_style_control').on({
         "click":function(e){
@@ -320,6 +290,36 @@ nav_menu('.user-nav');
         }
         
     });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Dynamically adjust any iframe heights, for any SHOW PER PAGE CHANGES to GENERIC table sorting WITH PAGINATION
+     $('div span.left.choose_pp a').on({
+        "click":function(e){
+             
+        console.log('div span.left.choose_pp a CLICKED');
+              
+              if ( is_admin ) {            
+             
+              console.log('div span.left.choose_pp a CLICKED IN ADMIN AREA');
+
+                   // Wait 1.5 seconds before Initiating
+                   // (otherwise ELEMENT SIZES / ETC aren't always registered yet for DOM manipulations)
+                   setTimeout(function(){
+                                       
+                        // Resize admin iframes after resizing textareas
+                        admin_iframe_dom.forEach(function(iframe) {
+                        iframe_size_adjust(iframe);
+                        });
+                                  
+                   }, 1500);
+              
+              }
+                                  
+         }
+     });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
