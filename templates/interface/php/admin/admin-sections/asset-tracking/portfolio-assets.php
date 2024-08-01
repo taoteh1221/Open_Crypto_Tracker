@@ -32,8 +32,8 @@ else {
 	
 	<?php
      
-     // DEBUGGING 	
-	//var_dump( $ct['api']->ticker_markets_search('wen') );
+     // DEBUGGING...this can be a ticker by itself like 'sol', OR INCLUDE A PAIRING like 'sol/btc'
+	//var_dump( $ct['api']->ticker_markets_search('sol/btc') );
 
 	?>
     

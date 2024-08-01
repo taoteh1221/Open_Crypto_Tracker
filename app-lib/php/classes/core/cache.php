@@ -880,6 +880,7 @@ var $ct_array = array();
   $access_stats_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/events/access_stats', 'dat', 'desc');
   
   
+      // Bundle / organize ALL the stats into an array (for rendering AFTER)
       foreach( $access_stats_files as $ip_access_file ) {
       
       $access_stats_check = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/events/access_stats/' . $ip_access_file) ) , TRUE);
@@ -907,25 +908,39 @@ var $ct_array = array();
                     // (an we just include page / user agent counts in this row)
                     // $key is the visited timestamp, we only want the MOST RECENT
                     if ( !isset($url_visit_count[ md5($val['url']) ]) ) {
+                         
                     $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($val['url']) ]['last_visit'] = $key;
+                    
                     $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($val['url']) ]['url'] = $val['url'];
+
+                    $url_visit_count[ md5($val['url']) ] = 1;
+
                     }
+                    // URL visits
+                    else {
+                    $url_visit_count[ md5($val['url']) ] = $url_visit_count[ md5($val['url']) ] + 1;
+                    }
+                    
+               
+               // Add to $ct['show_access_stats']
+               $ct['show_access_stats'][$safe_name]['ip_url_visits'][ md5($val['url']) ] = $url_visit_count[ md5($val['url']) ];
+                    
                     
                     // Add the user agent name, IF not added yet
                     if ( !isset($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ]) ) {
+                         
                     $ct['show_access_stats'][$safe_name]['user_agents'][ md5($val['url']) ][ md5($val['user_agent']) ] = $val['user_agent'];
+                    
+                    $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] = 1;
+                    
                     }
+                    // User agent visits
+                    else {
+                    $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] = $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] + 1;
+                    }
+                    
                
-               
-               // URL visits
-               $url_visit_count[ md5($val['url']) ] = ( isset($url_visit_count[ md5($val['url']) ]) ? ($url_visit_count[ md5($val['url']) ] + 1) : 1 );
-               
-               $ct['show_access_stats'][$safe_name]['ip_url_visits'][ md5($val['url']) ] = $url_visit_count[ md5($val['url']) ];
-               
-               
-               // User agent visits
-               $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] = ( isset($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ]) ? ($user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ] + 1) : 1 );
-               
+               // Add to $ct['show_access_stats']
                $ct['show_access_stats'][$safe_name]['ip_user_agent_visits'][ md5($val['url']) ][ md5($val['user_agent']) ] = $user_agent_visit_count[ md5($val['url']) ][ md5($val['user_agent']) ];
 
                
@@ -938,6 +953,7 @@ var $ct_array = array();
       }
       
       
+      // Render the stats
       foreach ( $ct['show_access_stats'] as $key => $val ) {
       
       $safe_name = $ct['gen']->safe_name($val['ip']);
@@ -954,12 +970,12 @@ var $ct_array = array();
                	<span class="pagedisplay"></span> 
                	
                	<br /><br />
-               	<span class="left choose_pp">
 					&nbsp;<span class="bitcoin">Show Per Page:</span>
-					<a href="#">5</a> |
-					<a href="#">10</a> |
-					<a href="#">25</a> |
-					<a href="#">50</a>
+               	<span class="left choose_pp">
+					<a href="#" data-track='5'>5</a> |
+					<a href="#" data-track='10'>10</a> |
+					<a href="#" data-track='25'>25</a> |
+					<a href="#" data-track='50'>50</a>
 				</span>
 				
                	<br /><br />
@@ -1042,13 +1058,34 @@ var $ct_array = array();
                          else {
                          $user_agent_desc = 'Other';
                          }
+                     
+                     
+                         // Known operating systems (for description in the interface)
+                         if ( stristr($user_agent_val, 'android') ) {
+                         $os_desc = 'Android';
+                         }
+                         elseif ( stristr($user_agent_val, 'iphone') ) {
+                         $os_desc = 'iPhone';
+                         }
+                         elseif ( stristr($user_agent_val, 'linux') ) {
+                         $os_desc = 'Linux';
+                         }
+                         elseif ( stristr($user_agent_val, 'macintosh') ) {
+                         $os_desc = 'Macintosh';
+                         }
+                         elseif ( stristr($user_agent_val, 'windows') ) {
+                         $os_desc = 'Windows';
+                         }
+                         else {
+                         $os_desc = 'Other';
+                         }
                          
                          
                      ?>
                      
                      <p style='border: 0.05em solid #808080; padding: 0.25em; border-radius: 0.4em; margin-bottom: 0px !important; margin: 0.25em !important;'>
                      
-                     <?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <a style='cursor: pointer;' class='<?=( $user_agent_desc != 'Other' ? 'green' : 'bitcoin' )?>' title='<?=htmlspecialchars($ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ][ md5($user_agent_val) ], ENT_QUOTES)?>'><?=$user_agent_desc?></a>
+                     <?=$ct['show_access_stats'][$key]['ip_user_agent_visits'][ md5($visited_pages['url']) ][ md5($user_agent_val) ]?> visit(s) from <a style='cursor: pointer;' class='<?=( $user_agent_desc != 'Other' ? 'green' : 'bitcoin' )?>' title='<?=htmlspecialchars($ct['show_access_stats'][$key]['user_agents'][ md5($visited_pages['url']) ][ md5($user_agent_val) ], ENT_QUOTES)?>'><?=$user_agent_desc?></a> (<?=$os_desc?> OS)
                      
                      </p>
                      
