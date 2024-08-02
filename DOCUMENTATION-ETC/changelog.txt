@@ -6785,6 +6785,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Upgraded Idex exchange API to v4
 
+-Cleaned up stale DEMO markets / news feeds
+
 IMPORTANT *UPGRADE* NOTICES:
 
 v6.00.38 and higher restructures CURRENCY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,

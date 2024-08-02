@@ -2137,8 +2137,8 @@ function sorting_generic_tables(paginated=false) {
 	     
 	var all_tables = document.getElementsByClassName("data_table");
 	
-	// Sort 1st / 2nd columns descending (1)
-	var generic_sort_list = is_iframe ? [ [0,1],[1,1] ] : [];
+	// Sort 1st / 2nd columns, as descending (1)
+	var generic_sort_list = [ [0,1],[1,1] ];
 
 
           Array.prototype.forEach.call(all_tables, function(table) {

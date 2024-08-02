@@ -74,13 +74,6 @@ var $exchange_apis = array(
                                                   ),
 
 
-                           'bitforex' => array(
-                                                   'endpoint' => 'https://api.bitforex.com/api/v1/market/ticker?symbol=[MARKET]',
-                                                   'response_path' => false, // Delimit multiple depths with >
-                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
-                                                  ),
-
-
                            'bitflyer' => array(
                                                    'endpoint' => 'https://api.bitflyer.com/v1/getticker?product_code=[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
@@ -1701,22 +1694,6 @@ var $exchange_apis = array(
 	                              '24hr_asset_vol' => $data[( sizeof($data) - 3 )],
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-      
-      
-    
-      elseif ( $sel_exchange == 'bitforex' ) {
-      
-      $result = array(
-                     'last_trade' => $data["data"]["last"],
-                     '24hr_asset_vol' => $data["data"]["vol"],
-                     '24hr_pair_vol' => null // Unavailable, set null
-                       );
       
       }
      
