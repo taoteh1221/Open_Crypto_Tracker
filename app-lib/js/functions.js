@@ -964,6 +964,42 @@ function get_coords(elem) { // crossbrowser version
 /////////////////////////////////////////////////////////////
 
 
+function paged_tablesort_sizechange() {
+
+
+     // Dynamically adjust any iframe heights, for any SHOW PER PAGE CHANGES to GENERIC table sorting WITH PAGINATION
+     $('div span.left.choose_pp a').on({
+        "click":function(e){
+             
+        console.log('div span.left.choose_pp a CLICKED');
+              
+              if ( is_admin ) {            
+             
+              console.log('div span.left.choose_pp a CLICKED IN ADMIN AREA');
+
+                   // Wait 1.5 seconds before Initiating
+                   // (otherwise ELEMENT SIZES / ETC aren't always registered yet for DOM manipulations)
+                   setTimeout(function(){
+                                       
+                        // Resize admin iframes after resizing textareas
+                        admin_iframe_dom.forEach(function(iframe) {
+                        iframe_size_adjust(iframe);
+                        });
+                                  
+                   }, 1500);
+              
+              }
+                                  
+         }
+     });
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function set_admin_security(obj) {
 
 
