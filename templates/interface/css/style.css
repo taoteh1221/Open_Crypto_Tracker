@@ -197,6 +197,11 @@ CLASSES
 ////////////////////////////// */
 
 
+table.data_table:not(#coins_table) {
+    border-radius: 0.5em;
+}
+
+
 .qr_code {
 	margin: 3em !important;
 }
@@ -219,7 +224,7 @@ cursor: pointer !important;
 }
 
 
-span.pagecount a.current {
+span.pagecount a.current, span.choose_pp a.current {
 text-decoration: none !important;
 cursor: default !important;
 color: #808080;

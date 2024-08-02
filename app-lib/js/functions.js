@@ -964,6 +964,42 @@ function get_coords(elem) { // crossbrowser version
 /////////////////////////////////////////////////////////////
 
 
+function paged_tablesort_sizechange() {
+
+
+     // Dynamically adjust any iframe heights, for any SHOW PER PAGE CHANGES to GENERIC table sorting WITH PAGINATION
+     $('div span.left.choose_pp a').on({
+        "click":function(e){
+             
+        console.log('div span.left.choose_pp a CLICKED');
+              
+              if ( is_admin ) {            
+             
+              console.log('div span.left.choose_pp a CLICKED IN ADMIN AREA');
+
+                   // Wait 1.5 seconds before Initiating
+                   // (otherwise ELEMENT SIZES / ETC aren't always registered yet for DOM manipulations)
+                   setTimeout(function(){
+                                       
+                        // Resize admin iframes after resizing textareas
+                        admin_iframe_dom.forEach(function(iframe) {
+                        iframe_size_adjust(iframe);
+                        });
+                                  
+                   }, 1500);
+              
+              }
+                                  
+         }
+     });
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function set_admin_security(obj) {
 
 
@@ -1914,7 +1950,7 @@ var docViewBottom = docViewTop + $(window).height();
 var elmTop = $(elm).offset().top;
 var elmBottom = elmTop + $(elm).height();
 
-var is_showing = ( (elmBottom <= docViewBottom) && (elmTop >= docViewTop) );
+var is_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
 
      
      // IF compact sidebar, we tweak things differently
@@ -1924,9 +1960,9 @@ var is_showing = ( (elmBottom <= docViewBottom) && (elmTop >= docViewTop) );
      }
 
 
-     // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT
+     // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT +100 px
      // (otherwise we allow scrolling the elements contents to be fully viewable)
-     if ( mode == 'emulate_sticky' && $(elm).height() <= $(window).height() ) {
+     if ( mode == 'emulate_sticky' && ( $(elm).height() + 100 ) < $(window).height() ) {
      $(elm).css("top", Math.round(docViewTop) + "px", "important");
      }
      // If element isn't fully showing on page (and we are NOT emulating sticky), try to make it show as fully as possible
@@ -2101,8 +2137,8 @@ function sorting_generic_tables(paginated=false) {
 	     
 	var all_tables = document.getElementsByClassName("data_table");
 	
-	// Sort 1st / 2nd columns descending (1)
-	var generic_sort_list = is_iframe ? [ [0,1],[1,1] ] : [];
+	// Sort 1st / 2nd columns, as descending (1)
+	var generic_sort_list = [ [0,1],[1,1] ];
 
 
           Array.prototype.forEach.call(all_tables, function(table) {

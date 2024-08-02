@@ -29,6 +29,13 @@ else {
 	YOU ***CAN STILL EDIT THIS SECTION*** BY SWITCHING TO HIGH SECURITY ADMIN MODE (in the Security section), and update it via the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor.
 	
 	</p>
+	
+	<?php
+     
+     // DEBUGGING...this can be a ticker by itself like 'sol', OR INCLUDE A PAIRING like 'sol/btc'
+	//var_dump( $ct['api']->ticker_markets_search('sol/btc') );
+
+	?>
     
 	
 <?php

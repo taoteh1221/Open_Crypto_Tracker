@@ -249,7 +249,6 @@ $ct['dev']['limited_apis'] = array(
                           		'aevo.xyz',
                           		'alphavantage.co',
                           		'anchor.fm',
-                          		'bitforex.com',
                           		'bitflyer.com',
                           		'bitmex.com',
                           		'bitso.com',

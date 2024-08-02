@@ -67,10 +67,10 @@ $ct['conf']['gen']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGL
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex
-// bitpanda / bitso / bitstamp / btcmarkets / btcturk / buyucoin / cex
-// coinbase / coindcx / coingecko_sgd / coingecko_twd / coingecko_usd
-// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid
-// loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
+// bitso / bitstamp / btcmarkets / btcturk / buyucoin / cex
+// coinbase / coindcx / coingecko_hkd / coingecko_sgd / coingecko_twd / coingecko_usd
+// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin
+// loopring_amm / luno / okcoin / okex / unocoin / upbit / wazirx
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct['conf']['gen']['bitcoin_primary_currency_pair'] directly above)
 $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
@@ -782,7 +782,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'btc-12||btcmarkets||aud||none',
 					'btc-13||bitbns||inr||none',
 					'btc-16||bitflyer||jpy||chart',
-					'btc-17||liquid||hkd||none',
+					'btc-17||coingecko_hkd||hkd||chart',
 					'btc-19||upbit||krw||none',
 					'btc-20||bitso||mxn||none',
 					'btc-24||btcturk||try||none',
@@ -813,6 +813,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'eth-11||coinbase||eur||chart',
 					'eth-13||bitbns||inr||none',
 					'eth-14||bitmex||usd||both',
+					'eth-15||coingecko_hkd||hkd||chart',
 					
 					
 					// SOL
@@ -851,7 +852,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// RNDR
-					'rndr||kucoin||btc||both',
+					'rndr||coingecko_btc||btc||both',
 					'rndr-2||gateio||usdt||none',
 					
 					
@@ -1245,6 +1246,12 @@ $ct['conf']['news']['feeds'] = array(
         
         
         				array(
+            			      "title" => "News - Dev Class",
+            			      "url" => "https://devclass.com/feed"
+        				     ),
+        
+        
+        				array(
             			      "title" => "News - Slashdot",
             			      "url" => "https://rss.slashdot.org/Slashdot/slashdot"
         				     ),
@@ -1350,12 +1357,6 @@ $ct['conf']['news']['feeds'] = array(
             			      "title" => "Podcast - Unchained",
             			      "url" => "https://unchained.libsyn.com/unchained"
         				     ),
-
-    					
-        				array(
-            			      "title" => "Podcast - Unlayered",
-            			      "url" => "https://feeds.megaphone.fm/CON1529801782"
-        				     ),
     
     
         				array(
@@ -1426,7 +1427,7 @@ $ct['conf']['news']['feeds'] = array(
     
         				array(
             			      "title" => "Stocks - Grit Capital",
-            			      "url" => "https://gritcapital.substack.com/feed"
+            			      "url" => "https://rss.beehiiv.com/feeds/qyHKIYCF6I.xml"
         				     ),
     
     
@@ -1487,6 +1488,12 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Youtube - The Daily Gwei",
             			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCvCp6vKY5jDr87htKH6hgDA"
+        				     ),
+
+    					
+        				array(
+            			      "title" => "Youtube - Unlayered",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCaWbgxQdyz5GtZM-OTxK6Bg"
         				     ),
         
         
@@ -1818,7 +1825,6 @@ $ct['conf']['assets'] = array(
                                           'binance' => 'BTCEUR',
                                           'kraken' => 'XXBTZEUR',
                                           'bitstamp' => 'btceur',
-                                          'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
                                           'cex' => 'BTC:EUR',
                                           'luno' => 'XBTEUR',
@@ -1834,7 +1840,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'hkd' => array(
-                                          'liquid' => 'BTCHKD',
+                                          'coingecko_hkd' => 'bitcoin',
                                                     ),
 
                                                     
@@ -1870,7 +1876,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'rub' => array(
-                                         'binance' => 'BTCRUB',
+                                          'coingecko_rub' => 'bitcoin',
                                                     ),
 
                                                     
@@ -1915,7 +1921,6 @@ $ct['conf']['assets'] = array(
                                     'usdc' => array(
                                           'kraken' => 'XBTUSDC',
                                           'binance_us' => 'BTCUSDC',
-                                          'southxchange' => 'BTC/USDC',
                                                     ),
 
                                                     
@@ -1927,7 +1932,6 @@ $ct['conf']['assets'] = array(
                                           'okex' => 'BTC-USDT',
                                           'bitbns' => 'BTCUSDT',
                                           'wazirx' => 'btcusdt',
-                                          'southxchange' => 'BTC/USDT',
                                                     ),
 
                                                     
@@ -2041,7 +2045,6 @@ $ct['conf']['assets'] = array(
                                           'okex' => 'ETH-BTC',
                                           'poloniex' => 'ETH_BTC',
                                           'bitso' => 'eth_btc',
-                                          'zebpay' => 'ETH-BTC',
                                           'luno' => 'ETHXBT',
                                           'wazirx' => 'ethbtc',
                                                     ),
@@ -2084,7 +2087,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'hkd' => array(
-                                          'liquid' => 'ETHHKD',
+                                          'coingecko_hkd' => 'ethereum',
                                                     ),
 
                                                     
@@ -2117,6 +2120,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'rub' => array(
+                                          'coingecko_rub' => 'ethereum',
+                                                    ),
+
+                                                    
                                     'sgd' => array(
                                           'coingecko_sgd' => 'ethereum',
                                                     ),
@@ -2144,6 +2152,7 @@ $ct['conf']['assets'] = array(
                                           'bitmex_u20' => 'ETHUSDU20',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
+                                          'idex' => 'ETH-USD',
                                           'presale_usd_value' => 'ETHEREUM',
                                                     ),
 
@@ -2292,14 +2301,12 @@ $ct['conf']['assets'] = array(
                                           'binance' => 'MKRBTC',
                                           'coinbase' => 'MKR-BTC',
                                        	  'kucoin' => 'MKR-BTC',
-                                          'okex' => 'MKR-BTC',
                                           'hitbtc' => 'MKRBTC',
                                           'coinex' => 'MKRBTC',
                                                     ),
 
                                                     
                                 	'dai' => array(
-                                        	'kucoin' => 'MKR-DAI',
                                         	'hitbtc' => 'MKRDAI',
                                                     ),
 
@@ -2546,13 +2553,12 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                        'kucoin' => 'RNDR-BTC',
-                                        'hitbtc' => 'RNDRBTC',
+                                         'coingecko_btc' => 'render-token',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                        'gateio' => 'RNDR_ETH',
+                                         'coingecko_eth' => 'render-token',
                                                     ),
 
                                                     
@@ -2562,19 +2568,21 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                        'hitbtc' => 'RNDRUSD',
+                                         'coingecko_usd' => 'render-token',
                                                     ),
 
                                                     
                                     'usdc' => array(
                                     	 'jupiter_ag' => 'RENDER/USDC',
+                                         'gateio' => 'RENDER_USDC',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'huobi' => 'rndrusdt',
+                                        'huobi' => 'renderusdt',
                                         'gateio' => 'RNDR_USDT',
                                         'kucoin' => 'RNDR-USDT',
+                                        'hitbtc' => 'RENDERUSDT',
                                         'coinex' => 'RNDRUSDT',
                                                     ),
 
@@ -2760,6 +2768,11 @@ $ct['conf']['assets'] = array(
                                           'binance' => 'MANAETH',
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                          'okex' => 'MANA-EUR',
                                                     ),
 
                                                     
@@ -2951,7 +2964,6 @@ $ct['conf']['assets'] = array(
                                         'gateio' => 'BONK_USDT',
                                         'bitmart' => 'BONK_USDT',
                                         'coinex' => 'BONKUSDT',
-                                        'bitforex' => 'coin-usdt-bonk',
                                                     ),
 
                                                     

@@ -83,9 +83,9 @@
 	        
 	        <li class='links_list'><a href='https://etherscan.io/chart/tx' target='_blank'>Ethereum Transactions Per Day</a></li>
 	        
-	        <li class='links_list'><a href='https://analytics.solscan.io/' target='_blank'>Solana Network Statistics</a> <span class='yellow'>(SolScan)</span></li>
+	        <li class='links_list'><a href='https://solscan.io/analytics' target='_blank'>Solana Network Statistics</a> <span class='yellow'>(SolScan)</span></li>
 	        
-	        <li class='links_list'><a href='https://spire.fyi/' target='_blank'>Solana Network Statistics</a> <span class='yellow'>(spire.fyi)</span></li>
+	        <li class='links_list'><a href='https://solanabeach.io/' target='_blank'>Solana Network Statistics</a> <span class='yellow'>(solanabeach.io)</span></li>
 	        
 	        
 	    </ul>
@@ -420,7 +420,7 @@
 	        
 	        <li class='links_list'><a href='https://coinshares.com/' target='_blank'>CoinShares.com</a> <span class='yellow'>(professional cryptocurrency investing / advising)</span></li>
 	        
-	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
+	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a> <span class='yellow'>(hands down, the BEST source for crypto news!)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
 	        
@@ -432,7 +432,7 @@
 	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> <span class='yellow'>(a side project of mine)</span></li>
 	        
-	        <li class='links_list'><a href='https://solana.sec3.dev/' target='_blank'>Sec3 Audit of Public Solana Dapps</a> <span class='yellow'>(security overview)</span></li>
+	        <li class='links_list'><a href='https://sec3.dev/' target='_blank'>Sec3 Auditing</a> <span class='yellow'>(for web3 dapps)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/solana/' target='_blank'>Solana Subreddit</a></li>
 	        

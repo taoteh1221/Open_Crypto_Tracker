@@ -184,28 +184,16 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-BLACKHAT NOTES: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓
+NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵̨͛a̴͇͒ņ̴̋d̴͜͠ ̴̺̋b̴͊͜r̸͇͐ṳ̸̐t̵̨͌ê̵̝ ̸̡̛f̶̭̐ö̸̜́ȑ̴͖c̸͎͒ę̸͑ ̶̝͝d̷̛̘e̶̛͉c̴͓̆r̴̗͋y̶̰̾p̷͍̓t̴̗̿į̴̾o̵̲͛ń̵̮ ̶̭̅/̷͚͘ ̷͚̏l̸̜̅õ̶͕ḡ̸͕í̴̺n̷̲͌ ̴̩̌a̷̾ͅt̶͚̆t̸̫͋a̸͕̎ć̴̗k̴͇͐s̵͓̋ ̶̜̀ẘ̶̠i̷̮̎ḽ̸̒ļ̸̅ ̸̦̂N̶͍͋Ȯ̸̳Ț̶͘ ̴̛͔w̶̹̓ŏ̷̤ŕ̵͕k̶̗̍ ̵͉̀õ̵̫n̸͈̾ ̷̣̒m̵̯͆ḙ̴̌,̵̦̆ ̵̙̎ğ̵̙i̵̙͗v̶͓̀ē̴͖ ̸̩́u̵̗͝p̶͉̀ ̶̡̈a̸͔̐l̷̯̆r̷͍͊e̵͈̋ȃ̶̖d̵̉ͅỵ̵͠.̴̳̓
 
 
-Add to news feeds: https://devclass.com/feed/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Run full market unit tests, since we heavily refactored the exchange APIs logic
+Separate the "add asset market" and "delete asset market" subsections in the "portfolio assets" main admin section, by splitting the page into TABBED divs. Each subsection's div should have its own "data" child div, with an id attribute that is populated via AJAX. Then we don't need to have endless iframes within iframes, and it keeps the developer AND user experience both good without any noticeable compromise.
 
 
-'Show per page' on access stats page has a 'current' class added dynamically, so we can style it like we did for the page number.
-
-
-Add a drop-down menu on the access stats page, to switch between listing visits as 'per ip address' (which we have already) OR 'per visit time' (combining all visits into one list, based of visit timestamp).
-
-
-For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp. Convert the user agent info to show using info balloons as well (instead of in a title tag), BUT make sure it still renders safe by escaping HTML characters. Also, convert the access stats data retrieval to AJAX, using roughly the same logic we use for news feeds. Then we have 'shock absorbers ' for when it's loaded in the user area admin quick links.
-
-
-'access stats' only allows 'zebra' striped data rows to be enabled in the ADMIN AREA iframe version, so our custom CSS logic is screwed up when rendered in the USER AREA 'system monitoring' links version, to the point we have to disable the onload / initial table sorting for that area (so it's only enabled when 'is_iframe' is set, in functions.js). Find out why, and fix it.
-
-
-Get a border around the outside of the access stats tables, and any other table CSS tidying up noticed.
+Add a 'manual' mode for the 'add new asset market' feature, on the portfolio assets admin config interface, whereby you get a drop down menu of ALL the exchanges, and you select ONLY ONE, and then you add a market id MANUALLY BY HAND in a text field. The app then does an input validation check to make sure the market exists, and shows a rejection (if market doesn't exist) OR 'click to confirm' confirmation page / modal to add the new asset market. Then we have support for 'limited APIs' within the feature. We can eventually map any 'available assets' API endpoints for 'limited APIs' into the 'add new asset' feature in the future, so we can eventually add auto-scanning for 'limited APIs' exchange's markets.
 
 
 For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
@@ -215,6 +203,12 @@ There are also endpoints available for income statement / balance sheet / cash f
 https://www.alphavantage.co/documentation/#fundamentals
 
 Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
+
+
+Add a drop-down menu on the access stats page, to switch between listing visits as 'per ip address' (which we have already) OR 'per visit time' (combining all visits into one list, based of visit timestamp).
+
+
+For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp.
 
 
 HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
@@ -251,9 +245,6 @@ Add the ability to allow a BLANK single array item admin user input for domains 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Create logic in $ct['api']->exchange_api_data() for it's NEW $search_only PARAMETER, so we can scan for a ticker symbol in all exchange APIs, when adding a NEW asset via the admin 'postfolio assets' INTERFACE.
 
 
 Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' PAGE (AND WHEREVER IT'S CALLED BY THAT ID IN THE APP), as it now also handles charts / news feeds / etc.

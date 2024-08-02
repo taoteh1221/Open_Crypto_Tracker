@@ -49,6 +49,14 @@ $.tablesorter.customPagerControls = function(settings) {
 				pageArray = [],
 				max = p.filteredPages,
 				around = options.aroundCurrent;
+     		     
+     		     // Style the CURRENT selection for page size
+     		     $pager.find(options.pageSize + "[data-track='" + p.size + "']")
+     		     .addClass(options.currentClass)
+     			.siblings()
+     			.removeClass(options.currentClass);
+				
+				
 			for (indx = -around; indx <= around; indx++) {
 				if (cur + indx >= 1 && cur + indx <= max) {
 					pageArray.push(cur + indx);
@@ -116,6 +124,7 @@ $.tablesorter.customPagerControls = function(settings) {
 			$table.trigger('pageSet', $el.attr('data-page'));
 			return false;
 		});
+
 
 	// make right/left arrow keys work
 	if (options.addKeyboard) {

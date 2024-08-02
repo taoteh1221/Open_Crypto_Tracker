@@ -291,11 +291,11 @@ else {
               
               &nbsp;&nbsp; || &nbsp;&nbsp; 
               
-              <a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($ct['app_edition'])?> Edition<?=( $ct['gen']->admin_logged_in() ? ' v' . $ct['app_version'] : '' )?></a>
+              <a title='Let me know (anonymously OR otherwise) you enjoy my apps.' href='javascript: show_more("donate");'>Show Appreciation</a>
               
               &nbsp;&nbsp; || &nbsp;&nbsp; 
               
-              <a title='Let me know (anonymously OR otherwise) you enjoy my apps.' href='javascript: show_more("donate");'>Show Your Appreciation</a>
+              <a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($ct['app_edition'])?> Edition<?=( $ct['gen']->admin_logged_in() ? ' v' . $ct['app_version'] : '' )?></a>
               
               </p>
                       	
