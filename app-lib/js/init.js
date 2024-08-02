@@ -149,6 +149,17 @@ nav_menu('.user-nav');
      // If overriding any responsive menu CSS is needed
      responsive_menu_override();
 	});
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Load access stats
+     $('.load_access_stats_onclick').on({
+        "click":function(e){
+         ct_ajax_load('type=access_stats', '#access_stats_data', 'latest access stats', false, true, true); // Secured / tablesorter
+         }
+     });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
