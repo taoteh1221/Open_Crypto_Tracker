@@ -604,6 +604,8 @@ var $exchange_apis = array(
    $temp = array();
    
    $results = array();
+   
+   $ticker = trim($ticker); // TRIM ANY USER INPUT WHITESPACE
          
          
        foreach ( $this->exchange_apis as $key => $val ) {
@@ -631,7 +633,7 @@ var $exchange_apis = array(
                    // RESET $try_pairing to included pairing ONLY, IF a specific pairing was included in the search string
                    // (prevents unnecessary loops)
                    if ( stristr($ticker, '/') ) {
-                   $pairing_parse = explode('/', $ticker);
+                   $pairing_parse = array_map( "trim", explode('/', $ticker) ); // TRIM ANY USER INPUT WHITESPACE
                    $try_pairing = $pairing_parse[1];
                    }
               
@@ -870,6 +872,8 @@ var $exchange_apis = array(
    global $ct;
    
    $possible_market_ids = array();
+   
+   $market_id = trim($market_id); // TRIM ANY USER INPUT WHITESPACE
 
    // DEFAULTS         
    $dyn_id = $market_id;
@@ -882,7 +886,7 @@ var $exchange_apis = array(
          // IF a PAIRING was included in the search string
          if ( $ticker_pairing_search && stristr($market_id, '/') ) {
               
-         $search_params = explode('/', $market_id);
+         $search_params = array_map( "trim", explode('/', $market_id) ); // TRIM ANY USER INPUT WHITESPACE
 
          $dyn_id = $search_params[0];
          $search_pairing = $search_params[1];

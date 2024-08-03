@@ -32,6 +32,9 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/rss.php');
 elseif ( $_GET['type'] == 'access_stats' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/access-stats.php');
 }
+elseif ( $_GET['type'] == 'add_markets' ) {
+require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/add-markets.php');
+}
 
 
 
