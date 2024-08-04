@@ -22,6 +22,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.aevo.xyz/instrument/[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -29,6 +30,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=[MARKET]&apikey=[ALPHAVANTAGE_KEY]',
                                                    'response_path' => 'Global Quote', // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -36,6 +38,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://www.binance.com/api/v3/ticker/24hr',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -43,6 +46,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.binance.us/api/v3/ticker/24hr',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -50,6 +54,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://bit2c.co.il/Exchanges/[MARKET]/Ticker.json',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -57,6 +62,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://bitbns.com/order/getTickerWithVolume',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -64,6 +70,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => '0', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -71,6 +78,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => '0', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -78,6 +86,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.bitflyer.com/v1/getticker?product_code=[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -85,6 +94,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api-cloud.bitmart.com/spot/v1/ticker',
                                                    'response_path' => 'data>tickers', // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -96,6 +106,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol=[MARKET]&reverse=true',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -103,6 +114,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.bitso.com/v3/ticker/?book=[MARKET]',
                                                    'response_path' => 'payload', // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -110,6 +122,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://www.bitstamp.net/api/v2/ticker/[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -117,6 +130,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.btcmarkets.net/market/[MARKET]/tick',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -124,6 +138,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.btcturk.com/api/v2/ticker',
                                                    'response_path' => 'data', // Delimit multiple depths with >
                                                    'multiple_results' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -131,6 +146,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.buyucoin.com/ticker/v1.0/liveData',
                                                    'response_path' => 'data', // Delimit multiple depths with >
                                                    'multiple_results' => 'marketName', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -138,6 +154,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api-testnet.bybit.com/v2/public/tickers',
                                                    'response_path' => 'result', // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -145,6 +162,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://cex.io/api/tickers/BTC/USD/USDT/EUR/GBP',
                                                    'response_path' => 'data', // Delimit multiple depths with >
                                                    'multiple_results' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -152,6 +170,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.pro.coinbase.com/products/[MARKET]/ticker',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => 'https://api.exchange.coinbase.com/products', // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -159,6 +178,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://public.coindcx.com/exchange/ticker',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'market', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -166,6 +186,24 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.coinex.com/v1/market/ticker/all',
                                                    'response_path' => 'data>ticker', // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
+                                                  ),
+
+                           
+                           // 'multiple_results' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
+                           'coingecko' => array(
+                                                   'endpoint' => 'https://api.coingecko.com/api/v3/simple/price?ids=[COINGECKO_ASSETS]&vs_currencies=[COINGECKO_PAIRS]&include_24hr_vol=true',
+                                                   'response_path' => false, // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
+                                                  ),
+                                                  
+                                                  
+                           'coingecko_terminal' => array(
+                                                   'endpoint' => 'https://api.geckoterminal.com/api/v2/networks/[MARKET]?include=base_token,quote_token',
+                                                   'response_path' => 'data', // Delimit multiple depths with >
+                                                   'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -173,6 +211,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://www.coinspot.com.au/pubapi/latest',
                                                    'response_path' => 'prices', // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -180,6 +219,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.crypto.com/v2/public/get-ticker',
                                                    'response_path' => 'result>data', // Delimit multiple depths with >
                                                    'multiple_results' => 'i', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -187,6 +227,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.gateio.ws/api/v4/spot/tickers',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'currency_pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -194,6 +235,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.gemini.com/v1/pubticker/[MARKET]',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -201,6 +243,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://graviex.net//api/v2/tickers.json',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -208,6 +251,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.hitbtc.com/api/2/public/ticker',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -215,6 +259,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.huobi.pro/market/tickers',
                                                    'response_path' => 'data', // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -222,6 +267,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api-sandbox.idex.io/v4/tickers',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'market', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
                            
@@ -230,6 +276,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://price.jup.ag/v4/price?ids=[JUP_AG_ASSETS]&vsToken=[JUP_AG_PAIRING]',
                                                    'response_path' => 'data', // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -237,6 +284,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.korbit.co.kr/v1/ticker/detailed/all',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
                            
@@ -245,6 +293,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.kraken.com/0/public/Ticker?pair=[KRAKEN_PAIRS]',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -252,6 +301,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.kucoin.com/api/v1/market/allTickers',
                                                    'response_path' => 'data>ticker', // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -260,6 +310,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api3.loopring.io/api/v3/allTickers',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -267,6 +318,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.mybitx.com/api/1/tickers',
                                                    'response_path' => 'tickers', // Delimit multiple depths with >
                                                    'multiple_results' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -274,6 +326,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://www.okcoin.com/api/v5/market/tickers?instType=SPOT',
                                                    'response_path' => 'data', // Delimit multiple depths with >
                                                    'multiple_results' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -281,6 +334,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://www.okx.com/api/v5/market/tickers?instType=SPOT',
                                                    'response_path' => 'data', // Delimit multiple depths with >
                                                    'multiple_results' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -288,6 +342,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.poloniex.com/markets/ticker24h',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -296,6 +351,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://tradeogre.com/api/v1/markets',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -303,6 +359,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.unocoin.com/api/trades/in/all/all',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -310,6 +367,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.upbit.com/v1/ticker?markets=[UPBIT_PAIRS]',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'market', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -317,6 +375,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://api.wazirx.com/api/v2/tickers',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -324,6 +383,7 @@ var $exchange_apis = array(
                                                    'endpoint' => 'https://www.zebapi.com/pro/v1/market',
                                                    'response_path' => false, // Delimit multiple depths with >
                                                    'multiple_results' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'single_results_list' => false, // false|[API endpoint with all market pairings]
                                                   ),
                                                   
                                                   
@@ -359,23 +419,24 @@ var $exchange_apis = array(
    
    $prefixing_blacklist = array(
                              'binance', // Because 'binance_us' is a separate API
+                             'coingecko', // Because 'coingecko_terminal' is a separate API
                             );
    
       // IF exchange API exists
       if ( isset($this->exchange_apis[$selected_exchange]) ) {
-      return $this->fetch_exchange_data($selected_exchange, $this->exchange_apis[$selected_exchange], $market_id, $ticker_pairing_search);
+      return $this->fetch_exchange_data($selected_exchange, $market_id, $ticker_pairing_search);
       }
       // IF exchange API doesn't exist, check to see if we are using our prefix delimiter, for a possible 'prefixed' exchange name
       // (for end-user descriptiveness / UX, BUT ONLY IF NOT A BLACKLISTED PREFIX!)
       elseif ( !in_array($selected_exchange, $prefixing_blacklist) && stristr($selected_exchange, '_') ) {
         
-           foreach ( $this->exchange_apis as $exchange_key => $exchange_api ) {
+           foreach ( $this->exchange_apis as $exchange_key => $unused ) {
            
            $exchange_key = strtolower($exchange_key);
                
                // AUTO-CHECK FOR PREFIX USAGE: EXCHANGEKEY_
                if ( stristr($selected_exchange, $exchange_key . '_') ) {
-               return $this->fetch_exchange_data($exchange_key, $exchange_api, $market_id, $ticker_pairing_search);
+               return $this->fetch_exchange_data($exchange_key, $market_id, $ticker_pairing_search);
                break; // will assure leaving the foreach loop immediately
                }
            
@@ -606,6 +667,11 @@ var $exchange_apis = array(
    $results = array();
    
    $ticker = trim($ticker); // TRIM ANY USER INPUT WHITESPACE
+   
+   
+       if ( $ticker == '' ) {
+       return array('search_error' => 'Please enter a value to search for.');
+       }
          
          
        foreach ( $this->exchange_apis as $key => $val ) {
@@ -613,9 +679,9 @@ var $exchange_apis = array(
        $try_pairing = false; // RESET
            
            
-          // We GENERALLY only search APIs that ARE REGISTERED AS returning MULTIPLE tickers per endpoint data set
-          // (KRAKEN returns multiple results, BUT is not 'registered' in the app as such [due to parsing requirements])
-          if ( $val['multiple_results'] || $key == 'kraken' ) {
+          // APIs REGISTERED AS supporting 'multiple_results' / 'single_results_list' params, AND SPECIFIC OTHERS (like 'coingecko_terminal', etc)
+          // (KRAKEN / REGULAR COINGECKO return multiple results, BUT are not 'registered' as such, due to parsing requirements)
+          if ( $val['multiple_results'] || $val['single_results_list'] || $key == 'kraken' || stristr($key, 'coingecko') ) {
                
                
               if ( $key == 'kraken' || $key == 'upbit' ) {
@@ -662,13 +728,22 @@ var $exchange_apis = array(
               
               }
               else {
+                   
 
-              $check_results = $this->exchange_api_data($key, $ticker, true); // SEARCH ONLY MODE (TICKER ONLY)
+                   if ( $key == 'coingecko' ) {
+                   $search_pairings =  'usd,gpb,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd';
+                   }
+                   else {
+                   $search_pairings = true;
+                   }
 
 
-                       if ( $check_results ) {
-                       $results[$key] = $check_results;
-                       }
+              $check_results = $this->exchange_api_data($key, $ticker, $search_pairings); // SEARCH ONLY MODE (TICKER ONLY, UNLESS SPECIFIED)
+
+
+                   if ( $check_results ) {
+                   $results[$key] = $check_results;
+                   }
 
 
               }
@@ -867,24 +942,104 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function fetch_exchange_data($exchange_key, $exchange_api, $market_id, $ticker_pairing_search) {
+   function limited_apis_markets_search($exchange_key, $market_id, $cache_time) {
+   
+   global $ct;
+   
+   $exchange_api = $this->exchange_apis[$exchange_key];
+   
+   $possible_market_ids = array();
+   
+   
+         // IF a PAIRING was included in the search string
+         if ( stristr($market_id, '/') ) {
+              
+         $search_params = array_map( "trim", explode('/', $market_id) ); // TRIM ANY USER INPUT WHITESPACE
+
+         $dyn_id = $search_params[0];
+         $search_pairing = $search_params[1];
+
+         }
+         else {
+         $dyn_id = $market_id;
+         }
+         
+   
+   // API response data
+   $response = @$ct['cache']->ext_data('url', $exchange_api['single_results_list'], $cache_time);
+   
+   $data = json_decode($response, true);
+   
+   
+       if ( is_array($data) ) {
+            
+            
+           foreach( $data as $val ) {
+
+       
+                if ( $exchange_key == 'coinbase' ) {
+                
+                    if (
+                    !$search_pairing && stristr($val['id'], $dyn_id)
+                    || $search_pairing && stristr($val['id'], $dyn_id) && stristr($val['id'], $search_pairing)
+                    ) {
+                    
+                    $possible_market_ids[] = array(
+                                                   'id' => $val['id'],
+                                                   'data' => $this->fetch_exchange_data($exchange_key, $val['id']),
+                                                    );
+                    }
+                
+                }
+
+           
+           }
+
+       
+       }
+       
+       
+       if ( sizeof($possible_market_ids) > 0 ) {
+       return $possible_market_ids;
+       }
+       else {
+       return false;
+       }
+       
+   
+   }
+                           
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function fetch_exchange_data($exchange_key, $market_id, $ticker_pairing_search=false) {
         
    global $ct;
    
    $possible_market_ids = array();
    
+   $limited_apis = array();
+   
    $market_id = trim($market_id); // TRIM ANY USER INPUT WHITESPACE
 
    // DEFAULTS         
+   $exchange_api = $this->exchange_apis[$exchange_key];
+   
    $dyn_id = $market_id;
    
-   $cache_time = $ct['conf']['power']['last_trade_cache_time'];
+   $cache_time = ( $exchange_key == 'alphavantage_stock' ? $ct['throttled_api_cache_time']['alphavantage.co'] : $ct['conf']['power']['last_trade_cache_time'] );
           
    $url = $exchange_api['endpoint'];
    
-   
+         
+         // IF ticker search AND a LIMITED API WITH A MARKETS LIST ENDPOINT
+         if ( $ticker_pairing_search && $exchange_api['single_results_list'] ) {
+         return $this->limited_apis_markets_search($exchange_key, $market_id, $cache_time);
+         }
          // IF a PAIRING was included in the search string
-         if ( $ticker_pairing_search && stristr($market_id, '/') ) {
+         elseif ( $ticker_pairing_search && stristr($market_id, '/') ) {
               
          $search_params = array_map( "trim", explode('/', $market_id) ); // TRIM ANY USER INPUT WHITESPACE
 
@@ -898,20 +1053,10 @@ var $exchange_apis = array(
          elseif ( is_bool($ticker_pairing_search) !== true ) {
          $required_pairing = $ticker_pairing_search;
          }
-   
-   
-         // When we are getting SPECIFIED markets (NOT all markets on the exchange)
-         if ( !$ticker_pairing_search ) {
-         $url = preg_replace("/\[MARKET\]/i", $dyn_id, $url);
-         }
              
          
          if ( $exchange_key == 'alphavantage_stock' ) {
-              
-         $cache_time = $ct['throttled_api_cache_time']['alphavantage.co'];
-              
          $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
-         
          }
          elseif ( $exchange_key == 'kraken' ) {
               
@@ -930,6 +1075,60 @@ var $exchange_apis = array(
              }
 
 
+         }
+         elseif ( $exchange_key == 'coingecko_terminal' ) {
+              
+         // DO NOT CONVERT TO LOWERCASE!!!
+                
+         $id_parse = array_map( "trim", explode("||", $dyn_id) );
+           
+               
+             // Auto-correct for some inconsistancies in the API's sementics
+             if ( $id_parse[0] == 'ethereum' ) {
+             $id_parse[0] = 'eth';
+             }
+             elseif ( $id_parse[0] == 'sol' ) {
+             $id_parse[0] = 'solana';
+             }
+             
+         
+         $url = preg_replace("/\[MARKET\]/i", $id_parse[0].'/pools/'.$id_parse[1], $url);
+
+         }
+         elseif ( $exchange_key == 'coingecko' ) {
+              
+         $dyn_id = strtolower($dyn_id);
+              
+         // (coingecko's response path is DYNAMIC, based off market id)
+         $exchange_api['response_path'] = $dyn_id;
+                
+         
+             if ( !$search_pairing && $required_pairing ) {
+             $url = preg_replace("/\[COINGECKO_ASSETS\]/i", $dyn_id, $url);
+             $url = preg_replace("/\[COINGECKO_PAIRS\]/i", strtolower($required_pairing), $url);
+             }
+             elseif ( $search_pairing && !stristr($ticker_pairing_search, $search_pairing) ) {
+              
+             $required_pairing = strtolower($ticker_pairing_search) . ',' . strtolower($search_pairing);
+             
+             $url = preg_replace("/\[COINGECKO_ASSETS\]/i", $dyn_id, $url);
+             
+             $url = preg_replace("/\[COINGECKO_PAIRS\]/i", strtolower($required_pairing), $url);
+             
+             }
+             else {
+             $url = preg_replace("/\[COINGECKO_ASSETS\]/i", $ct['coingecko_assets'], $url);
+             $url = preg_replace("/\[COINGECKO_PAIRS\]/i", $ct['coingecko_pairs'], $url);
+             }
+             
+             
+             // RESET to true (instead of specific pairings), for rest of logic
+             if ( $ticker_pairing_search ) {
+             $temp_pairing_array = array_map( "trim", explode(",", $ticker_pairing_search) );
+             $ticker_pairing_search = true; 
+             }
+         
+         
          }
          elseif ( $exchange_key == 'upbit' ) {
               
@@ -1002,6 +1201,12 @@ var $exchange_apis = array(
              $dyn_id = 'xbt';
              }
 
+         }
+   
+   
+         // When we are getting SPECIFIED markets (NOT all markets on the exchange)
+         if ( !$ticker_pairing_search || $exchange_api['single_results_list'] ) {
+         $url = preg_replace("/\[MARKET\]/i", $dyn_id, $url);
          }
           
           
@@ -1145,6 +1350,34 @@ var $exchange_apis = array(
                  }
                
               }
+                   
+         }
+         elseif ( $ticker_pairing_search && $exchange_key == 'coingecko' ) {
+      
+              foreach( $temp_pairing_array as $pair ) {
+              
+                   if ( isset($data[$pair]) ) {
+                        
+                   $possible_market_ids[] = array(
+                                                  'id' =>  'coingecko_' . $pair . '=' . $dyn_id,
+                                                  'data' => array('value' => $data[$pair], '24hr_volume' => $data[$pair . "_24h_vol"]),
+                                                 );
+                                                                       
+                   }    
+              
+              }
+              
+         }
+         elseif ( $ticker_pairing_search && $exchange_key == 'coingecko_terminal' ) {
+      
+              if ( isset($data['attributes']) ) {
+                   
+              $possible_market_ids[] = array(
+                                             'id' => $dyn_id,
+                                             'data' => $data,
+                                            );
+                                                                  
+              }    
                    
          }
          
@@ -2545,69 +2778,30 @@ var $exchange_apis = array(
     
     
       elseif ( stristr( $sel_exchange , 'coingecko_') ) {
-           
-           // Coingecko terminal
-           // https://www.geckoterminal.com/dex-api
-           if ( stristr( $sel_exchange , '_terminal') ) {
-                
-           $id_parse = array_map( "trim", explode("||", $mrkt_id) );
-           
-               
-               // Auto-correct for some inconsistancies in the API's sementics
-               if ( $id_parse[0] == 'ethereum' ) {
-               $id_parse[0] = 'eth';
-               }
-               elseif ( $id_parse[0] == 'sol' ) {
-               $id_parse[0] = 'solana';
-               }
-               
-
-           $url = 'https://api.geckoterminal.com/api/v2/networks/'.$id_parse[0].'/pools/'.$id_parse[1].'?include=base_token,quote_token';
-              
-           $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-              
-           $data = json_decode($response, true);
-              
-           $data = $data['data'];
      
-     	        // Use data from coingecko, if API attributes exist
-                  if ( isset($data['attributes']) ) {
-     	        
-     	         $result = array(
+      $coingecko_route = explode('_', $sel_exchange );
+      $coingecko_route = strtolower($coingecko_route[1]);
+      
+           
+           // Coingecko terminal ( https://www.geckoterminal.com/dex-api )
+           // Use data from coingecko, if API attributes exist
+           if ( $coingecko_route == 'terminal' && isset($data['attributes']) ) {
+     
+     	 $result = array(
      	                        'last_trade' => $data['attributes']['base_token_price_usd'],
      	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
      	                        '24hr_pair_vol' => $data['attributes']['volume_usd']['h24']
      	                        );
-     	        
-                  }
-         
            
            }
-           // Everything else
-           else {
-
-           $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $ct['coingecko_assets'] . '&vs_currencies='.$ct['coingecko_pairs'].'&include_24hr_vol=true';
-              
-           $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['last_trade_cache_time']);
-              
-           $data = json_decode($response, true);
-              
-           $data = $data[$mrkt_id];
-     
-           $paired_with = explode('_', $sel_exchange );
-           $paired_with = $paired_with[1];
-     
-     	        // Use data from coingecko, if API ID / base currency exists
-                  if ( isset($data[$paired_with]) ) {
-     	     
-     	         $result = array(
-     	                        'last_trade' => $data[$paired_with],
+           // Use data from coingecko, if API ID / base currency exists
+           elseif ( isset($data[$coingecko_route]) ) {
+    
+           $result = array(
+     	                        'last_trade' => $data[$coingecko_route],
      	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
-     	                        '24hr_pair_vol' => $data[$paired_with . "_24h_vol"]
+     	                        '24hr_pair_vol' => $data[$coingecko_route . "_24h_vol"]
      	                        );
-     	                     		  
-                  }
-         
            
            }
            

@@ -25,17 +25,19 @@ else {
 	<div id='add_markets_ajax' style='margin: 1em;'>
 	
 	
-     	Search for a ticker, OR ticker/pair (eg: BTC, or SOL/ETH):<br /><br />
+     	<b class='blue'>Search for a ticker, a ticker/pair, a CoinGecko "APP ID", OR a CoinGecko "Terminal" DeFi Pool:</b><br /><br />
      	
-     	<input type='text' id='add_markets_search' value='' size='15' />
+     	<span class='bitcoin'>(example searches: BTC, SOL/ETH, dogecoin, OR solana||FgTCR1ufcaTZMwZZYhNRhJm2K3HgMA8V8kXtdqyttm19 [pool addresses ARE CASE-SENSITIVE!])</span><br /><br />
      	
-     	<button class='force_button_style' onclick='
+     	<input type='text' id='add_markets_search' value='' style='width: 100%;' /> &nbsp; 
+     	
+     	<button style='margin: 1em;' class='force_button_style' onclick='
      	
      	var add_markets_search = { "add_markets_search": $("#add_markets_search").val() };
      	
      	ct_ajax_load("type=add_markets&step=1", "#add_markets_ajax", "markets search results", add_markets_search, true); // Secured
      	
-     	'> Search </button>
+     	'> Search For Markets To Add </button>
 
 	
 	</div>

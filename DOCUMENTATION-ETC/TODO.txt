@@ -190,6 +190,12 @@ NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+In $ct['api']->ticker_markets_search(), there is a pairings list for coingecko only, for searching coingecko for app ids to add a new asset market. Add this list as a new setting in the 'currency support' admin config section, and include input validation for it.
+
+
+Make sure the market does NOT already exist when adding new ones, and DISALLOW REMOVING ANY BITCOIN MARKETS THAT ********WOULD REMOVE A PAIRING, BECAUSE IT'S THE ONLY MARKET IN THAT PAIRING********** (SO COUNTRY CURRENCY PRICE CONVERSION CAPACITY IS NOT AFFECTED).
+
+
 Separate the "add asset market" and "delete asset market" subsections in the "portfolio assets" main admin section, by splitting the page into TABBED divs. Each subsection's div should have its own "data" child div, with an id attribute that is populated via AJAX. Then we don't need to have endless iframes within iframes, and it keeps the developer AND user experience both good without any noticeable compromise.
 
 

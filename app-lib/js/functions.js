@@ -8,7 +8,7 @@
 function ct_ajax_load(url_params, elm_id, elm_desc, post_data=false, csrf_sec_token=false, sort_tables=false, loading_height='3em') {
 
 
-$(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + loading_height + ";'> <strong style='font-size: " + loading_height + ";'>Loading " + elm_desc + "...</strong> &nbsp; &nbsp; <img class='' src='templates/interface/media/images/auto-preloaded/loader.gif' alt='' style='height: " + loading_height + "; vertical-align: bottom;' /> </div>");
+$(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loading_height * 2) + ";'> <strong style='font-size: " + loading_height + ";' class='bitcoin'>Loading " + elm_desc + "...</strong> &nbsp; &nbsp; <img class='' src='templates/interface/media/images/auto-preloaded/loader.gif' alt='' style='height: " + loading_height + "; vertical-align: bottom;' /> </div>");
 
 
      // IF we are NOT passing POST data, just populate with dummy data
@@ -59,7 +59,7 @@ $(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + load
                   
                   // On error loading
                   error: function(data) {
-                  $(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + loading_height + ";'> <strong style='font-size: " + loading_height + ";' class='bitcoin'>ERROR loading " + elm_desc + "...</strong> <span class='red'>" + data.status + ": " + data.statusText + "</span> </div>");       
+                  $(elm_id).html("<div style='min-height: " + (loading_height * 2) + "; font-size: " + loading_height + ";'> <strong class='bitcoin'>ERROR loading " + elm_desc + "...</strong> <br /><br /> <strong class='red'>" + data.status + ": " + data.statusText + "</strong> </div>");       
                   }
              
            });
