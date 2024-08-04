@@ -197,6 +197,11 @@ CLASSES
 ////////////////////////////// */
 
 
+.input_margins {
+margin: 0.5em !important;
+}
+
+
 table.data_table:not(#coins_table) {
     border-radius: 0.5em;
 }

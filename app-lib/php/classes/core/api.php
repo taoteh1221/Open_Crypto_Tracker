@@ -658,7 +658,7 @@ var $exchange_apis = array(
    
    
    // The passed $ticker parameter can be a ticker by itself like 'sol', OR INCLUDE A PAIRING like 'sol/btc'
-   function ticker_markets_search($ticker) {
+   function ticker_markets_search($ticker, $specific_exchange=false) {
     
    global $ct;
    
@@ -668,9 +668,21 @@ var $exchange_apis = array(
    
    $ticker = trim($ticker); // TRIM ANY USER INPUT WHITESPACE
    
-   
+       
+       // If no data
        if ( $ticker == '' ) {
        return array('search_error' => 'Please enter a value to search for.');
+       }
+       // If specific exchange / id
+       elseif ( $specific_exchange ) {
+       
+       $results[$specific_exchange] = array(
+                                   'id' => $ticker,
+                                   'data' => $this->fetch_exchange_data($specific_exchange, $ticker),
+                                   );
+       
+       return $results;
+
        }
          
          

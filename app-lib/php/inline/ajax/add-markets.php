@@ -33,7 +33,15 @@ exit;
 // 'Wizard' steps
 if ( $_GET['step'] == 1 ) {
      
-$search_results = $ct['api']->ticker_markets_search($_POST['add_markets_search']);
+     // ALL / specific exchange
+     if ( $_POST['add_markets_search_exchange'] != 'all_exchanges' ) {
+     $specific_exchange = $_POST['add_markets_search_exchange'];
+     }
+     else {
+     $specific_exchange = false;
+     }
+     
+$search_results = $ct['api']->ticker_markets_search($_POST['add_markets_search'], $specific_exchange);
 
 var_dump($search_results); // DEBUGGING
 
