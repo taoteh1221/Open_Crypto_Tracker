@@ -671,7 +671,7 @@ var $exchange_apis = array(
        
        // If no data
        if ( $ticker == '' ) {
-       return array('search_error' => 'Please enter a value to search for.');
+       return array();
        }
        // If specific exchange / id
        elseif ( $specific_exchange ) {
