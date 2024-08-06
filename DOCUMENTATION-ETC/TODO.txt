@@ -193,6 +193,15 @@ NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
+In addition to moving 'coingecko default pairs' into the 'currency support' section as a setting, do the same for 'additional pairing support' currently in parse_pairing(), for potential upcoming / semi-popular pairs like TBTC, BUSD, etc etc. Then we have forward looking pairing detection in pairing_parse() (for adding new markets via interface).
+
+
+Add a new GLOBAL $ct var, to import into the parse_pairing() function, so we only need to build the 'known pairings' array once per runtime. Then if we have a lot of ticker search results, it may cut runtime length significantly.
+
+
+Add the coingecko pairings list into the parse_pairing() function's 'known pairings check' array, after moving it into a setting in the 'currency support' section.
+
+
 In $ct['api']->ticker_markets_search(), there is a pairings list for coingecko only, for searching coingecko for app ids to add a new asset market. Add this list as a new setting in the 'currency support' admin config section, and include input validation for it.
 
 
