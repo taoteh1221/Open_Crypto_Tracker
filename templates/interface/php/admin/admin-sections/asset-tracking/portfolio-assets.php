@@ -22,20 +22,13 @@ if ( $ct['admin_area_sec_level'] == 'high' ) {
 else {
 ?>
 	
-	<p> Coming Soon&trade; </p>
+	<div id='update_markets_ajax' style='margin: 1em;'>
 	
-	<p class='bitcoin bitcoin_dotted'>
-	
-	YOU ***CAN STILL EDIT THIS SECTION*** BY SWITCHING TO HIGH SECURITY ADMIN MODE (in the Security section), and update it via the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor.
-	
-	</p>
-	
-	<?php
-     
-     // DEBUGGING...this can be a ticker by itself like 'sol', OR INCLUDE A PAIRING like 'sol/btc'
-	//var_dump( $ct['api']->ticker_markets_search('sol/btc') );
+     <?php
+     require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/steps-init.php');
+     ?>
 
-	?>
+	</div>
     
 	
 <?php

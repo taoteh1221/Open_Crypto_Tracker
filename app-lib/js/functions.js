@@ -973,7 +973,7 @@ function paged_tablesort_sizechange() {
              
         console.log('div span.left.choose_pp a CLICKED');
               
-              if ( is_admin ) {            
+              if ( is_admin && is_iframe ) {            
              
               console.log('div span.left.choose_pp a CLICKED IN ADMIN AREA');
 
@@ -2223,6 +2223,78 @@ function paginated_tables(element, generic_sort_list, pager_id=false) {
       size: 5,
       output: '<span class="bitcoin">Showing:</span> {startRow} through {endRow} (of {filteredRows} total data rows)'
     });
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function ct_ajax_load(url_params, elm_id, elm_desc, post_data=false, csrf_sec_token=false, sort_tables=false, loading_height='3em') {
+
+
+$(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loading_height * 2) + ";'> <strong style='font-size: " + loading_height + ";' class='bitcoin'>Loading " + elm_desc + "...</strong> &nbsp; &nbsp; <img class='' src='templates/interface/media/images/auto-preloaded/loader.gif' alt='' style='height: " + loading_height + "; vertical-align: bottom;' /> </div>");
+
+
+     // IF we are NOT passing POST data, just populate with dummy data
+     // (to avoid halting from possible logic errors)
+     if ( !post_data ) {
+     post_data = {'no_keys': 'no_values'};
+     }
+     
+     
+     // IF secured with the general CSRF security token
+     if ( csrf_sec_token ) {
+     url_params = url_params + "&token=" + Base64.decode(gen_csrf_sec_token);
+     }
+
+     
+     $(elm_id).show(250, 'linear',function(){ // show after 0.25 seconds
+     
+     
+           $.ajax({
+                
+                  url: "ajax.php?" + url_params,
+                  
+                  method: 'POST', // We can ALWAYS use POST, as it covers even GET data
+             
+                  // POST data (associative) array 
+                  data: post_data,
+                  
+                  // On successful load
+                  success: function(data) {
+                       
+                  $(elm_id).html(data); // Load response into the passed element id
+                  
+                  // Highlightjs
+                  load_highlightjs();
+                  
+                       if ( sort_tables ) {
+                       sorting_generic_tables(true);
+                       paged_tablesort_sizechange();
+                       }
+                       
+                       if ( is_admin && is_iframe ) {
+                       
+                            // Resize admin iframes after adding repeatable elements
+                            admin_iframe_dom.forEach(function(iframe) {
+                            iframe_size_adjust(iframe);
+                            });
+                       
+                       }
+                  
+                  },
+                  
+                  // On error loading
+                  error: function(data) {
+                  $(elm_id).html("<div style='min-height: " + (loading_height * 2) + "; font-size: " + loading_height + ";'> <strong class='bitcoin'>ERROR loading " + elm_desc + "...</strong> <br /><br /> <strong class='red'>" + data.status + ": " + data.statusText + "</strong> </div>");       
+                  }
+             
+           });
+     
+     
+     });
+     
 
 }
 

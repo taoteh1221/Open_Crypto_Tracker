@@ -190,10 +190,19 @@ NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Separate the "add asset market" and "delete asset market" subsections in the "portfolio assets" main admin section, by splitting the page into TABBED divs. Each subsection's div should have its own "data" child div, with an id attribute that is populated via AJAX. Then we don't need to have endless iframes within iframes, and it keeps the developer AND user experience both good without any noticeable compromise.
+TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
-Add a 'manual' mode for the 'add new asset market' feature, on the portfolio assets admin config interface, whereby you get a drop down menu of ALL the exchanges, and you select ONLY ONE, and then you add a market id MANUALLY BY HAND in a text field. The app then does an input validation check to make sure the market exists, and shows a rejection (if market doesn't exist) OR 'click to confirm' confirmation page / modal to add the new asset market. Then we have support for 'limited APIs' within the feature. We can eventually map any 'available assets' API endpoints for 'limited APIs' into the 'add new asset' feature in the future, so we can eventually add auto-scanning for 'limited APIs' exchange's markets.
+In $ct['api']->ticker_markets_search(), there is a pairings list for coingecko only, for searching coingecko for app ids to add a new asset market. Add this list as a new setting in the 'currency support' admin config section, and include input validation for it.
+
+
+Make sure the market does NOT already exist when adding new ones, and DISALLOW REMOVING ANY BITCOIN MARKETS THAT ********WOULD REMOVE A PAIRING, BECAUSE IT'S THE ONLY MARKET IN THAT PAIRING********** (SO COUNTRY CURRENCY PRICE CONVERSION CAPACITY IS NOT AFFECTED).
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
 
 
 For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
@@ -209,9 +218,6 @@ Add a drop-down menu on the access stats page, to switch between listing visits 
 
 
 For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp.
-
-
-HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
 
 
 Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
@@ -242,9 +248,6 @@ Add setting upper / lower case auto-correction for the portfolio assets array ke
 
 
 Add the ability to allow a BLANK single array item admin user input for domains arrays IN THE INTERFACE (strict servers, etc), in the corrisponding admin user input validation files in: /app-lib/php/classes/includes/admin/. Use the same logic we already do this for in other admin input arrays. TEST ALL THESE OUT BY DELETING ALL ITEMS VIA INTERFACE, INCLUDING ALL THE OTHER ONES WE ALREADY SETUP.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' PAGE (AND WHEREVER IT'S CALLED BY THAT ID IN THE APP), as it now also handles charts / news feeds / etc.
@@ -284,9 +287,6 @@ Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field 
 
 
 Update screenshots, since we overhauled everything in the interface.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on. Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.

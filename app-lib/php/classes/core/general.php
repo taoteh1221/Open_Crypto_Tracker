@@ -18,6 +18,15 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function usort_length($a, $b) {
+   return strlen($b)-strlen($a);
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function timestamps_usort_num($a, $b) {
    return strcmp($a['timestamp'], $b['timestamp']); 
    }
@@ -411,6 +420,9 @@ var $ct_array = array();
       }
       elseif ( $_GET['plugin'] ) {
       $url .= $_SERVER['SCRIPT_NAME'] . '?plugin=' . $_GET['plugin'];
+      }
+      elseif ( $_GET['type'] ) {
+      $url .= $_SERVER['SCRIPT_NAME'] . '?type=' . $_GET['type'];
       }
       else {
       $url .= $_SERVER['SCRIPT_NAME'];

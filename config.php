@@ -851,35 +851,22 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'jup-4||coingecko_btc||btc||both',
 					
 					
-					// RNDR
-					'rndr||coingecko_btc||btc||both',
-					'rndr-2||gateio||usdt||none',
+					// MANA
+					'mana-2||binance||btc||both',
+					'mana-3||kucoin||btc||none',
+					'mana-4||ethfinex||btc||none',
+					'mana-5||binance||eth||none',
+					
+					
+					// RENDER
+					'render||coingecko_btc||btc||both',
+					'render-2||gateio||usdt||none',
 					
 					
 					// IMX
 					'imx||coinbase||usd||both',
 					'imx-2||kraken||eur||chart',
 					'imx-3||binance||btc||chart',
-					
-					
-					// ZEUS
-					'zeus||coingecko_terminal||usd||both',
-					'zeus-2||jupiter_ag||sol||chart',
-					
-					
-					// NEON
-					'neon||jupiter_ag||sol||both',
-					
-					
-					// SHDW
-					'shdw||coingecko_terminal||usd||both',
-					
-					
-					// MANA
-					'mana-2||binance||btc||both',
-					'mana-3||kucoin||btc||none',
-					'mana-4||ethfinex||btc||none',
-					'mana-5||binance||eth||none',
 					
 					
 					// POLIS
@@ -895,6 +882,19 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// HIVE
 					'hive||binance||btc||both',
+					
+					
+					// NEON
+					'neon||jupiter_ag||sol||both',
+					
+					
+					// SHDW
+					'shdw||coingecko_terminal||usd||both',
+					
+					
+					// ZEUS
+					'zeus||coingecko_terminal||usd||both',
+					'zeus-2||jupiter_ag||sol||chart',
 					
 					
 					// BONK
@@ -1648,7 +1648,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         
                         // [SOUTH AFRICA]
                         'mtn||sms.co.za',
-                        'vodacom||voda.co.za',
                         
                         
                         // [SPAIN]
@@ -1679,7 +1678,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'simple_mobile||smtext.com',
                         'southern_linc||page.southernlinc.com',
                         'south_central_comm||rinasms.com',
-                        'sprint||messaging.sprintpcs.com',
                         'tmobile_us||tmomail.net',
                         'telus_us||mms.telusmobility.com',
                         'tracfone||mmst5.tracfone.com',
@@ -2544,8 +2542,72 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // RNDR
-                    'RNDR' => array(
+                    // MANA
+                    'MANA' => array(
+                        
+                        'name' => 'Decentraland',
+                        'mcap_slug' => 'decentraland',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                          'binance' => 'MANABTC',
+                                          'ethfinex' => 'tMNABTC',
+                                          'kucoin' => 'MANA-BTC',
+                                          'upbit' => 'BTC-MANA',
+                                          'poloniex' => 'MANA_BTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                          'binance' => 'MANAETH',
+                                          'hitbtc' => 'MANAETH',
+                                          'kucoin' => 'MANA-ETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                          'okex' => 'MANA-EUR',
+                                                    ),
+
+                                                    
+                                    'krw' => array(
+                                          'upbit' => 'KRW-MANA',
+                                                    ),
+
+                                                    
+                                    'mxn' => array(
+                                          'bitso' => 'mana_mxn',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                          'coinbase' => 'MANA-USD',
+                                          'presale_usd_value' => 'DECENTRALAND',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                            'okex' => 'MANA-USDC',
+                                          			),
+
+                                                    
+                                    'usdt' => array(
+                                          'hitbtc' => 'MANAUSD',
+                                          'okex' => 'MANA-USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // RENDER
+                    'RENDER' => array(
                         
                         'name' => 'Render',
                         'mcap_slug' => 'render-token',
@@ -2580,8 +2642,7 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usdt' => array(
                                         'huobi' => 'renderusdt',
-                                        'gateio' => 'RNDR_USDT',
-                                        'kucoin' => 'RNDR-USDT',
+                                        'gateio' => 'RENDER_USDT',
                                         'hitbtc' => 'RENDERUSDT',
                                         'coinex' => 'RNDRUSDT',
                                                     ),
@@ -2643,163 +2704,6 @@ $ct['conf']['assets'] = array(
                                         'kucoin' => 'IMX-USDT',
                                         'bitmart' => 'IMX_USDT',
                                         'coinex' => 'IMXUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // ZEUS
-                    'ZEUS' => array(
-                        
-                        'name' => 'ZEUS',
-                        'mcap_slug' => 'zeus-network',
-                        'pair' => array(
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'ZEUS/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coingecko_terminal' => 'solana||exmN8ua4Y7qKXUZ2n8JugTNgFWrLGJAUkEBYeTKPNCX',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	 'jupiter_ag' => 'ZEUS/USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'ZEUS_USDT',
-                                        'okex' => 'ZEUS-USDT',
-                                        'kucoin' => 'ZEUS-USDT',
-                                        'bitmart' => 'ZEUS_USDT',
-                                        'coinex' => 'ZEUSUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // NEON
-                    'NEON' => array(
-                        
-                        'name' => 'Neon',
-                        'mcap_slug' => 'neon',
-                        'pair' => array(
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'NEON/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coingecko_terminal' => 'solana||GUWM1arUyDnkMGCHvJu3yt1qomJ988utqC3dFN2AUCDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SHDW
-                    'SHDW' => array(
-                        
-                        'name' => 'Shadow',
-                        'mcap_slug' => 'genesysgo-shadow',
-                        'pair' => array(
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'SHDW/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coingecko_terminal' => 'solana||2wbnvtStBTRRGJhCAwpLSWxrUrfRL4H2FTsujseALsm1',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MANA
-                    'MANA' => array(
-                        
-                        'name' => 'Decentraland',
-                        'mcap_slug' => 'decentraland',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                          'binance' => 'MANABTC',
-                                          'ethfinex' => 'tMNABTC',
-                                          'kucoin' => 'MANA-BTC',
-                                          'upbit' => 'BTC-MANA',
-                                          'okex' => 'MANA-BTC',
-                                          'poloniex' => 'MANA_BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                          'binance' => 'MANAETH',
-                                          'hitbtc' => 'MANAETH',
-                                          'kucoin' => 'MANA-ETH',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                          'okex' => 'MANA-EUR',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                          'upbit' => 'KRW-MANA',
-                                                    ),
-
-                                                    
-                                    'mxn' => array(
-                                          'bitso' => 'mana_mxn',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                          'coinbase' => 'MANA-USD',
-                                          'presale_usd_value' => 'DECENTRALAND',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                            'okex' => 'MANA-USDC',
-                                          			),
-
-                                                    
-                                    'usdt' => array(
-                                          'hitbtc' => 'MANAUSD',
-                                          'okex' => 'MANA-USDT',
                                                     ),
 
                                                     
@@ -2924,6 +2828,98 @@ $ct['conf']['assets'] = array(
                                     'usdt' => array(
                                         'huobi' => 'hiveusdt',
                                         'wazirx' => 'hiveusdt',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // NEON
+                    'NEON' => array(
+                        
+                        'name' => 'Neon',
+                        'mcap_slug' => 'neon',
+                        'pair' => array(
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'NEON/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||GUWM1arUyDnkMGCHvJu3yt1qomJ988utqC3dFN2AUCDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SHDW
+                    'SHDW' => array(
+                        
+                        'name' => 'Shadow',
+                        'mcap_slug' => 'genesysgo-shadow',
+                        'pair' => array(
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'SHDW/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||2wbnvtStBTRRGJhCAwpLSWxrUrfRL4H2FTsujseALsm1',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ZEUS
+                    'ZEUS' => array(
+                        
+                        'name' => 'ZEUS',
+                        'mcap_slug' => 'zeus-network',
+                        'pair' => array(
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'ZEUS/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_terminal' => 'solana||exmN8ua4Y7qKXUZ2n8JugTNgFWrLGJAUkEBYeTKPNCX',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'ZEUS/USDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'ZEUS_USDT',
+                                        'okex' => 'ZEUS-USDT',
+                                        'kucoin' => 'ZEUS-USDT',
+                                        'bitmart' => 'ZEUS_USDT',
+                                        'coinex' => 'ZEUSUSDT',
                                                     ),
 
                                                     
