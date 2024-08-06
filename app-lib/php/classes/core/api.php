@@ -954,7 +954,7 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function limited_apis_markets_search($exchange_key, $market_id, $cache_time) {
+   function limited_apis_markets_search($exchange_key, $market_search, $cache_time) {
    
    global $ct;
    
@@ -964,16 +964,16 @@ var $exchange_apis = array(
    
    
          // IF a PAIRING was included in the search string
-         if ( stristr($market_id, '/') ) {
+         if ( stristr($market_search, '/') ) {
               
-         $search_params = array_map( "trim", explode('/', $market_id) ); // TRIM ANY USER INPUT WHITESPACE
+         $search_params = array_map( "trim", explode('/', $market_search) ); // TRIM ANY USER INPUT WHITESPACE
 
          $dyn_id = $search_params[0];
          $search_pairing = $search_params[1];
 
          }
          else {
-         $dyn_id = $market_id;
+         $dyn_id = $market_search;
          }
          
    
@@ -998,6 +998,7 @@ var $exchange_apis = array(
                     
                     $possible_market_ids[] = array(
                                                    'id' => $val['id'],
+                                                   'pairing' => $this->parse_pairing($exchange_key, $market_search, $val['id']),
                                                    'data' => $this->fetch_exchange_data($exchange_key, $val['id']),
                                                     );
                     }
@@ -1019,6 +1020,167 @@ var $exchange_apis = array(
        }
        
    
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function parse_pairing($exchange_key, $market_search, $market_id, $known_pairing=false) {
+   
+   global $ct;
+   
+   $registered_pairs = array();
+   
+              
+         // IF a PAIRING was included in the search string
+         if ( stristr($market_search, '/') ) {
+                   
+         $search_params = array_map( "trim", explode('/', $market_search) ); // TRIM ANY USER INPUT WHITESPACE
+     
+         $search_ticker = $search_params[0];
+         $search_pairing = $search_params[1];
+         
+         // Optimization for market searches WITH PAIRING INCLUDED
+         // (SAVES BIG TIME ON SEARCH RUNTIME LENGTH)
+         $known_pairing = $search_pairing;
+     
+         }
+         else {
+         $search_ticker = trim($market_search);
+         }
+              
+         
+         // IF we ALREADY KNOW THE PAIRING
+         if ( $known_pairing ) {
+         $pairing_match = $known_pairing;
+         }
+         else {
+        
+             
+             // PRE-PROCESS BASED ON EXCHANGE
+             // https://www.threesl.com/blog/special-characters-regular-expressions-escape/
+             if ( $search_pairing ) {
+             return strtolower($search_pairing);
+             }
+             elseif ( $exchange_key == 'loopring_amm' ) {
+             $market_id = preg_replace("/AMM-/i", "", $market_id);
+             }
+             elseif ( $exchange_key == 'bitmex' || $exchange_key == 'luno' ) {
+             $market_id = preg_replace("/XBT/i", "BTC", $market_id);
+             }
+             elseif ( $exchange_key == 'aevo' ) {
+             $market_id = preg_replace("/-PERP/i", "-USD", $market_id);
+             }
+             // WTF Kraken, LMFAO :)
+             elseif ( $exchange_key == 'kraken' ) {
+             $market_id = preg_replace("/XXBTZ/i", "BTC", $market_id);
+             $market_id = preg_replace("/XXBT/i", "BTC", $market_id);
+             $market_id = preg_replace("/XBT/i", "BTC", $market_id);
+             $market_id = preg_replace("/XETHZ/i", "ETH", $market_id);
+             $market_id = preg_replace("/XETH/i", "ETH", $market_id);
+             }
+             elseif ( $exchange_key == 'bybit' && substr($market_id, 0, 4) == '1000' ) {
+             $market_id = substr($market_id, 4);
+             }
+             elseif (
+             $exchange_key == 'bitfinex' && substr($market_id, 0, 1) == 't'
+             || 
+             $exchange_key == 'ethfinex' && substr($market_id, 0, 1) == 't'
+             ) {
+             $market_id = substr($market_id, 1);
+             }
+             
+             
+         $parsed_market_id = $market_id;
+             
+             
+             if ( in_array($exchange_key, $ct['dev']['hyphen_delimited_markets']) ) {
+             $parsed_market_id = preg_replace("/(.*)-/i", "", $parsed_market_id);
+             }
+             elseif ( in_array($exchange_key, $ct['dev']['reverse_hyphen_delimited_markets']) ) {
+             $parsed_market_id = preg_replace("/-(.*)/i", "", $parsed_market_id);
+             }
+             elseif ( in_array($exchange_key, $ct['dev']['underscore_delimited_markets']) ) {
+             $parsed_market_id = preg_replace("/(.*)_/i", "", $parsed_market_id);
+             }
+             elseif ( in_array($exchange_key, $ct['dev']['forwardlash_delimited_markets']) ) {
+             $parsed_market_id = preg_replace("/(.*)\//i", "", $parsed_market_id);
+             }
+             elseif ( in_array($exchange_key, $ct['dev']['colon_delimited_markets']) ) {
+             $parsed_market_id = preg_replace("/(.*):/i", "", $parsed_market_id);
+             }
+             // OTHERWISE, we just remove the ticker the end user included in their search
+             else {
+             $parsed_market_id = preg_replace("/".$search_ticker."/i", "", $parsed_market_id);
+             }
+             
+             
+             // IF the TICKER was a PARTIAL MATCH, we may NOT have CLEANLY parsed out the pairing yet...
+             
+             // HARD-CODED SPECIFIC / POPULAR pairing support (that we don't bundle with fresh install DEMO data)
+             if ( preg_match("/TBTC/i", $parsed_market_id) ) {
+             $pairing_match = 'TBTC';
+             }
+             elseif ( preg_match("/WBTC/i", $parsed_market_id) ) {
+             $pairing_match = 'WBTC';
+             }
+             elseif ( preg_match("/BUSD/i", $parsed_market_id) ) {
+             $pairing_match = 'BUSD';
+             }
+             elseif ( preg_match("/WETH/i", $parsed_market_id) ) {
+             $pairing_match = 'WETH';
+             }
+             
+             
+         $parsed_market_id = strtolower($parsed_market_id); // Prep for dynamic logic below
+             
+             
+             // DYNAMIC
+             foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pairing_key => $unused ) {
+             $registered_pairs[] = $pairing_key;
+             }
+             
+             
+             // DYNAMIC
+             foreach ( $ct['opt_conf']['crypto_pair'] as $pairing_key => $unused ) {
+             $registered_pairs[] = $pairing_key;
+             }
+     
+            
+             // Sort by length, so we are checking for LONGER pairings first (to assure SAFE results)
+             if ( is_array($registered_pairs) ) { 
+             usort($registered_pairs, array($ct['gen'], 'usort_length') );
+             }
+             
+             
+             foreach ( $registered_pairs as $val ) {
+             
+                 if ( !$pairing_match && !in_array($parsed_market_id, $registered_pairs) && preg_match("/".$val."/i", $parsed_market_id) ) {
+                 $pairing_match = $val;
+                 }
+             
+             }
+             
+             
+         }
+         
+        
+   $result = strtolower( ( $pairing_match ? $pairing_match : $parsed_market_id ) ); // Prep for dynamic logic below
+        
+        
+        // Convert WRAPPED CRYPTO TICKERS to their NATIVE tickers
+        if ( $result == 'tbtc' || $result == 'wbtc' ) {
+        $result = 'btc';
+        }
+        elseif ( $result == 'weth' ) {
+        $result = 'eth';
+        }
+
+
+   return $result;
+      
    }
                            
    
@@ -1283,6 +1445,7 @@ var $exchange_apis = array(
                                          
                                     $possible_market_ids[] = array(
                                                                    'id' => $val[ $exchange_api['multiple_results'] ],
+                                                                   'pairing' => $this->parse_pairing($exchange_key, $market_id, $val[ $exchange_api['multiple_results'] ]),
                                                                    'data' => $test_data,
                                                                   );
                                     }
@@ -1300,6 +1463,7 @@ var $exchange_apis = array(
                                          
                                  $possible_market_ids[] = array(
                                                                    'id' => $val[ $exchange_api['multiple_results'] ],
+                                                                   'pairing' => $this->parse_pairing($exchange_key, $market_id, $val[ $exchange_api['multiple_results'] ]),
                                                                    'data' => $val,
                                                                   );
                                  }
@@ -1327,9 +1491,17 @@ var $exchange_apis = array(
                        !$search_pairing && stristr($key, $dyn_id)
                        || $search_pairing && stristr($key, $dyn_id) && stristr($key, $search_pairing)
                        ) {
+
+                            if ( $exchange_key == 'jupiter_ag' ) {
+                            $detect_pairing = $this->parse_pairing($exchange_key, $market_id, $key, $val['vsTokenSymbol']);
+                            }
+                            else {
+                            $detect_pairing = $this->parse_pairing($exchange_key, $market_id, $key);
+                            }
                        
                        $possible_market_ids[] = array(
                                                                    'id' => $key,
+                                                                   'pairing' => $detect_pairing,
                                                                    'data' => $val,
                                                                   );
                        }                      
@@ -1354,6 +1526,7 @@ var $exchange_apis = array(
                        
                     $possible_market_ids[] = array(
                                                                    'id' => $key2,
+                                                                   'pairing' => $this->parse_pairing($exchange_key, $market_id, $key2),
                                                                    'data' => $val,
                                                                   );
                        
@@ -1372,6 +1545,7 @@ var $exchange_apis = array(
                         
                    $possible_market_ids[] = array(
                                                   'id' =>  'coingecko_' . $pair . '=' . $dyn_id,
+                                                  'pairing' => $this->parse_pairing($exchange_key, $market_id, $pair),
                                                   'data' => array('value' => $data[$pair], '24hr_volume' => $data[$pair . "_24h_vol"]),
                                                  );
                                                                        
@@ -1386,6 +1560,7 @@ var $exchange_apis = array(
                    
               $possible_market_ids[] = array(
                                              'id' => $dyn_id,
+                                             'pairing' => $this->parse_pairing($exchange_key, $market_id, $dyn_id),
                                              'data' => $data,
                                             );
                                                                   

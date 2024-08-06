@@ -18,6 +18,15 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function usort_length($a, $b) {
+   return strlen($b)-strlen($a);
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function timestamps_usort_num($a, $b) {
    return strcmp($a['timestamp'], $b['timestamp']); 
    }

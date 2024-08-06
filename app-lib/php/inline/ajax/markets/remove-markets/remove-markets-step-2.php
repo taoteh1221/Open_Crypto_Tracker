@@ -8,13 +8,12 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
 
 ?>
 	
-
-          <h3 class='bitcoin input_margins'>STEP #2: Remove ASSET or MARKET</h3>
+<h3 class='bitcoin input_margins'>STEP #2: Remove ASSET / MARKET</h3>
     		
 	     
-     	<input type='radio' name='remove_markets_mode' value='markets' checked /> Remove INDIVIDUAL MARKETS FOR ASSET<br /><br />
+<input type='radio' name='remove_markets_mode' value='markets' checked /> Remove INDIVIDUAL MARKETS<br /><br />
 	     
-     	<input type='radio' name='remove_markets_mode' value='asset' /> Remove an ENTIRE ASSET<br /><br />
+<input type='radio' name='remove_markets_mode' value='asset' /> Remove ENTIRE ASSET<br /><br />
      	
      	<button class='force_button_style input_margins' onclick='
      	

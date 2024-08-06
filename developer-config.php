@@ -161,6 +161,48 @@ $ct['dev']['location_blocked_servers'] = array(
                                                'bybit.com',
                                               );
 
+        
+// Market ID delimiters (for coin exchange market IDs)
+// (USED FOR PARSING OUT PAIRING VALUE, WHEN ADDING NEW MARKETS IN ADMIN 'PORTFOLIO ASSETS' INTERFACE)
+$ct['dev']['hyphen_delimited_markets'] = array(
+                                                 'coinbase',
+                                                 'okex',
+                                                 'kucoin',
+                                                 'okcoin',
+                                                 'loopring_amm',
+                                                 'idex',
+                                                 'zebpay',
+                                                 'aevo',
+                                                );
+        
+        
+$ct['dev']['reverse_hyphen_delimited_markets'] = array(
+                                                      'upbit',
+                                                      'buyucoin',
+                                                     );
+        
+        
+$ct['dev']['underscore_delimited_markets'] = array(
+                                                      'bitflyer',
+                                                      'korbit',
+                                                      'bitso',
+                                                      'poloniex',
+                                                      'crypto.com',
+                                                      'gateio',
+                                                      'bitmart',
+                                                     );
+        
+        
+$ct['dev']['forwardlash_delimited_markets'] = array(
+                                                      'btcmarkets',
+                                                      'jupiter_ag',
+                                                     );
+        
+        
+$ct['dev']['colon_delimited_markets'] = array(
+                                                 'cex',
+                                                );
+                            
 
 // MAIN CONFIG settings subarray keys to ALLOW cached config RESETS on (during cached config upgrades)
 // (can manipulate later on, based on app version number / user input / etc)

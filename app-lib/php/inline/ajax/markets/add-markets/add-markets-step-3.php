@@ -23,13 +23,30 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
 
 ?>
 
-<h3 class='bitcoin input_margins'>STEP #3: Select Your Preferred Asset Markets</h3>
+<h3 class='bitcoin input_margins'>STEP #3: Select Asset Markets You Prefer</h3>
           
 <?php
      
-var_dump($search_results); // DEBUGGING
+//var_dump($search_results); // DEBUGGING
+
+     foreach ( $search_results as $exchange_key => $exchange_data ) {
+     ?>
+     
+     <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
+     
+     <?=$exchange_key?> (<?=sizeof($exchange_data)?> market results):
+     
+     <?=print_r($exchange_data)?>
+     
+     </code></pre>
+     
+     <br /><br /><br />
+     
+     <?php
+     }
 
 }
+// IF no results, reload / reset to STEP #2
 else {
 $no_results = true;
 $_GET['step'] = 2;

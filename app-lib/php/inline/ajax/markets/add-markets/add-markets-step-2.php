@@ -10,7 +10,7 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
 	     <?php
 	     if ( $no_results ) {
 	     ?>
-	     <p class='red input_margins' style='font-weight: bold;'>NO SEARCH RESULTS FOUND, PLEASE TRY ANOTHER TICKER / ID.</p>
+	     <p class='red input_margins' style='font-weight: bold;'>NO RESULTS FOUND, PLEASE TRY A DIFFERENT SEARCH.</p>
 	     <?php
 	     }
 	     ?>

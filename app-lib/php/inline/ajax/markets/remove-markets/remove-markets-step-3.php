@@ -8,8 +8,7 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
 
 ?>
 
-          <h3 class='bitcoin input_margins'>STEP #3: Remove <?=strtoupper($_POST['remove_markets_mode'])?></h3>
-    	
+<h3 class='bitcoin input_margins'>STEP #3: Remove <?=strtoupper($_POST['remove_markets_mode'])?></h3>    	
     	
 <?php
 

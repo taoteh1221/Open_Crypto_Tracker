@@ -6,7 +6,7 @@
 
 if ( isset($_GET['step']) && $_GET['step'] > 1 ) {
 ?>
-<a class='input_margins' href='javascript: ct_ajax_load("type=<?=$_GET['type']?>&step=<?=($_GET['step'] - 1)?>", "#update_markets_ajax", "previous step", false, true);'>Go Back</a>
+<a style='font-weight: bold;' class='blue input_margins' href='javascript: ct_ajax_load("type=<?=$_GET['type']?>&step=<?=($_GET['step'] - 1)?>", "#update_markets_ajax", "previous step", false, true);' title='Go back to the previous step in this wizard.'>Go Back</a>
 <?php
 }
 
