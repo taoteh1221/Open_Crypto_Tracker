@@ -193,18 +193,6 @@ NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
-In addition to moving 'coingecko default pairs' into the 'currency support' section as a setting, do the same for 'additional pairing support' currently in parse_pairing(), for potential upcoming / semi-popular pairs like TBTC, BUSD, etc etc. Then we have forward looking pairing detection in pairing_parse() (for adding new markets via interface).
-
-
-Add a new GLOBAL $ct var, to import into the parse_pairing() function, so we only need to build the 'known pairings' array once per runtime. Then if we have a lot of ticker search results, it may cut runtime length significantly.
-
-
-Add the coingecko pairings list into the parse_pairing() function's 'known pairings check' array, after moving it into a setting in the 'currency support' section.
-
-
-In $ct['api']->ticker_markets_search(), there is a pairings list for coingecko only, for searching coingecko for app ids to add a new asset market. Add this list as a new setting in the 'currency support' admin config section, and include input validation for it.
-
-
 Make sure the market does NOT already exist when adding new ones, and DISALLOW REMOVING ANY BITCOIN MARKETS THAT ********WOULD REMOVE A PAIRING, BECAUSE IT'S THE ONLY MARKET IN THAT PAIRING********** (SO COUNTRY CURRENCY PRICE CONVERSION CAPACITY IS NOT AFFECTED).
 
 
@@ -212,6 +200,18 @@ Make sure the market does NOT already exist when adding new ones, and DISALLOW R
 
 
 Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
+
+
+Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
+
+
+Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY).
+
+
+On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
+
+
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password']).
 
 
 HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
@@ -367,9 +367,6 @@ Add a check (every X days with a config setting), to see if a market's trade val
 Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).
 
 
-Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY).
-
-
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
 
 
@@ -480,9 +477,6 @@ Implement 'plugin_deny_additions' / 'plugin_deny_removals' (with same format tha
 Implement a 'plugin version' system, based off the main app's system (if CACHED plugin version is a mismatch to the CURRENT plugin version, trigger a cached config upgrade for non-high security modes).
 
 
-On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
-
-
 Add ability to set what decimal and thousands seperators to use, AUTOMATICALLY BASED OF JAVASCRIPT LOCALE like we do for the ticker app (by wrapping all numbers in a class, and converting on document load). Additionally, we can set what locale is used like so: toLocaleString('en')
 
 
@@ -568,9 +562,6 @@ Research the possibility of inter-linking the tracker app into the ticker app, f
 
 
 Look into doing bootstrap modals instead of the current library we use. Maybe it's better?
-
-
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password']).
 
 
 Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?

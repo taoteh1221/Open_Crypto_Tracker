@@ -3,6 +3,19 @@
  * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
+             
+$update_config_error_seperator = '<br /> ';
+        
+$coingecko_pairings_search = array_map( "trim", explode(',', $_POST['currency']['coingecko_pairings_search']) );
+
+$kraken_pairings_search = array_map( "trim", explode(',', $_POST['currency']['kraken_pairings_search']) );
+
+$jupiter_ag_pairings_search = array_map( "trim", explode(',', $_POST['currency']['jupiter_ag_pairings_search']) );
+
+$upbit_pairings_search = array_map( "trim", explode(',', $_POST['currency']['upbit_pairings_search']) );
+
+$additional_pairings_search = array_map( "trim", explode(',', $_POST['currency']['additional_pairings_search']) );
+
 
 foreach ( $_POST['currency']['token_presales_usd'] as $key => $val ) {
 
@@ -34,6 +47,91 @@ $val_config = array_map( "trim", explode("=", $val) );
      }
 
      	 
+}
+  
+  
+// Make sure CoinGecko market pairings is set
+if ( isset($_POST['currency']['coingecko_pairings_search']) && trim($_POST['currency']['coingecko_pairings_search']) == '' ) {
+$ct['update_config_error'] .= $update_config_error_seperator . '"CoinGecko.com Pairings Search" MUST be filled in';
+}
+else {
+
+     foreach ( $coingecko_pairings_search as $pair ) {
+     
+         if ( !ctype_alpha($pair) ) {
+         $ct['update_config_error'] .= $update_config_error_seperator . '"CoinGecko.com Pairings Search" MUST be alphabetic letters only ("'.$pair.'" is invalid)';
+         }
+     
+     }
+     
+}
+  
+  
+// Make sure Kraken market pairings is set
+if ( isset($_POST['currency']['kraken_pairings_search']) && trim($_POST['currency']['kraken_pairings_search']) == '' ) {
+$ct['update_config_error'] .= $update_config_error_seperator . '"Kraken Pairings Search" MUST be filled in';
+}
+else {
+
+     foreach ( $kraken_pairings_search as $pair ) {
+     
+         if ( !ctype_alpha($pair) ) {
+         $ct['update_config_error'] .= $update_config_error_seperator . '"Kraken Pairings Search" MUST be alphabetic letters only ("'.$pair.'" is invalid)';
+         }
+     
+     }
+     
+}
+  
+  
+// Make sure jupiter_ag market pairings is set
+if ( isset($_POST['currency']['jupiter_ag_pairings_search']) && trim($_POST['currency']['jupiter_ag_pairings_search']) == '' ) {
+$ct['update_config_error'] .= $update_config_error_seperator . '"Jupiter Aggregator Pairings Search" MUST be filled in';
+}
+else {
+
+     foreach ( $jupiter_ag_pairings_search as $pair ) {
+     
+         if ( !ctype_alpha($pair) ) {
+         $ct['update_config_error'] .= $update_config_error_seperator . '"Jupiter Aggregator Pairings Search" MUST be alphabetic letters only ("'.$pair.'" is invalid)';
+         }
+     
+     }
+     
+}
+  
+  
+// Make sure UpBit market pairings is set
+if ( isset($_POST['currency']['upbit_pairings_search']) && trim($_POST['currency']['upbit_pairings_search']) == '' ) {
+$ct['update_config_error'] .= $update_config_error_seperator . '"UpBit Pairings Search" MUST be filled in';
+}
+else {
+
+     foreach ( $upbit_pairings_search as $pair ) {
+     
+         if ( !ctype_alpha($pair) ) {
+         $ct['update_config_error'] .= $update_config_error_seperator . '"UpBit Pairings Search" MUST be alphabetic letters only ("'.$pair.'" is invalid)';
+         }
+     
+     }
+     
+}
+  
+  
+// Make sure Additional market pairings is set
+if ( isset($_POST['currency']['additional_pairings_search']) && trim($_POST['currency']['additional_pairings_search']) == '' ) {
+$ct['update_config_error'] .= $update_config_error_seperator . '"Additional Pairings Search" MUST be filled in';
+}
+else {
+
+     foreach ( $additional_pairings_search as $pair ) {
+     
+         if ( !ctype_alpha($pair) ) {
+         $ct['update_config_error'] .= $update_config_error_seperator . '"Additional Pairings Search" MUST be alphabetic letters only ("'.$pair.'" is invalid)';
+         }
+     
+     }
+     
 }
         
 

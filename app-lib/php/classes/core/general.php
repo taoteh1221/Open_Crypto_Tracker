@@ -3082,6 +3082,7 @@ var $ct_array = array();
    $pretty_str = preg_replace("/okex/i", 'OKex', $pretty_str);
    $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
    $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
+   $pretty_str = preg_replace("/upbit/i", 'UpBit', $pretty_str);
    $pretty_str = preg_replace("/notifyme/i", 'NotifyMe', $pretty_str);
    $pretty_str = preg_replace("/etherscan/i", 'EtherScan', $pretty_str);
    $pretty_str = preg_replace("/precache/i", 'Pre-Cache', $pretty_str);

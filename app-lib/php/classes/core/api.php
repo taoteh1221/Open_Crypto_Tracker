@@ -696,11 +696,14 @@ var $exchange_apis = array(
           if ( $val['multiple_results'] || $val['single_results_list'] || $key == 'kraken' || stristr($key, 'coingecko') ) {
                
                
-              if ( $key == 'kraken' || $key == 'upbit' ) {
-              $try_pairing = 'BTC,ETH,USD,USDC,USDT';
+              if ( $key == 'kraken' ) {
+              $try_pairing = strtoupper($ct['conf']['currency']['kraken_pairings_search']);
+              }
+              elseif ( $key == 'upbit' ) {
+              $try_pairing = strtoupper($ct['conf']['currency']['upbit_pairings_search']);
               }
               elseif ( $key == 'jupiter_ag' ) {
-              $try_pairing = 'SOL,USDC,USDT,ETH,WBTC';
+              $try_pairing = strtoupper($ct['conf']['currency']['jupiter_ag_pairings_search']);
               }
           
               
@@ -711,12 +714,12 @@ var $exchange_apis = array(
                    // RESET $try_pairing to included pairing ONLY, IF a specific pairing was included in the search string
                    // (prevents unnecessary loops)
                    if ( stristr($ticker, '/') ) {
-                   $pairing_parse = array_map( "trim", explode('/', $ticker) ); // TRIM ANY USER INPUT WHITESPACE
-                   $try_pairing = $pairing_parse[1];
+                   $pairing_parse = array_map( "trim", explode('/', $ticker) ); // TRIM ANY WHITESPACE
+                   $try_pairing = strtoupper($pairing_parse[1]);
                    }
               
           
-              $pairing_array = explode(',', $try_pairing);
+              $pairing_array = array_map( "trim", explode(',', $try_pairing) ); // TRIM ANY WHITESPACE
               
               
                    $run_already = false;
@@ -731,19 +734,38 @@ var $exchange_apis = array(
                    $run_already = true;
 
                        if ( $check_results ) {
-                       $results[$key][] = $check_results;
+                       $results[$key][$pairing_val] = $check_results;
                        }
 
 
                    }
-
+                   
+              
+              // Reformat, so the results structure is the same as NON $try_pairing
+              $temp_results = array();
+                   
+                   
+                   foreach ( $results[$key] as $pair_search_results ) {
+                        
+                        foreach ( $pair_search_results as $market_result ) {
+                        $temp_results[] = $market_result;
+                        }
+                   
+                   }
+                   
+                   
+                   if ( sizeof($temp_results) > 0 ) {
+                   $results[$key] = $temp_results;
+                   }
+                   
               
               }
               else {
                    
 
                    if ( $key == 'coingecko' ) {
-                   $search_pairings =  'usd,gpb,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd';
+                   $search_pairings = strtolower($ct['conf']['currency']['coingecko_pairings_search']);
+                   $search_pairings = preg_replace('/\s+/', '', $search_pairings); // REMOVE ALL WHITESPACE
                    }
                    else {
                    $search_pairings = true;
@@ -1031,8 +1053,6 @@ var $exchange_apis = array(
    
    global $ct;
    
-   $registered_pairs = array();
-   
               
          // IF a PAIRING was included in the search string
          if ( stristr($market_search, '/') ) {
@@ -1117,50 +1137,99 @@ var $exchange_apis = array(
              }
              
              
+             // If we haven't registered all pairs yet this runtime, do it now
+             // (we do a RUNTIME memory cache, to optimize / increase runtime speed)
+             if ( sizeof($ct['registered_pairs']) < 1 ) {
+             
+             $parsed_market_id = strtolower($parsed_market_id); // Prep for dynamic logic below
+                  
              // IF the TICKER was a PARTIAL MATCH, we may NOT have CLEANLY parsed out the pairing yet...
-             
+                  
              // HARD-CODED SPECIFIC / POPULAR pairing support (that we don't bundle with fresh install DEMO data)
-             if ( preg_match("/TBTC/i", $parsed_market_id) ) {
-             $pairing_match = 'TBTC';
-             }
-             elseif ( preg_match("/WBTC/i", $parsed_market_id) ) {
-             $pairing_match = 'WBTC';
-             }
-             elseif ( preg_match("/BUSD/i", $parsed_market_id) ) {
-             $pairing_match = 'BUSD';
-             }
-             elseif ( preg_match("/WETH/i", $parsed_market_id) ) {
-             $pairing_match = 'WETH';
-             }
-             
-             
-         $parsed_market_id = strtolower($parsed_market_id); // Prep for dynamic logic below
-             
-             
-             // DYNAMIC
-             foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pairing_key => $unused ) {
-             $registered_pairs[] = $pairing_key;
-             }
-             
-             
-             // DYNAMIC
-             foreach ( $ct['opt_conf']['crypto_pair'] as $pairing_key => $unused ) {
-             $registered_pairs[] = $pairing_key;
-             }
+             $other_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['additional_pairings_search']) );
+                  
+             // Coingecko pairing support
+             $coigecko_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['coingecko_pairings_search']) );
+                  
+             // Kraken pairing support
+             $kraken_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['kraken_pairings_search']) );
+                  
+             // Upbit pairing support
+             $upbit_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['upbit_pairings_search']) );
+                  
+             // jupiter_ag pairing support
+             $jupiter_ag_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['jupiter_ag_pairings_search']) );
+              
+                  
+                  // Other pairings    
+                  foreach ( $other_pairings as $pair_val ) {
+                  $ct['registered_pairs'][] = $pair_val;
+                  }
+              
+                  
+                  // Coingecko pairings    
+                  foreach ( $coigecko_pairings as $pair_val ) {
+                  $ct['registered_pairs'][] = $pair_val;
+                  }
+              
+                  
+                  // Kraken pairings    
+                  foreach ( $kraken_pairings as $pair_val ) {
+                  $ct['registered_pairs'][] = $pair_val;
+                  }
+              
+                  
+                  // Upbit pairings    
+                  foreach ( $upbit_pairings as $pair_val ) {
+                  $ct['registered_pairs'][] = $pair_val;
+                  }
+              
+                  
+                  // jupiter_ag pairings    
+                  foreach ( $jupiter_ag_pairings as $pair_val ) {
+                  $ct['registered_pairs'][] = $pair_val;
+                  }
+                  
+                  
+                  // 'bitcoin_currency_markets' pairings
+                  foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pairing_key => $unused ) {
+                  $ct['registered_pairs'][] = $pairing_key;
+                  }
+                  
+                  
+                  // 'crypto_pair' pairings
+                  foreach ( $ct['opt_conf']['crypto_pair'] as $pairing_key => $unused ) {
+                  $ct['registered_pairs'][] = $pairing_key;
+                  }
+          
+                 
+                  // Cleanup
+                  if ( is_array($ct['registered_pairs']) ) { 
+                  
+                  // Remove whitespace
+                  $ct['registered_pairs'] = array_map("trim", $ct['registered_pairs']);
+                  
+                  // To lowercase
+                  $ct['registered_pairs'] = array_map("strtolower", $ct['registered_pairs']);
+                  
+                  // Remove duplicates
+                  $ct['registered_pairs'] = array_unique($ct['registered_pairs']);
+                  
+                  // Sort by length, so we are checking for LONGER pairings first (to assure SAFE results)
+                  usort($ct['registered_pairs'], array($ct['gen'], 'usort_length') );
      
-            
-             // Sort by length, so we are checking for LONGER pairings first (to assure SAFE results)
-             if ( is_array($registered_pairs) ) { 
-             usort($registered_pairs, array($ct['gen'], 'usort_length') );
+                  }
+             
+             
              }
-             
-             
-             foreach ( $registered_pairs as $val ) {
-             
-                 if ( !$pairing_match && !in_array($parsed_market_id, $registered_pairs) && preg_match("/".$val."/i", $parsed_market_id) ) {
+                  
+                  
+             foreach ( $ct['registered_pairs'] as $val ) {
+                  
+                 if ( !$pairing_match && !in_array($parsed_market_id, $ct['registered_pairs']) && preg_match("/".$val."/i", $parsed_market_id) ) {
                  $pairing_match = $val;
                  }
-             
+                  
              }
              
              
@@ -1356,7 +1425,8 @@ var $exchange_apis = array(
          $dyn_id = $jup_pairs[0];
          
          $url = preg_replace("/\[JUP_AG_PAIRING\]/i", $jup_pairs[1], $url);
-
+         
+         //var_dump($url);
 
          }
          elseif ( $exchange_key == 'loopring' ) {
@@ -2495,6 +2565,8 @@ var $exchange_apis = array(
     
     
       elseif ( $sel_exchange == 'jupiter_ag' ) {
+           
+      //var_dump($data);
       
       $result = array(
                               'last_trade' => number_format( $data['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
