@@ -8,13 +8,15 @@
 
 [
 
-     	<?php
+<?php
+
+$restricted_assets = array('btc', 'eth', 'sol');
      	
-     	$asset_key = $_GET['asset'];
+$asset_key = $_GET['asset_markets'];
      	
-     	$asset_data = $ct['conf']['assets'][$asset_key];
+$asset_data = $ct['conf']['assets'][$asset_key];
      	
-     	$pair_count = 1;
+$pair_count = 1;
 
      	     
      	     // DISALLOW REMOVING ANY BITCOIN PAIRINGS / MARKETS THAT ********WOULD REMOVE A PAIRING BECAUSE IT'S THE ONLY MARKET IN THAT PAIRING**********
@@ -28,7 +30,7 @@
      {
           
 	 "text" : "<?=$pairing_key?>",
-	 "state" : { "opened" : true, "disabled" : <?=( strtolower($asset_key) == 'btc' ? 'true' : 'false' )?> },
+	 "state" : { "opened" : true, "disabled" : <?=( in_array(strtolower($asset_key), $restricted_assets) ? 'true' : 'false' )?> },
                	 
                	 "children" : [
 	 
@@ -39,7 +41,7 @@
                               				{
                               			      
                               			      "text" : "<?=$exchange_key?>",
-                              				 "state" : { "selected" : false, "disabled" : <?=( strtolower($asset_key) == 'btc' && $exchange_count == 1 ? 'true' : 'false' )?> },
+                              				 "state" : { "selected" : false, "disabled" : <?=( in_array(strtolower($asset_key), $restricted_assets) && $exchange_count == 1 ? 'true' : 'false' )?> },
                               				 "icon" : "jstree-file"
                               				 
                               				 }<?=( sizeof($pairing_data) > $exchange_count  ? ',' : '' )?>
@@ -67,3 +69,4 @@
      	?>
      	
 ]
+

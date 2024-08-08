@@ -25,7 +25,7 @@ else {
 	<div id='update_markets_ajax' style='margin: 1em;'>
 	
      <?php
-     require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/steps-init.php');
+     require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/market-steps-init.php');
      ?>
 
 	</div>

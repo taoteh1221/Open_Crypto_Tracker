@@ -158,6 +158,9 @@ $ct['admin_render_settings']['chart_crypto_volume_decimals']['range_min'] = 4;
 $ct['admin_render_settings']['chart_crypto_volume_decimals']['range_max'] = 10;
 
 $ct['admin_render_settings']['chart_crypto_volume_decimals']['range_step'] = 1;
+
+
+$ct['admin_render_settings']['chart_crypto_volume_decimals']['is_notes'] = 'Number of decimals to use IN *CRYPTO* PRICE CHARTS.';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////

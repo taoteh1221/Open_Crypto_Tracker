@@ -18,9 +18,7 @@ $search_results = $ct['api']->ticker_markets_search($_POST['add_markets_search']
 
 
 if ( is_array($search_results) && sizeof($search_results) > 0 ) {
-
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
-
+$ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 ?>
 
 <h3 class='bitcoin input_margins'>STEP #3: Select Asset Markets You Prefer</h3>
@@ -50,7 +48,7 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
 else {
 $no_results = true;
 $_GET['step'] = 2;
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/add-markets/add-markets-step-2.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-2.php');
 }
 
 

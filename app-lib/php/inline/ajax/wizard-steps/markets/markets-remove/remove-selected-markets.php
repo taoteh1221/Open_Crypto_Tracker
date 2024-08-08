@@ -4,30 +4,17 @@
  */
 
 
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
-
 ?>
-
-<h3 class='bitcoin input_margins'>STEP #3: Remove <?=strtoupper($_POST['remove_markets_mode'])?></h3>   
-
-<?php
-
-if ( $_POST['remove_markets_mode'] == 'asset' ) {
-
-}
-elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
-?> 
 	
-     	
      	<select class='input_margins' id='remove_markets_search_asset' onchange='
      	
      	if ( this.value != "" ) {
 
-     	load_jstree("asset_markets", this.value);
+     	jstree_json_ajax("type=jstree&asset_markets=" + this.value, "asset_markets", true); // Secured
      	
-     	    if ( this.value == "BTC" ) {
+     	    if ( this.value == "BTC" || this.value == "ETH" || this.value == "SOL" ) {
      	    $("#asset_markets_alerts").show(250, "linear"); // 0.25 seconds
-     	    $("#asset_markets_alerts").html("BTC requires AT LEAST ONE EXCHANGE PER-PAIRING (for currency conversions), SO THE FIRST EXCHANGE INSIDE EACH PAIRING CANNOT BE DELETED.");
+     	    $("#asset_markets_alerts").html("BTC / ETH / SOL assets require AT LEAST ONE EXCHANGE PER-PAIRING (for currency conversions / other PRIMARY features), SO THE FIRST EXCHANGE INSIDE EACH PAIRING CANNOT BE DELETED.");
      	    }
      	    else {
      	    $("#asset_markets_alerts").hide(250, "linear"); // 0.25 seconds
@@ -36,7 +23,7 @@ elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
      	
      	}
      	else {
-     	$("#markets_delete_selected").hide(250, "linear"); // 0.25 seconds
+     	$("#asset_markets_delete_selected").hide(250, "linear"); // 0.25 seconds
      	$("#asset_markets_alerts").hide(250, "linear"); // 0.25 seconds
      	$("#asset_markets").hide(250, "linear"); // 0.25 seconds
      	}
@@ -46,8 +33,7 @@ elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
      	     <option value=''> Select An Asset </option>
      	
      	<?php
-     	foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
-     	     
+     	
      	$skip_assets = array(
      	                     'MISCASSETS',
      	                     'BTCNFTS',
@@ -55,6 +41,9 @@ elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
      	                     'SOLNFTS',
      	                     'ALTNFTS',
      	                    );
+     	                    
+     	foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
+     	     
      	     
      	     if ( !in_array($asset_key, $skip_assets) ) {
      	     ?>
@@ -67,7 +56,7 @@ elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
      	</select><br />	
     	
 
-<p id="markets_delete_selected"><button class='input_margins' type="button" onclick="jstree_delete('asset_markets');">Delete Selected Markets</button></p>
+<p id="asset_markets_delete_selected"><button class='input_margins' type="button" onclick="jstree_delete('asset_markets');">Delete Selected Markets</button></p>
 
 
 <div id="asset_markets_alerts" class='red red_dotted input_margins' style='display: none; font-weight: bold;'></div>
@@ -76,14 +65,7 @@ elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
 <div class='ct_jstree' id="asset_markets"></div>
 
 
-<script>
 
-
-</script>
-
-<?php
-}
-?>
 
 
 
