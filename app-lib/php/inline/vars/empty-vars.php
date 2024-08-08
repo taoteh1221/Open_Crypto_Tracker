@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$ct['registered_pairs'] = array();
+
 $ct['conf_parse_error'] = array();
 
 $ct['admin_render_settings'] = array();

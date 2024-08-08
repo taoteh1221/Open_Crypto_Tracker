@@ -28,6 +28,8 @@
 	
 	<link rel="preload" href="templates/interface/css/jquery-ui/jquery-ui.css" as="style" />
 	
+	<link rel="preload" href="templates/interface/css/jstree/default/style.min.css" as="style" />
+	
 	<link rel="preload" href="templates/interface/css/tablesorter/jquery.tablesorter.pager.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/jquery.mCustomScrollbar.min.css" as="style" />
@@ -71,6 +73,8 @@
 	<link rel="preload" href="app-lib/js/jquery/jquery.balloon.min.js" as="script" />
 
      <link rel="preload" href="app-lib/js/jquery/jquery.repeatable.js" as="script" />
+
+     <link rel="preload" href="app-lib/js/jquery/jstree.min.js" as="script" />
 
      <link rel="preload" href="app-lib/js/jquery/jquery.mCustomScrollbar.concat.min.js" as="script" />
 
@@ -119,6 +123,8 @@
 	<script src="app-lib/js/jquery/jquery.balloon.min.js"></script>
 
      <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
+
+     <script src="app-lib/js/jquery/jstree.min.js"></script>
 
 	<script src="app-lib/js/jquery/jquery.mCustomScrollbar.concat.min.js"></script>
 
@@ -422,6 +428,8 @@
 	<link rel="stylesheet" href="templates/interface/css/modaal.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/css/jquery-ui/jquery-ui.css" type="text/css" />
+	
+	<link rel="stylesheet" href="templates/interface/css/jstree/default/style.min.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/css/jquery.mCustomScrollbar.min.css" type="text/css" />
 	
