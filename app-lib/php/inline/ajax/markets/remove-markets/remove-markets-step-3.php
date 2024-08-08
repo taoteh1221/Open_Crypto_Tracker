@@ -35,6 +35,11 @@ elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
      	    }
      	
      	}
+     	else {
+     	$("#markets_delete_selected").hide(250, "linear"); // 0.25 seconds
+     	$("#asset_markets_alerts").hide(250, "linear"); // 0.25 seconds
+     	$("#asset_markets").hide(250, "linear"); // 0.25 seconds
+     	}
      	
      	'>
      	     

@@ -7,14 +7,14 @@
 
 function load_jstree(tree_id, asset_symbol) {
      
+$('#' + tree_id).show(250, 'linear'); // 0.25 seconds
+     
      
      if ( $('#' + tree_id).jstree(true) ) {
      $('#' + tree_id).jstree(true).settings.core.data.url = "ajax.php?type=markets_tree&asset=" + asset_symbol;
      $('#' + tree_id).jstree(true).refresh();
      }
      else {
-     
-     $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
      
      
           // https://www.jstree.com/api/
