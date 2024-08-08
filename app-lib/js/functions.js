@@ -18,7 +18,7 @@ function load_jstree(tree_id, asset_symbol) {
      
      
           // https://www.jstree.com/api/
-          $('#' + tree_id).on('loaded.jstree', function () {
+          $('#' + tree_id).on('redraw.jstree', function () {
                
           $('#markets_delete_selected').show(250, 'linear'); // 0.25 seconds
           
