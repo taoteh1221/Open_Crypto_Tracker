@@ -193,6 +193,9 @@ NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
+Make sure the market does NOT already exist when adding new ones.
+
+
 For the REMOVE ENTIRE ASSET option, list all assets in the same way we list pairings, AND DISABLE DELETING BITCOIN. Have a PROMINENT NOTE ATOP THE PAGE THAT BITCOIN IS REQUIRED TO HAVE CURRENCY CONVERSIONS WORK.
 
 
@@ -200,9 +203,6 @@ Since we do not allow removing BITCOIN exchanges IF THEY ARE THE FIRST ONE LISTE
 1) checks any BITCOIN pairing THAT ONLY HAS ONE EXCHANGE MARKET
 2) CHECKS FOR VALID INTERNET CONNECTIVITY, BY CHECKING THE DEFAULT BITCOIN CURRECY CONVERSION MARKET (with $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_currency_exchange']) WITH CACHE TIME SET TO ZERO (NO CACHE)
 3) IF STEP 1 AND 2 PASS, and the only exchange in step 1 DOES NOT RETURN A NUMERIC VALUE FOR BITCOIN TRADE PRICE AS WELL, BLACKLIST USING THAT EXCHANGE FOR THAT PAIRING (SO ANY CACHED CONFIG REBUILDS NEVER RE-INCLUDE IT), REMOVE IT FROM THE CACHED CONFIG, AND WRITE TO THE ERROR LOG ABOUT THE ISSUE (ONLY DURING THE SCHEDULED MAINTENANCE THAT DOES THIS, SO WE DONT FILL THE LOGS UP)
-
-
-Make sure the market does NOT already exist when adding new ones.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
