@@ -193,7 +193,16 @@ NOTES FOR BLACKHATS: P̵̗̽ḫ̵͘i̸̹̓s̵͚̈́h̵̻̕i̸͈͒ṉ̵͘g̸͖̀ ̵
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
-Make sure the market does NOT already exist when adding new ones, and DISALLOW REMOVING ANY BITCOIN MARKETS THAT ********WOULD REMOVE A PAIRING, BECAUSE IT'S THE ONLY MARKET IN THAT PAIRING********** (SO COUNTRY CURRENCY PRICE CONVERSION CAPACITY IS NOT AFFECTED).
+For the REMOVE ENTIRE ASSET option, list all assets in the same way we list pairings, AND DISABLE DELETING BITCOIN. Have a PROMINENT NOTE ATOP THE PAGE THAT BITCOIN IS REQUIRED TO HAVE CURRENCY CONVERSIONS WORK.
+
+
+Since we do not allow removing BITCOIN exchanges IF THEY ARE THE FIRST ONE LISTED IN THE INTERFACE FOR REMOVAL, create 'scheduled maintainence' logic that:
+1) checks any BITCOIN pairing THAT ONLY HAS ONE EXCHANGE MARKET
+2) CHECKS FOR VALID INTERNET CONNECTIVITY, BY CHECKING THE DEFAULT BITCOIN CURRECY CONVERSION MARKET (with $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_currency_exchange']) WITH CACHE TIME SET TO ZERO (NO CACHE)
+3) IF STEP 1 AND 2 PASS, and the only exchange in step 1 DOES NOT RETURN A NUMERIC VALUE FOR BITCOIN TRADE PRICE AS WELL, BLACKLIST USING THAT EXCHANGE FOR THAT PAIRING (SO ANY CACHED CONFIG REBUILDS NEVER RE-INCLUDE IT), REMOVE IT FROM THE CACHED CONFIG, AND WRITE TO THE ERROR LOG ABOUT THE ISSUE (ONLY DURING THE SCHEDULED MAINTENANCE THAT DOES THIS, SO WE DONT FILL THE LOGS UP)
+
+
+Make sure the market does NOT already exist when adding new ones.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -371,15 +380,6 @@ Add additional ability to do telegram / discord webhooks in the new "crypto-info
 
 
 Add openserum markets support.
-
-
-For admin area pages / sections, consider doing subsections in a modal subwindow (like we do for "select charts" on the user area charts page), with iframes for loading through 'wizard' steps or opening different categories. It would possibly keep a native app 'feel' while also reducing admin page load times. Think it over, figure out the best solution here for a great UX.
-
-
-On admin area "assets" page, show EXISTING assets in a expandable / collapsable tree layout, with a checkbox next to each tree item. Also have a select / unselect all button like we do for asset watch-only on the 'update portfolio' user area page (but skip / have as read-only the assets REQUIRED to run this app [bitcoin / miscassets / nfts / etc]). Use this to delete assets / markets we no longer want.
-
-
-On admin "assets" page, add a button atop the page called " Add New Asset Or Market". On page 1 of the 'add asset' wizard (multi-step on separate modal pages), only have the radio selection choices (only one can be selected): 'Add new asset' and 'Add new market to existing asset'. If 'add new asset' is selected, then page 2 has you type in the ticker symbol (otherwise you choose from a list of your already-added assets). After we have the ticker symbol one way or another, we then scan every exchange API, and return results for ALL market pairings of that asset ([greying out / disabling selection of any we ALREADY added] as a checkbox list to choose the ones you want). Should NOT need any more steps than that, keeep it simple as possible.
 
 
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 

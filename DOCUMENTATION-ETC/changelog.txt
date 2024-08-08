@@ -6779,7 +6779,9 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.00
 
--Refactoring / optimization of ENTIRE markets API data parsing logic (prep for UPCOMING 'Add New Asset' feature, in admin 'Portfolio Assets' WEB INTERFACE)
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Portfolio Assets
+
+-Refactoring / optimization of ENTIRE markets API data parsing logic (for 'Add New Asset' feature, in admin 'Portfolio Assets' WEB INTERFACE)
 
 -Cleaned up stale DEMO markets / news feeds / text gateways
 

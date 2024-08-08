@@ -5,6 +5,96 @@
 /////////////////////////////////////////////////////////////
 
 
+function load_jstree(tree_id, asset_symbol) {
+     
+     
+     if ( $('#' + tree_id).jstree(true) ) {
+     $('#' + tree_id).jstree(true).settings.core.data.url = "ajax.php?type=markets_tree&asset=" + asset_symbol;
+     $('#' + tree_id).jstree(true).refresh();
+     }
+     else {
+     
+     $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
+     
+     
+          // https://www.jstree.com/api/
+          $('#' + tree_id).on('loaded.jstree', function () {
+               
+          $('#markets_delete_selected').show(250, 'linear'); // 0.25 seconds
+          
+                   admin_iframe_dom.forEach(function(iframe) {
+                   iframe_size_adjust(iframe);
+                   });
+                                             
+          
+          }).jstree({
+          		
+              'core' : {
+                        
+                        "check_callback" : true, // NEEDED TO DELETE SELECTED ITEMS!
+                        "multiple" : true,
+                        'data' : {
+          			"url" : "ajax.php?type=markets_tree&asset=" + asset_symbol,
+          			"dataType" : "json" // needed only if you do not supply JSON headers
+          			
+                       }
+                       
+              },
+              "plugins" : [ "themes", "html_data", "checkbox", "sort", "ui" ]
+              
+          });
+     
+     
+     }
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function jstree_delete(elm_id) {
+			
+			
+     if ( $('#' + elm_id).jstree(true) ) {
+     
+     var ref = $('#' + elm_id).jstree(true),
+     
+     all_options = ref.get_json('#', { "flat" : true }),
+    
+     selected_options = ref.get_selected(),
+
+     all_count = all_options.length,
+    
+     selected_count = selected_options.length;
+          
+          
+          if ( !selected_options.length ) {
+          alert('Please select a market to delete.');
+          return false;
+          }
+
+          
+          // We ALWAYS want to leave AT LEAST ONE ITEM 
+          // (as we do 'delete entire asset' in a separate mode)
+          if ( all_count > selected_count ) {
+          ref.delete_node(selected_options);
+          }
+          else {
+          alert('Please leave at least one market, WHEN USING MARKET DELETION MODE. If you which to delete the ENTIRE ASSET, you can go BACK to STEP 2, and choose: Remove ENTIRE ASSET');
+          }
+
+     
+     }
+     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function ucfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
