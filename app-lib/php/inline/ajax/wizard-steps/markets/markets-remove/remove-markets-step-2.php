@@ -4,7 +4,7 @@
  */
 
 
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
+$ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 ?>
 	
