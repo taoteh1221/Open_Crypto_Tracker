@@ -18,15 +18,17 @@ $search_results = $ct['api']->ticker_markets_search($_POST['add_markets_search']
 
 
 if ( is_array($search_results) && sizeof($search_results) > 0 ) {
-
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
-
+$ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 ?>
 
 <h3 class='bitcoin input_margins'>STEP #3: Select Asset Markets You Prefer</h3>
           
 <?php
      
+   /*
+If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->parse_pairing() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->parse_pairing(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
+   */
+   
 //var_dump($search_results); // DEBUGGING
 
      foreach ( $search_results as $exchange_key => $exchange_data ) {
@@ -50,7 +52,7 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/back-button.php');
 else {
 $no_results = true;
 $_GET['step'] = 2;
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/add-markets/add-markets-step-2.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-2.php');
 }
 
 

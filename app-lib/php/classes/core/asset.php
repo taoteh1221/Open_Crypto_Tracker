@@ -1282,15 +1282,7 @@ var $ct_array = array();
    // Consolidate function calls for runtime speed improvement
    $asset_mrkt_data = $ct['api']->market($asset_symb, $sel_exchange, $mrkt_id, $sel_pair);
     
-        
-      // TOKEN PRESALES (OVERWRITE W/ DIFF LOGIC)
-      if ( $sel_exchange == 'presale_usd_value' ) {
-      $asset_val_raw = $this->static_usd_price($sel_exchange, strtolower($mrkt_id) ); // We ALWAYS force ID to lowercase in config-auto-adjust.php
-      }
-      else {
-      $asset_val_raw = $asset_mrkt_data['last_trade'];
-      }
-        
+   $asset_val_raw = $asset_mrkt_data['last_trade'];
         
    $asset_val_total_raw = $ct['var']->num_to_str($asset_amnt * $asset_val_raw);
     

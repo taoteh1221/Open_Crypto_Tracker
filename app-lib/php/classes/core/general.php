@@ -18,6 +18,21 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function ajax_wizard_back_button($ajax_id, $secured=true) {
+
+     if ( isset($_GET['step']) && $_GET['step'] > 1 ) {
+     ?>
+     <a style='font-weight: bold;' class='blue input_margins' href='javascript: ct_ajax_load("type=<?=$_GET['type']?>&step=<?=($_GET['step'] - 1)?>", "<?=$ajax_id?>", "previous step", false, <?=( $secured ? 'true' : 'false' )?>);' title='Go back to the previous step in this wizard.'>Go Back</a>
+     <?php
+     }
+
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function usort_length($a, $b) {
    return strlen($b)-strlen($a);
    }

@@ -32,16 +32,12 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/rss.php');
 elseif ( $_GET['type'] == 'access_stats' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/access-stats.php');
 }
-elseif ( $_GET['type'] == 'markets_tree' ) {
-require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/markets-tree.php');
+elseif ( $_GET['type'] == 'jstree' ) {
+require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/jstree/jstree-init.php');
 }
-elseif ( $_GET['type'] == 'add_markets' ) {
-require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/add-markets-init.php');
+elseif ( $_GET['type'] == 'add_markets' || $_GET['type'] == 'remove_markets' ) {
+require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/wizard-steps-init.php');
 }
-elseif ( $_GET['type'] == 'remove_markets' ) {
-require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/remove-markets-init.php');
-}
-
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

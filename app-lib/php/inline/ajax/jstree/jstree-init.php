@@ -4,9 +4,7 @@
  */
 
 
-// Remove markets ajax call
  
-
 header('Content-type: text/html; charset=' . $ct['dev']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
@@ -30,28 +28,12 @@ exit;
 }
 
 
-// 'Wizard' steps
-if ( $_GET['step'] == 1 ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/steps-init.php');
+if ( $_GET['asset_markets'] ) {
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/jstree/asset-markets.php');
 }
-elseif ( $_GET['step'] == 2 ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/remove-markets/remove-markets-step-2.php');
+elseif ( $_GET['assets'] ) {
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/jstree/assets.php');
 }
-elseif ( $_GET['step'] == 3 ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/markets/remove-markets/remove-markets-step-3.php');
-}
-
-
-// Access stats logging
-$ct['cache']->log_access_stats();
- 
-// Log errors / debugging, send notifications
-$ct['cache']->app_log();
-$ct['cache']->send_notifications();
-
-flush(); // Clean memory output buffer for echo
-gc_collect_cycles(); // Clean memory cache
-
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 

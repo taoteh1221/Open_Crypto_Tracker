@@ -5,13 +5,19 @@
 /////////////////////////////////////////////////////////////
 
 
-function load_jstree(tree_id, asset_symbol) {
+function jstree_json_ajax(url_params, tree_id, csrf_sec_token=false) {
      
 $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
+
+     
+     // IF secured with the general CSRF security token
+     if ( csrf_sec_token ) {
+     url_params = url_params + "&token=" + Base64.decode(gen_csrf_sec_token);
+     }
      
      
      if ( $('#' + tree_id).jstree(true) ) {
-     $('#' + tree_id).jstree(true).settings.core.data.url = "ajax.php?type=markets_tree&asset=" + asset_symbol;
+     $('#' + tree_id).jstree(true).settings.core.data.url = "ajax.php?" + url_params;
      $('#' + tree_id).jstree(true).refresh();
      }
      else {
@@ -19,8 +25,9 @@ $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
      
           // https://www.jstree.com/api/
           $('#' + tree_id).on('redraw.jstree', function () {
-               
-          $('#markets_delete_selected').show(250, 'linear'); // 0.25 seconds
+          
+          // Delete button
+          $('#' + tree_id + '_delete_selected').show(250, 'linear'); // 0.25 seconds
           
                    admin_iframe_dom.forEach(function(iframe) {
                    iframe_size_adjust(iframe);
@@ -34,7 +41,7 @@ $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
                         "check_callback" : true, // NEEDED TO DELETE SELECTED ITEMS!
                         "multiple" : true,
                         'data' : {
-          			"url" : "ajax.php?type=markets_tree&asset=" + asset_symbol,
+          			"url" : "ajax.php?" + url_params,
           			"dataType" : "json" // needed only if you do not supply JSON headers
           			
                        }

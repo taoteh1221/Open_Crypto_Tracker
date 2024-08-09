@@ -471,10 +471,10 @@ $ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,WBTC,WETH';
 // Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)
 // RAW NUMBERS ONLY (NO THOUSANDTHS FORMATTING)
 $ct['conf']['currency']['token_presales_usd'] = array(
-                                                      // 'TOKENNAME = 1.23',
-                                                      'ETHEREUM = 0.3',
-                                                      'SOLANA = 0.22',
-                                                      'DECENTRALAND = 0.025',
+                                                      // 'TICKER = 1.23',
+                                                      'eth = 0.3',
+                                                      'sol = 0.22',
+                                                      'mana = 0.025',
                                                    );
                                                    
 
@@ -2167,7 +2167,7 @@ $ct['conf']['assets'] = array(
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
                                           'idex' => 'ETH-USD',
-                                          'presale_usd_value' => 'ETHEREUM',
+                                          'presale_usd_value' => 'eth',
                                                     ),
 
                                                     
@@ -2269,7 +2269,7 @@ $ct['conf']['assets'] = array(
                                     	 'bitfinex' => 'tSOLUSD',
                                          'hitbtc' => 'SOLUSD',
                                          'cex' => 'SOL:USD',
-                                         'presale_usd_value' => 'SOLANA',
+                                         'presale_usd_value' => 'sol',
                                                     ),
 
                                                     
@@ -2599,7 +2599,7 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                           'coinbase' => 'MANA-USD',
-                                          'presale_usd_value' => 'DECENTRALAND',
+                                          'presale_usd_value' => 'mana',
                                                     ),
 
                                                     
