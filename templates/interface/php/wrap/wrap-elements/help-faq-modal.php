@@ -429,7 +429,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   // GENERIC *DEX* USD PRICE (IF NOT LISTED *ANYWHERE* BESIDES DEXS [DECENTRALIZED EXCHANGES])
                                   'coingecko_terminal' => 'network_name_here||pool_address_here',
                                   // Token Presales IN USD...TOKENNAME MUST be defined in 'token_presales_usd' (Admin Config CURRENCY SUPPORT section)
-                                  'presale_usd_value' => 'TOKENNAME', 
+                                  'presale_usd_value' => 'TICKER_HERE', 
                                   ),
 
                                                     

@@ -6,6 +6,10 @@
 
 $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
+   /*
+If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->parse_pairing() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->parse_pairing(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
+   */
+   
 ?>
 
 	     <?php
@@ -30,7 +34,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 	     
           	<li class='blue'>
           	
-          	<b>Search a SPECIFIC EXCHANGE, for a SPECIFIC MARKET ID (MUST be an EXACT MATCH).</b><br />
+          	<b>Search a SPECIFIC EXCHANGE, for a SPECIFIC MARKET ID (BOTH MUST be an EXACT MATCH).</b><br />
           	<span class='bitcoin'>(example[s]: XBTUSD at Bitmex, tBTCUSD at Bitfinex, ETHDAI at Binance, SOL-USD at Coinbase)</span>
           	
           	</li>
@@ -55,6 +59,8 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      	<select class='input_margins' id='add_markets_search_exchange'>
      	
      	<option value='all_exchanges'> ALL Exchanges </option>
+     	
+     	<option value='presale_usd_value'> Token Presales (in 'Currency Support' section) </option>
      	
      	<?php
      	foreach ( $ct['api']->exchange_apis as $exchange_key => $unused ) {

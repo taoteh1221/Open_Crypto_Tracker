@@ -198,10 +198,13 @@ TORTURE TEST all the different combinations of add market search on the 'portfol
 Make sure the market does NOT already exist when adding new ones.
 
 
-Make sure we are able to add alphavantage stocks / USD-valued token presale entries, via the "add asset market" interface.
+If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->parse_pairing() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->parse_pairing(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
 
 
 Add these feature-assets to developer-config.php, AND have it DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
