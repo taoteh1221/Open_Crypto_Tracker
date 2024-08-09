@@ -204,6 +204,15 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
+
+
+On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
+
+
+Add admin settings feature to restore CONFIG backups, AND CHART DATA backups, from the zip archive backups (with admin authentication ONLY).
+
+
 Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
 
 
@@ -222,15 +231,6 @@ Since we do not allow removing BITCOIN / ETHEREUM / SOLANA ASSET'S exchanges IF 
 
 
 Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
-
-
-Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
-
-
-Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY).
-
-
-On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password']).
