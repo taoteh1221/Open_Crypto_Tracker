@@ -509,7 +509,7 @@ var $ct_array = array();
    
    function mcap_data($symbol, $force_currency=null) {
      
-   global $ct, $coinmarketcap_currencies;
+   global $ct;
    
    $symbol = strtolower($symbol);
    
@@ -593,6 +593,15 @@ var $ct_array = array();
    
      // Don't overwrite global
      $coinmarketcap_prim_currency = strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']);
+      
+      
+         // Covert NATIVE tickers to INTERNATIONAL for coinmarketcap
+         if ( $coinmarketcap_prim_currency == 'NIS' ) {
+         $coinmarketcap_prim_currency = 'ILS';
+         }
+         elseif ( $coinmarketcap_prim_currency == 'RMB' ) {
+         $coinmarketcap_prim_currency = 'CNY';
+         }
      
      
          // Default to USD, if selected primary currency is not supported

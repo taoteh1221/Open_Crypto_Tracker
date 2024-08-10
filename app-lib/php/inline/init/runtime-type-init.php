@@ -15,7 +15,20 @@
 require_once('app-lib/php/inline/security/general-preflight-security-checks.php');
 
 
-$ct['conf']['gen']['primary_marketcap_site'] = ( isset($ct['sel_opt']['alert_percent'][0]) && $ct['sel_opt']['alert_percent'][0] != '' ? $ct['sel_opt']['alert_percent'][0] : $ct['conf']['gen']['primary_marketcap_site'] );
+// Set all POST / COOKIE BASED DATA BEFORE ANYTHING ELSE! (except charts, since we check they are enabled first)
+
+$ct['sel_opt']['alert_percent'] = explode("|", ( isset($_POST['use_alert_percent']) ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
+
+$ct['sel_opt']['show_crypto_val'] = explode(',', rtrim( ( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
+
+$ct['sel_opt']['show_secondary_trade_val'] = ( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
+
+$ct['sel_opt']['show_feeds'] = explode(',', rtrim( ( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
+    
+$sort_array = explode("|", ( isset($_POST['sort_by']) ? $_POST['sort_by'] : $_COOKIE['sort_by'] ) );
+////
+$ct['sel_opt']['sorted_by_col'] = $sort_array[0];
+$ct['sel_opt']['sorted_asc_desc'] = $sort_array[1];
      
 
 if ( isset($_COOKIE['theme_selected']) ) {
@@ -27,6 +40,12 @@ $ct['sel_opt']['theme_selected'] = $_POST['theme_selected'];
 else {
 $ct['sel_opt']['theme_selected'] = $ct['conf']['gen']['default_theme'];
 }
+    
+    
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+
+$ct['conf']['gen']['primary_marketcap_site'] = ( isset($ct['sel_opt']['alert_percent'][0]) && $ct['sel_opt']['alert_percent'][0] != '' ? $ct['sel_opt']['alert_percent'][0] : $ct['conf']['gen']['primary_marketcap_site'] );
 
 
 // Sanitizing $ct['sel_opt']['theme_selected'] is very important, as we are calling external files with the value
@@ -156,22 +175,6 @@ require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php'
 
 
 ///////////////////////////////////////////////////////////////////////
-	
-
-$ct['sel_opt']['alert_percent'] = explode("|", ( isset($_POST['use_alert_percent']) ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
-
-$ct['sel_opt']['show_crypto_val'] = explode(',', rtrim( ( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
-
-$ct['sel_opt']['show_secondary_trade_val'] = ( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
-
-$ct['sel_opt']['show_feeds'] = explode(',', rtrim( ( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
-    
-$sort_array = explode("|", ( isset($_POST['sort_by']) ? $_POST['sort_by'] : $_COOKIE['sort_by'] ) );
-$ct['sel_opt']['sorted_by_col'] = $sort_array[0];
-$ct['sel_opt']['sorted_asc_desc'] = $sort_array[1];
-    
-    
-    ////////////////////////////////
     
     
 	if ( !$ct['sel_opt']['sorted_by_col'] ) {

@@ -90,7 +90,9 @@ $check_assets = array();
 
 $ct['coingecko_pairs'] = null;
 $ct['coingecko_assets'] = null;
-            
+
+
+// Active coingecko asset configs
 foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
                   
     foreach ( $mrkts_conf['pair'] as $pair_conf ) {
@@ -120,7 +122,24 @@ foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
     }
                     
 }
+
+
+// Coingecko pairing search support, in currency support admin config
+// (so we can IMMEDIATELY check market data for valid numbers, during 'add market' searches)
+$coingecko_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['coingecko_pairings_search']) );
             
+foreach ( $coingecko_pairings as $pairing ) {
+     
+$pairing = strtolower($pairing);
+
+     if ( !in_array($pairing, $check_pairs) ) {
+     $ct['coingecko_pairs'] .= $pairing . ',';
+     $check_pairs[] = $pairing;
+     }
+                                     
+}
+
+
 $ct['coingecko_pairs'] = substr($ct['coingecko_pairs'], 0, -1);
 $ct['coingecko_assets'] = substr($ct['coingecko_assets'], 0, -1);
             

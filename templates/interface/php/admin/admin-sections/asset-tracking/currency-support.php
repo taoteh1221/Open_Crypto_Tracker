@@ -167,8 +167,8 @@ $ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][0]['text
 }
 
 
-$ct['admin_render_settings']['bitcoin_currency_markets']['is_notes'] = 'Add different currency\'s CORRESPONDING SYMBOLS here (country fiat, stablecoin, or secondary crypto)<br />This format MUST be used:<br />
-TICKER = SYMBOL<br /><span class="red">IMPORTANT NOTE: If currency symbols added here do NOT have a BITCOIN MARKET added, THEY WILL NOT BE USED (WILL BE SAFELY IGNORED) BY THE APP! This setting MERELY ADDS CURRENCY SYMBOLS for currencies ALREADY ADDED TO THE BITCOIN MARKETS.</span>';
+$ct['admin_render_settings']['bitcoin_currency_markets']['is_notes'] = 'Add different currency\'s CORRESPONDING SYMBOLS here (country fiat, stablecoin, or secondary crypto)<br /><br />This format MUST be used:<br />
+TICKER = SYMBOL<br /><span class="red"><br />IMPORTANT NOTES:<br />Use NATIVE tickers instead of INTERNATIONAL (RMB, not CNY...NIS, not ILS, etc etc), as automation during addition of new markets in the app defaults to this.<br /><br />If currency symbols added here do NOT have a BITCOIN MARKET added, THEY WILL NOT BE USED (WILL BE SAFELY IGNORED) BY THE APP! This setting MERELY ADDS CURRENCY SYMBOLS for currencies ALREADY ADDED TO THE BITCOIN MARKETS.</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
