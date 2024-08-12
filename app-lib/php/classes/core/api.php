@@ -1933,12 +1933,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
               }
 
          }
-   
-   
-         if ( $exchange_key == 'coingecko' ) {
-         //var_dump($data);
-         //var_dump( array('ticker_pairing_search' => $ticker_pairing_search) );
-         }
          
          
          // Optimize results
