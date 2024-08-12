@@ -198,6 +198,14 @@ TORTURE TEST all the different combinations of add market search on the 'portfol
 In $ct['api']->market_id_parse(), we have ALREADY added 'asset' and 'already_added' results, BUT we have NOT added them into search results OUTPUT values yet.
 
 
+Integrate the Jupiter aggregator "search_endpoint" API registered in api.php: 
+
+https://station.jup.ag/docs/token-list/token-list-api
+
+
+For coingecko search API results, we can use the included "ticker" field result to force-set the app's "asset" search results field.
+
+
 Make sure the market does NOT already exist when adding new ones. We are adding 'already_added' as a result value (see directly above), so those results will be easy to grey out / disable / hide.
 
 
