@@ -7,7 +7,7 @@
 $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
    /*
-If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->pairing_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->pairing_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
+If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_id_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_id_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
    */
    
 ?>
@@ -27,22 +27,22 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 	     
           	<li class='blue'>
           	
-          	<b>Search ALL EXCHANGES <span class='red'>(that have MULTIPLE markets search capability)</span>, for a TICKER or TICKER / PAIRING.</b><br />
+          	<b>Search ALL EXCHANGES <span class='red'>(that have MULTIPLE markets search capability)</span>, for a TICKER, or TICKER / PAIRING.</b><br />
           	<span class='bitcoin'>(example[s]: BTC, ETH, SOL, BONK, WEN, BTC/USD, ETH/EUR, ETH/BTC, SOL/GBP, SOL/ETH)</span>
           	
           	</li>
 	     
           	<li class='blue'>
           	
-          	<b>Search a SPECIFIC EXCHANGE, for a SPECIFIC MARKET ID <span class='red'>(BOTH MUST be an EXACT MATCH)</span>.</b><br />
+          	<b>Search a SPECIFIC EXCHANGE, for a SPECIFIC MARKET ID <span class='red'>(MARKET ID MUST BE AN **EXACT** MATCH)</span>.</b><br />
           	<span class='bitcoin'>(example[s]: XBTUSD at Bitmex, tBTCUSD at Bitfinex, ETHDAI at Binance, SOL-USD at Coinbase)</span>
           	
           	</li>
 	     
           	<li class='blue'>
           	
-          	<b>Search CoinGecko.com for an "APP ID" <span class='red'>(found on the coin's CoinGecko page)</span>.</b><br />
-          	<span class='bitcoin'>(example[s]: bitcoin, ethereum, solana, dogecoin, render-token)</span>
+          	<b>Search CoinGecko.com, for an "APP ID", or "APP ID" / PAIRING <span class='red'>("APP ID" is found on the asset's CoinGecko page)</span>.</b><br />
+          	<span class='bitcoin'>(example[s]: bitcoin, ethereum, solana, bitcoin/usd, ethereum/eur, solana/hkd)</span>
           	
           	</li>
 	     
@@ -56,16 +56,16 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	</ul>
 	
      	
-     	<p class='input_margins'><select id='add_markets_search_exchange'>
+     	<p class='input_margins'><select id='add_markets_search_exchange' name='add_markets_search_exchange'>
      	
      	<option value='all_exchanges'> ALL Exchanges </option>
      	
-     	<option value='presale_usd_value'> Token Presales (in 'Currency Support' section) </option>
+     	<option value='presale_usd_value' <?=( isset($_POST['add_markets_search_exchange']) && $_POST['add_markets_search_exchange'] == 'presale_usd_value' ? 'selected' : '' )?> > Token Presales (in 'Currency Support' section) </option>
      	
      	<?php
      	foreach ( $ct['api']->exchange_apis as $exchange_key => $unused ) {
      	?>
-     	<option value='<?=$exchange_key?>'> <?=$ct['gen']->key_to_name($exchange_key)?> </option>
+     	<option value='<?=$exchange_key?>' <?=( isset($_POST['add_markets_search_exchange']) && $_POST['add_markets_search_exchange'] == $exchange_key ? 'selected' : '' )?> > <?=$ct['gen']->key_to_name($exchange_key)?> </option>
      	<?php
      	}
      	?>

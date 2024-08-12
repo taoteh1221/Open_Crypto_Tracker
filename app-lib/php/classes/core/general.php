@@ -18,6 +18,28 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function auto_correct_market_id($var, $exchange) {
+
+   global $ct;                                      
+                                      
+       // Auto-correct, if we know we ABSOLUTELY MUST USE ALL UPPER / LOWER CASE
+       // (important to auto-correct early here, as we are setting the ID in the results)
+       if ( in_array($exchange, $ct['dev']['markets_uppercase_search']) ) {
+       $var = strtoupper($var);
+       }
+       elseif ( in_array($exchange, $ct['dev']['markets_lowercase_search']) ) {
+       $var = strtolower($var);
+       }
+       
+   return $var;
+
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function ajax_wizard_back_button($ajax_id, $secured=true) {
 
      if ( isset($_GET['step']) && $_GET['step'] > 1 ) {

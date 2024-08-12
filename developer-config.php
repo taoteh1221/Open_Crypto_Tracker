@@ -204,6 +204,17 @@ $ct['dev']['colon_delimited_markets'] = array(
                                                 );
                             
 
+// Auto-correct for end user market searches, when adding new markets
+$ct['dev']['markets_uppercase_search'] = array(
+                                                 'alphavantage_stock',
+                                                );
+
+            
+$ct['dev']['markets_lowercase_search'] = array(
+                                                 'coingecko',
+                                                );
+                                      
+
 // MAIN CONFIG settings subarray keys to ALLOW cached config RESETS on (during cached config upgrades)
 // (can manipulate later on, based on app version number / user input / etc)
 // THIS ALWAYS OVERRIDES 'config_deny_additions' AND 'config_deny_removals'
