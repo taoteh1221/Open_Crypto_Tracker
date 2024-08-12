@@ -195,16 +195,46 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
-Make sure the market does NOT already exist when adding new ones.
+In $ct['api']->market_id_parse(), we have ALREADY added 'asset' and 'already_added' results, BUT we have NOT added them into search results OUTPUT values yet.
 
 
-If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->parse_pairing() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->parse_pairing(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
+Make sure the market does NOT already exist when adding new ones. We are adding 'already_added' as a result value (see directly above), so those results will be easy to grey out / disable / hide.
+
+
+Have a preview / confirmation step, AFTER selecting searched markets results, to have the end user confirm / cancel:
+
+1) The ASSET TICKER
+
+2) The PAIRING TICKER(S)
+
+3) The EXCHANGE NAME(S) 
+
+4) The MARKET ID(S)
+
+
+If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_id_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_id_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
+
+
+We need to research more about the different type of "jstree" styles / plugins. If we use jstree for BOTH adding AND deleting asset markets, they need to be DRASTICALLY DIFFERENT STYLES, so nobody gets easily confused as to whether they are adding or deleting asset markets. I'm seeing trees with delete buttons next to items in examples. See if you can find a list of all the different "plugins" for jstree.
+
+
+Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry (we'd want to show market id, asset, pairing, 'already_added', last trade price, and any available trade volumes):
+https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specific-jstree-node
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
+
+
+Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
+
+
+On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
+
+
+Add admin settings feature to restore CONFIG backups, AND CHART DATA backups, from the zip archive backups (with admin authentication ONLY).
 
 
 Add these feature-assets to developer-config.php, AND have it DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
@@ -222,15 +252,6 @@ Since we do not allow removing BITCOIN / ETHEREUM / SOLANA ASSET'S exchanges IF 
 
 
 Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
-
-
-Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
-
-
-Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY).
-
-
-On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password']).

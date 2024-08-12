@@ -509,7 +509,7 @@ var $ct_array = array();
    
    function mcap_data($symbol, $force_currency=null) {
      
-   global $ct, $coinmarketcap_currencies;
+   global $ct;
    
    $symbol = strtolower($symbol);
    
@@ -527,7 +527,7 @@ var $ct_array = array();
            
          $app_notice = 'Forcing '.strtoupper($force_currency).' stats.';
          
-         $coingecko_api_no_overwrite = $ct['api']->coingecko($force_currency);
+         $coingecko_api_no_overwrite = $ct['api']->mcap_data_coingecko($force_currency);
            
                // Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
                if ( !isset($coingecko_api_no_overwrite['btc']['market_cap_rank']) ) {
@@ -541,7 +541,7 @@ var $ct_array = array();
          
          $ct['mcap_data_force_usd'] = 1;
          
-         $ct['coingecko_api'] = $ct['api']->coingecko('usd');
+         $ct['coingecko_api'] = $ct['api']->mcap_data_coingecko('usd');
            
            	// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
            	if ( !isset($ct['coingecko_api']['btc']['market_cap_rank']) ) {
@@ -593,12 +593,21 @@ var $ct_array = array();
    
      // Don't overwrite global
      $coinmarketcap_prim_currency = strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']);
+      
+      
+         // Covert NATIVE tickers to INTERNATIONAL for coinmarketcap
+         if ( $coinmarketcap_prim_currency == 'NIS' ) {
+         $coinmarketcap_prim_currency = 'ILS';
+         }
+         elseif ( $coinmarketcap_prim_currency == 'RMB' ) {
+         $coinmarketcap_prim_currency = 'CNY';
+         }
      
      
          // Default to USD, if selected primary currency is not supported
          if ( $force_currency != null ) {
          $app_notice .= ' Forcing '.strtoupper($force_currency).' stats. ';
-         $coinmarketcap_api_no_overwrite = $ct['api']->coinmarketcap($force_currency);
+         $coinmarketcap_api_no_overwrite = $ct['api']->mcap_data_coinmarketcap($force_currency);
          }
          elseif ( isset($ct['mcap_data_force_usd']) ) {
          $coinmarketcap_prim_currency = 'USD';
@@ -1255,10 +1264,10 @@ var $ct_array = array();
       // Consolidate function calls for runtime speed improvement
       // (called here so first runtime with NO SELECTED ASSETS RUNS SIGNIFICANTLY QUICKER)
       if ( $ct['conf']['gen']['primary_marketcap_site'] == 'coingecko' && is_array($ct['coingecko_api']) && sizeof($ct['coingecko_api']) < 1 ) {
-      $ct['coingecko_api'] = $ct['api']->coingecko();
+      $ct['coingecko_api'] = $ct['api']->mcap_data_coingecko();
       }
       elseif ( $ct['conf']['gen']['primary_marketcap_site'] == 'coinmarketcap' && is_array($ct['coinmarketcap_api']) && sizeof($ct['coinmarketcap_api']) < 1 ) {
-      $ct['coinmarketcap_api'] = $ct['api']->coinmarketcap();
+      $ct['coinmarketcap_api'] = $ct['api']->mcap_data_coinmarketcap();
       }
         
         

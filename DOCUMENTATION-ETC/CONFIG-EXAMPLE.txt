@@ -453,7 +453,7 @@ $ct['conf']['currency']['hivepower_yearly_interest'] = 0.9; // (Default = 0.9 as
 
 
 // CoinGecko market pairings searched for, when adding new assets / coins
-$ct['conf']['currency']['coingecko_pairings_search'] = 'usd,gpb,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd'; 
+$ct['conf']['currency']['coingecko_pairings_search'] = 'usd,gpb,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd,cny,ils'; 
 ////
 // Kraken market pairings searched for, when adding new assets / coins
 $ct['conf']['currency']['kraken_pairings_search'] = 'BTC,ETH,USD,USDC,USDT'; 
@@ -498,7 +498,7 @@ $ct['conf']['currency']['bitcoin_currency_markets'] = array(
                               						'cad = C$',
                               						'chf = CHf ',
                               						'clp = CLP$',
-                              						'cny = C¥',
+                              						'rmb = ¥',
                               						'cop = Col$',
                               						'crc = ₡',
                               						'czk = Kč ',
@@ -515,7 +515,6 @@ $ct['conf']['currency']['bitcoin_currency_markets'] = array(
                               						'hkd = HK$',
                               						'huf = Ft ',
                               						'idr = Rp ',
-                              						'ils = ₪',
                               						'inr = ₹',
                               						'irr = ﷼',
                               						'jmd = JA$',

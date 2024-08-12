@@ -16,8 +16,8 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-// PLEASE UPDATE TIMESTAMP FOR DATE OF LATEST VERSION BUMP HERE: 2024/JULY/24TH
-$ct['app_version'] = '6.01.00';
+// PLEASE UPDATE TIMESTAMP FOR DATE OF LATEST VERSION BUMP HERE: 2024/AUGUST/10TH
+$ct['app_version'] = '6.00.39';
 
 
 // #PHP# ERROR LOGGING
@@ -203,6 +203,17 @@ $ct['dev']['colon_delimited_markets'] = array(
                                                  'cex',
                                                 );
                             
+
+// Auto-correct for end user market searches, when adding new markets
+$ct['dev']['markets_uppercase_search'] = array(
+                                                 'alphavantage_stock',
+                                                );
+
+            
+$ct['dev']['markets_lowercase_search'] = array(
+                                                 'coingecko',
+                                                );
+                                      
 
 // MAIN CONFIG settings subarray keys to ALLOW cached config RESETS on (during cached config upgrades)
 // (can manipulate later on, based on app version number / user input / etc)
