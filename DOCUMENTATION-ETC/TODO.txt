@@ -192,6 +192,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Add our memory-freeing calls near the end of each of our ticker search related functions.
+
+
 Add 'FDUSD' / 'CBBTC' to 'other pairings' on 'currency support' page.
 
 
