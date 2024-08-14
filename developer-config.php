@@ -207,11 +207,41 @@ $ct['dev']['colon_delimited_markets'] = array(
 // Auto-correct for end user market searches, when adding new markets
 $ct['dev']['markets_uppercase_search'] = array(
                                                  'alphavantage_stock',
+                                                 'binance',
+                                                 'binance_us',
+                                                 'bitbns',
+                                                 'bitflyer',
+                                                 'bitmex',
+                                                 'btcmarkets',
+                                                 'btcturk',
+                                                 'buyucoin',
+                                                 'cex',
+                                                 'coinbase',
+                                                 'coindcx',
+                                                 'hitbtc',
+                                                 'jupiter_ag',
+                                                 'kraken',
+                                                 'loopring',
+                                                 'luno',
+                                                 'okcoin',
+                                                 'okex',
+                                                 'unocoin',
+                                                 'upbit',
+                                                 'KEY_HERE',
+                                                 'KEY_HERE',
                                                 );
 
             
 $ct['dev']['markets_lowercase_search'] = array(
+                                                 'bitstamp',
                                                  'coingecko',
+                                                 'gemini',
+                                                 'huobi',
+                                                 'wazirx',
+                                                 'bitso',
+                                                 'korbit',
+                                                 'coinspot',
+                                                 'KEY_HERE',
                                                 );
                                       
 

@@ -56,7 +56,7 @@ var $ct_array = array();
 
    
    function usort_length($a, $b) {
-   return strlen($b)-strlen($a);
+   return strlen($b)-strlen($a); // Descending sort
    }
 
 

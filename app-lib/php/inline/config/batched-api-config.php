@@ -14,21 +14,21 @@
 
 // KRAKEN - START
 
-$ct['kraken_pairs'] = null; // RESET, since we reload this logic on config resets / user updates
+$ct['kraken_batched_markets'] = null; // RESET, since we reload this logic on config resets / user updates
 
 foreach ( $ct['conf']['assets'] as $markets ) {
               
     foreach ( $markets['pair'] as $exchange_pairs ) {
     	            
     	    if ( isset($exchange_pairs['kraken']) && $exchange_pairs['kraken'] != '' ) { // In case user messes up Admin Config, this helps
-    	    $ct['kraken_pairs'] .= $exchange_pairs['kraken'] . ',';
+    	    $ct['kraken_batched_markets'] .= $exchange_pairs['kraken'] . ',';
     	    }
     	            
     }
                 
 }
     
-$ct['kraken_pairs'] = substr($ct['kraken_pairs'], 0, -1);
+$ct['kraken_batched_markets'] = substr($ct['kraken_batched_markets'], 0, -1);
 
 // KRAKEN - END
 
@@ -43,9 +43,9 @@ foreach ( $ct['conf']['assets'] as $markets ) {
          	            
          if ( isset($exchange_pairs['jupiter_ag']) && $exchange_pairs['jupiter_ag'] != '' ) { // In case user messes up Admin Config, this helps
          		        
-         $jup_pairs = explode('/', $exchange_pairs['jupiter_ag']);
+         $jup_market = explode('/', $exchange_pairs['jupiter_ag']);
          		        
-         $ct['jupiter_ag_pairs'][ $jup_pairs[1] ] .= $jup_pairs[0] . ',';
+         $ct['jupiter_ag_pairs'][ $jup_market[1] ] .= $jup_market[0] . ',';
          		        
          }
          	            
@@ -62,21 +62,21 @@ $ct['jupiter_ag_pairs'][$key] = substr($val, 0, -1);
 
 // UPBIT - START
 
-$ct['upbit_pairs'] = null; // RESET, since we reload this logic on config resets / user updates
+$ct['upbit_batched_markets'] = null; // RESET, since we reload this logic on config resets / user updates
 
 foreach ( $ct['conf']['assets'] as $markets ) {
               
     foreach ( $markets['pair'] as $exchange_pairs ) {
     	            
     	    if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up Admin Config, this helps
-    	    $ct['upbit_pairs'] .= $exchange_pairs['upbit'] . ',';
+    	    $ct['upbit_batched_markets'] .= $exchange_pairs['upbit'] . ',';
     	    }
     	            
     }
                 
 }
     
-$ct['upbit_pairs'] = substr($ct['upbit_pairs'], 0, -1);
+$ct['upbit_batched_markets'] = substr($ct['upbit_batched_markets'], 0, -1);
             
 // UPBIT - END
 

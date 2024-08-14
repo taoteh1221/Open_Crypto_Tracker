@@ -27,6 +27,12 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 	     
           	<li class='blue'>
           	
+          	<b>SIMILAR SEARCH RESULTS ARE INCLUDED <span class='red'>(bonk/usd search results will also include babybonk/usdt, etc etc)</span>.</b>
+          	
+          	</li>
+	     
+          	<li class='blue'>
+          	
           	<b>Search ALL EXCHANGES <span class='red'>(that have MULTIPLE markets search capability)</span>, for a TICKER, or TICKER / PAIRING.</b><br />
           	<span class='bitcoin'>(example[s]: BTC, ETH, SOL, BONK, WEN, BTC/USD, ETH/EUR, ETH/BTC, SOL/GBP, SOL/ETH)</span>
           	
@@ -41,7 +47,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 	     
           	<li class='blue'>
           	
-          	<b>Search CoinGecko.com, for an "APP ID", or "APP ID" / PAIRING <span class='red'>("APP ID" is found on the asset's CoinGecko page)</span>.</b><br />
+          	<b>Search CoinGecko.com for an "APP ID", or "APP ID" / PAIRING <span class='red'>("APP ID" is found on the asset's CoinGecko page)</span>.</b><br />
+          	<span class='blue'>(adding AT LEAST ONE CoinGecko market automatically adds a link to the asset's CoinGecko page)</span><br />
           	<span class='bitcoin'>(example[s]: bitcoin, ethereum, solana, bitcoin/usd, ethereum/eur, solana/hkd)</span>
           	
           	</li>
