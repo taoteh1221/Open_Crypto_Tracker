@@ -192,21 +192,29 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Add 'FDUSD' / 'CBBTC' to 'other pairings' on 'currency support' page.
+
+
+Migrate Kraker API to use their 'all tickers' endpoint: https://api.kraken.com/0/public/Ticker
+
+
+Register / intergrate Kraken's 'search' API endpoint: https://api.kraken.com/0/public/AssetPairs
+
+
+Add to power user config:
+
+'jupiter_ag_search_mode'
+
+'exchange_search_cache_time'
+
+
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
-In $ct['api']->market_id_parse(), we have ALREADY added 'asset' and 'already_added' results, BUT we have NOT added them into search results OUTPUT values yet.
+IN THE INTERFACING, make sure the market does NOT already exist when allowing addition of new ones. We have 'already_added' as a search result value ON THE BACK END, so those results will be easy to grey out / disable / hide using that (it's boolean). ALSO run checks to make sure EVERY OTHER BACKEND search result meta data field is filled in (OTHERWISE SKIP SHOWING THAT MARKET AS AN OPTION TO ADD, AND WRITE TO THE ERROR LOG ABOUT IT).
 
 
-Integrate the Jupiter aggregator "search_endpoint" API registered in api.php: 
-
-https://station.jup.ag/docs/token-list/token-list-api
-
-
-For coingecko search API results, we can use the included "ticker" field result to force-set the app's "asset" search results field.
-
-
-Make sure the market does NOT already exist when adding new ones. We are adding 'already_added' as a result value (see directly above), so those results will be easy to grey out / disable / hide.
+Make it so adding AT LEAST ONE CoinGecko market automatically adds a link to the asset's CoinGecko page (if it was NOT already added yet for that asset). ONLY CoinGecko search results have 'mcap_slug' set (as that is the only RELIABLE way to get the correct slug), so just scan for 'mcap_slug' in search results to auto-add it, when selecting / confirming the addition of new asset markets via the admin interface.
 
 
 Have a preview / confirmation step, AFTER selecting searched markets results, to have the end user confirm / cancel:
@@ -223,17 +231,20 @@ Have a preview / confirmation step, AFTER selecting searched markets results, to
 If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_id_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_id_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
 
 
-We need to research more about the different type of "jstree" styles / plugins. If we use jstree for BOTH adding AND deleting asset markets, they need to be DRASTICALLY DIFFERENT STYLES, so nobody gets easily confused as to whether they are adding or deleting asset markets. I'm seeing trees with delete buttons next to items in examples. See if you can find a list of all the different "plugins" for jstree.
-
-
-Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry (we'd want to show market id, asset, pairing, 'already_added', last trade price, and any available trade volumes):
+Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry:
 https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specific-jstree-node
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
+
+
 Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
+
+
+Add a new mode for the asset perfomance chart (on the 'more stats' modal page), which is a drop-down menu option, that switches from showing comparisons between assets, over to showing ONLY ASSETS A USER HOLDS, AND INCLUDES A "TOTAL PORTFOLIO VALUE" CHART LINE TOO (showing perecent increase / decrease in TOTAL PORTFOLIO VALUE).
 
 
 Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).

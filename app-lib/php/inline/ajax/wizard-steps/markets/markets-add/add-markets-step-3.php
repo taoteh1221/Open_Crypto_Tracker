@@ -16,6 +16,7 @@ $specific_exchange = false;
      
 $search_results = $ct['api']->ticker_markets_search($_POST['add_markets_search'], $specific_exchange);
 
+ksort($search_results); // Sort by key name
 
 if ( is_array($search_results) && sizeof($search_results) > 0 ) {
 $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
@@ -31,6 +32,21 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
 //var_dump($search_results); // DEBUGGING
 
+?>
+
+<!--
+     <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
+     
+     'registered_pairs' array:
+     
+     <?=print_r($ct['registered_pairs'])?>
+     
+     </code></pre>
+     
+     <br /><br /><br />
+-->
+
+     <?php
      foreach ( $search_results as $exchange_key => $exchange_data ) {
      ?>
      
