@@ -432,7 +432,7 @@ var $exchange_apis = array(
                                              
                   // We still need to parse out 'already_added'
                   // Minimize calls, and pass $check_pairing to speed up runtime
-                  $market_id_parse  = $this->market_id_parse('coingecko', $app_id, $check_pairing);
+                  $market_id_parse = $this->market_id_parse('coingecko', $app_id, $check_pairing, $coingecko_asset_data['symbol']);
                   
                   // Minimize calls
                       if ( is_array($asset_data) ) {
@@ -455,7 +455,7 @@ var $exchange_apis = array(
                                                                       'name' => $cg_name,
                                                                       'mcap_slug' =>  $app_id,
                                                                       'id' =>  $app_id,
-                                                                      'asset' => strtolower($coingecko_asset_data['symbol']),
+                                                                      'asset' => $market_id_parse['asset'],
                                                                       'pairing' => $market_id_parse['pairing'],
                                                                       'already_added' => $market_id_parse['already_added'],
                                                                       'data' => $check_market_data,
@@ -1766,7 +1766,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          }
          
         
-   $results['pairing'] = strtolower( ( $pairing_match ? $pairing_match : $parsed_pairing ) ); // Prep for dynamic logic below
+   $results['pairing'] = strtolower( trim( ( $pairing_match ? $pairing_match : $parsed_pairing ) ) ); // Prep for dynamic logic below
         
         
         // Convert WRAPPED CRYPTO TICKERS to their NATIVE tickers
@@ -1814,11 +1814,12 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
         // Remove 'perp', if in parsed asset name
         $results['asset'] = preg_replace("/perp/i", "", $results['asset']);
         
-        // Remove everything not alphanumeric
-        $results['asset'] = preg_replace("/[^0-9a-zA-Z]+/i", "", $results['asset']);
-        
         // Lowercase, and trim whitespace off ends
         $results['asset'] = strtolower( trim($results['asset']) );
+        
+        // Remove everything not alphanumeric
+        $results['asset'] = preg_replace("/[^0-9a-zA-Z]+/i", "", $results['asset']);
+        $results['pairing'] = preg_replace("/[^0-9a-zA-Z]+/i", "", $results['pairing']);
         
         
         if ( !isset($results['asset']) || $results['asset'] == '' ) {

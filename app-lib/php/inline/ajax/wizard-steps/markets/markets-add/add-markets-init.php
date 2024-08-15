@@ -40,6 +40,9 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets
 elseif ( $_GET['step'] == 3 ) {
 require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-3.php');
 }
+elseif ( $_GET['step'] == 4 ) {
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-4.php');
+}
 
 
 // Access stats logging
