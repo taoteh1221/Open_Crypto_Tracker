@@ -29,12 +29,12 @@ if ( $_POST['add_markets_search'] ) {
 $search_results = $ct['api']->ticker_markets_search($_POST['add_markets_search'], $specific_exchange);
 
 // UX: SAVE results for users hitting the 'Go Back To Previous Step' link
-$ct['gen']->other_cached_data('save', $recent_search_id, $ct['base_dir'] . '/cache/secured/other_data', $search_results);
+$ct['cache']->other_cached_data('save', $recent_search_id, $ct['base_dir'] . '/cache/secured/other_data', $search_results);
 
 }
 else {
 // UX: LOAD results for users hitting the 'Go Back To Previous Step' link
-$search_results = $ct['gen']->other_cached_data('load', $recent_search_id, $ct['base_dir'] . '/cache/secured/other_data');
+$search_results = $ct['cache']->other_cached_data('load', $recent_search_id, $ct['base_dir'] . '/cache/secured/other_data');
 }
 
 

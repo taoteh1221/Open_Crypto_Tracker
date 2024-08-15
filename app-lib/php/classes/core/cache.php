@@ -14,6 +14,69 @@ var $ct_var3;
 
 var $ct_array = array();
 
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function other_cached_data($mode, $filename_id, $cache_dir, $data_set=false, $json_storage=true) {
+
+   global $ct;                                   
+                         
+                                      
+      if ( $mode == 'save' && $data_set ) {
+           
+      $save_path = $cache_dir . '/' . $filename_id . '.dat';
+          
+      // Check that the json encoding or other data format seems valid / not corrupt
+      $checked_data = ( $json_storage ? json_encode($data_set, JSON_PRETTY_PRINT) : $data_set );
+     
+     
+          if ( $checked_data != false || $checked_data != null || $checked_data != "null" ) {
+          $ct['cache']->save_file($save_path, $checked_data);
+          }
+          
+          
+      }  
+      elseif ( $mode == 'load' ) {
+
+
+      // Recent cache files
+      $files = $ct['gen']->sort_files($cache_dir, 'dat', 'desc');
+     
+     
+          foreach( $files as $scanned_file ) {
+          
+          
+             	if ( preg_match("/".$filename_id."/i", $scanned_file) ) {
+             	     
+             	$data = trim( file_get_contents($cache_dir . '/' . $scanned_file) );
+     		
+     		$cached_data = ( $json_storage ? json_decode($data, TRUE) : $data );
+             			
+             			
+             		// "null" in quotes as the actual value is returned sometimes
+             		if ( $cached_data != false && $cached_data != null && $cached_data != "null" ) {
+             		return $cached_data;
+             		}
+             		else {
+             		return false;
+             		}
+             		
+     	
+             	}
+             	
+             	
+          }
+          
+          
+      return false;
+      
+      }
+      
+
+   }
+
   
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
