@@ -192,6 +192,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+On the portfolio updates user area page, AND the portfolio assets admin page, include a warning about saving too many coins in cookie mode, which can crash the app until some cookies are deleted.
+
+
 For the "portfolio assets" admin page, move the "wizard" into a large text link at the top of the page named "Add / Remove Asset Markets", and add a pretty simplified data table formatted list of each asset below that link (NOT editable, just for review of existing assets), with the following data columns for each row of data:
 
 Name (EDITABLE, see details below...)
