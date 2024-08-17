@@ -192,6 +192,17 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+For the "portfolio assets" admin page, move the "wizard" into a large text link at the top of the page named "Add / Remove Asset Markets", and add a pretty simplified data table formatted list of each asset below that link (NOT editable, just for review of existing assets), with the following data columns for each row of data:
+
+Name (EDITABLE, see details below...)
+
+Ticker
+
+Currency Pairings (number of, with info icon bubble showing a detailed list on hover)
+
+Exchange Markets (number of, with info icon bubble showing a detailed list on hover)
+
+
 For the asset "name", we want to pre-populate it, yet still have it editable by the end user. Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets. Additionally, we want to only allow alphanumeric and a few symbols like hyphen, period, colon, etc. User input should be validated on the front end with JavaScript, and the back end with PHP. The name should also use htmlspecailcharacters for security, like we use for the user agent string on the access stats page.
 
 
