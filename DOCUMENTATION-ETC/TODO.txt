@@ -192,6 +192,12 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+For the asset "name", we want to pre-populate it, yet still have it editable by the end user. Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets. Additionally, we want to only allow alphanumeric and a few symbols like hyphen, period, colon, etc. User input should be validated on the front end with JavaScript, and the back end with PHP. The name should also use htmlspecailcharacters for security, like we use for the user agent string on the access stats page.
+
+
+Add our memory-freeing calls near the end of each of our ticker search related functions.
+
+
 Add 'FDUSD' / 'CBBTC' to 'other pairings' on 'currency support' page.
 
 

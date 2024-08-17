@@ -12,16 +12,21 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
 ?>
 
+          <h3 class='bitcoin input_margins'>STEP #2: Search Available Asset Markets</h3>
+          
 	     <?php
 	     if ( $no_results ) {
 	     ?>
-	     <p class='red red_dotted input_margins' style='font-weight: bold; padding: 12px;'>NO RESULTS FOUND, PLEASE TRY A DIFFERENT SEARCH.</p>
+	     <p class='red red_dotted input_margins' style='font-weight: bold; padding: 12px;'>
+	     
+	     NO RESULTS FOUND, PLEASE TRY A DIFFERENT SEARCH.<br /><br />
+	     
+	     NOTE: ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE.
+	     
+	     </p>
 	     <?php
 	     }
 	     ?>
-
-          <h3 class='bitcoin input_margins'>STEP #2: Search Available Asset Markets</h3>
-          
 
 	     <ul>
 	     
@@ -86,7 +91,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
      	?>
      	
-     	<p class='input_margins'><input type='checkbox' id='skip_alphavantage_search' checked /> <span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, SKIP Using Up Alphavantage.co Stock Price DAILY Live Requests For Data</span> 
+     	<p class='input_margins'><input type='checkbox' id='skip_alphavantage_search' name='skip_alphavantage_search' value='yes' <?=( !isset($_POST['skip_alphavantage_search']) || isset($_POST['skip_alphavantage_search']) && $_POST['skip_alphavantage_search'] == 'yes' ? 'checked' : '' )?> /> <span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, SKIP Using Up Alphavantage.co Stock Price DAILY Live Requests For Data</span> 
 	     
 		<img class='tooltip_style_control' id='skip_alphavantage_info' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
 		
@@ -151,5 +156,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "market search results", add_markets_search, true); // Secured
      	
      	'> Search For Markets To Add </button>
+
+
 
 	

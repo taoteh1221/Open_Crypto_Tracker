@@ -5,6 +5,74 @@
 /////////////////////////////////////////////////////////////
 
 
+function merge_objects(orig_object, overwriting_object) {
+
+return combinedSettings = { ...orig_object, ...overwriting_object };
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function checkbox_subarrays_to_ajax(input_name_root) {
+
+var results = {};
+
+var name_override = {};
+
+
+     $('input[name^="' + input_name_root + '"]').each(function() {
+          
+          
+          if ( this.checked == true ) {
+               
+          results[this.name] = this.value;
+               
+          console.log(this.name + ' => ' + this.value);
+     
+          var dataset_id = this.getAttribute("dataset-id");
+          
+               
+               // Get / include the corresponding hidden fields with 'name' / 'mcap_slug' attributes
+               $('input[name^="' + input_name_root + '"]').each(function() {
+                    
+                    
+                    if ( this.type == 'hidden' && this.getAttribute("dataset-id") == dataset_id ) {
+                         
+                         if (
+                         this.name.search(/coingecko/i) && this.name.match(/\[name\]/i) && this.value != ''
+                         || this.name.search(/coingecko/i) && this.name.match(/\[mcap_slug\]/i) && this.value != ''
+                         ) {
+                         name_override[this.name] = this.value;
+                         console.log('coingecko override (for UX): ' + this.name + ' => ' + this.value);
+                         }
+                         
+                    results[this.name] = this.value;
+                    
+                    console.log(this.name + ' => ' + this.value);
+                    
+                    }
+                    
+     
+               });
+
+
+          }
+
+     
+     });
+
+
+//console.log(results);
+
+return merge_objects(results, name_override);
+
+}
+
+/////////////////////////////////////////////////////////////
+
+
 function jstree_json_ajax(url_params, tree_id, csrf_sec_token=false) {
      
 $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
@@ -930,6 +998,21 @@ function show_more(id, change_text=0) {
 	}
 	else if (  $("#" + change_text).text() == 'Show Less' ) {
 	$("#" + change_text).text('Show More');
+	}
+	
+	if ( is_admin && is_iframe ) {
+
+           // Wait 1.5 seconds before Initiating
+           // (otherwise ELEMENT SIZES / ETC aren't always registered yet for DOM manipulations)
+           setTimeout(function(){
+                                       
+                        // Resize admin iframes after resizing textareas
+                        admin_iframe_dom.forEach(function(iframe) {
+                        iframe_size_adjust(iframe);
+                        });
+                                  
+           }, 1500);
+              
 	}
 
 }
@@ -2328,6 +2411,14 @@ function paginated_tables(element, generic_sort_list, pager_id=false) {
 
 
 function ct_ajax_load(url_params, elm_id, elm_desc, post_data=false, csrf_sec_token=false, sort_tables=false, loading_height='3em') {
+     
+scroll(0,0); // Make sure we are scrolled to top of page
+
+
+     // Any parent page too
+     if ( is_iframe ) {
+     window.parent.parent.scrollTo(0,0);
+     }
 
 
 $(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loading_height * 2) + ";'> <strong style='font-size: " + loading_height + ";' class='bitcoin'>Loading " + elm_desc + "...</strong> &nbsp; &nbsp; <img class='' src='templates/interface/media/images/auto-preloaded/loader.gif' alt='' style='height: " + loading_height + "; vertical-align: bottom;' /> </div>");
@@ -2379,6 +2470,8 @@ $(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loa
                             });
                        
                        }
+     
+                  scroll(0,0); // Make sure we are scrolled to top of page
                   
                   },
                   

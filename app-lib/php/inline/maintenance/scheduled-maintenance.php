@@ -93,6 +93,8 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/other/xml_error_parsing
 // Every day
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling', 1, 'dat'); // Delete throttling event tracking cache files older than 1 day
 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/other_data', 1, 'dat'); // Delete recent search cache files older than 1 day
+
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data', 1, 'dat'); // Delete external API cache files older than 1 day
 
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day

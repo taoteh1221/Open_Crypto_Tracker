@@ -18,6 +18,43 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function array_debugging($array, $multidim=false) {
+
+   global $ct;                                      
+     
+     if ( !is_array($array) ) {
+     return false;
+     }
+
+     foreach ( $array as $key => $val ) {
+     ?>
+     
+     <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
+     
+     <?php
+     if ( $multidim && is_array($val) ) {
+     ?>
+     <?=$key?> (<?=sizeof($val)?> results):
+     <?php
+     }
+     ?>
+     
+     <?=print_r($val)?>
+     
+     </code></pre>
+     
+     <br /><br /><br />
+     
+     <?php
+     }
+
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function auto_correct_market_id($var, $exchange) {
 
    global $ct;                                      
@@ -44,7 +81,14 @@ var $ct_array = array();
 
      if ( isset($_GET['step']) && $_GET['step'] > 1 ) {
      ?>
-     <a style='font-weight: bold;' class='blue input_margins' href='javascript: ct_ajax_load("type=<?=$_GET['type']?>&step=<?=($_GET['step'] - 1)?>", "<?=$ajax_id?>", "previous step", false, <?=( $secured ? 'true' : 'false' )?>);' title='Go back to the previous step in this wizard.'>Go Back</a>
+     <a style='font-weight: bold;' class='blue input_margins' href='javascript: ct_ajax_load("type=<?=$_GET['type']?>&step=<?=($_GET['step'] - 1)?>", "<?=$ajax_id?>", "previous step", prev_post_data, <?=( $secured ? 'true' : 'false' )?>);' title='Go back to the previous step in this wizard. (previous CHOICES are only saved for the LAST PREVIOUS STEP)'>Go Back To Previous Step</a>
+     
+     <script>
+     
+     var prev_post_data = <?php echo json_encode($_POST); ?>;
+     	                          
+     </script>
+     
      <?php
      }
 

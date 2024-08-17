@@ -52,6 +52,7 @@ if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != tr
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/cron/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/error/external_data/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/activation/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/other_data/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/backups/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/external_data/cookies') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/messages/') != true
