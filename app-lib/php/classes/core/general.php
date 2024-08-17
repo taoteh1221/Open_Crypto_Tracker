@@ -18,6 +18,43 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function array_debugging($array, $multidim=false) {
+
+   global $ct;                                      
+     
+     if ( !is_array($array) ) {
+     return false;
+     }
+
+     foreach ( $array as $key => $val ) {
+     ?>
+     
+     <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
+     
+     <?php
+     if ( $multidim && is_array($val) ) {
+     ?>
+     <?=$key?> (<?=sizeof($val)?> results):
+     <?php
+     }
+     ?>
+     
+     <?=print_r($val)?>
+     
+     </code></pre>
+     
+     <br /><br /><br />
+     
+     <?php
+     }
+
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function auto_correct_market_id($var, $exchange) {
 
    global $ct;                                      
@@ -48,25 +85,8 @@ var $ct_array = array();
      
      <script>
      
-     var prev_post_data = {
+     var prev_post_data = <?php echo json_encode($_POST); ?>;
      	                          
-     	                <?php
-     	                // Basic 'saving' of previously-chosen / top-level post values
-     	                foreach ( $_POST as $key => $val ) {
-     	                               
-     	                    if ( !is_array($val) ) {
-     	                ?>
-     	                          
-     	                    "<?=$key?>": "<?=$val?>",
-     	                          
-     	                <?php
-     	                    }
-     	                               
-     	                }
-     	                ?>
-
-     	                };
-     
      </script>
      
      <?php
