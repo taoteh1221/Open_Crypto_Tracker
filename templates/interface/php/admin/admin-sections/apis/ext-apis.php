@@ -316,6 +316,34 @@ $ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['is_notes'] =
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['jupiter_ag_allow_unknown']['is_radio'] = array(
+                                                                         'no',
+                                                                         'yes',
+                                                                        );
+
+
+$ct['admin_render_settings']['jupiter_ag_allow_unknown']['is_notes'] = 'Allow UNKNOWN (POSSIBLY UNSAFE!) tokens to show in Jupiter aggregator search results (during ticker searches, when adding new assets)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$ct['admin_render_settings']['exchange_search_api_cache_time']['is_range'] = true;
+
+$ct['admin_render_settings']['exchange_search_api_cache_time']['range_min'] = 5;
+
+$ct['admin_render_settings']['exchange_search_api_cache_time']['range_max'] = 20;
+
+$ct['admin_render_settings']['exchange_search_api_cache_time']['range_step'] = 5;
+
+$ct['admin_render_settings']['exchange_search_api_cache_time']['range_ui_suffix'] = ' HOUR cache';
+
+$ct['admin_render_settings']['exchange_search_api_cache_time']['is_notes'] = 'HOURS to cache data, for exchanges that support a specific "search" endpoint in their API';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)

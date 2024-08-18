@@ -8,8 +8,6 @@ $update_config_error_seperator = '<br /> ';
         
 $coingecko_pairings_search = array_map( "trim", explode(',', $_POST['currency']['coingecko_pairings_search']) );
 
-$kraken_pairings_search = array_map( "trim", explode(',', $_POST['currency']['kraken_pairings_search']) );
-
 $jupiter_ag_pairings_search = array_map( "trim", explode(',', $_POST['currency']['jupiter_ag_pairings_search']) );
 
 $upbit_pairings_search = array_map( "trim", explode(',', $_POST['currency']['upbit_pairings_search']) );
@@ -60,23 +58,6 @@ else {
      
          if ( !ctype_alpha($pair) ) {
          $ct['update_config_error'] .= $update_config_error_seperator . '"CoinGecko.com Pairings Search" MUST be alphabetic letters only ("'.$pair.'" is invalid)';
-         }
-     
-     }
-     
-}
-  
-  
-// Make sure Kraken market pairings is set
-if ( isset($_POST['currency']['kraken_pairings_search']) && trim($_POST['currency']['kraken_pairings_search']) == '' ) {
-$ct['update_config_error'] .= $update_config_error_seperator . '"Kraken Pairings Search" MUST be filled in';
-}
-else {
-
-     foreach ( $kraken_pairings_search as $pair ) {
-     
-         if ( !ctype_alpha($pair) ) {
-         $ct['update_config_error'] .= $update_config_error_seperator . '"Kraken Pairings Search" MUST be alphabetic letters only ("'.$pair.'" is invalid)';
          }
      
      }

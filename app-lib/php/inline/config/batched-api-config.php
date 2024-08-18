@@ -12,27 +12,6 @@
 // MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
 
 
-// KRAKEN - START
-
-$ct['kraken_batched_markets'] = null; // RESET, since we reload this logic on config resets / user updates
-
-foreach ( $ct['conf']['assets'] as $markets ) {
-              
-    foreach ( $markets['pair'] as $exchange_pairs ) {
-    	            
-    	    if ( isset($exchange_pairs['kraken']) && $exchange_pairs['kraken'] != '' ) { // In case user messes up Admin Config, this helps
-    	    $ct['kraken_batched_markets'] .= $exchange_pairs['kraken'] . ',';
-    	    }
-    	            
-    }
-                
-}
-    
-$ct['kraken_batched_markets'] = substr($ct['kraken_batched_markets'], 0, -1);
-
-// KRAKEN - END
-
-
 // JUP AG - START
 
 $ct['jupiter_ag_pairs'] = array(); // RESET, since we reload this logic on config resets / user updates

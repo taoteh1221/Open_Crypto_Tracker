@@ -38,6 +38,7 @@ $ct['conf']['charts_alerts']['enable_price_charts'] = $ct['var']->auto_correct_s
 $ct['conf']['proxy']['proxy_alert_channels'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_channels'], 'lower');
 $ct['conf']['proxy']['proxy_alert_runtime'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_runtime'], 'lower');
 $ct['conf']['proxy']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_checkup_ok'], 'lower');
+$ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] = $ct['var']->auto_correct_str($ct['conf']['ext_apis']['jupiter_ag_allow_unknown'], 'lower');
 
 
 // Trimming whitespace

@@ -2157,6 +2157,8 @@ var $ct_array = array();
         $added_arch_mode = '0_ADDED';
         }
         
+        
+     gc_collect_cycles(); // Clean memory cache
      
      }
   

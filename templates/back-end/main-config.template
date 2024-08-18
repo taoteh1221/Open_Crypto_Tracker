@@ -295,6 +295,16 @@ $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] = 5;
 $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 
 
+// Allow UNKNOWN (POSSIBLY UNSAFE!) tokens to show in Jupiter aggregator search results
+// (during ticker searches, when adding new assets)
+// https://station.jup.ag/docs/token-list/token-list-api
+$ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] = 'no'; // 'no', 'yes'
+
+
+// HOURS to cache data, for exchanges that support a specific "search" endpoint in their API
+$ct['conf']['ext_apis']['exchange_search_api_cache_time'] = 5; // Default = 5
+
+
 ////////////////////////////////////////
 // !END! EXTERNAL API SETTINGS CONFIGURATION
 ////////////////////////////////////////
@@ -452,20 +462,17 @@ $ct['conf']['currency']['hive_powerdown_time'] = 13;
 $ct['conf']['currency']['hivepower_yearly_interest'] = 0.9; // (Default = 0.9 as of 11/29/23)
 
 
-// CoinGecko market pairings searched for, when adding new assets / coins
+// CoinGecko market pairings searched for, when adding new assets / coins (comma-separated)
 $ct['conf']['currency']['coingecko_pairings_search'] = 'usd,gpb,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd,cny,ils'; 
 ////
-// Kraken market pairings searched for, when adding new assets / coins
-$ct['conf']['currency']['kraken_pairings_search'] = 'BTC,ETH,USD,USDC,USDT'; 
-////
-// Jupiter aggregator market pairings searched for, when adding new assets / coins
+// Jupiter aggregator market pairings searched for, when adding new assets / coins (comma-separated)
 $ct['conf']['currency']['jupiter_ag_pairings_search'] = 'SOL,USDC,USDT,ETH,WBTC'; 
 ////
-// Upbit market pairings searched for, when adding new assets / coins
+// Upbit market pairings searched for, when adding new assets / coins (comma-separated)
 $ct['conf']['currency']['upbit_pairings_search'] = 'BTC,ETH,USDT,KRW'; 
 ////
-// OTHER upcoming / semi-popular market pairings searched for, when adding new assets / coins
-$ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,WBTC,WETH'; 
+// OTHER upcoming / semi-popular market pairings searched for, when adding new assets / coins (comma-separated)
+$ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,WBTC,WETH,FDUSD,CBBTC'; 
 
 
 // Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)
