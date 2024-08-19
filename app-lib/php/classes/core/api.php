@@ -435,7 +435,7 @@ var $exchange_apis = array(
                       $coingecko_asset_data = $asset_data;
                       }
                       else {
-                      $coingecko_asset_data = $this->exchange_search_endpoint('coingecko', $app_id, false, true);
+                      $coingecko_asset_data = $this->exchange_search_endpoint('coingecko', $app_id, false, true); // Get asset data only
                       }
                   
                   
@@ -462,15 +462,16 @@ var $exchange_apis = array(
                                                                      );
                                                                      
                   }
-                                             
-                                             
-                  if ( $specific_pairing ) {
-                  break; // leave loop
-                  }
                                        
                                                
              }
-                                       
+                                   
+                                             
+                                             
+             if ( $specific_pairing ) {
+             break; // leave loop
+             }    
+
 
         }
                       
@@ -1463,14 +1464,18 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                           // (since we have an advanced disk AND runtime caching system, the single call speeds things up)
                           foreach( $data as $val ) {
                     
-                     
-                              if ( isset($val['api_symbol']) && stristr($val['api_symbol'], $dyn_id) ) {
+                              
+                              // Search both APP ID and TICKER SYMBOL fields
+                              if (
+                              isset($val['api_symbol']) && stristr($val['api_symbol'], $dyn_id)
+                              || isset($val['symbol']) && stristr($val['symbol'], $dyn_id)
+                              ) {
                                    
                               $temp_app_id_array[ $val['api_symbol'] ] = $val;
                                            
                                    // IF APP ID wasn't bundled yet into the single call format we use for coingecko,
                                    // add it now, to optimize this search loop
-                                   if ( !stristr($ct['coingecko_assets'], $val['api_symbol']) ) {
+                                   if (!stristr($ct['coingecko_assets'], $val['api_symbol']) ) {
                                    $ct['coingecko_assets'] = $ct['coingecko_assets'] . ',' . $val['api_symbol'];
                                    }
                                    
@@ -1501,6 +1506,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                    
                          
                           // Minimize calls, AND throttle to avoid being blocked
+                          sleep(1);
                           $check_market_data = $this->market($app_id, $exchange_key . '_' . $pairing_for_initial_check, $app_id);
                                         
                                         

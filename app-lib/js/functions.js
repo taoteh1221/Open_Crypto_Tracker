@@ -5,6 +5,35 @@
 /////////////////////////////////////////////////////////////
 
 
+function same_name_checkboxes_to_radio() {
+
+
+    $("input[type='checkbox']").each(function(index, value){
+         
+    var batched_by_name = $('input[name="'+this.name+'"]');
+         
+        if ( batched_by_name.length > 1 ) {
+
+        var checkboxes = document.getElementsByName(this.name);
+        
+           for (i = 0; i < checkboxes.length; i++) {
+             checkboxes[i].type = 'radio';
+           }
+
+        console.log('checkbox to radio for name = ' + this.name);
+        
+        }
+    
+       
+    });
+    
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function merge_objects(orig_object, overwriting_object) {
 
 return combinedSettings = { ...orig_object, ...overwriting_object };

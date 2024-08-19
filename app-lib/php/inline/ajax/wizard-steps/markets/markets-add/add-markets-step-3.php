@@ -41,7 +41,8 @@ $skipped_results = array();
                
                if ( !$market_data['already_added'] ) {
                     
-               $included_results[ $market_data['asset'] ][ $market_data['pairing'] ][$exchange_key] = array(
+               $included_results[ $market_data['asset'] ][ $market_data['pairing'] ][] = array(
+                                                                                                          'exchange' => $exchange_key,
                                                                                                           'name' => $market_data['name'],
                                                                                                           'mcap_slug' => $market_data['mcap_slug'],
                                                                                                           'id' => $market_data['id'],
@@ -168,30 +169,30 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      foreach ( $included_results as $asset_key => $asset_data ) {
      ?>
      
-     <a style='font-weight: bold;' class='blue clear_both input_margins' href='javascript: show_more("results_asset_<?=$ct['gen']->safe_name($asset_key)?>");' title='Click to show / hide additional details.'><?=strtoupper($asset_key)?></a>
+     <a style='font-weight: bold;' class='blue clear_both input_margins' href='javascript: show_more("results_<?=md5($asset_key)?>");' title='Click to show / hide additional details.'><?=strtoupper($asset_key)?></a>
      
-     <div id='results_asset_<?=$ct['gen']->safe_name($asset_key)?>' style='display: none;' class='align_left clear_both input_margins'>
+     <div id='results_<?=md5($asset_key)?>' style='display: none;' class='align_left clear_both input_margins'>
      
           <?php
           foreach ( $asset_data as $pair_key => $pair_data ) {
           ?>
-          <a style='font-weight: bold;' class='green clear_both input_margins' href='javascript: show_more("results_asset_<?=$ct['gen']->safe_name($asset_key)?>_pairing_<?=$ct['gen']->safe_name($pair_key)?>");' title='Click to show / hide additional details.'><?=strtoupper($pair_key)?></a>
+          <a style='font-weight: bold;' class='green clear_both input_margins' href='javascript: show_more("results_<?=md5($asset_key . $pair_key)?>");' title='Click to show / hide additional details.'><?=strtoupper($pair_key)?></a>
           
-          <div id='results_asset_<?=$ct['gen']->safe_name($asset_key)?>_pairing_<?=$ct['gen']->safe_name($pair_key)?>' style='display: none;' class='align_left clear_both input_margins'>
+          <div id='results_<?=md5($asset_key . $pair_key)?>' style='display: none;' class='align_left clear_both input_margins'>
           
                <?php
                foreach ( $pair_data as $market_key => $market_data ) {
                ?>
                
-               <input type='hidden' dataset-id='<?=md5($asset_key)?>' name='assets[<?=strtoupper($asset_key)?>][name]' value='<?=$market_data['name']?>' />
+               <input type='hidden' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][name]' value='<?=$market_data['name']?>' />
                
-               <input type='hidden' dataset-id='<?=md5($asset_key)?>' name='assets[<?=strtoupper($asset_key)?>][mcap_slug]' value='<?=$market_data['mcap_slug']?>' />
+               <input type='hidden' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][mcap_slug]' value='<?=$market_data['mcap_slug']?>' />
                
-               <input type='checkbox' dataset-id='<?=md5($asset_key)?>' name='assets[<?=strtoupper($asset_key)?>][pair][<?=strtolower($pair_key)?>][<?=strtolower($market_key)?>]' value='<?=$market_data['id']?>' <?=( isset($_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_key)]) ? 'checked' : '' )?> /> 
+               <input type='checkbox' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][pair][<?=strtolower($pair_key)?>][<?=strtolower($market_data['exchange'])?>]' value='<?=$market_data['id']?>' <?=( isset($_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])]) && $_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])] == $market_data['id'] ? 'checked' : '' )?> /> 
                
-               <a class='bitcoin clear_both input_margins' href='javascript: show_more("results_asset_<?=$ct['gen']->safe_name($asset_key)?>_pairing_<?=$ct['gen']->safe_name($pair_key)?>_market_<?=$ct['gen']->safe_name($market_key)?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_key)?></a>
+               <a class='bitcoin clear_both input_margins' href='javascript: show_more("results_<?=md5($asset_key . $pair_key . $market_data['id'])?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
                
-               <div id='results_asset_<?=$ct['gen']->safe_name($asset_key)?>_pairing_<?=$ct['gen']->safe_name($pair_key)?>_market_<?=$ct['gen']->safe_name($market_key)?>' style='display: none;' class='align_left clear_both input_margins'>
+               <div id='results_<?=md5($asset_key . $pair_key . $market_data['id'])?>' style='display: none;' class='align_left clear_both input_margins'>
                
                <p>
                
@@ -252,6 +253,20 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
   ?>
 
 </fieldset>
+	
+<script>
+
+// Wait until the DOM has loaded before running DOM-related scripting
+$(document).ready(function() {
+
+same_name_checkboxes_to_radio();
+     
+});
+
+     
+</script>  	
+
+
 
 <?php
 
