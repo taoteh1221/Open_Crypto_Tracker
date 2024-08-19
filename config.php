@@ -463,7 +463,7 @@ $ct['conf']['currency']['hivepower_yearly_interest'] = 0.9; // (Default = 0.9 as
 
 
 // CoinGecko market pairings searched for, when adding new assets / coins (comma-separated)
-$ct['conf']['currency']['coingecko_pairings_search'] = 'usd,gpb,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd,cny,ils'; 
+$ct['conf']['currency']['coingecko_pairings_search'] = 'usd,gbp,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd,cny,ils'; 
 ////
 // Jupiter aggregator market pairings searched for, when adding new assets / coins (comma-separated)
 $ct['conf']['currency']['jupiter_ag_pairings_search'] = 'SOL,USDC,USDT,ETH,WBTC'; 

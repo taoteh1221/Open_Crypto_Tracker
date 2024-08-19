@@ -59,6 +59,8 @@ var name_override = {};
           results[this.name] = this.value;
                
           console.log(this.name + ' => ' + this.value);
+          
+          var selection_name = this.name;
      
           var dataset_id = this.getAttribute("dataset-id");
           
@@ -69,17 +71,19 @@ var name_override = {};
                     
                     if ( this.type == 'hidden' && this.getAttribute("dataset-id") == dataset_id ) {
                          
+                         
                          if (
-                         this.name.search(/coingecko/i) && this.name.match(/\[name\]/i) && this.value != ''
-                         || this.name.search(/coingecko/i) && this.name.match(/\[mcap_slug\]/i) && this.value != ''
+                         !name_override[this.name] && selection_name.search(/coingecko/i) && this.name.match(/\[name\]/i) && this.value != ''
+                         || !name_override[this.name] && selection_name.search(/coingecko/i) && this.name.match(/\[mcap_slug\]/i) && this.value != ''
                          ) {
                          name_override[this.name] = this.value;
                          console.log('coingecko override (for UX): ' + this.name + ' => ' + this.value);
                          }
+                         else if ( !name_override[this.name] && this.value != '' ) {
+                         results[this.name] = this.value;
+                         console.log(this.name + ' => ' + this.value);
+                         }
                          
-                    results[this.name] = this.value;
-                    
-                    console.log(this.name + ' => ' + this.value);
                     
                     }
                     

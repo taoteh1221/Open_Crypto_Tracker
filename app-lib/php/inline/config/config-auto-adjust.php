@@ -45,6 +45,15 @@ $ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] = $ct['var']->auto_correct_s
 $ct['conf']['charts_alerts']['whale_alert_thresholds'] = trim($ct['conf']['charts_alerts']['whale_alert_thresholds']);
 
 
+// Auto-correct case on market tickers...
+
+$ct['conf']['currency']['coingecko_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['coingecko_pairings_search'], 'coingecko');
+
+$ct['conf']['currency']['upbit_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['upbit_pairings_search'], 'upbit');
+
+$ct['conf']['currency']['jupiter_ag_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['jupiter_ag_pairings_search'], 'jupiter_ag');
+
+
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();
 foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {

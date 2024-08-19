@@ -1870,9 +1870,12 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
            $results['already_added'] = true;
            }
            else {
-           $results['already_added'] = false;
+           $results['already_added'] = $ct['conf']['assets'][strtoupper($results['asset'])]['pair'][strtolower($results['pairing'])][$exchange_check];
            }
        
+        }
+        else {
+        $results['already_added'] = false;
         }
 
 

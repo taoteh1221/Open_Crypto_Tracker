@@ -39,11 +39,12 @@ $skipped_results = array();
           
           foreach ( $exchange_data as $market_data ) {
                
-               if ( !$market_data['already_added'] ) {
+               if ( !$market_data['already_added'] || is_bool($market_data['already_added']) !== true ) {
                     
                $included_results[ $market_data['asset'] ][ $market_data['pairing'] ][] = array(
                                                                                                           'exchange' => $exchange_key,
                                                                                                           'name' => $market_data['name'],
+                                                                                                          'already_added' => $market_data['already_added'],
                                                                                                           'mcap_slug' => $market_data['mcap_slug'],
                                                                                                           'id' => $market_data['id'],
                                                                                                           'data' => $market_data['data'],
@@ -128,9 +129,9 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
   if ( sizeof($skipped_results) > 0 ) {
   ?>
 
-     <a style='font-weight: bold;' class='red clear_both input_margins' href='javascript: show_more("results_skipped");' title='Click to show / hide additional details.'>Skipped Results (already exist in app!)</a>
+     <a style='font-weight: bold;' class='red clear_both result_margins' href='javascript: show_more("results_skipped");' title='Click to show / hide additional details.'>Skipped Results (already exist in app!)</a>
      
-     <div id='results_skipped' style='display: none;' class='red align_left clear_both input_margins'>
+     <div id='results_skipped' style='display: none;' class='red align_left clear_both result_margins'>
      
      <?php
      foreach ( $skipped_results as $skipped_market ) {
@@ -157,7 +158,7 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
   if ( sizeof($included_results) > 0 ) {
   ?>
 
-<p style='font-weight: bold;' class='blue input_margins'>Click on each asset below, to SELECT available exchange markets...</p>
+<p style='font-weight: bold;' class='bitcoin result_margins'>Click on each asset below, to SELECT available exchange markets...</p>
 
 <?php
      
@@ -169,49 +170,58 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      foreach ( $included_results as $asset_key => $asset_data ) {
      ?>
      
-     <a style='font-weight: bold;' class='blue clear_both input_margins' href='javascript: show_more("results_<?=md5($asset_key)?>");' title='Click to show / hide additional details.'><?=strtoupper($asset_key)?></a>
+     <a style='font-weight: bold;' class='blue clear_both result_margins' href='javascript: show_more("results_<?=md5($asset_key)?>");' title='Click to show / hide additional details.'><?=strtoupper($asset_key)?></a>
      
-     <div id='results_<?=md5($asset_key)?>' style='display: none;' class='align_left clear_both input_margins'>
+     <div id='results_<?=md5($asset_key)?>' style='display: none;' class='align_left clear_both result_margins'>
      
           <?php
           foreach ( $asset_data as $pair_key => $pair_data ) {
           ?>
-          <a style='font-weight: bold;' class='green clear_both input_margins' href='javascript: show_more("results_<?=md5($asset_key . $pair_key)?>");' title='Click to show / hide additional details.'><?=strtoupper($pair_key)?></a>
+          <a style='font-weight: bold;' class='green clear_both result_margins' href='javascript: show_more("results_<?=md5($asset_key . $pair_key)?>");' title='Click to show / hide additional details.'><?=strtoupper($pair_key)?></a>
           
-          <div id='results_<?=md5($asset_key . $pair_key)?>' style='display: none;' class='align_left clear_both input_margins'>
+          <div id='results_<?=md5($asset_key . $pair_key)?>' style='display: none;' class='align_left clear_both result_margins'>
           
                <?php
                foreach ( $pair_data as $market_key => $market_data ) {
                ?>
                
-               <input type='hidden' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][name]' value='<?=$market_data['name']?>' />
+               <div style='margin-left: 1em;'>
                
-               <input type='hidden' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][mcap_slug]' value='<?=$market_data['mcap_slug']?>' />
+                    <input type='hidden' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][name]' value='<?=$market_data['name']?>' />
+                    
+                    <input type='hidden' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][mcap_slug]' value='<?=$market_data['mcap_slug']?>' />
+                    
+                    <input type='checkbox' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][pair][<?=strtolower($pair_key)?>][<?=strtolower($market_data['exchange'])?>]' value='<?=$market_data['id']?>' <?=( isset($_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])]) && $_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])] == $market_data['id'] ? 'checked' : '' )?> /> 
+                    
+                    <a class='<?=( is_bool($market_data['already_added']) !== true ? 'red' : 'bitcoin' )?> clear_both' href='javascript: show_more("results_<?=md5($asset_key . $pair_key . $market_data['id'])?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
+                    
+                    <div id='results_<?=md5($asset_key . $pair_key . $market_data['id'])?>' style='display: none;' class='align_left clear_both'>
+                    
+                    <p>
+                    
+                    <span class='light_sea_green'>Name:</span> <?=$market_data['name']?><br />
+                    <?php
+                    if ( is_bool($market_data['already_added']) !== true ) {
+                    ?>
+                    <span class='red'>Exchange Already Added:</span> Yes (if selected, <i class='red'>would replace market ID: <?=$market_data['already_added']?></i>)<br />
+                    <?php
+                    }
+                    if ( isset($market_data['mcap_slug']) ) {
+                    ?>
+                    <span class='light_sea_green'>Marketcap Slug:</span> <?=$market_data['mcap_slug']?><br />
+                    <?php
+                    }
+                    ?>
+                    <span class='light_sea_green'>ID:</span> <?=$market_data['id']?><br />
+                    <span class='light_sea_green'>Last Trade:</span> <?=$market_data['data']['last_trade']?><br />
+                    <span class='light_sea_green'>24 Hour ASSET Volume:</span> <?=$market_data['data']['24hr_asset_vol']?><br />
+                    <span class='light_sea_green'>24 Hour PAIR Volume:</span> <?=$market_data['data']['24hr_pair_vol']?>
+                    
+                    </p>
+                    
+                    </div><br clear='all' />
                
-               <input type='checkbox' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][pair][<?=strtolower($pair_key)?>][<?=strtolower($market_data['exchange'])?>]' value='<?=$market_data['id']?>' <?=( isset($_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])]) && $_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])] == $market_data['id'] ? 'checked' : '' )?> /> 
-               
-               <a class='bitcoin clear_both input_margins' href='javascript: show_more("results_<?=md5($asset_key . $pair_key . $market_data['id'])?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
-               
-               <div id='results_<?=md5($asset_key . $pair_key . $market_data['id'])?>' style='display: none;' class='align_left clear_both input_margins'>
-               
-               <p>
-               
-               Name: <?=$market_data['name']?><br />
-               <?php
-               if ( isset($market_data['mcap_slug']) ) {
-               ?>
-               Marketcap Slug: <?=$market_data['mcap_slug']?><br />
-               <?php
-               }
-               ?>
-               ID: <?=$market_data['id']?><br />
-               Last Trade: <?=$market_data['data']['last_trade']?><br />
-               24 Hour ASSET Volume: <?=$market_data['data']['24hr_asset_vol']?><br />
-               24 Hour PAIR Volume: <?=$market_data['data']['24hr_pair_vol']?>
-               
-               </p>
-               
-               </div><br clear='all' />
+               </div>
                
                <?php
                }
@@ -232,7 +242,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
           <input type='hidden' id='add_markets_review' name='add_markets_review' value='1' />
      	
-     	<button class='force_button_style input_margins' onclick='
+     	<button class='force_button_style result_margins' onclick='
      	
      	var post_data = {
      	                  "saved_search": "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>",
@@ -270,13 +280,17 @@ same_name_checkboxes_to_radio();
 
 <?php
 
-// DEBUGGING...
+
+     // DEBUGGING...
+     if ( $wizard_debug ) {
    
-//$ct['gen']->array_debugging($ct['registered_pairs']);
+     //$ct['gen']->array_debugging($ct['registered_pairs']);
+     
+     $ct['gen']->array_debugging($search_results, true);
+     
+     //$ct['gen']->array_debugging($included_results, true);
 
-$ct['gen']->array_debugging($search_results, true);
-
-//$ct['gen']->array_debugging($included_results, true);
+     }
 
 
 }
