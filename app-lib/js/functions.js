@@ -5,6 +5,35 @@
 /////////////////////////////////////////////////////////////
 
 
+function same_name_checkboxes_to_radio() {
+
+
+    $("input[type='checkbox']").each(function(index, value){
+         
+    var batched_by_name = $('input[name="'+this.name+'"]');
+         
+        if ( batched_by_name.length > 1 ) {
+
+        var checkboxes = document.getElementsByName(this.name);
+        
+           for (i = 0; i < checkboxes.length; i++) {
+             checkboxes[i].type = 'radio';
+           }
+
+        console.log('checkbox to radio for name = ' + this.name);
+        
+        }
+    
+       
+    });
+    
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function merge_objects(orig_object, overwriting_object) {
 
 return combinedSettings = { ...orig_object, ...overwriting_object };
@@ -30,6 +59,8 @@ var name_override = {};
           results[this.name] = this.value;
                
           console.log(this.name + ' => ' + this.value);
+          
+          var selection_name = this.name;
      
           var dataset_id = this.getAttribute("dataset-id");
           
@@ -40,17 +71,19 @@ var name_override = {};
                     
                     if ( this.type == 'hidden' && this.getAttribute("dataset-id") == dataset_id ) {
                          
+                         
                          if (
-                         this.name.search(/coingecko/i) && this.name.match(/\[name\]/i) && this.value != ''
-                         || this.name.search(/coingecko/i) && this.name.match(/\[mcap_slug\]/i) && this.value != ''
+                         !name_override[this.name] && selection_name.search(/coingecko/i) && this.name.match(/\[name\]/i) && this.value != ''
+                         || !name_override[this.name] && selection_name.search(/coingecko/i) && this.name.match(/\[mcap_slug\]/i) && this.value != ''
                          ) {
                          name_override[this.name] = this.value;
                          console.log('coingecko override (for UX): ' + this.name + ' => ' + this.value);
                          }
+                         else if ( !name_override[this.name] && this.value != '' ) {
+                         results[this.name] = this.value;
+                         console.log(this.name + ' => ' + this.value);
+                         }
                          
-                    results[this.name] = this.value;
-                    
-                    console.log(this.name + ' => ' + this.value);
                     
                     }
                     

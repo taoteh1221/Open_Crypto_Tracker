@@ -287,11 +287,10 @@ var $exchange_apis = array(
                                                   ),
 
                            
-                           // 'markets_multiple' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
                            'kraken' => array(
-                                                   'markets_endpoint' => 'https://api.kraken.com/0/public/Ticker?pair=[KRAKEN_PAIRS]',
-                                                   'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'markets_endpoint' => 'https://api.kraken.com/0/public/Ticker',
+                                                   'markets_nested_path' => 'result', // Delimit multiple depths with >
+                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -436,7 +435,7 @@ var $exchange_apis = array(
                       $coingecko_asset_data = $asset_data;
                       }
                       else {
-                      $coingecko_asset_data = $this->exchange_search_endpoint('coingecko', $app_id, false, true);
+                      $coingecko_asset_data = $this->exchange_search_endpoint('coingecko', $app_id, false, true); // Get asset data only
                       }
                   
                   
@@ -463,19 +462,22 @@ var $exchange_apis = array(
                                                                      );
                                                                      
                   }
-                                             
-                                             
-                  if ( $specific_pairing ) {
-                  break; // leave loop
-                  }
                                        
                                                
              }
-                                       
+                                   
+                                             
+                                             
+             if ( $specific_pairing ) {
+             break; // leave loop
+             }    
+
 
         }
                       
    
+   gc_collect_cycles(); // Clean memory cache
+    
    return $results;
                    
    }
@@ -677,6 +679,8 @@ var $exchange_apis = array(
      
       }
 
+   
+   gc_collect_cycles(); // Clean memory cache
      
    }
 
@@ -738,6 +742,8 @@ var $exchange_apis = array(
       
       }
       
+   
+   gc_collect_cycles(); // Clean memory cache
       	           
    return $result;
      
@@ -810,6 +816,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                                             );
                     
                          if ( $specific_exchange ) {
+                         gc_collect_cycles(); // Clean memory cache
                          return $results;
                          }
                     
@@ -891,6 +898,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                
                }
        
+       
+          gc_collect_cycles(); // Clean memory cache
             
           return $results;
           
@@ -921,14 +930,10 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                 
                 
                // APIs REGISTERED AS supporting 'markets_multiple' / 'search_endpoint' params, AND SPECIFIC OTHERS (like 'coingecko_terminal', etc)
-               // (KRAKEN returns multiple results, BUT is not 'registered' as such, due to parsing requirements)
-               if ( $val['markets_multiple'] || $val['search_endpoint'] || $key == 'kraken' ) {
+               if ( $val['markets_multiple'] || $val['search_endpoint'] ) {
                     
                     
-                   if ( $key == 'kraken' ) {
-                   $try_pairing = $ct['conf']['currency']['kraken_pairings_search'];
-                   }
-                   elseif ( $key == 'upbit' ) {
+                   if ( $key == 'upbit' ) {
                    $try_pairing = $ct['conf']['currency']['upbit_pairings_search'];
                    }
                    elseif ( $key == 'jupiter_ag' ) {
@@ -1033,6 +1038,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
             }
      
+     
+       gc_collect_cycles(); // Clean memory cache
             
        return $results;
 
@@ -1261,6 +1268,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           }
         
       gc_collect_cycles(); // Clean memory cache
+      
       return $result;
       
       }
@@ -1325,12 +1333,22 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
    $url = preg_replace("/\[SEARCH_QUERY\]/i", $dyn_id, $url);
    
-   $url = preg_replace("/\[JUP_AG_TAGS\]/i", 'verified', $url); // Make dynamic in the future
+   
+       // https://station.jup.ag/docs/token-list/token-list-api
+       if ( $ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] == 'yes' ) {
+       $jupiter_ag_search_tags = 'verified,strict,community,unknown';
+       }
+       else {
+       $jupiter_ag_search_tags = 'verified,strict,community';
+       }
+       
+   
+   $url = preg_replace("/\[JUP_AG_TAGS\]/i", $jupiter_ag_search_tags, $url); // Make dynamic in the future
          
    $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
    
-   // API response data (CACHE SEARCH RESULTS FOR ONE DAY [1440 MINUTES])
-   $response = @$ct['cache']->ext_data('url', $url, 1440);
+   // API response data (CACHE SEARCH RESULTS FOR [HOURS MULTIPLIED BY 60, TO GET MINUTES])
+   $response = @$ct['cache']->ext_data('url', $url, ($ct['conf']['ext_apis']['exchange_search_api_cache_time'] * 60) );
    
    $data = json_decode($response, true);
    
@@ -1431,6 +1449,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                 
                      // Return an APP ID's associated values
                      if ( $single_asset_info && isset($data['id']) && $data['id'] == $market_search ) {
+                     gc_collect_cycles(); // Clean memory cache
                      return $data;
                      }
                      // Get search results
@@ -1445,14 +1464,18 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                           // (since we have an advanced disk AND runtime caching system, the single call speeds things up)
                           foreach( $data as $val ) {
                     
-                     
-                              if ( isset($val['api_symbol']) && stristr($val['api_symbol'], $dyn_id) ) {
+                              
+                              // Search both APP ID and TICKER SYMBOL fields
+                              if (
+                              isset($val['api_symbol']) && stristr($val['api_symbol'], $dyn_id)
+                              || isset($val['symbol']) && stristr($val['symbol'], $dyn_id)
+                              ) {
                                    
                               $temp_app_id_array[ $val['api_symbol'] ] = $val;
                                            
                                    // IF APP ID wasn't bundled yet into the single call format we use for coingecko,
                                    // add it now, to optimize this search loop
-                                   if ( !stristr($ct['coingecko_assets'], $val['api_symbol']) ) {
+                                   if (!stristr($ct['coingecko_assets'], $val['api_symbol']) ) {
                                    $ct['coingecko_assets'] = $ct['coingecko_assets'] . ',' . $val['api_symbol'];
                                    }
                                    
@@ -1483,6 +1506,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                    
                          
                           // Minimize calls, AND throttle to avoid being blocked
+                          sleep(1);
                           $check_market_data = $this->market($app_id, $exchange_key . '_' . $pairing_for_initial_check, $app_id);
                                         
                                         
@@ -1580,7 +1604,10 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
        
        }
+
        
+   gc_collect_cycles(); // Clean memory cache
+   
        
        if ( sizeof($possible_market_ids) > 0 ) {
        return $possible_market_ids;
@@ -1689,9 +1716,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
              // Coingecko pairing support
              $coingecko_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['coingecko_pairings_search']) );
                   
-             // Kraken pairing support
-             $kraken_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['kraken_pairings_search']) );
-                  
              // Upbit pairing support
              $upbit_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['upbit_pairings_search']) );
                   
@@ -1707,12 +1731,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                   
                   // Coingecko pairings    
                   foreach ( $coingecko_pairings as $pair_val ) {
-                  $temp_array[] = $pair_val;
-                  }
-              
-                  
-                  // Kraken pairings    
-                  foreach ( $kraken_pairings as $pair_val ) {
                   $temp_array[] = $pair_val;
                   }
               
@@ -1852,11 +1870,16 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
            $results['already_added'] = true;
            }
            else {
-           $results['already_added'] = false;
+           $results['already_added'] = $ct['conf']['assets'][strtoupper($results['asset'])]['pair'][strtolower($results['pairing'])][$exchange_check];
            }
        
         }
+        else {
+        $results['already_added'] = false;
+        }
 
+
+   gc_collect_cycles(); // Clean memory cache
 
    return $results;
       
@@ -1923,18 +1946,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          if ( $exchange_key == 'alphavantage_stock' ) {
          $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
          }
-         elseif ( $exchange_key == 'kraken' ) {
-         
-         
-             if ( $required_pairing ) {
-             $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $dyn_id . $required_pairing, $url);
-             }
-             else {
-             $url = preg_replace("/\[KRAKEN_PAIRS\]/i", $ct['kraken_batched_markets'], $url);
-             }
-
-
-         }
          elseif ( $exchange_key == 'coingecko' ) {
                      
          // (coingecko's response path is DYNAMIC, based off market id)
@@ -1997,6 +2008,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           				'ct_api->fetch_exchange_data(): REQUIRED asset PAIRING missing (exchange: '.$exchange_key.'; market_id: '.$market_id.'; ticker_pairing_search: '.$ticker_pairing_search.'; )'
           				);
                  
+              gc_collect_cycles(); // Clean memory cache
+              
               return false;
                  
               }
@@ -2222,42 +2235,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
          
          }
-         elseif ( $ticker_pairing_search && $exchange_key == 'kraken' ) {
-      
-              foreach ($data as $key => $val) {
-                   
-                 if ( $key == 'result' ) {
-                   
-                    foreach ($val as $key2 => $unused) {
-                                         
-                    // Minimize calls
-                    $check_market_data = $this->market($dyn_id, $exchange_key, $key2);
-                              
-                              
-                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
-                                   
-                         // Minimize calls
-                         $market_id_parse  = $this->market_id_parse($exchange_key, $key2);
-                       
-                         $possible_market_ids[] = array(
-                                                                   'name' => strtoupper($market_id_parse['asset']),
-                                                                   'id' => $key2,
-                                                                   'asset' => $market_id_parse['asset'],
-                                                                   'pairing' => $market_id_parse['pairing'],
-                                                                   'already_added' => $market_id_parse['already_added'],
-                                                                   'data' => $check_market_data,
-                                                                  );
-                                                                  
-                         }
-
-                       
-                    }
-                 
-                 }
-               
-              }
-                   
-         }
          elseif ( $ticker_pairing_search && $exchange_key == 'coingecko_terminal' ) {
       
               if ( isset($data['attributes']) ) {
@@ -2317,14 +2294,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
               		    );
               
               }
+    
+    
+         gc_collect_cycles(); // Clean memory cache
          
          return false;
           
          }
          elseif ( $ticker_pairing_search  ) {
+         gc_collect_cycles(); // Clean memory cache
          return $possible_market_ids;  
          }
          else {
+         gc_collect_cycles(); // Clean memory cache
          return $data;
          }
          
@@ -2465,11 +2447,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                libxml_clear_errors();
            
                $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $xml_response_file_cache . $xml_error_summary);
-               
-               gc_collect_cycles(); // Clean memory cache
 
                }
 
+
+          gc_collect_cycles(); // Clean memory cache
 
           return '<span class="red">Error reading news feed data (XML error), see admin app logs for details.</span>';
 
@@ -3316,30 +3298,12 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
     
     
       elseif ( $sel_exchange == 'kraken' ) {
-      
-      
-         foreach ($data as $key => $val) {
-              
-            if ( $key == 'result' ) {
-              
-               foreach ($val as $key2 => $unused) {
-                 
-                 if ( $key2 == $mrkt_id ) {
-                  
-                 $result = array(
-                                 'last_trade' => $val[$key2]["c"][0],
-                                 '24hr_asset_vol' => $val[$key2]["v"][1],
+           
+      $result = array(
+                                 'last_trade' => $data["c"][0],
+                                 '24hr_asset_vol' => $data["v"][1],
                                  '24hr_pair_vol' => null // Unavailable, set null
                        		     );
-                  
-                 }
-             
-               }
-            
-            }
-          
-         }
-      
       
       }
      
@@ -3786,6 +3750,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
       
       }
    
+   
+   gc_collect_cycles(); // Clean memory cache
    
    return $result;
    

@@ -192,35 +192,41 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-For the asset "name", we want to pre-populate it, yet still have it editable by the end user. Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets. Additionally, we want to only allow alphanumeric and a few symbols like hyphen, period, colon, etc. User input should be validated on the front end with JavaScript, and the back end with PHP. The name should also use htmlspecailcharacters for security, like we use for the user agent string on the access stats page.
+If we are just adding new markets to an EXISTING ASSET, we should check and see the EXISTING VALUES FOR 'name' AND 'mcap_slug'. Figure out a stable algo for what values to use IF WE ARE ADDING A NEW COINGECKO MARKET via interface. 
 
 
-Add our memory-freeing calls near the end of each of our ticker search related functions.
+For Kraken (or any other exchange with an "all markets" API endpoint structure), we don't need to bother adding any "search" API endpoint, since THE MARKET ENDPOINT GIVES US ALL MARKETS IN ONE CALL. 
 
 
-Add 'FDUSD' / 'CBBTC' to 'other pairings' on 'currency support' page.
-
-
-Migrate Kraker API to use their 'all tickers' endpoint: https://api.kraken.com/0/public/Ticker
-
-
-Register / intergrate Kraken's 'search' API endpoint: https://api.kraken.com/0/public/AssetPairs
-
-
-Add to power user config:
-
-'jupiter_ag_search_mode'
-
-'exchange_search_cache_time'
+Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
 
 
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
-IN THE INTERFACING, make sure the market does NOT already exist when allowing addition of new ones. We have 'already_added' as a search result value ON THE BACK END, so those results will be easy to grey out / disable / hide using that (it's boolean). ALSO run checks to make sure EVERY OTHER BACKEND search result meta data field is filled in (OTHERWISE SKIP SHOWING THAT MARKET AS AN OPTION TO ADD, AND WRITE TO THE ERROR LOG ABOUT IT).
+Run checks to make sure EVERY REQUIRED BACKEND search result meta data field is filled in (OTHERWISE SKIP SHOWING THAT MARKET AS AN OPTION TO ADD, AND include it in skipped markets list / WRITE TO THE ERROR LOG ABOUT IT [like we already do for pairings in $ct['api']->market_id_parse()]). 
 
 
-Make it so adding AT LEAST ONE CoinGecko market automatically adds a link to the asset's CoinGecko page (if it was NOT already added yet for that asset). ONLY CoinGecko search results have 'mcap_slug' set (as that is the only RELIABLE way to get the correct slug), so just scan for 'mcap_slug' in search results to auto-add it, when selecting / confirming the addition of new asset markets via the admin interface.
+Add the generic table sorter to the asset list on the admin portfolio assets page. Refactor the default sort to accommodate for only sorting the first column (instead of the first two we sort in access stats table data).
+
+
+On the portfolio updates user area page, AND the portfolio assets admin page, include a warning about saving too many coins in cookie mode, which can crash the app until some cookies are deleted.
+
+
+For the "portfolio assets" admin page, move the "wizard" into a large text link at the top of the page named "Add / Remove Asset Markets", and add a pretty simplified data table formatted list of each asset below that link (NOT editable, just for review of existing assets), with the following data columns for each row of data:
+
+Name (EDITABLE, see details below...)
+
+Mcap Slug (EDITABLE)
+
+Ticker
+
+Currency Pairings (number of, with info icon bubble showing a detailed list on hover)
+
+Exchange Markets (number of, with info icon bubble showing a detailed list on hover)
+
+
+For the asset "name", we want to pre-populate it, yet still have it editable by the end user. Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets. Additionally, we want to only allow alphanumeric and a few symbols like hyphen, period, colon, etc. User input should be validated on the front end with JavaScript, and the back end with PHP. The name should also use htmlspecailcharacters for security, like we use for the user agent string on the access stats page.
 
 
 Have a preview / confirmation step, AFTER selecting searched markets results, to have the end user confirm / cancel:
@@ -232,9 +238,6 @@ Have a preview / confirmation step, AFTER selecting searched markets results, to
 3) The EXCHANGE NAME(S) 
 
 4) The MARKET ID(S) 
-
-
-If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_id_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_id_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
 
 
 Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry:
@@ -577,7 +580,7 @@ Have it display on the 'more stats' page
 Use the 'usd asset comparision' chart template...different chains are in place of the assets, the telemetry items in place of the time period options.
 
 
-Consider bundling all the BELOW charts we want to add to the "more stats" page (arbitrage etc) into a "addon-chart-stats" plugin (UI name "Additional Chart Stats"). This will help to flesh out the plugin system, and give insight into any additional requirements that should be added to it.
+For the "arbitrage" "other stats" chart we already have spec'ed out directly below, build it out within it's own plugin. Additionally, have threshold alerts for each asset's markets in the same plugin, if the spread between the market prices gets beyond a certain percentage difference for that asset.
 
 
 On 'more stats' page, have a 'market comparison stats' chart for arbitrage on one asset (picked from dropdown menu), with default showing All pair's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pair (with an All option), Primary Currency (conversion). Looping through asset pairs / markets should be a straight forward algo that does the job.

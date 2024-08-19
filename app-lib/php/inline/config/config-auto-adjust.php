@@ -38,10 +38,20 @@ $ct['conf']['charts_alerts']['enable_price_charts'] = $ct['var']->auto_correct_s
 $ct['conf']['proxy']['proxy_alert_channels'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_channels'], 'lower');
 $ct['conf']['proxy']['proxy_alert_runtime'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_runtime'], 'lower');
 $ct['conf']['proxy']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_checkup_ok'], 'lower');
+$ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] = $ct['var']->auto_correct_str($ct['conf']['ext_apis']['jupiter_ag_allow_unknown'], 'lower');
 
 
 // Trimming whitespace
 $ct['conf']['charts_alerts']['whale_alert_thresholds'] = trim($ct['conf']['charts_alerts']['whale_alert_thresholds']);
+
+
+// Auto-correct case on market tickers...
+
+$ct['conf']['currency']['coingecko_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['coingecko_pairings_search'], 'coingecko');
+
+$ct['conf']['currency']['upbit_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['upbit_pairings_search'], 'upbit');
+
+$ct['conf']['currency']['jupiter_ag_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['jupiter_ag_pairings_search'], 'jupiter_ag');
 
 
 // Cleaning charts/alerts array

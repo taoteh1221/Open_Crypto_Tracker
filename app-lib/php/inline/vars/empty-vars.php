@@ -106,8 +106,6 @@ $ct['td_color_zebra'] = null;
 
 $ct['mcap_data_force_usd'] = null;
         
-$ct['kraken_batched_markets'] = null;
-        
 $ct['upbit_batched_markets'] = null;
         
 $ct['coingecko_pairs'] = null;

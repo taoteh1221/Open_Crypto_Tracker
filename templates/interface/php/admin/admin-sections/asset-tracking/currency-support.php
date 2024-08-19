@@ -64,17 +64,7 @@ $ct['admin_render_settings']['coingecko_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['coingecko_pairings_search']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['coingecko_pairings_search']['is_notes'] = 'CoinGecko market pairings searched for, when adding new assets / coins';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$ct['admin_render_settings']['kraken_pairings_search']['is_text'] = true;
-
-$ct['admin_render_settings']['kraken_pairings_search']['text_field_size'] = 40;
-
-$ct['admin_render_settings']['kraken_pairings_search']['is_notes'] = 'Kraken market pairings searched for, when adding new assets / coins';
+$ct['admin_render_settings']['coingecko_pairings_search']['is_notes'] = 'CoinGecko market pairings searched for, when adding new assets / coins (comma-separated)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +74,7 @@ $ct['admin_render_settings']['jupiter_ag_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['jupiter_ag_pairings_search']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['jupiter_ag_pairings_search']['is_notes'] = 'Jupiter Aggregator market pairings searched for, when adding new assets / coins';
+$ct['admin_render_settings']['jupiter_ag_pairings_search']['is_notes'] = 'Jupiter Aggregator market pairings searched for, when adding new assets / coins (comma-separated)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +84,7 @@ $ct['admin_render_settings']['upbit_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['upbit_pairings_search']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['upbit_pairings_search']['is_notes'] = 'Upbit market pairings searched for, when adding new assets / coins';
+$ct['admin_render_settings']['upbit_pairings_search']['is_notes'] = 'Upbit market pairings searched for, when adding new assets / coins (comma-separated)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +94,7 @@ $ct['admin_render_settings']['additional_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['additional_pairings_search']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['additional_pairings_search']['is_notes'] = 'OTHER (upcoming / semi-popular) market pairings searched for, when adding new assets / coins';
+$ct['admin_render_settings']['additional_pairings_search']['is_notes'] = 'OTHER (upcoming / semi-popular) market pairings searched for, when adding new assets / coins (comma-separated)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

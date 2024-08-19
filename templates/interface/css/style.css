@@ -212,6 +212,17 @@ margin: 0.5em !important;
 }
 
 
+.result_margins {
+margin: 1.5em !important;
+}
+
+
+.result_margins > .result_margins {
+border-left: 0.2em dotted #808080;
+padding-left: 0.75em;
+}
+
+
 table.data_table:not(#coins_table) {
     border-radius: 0.5em;
 }

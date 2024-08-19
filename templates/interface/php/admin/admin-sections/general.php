@@ -238,17 +238,6 @@ $ct['admin_render_settings']['price_rounding_fixed_decimals']['is_notes'] = '(wh
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$loop = 0;
-$loop_max = 30;
-while ( $loop <= $loop_max ) {
-$ct['admin_render_settings']['charts_backup_frequency']['is_select'][] = $loop;
-$loop = $loop + 1;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
