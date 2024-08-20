@@ -195,7 +195,10 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 If we are just adding new markets to an EXISTING ASSET, we should check and see the EXISTING VALUES FOR 'name' AND 'mcap_slug'. Figure out a stable algo for what values to use IF WE ARE ADDING A NEW COINGECKO MARKET via interface. 
 
 
-For Kraken (or any other exchange with an "all markets" API endpoint structure), we don't need to bother adding any "search" API endpoint, since THE MARKET ENDPOINT GIVES US ALL MARKETS IN ONE CALL. 
+Figure out why WEN/USDC jupiter market isn't working.
+
+
+For any exchange with an "all_markets_support" API endpoint structure, we don't need to bother adding any "search_endpoint" API, since THE MARKET ENDPOINT GIVES US ALL MARKETS IN ONE CALL. 
 
 
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
