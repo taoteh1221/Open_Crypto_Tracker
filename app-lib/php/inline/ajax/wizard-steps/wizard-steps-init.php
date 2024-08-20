@@ -4,9 +4,6 @@
  */
 
 
-$wizard_debug = true; // DEBUGGING ONLY
-
- 
 if ( $_GET['type'] == 'add_markets' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-init.php');
 }

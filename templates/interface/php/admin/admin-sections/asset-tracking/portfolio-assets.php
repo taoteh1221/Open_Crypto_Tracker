@@ -22,14 +22,18 @@ if ( $ct['admin_area_sec_level'] == 'high' ) {
 else {
 ?>
 	
-	<div id='update_markets_ajax' style='margin: 1em;'>
+<div id='update_markets_ajax' style='margin: 1em;'>
 	
-     <?php
-     require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/market-steps-init.php');
-     ?>
+	
+    <button class='force_button_style input_margins' onclick='
+     	
+     ct_ajax_load("type=add_markets&step=1", "#update_markets_ajax", "add / remove asset markets", false, true); // Secured
+     	
+     '> Add / Remove Asset Markets </button>
 
-	</div>
-    
+
+
+</div>    
 	
 <?php
 }

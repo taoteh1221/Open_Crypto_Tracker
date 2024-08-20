@@ -12,7 +12,7 @@
 
 
 // DEBUGGING...
-if ( $wizard_debug ) {
+if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
    
 $ct['gen']->array_debugging($_POST, true);
 

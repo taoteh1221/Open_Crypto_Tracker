@@ -15,6 +15,8 @@ var $ct_var3;
 
 // We need an architecture that 'registers' each exchange API's specs / params in the app,
 // for scanning ALL exchanges for a specific NEW ticker, when ADDING A NEW COIN VIA ADMIN INTERFACING
+// For any exchange with an "all_markets_support" API endpoint structure, we don't need to bother adding any
+// "search_endpoint" API, since THE MARKET ENDPOINT GIVES US ALL MARKETS IN ONE CALL. 
 var $exchange_apis = array(
 
 
@@ -1414,20 +1416,24 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          // jupiter tickers list needs to be converted to UPPERCASE tickers for their market endpoints
                          // (which they do NOT do automatically as of 2024/8/17)
                          $asset_check = $ct['gen']->auto_correct_market_id($val['symbol'], $exchange_key);
+                         
+                         $pairing_check = ( $required_pairing ? $required_pairing : 'SOL' );
+                         
+                         //var_dump($asset_check . '/' . $pairing_check);
                     
                          // Minimize calls, AND throttle to avoid being blocked
                          sleep(1);
-                         $check_market_data = $this->market($dyn_id, $exchange_key, $asset_check . '/' . $required_pairing);
+                         $check_market_data = $this->market($dyn_id, $exchange_key, $asset_check . '/' . $pairing_check);
                                    
                                    
                               if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                                    
                               // Minimize calls
-                              $market_id_parse  = $this->market_id_parse($exchange_key, $asset_check . '/' . $required_pairing, $required_pairing, $asset_check);
+                              $market_id_parse  = $this->market_id_parse($exchange_key, $asset_check . '/' . $pairing_check, $pairing_check, $asset_check);
                                         
                               $possible_market_ids[] = array(
                                                                        'name' => strtoupper($market_id_parse['asset']),
-                                                                       'id' => $asset_check . '/' . $required_pairing,
+                                                                       'id' => $asset_check . '/' . $pairing_check,
                                                                        'asset' => $market_id_parse['asset'],
                                                                        'pairing' => $market_id_parse['pairing'],
                                                                        'already_added' => $market_id_parse['already_added'],
@@ -2029,7 +2035,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
          $url = preg_replace("/\[JUP_AG_PAIRING\]/i", $jup_market[1], $url);
          
-         $dyn_id = $jup_market[0];
+         //var_dump($url);
+         
+         $dyn_id = $jup_market[0]; // Reset for parsing results (result key is only the asset ticker)
 
          }
          elseif ( $exchange_key == 'loopring' ) {
@@ -2270,10 +2278,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
               
               // DEBUG LOGGING
-              if (
-              $ticker_pairing_search && $ct['conf']['power']['debug_mode'] == 'all'
-              || $ticker_pairing_search && $ct['conf']['power']['debug_mode'] == 'markets'
-              ) {
+              if ( $ticker_pairing_search && $ct['conf']['power']['debug_mode'] == 'markets' ) {
               
               $ct['gen']->log(
               		    'notify_debug',
@@ -2360,7 +2365,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
       $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($url);
    
          
-          if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' ) {
+          if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' ) {
          	
           $ct['gen']->log(
          			  'system_debug',

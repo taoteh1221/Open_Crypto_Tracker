@@ -22,8 +22,8 @@ $time = $time[1] + $time[0];
 $total_runtime = round( ($time - $start_runtime) , 3);
 
 
-// If debug mode is 'all' / 'all_telemetry' / 'stats'
-if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'stats' ) {
+// If debug mode is 'all_telemetry' / 'stats'
+if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'stats' ) {
 
 
 	foreach ( $ct['system_info'] as $key => $val ) {

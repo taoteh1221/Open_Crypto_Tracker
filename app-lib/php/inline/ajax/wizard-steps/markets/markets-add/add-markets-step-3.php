@@ -34,12 +34,37 @@ $included_results = array();
 
 $skipped_results = array();
 
+$not_required = array(
+                      'mcap_slug',
+                      'already_added',
+                     );
+
 
      foreach ( $search_results as $exchange_key => $exchange_data ) {
           
+          
           foreach ( $exchange_data as $market_data ) {
                
-               if ( !$market_data['already_added'] || is_bool($market_data['already_added']) !== true ) {
+          $missing_required = false; // RESET
+               
+               
+               foreach ( $market_data as $meta_key => $meta_val ) {
+               
+                    if ( !in_array($meta_key, $not_required) && !is_array($meta_val) && trim($meta_val) == '' ) {
+                         
+                    $missing_required = $meta_key;
+
+                    $ct['gen']->log( 'market_error', 'No data found for required value "' . $missing_required . '", during asset market search: "' . $_POST['add_markets_search'] . '" (for exchange API '.$exchange_key.')');
+
+                    }
+               
+               }
+
+               
+               if (
+               !$missing_required && !$market_data['already_added']
+               || !$missing_required && is_bool($market_data['already_added']) !== true
+               ) {
                     
                $included_results[ $market_data['asset'] ][ $market_data['pairing'] ][] = array(
                                                                                                           'exchange' => $exchange_key,
@@ -51,18 +76,21 @@ $skipped_results = array();
                                                                                                          );
                                                                                                          
                }
-               elseif ( $market_data['already_added'] ) {
+               elseif ( $missing_required || $market_data['already_added'] ) {
                     
                $skipped_results[] = array(
+                                                                                                          'missing_required' => $missing_required,
                                                                                                           'exchange' => $ct['gen']->key_to_name($exchange_key),
-                                                                                                          'pairing' => $market_data['pairing'],
                                                                                                           'name' => $market_data['name'],
+                                                                                                          'pairing' => $market_data['pairing'],
                                                                                                           'id' => $market_data['id'],
                                                                                                          );
                                                                  
                }
           
+          
           }
+     
      
      }
      
@@ -129,7 +157,7 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
   if ( sizeof($skipped_results) > 0 ) {
   ?>
 
-     <a style='font-weight: bold;' class='red clear_both result_margins' href='javascript: show_more("results_skipped");' title='Click to show / hide additional details.'>Skipped Results (already exist in app!)</a>
+     <a style='font-weight: bold;' class='red clear_both result_margins' href='javascript: show_more("results_skipped");' title='Click to show / hide additional details.'>Skipped Results (already exist in app, OR missing required data)</a>
      
      <div id='results_skipped' style='display: none;' class='red align_left clear_both result_margins'>
      
@@ -139,6 +167,13 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
      
                <p>
                
+               <?php
+               if ( $skipped_market['missing_required'] ) {
+               ?>
+               <i><u><b>(Missing Required: <?=$skipped_market['missing_required']?>)</b></u></i><br />
+               <?php
+               }
+               ?>
                Exchange: <?=$skipped_market['exchange']?><br />
                Pairing: <?=$skipped_market['pairing']?><br />
                Name: <?=$skipped_market['name']?><br />
@@ -282,7 +317,7 @@ same_name_checkboxes_to_radio();
 
 
      // DEBUGGING...
-     if ( $wizard_debug ) {
+     if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
    
      //$ct['gen']->array_debugging($ct['registered_pairs']);
      

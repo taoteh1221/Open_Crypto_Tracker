@@ -780,6 +780,8 @@ var $ct_array = array();
 	
 	?>
 	
+	<p class='save_notice red red_dotted'>Click "Save Admin Changes" in the NAVIGATION MENU, to SAVE the changes you have made in this section (when you are finished).</p>
+	
 	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=$cat_key?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
      
      <?php
@@ -1108,7 +1110,9 @@ var $ct_array = array();
 	<?=$ct['gen']->input_2fa('strict')?>
 	
 	</form>
-     
+	
+	<p class='save_notice red red_dotted'>Click "Save Admin Changes" in the NAVIGATION MENU, to SAVE the changes you have made in this section (when you are finished).</p>
+	
      
    </div>
    

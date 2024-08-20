@@ -79,7 +79,9 @@ var name_override = {};
                          name_override[this.name] = this.value;
                          console.log('coingecko override (for UX): ' + this.name + ' => ' + this.value);
                          }
-                         else if ( !name_override[this.name] && this.value != '' ) {
+                         // We still need EMPTY values for correct CONFIG data structure (like 'mcap_slug'),
+                         // BUT ONLY IF NOT ALREADY DEFINED IN THE 'name_override' ARRAY!
+                         else if ( !name_override[this.name] ) {
                          results[this.name] = this.value;
                          console.log(this.name + ' => ' + this.value);
                          }
@@ -741,6 +743,12 @@ function red_save_button(mode=false) {
           
      $('#sidebar .admin_settings_save', window.parent.document).removeClass('bitcoin');
      $('#sidebar .admin_settings_save', window.parent.document).addClass('red_bright');
+     
+     $(".save_notice").show(250, 'linear'); // 0.25 seconds // SHOW SAVE NOTICE AT TOP / BOTTOM OF THIS ADMIN IFRAME PAGE
+     
+         admin_iframe_dom.forEach(function(iframe) {
+         iframe_size_adjust(iframe);
+         });                  
      
      }
      else if ( is_admin ) {

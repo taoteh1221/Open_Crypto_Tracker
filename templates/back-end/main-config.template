@@ -1023,7 +1023,6 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // ### GENERAL ###
 ////
 // 'off' (disables), 
-// 'all' (all debugging), 
 ////
 // ### TELEMETRY ###
 ////
@@ -1036,6 +1035,10 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
 // 'api_comms_telemetry' (API comms responses to: /cache/logs/debug/external_data/last-response-[service].log),
 // 'cron_telemetry' (cron runtime telemetry to: /cache/logs/debug/cron/cron_runtime_telemetry.log),
+////
+// ### VIEW INPUT / OUTPUT (ON INTERFACE PAGES) ###
+////
+// 'wizard_steps_io' (AJAX-based 'wizard' steps),
 ////
 // ### CHECKS ###
 ////

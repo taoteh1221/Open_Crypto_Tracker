@@ -2676,7 +2676,7 @@ var $ct_array = array();
      	               
          	          $ct['update_config'] = true;
      	               
-     	               if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+     	               if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
          	               $ct['gen']->log('conf_debug', 'plugin "'.$file_info->getFilename().'" ADDED, updating CACHED ct_conf');
          	               }
          	          
@@ -2711,7 +2711,7 @@ var $ct_array = array();
 	              
     	         $ct['update_config'] = true;
     	         
-    	            if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    	            if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     	            $ct['gen']->log('conf_debug', 'plugin "'.$key.'" REMOVED, updating CACHED ct_conf');
     	            }
     	         
@@ -3071,6 +3071,9 @@ var $ct_array = array();
          }
          elseif ( strtolower($val) == 'precache' ) {
          $words[$key] = 'PreCache';
+         }
+         elseif ( strtolower($val) == 'io' ) {
+         $words[$key] = 'IO';
          }
          elseif ( strtolower($val) == 'ag' ) {
          $words[$key] = 'Aggregator';

@@ -12,7 +12,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 
 
-<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Asset Markets Found For Search: "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</strong> </legend>
+<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Confirm Adding Asset Markets</strong> </legend>
 
   <?php
   if ( sizeof($_POST['assets']) > 0 ) {
@@ -40,13 +40,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           <?=$asset_data['name']?> <span class='bitcoin'>(EDITABLE after adding)</span>
           </div>
      
+     
+          <?php
+          if ( isset($asset_data['mcap_slug']) && trim($asset_data['mcap_slug']) != '' ) {
+          ?>
           <div style='font-weight: bold;' class='green clear_both result_margins'>Marketcap Slug (page):</div> 
           
           <div class='align_left clear_both result_margins'>
           <?=$asset_data['mcap_slug']?> <span class='bitcoin'>(EDITABLE after adding)</span>
           </div>
-     
           <?php
+          }
+
+
           foreach ( $asset_data['pair'] as $pair_key => $pair_data ) {
           ?>
           <div style='font-weight: bold;' class='green clear_both result_margins'><?=strtoupper($pair_key)?></div>
@@ -124,7 +130,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
 
 // DEBUGGING...
-if ( $wizard_debug ) {
+if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
    
 $ct['gen']->array_debugging($_POST, true);
 

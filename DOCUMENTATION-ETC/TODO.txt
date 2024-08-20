@@ -198,16 +198,10 @@ If we are just adding new markets to an EXISTING ASSET, we should check and see 
 Figure out why WEN/USDC jupiter market isn't working.
 
 
-For any exchange with an "all_markets_support" API endpoint structure, we don't need to bother adding any "search_endpoint" API, since THE MARKET ENDPOINT GIVES US ALL MARKETS IN ONE CALL. 
-
-
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
 
 
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
-
-
-Run checks to make sure EVERY REQUIRED BACKEND search result meta data field is filled in (OTHERWISE SKIP SHOWING THAT MARKET AS AN OPTION TO ADD, AND include it in skipped markets list / WRITE TO THE ERROR LOG ABOUT IT [like we already do for pairings in $ct['api']->market_id_parse()]). 
 
 
 Add the generic table sorter to the asset list on the admin portfolio assets page. Refactor the default sort to accommodate for only sorting the first column (instead of the first two we sort in access stats table data).
