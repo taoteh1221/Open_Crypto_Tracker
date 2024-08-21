@@ -931,7 +931,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                }
                 
                 
-               // APIs REGISTERED AS supporting 'all_markets_support' / 'search_endpoint' params, AND SPECIFIC OTHERS (like 'coingecko_terminal', etc)
+               // Exchange APIs REGISTERED AS supporting 'all_markets_support' / 'search_endpoint'
                if ( $val['all_markets_support'] || $val['search_endpoint'] ) {
                     
                     
