@@ -113,7 +113,17 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
      	<button class='force_button_style result_margins green' onclick='
      	
-     	ct_ajax_load("type=add_markets&step=5", "#update_markets_ajax", "add market results", selected_markets_post_data, true); // Secured
+     	var post_data = {
+     	                  "conf_id": "assets",
+     	                  // Use the PARENT ID, if there are interface subsections (since we are using the parent IFRAME)
+     	                  "interface_id": "asset_tracking",
+     	                  "refresh": "all",
+     	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
+     	                   };
+     	
+     	var merged_data = merge_objects(post_data, selected_markets_post_data);
+     	
+     	ct_ajax_load("type=add_markets&step=5", "#update_markets_ajax", "add market results", merged_data, true, true); // Secured / sort tables
      	
      	'> Add Asset Markets </button>
      	

@@ -973,6 +973,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
      
                         $check_results = $this->exchange_api_data($key, $ticker_search, $pairing_val); // SEARCH ONLY MODE (TICKER WITH PAIRING)
+   
+                        gc_collect_cycles(); // Clean memory cache
      
      
                             if ( $check_results ) {
@@ -1005,6 +1007,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                    else {
      
                    $check_results = $this->exchange_api_data($key, $ticker_search, true); // SEARCH ONLY MODE (TICKER ONLY)
+   
+                   gc_collect_cycles(); // Clean memory cache
                         
 
                         if ( $check_results ) {
@@ -1352,6 +1356,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    // API response data (CACHE SEARCH RESULTS FOR [HOURS MULTIPLIED BY 60, TO GET MINUTES])
    $response = @$ct['cache']->ext_data('url', $url, ($ct['conf']['ext_apis']['exchange_search_api_cache_time'] * 60) );
    
+   gc_collect_cycles(); // Clean memory cache
+   
    $data = json_decode($response, true);
    
    
@@ -1372,6 +1378,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          // Minimize calls, AND throttle to avoid being blocked
                          sleep(1);
                          $check_market_data = $this->market($dyn_id, $exchange_key, $val['id']);
+   
+                         gc_collect_cycles(); // Clean memory cache
                                    
                                    
                               if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -1424,6 +1432,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          // Minimize calls, AND throttle to avoid being blocked
                          sleep(1);
                          $check_market_data = $this->market($dyn_id, $exchange_key, $asset_check . '/' . $pairing_check);
+   
+                         gc_collect_cycles(); // Clean memory cache
                                    
                                    
                               if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -1514,6 +1524,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                           // Minimize calls, AND throttle to avoid being blocked
                           sleep(1);
                           $check_market_data = $this->market($app_id, $exchange_key . '_' . $pairing_for_initial_check, $app_id);
+   
+                          gc_collect_cycles(); // Clean memory cache
                                         
                                         
                               if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -1574,6 +1586,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                    // Minimize calls, AND throttle to avoid being blocked
                                    sleep(2);
                                    $check_market_data = $this->market($dyn_id, $exchange_key, $result["1. symbol"]);
+   
+                                   gc_collect_cycles(); // Clean memory cache
                                              
                                              
                                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -1687,6 +1701,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          else {
              
          $parsed_pairing = $parsed_market_id;
+   
+         gc_collect_cycles(); // Clean memory cache
              
              
              if ( in_array($exchange_key, $ct['dev']['hyphen_delimited_markets']) ) {
@@ -1784,6 +1800,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
                   }
              
+   
+             gc_collect_cycles(); // Clean memory cache
              
              }
                   
@@ -2067,6 +2085,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           
    // API response data
    $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+   
+   gc_collect_cycles(); // Clean memory cache
           
    $data = json_decode($response, true);
          
@@ -2127,6 +2147,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                          
                                     // Minimize calls
                                     $check_market_data = $this->market($dyn_id, $exchange_key, $val[ $exchange_api['all_markets_support'] ]);
+   
+                                    gc_collect_cycles(); // Clean memory cache
                               
                               
                                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -2162,6 +2184,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                          
                                  // Minimize calls
                                  $check_market_data = $this->market($dyn_id, $exchange_key, $val[ $exchange_api['all_markets_support'] ]);
+   
+                                 gc_collect_cycles(); // Clean memory cache
                               
                               
                                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -2214,6 +2238,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                          
                        // Minimize calls
                        $check_market_data = $this->market($dyn_id, $exchange_key, $key);
+   
+                       gc_collect_cycles(); // Clean memory cache
                               
                               
                             if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -2249,6 +2275,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                          
               // Minimize calls
               $check_market_data = $this->market($dyn_id, $exchange_key, $dyn_id);
+   
+              gc_collect_cycles(); // Clean memory cache
                               
                               
                          if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -2721,6 +2749,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    $sel_exchange = strtolower($sel_exchange);
    
    $data = $this->exchange_api_data($sel_exchange, $mrkt_id);
+   
+   gc_collect_cycles(); // Clean memory cache
    
     
     ////////////////////////////////////////////////////////////////////////////////////////////////

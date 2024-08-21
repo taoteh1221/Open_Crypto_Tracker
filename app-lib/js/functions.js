@@ -2494,25 +2494,36 @@ $(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loa
                   success: function(data) {
                        
                   $(elm_id).html(data); // Load response into the passed element id
-                  
-                  // Highlightjs
-                  load_highlightjs();
-                  
-                       if ( sort_tables ) {
-                       sorting_generic_tables(true);
-                       paged_tablesort_sizechange();
-                       }
-                       
-                       if ( is_admin && is_iframe ) {
-                       
-                            // Resize admin iframes after adding repeatable elements
-                            admin_iframe_dom.forEach(function(iframe) {
-                            iframe_size_adjust(iframe);
-                            });
-                       
-                       }
+          
      
-                  scroll(0,0); // Make sure we are scrolled to top of page
+                       // Resets / inits after 0.75 seconds (to give rendering time to finish)
+                       setTimeout(function() {
+                            
+                       // Highlightjs
+                       load_highlightjs();
+     
+                       scroll(0,0); // Make sure we are scrolled to top of page
+
+                            // Any parent page too
+                            if ( is_iframe ) {
+                            window.parent.parent.scrollTo(0,0);
+                            }
+                  
+                            if ( sort_tables ) {
+                            sorting_generic_tables(true);
+                            paged_tablesort_sizechange();
+                            }
+                            
+                            if ( is_admin && is_iframe ) {
+                            
+                                 // Resize admin iframes after adding repeatable elements
+                                 admin_iframe_dom.forEach(function(iframe) {
+                                 iframe_size_adjust(iframe);
+                                 });
+                            
+                            }
+                             
+                       }, 750);
                   
                   },
                   

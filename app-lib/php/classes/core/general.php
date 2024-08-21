@@ -37,9 +37,14 @@ var $ct_array = array();
      <?=$key?> (<?=sizeof($val)?> results):
      <?php
      }
+     else {
+     ?>
+     <?=$key?>:
+     <?php
+     }
      ?>
      
-     <?=print_r($val)?>
+     <?=print_r($val, true)?>
      
      </code></pre>
      

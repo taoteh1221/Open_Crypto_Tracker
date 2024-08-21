@@ -7,8 +7,41 @@
 ?>
 
 <h3 class='bitcoin input_margins'>STEP #5: Add Asset Markets Results</h3>
-     
+
+	
+	<div style='min-height: 1em;'></div>
+	 
+	 
+	 <?php
+	 if ( $ct['update_config_success'] != null ) {
+	 ?>
+	 
+	 <script>
+	 
+	 <?php
+      $reload_function_name = 'secondary_refresh_iframes';
+	 require("templates/interface/php/wrap/wrap-elements/admin-refresh.php");
+	 ?>
+	 
+	 </script>
+	 
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$ct['update_config_success']?></div>
+	 <div style='min-height: 1em;'></div>
+	 
+	 <?php
+	 }
+	 elseif ( $ct['update_config_error'] != null ) {
+	 ?>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$ct['update_config_error']?></div>
+	 <div style='min-height: 1em;'></div>
+	 <?php
+	 }
+	 ?>
+	 
+	 
 <?php
+
+require("templates/interface/php/admin/admin-sections/asset-tracking/portfolio-assets.php");
 
 
 // DEBUGGING...
