@@ -11,7 +11,7 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 
 
 	// Check configured charts and price alerts
-	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'alerts_charts' ) {
+	if ( $ct['conf']['power']['debug_mode'] == 'alerts_charts' ) {
 		
 		foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
 		
@@ -65,7 +65,7 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 	
 	
 	// Check configured email to mobile text gateways
-	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'texts' ) {
+	if ( $ct['conf']['power']['debug_mode'] == 'texts' ) {
 	
 		foreach ( $ct['conf']['mobile_network']['text_gateways'] as $val ) {
 		     
@@ -91,7 +91,8 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 	
 	
 	// Check configured coin markets
-	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'markets' ) {
+	if ( $ct['conf']['power']['debug_mode'] == 'markets' ) {
+		
 		
 		foreach ( $ct['conf']['assets'] as $asset_key => $asset_val ) {
 		

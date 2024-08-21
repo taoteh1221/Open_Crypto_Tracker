@@ -131,6 +131,18 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 		 
      	<?php
      	}
+     	
+
+$all_exchanges_search_count = 0;
+
+foreach ( $ct['api']->exchange_apis as $check_exchange ) {
+
+     if ( $check_exchange['all_markets_support'] || $check_exchange['search_endpoint'] ) {
+     $all_exchanges_search_count = $all_exchanges_search_count + 1;
+     }
+
+}
+     	
      	?>
      	
      	
@@ -146,6 +158,13 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	    var skip_alphavantage_search = "no";
      	    }
      	    
+     	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
+     	    var search_desc = "<?=$all_exchanges_search_count?> exchanges";
+     	    }
+     	    else {
+     	    var search_desc = $("#add_markets_search_exchange").val();
+     	    }
+     	    
      	
      	var add_markets_search = {
      	                          "add_markets_search": $("#add_markets_search").val(),
@@ -153,7 +172,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	                          "skip_alphavantage_search": skip_alphavantage_search,
      	                          };
      	
-     	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "market search results", add_markets_search, true); // Secured
+     	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "search results from " + search_desc, add_markets_search, true); // Secured
      	
      	'> Search For Markets To Add </button>
 

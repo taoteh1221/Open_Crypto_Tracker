@@ -192,25 +192,16 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-If we are just adding new markets to an EXISTING ASSET, we should check and see the EXISTING VALUES FOR 'name' AND 'mcap_slug'. Figure out a stable algo for what values to use IF WE ARE ADDING A NEW COINGECKO MARKET via interface. 
-
-
-For Kraken (or any other exchange with an "all markets" API endpoint structure), we don't need to bother adding any "search" API endpoint, since THE MARKET ENDPOINT GIVES US ALL MARKETS IN ONE CALL. 
+Refactor the default sort on generic tables, to accommodate for only sorting the first column (instead of the first two we sort in access stats table data). Apply this to the coins list on the portfolio assets admin page table. See if that fixes the table sort css issue when the portfolio assets page is auto-refreshed (due to updating another admin section).
 
 
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
 
 
+On the portfolio updates user area page, AND the portfolio assets admin page, include a warning about saving too many coins in cookie mode, which can crash the app until some cookies are deleted. Also look into decreasing the cookies warning threshold (when the alert shows at top left of header), so users are alerted WAY BEFORE THE COOKIES SIZE CRASHES THE APP!
+
+
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
-
-
-Run checks to make sure EVERY REQUIRED BACKEND search result meta data field is filled in (OTHERWISE SKIP SHOWING THAT MARKET AS AN OPTION TO ADD, AND include it in skipped markets list / WRITE TO THE ERROR LOG ABOUT IT [like we already do for pairings in $ct['api']->market_id_parse()]). 
-
-
-Add the generic table sorter to the asset list on the admin portfolio assets page. Refactor the default sort to accommodate for only sorting the first column (instead of the first two we sort in access stats table data).
-
-
-On the portfolio updates user area page, AND the portfolio assets admin page, include a warning about saving too many coins in cookie mode, which can crash the app until some cookies are deleted.
 
 
 For the "portfolio assets" admin page, move the "wizard" into a large text link at the top of the page named "Add / Remove Asset Markets", and add a pretty simplified data table formatted list of each asset below that link (NOT editable, just for review of existing assets), with the following data columns for each row of data:

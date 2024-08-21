@@ -12,7 +12,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 
 
-<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Asset Markets Found For Search: "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</strong> </legend>
+<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Confirm Adding Asset Markets</strong> </legend>
 
   <?php
   if ( sizeof($_POST['assets']) > 0 ) {
@@ -40,13 +40,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           <?=$asset_data['name']?> <span class='bitcoin'>(EDITABLE after adding)</span>
           </div>
      
+     
+          <?php
+          if ( isset($asset_data['mcap_slug']) && trim($asset_data['mcap_slug']) != '' ) {
+          ?>
           <div style='font-weight: bold;' class='green clear_both result_margins'>Marketcap Slug (page):</div> 
           
           <div class='align_left clear_both result_margins'>
           <?=$asset_data['mcap_slug']?> <span class='bitcoin'>(EDITABLE after adding)</span>
           </div>
-     
           <?php
+          }
+
+
           foreach ( $asset_data['pair'] as $pair_key => $pair_data ) {
           ?>
           <div style='font-weight: bold;' class='green clear_both result_margins'><?=strtoupper($pair_key)?></div>
@@ -107,7 +113,17 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
      	<button class='force_button_style result_margins green' onclick='
      	
-     	ct_ajax_load("type=add_markets&step=5", "#update_markets_ajax", "add market results", selected_markets_post_data, true); // Secured
+     	var post_data = {
+     	                  "conf_id": "assets",
+     	                  // Use the PARENT ID, if there are interface subsections (since we are using the parent IFRAME)
+     	                  "interface_id": "asset_tracking",
+     	                  "refresh": "all",
+     	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
+     	                   };
+     	
+     	var merged_data = merge_objects(post_data, selected_markets_post_data);
+     	
+     	ct_ajax_load("type=add_markets&step=5", "#update_markets_ajax", "add market results", merged_data, true, true); // Secured / sort tables
      	
      	'> Add Asset Markets </button>
      	
@@ -124,7 +140,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
 
 // DEBUGGING...
-if ( $wizard_debug ) {
+if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
    
 $ct['gen']->array_debugging($_POST, true);
 

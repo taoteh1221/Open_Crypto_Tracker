@@ -15,13 +15,15 @@ var $ct_var3;
 
 // We need an architecture that 'registers' each exchange API's specs / params in the app,
 // for scanning ALL exchanges for a specific NEW ticker, when ADDING A NEW COIN VIA ADMIN INTERFACING
+// For any exchange with an "all_markets_support" API endpoint structure, we don't need to bother adding any
+// "search_endpoint" API, since THE MARKET ENDPOINT GIVES US ALL MARKETS IN ONE CALL. 
 var $exchange_apis = array(
 
 
                            'aevo' => array(
                                                    'markets_endpoint' => 'https://api.aevo.xyz/instrument/[MARKET]',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -29,7 +31,7 @@ var $exchange_apis = array(
                            'alphavantage_stock' => array(
                                                    'markets_endpoint' => 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=[MARKET]&apikey=[ALPHAVANTAGE_KEY]',
                                                    'markets_nested_path' => 'Global Quote', // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=[SEARCH_QUERY]&apikey=[ALPHAVANTAGE_KEY]', // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -37,7 +39,7 @@ var $exchange_apis = array(
                            'binance' => array(
                                                    'markets_endpoint' => 'https://www.binance.com/api/v3/ticker/24hr',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -45,7 +47,7 @@ var $exchange_apis = array(
                            'binance_us' => array(
                                                    'markets_endpoint' => 'https://api.binance.us/api/v3/ticker/24hr',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -53,7 +55,7 @@ var $exchange_apis = array(
                            'bit2c' => array(
                                                    'markets_endpoint' => 'https://bit2c.co.il/Exchanges/[MARKET]/Ticker.json',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -61,7 +63,7 @@ var $exchange_apis = array(
                            'bitbns' => array(
                                                    'markets_endpoint' => 'https://bitbns.com/order/getTickerWithVolume',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -69,7 +71,7 @@ var $exchange_apis = array(
                            'bitfinex' => array(
                                                    'markets_endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => '0', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => '0', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -77,7 +79,7 @@ var $exchange_apis = array(
                            'ethfinex' => array(
                                                    'markets_endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => '0', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => '0', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -85,7 +87,7 @@ var $exchange_apis = array(
                            'bitflyer' => array(
                                                    'markets_endpoint' => 'https://api.bitflyer.com/v1/getticker?product_code=[MARKET]',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -93,19 +95,19 @@ var $exchange_apis = array(
                            'bitmart' => array(
                                                    'markets_endpoint' => 'https://api-cloud.bitmart.com/spot/v1/ticker',
                                                    'markets_nested_path' => 'data>tickers', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
                            // GET NEWEST DATA SETS (25 one hour buckets, SINCE WE #NEED# THE CURRENT PARTIAL DATA SET, 
                            // OTHERWISE WE DON'T GET THE LATEST TRADE VALUE AND CAN'T CALCULATE REAL-TIME VOLUME)
-                           // Sort NEWEST first, 'markets_multiple' MUST BE FALSE,
+                           // Sort NEWEST first, 'all_markets_support' MUST BE FALSE,
                            // (as we need to CUSTOM parse 25 different 1-hour data sets, AFTER generic data retrieval)
                            'bitmex' => array(
                                                    'markets_endpoint' => 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol=[MARKET]&reverse=true',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -113,7 +115,7 @@ var $exchange_apis = array(
                            'bitso' => array(
                                                    'markets_endpoint' => 'https://api.bitso.com/v3/ticker/?book=[MARKET]',
                                                    'markets_nested_path' => 'payload', // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -121,7 +123,7 @@ var $exchange_apis = array(
                            'bitstamp' => array(
                                                    'markets_endpoint' => 'https://www.bitstamp.net/api/v2/ticker/[MARKET]',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -129,7 +131,7 @@ var $exchange_apis = array(
                            'btcmarkets' => array(
                                                    'markets_endpoint' => 'https://api.btcmarkets.net/market/[MARKET]/tick',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -137,7 +139,7 @@ var $exchange_apis = array(
                            'btcturk' => array(
                                                    'markets_endpoint' => 'https://api.btcturk.com/api/v2/ticker',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -145,7 +147,7 @@ var $exchange_apis = array(
                            'buyucoin' => array(
                                                    'markets_endpoint' => 'https://api.buyucoin.com/ticker/v1.0/liveData',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'marketName', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'marketName', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -153,7 +155,7 @@ var $exchange_apis = array(
                            'bybit' => array(
                                                    'markets_endpoint' => 'https://api-testnet.bybit.com/v2/public/tickers',
                                                    'markets_nested_path' => 'result', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -161,7 +163,7 @@ var $exchange_apis = array(
                            'cex' => array(
                                                    'markets_endpoint' => 'https://cex.io/api/tickers/BTC/USD/USDT/EUR/GBP',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -169,7 +171,7 @@ var $exchange_apis = array(
                            'coinbase' => array(
                                                    'markets_endpoint' => 'https://api.pro.coinbase.com/products/[MARKET]/ticker',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => 'https://api.exchange.coinbase.com/products', // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -177,7 +179,7 @@ var $exchange_apis = array(
                            'coindcx' => array(
                                                    'markets_endpoint' => 'https://public.coindcx.com/exchange/ticker',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'market', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'market', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -185,16 +187,16 @@ var $exchange_apis = array(
                            'coinex' => array(
                                                    'markets_endpoint' => 'https://api.coinex.com/v1/market/ticker/all',
                                                    'markets_nested_path' => 'data>ticker', // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
                            
-                           // 'markets_multiple' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
+                           // 'all_markets_support' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
                            'coingecko' => array(
                                                    'markets_endpoint' => 'https://api.coingecko.com/api/v3/simple/price?ids=[COINGECKO_ASSETS]&vs_currencies=[COINGECKO_PAIRS]&include_24hr_vol=true',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => 'https://api.coingecko.com/api/v3/search?query=[SEARCH_QUERY]', // false|[API endpoint with all market pairings]
                                                   ),
                                                   
@@ -202,7 +204,7 @@ var $exchange_apis = array(
                            'coingecko_terminal' => array(
                                                    'markets_endpoint' => 'https://api.geckoterminal.com/api/v2/networks/[MARKET]?include=base_token,quote_token',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -210,7 +212,7 @@ var $exchange_apis = array(
                            'coinspot' => array(
                                                    'markets_endpoint' => 'https://www.coinspot.com.au/pubapi/latest',
                                                    'markets_nested_path' => 'prices', // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -218,7 +220,7 @@ var $exchange_apis = array(
                            'crypto.com' => array(
                                                    'markets_endpoint' => 'https://api.crypto.com/v2/public/get-ticker',
                                                    'markets_nested_path' => 'result>data', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'i', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'i', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -226,7 +228,7 @@ var $exchange_apis = array(
                            'gateio' => array(
                                                    'markets_endpoint' => 'https://api.gateio.ws/api/v4/spot/tickers',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'currency_pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'currency_pair', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -234,7 +236,7 @@ var $exchange_apis = array(
                            'gemini' => array(
                                                    'markets_endpoint' => 'https://api.gemini.com/v1/pubticker/[MARKET]',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -242,7 +244,7 @@ var $exchange_apis = array(
                            'graviex' => array(
                                                    'markets_endpoint' => 'https://graviex.net//api/v2/tickers.json',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -250,7 +252,7 @@ var $exchange_apis = array(
                            'hitbtc' => array(
                                                    'markets_endpoint' => 'https://api.hitbtc.com/api/2/public/ticker',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -258,7 +260,7 @@ var $exchange_apis = array(
                            'huobi' => array(
                                                    'markets_endpoint' => 'https://api.huobi.pro/market/tickers',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -266,7 +268,7 @@ var $exchange_apis = array(
                            'idex' => array(
                                                    'markets_endpoint' => 'https://api-sandbox.idex.io/v4/tickers',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'market', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'market', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -274,7 +276,7 @@ var $exchange_apis = array(
                            'jupiter_ag' => array(
                                                    'markets_endpoint' => 'https://price.jup.ag/v4/price?ids=[JUP_AG_ASSETS]&vsToken=[JUP_AG_PAIRING]',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => 'https://tokens.jup.ag/tokens?tags=[JUP_AG_TAGS]', // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -282,7 +284,7 @@ var $exchange_apis = array(
                            'korbit' => array(
                                                    'markets_endpoint' => 'https://api.korbit.co.kr/v1/ticker/detailed/all',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -290,7 +292,7 @@ var $exchange_apis = array(
                            'kraken' => array(
                                                    'markets_endpoint' => 'https://api.kraken.com/0/public/Ticker',
                                                    'markets_nested_path' => 'result', // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -298,7 +300,7 @@ var $exchange_apis = array(
                            'kucoin' => array(
                                                    'markets_endpoint' => 'https://api.kucoin.com/api/v1/market/allTickers',
                                                    'markets_nested_path' => 'data>ticker', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -307,7 +309,7 @@ var $exchange_apis = array(
                            'loopring' => array(
                                                    'markets_endpoint' => 'https://api3.loopring.io/api/v3/allTickers',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -315,7 +317,7 @@ var $exchange_apis = array(
                            'luno' => array(
                                                    'markets_endpoint' => 'https://api.mybitx.com/api/1/tickers',
                                                    'markets_nested_path' => 'tickers', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -323,7 +325,7 @@ var $exchange_apis = array(
                            'okcoin' => array(
                                                    'markets_endpoint' => 'https://www.okcoin.com/api/v5/market/tickers?instType=SPOT',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -331,7 +333,7 @@ var $exchange_apis = array(
                            'okex' => array(
                                                    'markets_endpoint' => 'https://www.okx.com/api/v5/market/tickers?instType=SPOT',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'markets_multiple' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -339,16 +341,16 @@ var $exchange_apis = array(
                            'poloniex' => array(
                                                    'markets_endpoint' => 'https://api.poloniex.com/markets/ticker24h',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
 
-                           // 'markets_multiple' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
+                           // 'all_markets_support' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
                            'tradeogre' => array(
                                                    'markets_endpoint' => 'https://tradeogre.com/api/v1/markets',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -356,7 +358,7 @@ var $exchange_apis = array(
                            'unocoin' => array(
                                                    'markets_endpoint' => 'https://api.unocoin.com/api/trades/in/all/all',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -364,7 +366,7 @@ var $exchange_apis = array(
                            'upbit' => array(
                                                    'markets_endpoint' => 'https://api.upbit.com/v1/ticker?markets=[UPBIT_BATCHED_MARKETS]',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'market', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'market', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -372,7 +374,7 @@ var $exchange_apis = array(
                            'wazirx' => array(
                                                    'markets_endpoint' => 'https://api.wazirx.com/api/v2/tickers',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -380,7 +382,7 @@ var $exchange_apis = array(
                            'zebpay' => array(
                                                    'markets_endpoint' => 'https://www.zebapi.com/pro/v1/market',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'markets_multiple' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'all_markets_support' => 'pair', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
                                                   
@@ -929,8 +931,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                }
                 
                 
-               // APIs REGISTERED AS supporting 'markets_multiple' / 'search_endpoint' params, AND SPECIFIC OTHERS (like 'coingecko_terminal', etc)
-               if ( $val['markets_multiple'] || $val['search_endpoint'] ) {
+               // Exchange APIs REGISTERED AS supporting 'all_markets_support' / 'search_endpoint'
+               if ( $val['all_markets_support'] || $val['search_endpoint'] ) {
                     
                     
                    if ( $key == 'upbit' ) {
@@ -971,6 +973,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
      
                         $check_results = $this->exchange_api_data($key, $ticker_search, $pairing_val); // SEARCH ONLY MODE (TICKER WITH PAIRING)
+   
+                        gc_collect_cycles(); // Clean memory cache
      
      
                             if ( $check_results ) {
@@ -1003,6 +1007,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                    else {
      
                    $check_results = $this->exchange_api_data($key, $ticker_search, true); // SEARCH ONLY MODE (TICKER ONLY)
+   
+                   gc_collect_cycles(); // Clean memory cache
                         
 
                         if ( $check_results ) {
@@ -1350,6 +1356,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    // API response data (CACHE SEARCH RESULTS FOR [HOURS MULTIPLIED BY 60, TO GET MINUTES])
    $response = @$ct['cache']->ext_data('url', $url, ($ct['conf']['ext_apis']['exchange_search_api_cache_time'] * 60) );
    
+   gc_collect_cycles(); // Clean memory cache
+   
    $data = json_decode($response, true);
    
    
@@ -1370,6 +1378,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          // Minimize calls, AND throttle to avoid being blocked
                          sleep(1);
                          $check_market_data = $this->market($dyn_id, $exchange_key, $val['id']);
+   
+                         gc_collect_cycles(); // Clean memory cache
                                    
                                    
                               if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -1414,20 +1424,26 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          // jupiter tickers list needs to be converted to UPPERCASE tickers for their market endpoints
                          // (which they do NOT do automatically as of 2024/8/17)
                          $asset_check = $ct['gen']->auto_correct_market_id($val['symbol'], $exchange_key);
+                         
+                         $pairing_check = ( $required_pairing ? $required_pairing : 'SOL' );
+                         
+                         //var_dump($asset_check . '/' . $pairing_check);
                     
                          // Minimize calls, AND throttle to avoid being blocked
                          sleep(1);
-                         $check_market_data = $this->market($dyn_id, $exchange_key, $asset_check . '/' . $required_pairing);
+                         $check_market_data = $this->market($dyn_id, $exchange_key, $asset_check . '/' . $pairing_check);
+   
+                         gc_collect_cycles(); // Clean memory cache
                                    
                                    
                               if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                                    
                               // Minimize calls
-                              $market_id_parse  = $this->market_id_parse($exchange_key, $asset_check . '/' . $required_pairing, $required_pairing, $asset_check);
+                              $market_id_parse  = $this->market_id_parse($exchange_key, $asset_check . '/' . $pairing_check, $pairing_check, $asset_check);
                                         
                               $possible_market_ids[] = array(
                                                                        'name' => strtoupper($market_id_parse['asset']),
-                                                                       'id' => $asset_check . '/' . $required_pairing,
+                                                                       'id' => $asset_check . '/' . $pairing_check,
                                                                        'asset' => $market_id_parse['asset'],
                                                                        'pairing' => $market_id_parse['pairing'],
                                                                        'already_added' => $market_id_parse['already_added'],
@@ -1508,6 +1524,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                           // Minimize calls, AND throttle to avoid being blocked
                           sleep(1);
                           $check_market_data = $this->market($app_id, $exchange_key . '_' . $pairing_for_initial_check, $app_id);
+   
+                          gc_collect_cycles(); // Clean memory cache
                                         
                                         
                               if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -1568,6 +1586,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                    // Minimize calls, AND throttle to avoid being blocked
                                    sleep(2);
                                    $check_market_data = $this->market($dyn_id, $exchange_key, $result["1. symbol"]);
+   
+                                   gc_collect_cycles(); // Clean memory cache
                                              
                                              
                                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -1681,6 +1701,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          else {
              
          $parsed_pairing = $parsed_market_id;
+   
+         gc_collect_cycles(); // Clean memory cache
              
              
              if ( in_array($exchange_key, $ct['dev']['hyphen_delimited_markets']) ) {
@@ -1778,6 +1800,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
                   }
              
+   
+             gc_collect_cycles(); // Clean memory cache
              
              }
                   
@@ -2029,7 +2053,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
          $url = preg_replace("/\[JUP_AG_PAIRING\]/i", $jup_market[1], $url);
          
-         $dyn_id = $jup_market[0];
+         //var_dump($url);
+         
+         $dyn_id = $jup_market[0]; // Reset for parsing results (result key is only the asset ticker)
 
          }
          elseif ( $exchange_key == 'loopring' ) {
@@ -2059,6 +2085,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           
    // API response data
    $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+   
+   gc_collect_cycles(); // Clean memory cache
           
    $data = json_decode($response, true);
          
@@ -2076,28 +2104,28 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
          
          // Optimize results
-         // IF $exchange_api['markets_multiple'] SET AS: true|[associative key, including numbers]
+         // IF $exchange_api['all_markets_support'] SET AS: true|[associative key, including numbers]
          if (
-         is_array($data) && $exchange_api['markets_multiple']
-         || is_array($data) && is_bool($exchange_api['markets_multiple']) !== true
+         is_array($data) && $exchange_api['all_markets_support']
+         || is_array($data) && is_bool($exchange_api['all_markets_support']) !== true
          ) {
          
               
               // If a specific key name is always holding the market ID info as a value
-              if ( is_bool($exchange_api['markets_multiple']) !== true ) {
+              if ( is_bool($exchange_api['all_markets_support']) !== true ) {
               
          
                    foreach ($data as $val) {
                   
                   
-                       if ( isset($val[ $exchange_api['markets_multiple'] ]) ) {
+                       if ( isset($val[ $exchange_api['all_markets_support'] ]) ) {
                             
                             
                             if (
-                            !$ticker_pairing_search && $val[ $exchange_api['markets_multiple'] ] == $dyn_id
-                            || $ticker_pairing_search && !$search_pairing && stristr($val[ $exchange_api['markets_multiple'] ], $dyn_id)
-                            || $ticker_pairing_search && $search_pairing && stristr($val[ $exchange_api['markets_multiple'] ], $dyn_id)
-                            && stristr($val[ $exchange_api['markets_multiple'] ], $search_pairing)
+                            !$ticker_pairing_search && $val[ $exchange_api['all_markets_support'] ] == $dyn_id
+                            || $ticker_pairing_search && !$search_pairing && stristr($val[ $exchange_api['all_markets_support'] ], $dyn_id)
+                            || $ticker_pairing_search && $search_pairing && stristr($val[ $exchange_api['all_markets_support'] ], $dyn_id)
+                            && stristr($val[ $exchange_api['all_markets_support'] ], $search_pairing)
                             ) {
                             // Do nothing
                             }
@@ -2107,7 +2135,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                             
                        
                             // Workaround for weird zebpay API bug, where they include a second array object
-                            // with same 'markets_multiple' (key name = 'pair') property, that's mostly a NULL data set
+                            // with same 'all_markets_support' (key name = 'pair') property, that's mostly a NULL data set
                             if ( $exchange_key == 'zebpay' ) {
                                  
                             $test_data = $val;
@@ -2118,17 +2146,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                     if ( $ticker_pairing_search ) {
                                          
                                     // Minimize calls
-                                    $check_market_data = $this->market($dyn_id, $exchange_key, $val[ $exchange_api['markets_multiple'] ]);
+                                    $check_market_data = $this->market($dyn_id, $exchange_key, $val[ $exchange_api['all_markets_support'] ]);
+   
+                                    gc_collect_cycles(); // Clean memory cache
                               
                               
                                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                                    
                                         // Minimize calls
-                                        $market_id_parse  = $this->market_id_parse($exchange_key, $val[ $exchange_api['markets_multiple'] ]);
+                                        $market_id_parse  = $this->market_id_parse($exchange_key, $val[ $exchange_api['all_markets_support'] ]);
                                                         
                                         $possible_market_ids[] = array(
                                                                        'name' => strtoupper($market_id_parse['asset']),
-                                                                       'id' => $val[ $exchange_api['markets_multiple'] ],
+                                                                       'id' => $val[ $exchange_api['all_markets_support'] ],
                                                                        'asset' => $market_id_parse['asset'],
                                                                        'pairing' => $market_id_parse['pairing'],
                                                                        'already_added' => $market_id_parse['already_added'],
@@ -2153,17 +2183,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                  if ( $ticker_pairing_search ) {
                                          
                                  // Minimize calls
-                                 $check_market_data = $this->market($dyn_id, $exchange_key, $val[ $exchange_api['markets_multiple'] ]);
+                                 $check_market_data = $this->market($dyn_id, $exchange_key, $val[ $exchange_api['all_markets_support'] ]);
+   
+                                 gc_collect_cycles(); // Clean memory cache
                               
                               
                                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                                    
                                         // Minimize calls
-                                        $market_id_parse  = $this->market_id_parse($exchange_key, $val[ $exchange_api['markets_multiple'] ]);
+                                        $market_id_parse  = $this->market_id_parse($exchange_key, $val[ $exchange_api['all_markets_support'] ]);
                                                         
                                         $possible_market_ids[] = array(
                                                                    'name' => strtoupper($market_id_parse['asset']),
-                                                                   'id' => $val[ $exchange_api['markets_multiple'] ],
+                                                                   'id' => $val[ $exchange_api['all_markets_support'] ],
                                                                    'asset' => $market_id_parse['asset'],
                                                                    'pairing' => $market_id_parse['pairing'],
                                                                    'already_added' => $market_id_parse['already_added'],
@@ -2206,6 +2238,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                          
                        // Minimize calls
                        $check_market_data = $this->market($dyn_id, $exchange_key, $key);
+   
+                       gc_collect_cycles(); // Clean memory cache
                               
                               
                             if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -2241,6 +2275,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                          
               // Minimize calls
               $check_market_data = $this->market($dyn_id, $exchange_key, $dyn_id);
+   
+              gc_collect_cycles(); // Clean memory cache
                               
                               
                          if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
@@ -2270,10 +2306,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
               
               // DEBUG LOGGING
-              if (
-              $ticker_pairing_search && $ct['conf']['power']['debug_mode'] == 'all'
-              || $ticker_pairing_search && $ct['conf']['power']['debug_mode'] == 'markets'
-              ) {
+              if ( $ticker_pairing_search && $ct['conf']['power']['debug_mode'] == 'markets' ) {
               
               $ct['gen']->log(
               		    'notify_debug',
@@ -2360,7 +2393,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
       $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($url);
    
          
-          if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' ) {
+          if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' ) {
          	
           $ct['gen']->log(
          			  'system_debug',
@@ -2716,6 +2749,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    $sel_exchange = strtolower($sel_exchange);
    
    $data = $this->exchange_api_data($sel_exchange, $mrkt_id);
+   
+   gc_collect_cycles(); // Clean memory cache
    
     
     ////////////////////////////////////////////////////////////////////////////////////////////////

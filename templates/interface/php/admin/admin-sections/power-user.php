@@ -49,7 +49,6 @@ $ct['admin_render_settings']['php_error_reporting']['is_notes'] = 'Enable / disa
 
 $ct['admin_render_settings']['debug_mode']['is_select'] = array(
                                                                'off',
-                                                               'all',
                                                                'all_telemetry',
                                                                'conf_telemetry',
                                                                'light_chart_telemetry',
@@ -59,6 +58,7 @@ $ct['admin_render_settings']['debug_mode']['is_select'] = array(
                                                                'smtp_telemetry',
                                                                'api_comms_telemetry',
                                                                'cron_telemetry',
+                                                               'wizard_steps_io',
                                                                'markets',
                                                                'texts',
                                                                'alerts_charts',
@@ -71,7 +71,6 @@ $ct['admin_render_settings']['debug_mode']['is_notes'] = 'Enable / disable the d
 // ### GENERAL ###
 ////
 // 'off' (disables), 
-// 'all' (all debugging), 
 ////
 // ### TELEMETRY ###
 ////
@@ -84,6 +83,10 @@ $ct['admin_render_settings']['debug_mode']['is_notes'] = 'Enable / disable the d
 // 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
 // 'api_comms_telemetry' (API comms responses to: /cache/logs/debug/external_data/last-response-[service].log),
 // 'cron_telemetry' (cron runtime telemetry to: /cache/logs/debug/cron/cron_runtime_telemetry.log),
+////
+// ### VIEW INPUT / OUTPUT (ON INTERFACE PAGES) ###
+////
+// 'wizard_steps_io' (AJAX-based 'wizard' steps),
 ////
 // ### CHECKS ###
 ////

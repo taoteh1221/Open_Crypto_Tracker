@@ -142,6 +142,9 @@ var $ct_array = array();
         elseif ( $_POST['conf_id'] === 'power' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
         require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-power.php');
         }
+        elseif ( $_POST['conf_id'] === 'assets' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+        require($ct['base_dir'] . '/app-lib/php/classes/core/includes/admin/input-validation-assets.php');
+        }
         
         
    return ( isset($ct['update_config_error']) && trim($ct['update_config_error']) != '' ? false : true );
@@ -182,12 +185,70 @@ var $ct_array = array();
               }
               
                
-              // Update the corrisponding admin config section, IF VALID SETTING VALUES
+              // Update the corresponding admin config section, IF VALID SETTING VALUES
               if ( $this->valid_admin_settings() ) {
                   
+                  
+                  // Plugins (can fully overwrite)
                   if ( $is_plugin_config ) {
                   $ct['conf']['plug_conf'][ $parse_plugin_name[1] ] = $field_array_base;
                   }
+                  // Adding / removing assets and markets (must be carefully checked)
+                  elseif ( $_POST['conf_id'] == 'assets' ) {
+                       
+                      
+                      foreach ( $field_array_base as $submitted_asset_key => $submitted_asset_val ) {
+                      
+                      
+                           // If the asset doesn't exist
+                           if ( !isset($ct['conf']['assets'][$submitted_asset_key]) ) {
+                           $ct['conf']['assets'][$submitted_asset_key] = $submitted_asset_val;
+                           }
+                           else {
+                                
+                                // We allow updating 'name' / 'mcap_slug', if either are blank...
+                           
+                                if ( trim($ct['conf']['assets'][$submitted_asset_key]['name']) == '' ) {
+                                $ct['conf']['assets'][$submitted_asset_key]['name'] = $submitted_asset_val['name'];
+                                }
+                           
+                           
+                                if ( trim($ct['conf']['assets'][$submitted_asset_key]['mcap_slug']) == '' ) {
+                                $ct['conf']['assets'][$submitted_asset_key]['mcap_slug'] = $submitted_asset_val['mcap_slug'];
+                                }
+                                
+                                
+                                // Check data in pairings
+                                foreach ( $submitted_asset_val['pair'] as $pairing_key => $pairing_val ) {
+                                
+                                
+                                    // If the pairing doesn't exist
+                                    if ( !isset($ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key]) ) {
+                                    $ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key] = $pairing_val;
+                                    }
+                                    else {
+                                    
+                                    
+                                         // We allow overwriting old exchange markets, so we can safely add them all
+                                         foreach ( $pairing_val as $exchange_key => $exchange_val ) {
+                                         $ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key][$exchange_key] = $exchange_val;
+                                         }
+                                         
+                                    
+                                    }
+                                    
+                                    
+                                }
+                                
+                           
+                           }
+                      
+                      
+                      }
+                      
+                  
+                  }
+                  // Everything else (can fully overwrite)
                   else {
                   $ct['conf'][ $_POST['conf_id'] ] = $field_array_base;
                   }
@@ -780,6 +841,8 @@ var $ct_array = array();
 	
 	?>
 	
+	<p class='save_notice red red_dotted'>Click "Save Admin Changes" in the NAVIGATION MENU, to SAVE the changes you have made in this section (when you are finished).</p>
+	
 	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=$cat_key?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
      
      <?php
@@ -1108,7 +1171,9 @@ var $ct_array = array();
 	<?=$ct['gen']->input_2fa('strict')?>
 	
 	</form>
-     
+	
+	<p class='save_notice red red_dotted'>Click "Save Admin Changes" in the NAVIGATION MENU, to SAVE the changes you have made in this section (when you are finished).</p>
+	
      
    </div>
    

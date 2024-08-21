@@ -684,7 +684,7 @@ var $ct_array = array();
      $cache_file_name = preg_replace("/(.*)external_data\//", "", $cached_path);
      
      
-          if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
+          if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
           
           // Log for each cache file's throttle
           $ct['gen']->log(
@@ -717,7 +717,7 @@ var $ct_array = array();
      ) {
           
           
-          if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
+          if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
           
           // Only log once, as it's the minute / hour thresholds met
           $ct['gen']->log(
@@ -1415,7 +1415,7 @@ var $ct_array = array();
         		     
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
     		
-         		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+         		     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
         		     $ct['gen']->log('conf_debug', 'OLD CACHED restore_conf found, deleting');
          		     }
     		     
@@ -1436,7 +1436,7 @@ var $ct_array = array();
         		     
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
     		
-         		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+         		     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
         		     $ct['gen']->log('conf_debug', 'OLD CACHED ct_conf found, deleting');
          		     }
     		     
@@ -1562,13 +1562,13 @@ var $ct_array = array();
                   
           $passed_config = $default_ct_conf;
     		
-    		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    		     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		     $ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESET using the DEFAULT ct_conf');
     		     }
              
     		}
           // All other conditions
-          elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+          elseif ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		$ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESTORED using the LAST-KNOWN WORKING ct_conf');
           }
              
@@ -1694,7 +1694,7 @@ var $ct_array = array();
     		     }
     		
     		
-    		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    		     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		          
     		          if ( $reset_flagged ) {
     		          $update_desc = 'RESET';
@@ -1876,7 +1876,7 @@ var $ct_array = array();
           return 'Error logs write error for "' . $ct['base_dir'] . '/cache/logs/app_log.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($app_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
+          elseif ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
           return 'Error logs write success for "' . $ct['base_dir'] . '/cache/logs/app_log.log", data_size_bytes: ' . strlen($app_log) . ' bytes';
           }
       
@@ -2322,8 +2322,7 @@ var $ct_array = array();
     $_SESSION['light_charts_updated'] = $_SESSION['light_charts_updated'] + 1;
       
       if ( 
-      $ct['conf']['power']['debug_mode'] == 'all'
-      || $ct['conf']['power']['debug_mode'] == 'all_telemetry'
+      $ct['conf']['power']['debug_mode'] == 'all_telemetry'
       || $ct['conf']['power']['debug_mode'] == 'light_chart_telemetry' 
       ) {
       	
@@ -2335,8 +2334,7 @@ var $ct_array = array();
       }
        
       if ( 
-      $ct['conf']['power']['debug_mode'] == 'all'
-      || $ct['conf']['power']['debug_mode'] == 'all_telemetry'
+      $ct['conf']['power']['debug_mode'] == 'all_telemetry'
       || $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' 
       ) {
       	
@@ -2526,7 +2524,7 @@ var $ct_array = array();
                    
                    $this->save_file($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', $ct['processed_msgs']['notifyme_count']); 
                    
-                     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                      $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
                      }
                    
@@ -2563,7 +2561,7 @@ var $ct_array = array();
                   }
                    
                  
-                  if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                  if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                   $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
                   }
                
@@ -2588,7 +2586,7 @@ var $ct_array = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-twilio.log', $twilio_response);
                  }
                
@@ -2613,7 +2611,7 @@ var $ct_array = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
                  }
                
@@ -2638,7 +2636,7 @@ var $ct_array = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
                  }
                
@@ -2903,7 +2901,7 @@ var $ct_array = array();
       }
       
       
-      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
       
         if ( !$ct['log_debugging']['debug_duplicates'][$hash_check] ) {
@@ -3239,7 +3237,7 @@ var $ct_array = array();
     
       
       // LIVE data debugging telemetry
-      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
          
       // LOG-SAFE VERSION (no post data with API keys etc)
       $ct['gen']->log(
@@ -3627,7 +3625,7 @@ var $ct_array = array();
       }
       
       
-      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$ct['log_debugging']['debug_duplicates'][$hash_check] ) {
         $ct['log_debugging']['debug_duplicates'][$hash_check] = 1; 

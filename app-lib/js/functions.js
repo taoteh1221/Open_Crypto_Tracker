@@ -79,7 +79,9 @@ var name_override = {};
                          name_override[this.name] = this.value;
                          console.log('coingecko override (for UX): ' + this.name + ' => ' + this.value);
                          }
-                         else if ( !name_override[this.name] && this.value != '' ) {
+                         // We still need EMPTY values for correct CONFIG data structure (like 'mcap_slug'),
+                         // BUT ONLY IF NOT ALREADY DEFINED IN THE 'name_override' ARRAY!
+                         else if ( !name_override[this.name] ) {
                          results[this.name] = this.value;
                          console.log(this.name + ' => ' + this.value);
                          }
@@ -741,6 +743,12 @@ function red_save_button(mode=false) {
           
      $('#sidebar .admin_settings_save', window.parent.document).removeClass('bitcoin');
      $('#sidebar .admin_settings_save', window.parent.document).addClass('red_bright');
+     
+     $(".save_notice").show(250, 'linear'); // 0.25 seconds // SHOW SAVE NOTICE AT TOP / BOTTOM OF THIS ADMIN IFRAME PAGE
+     
+         admin_iframe_dom.forEach(function(iframe) {
+         iframe_size_adjust(iframe);
+         });                  
      
      }
      else if ( is_admin ) {
@@ -2486,25 +2494,36 @@ $(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loa
                   success: function(data) {
                        
                   $(elm_id).html(data); // Load response into the passed element id
-                  
-                  // Highlightjs
-                  load_highlightjs();
-                  
-                       if ( sort_tables ) {
-                       sorting_generic_tables(true);
-                       paged_tablesort_sizechange();
-                       }
-                       
-                       if ( is_admin && is_iframe ) {
-                       
-                            // Resize admin iframes after adding repeatable elements
-                            admin_iframe_dom.forEach(function(iframe) {
-                            iframe_size_adjust(iframe);
-                            });
-                       
-                       }
+          
      
-                  scroll(0,0); // Make sure we are scrolled to top of page
+                       // Resets / inits after 0.75 seconds (to give rendering time to finish)
+                       setTimeout(function() {
+                            
+                       // Highlightjs
+                       load_highlightjs();
+     
+                       scroll(0,0); // Make sure we are scrolled to top of page
+
+                            // Any parent page too
+                            if ( is_iframe ) {
+                            window.parent.parent.scrollTo(0,0);
+                            }
+                  
+                            if ( sort_tables ) {
+                            sorting_generic_tables(true);
+                            paged_tablesort_sizechange();
+                            }
+                            
+                            if ( is_admin && is_iframe ) {
+                            
+                                 // Resize admin iframes after adding repeatable elements
+                                 admin_iframe_dom.forEach(function(iframe) {
+                                 iframe_size_adjust(iframe);
+                                 });
+                            
+                            }
+                             
+                       }, 750);
                   
                   },
                   

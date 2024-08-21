@@ -33,7 +33,7 @@ require("app-lib/php/init.php");
 if ( $run_cron == true ) {
      
 
-    if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'cron_telemetry' ) {
+    if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'cron_telemetry' ) {
 
     $cron_runtime_id = $ct['gen']->rand_hash(8);         
          
@@ -270,7 +270,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         
         // If debug mode is on
         // RUN BEFORE plugins (in case custom plugin crashes)
-        if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'stats' ) {
+        if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'stats' ) {
         		
         	foreach ( $ct['system_info'] as $key => $val ) {
         	$system_telemetry .= $key . ': ' . $val . '; ';
@@ -377,7 +377,7 @@ gc_collect_cycles(); // Clean memory cache
     echo json_encode($exit_result, JSON_PRETTY_PRINT);
     }
 
-    if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'cron_telemetry' ) {
+    if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'cron_telemetry' ) {
     // WITH newline (UNLOCKED file write)
     $ct['cache']->save_file($ct['base_dir'] . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'FULLY COMPLETED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct['gen']->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n\n\n\n", "append", false);     
     }
