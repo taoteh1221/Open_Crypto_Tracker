@@ -72,7 +72,8 @@ else {
                <table id='portfolio_assets' border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
                 <thead>
                    <tr>
-                    <th class="filter-match" data-placeholder="Filter Results">Asset</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Asset Name</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Asset Ticker</th>
                     <th class="filter-match" data-placeholder="Filter Results">Market Page Slug</th>
                     <th class="filter-match" data-placeholder="Filter Results">Pairs</th>
                     <th class="filter-match" data-placeholder="Filter Results">Exchanges</th>
@@ -103,6 +104,7 @@ else {
                    
                    <tr>
                    
+                     <td><?=$asset_val['name']?></td>
                      <td><?=$asset_key?></td>
                      <td> <?=$asset_val['mcap_slug']?> </td>
                      <td> <?=sizeof($asset_val['pair'])?> </td>

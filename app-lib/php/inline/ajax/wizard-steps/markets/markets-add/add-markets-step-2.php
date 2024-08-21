@@ -153,13 +153,16 @@ foreach ( $ct['api']->exchange_apis as $check_exchange ) {
      	
      	    if ( $("#skip_alphavantage_search").length && $("#skip_alphavantage_search").is(":checked") ) {
      	    var skip_alphavantage_search = "yes";
+     	    var exchange_count = ( Number("<?=$all_exchanges_search_count?>") - 1 );
      	    }
      	    else {
      	    var skip_alphavantage_search = "no";
+     	    var exchange_count = Number("<?=$all_exchanges_search_count?>");
      	    }
      	    
+     	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = "<?=$all_exchanges_search_count?> exchanges";
+     	    var search_desc = exchange_count + " exchanges";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();

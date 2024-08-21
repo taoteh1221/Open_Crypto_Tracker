@@ -228,9 +228,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                     
                     <input type='checkbox' dataset-id='<?=md5($asset_key . $pair_key . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][pair][<?=strtolower($pair_key)?>][<?=strtolower($market_data['exchange'])?>]' value='<?=$market_data['id']?>' <?=( isset($_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])]) && $_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])] == $market_data['id'] ? 'checked' : '' )?> /> 
                     
-                    <a class='<?=( is_bool($market_data['already_added']) !== true ? 'red' : 'bitcoin' )?> clear_both' href='javascript: show_more("results_<?=md5($asset_key . $pair_key . $market_data['id'])?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
+                    <a class='<?=( is_bool($market_data['already_added']) !== true ? 'red' : 'bitcoin' )?> clear_both' href='javascript: show_more("results_<?=md5($asset_key . $pair_key . $market_data['exchange'])?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
                     
-                    <div id='results_<?=md5($asset_key . $pair_key . $market_data['id'])?>' style='display: none;' class='align_left clear_both'>
+                    <div id='results_<?=md5($asset_key . $pair_key . $market_data['exchange'])?>' style='display: none;' class='align_left clear_both'>
                     
                     <p>
                     

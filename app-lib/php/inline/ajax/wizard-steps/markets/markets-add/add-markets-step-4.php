@@ -37,7 +37,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           <div style='font-weight: bold;' class='green clear_both result_margins'>Name:</div> 
           
           <div class='align_left clear_both result_margins'>
-          <?=$asset_data['name']?> <span class='bitcoin'>(EDITABLE after adding)</span>
+          <?=$asset_data['name']?> <span class='bitcoin'>(EDITABLE after adding [SKIPPED if already exists])</span>
           </div>
      
      
@@ -47,7 +47,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           <div style='font-weight: bold;' class='green clear_both result_margins'>Marketcap Slug (page):</div> 
           
           <div class='align_left clear_both result_margins'>
-          <?=$asset_data['mcap_slug']?> <span class='bitcoin'>(EDITABLE after adding)</span>
+          <?=$asset_data['mcap_slug']?> <span class='bitcoin'>(EDITABLE after adding [SKIPPED if already exists])</span>
           </div>
           <?php
           }
