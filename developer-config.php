@@ -23,7 +23,7 @@ $ct['app_version'] = '6.00.39';
 // #PHP# ERROR LOGGING
 // Can take any setting shown here: https://www.php.net/manual/en/function.error-reporting.php
 // 0 = off, -1 = on (IF *NOT* SET TO ZERO HERE, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S USER CONFIG SETTINGS)
-// WRAP VALUE(S) IN PARENTHESIS, SO MUTIPLE VALUES CAN BE USED: (0) / (-1) / (E_ERROR | E_PARSE)
+// WRAP VALUE(S) IN PARENTHESIS, SO MULTIPLE VALUES CAN BE USED: (0) / (-1) / (E_ERROR | E_PARSE)
 $ct['dev']['debug_php_errors'] = (0); 
 
 
@@ -110,19 +110,19 @@ $ct['dev']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/w
 // (ALL maximum execution times are automatically 900 seconds [15 minutes] IN DEBUG MODE)
 ////
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['ui_max_exec_time'] = 250; // (default = 250)
+$ct['dev']['ui_max_exec_time'] = 300; // (default = 300)
 ////
 // Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['ajax_max_exec_time'] = 250; // (default = 250)
+$ct['dev']['ajax_max_exec_time'] = 300; // (default = 300)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct['dev']['cron_max_exec_time'] = 1320; // (default = 1320)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['int_api_max_exec_time'] = 120; // (default = 120)
+$ct['dev']['int_api_max_exec_time'] = 180; // (default = 180)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['webhook_max_exec_time'] = 120; // (default = 120)
+$ct['dev']['webhook_max_exec_time'] = 180; // (default = 180)
 
 
 // CAPTCHA text settings...

@@ -341,7 +341,7 @@ MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD 
            <div class="accordion-body">
            
            
-             <span class='red'>Important Note:</span> <span class='bitcoin'>In the v6 release (Coming Soon™), doing this manually in a text editor won't be necassary. You will be able to do it in the <span class='blue'>"Admin Config => Portfolio Assets"</span> interface much easier.</span>
+             <span class='red'>IMPORTANT NOTE:</span> <span class='bitcoin'>DOING THIS MANUALLY IN A TEXT EDITOR IS ONLY REQUIRED FOR ***HIGH SECURITY ADMIN MODE***. AS OF v6.00.39 AND HIGHER, YOU CAN NOW DO IT VIA AN EASY-TO-USE INTERFACE, IN THE <span class='blue'>"Asset Tracking => Portfolio Assets"</span> ADMIN INTERFACE.</span>
 	    <br /><br />
 
 Below is an example for editing your assets / markets in the file config.php (located in the primary directory of this app), within the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt' target='_blank'>DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt</a>, for a pre-configured set of default settings and example assets / markets. 

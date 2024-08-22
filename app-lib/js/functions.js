@@ -2357,12 +2357,18 @@ function sorting_generic_tables(paginated=false) {
 	if ( document.getElementsByClassName('data_table') ) {
 	     
 	var all_tables = document.getElementsByClassName("data_table");
-	
-	// Sort 1st / 2nd columns, as descending (1)
-	var generic_sort_list = [ [0,1],[1,1] ];
 
 
           Array.prototype.forEach.call(all_tables, function(table) {
+	
+     	// DEFAULT: sort 1st column, as ascending (0)
+     	var dynamic_sort_list = [ [0,0] ];
+               
+               
+               // Custom sorting
+               if ( $(table).hasClass( "access_stats" ) ) {
+               dynamic_sort_list = [ [0,1] ]; // Sort descending (1)
+               }
 
                
                if ( typeof table.id == 'undefined' || table.id != 'coins_table' ) {
@@ -2372,13 +2378,13 @@ function sorting_generic_tables(paginated=false) {
                var pager_id = typeof table.id != 'undefined' ? table.id : false;
                    	
                    	if ( paginated ) {
-                    paginated_tables( $(table), generic_sort_list, table.id );
+                    paginated_tables( $(table), dynamic_sort_list, table.id );
                     }
                     else {
                     
                         	$(table).tablesorter({
                         	 
-         			      sortList: generic_sort_list,
+         			      sortList: dynamic_sort_list,
                           theme: theme_selected,
                           widgets: ['zebra', 'columns', 'filter']
                         
@@ -2403,7 +2409,7 @@ function sorting_generic_tables(paginated=false) {
 
 
 https://mottie.github.io/tablesorter/beta-testing/example-pager-custom-controls.html
-function paginated_tables(element, generic_sort_list, pager_id=false) {
+function paginated_tables(element, sort_list, pager_id=false) {
 
   // initialize custom pager script BEFORE initializing tablesorter/tablesorter pager
   // custom pager looks like this:
@@ -2434,7 +2440,7 @@ function paginated_tables(element, generic_sort_list, pager_id=false) {
   // initialize tablesorter & pager
   $table.tablesorter({
       // Sort 1st / 2nd columns descending (1)
-      sortList: generic_sort_list,
+      sortList: sort_list,
       theme: theme_selected,
       widgets: ['zebra', 'columns', 'filter']
     })
@@ -2442,7 +2448,7 @@ function paginated_tables(element, generic_sort_list, pager_id=false) {
       // target the pager markup - see the HTML block below
       container: $pager,
       size: 5,
-      output: '<span class="bitcoin">Showing:</span> {startRow} through {endRow} (of {filteredRows} total data rows)'
+      output: '<span class="blue">Showing:</span> {startRow} through {endRow} (of {filteredRows} total data rows)'
     });
 
 }

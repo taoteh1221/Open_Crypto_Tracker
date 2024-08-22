@@ -33,50 +33,30 @@ else {
 
   
   <br clear='all' /><br clear='all' />
+     	
+     	
+     	<p class='input_margins red_dotted'>
+     	
+		<b class='red'>NOTE ABOUT ***STOCK MARKET*** ASSETS: ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).</b>
+		
+		</p>
   
 
           <fieldset class='subsection_fieldset'>
                
                <legend class='subsection_legend'> Portfolio Assets </legend>
                
-               <!-- table_pager -->
-               <div class="table_pager table_pager_portfolio_assets">
-
-               	<span class="pagedisplay"></span> 
-               	
-               	<br /><br />
-					&nbsp;<span class="bitcoin">Show Per Page:</span>
-               	<span class="left choose_pp">
-					<a href="#" data-track='5'>5</a> |
-					<a href="#" data-track='10'>10</a> |
-					<a href="#" data-track='25'>25</a> |
-					<a href="#" data-track='50'>50</a>
-				</span>
-				
-               	<br /><br />
-				<span class="right">
-
-					&nbsp;<span class="bitcoin">View Page:</span> <span class="prev">
-						Prev
-					</span>&nbsp;
-
-					<span class="pagecount"></span>
-					
-					&nbsp;<span class="next">Next
-					</span>
-					
-				</span>
-
-               </div>
+               
+               <?=$ct['gen']->table_pager_nav('portfolio_assets')?>
                
                <table id='portfolio_assets' border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
                 <thead>
                    <tr>
-                    <th class="filter-match" data-placeholder="Filter Results">Asset Name</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Asset Name <span class='bitcoin'>(EDITABLE soon&trade;)</span></th>
                     <th class="filter-match" data-placeholder="Filter Results">Asset Ticker</th>
-                    <th class="filter-match" data-placeholder="Filter Results">Market Page Slug</th>
-                    <th class="filter-match" data-placeholder="Filter Results">Pairs</th>
-                    <th class="filter-match" data-placeholder="Filter Results">Exchanges</th>
+                    <th class="filter-match" data-placeholder="Filter Results">MarketCap Page Slug <span class='bitcoin'>(EDITABLE soon&trade;)</span></th>
+                    <th class="filter-match" data-placeholder="Filter Results">Trading Pairs</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Exchange Markets</th>
                    </tr>
                  </thead>
                  

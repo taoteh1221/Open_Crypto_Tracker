@@ -1130,21 +1130,21 @@ $ct['conf']['power']['system_uptime_warning'] = '0||36'; // 'days_uptime||hours_
 $ct['conf']['power']['system_load_warning'] = '1.00||4';  // 'threshold_multiplier||hours_between_alerts' (default = '1.00||4')
 ////
 // If system TEMPERATURE is X degrees celcius (or more), trigger warning
-$ct['conf']['power']['system_temperature_warning'] = '70||1'; // 'temp_celcius||hours_between_alerts' (default = '70||1')
+$ct['conf']['power']['system_temperature_warning'] = '70||2'; // 'temp_celcius||hours_between_alerts' (default = '70||1')
 ////
 // If USED MEMORY PERCENTAGE is X (or more), trigger warning
-$ct['conf']['power']['memory_used_percent_warning'] = '90||4'; // 'memory_used_percent||hours_between_alerts' (default = '90||4')
+$ct['conf']['power']['memory_used_percent_warning'] = '85||4'; // 'memory_used_percent||hours_between_alerts' (default = '90||4')
 ////
 // If FREE STORAGE space is X MEGABYTES (or less), trigger warning
 $ct['conf']['power']['free_partition_space_warning'] = '1000||24'; // 'free_space_megabytes||hours_between_alerts' (default = '1000||24')
 ////
 // If PORTFOLIO CACHE SIZE is X MEGABYTES (or more), trigger warning
-$ct['conf']['power']['portfolio_cache_warning'] = '2000||72'; // 'portfolio_cache_megabytes||hours_between_alerts' (default = '2000||72')
+$ct['conf']['power']['portfolio_cache_warning'] = '2500||72'; // 'portfolio_cache_megabytes||hours_between_alerts' (default = '2000||72')
 ////
 // If ALL COOKIES TOTAL DATA SIZE is X BYTES (or more), trigger warning
 // Because the header data MAY be approaching the server limit (WHICH CAN CRASH THIS APP!!)
 // STANDARD SERVER HEADER SIZE LIMITS (IN BYTES)...Apache: 8000, NGINX: 4000 - 8000, IIS: 8000 - 16000, Tomcat: 8000 - 48000
-$ct['conf']['power']['cookies_size_warning'] = '7000||6'; // 'cookies_size_bytes||hours_between_alerts' (default = '7000||6')
+$ct['conf']['power']['cookies_size_warning'] = '4500||6'; // 'cookies_size_bytes||hours_between_alerts' (default = '7000||6')
      
      
 // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)

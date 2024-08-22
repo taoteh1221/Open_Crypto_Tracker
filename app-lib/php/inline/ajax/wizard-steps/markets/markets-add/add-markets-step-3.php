@@ -142,13 +142,19 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
 
-NOTES:<br /><br />
+GENERAL NOTES:<br /><br />
 
 ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE.<br /><br />
 
 THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN THEM (EG: $WEN IS IGNORED OR CONVERTED TO WEN, WHILE WEN IS ACCEPTED), FOR CONSISTENT / CLEAR FORMATTING OF ALL ASSET TICKERS. THAT SAID, YOU STILL SHOULD ALWAYS **DOUBLE CHECK** THE MARKET DETAILS (BY CLICKING ON THE EXCHANGE NAME), TO MAKE SURE YOU ARE NOT **ACCIDENTALLY ADDING A COPY-CAT COIN** (WITH A SIMILAR TICKER COMPARED TO THE REAL COIN YOU WANT TO ADD).
 
 </p>
+     	
+     	<p class='input_margins red_dotted'>
+     	
+		<b class='red'>NOTE ABOUT ***STOCK MARKET*** ASSETS: ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).</b>
+		
+		</p>
 
 
 <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Asset Markets Found For Search: "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</strong> </legend>
@@ -193,8 +199,26 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
   if ( sizeof($included_results) > 0 ) {
   ?>
 
-<p style='font-weight: bold;' class='bitcoin result_margins'>Click on each asset below, to SELECT available exchange markets...</p>
+<p style='font-weight: bold;' class='bitcoin result_margins'>Click on each asset / pairing below, to SELECT available exchange markets...</p>
 
+     	
+     	<button class='force_button_style result_margins bitcoin' onclick='
+     	
+     	var post_data = {
+     	                  "saved_search": "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>",
+     	                   };
+     	
+     	var add_markets_review = checkbox_subarrays_to_ajax("assets");
+     	
+     	var merged_data = merge_objects(post_data, add_markets_review);
+     	
+     	ct_ajax_load("type=add_markets&step=4", "#update_markets_ajax", "market search results", merged_data, true); // Secured
+     	
+     	'> Review / Confirm Selected Markets </button>
+     	
+     	
+     	<br clear='all' />
+     	
 <?php
      
    /*
@@ -277,7 +301,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
           <input type='hidden' id='add_markets_review' name='add_markets_review' value='1' />
      	
-     	<button class='force_button_style result_margins' onclick='
+     	
+     	<button class='force_button_style result_margins bitcoin' onclick='
      	
      	var post_data = {
      	                  "saved_search": "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>",
@@ -289,7 +314,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	ct_ajax_load("type=add_markets&step=4", "#update_markets_ajax", "market search results", merged_data, true); // Secured
      	
-     	'> Review Changes </button>
+     	'> Review / Confirm Selected Markets </button>
+     	
      	
      	<br clear='all' />
      	

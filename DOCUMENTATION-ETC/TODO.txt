@@ -192,19 +192,7 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-For detected AJAX error 500 messages, include a note to increase the max allowed ram in the power user section, with the new slider mentioned below.
-
-
-Add a slider option to use between 128 and 256 megabytes max ram in PHP, in the power user section, in 8mb increments. Add "no lower than" and "no higher than" hard limits too, in config auto adjust. Use the same .htaccess / .user.ini refresh update logic we already use for max runtime.
-
-
-Refactor the default sort on generic tables, to accommodate for only sorting the first column (instead of the first two we sort in access stats table data). Apply this to the coins list on the portfolio assets admin page table. See if that fixes the table sort css issue when the portfolio assets page is auto-refreshed (due to updating another admin section...CHECK FOR JAVASCRIPT ERRORS).
-
-
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
-
-
-On the portfolio updates user area page, AND the portfolio assets admin page, include a warning about saving too many coins in cookie mode, which can crash the app until some cookies are deleted. Also look into decreasing the cookies warning threshold (when the alert shows at top left of header), so users are alerted WAY BEFORE THE COOKIES SIZE CRASHES THE APP!
 
 
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
@@ -218,6 +206,9 @@ https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specifi
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Do a bitcoin opentimestamp of the v6.00.39 release.
 
 
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to strip ALL SYMBOLS from the user-inputted name (like we do during 'add asset market' mode). Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets.
