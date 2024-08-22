@@ -15,11 +15,6 @@ elseif ( is_array($_POST['assets']) && sizeof($_POST['assets']) > 0 ) {
 
 
      foreach( $_POST['assets'] as $asset_key => $asset_val ) {
-          
-     // Remove everything NOT alphanumeric in NAME
-     $_POST['assets'][$asset_key]['name'] = preg_replace("/[^0-9a-zA-Z]+/i", "", $_POST['assets'][$asset_key]['name']);
-     // JUST TO BE SAFE, SANITIZE IT AS WELL (FOR INTERFACE RENDERING)
-     $_POST['assets'][$asset_key]['name'] = htmlspecialchars($_POST['assets'][$asset_key]['name']);
 
      
           if ( !isset($asset_val['name']) ) {

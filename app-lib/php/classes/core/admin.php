@@ -244,9 +244,12 @@ var $ct_array = array();
                            }
                       
                       
+                      // Sanitize name value
+                      $ct['conf']['assets'][$submitted_asset_key]['name'] = filter_var($ct['conf']['assets'][$submitted_asset_key]['name'], FILTER_SANITIZE_STRING);
+                  
                       }
                       
-                  
+          
                   }
                   // Everything else (can fully overwrite)
                   else {

@@ -192,7 +192,10 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-input-validation-assets.php is NOT sanitizing 'name' input (non-alphanumeric characters are still getting though).
+For detected AJAX error 500 messages, include a note to increase the max allowed ram in the power user section, with the new slider mentioned below.
+
+
+Add a slider option to use between 128 and 256 megabytes max ram in PHP, in the power user section, in 8mb increments. Add "no lower than" and "no higher than" hard limits too, in config auto adjust. Use the same .htaccess / .user.ini refresh update logic we already use for max runtime.
 
 
 Refactor the default sort on generic tables, to accommodate for only sorting the first column (instead of the first two we sort in access stats table data). Apply this to the coins list on the portfolio assets admin page table. See if that fixes the table sort css issue when the portfolio assets page is auto-refreshed (due to updating another admin section...CHECK FOR JAVASCRIPT ERRORS).
