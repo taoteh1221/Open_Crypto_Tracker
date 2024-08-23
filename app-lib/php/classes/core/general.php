@@ -623,7 +623,10 @@ var $ct_array = array();
       if ( isset($data) && $custom_nonce != false ) {
       return $this->digest( $data . $custom_nonce );
       }
-      elseif ( isset($data) && isset($_SESSION['nonce']) ) {
+      // FOR ASSURANCE OF SECURE DIGEST ENTROPY, WE ONLY ACCEPT THE SESSION NONCE IF
+      // IT'S AT LEAST 32 CHARACTERS, AS WE CREATED IT WITH $ct['gen']->rand_hash(32)
+      // (WE'RE PLAYING IT SAFE UX-WISE WITH THIS CHECK, AS 32 BYTES SHOULD BE 64 CHARACTERS)
+      elseif ( isset($data) && isset($_SESSION['nonce']) && strlen( trim($_SESSION['nonce']) ) >= 32 ) {
       return $this->digest( $data . $_SESSION['nonce'] );
       }
       else {

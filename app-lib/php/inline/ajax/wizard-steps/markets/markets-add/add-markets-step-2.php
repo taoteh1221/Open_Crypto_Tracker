@@ -32,13 +32,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 	     
           	<li class='blue'>
           	
-          	<b>SIMILAR SEARCH RESULTS ARE INCLUDED <span class='red'>(bonk/usd search results will also include babybonk/usdt, etc etc)</span>.</b>
-          	
-          	</li>
-	     
-          	<li class='blue'>
-          	
           	<b>Search ALL EXCHANGES <span class='red'>(that have MULTIPLE markets search capability)</span>, for a TICKER, or TICKER / PAIRING.</b><br />
+          	<span class='red'>(includes similar results: bonk/usd search results will also include babybonk/usdt, etc etc)</span><br />
           	<span class='bitcoin'>(example[s]: BTC, ETH, SOL, BONK, WEN, BTC/USD, ETH/EUR, ETH/BTC, SOL/GBP, SOL/ETH)</span>
           	
           	</li>
@@ -61,7 +56,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	<li class='blue'>
           	
           	<b>Search "CoinGecko.com Terminal" for a DeFi Pool.</b><br />
-          	<span class='bitcoin'>(example[s]: ethereum||0xb7ecb2aa52aa64a717180e030241bc75cd946726, solana||FgTCR1ufcaTZMwZZYhNRhJm2K3HgMA8V8kXtdqyttm19 <span class='red'>[pool addresses ARE CASE-SENSITIVE!]</span>)</span>
+          	<span class='bitcoin'>(example[s]: eth||0xb7ecb2aa52aa64a717180e030241bc75cd946726, sol||FgTCR1ufcaTZMwZZYhNRhJm2K3HgMA8V8kXtdqyttm19 <span class='red'>[pool addresses ARE CASE-SENSITIVE!]</span>)</span>
           	
           	</li>
      	

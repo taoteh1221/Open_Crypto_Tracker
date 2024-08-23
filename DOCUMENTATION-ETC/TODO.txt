@@ -192,6 +192,18 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Coingecko TERMINAL should only ever be a USD PAIRING. Right now, it incorrectly sets NOT ONLY the asset name as the defi pool, BUT ALSO SETS the pairing as the network token.
+
+
+For the 'add asset markets' system, we need to make sure every detected PAIRING HAS THAT PAIRING IN BITCOIN'S MARKETS ALREADY, OTHERWISE WE CAN'T DO A CURRENCY CONVERSION TO GET THE VALUE IN THE USER'S CHOSEN CURRENCY. We need to include it in the 'skipped markets' during search results, AND ALERT THE USER AS TO WHY IT WAS SKIPPED.
+
+
+Create a GLOBAL JavaScript booleen variable called "disable_nav_save_buttons" (defaults to false), that we set to true on ANY WIZARD STEPS PAGE. This should disable any settings save button in the main navigation, and trigger a JavaScript alert: "Disabled when using the setup wizard system."
+
+
+Rename "wizard-steps" to "setup-wizards".
+
+
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
 
 
