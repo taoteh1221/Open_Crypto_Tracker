@@ -1818,8 +1818,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                   }
                   
                   
-                  // 'bitcoin_currency_markets' pairings
-                  foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pairing_key => $unused ) {
+                  // BTC currency pairings
+                  foreach ( $ct['conf']['assets']['BTC']['pair'] as $pairing_key => $unused ) {
                   $temp_array[] = $pairing_key;
                   }
                   

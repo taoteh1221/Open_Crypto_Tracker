@@ -9,7 +9,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 ?>
 
 
-<h3 class='bitcoin input_margins'>STEP #4: Review Selected Markets</h3>
+<h3 class='green input_margins'>STEP #4: Review Selected Markets</h3>
 
 
 

@@ -81,9 +81,9 @@
     				
     			</p>
     			
-    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>): <?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><span id='target_prim_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>): <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><span id='target_prim_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
     			
-    			<p class='green' style='font-weight: bold;'>Total: <?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><span id='target_total_prim_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Total: <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><span id='target_total_prim_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
     			
     			<script>
     			

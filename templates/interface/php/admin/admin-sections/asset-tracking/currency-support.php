@@ -94,7 +94,7 @@ $ct['admin_render_settings']['additional_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['additional_pairings_search']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['additional_pairings_search']['is_notes'] = 'OTHER (upcoming / semi-popular) market pairings searched for, when adding new assets / coins (comma-separated)';
+$ct['admin_render_settings']['additional_pairings_search']['is_notes'] = 'OTHER (upcoming / semi-popular) market pairings searched for, when adding new assets / coins (comma-separated)<br /><span class="red">BE CAREFUL, AND ONLY ADD FIAT / STABLECOINS / ***MAJOR*** BLUECHIPS HERE, OR YOU RISK MESSING UP "ADD MARKETS" SEARCH RESULTS!</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,30 +134,30 @@ TICKER = 1.23<br /><span class="red">RAW NUMBERS ONLY (NO THOUSANDTHS FORMATTING
 
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
 
-$ct['admin_render_settings']['bitcoin_currency_markets']['is_repeatable']['add_button'] = 'Add Currency (at bottom)';
+$ct['admin_render_settings']['conversion_currency_symbols']['is_repeatable']['add_button'] = 'Add Currency (at bottom)';
 
-$ct['admin_render_settings']['bitcoin_currency_markets']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
-$ct['admin_render_settings']['bitcoin_currency_markets']['is_repeatable']['text_field_size'] = 15;
+$ct['admin_render_settings']['conversion_currency_symbols']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
+$ct['admin_render_settings']['conversion_currency_symbols']['is_repeatable']['text_field_size'] = 15;
                
 
 // FILLED IN setting values
 
 
-if ( sizeof($ct['conf']['currency']['bitcoin_currency_markets']) > 0 ) {
+if ( sizeof($ct['conf']['currency']['conversion_currency_symbols']) > 0 ) {
 
-     foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $key => $val ) {
-     $ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][$key]['is_text'] = true;
-     $ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][$key]['text_field_size'] = 15;
+     foreach ( $ct['conf']['currency']['conversion_currency_symbols'] as $key => $val ) {
+     $ct['admin_render_settings']['conversion_currency_symbols']['is_subarray'][$key]['is_text'] = true;
+     $ct['admin_render_settings']['conversion_currency_symbols']['is_subarray'][$key]['text_field_size'] = 15;
      }
 
 }
 else {
-$ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][0]['is_text'] = true;
-$ct['admin_render_settings']['bitcoin_currency_markets']['is_subarray'][0]['text_field_size'] = 15;
+$ct['admin_render_settings']['conversion_currency_symbols']['is_subarray'][0]['is_text'] = true;
+$ct['admin_render_settings']['conversion_currency_symbols']['is_subarray'][0]['text_field_size'] = 15;
 }
 
 
-$ct['admin_render_settings']['bitcoin_currency_markets']['is_notes'] = 'Add different currency\'s CORRESPONDING SYMBOLS here (country fiat, stablecoin, or secondary crypto)<br /><br />This format MUST be used:<br />
+$ct['admin_render_settings']['conversion_currency_symbols']['is_notes'] = 'Add different currency\'s CORRESPONDING SYMBOLS here (country fiat, stablecoin, or secondary crypto)<br /><br />This format MUST be used:<br />
 TICKER = SYMBOL<br /><span class="red"><br />IMPORTANT NOTES:<br />Use NATIVE tickers instead of INTERNATIONAL (RMB, not CNY...NIS, not ILS, etc etc), as automation during addition of new markets in the app defaults to this.<br /><br />If currency symbols added here do NOT have a BITCOIN MARKET added, THEY WILL NOT BE USED (WILL BE SAFELY IGNORED) BY THE APP! This setting MERELY ADDS CURRENCY SYMBOLS for currencies ALREADY ADDED TO THE BITCOIN MARKETS.</span>';
 
 

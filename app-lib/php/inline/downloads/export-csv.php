@@ -30,7 +30,7 @@ $csv_download_array[] = array(
 	foreach ( $ct['conf']['assets'] as $asset_array_key => $asset_array_val ) {
 		     
 		     
-		     if ( array_key_exists( strtolower($asset_array_key), $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists( strtolower($asset_array_key), $ct['opt_conf']['crypto_pair']) ) {
+		     if ( array_key_exists( strtolower($asset_array_key), $ct['conf']['assets']['BTC']['pair']) && !array_key_exists( strtolower($asset_array_key), $ct['opt_conf']['crypto_pair']) ) {
 			$fiat_equiv = true;
 			}
 			else {

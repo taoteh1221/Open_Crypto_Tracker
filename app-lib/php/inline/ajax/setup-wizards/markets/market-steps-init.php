@@ -5,7 +5,7 @@
 
 ?>
 	     
-          <h3 class='bitcoin input_margins'>STEP #1: ADD / REMOVE Asset Markets</h3>
+          <h3 class='bitcoin input_margins'>STEP #1: <span class='green'>ADD</span> / <span class='red'>REMOVE</span> Asset Markets</h3>
     		
 	     
      	<input type='radio' name='update_markets_mode' value='add'  <?=( !isset($_POST['update_markets_mode']) || $_POST['update_markets_mode'] == 'add' ? 'checked' : '' )?> /> ADD NEW Asset Markets<br /><br />

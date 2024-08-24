@@ -185,15 +185,15 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
    	    // Pretty numbers UX on target / market values, for alert messages
    	    
    	    // Fiat-eqiv
-   	    if ( array_key_exists($mrkt_pair, $ct['opt_conf']['bitcoin_currency_markets']) ) {
-   		$thres_dec_target = $ct['gen']->thres_dec($target_val, 'u', 'fiat'); // Units mode
-   		$thres_dec_market = $ct['gen']->thres_dec($mrkt_val, 'u', 'fiat'); // Units mode
-		}
-		// Crypto
-		else {
-   		$thres_dec_target = $ct['gen']->thres_dec($target_val, 'u', 'crypto'); // Units mode
-   		$thres_dec_market = $ct['gen']->thres_dec($mrkt_val, 'u', 'crypto'); // Units mode
-		}
+   	    if ( array_key_exists($mrkt_pair, $ct['conf']['assets']['BTC']['pair']) ) {
+   	    $thres_dec_target = $ct['gen']->thres_dec($target_val, 'u', 'fiat'); // Units mode
+   	    $thres_dec_market = $ct['gen']->thres_dec($mrkt_val, 'u', 'fiat'); // Units mode
+	    }
+	    // Crypto
+	    else {
+   	    $thres_dec_target = $ct['gen']->thres_dec($target_val, 'u', 'crypto'); // Units mode
+   	    $thres_dec_market = $ct['gen']->thres_dec($mrkt_val, 'u', 'crypto'); // Units mode
+	    }
     
     
    	$target_val_text = $ct['var']->num_pretty($target_val, $thres_dec_target['max_dec'], false, $thres_dec_target['min_dec']);

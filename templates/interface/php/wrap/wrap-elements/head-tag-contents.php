@@ -350,7 +350,7 @@
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	
-	foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $key => $unused ) {
+	foreach ( $ct['conf']['assets']['BTC']['pair'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	

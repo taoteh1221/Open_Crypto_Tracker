@@ -192,9 +192,6 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-For a more RELIABLE system of getting all bitcoin currency market's data, switch everywhere in the app that uses $ct['opt_conf']['bitcoin_currency_markets'] (EXCEPT FOR WHERE WE ARE GETTING THE CURRENCY ***SYMBOL*** VALUE) over to using $ct['conf']['assets']['BTC']['pair'], as it's EXACTLY THE SAME KEY FORMAT, SO ALL WE HAVE TO DO IS SWITCH THEM OUT. Also, rename 'bitcoin_currency_markets' to 'bitcoin_currency_market_symbols', as that's it REAL purpose.
-
-
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
 
 
@@ -214,7 +211,7 @@ https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specifi
 Do a bitcoin opentimestamp of the v6.00.39 release.
 
 
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface). Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets.
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).

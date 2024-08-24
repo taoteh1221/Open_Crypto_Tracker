@@ -129,7 +129,7 @@ var $ct_array = array();
    
    $result = array();
    
-     foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $key => $unused ) {
+     foreach ( $ct['conf']['assets']['BTC']['pair'] as $key => $unused ) {
      $result[] = $key;
      }
      
@@ -397,7 +397,7 @@ var $ct_array = array();
        <h2> Interest Per <?=ucfirst($time)?> </h2>
        <ul>
            
-           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $powertime_prim_currency, 2, '.', ',')?></b></li>
+           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $powertime_prim_currency, 2, '.', ',')?></b></li>
        
        </ul>
    
@@ -411,10 +411,10 @@ var $ct_array = array();
                </tr>
                    <tr>
    
-                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
-                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
+                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
+                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
+                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
+                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
    
                    </tr>
               
@@ -484,7 +484,7 @@ var $ct_array = array();
            <p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
            
            
-           <p><b>kWh Rate (<?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+           <p><b>kWh Rate (<?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
            
            
            <p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
@@ -677,7 +677,7 @@ var $ct_array = array();
    
    
       // Return error message if there are missing parameters
-      if ( $mrkt_conversion != 'market_only' && !$ct['opt_conf']['bitcoin_currency_markets'][$mrkt_conversion] || $all_mrkts_data_array[0] == '' ) {
+      if ( $mrkt_conversion != 'market_only' && !$ct['conf']['assets']['BTC']['pair'][$mrkt_conversion] || $all_mrkts_data_array[0] == '' ) {
          
             if ( $mrkt_conversion == '' ) {
             	
@@ -690,7 +690,7 @@ var $ct_array = array();
             			);
             
             }
-            elseif ( $mrkt_conversion != 'market_only' && !$ct['opt_conf']['bitcoin_currency_markets'][$mrkt_conversion] ) {
+            elseif ( $mrkt_conversion != 'market_only' && !$ct['conf']['assets']['BTC']['pair'][$mrkt_conversion] ) {
             	
             $result['error'] .= 'Conversion market does not exist: '.$mrkt_conversion.'; ';
             
@@ -837,7 +837,7 @@ var $ct_array = array();
            
            
                  // Rounding numbers formatting
-                 if ( array_key_exists($mrkt_pair, $ct['opt_conf']['bitcoin_currency_markets']) ) {
+                 if ( array_key_exists($mrkt_pair, $ct['conf']['assets']['BTC']['pair']) ) {
                  $thres_dec = $ct['gen']->thres_dec($asset_val_raw, 'u', 'fiat'); // Units mode
                  $asset_val_raw = round($asset_val_raw, $thres_dec['max_dec']);
                  $vol_pair_rounded = round($pair_vol_raw);
@@ -1247,7 +1247,7 @@ var $ct_array = array();
        
       // FLAG SELECTED PAIR IF FIAT EQUIVALENT formatting should be used, AS SUCH
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($sel_pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($sel_pair, $ct['opt_conf']['crypto_pair']) ) {
+      if ( array_key_exists($sel_pair, $ct['conf']['assets']['BTC']['pair']) && !array_key_exists($sel_pair, $ct['opt_conf']['crypto_pair']) ) {
       $fiat_eqiv = 1;
       }
       
@@ -1420,7 +1420,7 @@ var $ct_array = array();
    
       // Fiat or equivalent pair?
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($pair, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
+      if ( array_key_exists($pair, $ct['conf']['assets']['BTC']['pair']) && !array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
       $fiat_eqiv = 1;
       $min_vol_val_test = $min_fiat_val_test;
       }
@@ -1875,8 +1875,8 @@ var $ct_array = array();
                     
                      // IF PRIMARY CURRENCY CONFIG volume was 0 or -1 last alert / reset, for UX sake we let users know
                      if ( $cached_prim_currency_vol == 0 ) {
-                     $vol_describe = ' 24 hour ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' volume was ' . $ct['opt_conf']['bitcoin_currency_markets'][$ct['default_bitcoin_primary_currency_pair']] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and';
-                     $vol_describe_mobile = ', ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' volume was ' . $ct['opt_conf']['bitcoin_currency_markets'][$ct['default_bitcoin_primary_currency_pair']] . $cached_prim_currency_vol . ' last ' . $desc_alert_type;
+                     $vol_describe = ' 24 hour ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' volume was ' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['default_bitcoin_primary_currency_pair'] ] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and';
+                     $vol_describe_mobile = ', ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' volume was ' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['default_bitcoin_primary_currency_pair'] ] . $cached_prim_currency_vol . ' last ' . $desc_alert_type;
                      }
                      // Best we can do feasibly for UX on volume reporting errors
                      elseif ( $cached_prim_currency_vol == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
@@ -1896,7 +1896,7 @@ var $ct_array = array();
                
                $asset_prim_currency_text = $ct['var']->num_pretty($asset_prim_currency_val_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
                         
-               $vol_prim_currency_text = $ct['opt_conf']['bitcoin_currency_markets'][$ct['default_bitcoin_primary_currency_pair']] . number_format($vol_prim_currency_raw, 0, '.', ',');
+               $vol_prim_currency_text = $ct['opt_conf']['conversion_currency_symbols'][ $ct['default_bitcoin_primary_currency_pair'] ] . number_format($vol_prim_currency_raw, 0, '.', ',');
                
                
                // Email / telegram / etc
@@ -1943,14 +1943,14 @@ var $ct_array = array();
                         
                // Build the different messages, configure comm methods, and send messages
                         
-               $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset_text . ' trade value in the ' . strtoupper($pair) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' value to ' . $ct['opt_conf']['bitcoin_currency_markets'][$ct['default_bitcoin_primary_currency_pair']] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '.' . $email_vol_summary;
+               $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset_text . ' trade value in the ' . strtoupper($pair) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' value to ' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['default_bitcoin_primary_currency_pair'] ] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '.' . $email_vol_summary;
                         
                         
                // Were're just adding a human-readable timestamp to smart home (audio) alerts
                $notifyme_msg = $email_msg . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
                         
                         
-               $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset_text . ' / ' . strtoupper($pair) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' value to ' . $ct['opt_conf']['bitcoin_currency_markets'][$ct['default_bitcoin_primary_currency_pair']] . $asset_prim_currency_text . ' over ' . $last_cached_time . '.' . $vol_change_text_mobile;
+               $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset_text . ' / ' . strtoupper($pair) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' value to ' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['default_bitcoin_primary_currency_pair'] ] . $asset_prim_currency_text . ' over ' . $last_cached_time . '.' . $vol_change_text_mobile;
                         
                     
                // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

@@ -472,6 +472,7 @@ $ct['conf']['currency']['jupiter_ag_pairings_search'] = 'SOL,USDC,USDT,ETH,WBTC'
 $ct['conf']['currency']['upbit_pairings_search'] = 'BTC,ETH,USDT,KRW'; 
 ////
 // OTHER upcoming / semi-popular market pairings searched for, when adding new assets / coins (comma-separated)
+// BE CAREFUL, AND ONLY ADD FIAT / STABLECOINS / ***MAJOR*** BLUECHIPS HERE, OR YOU RISK MESSING UP 'ADD MARKETS' SEARCH RESULTS!
 $ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,WBTC,WETH,FDUSD,CBBTC'; 
 
 
@@ -487,11 +488,11 @@ $ct['conf']['currency']['token_presales_usd'] = array(
 
 
 // ADD CORRESPONDING CURRENCY SYMBOLS for PRIMARY BTC CURRENCY MARKETS (to use with your preferred local currency in the app)
-// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
+// EACH CURRENCY LISTED HERE !SHOULD! HAVE AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
 // Bitcoin's $ct['conf']['assets'] listing (further down in this config file) TO BE USED (otherwise it will be safely ignored)
 // #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['currency']['crypto_pair'], 
 // !AS LONG AS THERE IS A PAIR CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
-$ct['conf']['currency']['bitcoin_currency_markets'] = array(
+$ct['conf']['currency']['conversion_currency_symbols'] = array(
                               						//'lowercase_btc_mrkt_or_stablecoin_pair = CURRENCY_SYMBOL',
                               						'aed = د.إ',
                               						'ars = ARS$',
@@ -600,7 +601,7 @@ $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array(
 // $ct['conf']['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
 // THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
 // AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
-// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct['conf']['currency']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
+// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct['conf']['currency']['conversion_currency_symbols'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
 $ct['conf']['currency']['crypto_pair'] = array(
                                              // !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
                                              ////
@@ -1868,6 +1869,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'inr' => array(
+                                          'coingecko_inr' => 'bitcoin',
                                           'bitbns' => 'BTC',
                                           'buyucoin' => 'INR-BTC',
                                           'wazirx' => 'btcinr',
@@ -1894,7 +1896,13 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'nis' => array(
+                                          'coingecko_nis' => 'bitcoin',
                                           'bit2c' => 'BtcNis',
+                                                    ),
+
+                                                    
+                                    'rmb' => array(
+                                          'coingecko_rmb' => 'bitcoin',
                                                     ),
 
                                                     

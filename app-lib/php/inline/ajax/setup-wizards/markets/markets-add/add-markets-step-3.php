@@ -155,7 +155,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 ?>
 
 
-<h3 class='bitcoin input_margins'>STEP #3: Select Asset Markets You Prefer</h3>
+<h3 class='green input_margins'>STEP #3: Select Asset Markets You Prefer</h3>
 
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
 
@@ -199,7 +199,7 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
                // Missing required value
                if ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'missing_required_') ) {
                ?>
-               <i><u><b>Missing Required: <?=preg_replace("/missing_required_/i", "", $skipped_market['flagged_market'])?> (ADD additional PAIRINGS to search for in "Asset Tracking => Currency Support => Additional Pairings Search" [that exist in the market id: <?=$skipped_market['id']?>])</b></u></i><br />
+               <i><u><b>Missing Required: <?=preg_replace("/missing_required_/i", "", $skipped_market['flagged_market'])?> (Consider ADDING additional PAIRINGS to search for in "Asset Tracking => Currency Support => Additional Pairings Search" [that exist in the market id: <?=$skipped_market['id']?>])</b></u></i><br />
                <?php
                }
                // Already added
@@ -211,7 +211,7 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
                // Pairing not supported
                elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'pairing_not_supported_') ) {
                ?>
-               <i><u><b>Pairing Not Supported: <?=preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market'])?> (ADD A BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET TO ENABLE SUPPORT FOR THIS PAIRING)</b></u></i><br />
+               <i><u><b>Pairing Not Supported For Price Conversions: <?=preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market'])?> (ADD A BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET, TO ENABLE FULL SUPPORT FOR THIS PAIRING)</b></u></i><br />
                <?php
                }
                // Other flag

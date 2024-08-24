@@ -46,8 +46,8 @@ $x_coord = 55; // Start position (absolute) for light chart links
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_val, $ct['opt_conf']['bitcoin_currency_markets']) && !array_key_exists($charted_val, $ct['opt_conf']['crypto_pair']) ) {
-			$currency_symb = $ct['opt_conf']['bitcoin_currency_markets'][$charted_val];
+			elseif ( array_key_exists($charted_val, $ct['opt_conf']['conversion_currency_symbols']) && !array_key_exists($charted_val, $ct['opt_conf']['crypto_pair']) ) {
+			$currency_symb = $ct['opt_conf']['conversion_currency_symbols'][$charted_val];
 			$fiat_equiv = 1;
 			}
 			// Fallback for currency symbol config errors

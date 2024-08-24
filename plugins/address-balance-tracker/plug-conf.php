@@ -47,7 +47,7 @@ $plug['conf'][$this_plug]['privacy_mode'] = 'on'; // 'on' / 'off' (Default: 'on'
 // Balance tracking array (add unlimited addresses as new subarray objects)
 // (ONLY BTC / ETH / HNT / SOL / SPL (SOL subtokens) SUPPORTED AS OF 2021/DEC/2)
 // ASSET #MUST EXIST# IN EITHER THE $ct['conf']['currency']['crypto_pair_preferred_markets'] CONFIG,
-// OR THE $ct['conf']['currency']['bitcoin_currency_markets'] CONFIG (BOTH LOCATED IN THE CURRENCY SUPPORT SECTION)
+// OR THE $ct['conf']['currency']['conversion_currency_symbols'] CONFIG (BOTH LOCATED IN THE CURRENCY SUPPORT SECTION)
 // SEE THOSE SECTIONS FOR MORE INFO ON ADDING NEW ASSETS TO THEM
 $plug['conf'][$this_plug]['tracking'] = array(
 																	

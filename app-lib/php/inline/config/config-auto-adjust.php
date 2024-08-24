@@ -78,7 +78,7 @@ $ct['conf']['proxy']['anti_proxy_servers'] = array_map("strtolower", $ct['conf']
 
 $ct['conf']['news']['strict_news_feed_servers'] = array_map("strtolower", $ct['conf']['news']['strict_news_feed_servers']);
 
-$ct['conf']['currency']['bitcoin_currency_markets'] = array_map("strtolower", $ct['conf']['currency']['bitcoin_currency_markets']);
+$ct['conf']['currency']['conversion_currency_symbols'] = array_map("strtolower", $ct['conf']['currency']['conversion_currency_symbols']);
 
 $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array_map("strtolower", $ct['conf']['currency']['bitcoin_preferred_currency_markets']);
 
@@ -103,7 +103,7 @@ $ct['conf']['proxy']['anti_proxy_servers'] = array_map("trim", $ct['conf']['prox
 
 $ct['conf']['news']['strict_news_feed_servers'] = array_map("trim", $ct['conf']['news']['strict_news_feed_servers']);
 
-$ct['conf']['currency']['bitcoin_currency_markets'] = array_map("trim", $ct['conf']['currency']['bitcoin_currency_markets']);
+$ct['conf']['currency']['conversion_currency_symbols'] = array_map("trim", $ct['conf']['currency']['conversion_currency_symbols']);
 
 $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array_map("trim", $ct['conf']['currency']['bitcoin_preferred_currency_markets']);
 
@@ -183,15 +183,15 @@ if ( is_array($ct['conf']['power']['strict_consecutive_connect_servers']) && siz
 }
 
 
-if ( is_array($ct['conf']['currency']['bitcoin_currency_markets']) ) {
+if ( is_array($ct['conf']['currency']['conversion_currency_symbols']) ) {
      
-     if ( sizeof($ct['conf']['currency']['bitcoin_currency_markets']) == 1 ) {
+     if ( sizeof($ct['conf']['currency']['conversion_currency_symbols']) == 1 ) {
           
           // We are NOT assured key == 0, if it was updated via the admin interface
-          foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $key => $val ) {
+          foreach ( $ct['conf']['currency']['conversion_currency_symbols'] as $key => $val ) {
           
                if ( trim($val) == '' ) {
-               unset($ct['conf']['currency']['bitcoin_currency_markets']);
+               unset($ct['conf']['currency']['conversion_currency_symbols']);
                }
           
           }
@@ -201,17 +201,17 @@ if ( is_array($ct['conf']['currency']['bitcoin_currency_markets']) ) {
      
      // Convert stored format (that's easily editable in user interfacing) 
      // to an optimized format for using in programming logic
-     $ct['opt_conf']['bitcoin_currency_markets'] = array();
-     foreach ( $ct['conf']['currency']['bitcoin_currency_markets'] as $val ) {
+     $ct['opt_conf']['conversion_currency_symbols'] = array();
+     foreach ( $ct['conf']['currency']['conversion_currency_symbols'] as $val ) {
      $conversion_array = explode('=', $val);
      $conversion_array = array_map("trim", $conversion_array);
      // Auto-formatting
-     $ct['opt_conf']['bitcoin_currency_markets'][ strtolower($conversion_array[0]) ] = strtoupper($conversion_array[1]);
+     $ct['opt_conf']['conversion_currency_symbols'][ strtolower($conversion_array[0]) ] = strtoupper($conversion_array[1]);
      }
      
 // Alphabetically sort
-sort($ct['conf']['currency']['bitcoin_currency_markets']);
-ksort($ct['opt_conf']['bitcoin_currency_markets']);
+sort($ct['conf']['currency']['conversion_currency_symbols']);
+ksort($ct['opt_conf']['conversion_currency_symbols']);
      
 }
 
@@ -456,10 +456,10 @@ foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
 
 
 // REMOVE primary BTC currency pairs that have no configged markets
-foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+foreach ( $ct['opt_conf']['conversion_currency_symbols'] as $pair_key => $pair_unused ) {
 
      if ( !isset($ct['conf']['assets']['BTC']['pair'][$pair_key]) ) {
-     unset($ct['opt_conf']['bitcoin_currency_markets'][$pair_key]);
+     unset($ct['opt_conf']['conversion_currency_symbols'][$pair_key]);
      }
 
 }
@@ -471,10 +471,10 @@ foreach ( $ct['conf']['assets']['BTC']['pair'] as $btc_currency_pair => $unused 
      if (
      is_array($ct['conf']['assets']['BTC']['pair'][$btc_currency_pair])
      && sizeof($ct['conf']['assets']['BTC']['pair'][$btc_currency_pair]) > 0
-     && !isset($ct['opt_conf']['bitcoin_currency_markets'][$btc_currency_pair])
+     && !isset($ct['opt_conf']['conversion_currency_symbols'][$btc_currency_pair])
      ) {
      // Just set the ticker as the symbol, since we really should include this automatically for better (more) currency support
-     $ct['opt_conf']['bitcoin_currency_markets'][$btc_currency_pair] = strtoupper($btc_currency_pair);
+     $ct['opt_conf']['conversion_currency_symbols'][$btc_currency_pair] = strtoupper($btc_currency_pair);
      }
 
 }
@@ -500,7 +500,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['MISCASSETS']['pair']) ) {
@@ -523,7 +523,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['BTCNFTS']['pair']) ) {
@@ -546,7 +546,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['ETHNFTS']['pair']) ) {
@@ -569,7 +569,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['SOLNFTS']['pair']) ) {
@@ -592,7 +592,7 @@ if ( is_array($ct['conf']['assets']) ) {
             }
             
             
-            foreach ( $ct['opt_conf']['bitcoin_currency_markets'] as $pair_key => $pair_unused ) {
+            foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct['conf']['assets']['ALTNFTS']['pair']) ) {
@@ -638,6 +638,10 @@ sort($ct['conf']['mobile_network']['text_gateways']);
 
 // Alphabetically sort price charts / alerts
 sort($ct['conf']['charts_alerts']['tracked_markets']);
+
+
+// Alphabetically sort assets
+ksort($ct['conf']['assets']);
 
 
 // Better decimal support for these vars...

@@ -20,7 +20,7 @@
 				
                     $btc_unit_val = $ct['var']->num_to_str($btc_unit_val); // Cleanup any trailing zeros
 				
-				echo ( $pow_asset_data['symbol'] == 'btc' ? number_format($ct['sel_opt']['sel_btc_prim_currency_val'], 2) . ' ' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) : $btc_unit_val . ' BTC (' . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $val_per_unit_pretty . ' '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).')' );
+				echo ( $pow_asset_data['symbol'] == 'btc' ? number_format($ct['sel_opt']['sel_btc_prim_currency_val'], 2) . ' ' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) : $btc_unit_val . ' BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $val_per_unit_pretty . ' '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).')' );
 				
 				?>
 				
@@ -59,7 +59,7 @@
 				$btc_mined_daily_avg = number_format($btc_daily_avg_raw, $ct['conf']['gen']['crypto_decimals_max']);
                     $btc_mined_daily_avg = $ct['var']->num_to_str($btc_mined_daily_avg); // Cleanup any trailing zeros
                     
-				echo $btc_mined_daily_avg . ' BTC (' . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $prim_currency_daily_avg_pretty . ' '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).')';
+				echo $btc_mined_daily_avg . ' BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $prim_currency_daily_avg_pretty . ' '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).')';
 				?>
 				
 				<br />
@@ -68,7 +68,7 @@
 				<span class='red'><b>Power Cost Daily:</b> 
 				
 				<?php
-				echo $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($kwh_cost_daily, 2);
+				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($kwh_cost_daily, 2);
 				?>
 				
 				</span> 
@@ -79,7 +79,7 @@
 				<span class='red'><b>Pool Fee Daily:</b> 
 				
 				<?php
-				echo $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($pool_fee_daily, 2);
+				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($pool_fee_daily, 2);
 				?>
 				
 				</span> 
@@ -103,7 +103,7 @@
 				<b><span class="<?=$mining_daily_profit_span?>">Daily Profit:</span></b> 
 				
 				<?php
-				echo '<span class="'.$mining_daily_profit_span.'">' . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($mining_daily_profit, 2) . '</span>';
+				echo '<span class="'.$mining_daily_profit_span.'">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($mining_daily_profit, 2) . '</span>';
 				?>
 				
 				<br />
@@ -137,7 +137,7 @@
 				$btc_mined_weekly_avg = number_format( ($btc_daily_avg_raw * 7) , $ct['conf']['gen']['crypto_decimals_max']);
                     $btc_mined_weekly_avg = $ct['var']->num_to_str($btc_mined_weekly_avg); // Cleanup any trailing zeros
                     
-				echo $btc_mined_weekly_avg . ' BTC (' . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format( $prim_currency_daily_avg_raw * 7 , 2) . ' '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).')';
+				echo $btc_mined_weekly_avg . ' BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format( $prim_currency_daily_avg_raw * 7 , 2) . ' '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).')';
 				?>
 				
 				<br />
@@ -146,7 +146,7 @@
 				<span class='red'><b>Power Cost Weekly:</b> 
 				
 				<?php
-				echo $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($kwh_cost_daily * 7, 2);
+				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($kwh_cost_daily * 7, 2);
 				?>
 				
 				</span>
@@ -157,7 +157,7 @@
 				<span class='red'><b>Pool Fee Weekly:</b> 
 				
 				<?php
-				echo $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($pool_fee_daily * 7, 2);
+				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format($pool_fee_daily * 7, 2);
 				?>
 				
 				</span>
@@ -168,7 +168,7 @@
 				<b><span class="<?=$mining_daily_profit_span?>">Weekly Profit:</span></b> 
 				
 				<?php
-				echo '<span class="'.$mining_daily_profit_span.'">' . $ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
+				echo '<span class="'.$mining_daily_profit_span.'">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
 				?>
 				
 				<br />
