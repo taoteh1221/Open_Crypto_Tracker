@@ -211,7 +211,7 @@ https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specifi
 Do a bitcoin opentimestamp of the v6.00.39 release.
 
 
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to strip ALL SYMBOLS from the user-inputted name (like we do during 'add asset market' mode). Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets.
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface). Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets.
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
