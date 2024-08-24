@@ -12,6 +12,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
 ?>
 
+
           <h3 class='bitcoin input_margins'>STEP #2: Search Available Asset Markets</h3>
           
 	     <?php
@@ -32,13 +33,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 	     
           	<li class='blue'>
           	
-          	<b>SIMILAR SEARCH RESULTS ARE INCLUDED <span class='red'>(bonk/usd search results will also include babybonk/usdt, etc etc)</span>.</b>
-          	
-          	</li>
-	     
-          	<li class='blue'>
-          	
           	<b>Search ALL EXCHANGES <span class='red'>(that have MULTIPLE markets search capability)</span>, for a TICKER, or TICKER / PAIRING.</b><br />
+          	<span class='red'>(includes similar results: bonk/usd search results will also include babybonk/usdt, etc etc)</span><br />
           	<span class='bitcoin'>(example[s]: BTC, ETH, SOL, BONK, WEN, BTC/USD, ETH/EUR, ETH/BTC, SOL/GBP, SOL/ETH)</span>
           	
           	</li>
@@ -61,7 +57,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	<li class='blue'>
           	
           	<b>Search "CoinGecko.com Terminal" for a DeFi Pool.</b><br />
-          	<span class='bitcoin'>(example[s]: ethereum||0xb7ecb2aa52aa64a717180e030241bc75cd946726, solana||FgTCR1ufcaTZMwZZYhNRhJm2K3HgMA8V8kXtdqyttm19 <span class='red'>[pool addresses ARE CASE-SENSITIVE!]</span>)</span>
+          	<span class='bitcoin'>(example[s]: eth||0xb7ecb2aa52aa64a717180e030241bc75cd946726, sol||FgTCR1ufcaTZMwZZYhNRhJm2K3HgMA8V8kXtdqyttm19 <span class='red'>[pool addresses ARE CASE-SENSITIVE!]</span>)</span>
           	
           	</li>
      	
@@ -91,9 +87,25 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
      	?>
      	
-     	<p class='input_margins'><input type='checkbox' id='skip_alphavantage_search' name='skip_alphavantage_search' value='yes' <?=( !isset($_POST['skip_alphavantage_search']) || isset($_POST['skip_alphavantage_search']) && $_POST['skip_alphavantage_search'] == 'yes' ? 'checked' : '' )?> /> <span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, SKIP Using Up Alphavantage.co Stock Price DAILY Live Requests For Data</span> 
+     	<p class='input_margins'>
+     	
+     	<input type='checkbox' id='skip_alphavantage_search' name='skip_alphavantage_search' value='yes' <?=( !isset($_POST['skip_alphavantage_search']) || isset($_POST['skip_alphavantage_search']) && $_POST['skip_alphavantage_search'] == 'yes' ? 'checked' : '' )?> /> 
+     	
+     	<span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, SKIP Using Up Alphavantage.co Stock Price DAILY Live Requests For Data</span> 
 	     
-		<img class='tooltip_style_control' id='skip_alphavantage_info' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
+		<img class='tooltip_style_control' id='skip_alphavantage_info' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /><br />
+		
+		</p>
+     	
+     	<p class='input_margins red_dotted'>
+     	
+		<b class='red'>NOTES ABOUT ***STOCK MARKET*** ASSETS:<br /><br />
+		
+		ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).<br /><br />
+		
+		ADDITIONALLY, TICKER / PAIRING DATA / COMPANY NAME INFORMATION IS ***MORE RELIABLE*** WHEN YOU USE THE "All Exchanges" SEARCH MODE FOR STOCKS.</b>
+		
+		</p>
 		
 		
 	 <script>
@@ -133,9 +145,12 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	}
      	
 
+$all_exchanges_count = 0;
 $all_exchanges_search_count = 0;
 
 foreach ( $ct['api']->exchange_apis as $check_exchange ) {
+     
+$all_exchanges_count = $all_exchanges_count + 1;
 
      if ( $check_exchange['all_markets_support'] || $check_exchange['search_endpoint'] ) {
      $all_exchanges_search_count = $all_exchanges_search_count + 1;
@@ -153,13 +168,16 @@ foreach ( $ct['api']->exchange_apis as $check_exchange ) {
      	
      	    if ( $("#skip_alphavantage_search").length && $("#skip_alphavantage_search").is(":checked") ) {
      	    var skip_alphavantage_search = "yes";
+     	    var exchange_count = ( Number("<?=$all_exchanges_search_count?>") - 1 );
      	    }
      	    else {
      	    var skip_alphavantage_search = "no";
+     	    var exchange_count = Number("<?=$all_exchanges_search_count?>");
      	    }
      	    
+     	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = "<?=$all_exchanges_search_count?> exchanges";
+     	    var search_desc = exchange_count + " exchanges (of <?=$all_exchanges_count?>), please wait";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();
@@ -172,7 +190,7 @@ foreach ( $ct['api']->exchange_apis as $check_exchange ) {
      	                          "skip_alphavantage_search": skip_alphavantage_search,
      	                          };
      	
-     	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "search results from " + search_desc, add_markets_search, true); // Secured
+     	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "results from " + search_desc, add_markets_search, true); // Secured
      	
      	'> Search For Markets To Add </button>
 

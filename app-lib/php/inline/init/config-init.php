@@ -332,7 +332,8 @@ $ct['curl_user_agent'] = $ct['strict_curl_user_agent']; // SET IN primary-init.p
 // #GUI# PHP TIMEOUT tracking / updating (checking for changes to the config value)
 $conf_php_timeout = $ct['dev']['ui_max_exec_time'];
 
-if ( !file_exists($ct['base_dir'] . '/cache/vars/state-tracking/php_timeout.dat') ) {
+// Update daily (1440 minutes)
+if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/vars/state-tracking/php_timeout.dat', 1440) == true ) {
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/php_timeout.dat', $conf_php_timeout);
 $cached_php_timeout = $conf_php_timeout;
 }

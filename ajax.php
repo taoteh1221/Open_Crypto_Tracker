@@ -36,7 +36,7 @@ elseif ( $_GET['type'] == 'jstree' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/jstree/jstree-init.php');
 }
 elseif ( $_GET['type'] == 'add_markets' || $_GET['type'] == 'remove_markets' ) {
-require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/wizard-steps-init.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/setup-wizards-init.php');
 }
 
 

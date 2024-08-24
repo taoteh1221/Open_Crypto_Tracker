@@ -8,6 +8,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      
 ?>
 
+
 <h3 class='bitcoin input_margins'>STEP #4: Review Selected Markets</h3>
 
 
@@ -15,11 +16,39 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Confirm Adding Asset Markets</strong> </legend>
 
   <?php
-  if ( sizeof($_POST['assets']) > 0 ) {
+  if ( is_array($_POST['assets']) && sizeof($_POST['assets']) > 0 ) {
   ?>
 
 <p style='font-weight: bold;' class='bitcoin result_margins'>CONFIRM each asset MARKET below, before adding to the app...</p>
 
+     
+     	<button class='force_button_style result_margins red' onclick='
+     	
+     	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "market search results", selected_markets_post_data, true); // Secured
+     	
+     	'> Go Back To Change Selected Markets </button>
+     
+     
+     	<button class='force_button_style result_margins green' onclick='
+     	
+     	var post_data = {
+     	                  "conf_id": "assets",
+     	                  // Use the PARENT ID, if there are interface subsections (since we are using the parent IFRAME)
+     	                  "interface_id": "asset_tracking",
+     	                  "refresh": "all",
+     	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
+     	                   };
+     	
+     	var merged_data = merge_objects(post_data, selected_markets_post_data);
+     	
+     	ct_ajax_load("type=add_markets&step=5", "#update_markets_ajax", "add market results", merged_data, true, true); // Secured / sort tables
+     	
+     	'> Add Selected Asset Markets </button>
+     	
+     	
+     	<br clear='all' />
+     	
+     	
 <?php
      
    /*
@@ -37,7 +66,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           <div style='font-weight: bold;' class='green clear_both result_margins'>Name:</div> 
           
           <div class='align_left clear_both result_margins'>
-          <?=$asset_data['name']?> <span class='bitcoin'>(EDITABLE after adding)</span>
+          <?=$asset_data['name']?> <span class='bitcoin'>(EDITABLE after adding [SKIPPED if already exists])</span>
           </div>
      
      
@@ -47,7 +76,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           <div style='font-weight: bold;' class='green clear_both result_margins'>Marketcap Slug (page):</div> 
           
           <div class='align_left clear_both result_margins'>
-          <?=$asset_data['mcap_slug']?> <span class='bitcoin'>(EDITABLE after adding)</span>
+          <?=$asset_data['mcap_slug']?> <span class='bitcoin'>(EDITABLE after adding [SKIPPED if already exists])</span>
           </div>
           <?php
           }
@@ -105,11 +134,13 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	                          
      </script>
      
+     
      	<button class='force_button_style result_margins red' onclick='
      	
      	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "market search results", selected_markets_post_data, true); // Secured
      	
      	'> Go Back To Change Selected Markets </button>
+     
      
      	<button class='force_button_style result_margins green' onclick='
      	
@@ -125,7 +156,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	ct_ajax_load("type=add_markets&step=5", "#update_markets_ajax", "add market results", merged_data, true, true); // Secured / sort tables
      	
-     	'> Add Asset Markets </button>
+     	'> Add Selected Asset Markets </button>
+     	
      	
      	<br clear='all' />
      	

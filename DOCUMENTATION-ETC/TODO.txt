@@ -192,43 +192,13 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Refactor the default sort on generic tables, to accommodate for only sorting the first column (instead of the first two we sort in access stats table data). Apply this to the coins list on the portfolio assets admin page table. See if that fixes the table sort css issue when the portfolio assets page is auto-refreshed (due to updating another admin section).
-
-
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
-
-
-On the portfolio updates user area page, AND the portfolio assets admin page, include a warning about saving too many coins in cookie mode, which can crash the app until some cookies are deleted. Also look into decreasing the cookies warning threshold (when the alert shows at top left of header), so users are alerted WAY BEFORE THE COOKIES SIZE CRASHES THE APP!
 
 
 TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
 
 
-For the "portfolio assets" admin page, move the "wizard" into a large text link at the top of the page named "Add / Remove Asset Markets", and add a pretty simplified data table formatted list of each asset below that link (NOT editable, just for review of existing assets), with the following data columns for each row of data:
-
-Name (EDITABLE, see details below...)
-
-Mcap Slug (EDITABLE)
-
-Ticker
-
-Currency Pairings (number of, with info icon bubble showing a detailed list on hover)
-
-Exchange Markets (number of, with info icon bubble showing a detailed list on hover)
-
-
-For the asset "name", we want to pre-populate it, yet still have it editable by the end user. Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets. Additionally, we want to only allow alphanumeric and a few symbols like hyphen, period, colon, etc. User input should be validated on the front end with JavaScript, and the back end with PHP. The name should also use htmlspecailcharacters for security, like we use for the user agent string on the access stats page.
-
-
-Have a preview / confirmation step, AFTER selecting searched markets results, to have the end user confirm / cancel:
-
-1) The ASSET TICKER
-
-2) The PAIRING TICKER(S)
-
-3) The EXCHANGE NAME(S) 
-
-4) The MARKET ID(S) 
+BUILDOUT THE BACK END FOR ASSET MARKET DELETION.
 
 
 Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry:
@@ -236,6 +206,12 @@ https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specifi
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Do a bitcoin opentimestamp of the v6.00.39 release.
+
+
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to strip ALL SYMBOLS from the user-inputted name (like we do during 'add asset market' mode). Make sure the user knows adding a coingecko market will auto-name assets much better than skipping coingecko markets.
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).

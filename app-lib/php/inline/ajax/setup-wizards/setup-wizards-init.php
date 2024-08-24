@@ -35,12 +35,26 @@ exit; // Exit for security!
 
 }
 
+?>
+
+
+<script>
+
+disable_nav_save_buttons = 'Disabled when using the setup wizard system.';
+
+console.log('disable_nav_save_buttons = ' + disable_nav_save_buttons);
+
+</script>
+
+
+<?php
+
 
 if ( $_GET['type'] == 'add_markets' ) {
-require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-init.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-add/add-markets-init.php');
 }
 elseif ( $_GET['type'] == 'remove_markets' ) {
-require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-remove/remove-markets-init.php');
+require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-remove/remove-markets-init.php');
 }
 
 

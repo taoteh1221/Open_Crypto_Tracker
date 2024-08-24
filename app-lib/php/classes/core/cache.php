@@ -128,7 +128,7 @@ var $ct_array = array();
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
     if ( !$ct['var']->whole_int($ui_exec_time) || $ui_exec_time > 3600 ) {
-    $ui_exec_time = 250; // Default
+    $ui_exec_time = 300; // Default
     }
   
   return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($dir_var) );
@@ -1013,37 +1013,9 @@ var $ct_array = array();
                
                <legend class='subsection_legend'> IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits) </legend>
                
-               <!-- table_pager -->
-               <div class="table_pager table_pager_<?=$safe_name?>">
-
-               	<span class="pagedisplay"></span> 
-               	
-               	<br /><br />
-					&nbsp;<span class="bitcoin">Show Per Page:</span>
-               	<span class="left choose_pp">
-					<a href="#" data-track='5'>5</a> |
-					<a href="#" data-track='10'>10</a> |
-					<a href="#" data-track='25'>25</a> |
-					<a href="#" data-track='50'>50</a>
-				</span>
-				
-               	<br /><br />
-				<span class="right">
-
-					&nbsp;<span class="bitcoin">View Page:</span> <span class="prev">
-						Prev
-					</span>&nbsp;
-
-					<span class="pagecount"></span>
-					
-					&nbsp;<span class="next">Next
-					</span>
-					
-				</span>
-
-               </div>
+               <?=$ct['gen']->table_pager_nav($safe_name, 'access_stats')?>
                
-               <table id='<?=$safe_name?>' border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
+               <table id='<?=$safe_name?>' border='0' cellpadding='10' cellspacing='0' class="access_stats data_table align_center" style='width: 100% !important;'>
                 <thead>
                    <tr>
                     <th class="filter-match" data-placeholder="Filter Results">Last Visit Time</th>

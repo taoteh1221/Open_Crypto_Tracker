@@ -18,6 +18,82 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function table_pager_nav($pager_id, $custom_class=false, $pager_options=false) {
+
+   global $ct;                                      
+   
+   
+       if ( !$pager_options || !is_array($pager_options) || sizeof($pager_options) < 1 ) {
+       
+       // Default pager options
+       $pager_options = array(
+                           5,
+                           10,
+                           25,
+                           50,
+                           );
+       
+       }
+
+   
+   ?>
+               <!-- table_pager -->
+               <div class="table_pager table_pager_<?=$pager_id?> <?=( $custom_class ? $custom_class : '' )?>">
+
+               	<span class="pagedisplay"></span> 
+               	
+               	<br /><br />
+					&nbsp;<span class="blue">Show Per Page:</span>
+					
+               	<span class="left choose_pp">
+               	
+               	     <?php
+               	     
+               	     $first_rendered = false;
+
+               	     foreach ( $pager_options as $per_page ) {
+               	          
+               	          if ( $first_rendered ) {
+               	          echo ' | ';
+               	          }
+               	          
+               	     ?>
+               	     
+					<a href="#" data-track='<?=$per_page?>'><?=$per_page?></a>
+					
+               	     <?php
+
+               	     $first_rendered = true;
+
+               	     }
+               	     ?>
+					
+				</span>
+				
+               	<br /><br />
+				<span class="right">
+
+					&nbsp;<span class="blue">View Page:</span> <span class="prev">
+						Prev
+					</span>&nbsp;
+
+					<span class="pagecount"></span>
+					
+					&nbsp;<span class="next">Next
+					</span>
+					
+				</span>
+
+               </div>
+   <?php
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function array_debugging($array, $multidim=false) {
 
    global $ct;                                      
@@ -547,7 +623,10 @@ var $ct_array = array();
       if ( isset($data) && $custom_nonce != false ) {
       return $this->digest( $data . $custom_nonce );
       }
-      elseif ( isset($data) && isset($_SESSION['nonce']) ) {
+      // FOR ASSURANCE OF SECURE DIGEST ENTROPY, WE ONLY ACCEPT THE SESSION NONCE IF
+      // IT'S AT LEAST 32 CHARACTERS, AS WE CREATED IT WITH $ct['gen']->rand_hash(32)
+      // (WE'RE PLAYING IT SAFE UX-WISE WITH THIS CHECK, AS 32 BYTES SHOULD BE 64 CHARACTERS)
+      elseif ( isset($data) && isset($_SESSION['nonce']) && strlen( trim($_SESSION['nonce']) ) >= 32 ) {
       return $this->digest( $data . $_SESSION['nonce'] );
       }
       else {

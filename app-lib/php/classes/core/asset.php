@@ -1092,7 +1092,7 @@ var $ct_array = array();
       }
       // If we need a BITCOIN/CURRENCY market value 
       // RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      elseif ( array_key_exists($pair, $ct['opt_conf']['bitcoin_currency_markets']) ) {
+      elseif ( array_key_exists($pair, $ct['conf']['assets']['BTC']['pair']) ) {
       
       
 	        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support

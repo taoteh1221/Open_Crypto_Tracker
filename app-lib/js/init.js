@@ -116,8 +116,53 @@ nav_menu('.user-nav');
 	
      // If all cookie data is above threshold trigger, warn end-user in UI
      if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
-     $("#header_size_warning").css({ "display": "block" });
-     $("#header_size_warning").html(cookies_size_warning + '. (warning thresholds are adjustable in the Admin Config Power User section)');
+          
+     var header_size_warning_top_margin = is_admin ? 0 : 1.4;
+     $("#header_size_warning").css("margin-top", header_size_warning_top_margin + "em");
+          
+     $("#header_size_warning").html(cookies_size_warning);
+     
+     $("#header_size_warning").css("display", "block");
+     
+     var cookies_size_warning_info = '<h5 class="red tooltip_title">Avoiding App Crashes From Excessive Cookie Size</h5>'
+            
+            			+'<p class="coin_info red" style=" white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using.</p>'
+            
+            			+'<p class="coin_info red" style=" white-space: normal;"><span class="red">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
+            
+            
+            			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>'
+            
+            			+'<p class="coin_info red" style=" white-space: normal;"><span class="red">In FUTURE versions of this app, selected price charts and news feeds will be moved to "local storage" in your web browser. Until then, please try to MINIMIZE how many price charts and news feeds you select for viewing. Selecting fewer coins in "watch only" mode will also cut down on cookie storage too.</span></p>';
+
+	
+
+           // Wait 1.5 seconds before Initiating
+           setTimeout(function(){
+                                       
+			$('#cookies_size_warning_info').balloon({
+			html: true,
+			position: "left",
+  			classname: 'balloon-tooltips',
+			contents: cookies_size_warning_info,
+			css: {
+					fontSize: "<?=$set_font_size?>em",
+					minWidth: "350px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+                                  
+           }, 1500);
+     
      }
      
 
@@ -385,8 +430,8 @@ nav_menu('.user-nav');
      // Do setting changes check for 3-deep sidebar menu area
      $('#sidebar ul li ul.dropdown-menu a:not(.settings_save)').on({
         "click":function(e){
-         
-                  
+             
+             
               // IF user CHANGED admin config settings data via interface,
               // confirm whether or not they want to skip saving their changes
               if ( is_admin && unsaved_admin_config ) {
@@ -474,8 +519,19 @@ nav_menu('.user-nav');
                        // This makes sure only the VISIBLE PAGE'S FORM IS SUBMITTED (otherwise EVERY page submits!)
                        // (the form fields DON'T NEED TO BE SHOWING 'IN THE TOP FOLD', SO THIS *IS* RELIABLE)
                        var admin_id = window.frameElement.id.replace("iframe", "admin");
-                       
-                       if ( $('#' + admin_id, window.parent.document).is(":visible") ) {
+         
+              
+                       // If we temporarily disabled the nav save buttons
+                       if ( disable_nav_save_buttons ) {
+                        
+                       e.preventDefault();
+                        
+                       alert(disable_nav_save_buttons);
+                        
+                       return false;   
+                        
+                       }
+                       else if ( $('#' + admin_id, window.parent.document).is(":visible") ) {
                        
                        console.log('admin area id IS VISIBLE = ' + admin_id);
                        

@@ -1308,10 +1308,8 @@ table-layout:fixed;
 
 #header_size_warning {
 position: absolute;
-    top: 0.4em;
-    left: 0.6em;
-    font-weight: bold;
-    max-width: 90vw;
+    right: 0.5em;
+    z-index: 99;
 }
 
 

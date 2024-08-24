@@ -203,7 +203,7 @@
 	
 	bitcoin_primary_currency_pair = '<?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>';
 	
-	cookies_size_warning = '<?=( isset($ct['system_warnings']['portfolio_cookies_size']) ? $ct['system_warnings']['portfolio_cookies_size'] : 'none' )?>';
+	cookies_size_warning = "<?=( isset($ct['system_warnings']['portfolio_cookies_size']) && isset($ct['system_info']['portfolio_cookies']) ? "HIGH cookie usage (" . $ct['var']->num_pretty( ($ct['system_info']['portfolio_cookies'] / 1000) , 2) . "kb) risks CRASHING app! <img class='tooltip_style_control' id='cookies_size_warning_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: -5px;' />" : 'none' )?>";
 	
 	feeds_num = <?=( isset($ct['sel_opt']['show_feeds'][0]) && $ct['sel_opt']['show_feeds'][0] != '' ? sizeof($ct['sel_opt']['show_feeds']) : 0 )?>;
 	
