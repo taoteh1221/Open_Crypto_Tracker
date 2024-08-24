@@ -2459,6 +2459,8 @@ function paginated_tables(element, sort_list, pager_id=false) {
 
 function ct_ajax_load(url_params, elm_id, elm_desc, post_data=false, csrf_sec_token=false, sort_tables=false, loading_height='3em') {
      
+disable_nav_save_buttons = 'AJAX data is loading, please wait until it has finished.';
+     
 scroll(0,0); // Make sure we are scrolled to top of page
 
 
@@ -2498,6 +2500,8 @@ $(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loa
                   
                   // On successful load
                   success: function(data) {
+                       
+                  disable_nav_save_buttons = false; // Allow nav save buttons to work again
                        
                   $(elm_id).html(data); // Load response into the passed element id
           

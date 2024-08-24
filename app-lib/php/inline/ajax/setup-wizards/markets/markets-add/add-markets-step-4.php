@@ -8,6 +8,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      
 ?>
 
+
 <h3 class='bitcoin input_margins'>STEP #4: Review Selected Markets</h3>
 
 
@@ -15,7 +16,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Confirm Adding Asset Markets</strong> </legend>
 
   <?php
-  if ( sizeof($_POST['assets']) > 0 ) {
+  if ( is_array($_POST['assets']) && sizeof($_POST['assets']) > 0 ) {
   ?>
 
 <p style='font-weight: bold;' class='bitcoin result_margins'>CONFIRM each asset MARKET below, before adding to the app...</p>

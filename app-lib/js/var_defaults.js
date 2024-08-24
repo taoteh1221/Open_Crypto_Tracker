@@ -168,6 +168,8 @@ var collapsed_sidebar_scroll_position;
 	
 var gen_csrf_sec_token = Base64.encode('none');
 
+var disable_nav_save_buttons = false;
+
 var form_submit_queued = false;
 
 var is_login_form = false;

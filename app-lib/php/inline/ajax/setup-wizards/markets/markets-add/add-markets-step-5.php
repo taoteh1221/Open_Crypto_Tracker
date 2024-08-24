@@ -6,6 +6,17 @@
 
 ?>
 
+
+
+<script>
+
+disable_nav_save_buttons = false; // Allow nav save buttons to work again
+
+console.log('disable_nav_save_buttons = ' + disable_nav_save_buttons);
+
+</script>
+
+
 <h3 class='bitcoin input_margins'>STEP #5: Add Asset Markets Results</h3>
 
 	

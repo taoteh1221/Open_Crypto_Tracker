@@ -7,6 +7,13 @@
 // IMPORTANT NOTICE: DEVELOPER-ONLY APP CONFIGS ARE BELOW INITIAL LOGIC *FURTHER DOWN IN THIS FILE*
 
 
+// Forbid direct INTERNET access to this file
+if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
+header('HTTP/1.0 403 Forbidden', TRUE, 403);
+exit;
+}
+
+
 // REQUIRED #BEFORE# ANYTHING!
 $ct = array(); // Main app 
 
@@ -23,11 +30,9 @@ $dev_only_configs_mode = 'init'; // Flag to only run 'init' section
 require('developer-config.php');
 
 
-// Forbid direct INTERNET access to this file
-if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
-header('HTTP/1.0 403 Forbidden', TRUE, 403);
-exit;
-}
+// Assure our array of attack signatures (for scanning user input for malware injection attacks)
+// is ALL LOWERCASE, since we temporarily convert user input to lowercase in the scanning algorithm
+$ct['dev']['script_injection_checks'] = array_map('strtolower', $ct['dev']['script_injection_checks']);
 
 
 error_reporting($ct['dev']['debug_php_errors']); // PHP error reporting

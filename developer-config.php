@@ -58,28 +58,29 @@ $ct['dev']['password_eye_size_css_selector'] = "i.gg-eye, i.gg-eye-alt";
 // standard font size CSS configs
 $ct['dev']['font_size_css_selector'] = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_content, .footer_banner, .countdown_notice, .sidebar-slogan, .pw_prompt";
 
-// These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but work fine in all modern browsers)
-// (dynamically appended conditionally in primary-init.php)
-$ct['dev']['small_font_size_css_selector_adjusted'] = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
-$ct['dev']['tiny_font_size_css_selector_adjusted'] = ", .crypto_worth";
-
 // medium font size CSS configs
 $ct['dev']['medium_font_size_css_selector'] = ".unused_for_appending";
 
 // small font size CSS configs
 $ct['dev']['small_font_size_css_selector'] = ".unused_for_appending, .gain, .loss, .crypto_worth, .extra_data";
 
-// small font size CSS configs
+// tiny font size CSS configs
 $ct['dev']['tiny_font_size_css_selector'] = ".accordion-button";
 
+// These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but work fine in all modern browsers)
+// (dynamically appended conditionally in primary-init.php)
+$ct['dev']['small_font_size_css_selector_adjusted'] = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
+////
+$ct['dev']['tiny_font_size_css_selector_adjusted'] = ", .crypto_worth";
 
-// PERCENT of STANDARD font size (as a decimal)
+
+// PERCENT of MEDIUM font size (as a decimal)
 $ct['dev']['medium_font_size_css_percent'] = 0.90; // 90% of $set_font_size
 ////
-// PERCENT of STANDARD font size (as a decimal)
+// PERCENT of SMALL font size (as a decimal)
 $ct['dev']['small_font_size_css_percent'] = 0.75; // 75% of $set_font_size
 ////
-// PERCENT of STANDARD font size (as a decimal)
+// PERCENT of TINY font size (as a decimal)
 $ct['dev']['tiny_font_size_css_percent'] = 0.60; // 60% of $set_font_size
 
 
@@ -92,7 +93,8 @@ $ct['dev']['charset_default'] = 'UTF-8';
 $ct['dev']['charset_unicode'] = 'UTF-16'; 
 
 
-// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
+// Cache directories / files and .htaccess / index.php files permissions
+// (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
 // THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION *WITHIN THE APP WHEN USED*
 ////
 // Cache directories permissions
@@ -146,15 +148,15 @@ $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (def
      
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
 // (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
-// ADDITIONAL (CORRISPONDING) LOGIC MUST BE ADDED IN /inline/config/throttled-markets-config.php
+// ADDITIONAL (CORRESPONDING) LOGIC MUST BE ADDED IN /inline/config/throttled-markets-config.php
 $ct['dev']['tracked_throttle_limited_servers'] = array(
                                                        // 'tld_domain_name' => 'corrisponding_exchange_identifier_OR_BOOLEAN_TRUE',
                                                      	'alphavantage.co' => 'alphavantage_stock',
                                                       );
      
      
-// Servers which are known to block API access by location / jurasdiction
-// (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
+// Servers which are known to block API access by location / jurisdiction
+// (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
 $ct['dev']['location_blocked_servers'] = array(
                                                // 'tld_domain_name',
                                                'binance.com',
@@ -227,8 +229,6 @@ $ct['dev']['markets_uppercase_search'] = array(
                                                  'okex',
                                                  'unocoin',
                                                  'upbit',
-                                                 'KEY_HERE',
-                                                 'KEY_HERE',
                                                 );
 
             
@@ -241,7 +241,6 @@ $ct['dev']['markets_lowercase_search'] = array(
                                                  'bitso',
                                                  'korbit',
                                                  'coinspot',
-                                                 'KEY_HERE',
                                                 );
                                       
 
@@ -305,8 +304,7 @@ $ct['dev']['plugin_allow_resets'] = array(
                                          );
      
      
-// Exchange APIs that have NO TRADE VOLUME DATA
-// (for UX on trade volume data in interface)
+// Exchange APIs that have NO TRADE VOLUME DATA (for UX on trade volume data in interface)
 $ct['dev']['no_trade_volume_api_data'] = array(
                                                 // 'exchange-config-key-name-here',
                                                 'misc_assets',
@@ -324,10 +322,10 @@ $ct['dev']['no_trade_volume_api_data'] = array(
 // PRIMARY Domain only (NO SUBDOMAINS), for each API service that requires multiple calls (for each data set)
 // Used to throttle these market calls a tiny bit (0.55 seconds), so we don't get easily blocked / throttled by external APIs etc
 // (ANY EXCHANGES LISTED HERE ARE FLAGGED IN THE INTERFACE AS !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
-// AS ON OCCASSION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
+// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
 // !MUST BE LOWERCASE!
 // #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
-// WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY FEATURE
+// WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY ENHANCEMENT
 $ct['dev']['limited_apis'] = array(
                           		'aevo.xyz',
                           		'alphavantage.co',
@@ -356,7 +354,7 @@ $ct['dev']['limited_apis'] = array(
         
 // Attack signatures, used when scanning for script / HTML injection attacks
 // (via sanitize_string() [which is called in sanitize_requests()] in early-security-logic.php, when scanning all POST / GET data submissions)
-// MUST BE LOWERCASE!!! (AS WE TEMPORARILY CONVERT THE DATA SUBMISSION TO LOWERCASE WHEN SCANNING!!!)
+// (NOT CASE SENSITIVE, JUST GET THE SIGNATURES RIGHT)
 $ct['dev']['script_injection_checks'] = array(
                                                "base64", // base64 PHP ENCODE / DECODE
                                                "btoa(", // base64 javascript ENCODE
@@ -422,7 +420,6 @@ elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 
 // MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
-
 
 // Obfuscate these matches in ALL error / debugging logs
 // (ONLY ADD SENSITIVE VALUES HERE THAT COULD SHOW IN URL GET REQUEST DATA / ERROR NOTICES / ETC)

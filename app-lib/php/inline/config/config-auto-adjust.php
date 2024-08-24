@@ -53,6 +53,8 @@ $ct['conf']['currency']['upbit_pairings_search'] = $ct['gen']->auto_correct_mark
 
 $ct['conf']['currency']['jupiter_ag_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['jupiter_ag_pairings_search'], 'jupiter_ag');
 
+$ct['conf']['currency']['additional_pairings_search'] = $ct['var']->auto_correct_str($ct['conf']['currency']['additional_pairings_search'], 'lower');
+
 
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();

@@ -12,6 +12,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
 ?>
 
+
           <h3 class='bitcoin input_margins'>STEP #2: Search Available Asset Markets</h3>
           
 	     <?php
@@ -98,7 +99,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<p class='input_margins red_dotted'>
      	
-		<b class='red'>NOTE ABOUT ***STOCK MARKET*** ASSETS: ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).</b>
+		<b class='red'>NOTES ABOUT ***STOCK MARKET*** ASSETS:<br /><br />
+		
+		ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).<br /><br />
+		
+		ADDITIONALLY, TICKER / PAIRING DATA / COMPANY NAME INFORMATION IS ***MORE RELIABLE*** WHEN YOU USE THE "All Exchanges" SEARCH MODE FOR STOCKS.</b>
 		
 		</p>
 		

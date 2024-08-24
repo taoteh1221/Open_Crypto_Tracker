@@ -6,21 +6,22 @@
 
 // Add markets ajax call
 
+
 // 'Wizard' steps
 if ( $_GET['step'] == 1 ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/market-steps-init.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/market-steps-init.php');
 }
 elseif ( $_GET['step'] == 2 ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-2.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-add/add-markets-step-2.php');
 }
 elseif ( $_GET['step'] == 3 ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-3.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-add/add-markets-step-3.php');
 }
 elseif ( $_GET['step'] == 4 ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-4.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-add/add-markets-step-4.php');
 }
 elseif ( $_GET['step'] == 5 ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-5.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-add/add-markets-step-5.php');
 }
 
 

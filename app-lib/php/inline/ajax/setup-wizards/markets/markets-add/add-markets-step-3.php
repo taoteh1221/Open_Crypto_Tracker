@@ -36,7 +36,7 @@ $skipped_results = array();
 
 $not_required = array(
                       'mcap_slug',
-                      'already_added',
+                      'flagged_market',
                      );
 
 
@@ -52,7 +52,7 @@ $not_required = array(
                
                     if ( !in_array($meta_key, $not_required) && !is_array($meta_val) && trim($meta_val) == '' ) {
                          
-                    $missing_required = $meta_key;
+                    $missing_required .= ( $missing_required ? ',' : '' ) . $meta_key;
 
                     $ct['gen']->log( 'market_error', 'No data found for required value "' . $missing_required . '", during asset market search: "' . $_POST['add_markets_search'] . '" (for exchange API '.$exchange_key.')');
 
@@ -61,27 +61,43 @@ $not_required = array(
                }
 
                
+               // We allow REPLACEMENT market ids (that are DIFFERENT from the CURRENT one)
                if (
-               !$missing_required && !$market_data['already_added']
-               || !$missing_required && is_bool($market_data['already_added']) !== true
+               !$missing_required && !$market_data['flagged_market']
+               || !$missing_required && is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_')
                ) {
                     
                $included_results[ $market_data['asset'] ][ $market_data['pairing'] ][] = array(
+                                                                                                          'flagged_market' => ( $market_data['flagged_market'] ? $market_data['flagged_market'] : false ),
                                                                                                           'exchange' => $exchange_key,
                                                                                                           'name' => $market_data['name'],
-                                                                                                          'already_added' => $market_data['already_added'],
+                                                                                                          'asset' => $market_data['asset'],
+                                                                                                          'pairing' => $market_data['pairing'],
                                                                                                           'mcap_slug' => $market_data['mcap_slug'],
                                                                                                           'id' => $market_data['id'],
                                                                                                           'data' => $market_data['data'],
                                                                                                          );
                                                                                                          
                }
-               elseif ( $missing_required || $market_data['already_added'] ) {
+               elseif ( $missing_required ) {
                     
                $skipped_results[] = array(
-                                                                                                          'missing_required' => $missing_required,
+                                                                                                          'flagged_market' => 'missing_required_' . $missing_required,
                                                                                                           'exchange' => $ct['gen']->key_to_name($exchange_key),
                                                                                                           'name' => $market_data['name'],
+                                                                                                          'asset' => $market_data['asset'],
+                                                                                                          'pairing' => $market_data['pairing'],
+                                                                                                          'id' => $market_data['id'],
+                                                                                                         );
+                                                                 
+               }
+               elseif ( $market_data['flagged_market'] ) {
+                    
+               $skipped_results[] = array(
+                                                                                                          'flagged_market' => $market_data['flagged_market'],
+                                                                                                          'exchange' => $ct['gen']->key_to_name($exchange_key),
+                                                                                                          'name' => $market_data['name'],
+                                                                                                          'asset' => $market_data['asset'],
                                                                                                           'pairing' => $market_data['pairing'],
                                                                                                           'id' => $market_data['id'],
                                                                                                          );
@@ -138,6 +154,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 ?>
 
+
 <h3 class='bitcoin input_margins'>STEP #3: Select Asset Markets You Prefer</h3>
 
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
@@ -150,9 +167,14 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
 
 </p>
      	
+     	
      	<p class='input_margins red_dotted'>
      	
-		<b class='red'>NOTE ABOUT ***STOCK MARKET*** ASSETS: ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).</b>
+		<b class='red'>NOTES ABOUT ***STOCK MARKET*** ASSETS:<br /><br />
+		
+		ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).<br /><br />
+		
+		ADDITIONALLY, TICKER / PAIRING DATA / COMPANY NAME INFORMATION IS ***MORE RELIABLE*** WHEN YOU USE THE "All Exchanges" SEARCH MODE FOR STOCKS.</b>
 		
 		</p>
 
@@ -174,15 +196,35 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
                <p>
                
                <?php
-               if ( $skipped_market['missing_required'] ) {
+               // Missing required value
+               if ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'missing_required_') ) {
                ?>
-               <i><u><b>(Missing Required: <?=$skipped_market['missing_required']?>)</b></u></i><br />
+               <i><u><b>Missing Required: <?=preg_replace("/missing_required_/i", "", $skipped_market['flagged_market'])?> (ADD additional PAIRINGS to search for in "Asset Tracking => Currency Support => Additional Pairings Search" [that exist in the market id: <?=$skipped_market['id']?>])</b></u></i><br />
+               <?php
+               }
+               // Already added
+               elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'already_added_') ) {
+               ?>
+               <i><u><b>Already Added: <?=preg_replace("/already_added_/i", "", $skipped_market['flagged_market'])?></b></u></i><br />
+               <?php
+               }
+               // Pairing not supported
+               elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'pairing_not_supported_') ) {
+               ?>
+               <i><u><b>Pairing Not Supported: <?=preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market'])?> (ADD A BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET TO ENABLE SUPPORT FOR THIS PAIRING)</b></u></i><br />
+               <?php
+               }
+               // Other flag
+               elseif ( $skipped_market['flagged_market'] ) {
+               ?>
+               <i><u><b>Flagged Market: <?=$skipped_market['flagged_market']?></b></u></i><br />
                <?php
                }
                ?>
                Exchange: <?=$skipped_market['exchange']?><br />
-               Pairing: <?=$skipped_market['pairing']?><br />
                Name: <?=$skipped_market['name']?><br />
+               Asset: <?=$skipped_market['asset']?><br />
+               Pairing: <?=$skipped_market['pairing']?><br />
                ID: <?=$skipped_market['id']?>
                
                </p>
@@ -252,17 +294,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                     
                     <input type='checkbox' dataset-id='<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][pair][<?=strtolower($pair_key)?>][<?=strtolower($market_data['exchange'])?>]' value='<?=$market_data['id']?>' <?=( isset($_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])]) && $_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])] == $market_data['id'] ? 'checked' : '' )?> /> 
                     
-                    <a class='<?=( is_bool($market_data['already_added']) !== true ? 'red' : 'bitcoin' )?> clear_both' href='javascript: show_more("results_<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
+                    <a class='<?=( is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_') ? 'red' : 'bitcoin' )?> clear_both' href='javascript: show_more("results_<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
                     
                     <div id='results_<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>' style='display: none;' class='align_left clear_both'>
                     
                     <p>
                     
                     <span class='light_sea_green'>Name:</span> <?=$market_data['name']?><br />
+                    <span class='light_sea_green'>Asset:</span> <?=$market_data['asset']?><br />
+                    <span class='light_sea_green'>Pairing:</span> <?=$market_data['pairing']?><br />
                     <?php
-                    if ( is_bool($market_data['already_added']) !== true ) {
+                    if ( is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_') ) {
                     ?>
-                    <span class='red'>Exchange Already Added:</span> Yes (if selected, <i class='red'>would replace market ID: <?=$market_data['already_added']?></i>)<br />
+                    <span class='red'>Exchange Already Added:</span> Yes (if selected, <i class='red'>would replace market ID: <?=preg_replace("/replacement_for_/i", "", $market_data['flagged_market'])?></i>)<br />
                     <?php
                     }
                     if ( isset($market_data['mcap_slug']) ) {
@@ -359,7 +403,7 @@ same_name_checkboxes_to_radio();
 else {
 $no_results = true;
 $_GET['step'] = 2;
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/wizard-steps/markets/markets-add/add-markets-step-2.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-add/add-markets-step-2.php');
 }
 
 
