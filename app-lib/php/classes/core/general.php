@@ -1359,7 +1359,7 @@ var $ct_array = array();
       
       // Retrieve last 2 sections (the TLD), OR the local name
       if ( sizeof($array) >= 2 ) {
-      return $array[( sizeof($array) - 2 )] . '.' . $array[( sizeof($array) - 1 )];
+      return $array[ ( sizeof($array) - 2 ) ] . '.' . $array[ ( sizeof($array) - 1 ) ];
       }
       elseif ( sizeof($array) == 1 ) {
       return $array[0];

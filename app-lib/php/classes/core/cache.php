@@ -3313,13 +3313,13 @@ var $ct_array = array();
         || preg_match("/warning-icon/i", $data)  // Medium.com RSS feeds
         || preg_match("/\"error_code\":0/i", $data) // Generic
         ) {
-        $false_positive = 1;
+        $false_positive = true;
         }
        
        
         // DON'T FLAG as a possible error if detected as a false positive already
         // (THIS LOGIC IS FOR STORING THE POSSIBLE ERROR IN /cache/logs/error/external_data FOR REVIEW)
-        if ( $false_positive != 1 ) {
+        if ( !$false_positive ) {
          
             // MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
             // If response seems to contain an error message ('error' only found once, no words containing 'error')
@@ -3381,9 +3381,11 @@ var $ct_array = array();
             || preg_match("/missing a valid API key/i", $data) // Google / generic
             || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
             || preg_match("/block access from your country/i", $data)  // ByBit (via Amazon CloudFront)
-            // API-specific
+            // API-specific (confirmed no price data in response)
             || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
+            || $endpoint_tld_or_ip == 'jup.ag' && preg_match("/\"data\":\{\}/i", $data) 
+            || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/05\. price/i", $data) 
             ) {
               
             
