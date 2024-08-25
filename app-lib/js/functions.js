@@ -5,6 +5,23 @@
 /////////////////////////////////////////////////////////////
 
 
+// Javascript OBJECTS are different from javascript ARRAYS (lol),
+// so we need a custom function to get the length
+function getObjectLength (o) {
+  var length = 0;
+
+  for (var i in o) {
+    if (Object.prototype.hasOwnProperty.call(o, i)){
+      length++;
+    }
+  }
+  return length;
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function same_name_checkboxes_to_radio() {
 
 
@@ -110,6 +127,8 @@ return merge_objects(results, name_override);
 
 function jstree_json_ajax(url_params, tree_id, csrf_sec_token=false) {
      
+jstree_json_data = {}; // RESET GLOBAL VAR
+     
 $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
 
      
@@ -130,7 +149,7 @@ $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
           $('#' + tree_id).on('redraw.jstree', function () {
           
           // Delete button
-          $('#' + tree_id + '_delete_selected').show(250, 'linear'); // 0.25 seconds
+          $('.jstree_delete_selected').show(250, 'linear'); // 0.25 seconds
           
                    admin_iframe_dom.forEach(function(iframe) {
                    iframe_size_adjust(iframe);
@@ -194,8 +213,24 @@ function jstree_delete(elm_id) {
           else {
           alert('Please leave at least one market, WHEN USING MARKET DELETION MODE. If you which to delete the ENTIRE ASSET, you can go BACK to STEP 2, and choose: Remove ENTIRE ASSET');
           }
-
+          
      
+     // UPDATE GLOBAL VAR 
+     // https://www.jstree.com/api/#/?f=get_json([obj,%20options])
+     jstree_json_data = ref.get_json(
+          
+                                         '#',
+                                         
+                                            {  
+                                             no_data : true,
+                                             no_state : true,
+                                             no_id : true,
+                                             no_li_attr : true,
+                                             no_a_attr : true
+                                            }
+                                         
+                                   );
+                                         
      }
      
 

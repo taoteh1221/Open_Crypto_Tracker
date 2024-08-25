@@ -168,17 +168,3 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 </fieldset>
      
      
-<?php
-
-
-// DEBUGGING...
-if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
-   
-$ct['gen']->array_debugging($_POST, true);
-
-}
-
-
-// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
-
-?>
