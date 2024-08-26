@@ -62,7 +62,7 @@
 <button class='red input_margins' type="button" onclick="jstree_delete('asset_markets');">Delete Selected Markets</button> &nbsp; &nbsp; &nbsp; 
 
      	
-<button class='green force_button_style input_margins' onclick='
+<button class='bitcoin force_button_style input_margins' onclick='
 
 
           if ( getObjectLength(jstree_json_data) < 1 ) {
@@ -77,11 +77,11 @@
      	
      	var merged_data = merge_objects(post_data, jstree_json_data);
      	
-     	ct_ajax_load("type=remove_markets&step=4", "#update_markets_ajax", "remove markets results", merged_data, true); // Secured
+     	ct_ajax_load("type=remove_markets&step=4", "#update_markets_ajax", "review / confirm markets removal", merged_data, true); // Secured
           
           }
      	
-     	'> Save Changes </button>
+     	'> Review / Confirm Changes </button>
      	
      	
 </p>

@@ -177,7 +177,7 @@ $all_exchanges_count = $all_exchanges_count + 1;
      	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = exchange_count + " exchanges (of <?=$all_exchanges_count?>), please wait";
+     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges, please wait";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();
