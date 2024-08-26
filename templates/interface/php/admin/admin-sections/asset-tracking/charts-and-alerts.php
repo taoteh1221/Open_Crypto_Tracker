@@ -332,13 +332,13 @@ $ct['admin_render_settings']['light_chart_link_font_offset']['is_notes'] = 'GUES
      
 $ct['admin_render_settings']['light_chart_first_build_hard_limit']['is_range'] = true;
 
-$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_min'] = 10;
+$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_min'] = 5;
 
-$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_max'] = 100;
+$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_max'] = 30;
 
-$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_step'] = 10;
+$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_step'] = 5;
 
-$ct['admin_render_settings']['light_chart_first_build_hard_limit']['is_notes'] = 'Maximum number of light chart NEW BUILDS allowed during background tasks (PER CPU CORE)<br />(LOW POWER DEVICES should NEVER exceed 20 new builds per CPU core)';
+$ct['admin_render_settings']['light_chart_first_build_hard_limit']['is_notes'] = 'Maximum number of light chart NEW BUILDS allowed during background tasks (PER CPU CORE)<br />(LOW POWER DEVICES should NEVER exceed 15 new builds per CPU core)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

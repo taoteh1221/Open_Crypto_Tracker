@@ -6,7 +6,7 @@
 
 ?>
 	
-     	<select class='input_margins' id='remove_markets_search_asset' name='remove_markets_search_asset' onchange='
+     	<select class='input_margins' id='remove_markets_asset' name='remove_markets_asset' onchange='
      	
      	if ( this.value != "" ) {
 
@@ -73,6 +73,7 @@
      	
      	var post_data = {
      	                  "remove_markets_mode": "<?=$_POST['remove_markets_mode']?>",
+     	                  "remove_markets_asset": $("#remove_markets_asset").val(),
      	                   };
      	
      	var merged_data = merge_objects(post_data, jstree_json_data);

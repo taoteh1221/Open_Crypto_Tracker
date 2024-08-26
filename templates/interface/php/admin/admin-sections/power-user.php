@@ -58,7 +58,7 @@ $ct['admin_render_settings']['debug_mode']['is_select'] = array(
                                                                'smtp_telemetry',
                                                                'api_comms_telemetry',
                                                                'cron_telemetry',
-                                                               'wizard_steps_io',
+                                                               'setup_wizards_io',
                                                                'markets',
                                                                'texts',
                                                                'alerts_charts',
@@ -86,7 +86,7 @@ $ct['admin_render_settings']['debug_mode']['is_notes'] = 'Enable / disable the d
 ////
 // ### VIEW INPUT / OUTPUT (ON INTERFACE PAGES) ###
 ////
-// 'wizard_steps_io' (AJAX-based 'wizard' steps),
+// 'setup_wizards_io' (AJAX-based 'wizard' steps),
 ////
 // ### CHECKS ###
 ////

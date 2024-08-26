@@ -13,11 +13,11 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 <?php
 
 
-if ( $_POST['remove_markets_mode'] == 'asset' ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-remove/remove-selected-assets.php');
+if ( $_POST['remove_markets_mode'] == 'assets' ) {
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-remove/remove-markets-step-3/remove-selected-assets.php');
 }
 elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
-require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-remove/remove-selected-markets.php');
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-remove/remove-markets-step-3/remove-selected-markets.php');
 }
 
 

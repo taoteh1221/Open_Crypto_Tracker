@@ -385,7 +385,7 @@ same_name_checkboxes_to_radio();
 
 
      // DEBUGGING...
-     if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
+     if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {
    
      //$ct['gen']->array_debugging($ct['registered_pairs']);
      

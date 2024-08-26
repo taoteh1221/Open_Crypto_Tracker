@@ -13,7 +13,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 	     
 <input type='radio' name='remove_markets_mode' value='markets' <?=( !isset($_POST['remove_markets_mode']) || $_POST['remove_markets_mode'] == 'markets' ? 'checked' : '' )?> /> Remove INDIVIDUAL MARKETS<br /><br />
 	     
-<input type='radio' name='remove_markets_mode' value='asset' <?=( $_POST['remove_markets_mode'] == 'asset' ? 'checked' : '' )?> /> Remove ENTIRE ASSET<br /><br />
+<input type='radio' name='remove_markets_mode' value='assets' <?=( $_POST['remove_markets_mode'] == 'assets' ? 'checked' : '' )?> /> Remove ENTIRE ASSET<br /><br />
      	
      	<button class='force_button_style input_margins' onclick='
      	
