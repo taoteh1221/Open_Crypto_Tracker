@@ -195,14 +195,14 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
 
 
-TORTURE TEST all the different combinations of add market search on the 'portfolio assets' page, in the admin interface.
-
-
 BUILDOUT THE BACK END FOR ASSET MARKET DELETION.
 
 
 Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry:
 https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specific-jstree-node
+
+
+TORTURE TEST all the different combinations of add / delete markets on the 'portfolio assets' page, in the admin interface.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
