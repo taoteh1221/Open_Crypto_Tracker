@@ -8,7 +8,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 ?>
 	
-<h3 class='bitcoin input_margins'>STEP #2: Remove ASSET / MARKET</h3>
+<h3 class='red input_margins'>STEP #2: Remove ASSET / MARKET</h3>
     		
 	     
 <input type='radio' name='remove_markets_mode' value='markets' <?=( !isset($_POST['remove_markets_mode']) || $_POST['remove_markets_mode'] == 'markets' ? 'checked' : '' )?> /> Remove INDIVIDUAL MARKETS<br /><br />

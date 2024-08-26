@@ -6,7 +6,7 @@
 
 ?>
 	
-     	<select class='input_margins' id='remove_markets_search_asset' onchange='
+     	<select class='input_margins' id='remove_markets_search_asset' name='remove_markets_search_asset' onchange='
      	
      	if ( this.value != "" ) {
 
@@ -23,7 +23,7 @@
      	
      	}
      	else {
-     	$("#asset_markets_delete_selected").hide(250, "linear"); // 0.25 seconds
+     	$(".jstree_delete_selected").hide(250, "linear"); // 0.25 seconds
      	$("#asset_markets_alerts").hide(250, "linear"); // 0.25 seconds
      	$("#asset_markets").hide(250, "linear"); // 0.25 seconds
      	}
@@ -56,7 +56,35 @@
      	</select><br />	
     	
 
-<p id="asset_markets_delete_selected"><button class='input_margins' type="button" onclick="jstree_delete('asset_markets');">Delete Selected Markets</button></p>
+<p class='jstree_delete_selected'>
+
+
+<button class='red input_margins' type="button" onclick="jstree_delete('asset_markets');">Delete Selected Markets</button> &nbsp; &nbsp; &nbsp; 
+
+     	
+<button class='green force_button_style input_margins' onclick='
+
+
+          if ( getObjectLength(jstree_json_data) < 1 ) {
+          alert("Nothing deleted yet, no changes to save.");
+          return false;
+          }
+          else {
+     	
+     	var post_data = {
+     	                  "remove_markets_mode": "<?=$_POST['remove_markets_mode']?>",
+     	                   };
+     	
+     	var merged_data = merge_objects(post_data, jstree_json_data);
+     	
+     	ct_ajax_load("type=remove_markets&step=4", "#update_markets_ajax", "remove markets results", merged_data, true); // Secured
+          
+          }
+     	
+     	'> Save Changes </button>
+     	
+     	
+</p>
 
 
 <div id="asset_markets_alerts" class='red red_dotted input_margins' style='display: none; font-weight: bold;'></div>

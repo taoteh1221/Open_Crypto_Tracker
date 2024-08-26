@@ -403,8 +403,8 @@ $ct['conf_parse_error'] = array(); // Blank it out for any other config checks
 }
           	
 
-// Check $ct['conf']['currency']['bitcoin_currency_markets'] config
-if ( !is_array($ct['conf']['currency']['bitcoin_currency_markets']) ) {
+// Check $ct['conf']['currency']['conversion_currency_symbols'] config
+if ( !is_array($ct['conf']['currency']['conversion_currency_symbols']) ) {
 $ct['gen']->log('conf_error', 'The the currency (conversion) markets are corrupt, or not configured yet');
 }
           	

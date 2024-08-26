@@ -46,6 +46,10 @@ var secondary_mrkt_currencies = new Array();
 
 var original_page_title = new Array();
 
+// Objects
+
+var jstree_json_data = {};
+
 // Strings
 
 var ct_id; // Install ID (derived from this app's server path)

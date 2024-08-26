@@ -17,7 +17,7 @@ console.log('disable_nav_save_buttons = ' + disable_nav_save_buttons);
 </script>
 
 
-<h3 class='bitcoin input_margins'>STEP #5: Add Asset Markets Results</h3>
+<h3 class='green input_margins'>STEP #5: Add Asset Markets Results</h3>
 
 	
 	<div style='min-height: 1em;'></div>
@@ -53,15 +53,6 @@ console.log('disable_nav_save_buttons = ' + disable_nav_save_buttons);
 <?php
 
 require("templates/interface/php/admin/admin-sections/asset-tracking/portfolio-assets.php");
-
-
-// DEBUGGING...
-if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
-   
-$ct['gen']->array_debugging($_POST, true);
-
-}
-
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 

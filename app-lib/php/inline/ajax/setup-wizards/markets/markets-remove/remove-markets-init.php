@@ -17,6 +17,9 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/market
 elseif ( $_GET['step'] == 3 ) {
 require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-remove/remove-markets-step-3.php');
 }
+elseif ( $_GET['step'] == 4 ) {
+require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-remove/remove-markets-step-4.php');
+}
 
 
 // Access stats logging

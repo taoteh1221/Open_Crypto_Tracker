@@ -116,31 +116,31 @@ else {
 }
         
 
-foreach ( $_POST['currency']['bitcoin_currency_markets'] as $key => $val ) {
+foreach ( $_POST['currency']['conversion_currency_symbols'] as $key => $val ) {
 
 // Auto-correct
 $val = $ct['var']->auto_correct_str($val, 'lower'); 
 
-$_POST['currency']['bitcoin_currency_markets'][$key] = $val;
+$_POST['currency']['conversion_currency_symbols'][$key] = $val;
 
 // Check array
 $val_config = array_map( "trim", explode("=", $val) );
              
              
-     if ( sizeof($_POST['currency']['bitcoin_currency_markets']) == 1 && trim($val) == '' ) {
+     if ( sizeof($_POST['currency']['conversion_currency_symbols']) == 1 && trim($val) == '' ) {
      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      }
      elseif ( sizeof($val_config) < 2 ) {
-     $ct['update_config_error'] .= '<br />"bitcoin_currency_markets" formatting is NOT valid (MUST be: TICKER = SYMBOL): "' . $val;
+     $ct['update_config_error'] .= '<br />"conversion_currency_symbols" formatting is NOT valid (MUST be: TICKER = SYMBOL): "' . $val;
      }
      else {
      
           if ( !ctype_alnum($val_config[0]) ) {
-          $ct['update_config_error'] .= '<br />"bitcoin_currency_markets" Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />"conversion_currency_symbols" Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
           }
      
           if ( !isset($val_config[1]) || $val_config[1] == '' ) {
-          $ct['update_config_error'] .= '<br />"bitcoin_currency_markets" No ticker SYMBOL detected: "'.$val_config[1].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />"conversion_currency_symbols" No ticker SYMBOL detected: "'.$val_config[1].'" ('.$val.')';
           }
 
      }

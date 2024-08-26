@@ -48,7 +48,7 @@ $hive_val_raw = $ct['var']->num_to_str($hive_val_raw); // Cleanup any trailing z
 ?>
 
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct['var']->num_to_str($hive_mrkt)?> BTC (<?=$ct['opt_conf']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?php echo $hive_val_raw; ?>)</p>
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct['var']->num_to_str($hive_mrkt)?> BTC (<?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?php echo $hive_val_raw; ?>)</p>
 
 
 <?php

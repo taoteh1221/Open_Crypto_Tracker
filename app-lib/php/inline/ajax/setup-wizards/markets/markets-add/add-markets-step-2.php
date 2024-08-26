@@ -13,7 +13,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 ?>
 
 
-          <h3 class='bitcoin input_margins'>STEP #2: Search Available Asset Markets</h3>
+          <h3 class='green input_margins'>STEP #2: Search Available Asset Markets</h3>
           
 	     <?php
 	     if ( $no_results ) {
@@ -49,7 +49,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	<li class='blue'>
           	
           	<b>Search CoinGecko.com for an "APP ID", or "APP ID" / PAIRING <span class='red'>("APP ID" is found on the asset's CoinGecko page)</span>.</b><br />
-          	<span class='blue'>(adding AT LEAST ONE CoinGecko market automatically adds a link to the asset's CoinGecko page)</span><br />
+          	<span class='red'>(adding a CoinGecko market automatically adds asset name [for NEW assets], and link to it's CoinGecko page)</span><br />
           	<span class='bitcoin'>(example[s]: bitcoin, ethereum, solana, bitcoin/usd, ethereum/eur, solana/hkd)</span>
           	
           	</li>

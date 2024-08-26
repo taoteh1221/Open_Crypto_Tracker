@@ -45,10 +45,11 @@ $plug['conf'][$this_plug]['privacy_mode'] = 'on'; // 'on' / 'off' (Default: 'on'
 
 
 // Balance tracking array (add unlimited addresses as new subarray objects)
-// (ONLY BTC / ETH / HNT / SOL / SPL (SOL subtokens) SUPPORTED AS OF 2021/DEC/2)
-// ASSET #MUST EXIST# IN EITHER THE $ct['conf']['currency']['crypto_pair_preferred_markets'] CONFIG,
-// OR THE $ct['conf']['currency']['bitcoin_currency_markets'] CONFIG (BOTH LOCATED IN THE CURRENCY SUPPORT SECTION)
-// SEE THOSE SECTIONS FOR MORE INFO ON ADDING NEW ASSETS TO THEM
+// (ONLY BTC / ETH / SOL / SPL (SOL subtokens) SUPPORTED AS OF 2021/DEC/2ND)
+// Solana SPL tokens MUST:
+// 1) Have a Jupiter Aggregator SOL market in the portfolio assets configuration, for "Privacy Mode" to work properly
+// 2) Use your wallet's TOKEN address (NOT your primary wallet address, as Solana SPL tokens
+// DERIVE *secondary addresses* for each token in your wallet)
 $plug['conf'][$this_plug]['tracking'] = array(
 																	
 																	
