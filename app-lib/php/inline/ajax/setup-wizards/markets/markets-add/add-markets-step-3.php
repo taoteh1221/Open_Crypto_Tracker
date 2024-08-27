@@ -32,6 +32,8 @@ $search_results = $ct['cache']->other_cached_data('load', $recent_search_id, $ct
 
 $included_results = array();
 
+$duplicate_check = array();
+
 $skipped_results = array();
 
 $not_required = array(
@@ -66,6 +68,16 @@ $not_required = array(
                !$missing_required && !$market_data['flagged_market']
                || !$missing_required && is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_')
                ) {
+                    
+                    
+                    if ( isset($duplicate_check[ $market_data['asset'] ][ $market_data['pairing'] ][ $market_data['id'] ]) ) {
+                    continue; // Skip duplicate
+                    }
+                    // Make sure we don't include duplicates
+                    else {
+                    $duplicate_check[ $market_data['asset'] ][ $market_data['pairing'] ][ $market_data['id'] ] = true;
+                    }
+               
                     
                $included_results[ $market_data['asset'] ][ $market_data['pairing'] ][] = array(
                                                                                                           'flagged_market' => ( $market_data['flagged_market'] ? $market_data['flagged_market'] : false ),
@@ -155,7 +167,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 ?>
 
 
-<h3 class='green input_margins'>STEP #3: Select Asset Markets You Prefer</h3>
+<h3 class='green input_margins'>STEP #3: Select Asset Markets Found For Search "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</h3>
 
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
 
@@ -179,12 +191,12 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
 		</p>
 
 
-<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Asset Markets Found For Search: "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</strong> </legend>
-
   <?php
   if ( sizeof($skipped_results) > 0 ) {
   ?>
 
+     
+     <br />
      <a style='font-weight: bold;' class='red clear_both result_margins' href='javascript: show_more("results_skipped");' title='Click to show / hide additional details.'>Skipped Results (already exist in app, OR missing required data)</a>
      
      <div id='results_skipped' style='display: none;' class='red align_left clear_both result_margins'>
@@ -233,7 +245,7 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
      }
      ?>
      
-     </div><br clear='all' />
+     </div><br clear='all' /><br clear='all' />
      
   <?php
   }
@@ -241,9 +253,6 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
   if ( sizeof($included_results) > 0 ) {
   ?>
 
-<p style='font-weight: bold;' class='bitcoin result_margins'>Click on each asset / pairing below, to SELECT available exchange markets...</p>
-
-     	
      	<button class='force_button_style result_margins bitcoin' onclick='
      	
      	var post_data = {
@@ -254,12 +263,15 @@ THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN T
      	
      	var merged_data = merge_objects(post_data, add_markets_review);
      	
-     	ct_ajax_load("type=add_markets&step=4", "#update_markets_ajax", "market search results", merged_data, true); // Secured
+     	ct_ajax_load("type=add_markets&step=4", "#update_markets_ajax", "review / confirm selected markets", merged_data, true); // Secured
      	
      	'> Review / Confirm Selected Markets </button>
      	
      	
-     	<br clear='all' />
+     	
+<p style='font-weight: bold;' class='bitcoin result_margins'>Click on each asset / pairing below, to SELECT available exchange markets...</p>
+
+     	
      	
 <?php
      
@@ -356,7 +368,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	var merged_data = merge_objects(post_data, add_markets_review);
      	
-     	ct_ajax_load("type=add_markets&step=4", "#update_markets_ajax", "market search results", merged_data, true); // Secured
+     	ct_ajax_load("type=add_markets&step=4", "#update_markets_ajax", "review / confirm selected markets", merged_data, true); // Secured
      	
      	'> Review / Confirm Selected Markets </button>
      	
@@ -367,7 +379,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
   }
   ?>
 
-</fieldset>
 	
 <script>
 
@@ -382,12 +393,11 @@ same_name_checkboxes_to_radio();
 </script>  	
 
 
-
 <?php
 
 
      // DEBUGGING...
-     if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
+     if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {
    
      //$ct['gen']->array_debugging($ct['registered_pairs']);
      

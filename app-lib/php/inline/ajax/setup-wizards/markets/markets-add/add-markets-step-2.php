@@ -158,10 +158,19 @@ $all_exchanges_count = $all_exchanges_count + 1;
 
 }
      	
+     	
+if ( isset($_POST['add_markets_search']) ) {
+$saved_search = $_POST['add_markets_search'];
+}
+elseif ( isset($_POST['saved_search']) ) {
+$saved_search = $_POST['saved_search'];
+}
+
+
      	?>
      	
      	
-     	<p class='input_margins' style='width: calc(100% - 2em);'><input type='text' id='add_markets_search' name='add_markets_search' value='<?=$_POST['add_markets_search']?>' style='width: 100%;' /> </p>
+     	<p class='input_margins' style='width: calc(100% - 2em);'><input type='text' id='add_markets_search' name='add_markets_search' value='<?=$saved_search?>' style='width: 100%;' /> </p>
      	
      	<button class='force_button_style input_margins' onclick='
      	
@@ -177,7 +186,7 @@ $all_exchanges_count = $all_exchanges_count + 1;
      	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = exchange_count + " exchanges (of <?=$all_exchanges_count?>), please wait";
+     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges, please wait";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();

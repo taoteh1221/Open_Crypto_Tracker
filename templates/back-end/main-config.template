@@ -187,7 +187,7 @@ $ct['conf']['comms']['logs_email'] = 3; // (default = 3)
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
 // YOU WILL GET ALERTS IN THE ERROR LOGS IF YOU NEED TO ADJUST THIS
-$ct['conf']['ext_apis']['remote_api_timeout'] = 30; // (default = 30)
+$ct['conf']['ext_apis']['remote_api_timeout'] = 35; // (default = 35)
 
 
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 
@@ -320,7 +320,7 @@ $ct['conf']['ext_apis']['exchange_search_api_cache_time'] = 5; // Default = 5
 $ct['conf']['int_api']['int_api_rate_limit'] = 1; // (default = 1)
 ////
 // Local / internal REST API market limit (maximum number of MARKETS requested per call)
-$ct['conf']['int_api']['int_api_markets_limit'] = 35; // (default = 35)
+$ct['conf']['int_api']['int_api_markets_limit'] = 50; // (default = 50)
 ////
 // Local / internal REST API cache time (MINUTES that previous requests are cached for)
 $ct['conf']['int_api']['int_api_cache_time'] = 1; // (default = 1)
@@ -759,7 +759,7 @@ $ct['conf']['charts_alerts']['light_chart_day_intervals'] = '14,30,90,180,365,73
 // (default = '14,30,90,180,365,730,1460')
 ////
 // The maximum number of data points allowed in each light chart 
-// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 875 OR LESS#)
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 1000 OR LESS#)
 $ct['conf']['charts_alerts']['light_chart_data_points_maximum'] = 875; // (default = 875), ADJUST WITH CARE!!!
 ////
 // The space between light chart links inside the chart interface
@@ -770,10 +770,10 @@ $ct['conf']['charts_alerts']['light_chart_link_font_offset'] = 4; // (default = 
 ////
 // Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
 // (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
-$ct['conf']['charts_alerts']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
+$ct['conf']['charts_alerts']['light_chart_first_build_hard_limit'] = 15; // (default = 15), ADJUST WITH CARE!!!
 ////
 // Randomly rebuild the 'ALL' light chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
-// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
+// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTENT CRON JOB RUNTIME SPEED!!
 $ct['conf']['charts_alerts']['light_chart_all_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4,8'), ADJUST WITH CARE!!!
 
 
@@ -984,19 +984,26 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct['conf']['plugins']['plugin_status'] = array(
 
-                      						//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
-                      								  
-                      						'debt-interest-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
+                      // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
+                      //'plugin-folder-name' => 'on',
+                      							
+                      // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)	  
+                      'debt-interest-tracker' => 'on', 
           
-                      						'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
+                      // Recurring Reminder plugin (alert yourself every X days to do something)
+                      'recurring-reminder' => 'off',
           
-                      						'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
+                      // Price target alert plugin (alert yourself when an asset's price target is reached)
+                      'price-target-alert' => 'off',
           
-                      						'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] address balance changes (when coins are sent / recieved)
+                      // Alerts for BTC / ETH / [SOL|SPL Token] address balance changes (when coins are sent / received)
+                      'address-balance-tracker' => 'off',
           
-                      						'crypto-info-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNCTIONAL YET!
+                      // WORK-IN-PROGRESS, NOT FUNCTIONAL YET!
+                      'crypto-info-bot' => 'off',
           
-                      						'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNCTIONAL YET!
+                      // WORK-IN-PROGRESS, NOT FUNCTIONAL YET!
+                      'on-chain-stats' => 'off',
           
                       					   );
 
@@ -1039,7 +1046,7 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 ////
 // ### VIEW INPUT / OUTPUT (ON INTERFACE PAGES) ###
 ////
-// 'wizard_steps_io' (AJAX-based 'wizard' steps),
+// 'setup_wizards_io' (AJAX-based 'wizard' steps),
 ////
 // ### CHECKS ###
 ////
@@ -1084,7 +1091,7 @@ $ct['conf']['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables
 
 
 // Delete visitor stats older than X DAYS
-$ct['conf']['power']['access_stats_delete_old'] = 30; // (default = 30, MAX = 360)
+$ct['conf']['power']['access_stats_delete_old'] = 15; // (default = 15, MAX = 360)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to DISABLE cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED

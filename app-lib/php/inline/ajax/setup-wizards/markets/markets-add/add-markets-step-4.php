@@ -9,17 +9,12 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 ?>
 
 
-<h3 class='green input_margins'>STEP #4: Review Selected Markets</h3>
+<h3 class='green input_margins'>STEP #4: Review / Confirm Selected Markets</h3>
 
-
-
-<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Confirm Adding Asset Markets</strong> </legend>
 
   <?php
   if ( is_array($_POST['assets']) && sizeof($_POST['assets']) > 0 ) {
   ?>
-
-<p style='font-weight: bold;' class='bitcoin result_margins'>CONFIRM each asset MARKET below, before adding to the app...</p>
 
      
      	<button class='force_button_style result_margins red' onclick='
@@ -43,7 +38,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      	
      	ct_ajax_load("type=add_markets&step=5", "#update_markets_ajax", "add market results", merged_data, true, true); // Secured / sort tables
      	
-     	'> Add Selected Asset Markets </button>
+     	'> Add Selected Markets </button>
      	
      	
      	<br clear='all' />
@@ -165,6 +160,5 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
   }
   ?>
 
-</fieldset>
      
      

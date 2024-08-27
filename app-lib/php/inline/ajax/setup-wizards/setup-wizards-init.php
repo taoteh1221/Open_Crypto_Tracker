@@ -59,7 +59,7 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/m
 
 
 // DEBUGGING POST DATA...
-if ( $ct['conf']['power']['debug_mode'] == 'wizard_steps_io' ) {
+if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {
     
     if ( isset($_POST) && is_array($_POST) ) {
     $ct['gen']->array_debugging($_POST, true);

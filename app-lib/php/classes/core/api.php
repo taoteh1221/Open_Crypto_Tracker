@@ -1515,7 +1515,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                           
                           
                           ksort($temp_app_id_array); // Alphabetic sort, for UX
-                     
+                          
+                          //$ct['gen']->array_debugging($temp_app_id_array, true); // DEBUGGING
                      
                           // Process results
                           foreach( $temp_app_id_array as $app_id => $asset_data ) {
@@ -1670,7 +1671,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
          
    $parsed_market_id = $market_id;
-        
+   
              
          // IF WE NEED SOME REGEX MAGIC TO PARSE THE VALUES WE WANT
          // https://www.threesl.com/blog/special-characters-regular-expressions-escape/
@@ -1750,8 +1751,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          else {
              
          $parsed_pairing = $parsed_market_id;
-   
-         gc_collect_cycles(); // Clean memory cache
              
              
              if ( in_array($exchange_key, $ct['dev']['hyphen_delimited_markets']) ) {
@@ -1842,7 +1841,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                   // Remove duplicates
                   $temp_array = array_unique($temp_array);
                   
-                  // Sort by length, so we are checking for LONGER pairings first (to assure SAFE results)
+                  // Get usd near top, and btc / eth below eur, before the usort below,
+                  // so we are looking for usd / eur pairings as early as possible (in the 3 character range)
+                  rsort($temp_array);
+                  
+                  // Now sort by length, so we are checking for LONGER pairings first (to assure SAFEST parsed results)
                   usort($temp_array, array($ct['gen'], 'usort_length') );
                   
                   $ct['registered_pairs'] = $temp_array; // Set global now, since we finished building / sorting
@@ -2047,7 +2050,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                        
               // IF APP ID wasn't bundled yet into the single call format we use for coingecko,
               // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
-              if ( !stristr($ct['coingecko_assets'], $dyn_id) ) {
+              // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, AS WELL AS IT BEING THE FIRST VALUE
+              if (
+              substr($ct['coingecko_assets'], 0, strlen($dyn_id) ) != $dyn_id
+              && !stristr($ct['coingecko_assets'], ',' . $dyn_id)
+              ) {
               $ct['coingecko_assets'] = $ct['coingecko_assets'] . ',' . $dyn_id;
               }
               
@@ -2063,7 +2070,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          $id_parse = array_map( "trim", explode("||", $dyn_id) );
            
                
-             // Auto-correct for some inconsistancies in the API's sementics
+             // Auto-correct for some inconsistencies in the API's semantics
              if ( $id_parse[0] == 'ethereum' ) {
              $id_parse[0] = 'eth';
              }
@@ -2082,7 +2089,21 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
              $url = preg_replace("/\[UPBIT_BATCHED_MARKETS\]/i", $required_pairing . '-' . $dyn_id, $url);
              }
              else {
+                  
+                       
+                   // IF MARKET ID wasn't bundled yet into the single call format we use for upbit,
+                   // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
+                   // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, AS WELL AS IT BEING THE FIRST VALUE
+                   if (
+                   substr($ct['upbit_batched_markets'], 0, strlen($dyn_id) ) != $dyn_id
+                   && !stristr($ct['upbit_batched_markets'], ',' . $dyn_id)
+                   ) {
+                   $ct['upbit_batched_markets'] = $ct['upbit_batched_markets'] . ',' . $dyn_id;
+                   }
+                  
+                  
              $url = preg_replace("/\[UPBIT_BATCHED_MARKETS\]/i", $ct['upbit_batched_markets'], $url);
+             
              }
 
 
@@ -2106,6 +2127,16 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
               return false;
                  
               }
+              
+              
+              // Jupiter tickers are CASE SENSITIVE SOMETIMES
+              foreach ( $jup_market as $jup_key => $jup_val ) {
+              
+                  if ( isset($ct['dev']['jup_ag_ticker_adjust'][$jup_val]) ) {
+                  $jup_market[$jup_key] = $ct['dev']['jup_ag_ticker_adjust'][$jup_val];
+                  }
+              
+              }
                    
                        
               // IF market data wasn't bundled yet into the single calls format we use for jupiter,
@@ -2113,7 +2144,13 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
               if ( !isset($ct['jupiter_ag_pairs'][ $jup_market[1] ]) ) {
               $ct['jupiter_ag_pairs'][ $jup_market[1] ] = $jup_market[0];
               }
-              elseif ( !stristr($ct['jupiter_ag_pairs'][ $jup_market[1] ], $jup_market[0]) ) {
+              // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE TICKER, AS WELL AS IT BEING THE FIRST VALUE
+              // WE ALSO NEED CASE-SENSITIVE SEARCH WITH strstr INSTEAD FOR JUPITER
+              // (AS JUP TICKERS CAN BE CASE-SENSITIVE AND DIFFER! [MSOL and mSOL are TWO DIFFERENT ASSETS])
+              elseif (
+              substr($ct['jupiter_ag_pairs'][ $jup_market[1] ], 0, strlen($jup_market[0]) ) != $jup_market[0]
+              && !strstr($ct['jupiter_ag_pairs'][ $jup_market[1] ], ',' . $jup_market[0])
+              ) {
               $ct['jupiter_ag_pairs'][ $jup_market[1] ] = $ct['jupiter_ag_pairs'][ $jup_market[1] ] . ',' . $jup_market[0];
               }
 
