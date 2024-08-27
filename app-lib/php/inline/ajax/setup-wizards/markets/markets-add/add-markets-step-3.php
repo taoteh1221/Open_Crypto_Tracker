@@ -32,6 +32,8 @@ $search_results = $ct['cache']->other_cached_data('load', $recent_search_id, $ct
 
 $included_results = array();
 
+$duplicate_check = array();
+
 $skipped_results = array();
 
 $not_required = array(
@@ -66,6 +68,16 @@ $not_required = array(
                !$missing_required && !$market_data['flagged_market']
                || !$missing_required && is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_')
                ) {
+                    
+                    
+                    if ( isset($duplicate_check[ $market_data['asset'] ][ $market_data['pairing'] ][ $market_data['id'] ]) ) {
+                    continue; // Skip duplicate
+                    }
+                    // Make sure we don't include duplicates
+                    else {
+                    $duplicate_check[ $market_data['asset'] ][ $market_data['pairing'] ][ $market_data['id'] ] = true;
+                    }
+               
                     
                $included_results[ $market_data['asset'] ][ $market_data['pairing'] ][] = array(
                                                                                                           'flagged_market' => ( $market_data['flagged_market'] ? $market_data['flagged_market'] : false ),

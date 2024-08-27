@@ -146,11 +146,19 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
      
      
+// Jupiter aggregator tickers that are CASE-SENSITIVE AND DIFFER (for conversion BEFORE market data retrieval)
+// (EG: MSOL and mSOL are TWO DIFFERENT ASSETS, BUT MSOL IS A COPYCAT COIN [NOT THE POPULAR ONE]!)
+$ct['dev']['jup_ag_ticker_adjust'] = array(
+                                           // 'TICKER' => 'tICKER',
+                                           'MSOL' => 'mSOL',
+                                           );
+     
+     
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
 // (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
 // ADDITIONAL (CORRESPONDING) LOGIC MUST BE ADDED IN /inline/config/throttled-markets-config.php
 $ct['dev']['tracked_throttle_limited_servers'] = array(
-                                                       // 'tld_domain_name' => 'corrisponding_exchange_identifier_OR_BOOLEAN_TRUE',
+                                                       // 'tld_domain_name' => 'corresponding_exchange_identifier_OR_BOOLEAN_TRUE',
                                                      	'alphavantage.co' => 'alphavantage_stock',
                                                       );
      

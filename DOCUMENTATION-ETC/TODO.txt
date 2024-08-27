@@ -192,6 +192,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Move $ct['dev']['jup_ag_ticker_adjust'] into the admin 'currency support' section. Use same type logic as currency symbols setting. Also add notes on the search page for adding new markets for jupiter, since people should know jupiter market ids may need CASE SENSITIVE mapping (include a note that this app WILL NEVER support MULTIPLE CASES of same ticker [beyond this mapping feature]). IMPORTANT: THE TICKER TO CONVERT FROM MUST ALWAYS BE FORCED TO UPPERCASE, AS WE USUALLY ALWAYS FORCE JUPITER MARKETS TO UPPERCASE...THE TICKER WE ARE CONVERTING TO MUST BE CASE-SENSITIVE! Keep this in mind when building the auto-correct / checks for this user input.
+
+
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
 
 
