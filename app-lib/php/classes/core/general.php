@@ -101,33 +101,50 @@ var $ct_array = array();
      if ( !is_array($array) ) {
      return false;
      }
-
-     foreach ( $array as $key => $val ) {
-     ?>
+     elseif ( $this->has_string_keys($array) ) {
+          
+          foreach ( $array as $key => $val ) {
+          ?>
+          
+          <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
+          
+               <?php
+               if ( $multidim && is_array($val) ) {
+               ?>
+               <?=$key?> (<?=sizeof($val)?> results):
+               <?php
+               }
+               else {
+               ?>
+               <?=$key?>:
+               <?php
+               }
+               ?>
+          
+          <?=print_r($val, true)?>
+          
+          </code></pre>
+          
+          <br /><br /><br />
+          
+          <?php
+          }
      
-     <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
-     
-     <?php
-     if ( $multidim && is_array($val) ) {
-     ?>
-     <?=$key?> (<?=sizeof($val)?> results):
-     <?php
      }
      else {
      ?>
-     <?=$key?>:
-     <?php
-     }
-     ?>
-     
-     <?=print_r($val, true)?>
-     
+          
+     <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
+          
+     <?=print_r($array, true)?>
+          
      </code></pre>
-     
+          
      <br /><br /><br />
-     
+          
      <?php
      }
+
 
    }
 

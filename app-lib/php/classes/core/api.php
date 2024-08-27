@@ -1515,7 +1515,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                           
                           
                           ksort($temp_app_id_array); // Alphabetic sort, for UX
-                     
+                          
+                          //$ct['gen']->array_debugging($temp_app_id_array, true); // DEBUGGING
                      
                           // Process results
                           foreach( $temp_app_id_array as $app_id => $asset_data ) {
@@ -1670,7 +1671,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
          
    $parsed_market_id = $market_id;
-        
+   
              
          // IF WE NEED SOME REGEX MAGIC TO PARSE THE VALUES WE WANT
          // https://www.threesl.com/blog/special-characters-regular-expressions-escape/
@@ -1750,8 +1751,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          else {
              
          $parsed_pairing = $parsed_market_id;
-   
-         gc_collect_cycles(); // Clean memory cache
              
              
              if ( in_array($exchange_key, $ct['dev']['hyphen_delimited_markets']) ) {
@@ -1842,7 +1841,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                   // Remove duplicates
                   $temp_array = array_unique($temp_array);
                   
-                  // Sort by length, so we are checking for LONGER pairings first (to assure SAFE results)
+                  // Get usd near top, and btc / eth below eur, before the usort below,
+                  // so we are looking for usd / eur pairings as early as possible (in the 3 character range)
+                  rsort($temp_array);
+                  
+                  // Now sort by length, so we are checking for LONGER pairings first (to assure SAFEST parsed results)
                   usort($temp_array, array($ct['gen'], 'usort_length') );
                   
                   $ct['registered_pairs'] = $temp_array; // Set global now, since we finished building / sorting
@@ -2047,7 +2050,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                        
               // IF APP ID wasn't bundled yet into the single call format we use for coingecko,
               // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
-              if ( !stristr($ct['coingecko_assets'], $dyn_id) ) {
+              // WE MUST INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, BECAUSE OF APP IDS LIKE:
+              // solana, jupiter-exchange-solana, ETC ETC (coingecko does NOT go by mere ticker for IDs)
+              if ( !stristr($ct['coingecko_assets'], ',' . $dyn_id) ) {
               $ct['coingecko_assets'] = $ct['coingecko_assets'] . ',' . $dyn_id;
               }
               
