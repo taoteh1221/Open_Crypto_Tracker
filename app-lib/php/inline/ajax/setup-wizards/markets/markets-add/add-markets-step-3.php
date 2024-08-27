@@ -175,20 +175,9 @@ GENERAL NOTES:<br /><br />
 
 ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE.<br /><br />
 
-THIS ASSET SEARCH FEATURE **WILL NEVER FULLY SUPPORT** TICKERS WITH SYMBOLS IN THEM (EG: $WEN IS IGNORED OR CONVERTED TO WEN, WHILE WEN IS ACCEPTED), FOR CONSISTENT / CLEAR FORMATTING OF ALL ASSET TICKERS. THAT SAID, YOU STILL SHOULD ALWAYS **DOUBLE CHECK** THE MARKET DETAILS (BY CLICKING ON THE EXCHANGE NAME), TO MAKE SURE YOU ARE NOT **ACCIDENTALLY ADDING A COPY-CAT COIN** (WITH A SIMILAR TICKER COMPARED TO THE REAL COIN YOU WANT TO ADD).
+FOR JUPITER AGGREGATOR EXCHANGE RESULTS, YOU CAN MAP THE UPPERCASE / NO SYMBOLS FORMAT WE USE FOR THEIR TICKERS, TO ALSO SUPPORT THEIR TICKERS THAT HAVE SOME LOWERCASE / SYMBOLS IN THEM (MSOL = mSOL, WIF = $WIF, etc etc), IN "ASSET TRACKING > CURRENCY SUPPORT > JUPITER AGGREGATOR TICKER MAPPING". GENERALLY SPEAKING, OTHER THAN "TICKER MAPPING" IN THE CURRENCY SUPPORT SECTION, THIS APP DOES NOT SUPPORT MULTI-CASE / SYMBOLS IN TICKERS.
 
 </p>
-     	
-     	
-     	<p class='input_margins red_dotted'>
-     	
-		<b class='red'>NOTES ABOUT ***STOCK MARKET*** ASSETS:<br /><br />
-		
-		ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).<br /><br />
-		
-		ADDITIONALLY, TICKER / PAIRING DATA / COMPANY NAME INFORMATION IS ***MORE RELIABLE*** WHEN YOU USE THE "All Exchanges" SEARCH MODE FOR STOCKS.</b>
-		
-		</p>
 
 
   <?php
@@ -296,19 +285,22 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           
                <?php
                foreach ( $pair_data as $market_key => $market_data ) {
+               
+               $unique_market_id = md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id']);
+               
                ?>
                
                <div style='margin-left: 1em;'>
                
-                    <input type='hidden' dataset-id='<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][name]' value='<?=$market_data['name']?>' />
+                    <input type='hidden' dataset-id='<?=$unique_market_id?>' name='assets[<?=strtoupper($asset_key)?>][name]' value='<?=$market_data['name']?>' />
                     
-                    <input type='hidden' dataset-id='<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][mcap_slug]' value='<?=$market_data['mcap_slug']?>' />
+                    <input type='hidden' dataset-id='<?=$unique_market_id?>' name='assets[<?=strtoupper($asset_key)?>][mcap_slug]' value='<?=$market_data['mcap_slug']?>' />
                     
-                    <input type='checkbox' dataset-id='<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>' name='assets[<?=strtoupper($asset_key)?>][pair][<?=strtolower($pair_key)?>][<?=strtolower($market_data['exchange'])?>]' value='<?=$market_data['id']?>' <?=( isset($_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])]) && $_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])] == $market_data['id'] ? 'checked' : '' )?> /> 
+                    <input type='checkbox' dataset-id='<?=$unique_market_id?>' name='assets[<?=strtoupper($asset_key)?>][pair][<?=strtolower($pair_key)?>][<?=strtolower($market_data['exchange'])?>]' value='<?=$market_data['id']?>' <?=( isset($_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])]) && $_POST['assets'][strtoupper($asset_key)]['pair'][strtolower($pair_key)][strtolower($market_data['exchange'])] == $market_data['id'] ? 'checked' : '' )?> /> 
                     
-                    <a class='<?=( is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_') ? 'red' : 'bitcoin' )?> clear_both' href='javascript: show_more("results_<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
+                    <a class='<?=( is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_') ? 'red' : 'bitcoin' )?> clear_both' href='javascript: show_more("results_<?=$unique_market_id?>");' title='Click to show / hide additional details.'><?=$ct['gen']->key_to_name($market_data['exchange'])?></a>
                     
-                    <div id='results_<?=md5($asset_key . $pair_key . $market_data['exchange'] . $market_data['id'])?>' style='display: none;' class='align_left clear_both'>
+                    <div id='results_<?=$unique_market_id?>' style='display: none;' class='align_left clear_both'>
                     
                     <p>
                     

@@ -1392,7 +1392,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          ) {
                     
                          // Minimize calls, AND throttle to avoid being blocked
-                         sleep(1);
+                         usleep(1500000); // Wait 1.5 seconds
                          $check_market_data = $this->market($dyn_id, $exchange_key, $val['id']);
    
                          gc_collect_cycles(); // Clean memory cache
@@ -1424,15 +1424,25 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                 }
                 elseif ( $exchange_key == 'jupiter_ag' ) {
                      
+                     
+                     if ( isset( $ct['dev']['jup_ag_ticker_mapping'][ strtoupper($dyn_id) ] ) ) {
+                     $dyn_id = $ct['dev']['jup_ag_ticker_mapping'][ strtoupper($dyn_id) ];
+                     $ticker_mapping = true;
+                     }
+                     
             
                      foreach( $data as $val ) {
           
-                
-                         if ( isset($val['symbol']) && stristr($val['symbol'], $dyn_id) && $dyn_id != $required_pairing ) {
+                         
+                         // IF $ticker_mapping, USE strstr INSTEAD, FOR CASE-SENSITIVE MATCHES
+                         if (
+                         !$ticker_mapping && isset($val['symbol']) && stristr($val['symbol'], $dyn_id) && $dyn_id != $required_pairing
+                         || $ticker_mapping && isset($val['symbol']) && strstr($val['symbol'], $dyn_id) && $dyn_id != $required_pairing
+                         ) {
                               
                               
-                              // WE NEVER SUPPORT COPY-CAT TICKERS WITH SYMBOLS IN THEM ($TICKER ETC ETC), FOR UX!!
-                              if ( preg_match("/[^0-9a-zA-Z]+/i", $val['symbol']) ) {
+                              // WE NEVER SUPPORT TICKERS WITH SYMBOLS IN THEM (FOR UX), UNLESS WE ARE USING A TICKER MAPPING!!
+                              if ( !$ticker_mapping && preg_match("/[^0-9a-zA-Z]+/i", $val['symbol']) ) {
                               continue;
                               }
                     
@@ -1442,9 +1452,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          $asset_check = $ct['gen']->auto_correct_market_id($val['symbol'], $exchange_key);
                          
                          $pairing_check = ( $required_pairing ? $required_pairing : 'SOL' );
+                         
+                         //var_dump($pairing_check);
                     
                          // Minimize calls, AND throttle to avoid being blocked
-                         sleep(1);
+                         usleep(1500000); // Wait 1.5 seconds
                          $check_market_data = $this->market($dyn_id, $exchange_key, $asset_check . '/' . $pairing_check);
    
                          gc_collect_cycles(); // Clean memory cache
@@ -1537,7 +1549,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                    
                          
                           // Minimize calls, AND throttle to avoid being blocked
-                          sleep(1);
+                          usleep(1500000); // Wait 1.5 seconds
                           $check_market_data = $this->market($app_id, $exchange_key . '_' . $pairing_for_initial_check, $app_id);
    
                           gc_collect_cycles(); // Clean memory cache
@@ -1599,7 +1611,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                    else {
                     
                                    // Minimize calls, AND throttle to avoid being blocked
-                                   sleep(2);
+                                   usleep(1500000); // Wait 1.5 seconds
                                    $check_market_data = $this->market($dyn_id, $exchange_key, $result["1. symbol"]);
    
                                    gc_collect_cycles(); // Clean memory cache
@@ -2132,8 +2144,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
               // Jupiter tickers are CASE SENSITIVE SOMETIMES
               foreach ( $jup_market as $jup_key => $jup_val ) {
               
-                  if ( isset($ct['dev']['jup_ag_ticker_adjust'][$jup_val]) ) {
-                  $jup_market[$jup_key] = $ct['dev']['jup_ag_ticker_adjust'][$jup_val];
+                  if ( isset($ct['dev']['jup_ag_ticker_mapping'][$jup_val]) ) {
+                  $jup_market[$jup_key] = $ct['dev']['jup_ag_ticker_mapping'][$jup_val];
                   }
               
               }

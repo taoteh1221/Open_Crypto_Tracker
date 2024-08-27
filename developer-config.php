@@ -146,11 +146,14 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
      
      
-// Jupiter aggregator tickers that are CASE-SENSITIVE AND DIFFER (for conversion BEFORE market data retrieval)
-// (EG: MSOL and mSOL are TWO DIFFERENT ASSETS, BUT MSOL IS A COPYCAT COIN [NOT THE POPULAR ONE]!)
-$ct['dev']['jup_ag_ticker_adjust'] = array(
-                                           // 'TICKER' => 'tICKER',
+// Jupiter aggregator tickers that DIFFER format-wise, from a standardized format (for conversion BEFORE market data retrieval)
+// (EG: MSOL / mSOL and WIF / $WIF are DIFFERENT ASSETS on jupiter exchange)
+$ct['dev']['jup_ag_ticker_mapping'] = array(
+                                           // 'TICKER' => 'ticKER',
+                                           // 'TICKER' => '$TICKER',
                                            'MSOL' => 'mSOL',
+                                           'WIFSOL' => 'wifSOL',
+                                           'WIF' => '$WIF',
                                            );
      
      

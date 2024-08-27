@@ -27,8 +27,8 @@ foreach ( $ct['conf']['assets'] as $markets ) {
               // JUP TICKERS CAN BE CASE-SENSITIVE AND DIFFER! (MSOL and mSOL are TWO DIFFERENT ASSETS)
               foreach ( $jup_market as $jup_key => $jup_val ) {
               
-                  if ( isset($ct['dev']['jup_ag_ticker_adjust'][$jup_val]) ) {
-                  $jup_market[$jup_key] = $ct['dev']['jup_ag_ticker_adjust'][$jup_val];
+                  if ( isset($ct['dev']['jup_ag_ticker_mapping'][$jup_val]) ) {
+                  $jup_market[$jup_key] = $ct['dev']['jup_ag_ticker_mapping'][$jup_val];
                   }
               
               }

@@ -96,16 +96,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 		<img class='tooltip_style_control' id='skip_alphavantage_info' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /><br />
 		
 		</p>
-     	
-     	<p class='input_margins red_dotted'>
-     	
-		<b class='red'>NOTES ABOUT ***STOCK MARKET*** ASSETS:<br /><br />
-		
-		ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).<br /><br />
-		
-		ADDITIONALLY, TICKER / PAIRING DATA / COMPANY NAME INFORMATION IS ***MORE RELIABLE*** WHEN YOU USE THE "All Exchanges" SEARCH MODE FOR STOCKS.</b>
-		
-		</p>
 		
 		
 	 <script>
