@@ -208,6 +208,9 @@ Add checks for 'presale usd', for skipping already-added asset markets, when sea
 Do a bitcoin opentimestamp of the v6.00.39 release.
 
 
+Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.
+
+
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
