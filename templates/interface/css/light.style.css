@@ -313,6 +313,11 @@ color: #D61F00 !important;
 }
 
 
+#sidebar ul.list-unstyled li a.red:link {
+color: #D61F00 !important;
+}
+
+
 .sidebar_secondary_link {
     color: black !important;
 }
@@ -371,8 +376,8 @@ border-left: 0px solid #bcafaf !important;
 }
 
 
-#sidebar ul.list-unstyled li a:link,
-#sidebar ul.list-unstyled li a:visited,
+#sidebar ul.list-unstyled li a:link:not(.red):not(.red_bright):not(.blue):not(.green):not(.green_bright):not(.bitcoin),
+#sidebar ul.list-unstyled li a:visited:not(.red):not(.red_bright):not(.blue):not(.green):not(.green_bright):not(.bitcoin),
 #sidebar h3, 
 #sidebar ul.list-unstyled p,
 #sidebar ul p,

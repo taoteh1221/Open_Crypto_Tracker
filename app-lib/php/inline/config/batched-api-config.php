@@ -24,15 +24,6 @@ foreach ( $ct['conf']['assets'] as $markets ) {
          		        
          $jup_market = explode('/', $exchange_pairs['jupiter_ag']);
               
-              // JUP TICKERS CAN BE CASE-SENSITIVE AND DIFFER! (MSOL and mSOL are TWO DIFFERENT ASSETS)
-              foreach ( $jup_market as $jup_key => $jup_val ) {
-              
-                  if ( isset($ct['dev']['jup_ag_ticker_adjust'][$jup_val]) ) {
-                  $jup_market[$jup_key] = $ct['dev']['jup_ag_ticker_adjust'][$jup_val];
-                  }
-              
-              }
-              
          $ct['jupiter_ag_pairs'][ $jup_market[1] ] .= $jup_market[0] . ',';
          		        
          }

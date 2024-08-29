@@ -244,8 +244,8 @@ var $ct_array = array();
                            }
                       
                       
-                      // Sanitize name value
-                      $ct['conf']['assets'][$submitted_asset_key]['name'] = filter_var($ct['conf']['assets'][$submitted_asset_key]['name'], FILTER_SANITIZE_STRING);
+                      // Sanitize name value, make sure first character is uppercase
+                      $ct['conf']['assets'][$submitted_asset_key]['name'] = ucfirst( filter_var($ct['conf']['assets'][$submitted_asset_key]['name'], FILTER_SANITIZE_STRING) );
                   
                       }
                       

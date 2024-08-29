@@ -20,9 +20,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 	     ?>
 	     <p class='red red_dotted input_margins' style='font-weight: bold; padding: 12px;'>
 	     
-	     NO RESULTS FOUND, PLEASE TRY A DIFFERENT SEARCH.<br /><br />
-	     
-	     NOTE: ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE.
+	     NO RESULTS FOUND, PLEASE TRY A DIFFERENT SEARCH.
 	     
 	     </p>
 	     <?php
@@ -91,19 +89,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<input type='checkbox' id='skip_alphavantage_search' name='skip_alphavantage_search' value='yes' <?=( !isset($_POST['skip_alphavantage_search']) || isset($_POST['skip_alphavantage_search']) && $_POST['skip_alphavantage_search'] == 'yes' ? 'checked' : '' )?> /> 
      	
-     	<span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, SKIP Using Up Alphavantage.co Stock Price DAILY Live Requests For Data</span> 
+     	<span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, SKIP Using Up All Your Alphavantage.co Stock (25 DAILY) Live Requests For NEW Data</span> 
 	     
 		<img class='tooltip_style_control' id='skip_alphavantage_info' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /><br />
-		
-		</p>
-     	
-     	<p class='input_margins red_dotted'>
-     	
-		<b class='red'>NOTES ABOUT ***STOCK MARKET*** ASSETS:<br /><br />
-		
-		ALREADY-ADDED ***AND*** SEARCH-RESULT ASSET MARKETS THAT ARE ***STOCK MARKET*** ASSETS ARE GIVEN A SUFFIX "STOCK" APPENDED TO THE STOCK TICKER VALUE, ***TO FLAG THE ASSET AS A STOCK WITHIN THIS APP*** (EG: IBM = IBMSTOCK).<br /><br />
-		
-		ADDITIONALLY, TICKER / PAIRING DATA / COMPANY NAME INFORMATION IS ***MORE RELIABLE*** WHEN YOU USE THE "All Exchanges" SEARCH MODE FOR STOCKS.</b>
 		
 		</p>
 		
@@ -113,7 +101,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 			var skip_alphavantage_info = '<h5 class="align_center bitcoin tooltip_title">SKIP Alphavantage During "ALL Exchanges" Search</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">DAILY live data requests are VERY LIMITED for the FREE tier of Alphavantage.co\'s Stock Market Prices API. IF you know you are NOT searching for a STOCK MARKET asset, leave this box checked, TO AVOID USING UP your Alphavantage DAILY limits.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">DAILY live data requests are VERY LIMITED for the FREE tier of Alphavantage.co\'s Stock Market Prices API (25 DAILY). IF you know you are NOT searching for a STOCK MARKET asset, leave this box checked, TO AVOID USING UP your Alphavantage DAILY limits.</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">This app automatically USES CACHED DATA (for a DYNAMIC period of time, based off what type of data is being retrieved from APIs), and auto-determines HOW OFTEN live data can be retrieved (without going over any limits), based on the number of STOCK assets you have added. BUT when SEARCHING for NEW stocks, you RISK using up your DAILY LIMIT FOR LIVE DATA. This app does cache SEARCH data for <?=$ct['conf']['ext_apis']['exchange_search_api_cache_time']?> HOURS though (adjustable in: "APIs => External APIs => Exchange Search API Cache Time"), to minimize usage of live data requests.</p>'
 			
 			
 			+'<p> </p>';

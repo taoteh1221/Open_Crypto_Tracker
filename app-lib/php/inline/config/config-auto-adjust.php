@@ -489,7 +489,7 @@ if ( is_array($ct['conf']['assets']) ) {
     
     // MISCASSETS
     $ct['conf']['assets']['MISCASSETS'] = array(
-                                        'name' => '', // Filled in within primary-bitcoin-markets-config
+                                        'name' => 'Misc. Assets', // Filled in within primary-bitcoin-markets-config
                                         'mcap_slug' => '',
                                         'pair' => array()
                                         );
@@ -581,7 +581,7 @@ if ( is_array($ct['conf']['assets']) ) {
     
     // ALTNFTS
     $ct['conf']['assets']['ALTNFTS'] = array(
-                                        'name' => '', // Filled in within primary-bitcoin-markets-config
+                                        'name' => 'Alt NFTs', // Filled in within primary-bitcoin-markets-config
                                         'mcap_slug' => '',
                                         'pair' => array()
                                         );
@@ -640,8 +640,12 @@ sort($ct['conf']['mobile_network']['text_gateways']);
 sort($ct['conf']['charts_alerts']['tracked_markets']);
 
 
-// Alphabetically sort assets
-ksort($ct['conf']['assets']);
+// Alphabetically sort assets by 'name'
+// We need to use uasort, instead of usort, to maintain the associative array structure
+$ct['usort_alpha'] = 'name';
+uasort($ct['conf']['assets'], array($ct['gen'], 'usort_alpha') );
+
+//$ct['gen']->array_debugging($ct['conf']['assets'], true); // DEBUGGING ONLY
 
 
 // Better decimal support for these vars...

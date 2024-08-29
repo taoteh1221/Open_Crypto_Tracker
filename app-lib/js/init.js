@@ -453,7 +453,7 @@ nav_menu('.user-nav');
                   unsaved_admin_config = false;
 
                   $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-                  $('#sidebar .admin_settings_save').addClass('bitcoin');
+                  $('#sidebar .admin_settings_save').addClass('blue');
                   $('#sidebar .admin_settings_save').removeClass('red_bright');
 
                   }
@@ -478,7 +478,7 @@ nav_menu('.user-nav');
                   unsaved_user_config = false;
 
                   $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-                  $('#sidebar .user_settings_save').addClass('bitcoin');
+                  $('#sidebar .user_settings_save').addClass('blue');
                   $('#sidebar .user_settings_save').removeClass('red_bright');
 
                   }
@@ -634,7 +634,7 @@ nav_menu('.user-nav');
           unsaved_admin_config = false;
 
           $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-          $('#sidebar .admin_settings_save').addClass('bitcoin');
+          $('#sidebar .admin_settings_save').addClass('blue');
           $('#sidebar .admin_settings_save').removeClass('red_bright');
           
           // Always scroll to top left on load / reload for UX
