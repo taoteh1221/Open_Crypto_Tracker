@@ -1755,58 +1755,7 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MISCASSETS 
-                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    // (!!!!DO NOT DELETE, MISCASSETS IS *REQUIRED* TO RUN THIS APP!!!!)
-                    'MISCASSETS' => array(), 
-                    // Asset END
-
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // BTCNFTS 
-                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    // (!!!!DO NOT DELETE, BTCNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
-                    'BTCNFTS' => array(), 
-                    // Asset END
-
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // ETHNFTS 
-                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    // (!!!!DO NOT DELETE, ETHNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
-                    'ETHNFTS' => array(), 
-                    // Asset END
-
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SOLNFTS 
-                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    // (!!!!DO NOT DELETE, SOLNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
-                    'SOLNFTS' => array(), 
-                    // Asset END
-
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // ALTNFTS 
-                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    // (!!!!DO NOT DELETE, ALTNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
-                    'ALTNFTS' => array(), 
-                    // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // BTC 
-                    // (!!!!*BTC #MUST# BE THE VERY FIRST* IN THIS CRYPTO ASSET MARKETS LIST!!!!)
                     // (!!!!DO NOT DELETE, BTC IS *REQUIRED* TO RUN THIS APP!!!!)
                     'BTC' => array(
                         
@@ -2047,6 +1996,7 @@ $ct['conf']['assets'] = array(
                     
                     
                     // ETH
+                    // (!!!!DO NOT DELETE, ETH IS *REQUIRED* TO RUN THIS APP!!!!)
                     'ETH' => array(
                         
                         'name' => 'Ethereum',
@@ -2236,6 +2186,7 @@ $ct['conf']['assets'] = array(
                     
                     
                     // SOL
+                    // (!!!!DO NOT DELETE, SOL IS *REQUIRED* TO RUN THIS APP!!!!)
                     'SOL' => array(
                         
                         'name' => 'Solana',

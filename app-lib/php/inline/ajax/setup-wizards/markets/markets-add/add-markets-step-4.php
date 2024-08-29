@@ -27,11 +27,19 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      	<button class='force_button_style result_margins green' onclick='
      	
      	var post_data = {
+     	     
      	                  "conf_id": "assets",
+
      	                  // Use the PARENT ID, if there are interface subsections (since we are using the parent IFRAME)
      	                  "interface_id": "asset_tracking",
-     	                  "refresh": "all",
      	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
+
+     	                  // Secured flag, for mode (add or delete)
+     	                  "markets_update": "add",
+     	                  "markets_nonce": "<?=$ct['gen']->admin_nonce('add')?>",
+
+     	                  "refresh": "all",
+
      	                   };
      	
      	var merged_data = merge_objects(post_data, selected_markets_post_data);
@@ -140,11 +148,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	<button class='force_button_style result_margins green' onclick='
      	
      	var post_data = {
+     	     
      	                  "conf_id": "assets",
+
      	                  // Use the PARENT ID, if there are interface subsections (since we are using the parent IFRAME)
      	                  "interface_id": "asset_tracking",
-     	                  "refresh": "all",
      	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
+
+     	                  // Secured flag, for mode (add or delete)
+     	                  "markets_update": "add",
+     	                  "markets_nonce": "<?=$ct['gen']->admin_nonce('add')?>",
+
+     	                  "refresh": "all",
+
      	                   };
      	
      	var merged_data = merge_objects(post_data, selected_markets_post_data);
