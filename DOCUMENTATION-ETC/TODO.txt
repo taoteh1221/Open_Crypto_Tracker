@@ -192,12 +192,6 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-In the interface "notes" section for the upcoming Jupiter exchange "ticker mapping" setting, include a link to Jupiter's "all coins" endpoint, so users can see what coin symbols are case sensitive. Also remind them that they can change the Jupiter search to include unknown coins in the app too.
-
-
-Move $ct['dev']['jup_ag_ticker_mapping'] into the admin 'currency support' section. Use same type logic as currency symbols setting. Also add notes on the search page for adding new markets for jupiter, since people should know jupiter market ids may need CASE SENSITIVE mapping (include a note that this app WILL NEVER support MULTIPLE CASES of same ticker [beyond this mapping feature]). IMPORTANT: THE TICKER TO CONVERT FROM MUST ALWAYS BE FORCED TO UPPERCASE, AS WE USUALLY ALWAYS FORCE JUPITER MARKETS TO UPPERCASE...THE TICKER WE ARE CONVERTING TO MUST BE CASE-SENSITIVE! Keep this in mind when building the auto-correct / checks for this user input.
-
-
 BUILDOUT THE BACK END FOR ASSET MARKET DELETION.
 
 
@@ -206,9 +200,6 @@ https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specifi
 
 
 Add checks for 'presale usd', for skipping already-added asset markets, when searching for asset markets to add on the portfolio assets admin page. Currently, it's NOT skipping already-added presale markets.
-
-
-TORTURE TEST all the different combinations of add / delete markets on the 'portfolio assets' page, in the admin interface.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

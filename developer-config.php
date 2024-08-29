@@ -112,19 +112,19 @@ $ct['dev']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/w
 // (ALL maximum execution times are automatically 900 seconds [15 minutes] IN DEBUG MODE)
 ////
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['ui_max_exec_time'] = 300; // (default = 300)
+$ct['dev']['ui_max_exec_time'] = 350; // (default = 350)
 ////
 // Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['ajax_max_exec_time'] = 300; // (default = 300)
+$ct['dev']['ajax_max_exec_time'] = 500; // (default = 500)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct['dev']['cron_max_exec_time'] = 1320; // (default = 1320)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['int_api_max_exec_time'] = 180; // (default = 180)
+$ct['dev']['int_api_max_exec_time'] = 120; // (default = 120)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['webhook_max_exec_time'] = 180; // (default = 180)
+$ct['dev']['webhook_max_exec_time'] = 120; // (default = 120)
 
 
 // CAPTCHA text settings...
@@ -144,17 +144,6 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 // Only allow the MOST READABLE characters for use in captcha image 
 // (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
-     
-     
-// Jupiter aggregator tickers that DIFFER format-wise, from a standardized format (for conversion BEFORE market data retrieval)
-// (EG: MSOL / mSOL and WIF / $WIF are DIFFERENT ASSETS on jupiter exchange)
-$ct['dev']['jup_ag_ticker_mapping'] = array(
-                                           // 'TICKER' => 'ticKER',
-                                           // 'TICKER' => '$TICKER',
-                                           'MSOL' => 'mSOL',
-                                           'WIFSOL' => 'wifSOL',
-                                           'WIF' => '$WIF',
-                                           );
      
      
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests

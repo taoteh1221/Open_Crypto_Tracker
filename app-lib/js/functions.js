@@ -776,7 +776,7 @@ function red_save_button(mode=false) {
           
      $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
           
-     $('#sidebar .admin_settings_save', window.parent.document).removeClass('bitcoin');
+     $('#sidebar .admin_settings_save', window.parent.document).removeClass('blue');
      $('#sidebar .admin_settings_save', window.parent.document).addClass('red_bright');
      
      $(".save_notice").show(250, 'linear'); // 0.25 seconds // SHOW SAVE NOTICE AT TOP / BOTTOM OF THIS ADMIN IFRAME PAGE
@@ -792,7 +792,7 @@ function red_save_button(mode=false) {
           
      $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
           
-     $('#sidebar .admin_settings_save').removeClass('bitcoin');
+     $('#sidebar .admin_settings_save').removeClass('blue');
      $('#sidebar .admin_settings_save').addClass('red_bright');
      
      }
@@ -802,7 +802,7 @@ function red_save_button(mode=false) {
           
      $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
           
-     $('#sidebar .user_settings_save').removeClass('bitcoin');
+     $('#sidebar .user_settings_save').removeClass('blue');
      $('#sidebar .user_settings_save').addClass('red_bright');
      
      }
@@ -932,7 +932,7 @@ function app_reloading_check(form_submission=0, new_location=false) {
                unsaved_user_config = false;
 
                $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-               $('#sidebar .user_settings_save').addClass('bitcoin');
+               $('#sidebar .user_settings_save').addClass('blue');
                $('#sidebar .user_settings_save').removeClass('red_bright');
                
                app_reload(form_submission, new_location);
@@ -943,7 +943,7 @@ function app_reloading_check(form_submission=0, new_location=false) {
                parent.unsaved_admin_config = false;
 
                $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-               $('#sidebar .admin_settings_save', window.parent.document).addClass('bitcoin');
+               $('#sidebar .admin_settings_save', window.parent.document).addClass('blue');
                $('#sidebar .admin_settings_save', window.parent.document).removeClass('red_bright');
                
                app_reload(form_submission, new_location);
@@ -3526,7 +3526,7 @@ function nav_menu($chosen_menu) {
                       else {        
                       unsaved_admin_config = false;
                       $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-                      $('#sidebar .admin_settings_save').addClass('bitcoin');
+                      $('#sidebar .admin_settings_save').addClass('blue');
                       $('#sidebar .admin_settings_save').removeClass('red_bright');
                       }
 
@@ -3541,7 +3541,7 @@ function nav_menu($chosen_menu) {
                       else {        
                       unsaved_user_config = false;
                       $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-                      $('#sidebar .user_settings_save').addClass('bitcoin');
+                      $('#sidebar .user_settings_save').addClass('blue');
                       $('#sidebar .user_settings_save').removeClass('red_bright');
                       }
 
