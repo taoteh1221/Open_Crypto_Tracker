@@ -171,7 +171,11 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
 
-ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE (THEY ARE INCLUDED IN ANY "SKIPPED RESULTS" LINK BELOW).
+ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE (THEY ARE INCLUDED IN ANY "SKIPPED RESULTS" LINK BELOW).<br /><br />
+
+MARKET DATA (PRICE, TRADE VOLUME) MAY BE CACHED UP TO 1 HOUR, TO SPEED UP SEARCH TIMES.<br /><br />
+
+FOR BETTER JUPITER AGGREGATOR RESULTS, INCLUDE A PAIRING IN YOUR SEARCH PARAMETERS. WE LIMIT JUPITER AGGREGATOR RESULTS TO <?=$ct['conf']['ext_apis']['jupiter_ag_search_results_max']?>, TO AVOID 504 "GATEWAY TIMEOUT" ERRORS. IF YOU SEE THIS ERROR, ADJUST THIS LIMIT EVEN LOWER IN: APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM".
 
 </p>
 
@@ -208,7 +212,7 @@ ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN S
                // Pairing not supported
                elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'pairing_not_supported_') ) {
                ?>
-               <i><u><b>Pairing Not Supported: (ADD A BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET, TO ENABLE SUPPORT FOR THIS PAIRING)</b></u></i><br />
+               <i><u><b>Pairing Not Supported: (ADD BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET, TO ENABLE SUPPORT, IF TRULY THE PAIRING FOR THIS MARKET [DETERMINED BY MARKET ID, VARIES PER-EXCHANGE])</b></u></i><br />
                <?php
                }
                // Other flag

@@ -1241,38 +1241,38 @@ nav_menu('.user-nav');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
-    // #MUST# BE THE #LAST RUN LOGIC# IN INIT.JS!
-    
-	    // Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
-    privacy_mode(); 
-     
-    // Sort the portfolio AFTER checking for privacy mode
-    sorting_portfolio_table();
-    
-    sorting_generic_tables(true);
-    
-    paged_tablesort_sizechange();
-    
-    resize_password_notes();
-
+         // #MUST# BE THE #LAST RUN LOGIC# IN INIT.JS!
             	     
-    // Wait 1 seconds before Initiating the admin settings range sliders
-    // (otherwise widths aren't always registered yet for CSS style manipulations)
-    setTimeout(function(){
-    init_range_sliders();
-    }, 1000);
-    
-    
-    $('textarea[data-autoresize]').each(function(){
-      autosize(this);
-    }).on('autosize:resized', function(){
-    
-         admin_iframe_dom.forEach(function(iframe) {
-         iframe_size_adjust(iframe);
-         });
-                                   
-    });
+         // Wait 2 seconds before Initiating
+         // (otherwise everything is NOT always registered yet for DOM manipulations)
+         setTimeout(function(){
+              
+	    // Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
+         privacy_mode(); 
+          
+         // Sort the portfolio AFTER checking for privacy mode
+         sorting_portfolio_table();
+         
+         sorting_generic_tables(true);
+         
+         paged_tablesort_sizechange();
+         
+         resize_password_notes();
 
+         init_range_sliders();
+         
+              $('textarea[data-autoresize]').each(function(){
+                autosize(this);
+              }).on('autosize:resized', function(){
+              
+                   admin_iframe_dom.forEach(function(iframe) {
+                   iframe_size_adjust(iframe);
+                   });
+                                             
+              });
+         
+         }, 2000);
+         
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	

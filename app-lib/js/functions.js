@@ -2492,7 +2492,7 @@ function paginated_tables(element, sort_list, pager_id=false) {
 /////////////////////////////////////////////////////////////
 
 
-function ct_ajax_load(url_params, elm_id, elm_desc, post_data=false, csrf_sec_token=false, sort_tables=false, loading_height='3em') {
+function ct_ajax_load(url_params, elm_id, elm_desc, post_data=false, csrf_sec_token=false, sort_tables=false, loading_height=3) {
      
 disable_nav_save_buttons = 'AJAX data is loading, please wait until it has finished.';
      
@@ -2505,7 +2505,7 @@ scroll(0,0); // Make sure we are scrolled to top of page
      }
 
 
-$(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loading_height * 2) + ";'> <strong style='font-size: " + loading_height + ";' class='bitcoin'>Loading " + elm_desc + "...</strong> &nbsp; &nbsp; <img class='' src='templates/interface/media/images/auto-preloaded/loader.gif' alt='' style='height: " + loading_height + "; vertical-align: bottom;' /> </div>");
+$(elm_id).html("<div style='margin: " + loading_height + "em; line-height: " + (loading_height * 1.07) + "em;'> <strong style='font-size: " + loading_height + "em;' class='bitcoin'>Loading " + elm_desc + "...</strong> &nbsp; &nbsp; <img class='' src='templates/interface/media/images/auto-preloaded/loader.gif' alt='' style='height: " + loading_height + "em; vertical-align: top;' /> </div>");
 
 
      // IF we are NOT passing POST data, just populate with dummy data
@@ -2574,7 +2574,16 @@ $(elm_id).html("<div style='margin: " + loading_height + "; min-height: " + (loa
                   
                   // On error loading
                   error: function(data) {
-                  $(elm_id).html("<div style='min-height: " + (loading_height * 2) + "; font-size: " + loading_height + ";'> <strong class='bitcoin'>ERROR loading " + elm_desc + "...</strong> <br /><br /> <strong class='red'>" + data.status + ": " + data.statusText + "</strong> </div>");       
+                       
+                       if ( data.status == 504 && typeof post_data['add_markets_search'] !== 'undefined' && post_data['add_markets_search'].indexOf("/") == -1 ) {
+                       var more_info = 'Try narrowing your search, by including a pairing, or lower the search result limit for Jupiter Aggregator in: APIs => External APIs => Jupiter Aggregator Search Results Maximum';
+                       }
+                       else if ( data.status == 504 && typeof post_data['add_markets_search'] !== 'undefined' ) {
+                       var more_info = 'Try lowering the search result limit for Jupiter Aggregator in: APIs => External APIs => Jupiter Aggregator Search Results Maximum';
+                       }
+                       
+                  $(elm_id).html("<div style='line-height: " + (loading_height * 1.07) + "em; font-size: " + loading_height + "em;'> <strong class='bitcoin'>ERROR loading data...</strong> <br /><br /> <strong class='red'>" + data.status + ": " + data.statusText + "</strong> <br /><br /> <strong class='bitcoin'>" + more_info + "</strong> </div>");       
+                  
                   }
              
            });

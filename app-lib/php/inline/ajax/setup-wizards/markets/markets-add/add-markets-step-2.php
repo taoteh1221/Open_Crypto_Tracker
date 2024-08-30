@@ -176,7 +176,7 @@ $saved_search = $_POST['saved_search'];
      	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges, please wait";
+     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges, please wait, this may take awhile";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();
