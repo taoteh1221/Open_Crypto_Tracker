@@ -1243,8 +1243,8 @@ nav_menu('.user-nav');
 
          // #MUST# BE THE #LAST RUN LOGIC# IN INIT.JS!
             	     
-         // Wait 1 second before Initiating
-         // (otherwise widths aren't always registered yet for DOM manipulations)
+         // Wait 2 seconds before Initiating
+         // (otherwise everything is NOT always registered yet for DOM manipulations)
          setTimeout(function(){
               
 	    // Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
@@ -1271,7 +1271,7 @@ nav_menu('.user-nav');
                                              
               });
          
-         }, 1000);
+         }, 2000);
          
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -6791,6 +6791,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Optimizations / polish on the Access Stats UX and logic
 
+-Upgraded Jupiter Aggregator exchange API
+
 -Upgraded Idex exchange API to v4
 
 -Upgraded Kraken exchange API

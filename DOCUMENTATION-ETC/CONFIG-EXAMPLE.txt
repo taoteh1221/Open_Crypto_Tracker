@@ -187,7 +187,7 @@ $ct['conf']['comms']['logs_email'] = 3; // (default = 3)
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
 // YOU WILL GET ALERTS IN THE ERROR LOGS IF YOU NEED TO ADJUST THIS
-$ct['conf']['ext_apis']['remote_api_timeout'] = 35; // (default = 35)
+$ct['conf']['ext_apis']['remote_api_timeout'] = 30; // (default = 30)
 
 
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 
@@ -299,6 +299,9 @@ $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 // (during ticker searches, when adding new assets)
 // https://station.jup.ag/docs/token-list/token-list-api
 $ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] = 'no'; // 'no', 'yes'
+////
+// We limit how many search results Jupiter Aggregator is allowed process (when adding coin markets), to avoid 504 "gateway timeout" errors
+$ct['conf']['ext_apis']['jupiter_ag_search_results_max'] = 30; // 30 MAXIMUM
 
 
 // HOURS to cache data, for exchanges that support a specific "search" endpoint in their API
@@ -473,7 +476,7 @@ $ct['conf']['currency']['upbit_pairings_search'] = 'BTC,ETH,USDT,KRW';
 ////
 // OTHER upcoming / semi-popular market pairings searched for, when adding new assets / coins (comma-separated)
 // BE CAREFUL, AND ONLY ADD FIAT / STABLECOINS / ***MAJOR*** BLUECHIPS HERE, OR YOU RISK MESSING UP 'ADD MARKETS' SEARCH RESULTS!
-$ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,WBTC,WETH,FDUSD,CBBTC'; 
+$ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,WBTC,WETH,FDUSD,CBBTC,USDD,WRX'; 
 
 
 // Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)
@@ -565,6 +568,8 @@ $ct['conf']['currency']['conversion_currency_symbols'] = array(
                               						'ugx = USh ',
                               						'usd = $',
                               						'usdc = Ⓢ ',
+                              						'fdusd = Ⓢ ',
+                              						'usdd = Ⓢ ',
                               						'usdt = ₮ ',
                               						'uyu = $U ',
                               						'vnd = ₫',
@@ -1888,6 +1893,12 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'uah' => array(
+                                          'coingecko_uah' => 'bitcoin',
+                                                    ),
+
+
+                                                    
                                     'usd' => array(
                                           'coingecko_usd' => 'bitcoin',
                                           'coinbase' => 'BTC-USD',
@@ -2129,6 +2140,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'uah' => array(
+                                          'coingecko_uah' => 'ethereum',
+                                                    ),
+
+                                                    
                                     'usd' => array(
                                           'coingecko_usd' => 'ethereum',
                                           'coinbase' => 'ETH-USD',
@@ -2235,6 +2251,11 @@ $ct['conf']['assets'] = array(
                                     'try' => array(
                                          'binance' => 'SOLTRY',
                                          'gateio' => 'SOL_TRY',
+                                                    ),
+
+                                                    
+                                    'uah' => array(
+                                          'coingecko_uah' => 'solana',
                                                     ),
 
                                                     

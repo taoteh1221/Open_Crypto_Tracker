@@ -142,6 +142,8 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> "developer-config.php" contains MANY MANY MANY developer-only configs!
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
+!!!!
+===> https://www.threesl.com/blog/special-characters-regular-expressions-escape/
 !!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

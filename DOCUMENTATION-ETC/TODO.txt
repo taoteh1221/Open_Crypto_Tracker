@@ -78,6 +78,8 @@ GENERAL REMINDERS
 ===> "developer-config.php" contains MANY MANY MANY developer-only configs!
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
+!!!!
+===> https://www.threesl.com/blog/special-characters-regular-expressions-escape/
 !!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -200,6 +202,9 @@ BUILDOUT THE BACK END FOR ASSET MARKET DELETION. For Ethereum and Solana, we nee
 
 Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry:
 https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specific-jstree-node
+
+
+TORTURE TEST ADDING / DELETING ASSETS AND MARKETS.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

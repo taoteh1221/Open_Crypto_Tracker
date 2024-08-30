@@ -58,6 +58,7 @@ if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != tr
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/messages/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/vars/state-tracking/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/xml_error_parsing/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/market_id_parsing/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/plugins/') != true ) {
     
     foreach ( $ct['change_dir_perm'] as $dir ) {

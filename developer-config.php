@@ -115,7 +115,7 @@ $ct['dev']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/w
 $ct['dev']['ui_max_exec_time'] = 350; // (default = 350)
 ////
 // Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct['dev']['ajax_max_exec_time'] = 500; // (default = 500)
+$ct['dev']['ajax_max_exec_time'] = 1000; // (default = 1000)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct['dev']['cron_max_exec_time'] = 1320; // (default = 1320)
@@ -171,7 +171,7 @@ $ct['dev']['hyphen_delimited_markets'] = array(
                                                  'okex',
                                                  'kucoin',
                                                  'okcoin',
-                                                 'loopring_amm',
+                                                 'loopring',
                                                  'idex',
                                                  'zebpay',
                                                  'aevo',
@@ -313,7 +313,6 @@ $ct['dev']['no_trade_volume_api_data'] = array(
                                                 'eth_nfts',
                                                 'sol_nfts',
                                                 'alt_nfts',
-                                                'jupiter_ag',
                                                 'coinspot',
                                                 'unocoin',
                                                );
