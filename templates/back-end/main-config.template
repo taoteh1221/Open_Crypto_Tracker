@@ -300,8 +300,8 @@ $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 // https://station.jup.ag/docs/token-list/token-list-api
 $ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] = 'no'; // 'no', 'yes'
 ////
-// We limit how many search results Jupiter Aggregator is allowed process (when adding coin markets), to avoid 504 "gateway timeout" errors
-$ct['conf']['ext_apis']['jupiter_ag_search_results_max'] = 30; // 30 MAXIMUM
+// We limit how many search results Jupiter Aggregator is allowed to process (when adding coin markets), to avoid 504 "gateway timeout" errors
+$ct['conf']['ext_apis']['jupiter_ag_search_results_max'] = 500; // 100 MINIMUM / 500 MAXIMUM / DEFAULT = 500
 
 
 // HOURS to cache data, for exchanges that support a specific "search" endpoint in their API

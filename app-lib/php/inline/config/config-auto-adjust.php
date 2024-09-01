@@ -404,9 +404,12 @@ ksort($ct['conf']['plugins']['plugin_status']);
 $ct['opt_conf']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct['opt_conf']['crypto_pair']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
 
 
-// Idiot-proof maximum of 30 jupiter aggregator search results
-if ( abs($ct['conf']['ext_apis']['jupiter_ag_search_results_max']) > 30 ) {
-$ct['conf']['ext_apis']['jupiter_ag_search_results_max'] = 30;
+// Idiot-proof maximum RANGE of jupiter aggregator search results
+if ( $ct['conf']['ext_apis']['jupiter_ag_search_results_max'] > 500 ) {
+$ct['conf']['ext_apis']['jupiter_ag_search_results_max'] = 500;
+}
+elseif ( $ct['conf']['ext_apis']['jupiter_ag_search_results_max'] < 100 ) {
+$ct['conf']['ext_apis']['jupiter_ag_search_results_max'] = 100;
 }
 
 

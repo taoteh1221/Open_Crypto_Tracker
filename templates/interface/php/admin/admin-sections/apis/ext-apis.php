@@ -346,17 +346,17 @@ $ct['admin_render_settings']['exchange_search_api_cache_time']['is_notes'] = 'HO
      
 $ct['admin_render_settings']['jupiter_ag_search_results_max']['is_range'] = true;
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_min'] = 1;
+$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_min'] = 100;
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_max'] = 30;
+$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_max'] = 500;
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_step'] = 1;
+$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_step'] = 25;
 
 $ct['admin_render_settings']['jupiter_ag_search_results_max']['range_ui_prefix'] = 'MAXIMUM of ';
 
 $ct['admin_render_settings']['jupiter_ag_search_results_max']['range_ui_suffix'] = ' search results';
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['is_notes'] = 'We limit how many search results Jupiter Aggregator is allowed process (when adding coin markets), to avoid 504 "gateway timeout" errors';
+$ct['admin_render_settings']['jupiter_ag_search_results_max']['is_notes'] = 'We limit how many search results Jupiter Aggregator is allowed to process (when adding coin markets), to avoid 504 "gateway timeout" errors';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

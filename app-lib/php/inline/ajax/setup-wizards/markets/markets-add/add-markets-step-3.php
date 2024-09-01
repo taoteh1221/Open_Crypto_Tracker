@@ -20,6 +20,14 @@ if ( isset($_POST['add_markets_search']) ) {
      
 $search_results = $ct['api']->ticker_markets_search($_POST['add_markets_search'], $specific_exchange);
 
+
+// Calculate search runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$search_runtime = round( ($time - $start_runtime) , 3);
+
+
 // UX: SAVE results for users hitting the 'Go Back To Previous Step' link
 $ct['cache']->other_cached_data('save', $recent_search_id, $ct['base_dir'] . '/cache/secured/other_data', $search_results);
 
@@ -32,6 +40,8 @@ $search_results = $ct['cache']->other_cached_data('load', $recent_search_id, $ct
 
 $included_results = array();
 
+$included_results_count = array();
+
 $duplicate_check = array();
 
 $skipped_results = array();
@@ -43,9 +53,13 @@ $not_required = array(
 
 
 foreach ( $search_results as $exchange_key => $exchange_data ) {
+     
+$included_results_count[$exchange_key] = 0;
           
           
        foreach ( $exchange_data as $market_data ) {
+          
+       $included_results_count[$exchange_key] = $included_results_count[$exchange_key] + 1;
                
        $missing_required = false; // RESET
                
@@ -56,7 +70,7 @@ foreach ( $search_results as $exchange_key => $exchange_data ) {
                          
                     $missing_required .= ( $missing_required ? ',' : '' ) . $meta_key;
 
-                    $ct['gen']->log( 'market_error', 'No data found for required value "' . $missing_required . '", during asset market search: "' . $_POST['add_markets_search'] . '" (for exchange API '.$exchange_key.')');
+                    $ct['gen']->log( 'market_error', 'No data determined for required value(s) "' . $missing_required . '", during asset market search: "' . $_POST['add_markets_search'] . '" (for exchange API '.$exchange_key.')');
 
                     }
                
@@ -87,9 +101,10 @@ foreach ( $search_results as $exchange_key => $exchange_data ) {
                                                                                                           'pairing' => $market_data['pairing'],
                                                                                                           'mcap_slug' => $market_data['mcap_slug'],
                                                                                                           'id' => $market_data['id'],
+                                                                                                          'contract_address' => $market_data['contract_address'],
                                                                                                           'data' => $market_data['data'],
                                                                                                          );
-                                                                                                         
+
                }
                elseif ( $missing_required ) {
                     
@@ -147,6 +162,13 @@ foreach ( $included_results as $pairing_key => $unused ) {
 }
 
 
+// Results COUNT
+$results_count = 0;
+foreach ( $included_results_count as $exchange_count ) {
+$results_count = $results_count + $exchange_count;
+}
+
+
 // Sort skipped markets by exchange
 $ct['usort_alpha'] = 'exchange';
 usort($skipped_results, array($ct['gen'], 'usort_alpha') );
@@ -164,6 +186,9 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      $search_desc = $_POST['saved_search'];
      }
 
+
+echo '<p class="align_center '.( $search_runtime > 90 ? 'red' : 'green' ).'"> '.$results_count.' search results, completed in '.$search_runtime.' seconds.</p>';
+
 ?>
 
 
@@ -173,9 +198,13 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE (THEY ARE INCLUDED IN ANY "SKIPPED RESULTS" LINK BELOW).<br /><br />
 
-MARKET DATA (PRICE, TRADE VOLUME) MAY BE CACHED UP TO 1 HOUR, TO SPEED UP SEARCH TIMES.<br /><br />
+MARKET DATA (PRICE, TRADE VOLUME, ETC, SHOWN WHEN YOU CLICK ON EXCHANGE NAMES) MAY BE CACHED UP TO 1 HOUR, TO SPEED UP SEARCH TIMES.<br /><br />
 
-FOR BETTER JUPITER AGGREGATOR RESULTS, INCLUDE A PAIRING IN YOUR SEARCH PARAMETERS. WE LIMIT JUPITER AGGREGATOR RESULTS TO <?=$ct['conf']['ext_apis']['jupiter_ag_search_results_max']?>, TO AVOID 504 "GATEWAY TIMEOUT" ERRORS. IF YOU SEE THIS ERROR, ADJUST THIS LIMIT EVEN LOWER IN: APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM".
+FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEARCH PARAMETERS.<br /><br />
+
+WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=$ct['conf']['ext_apis']['jupiter_ag_search_results_max']?> (ADJUSTABLE IN: "APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM", <?=$included_results_count['jupiter_ag']?> results below [including skipped] are from Jupiter Aggregator), TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS, AND VERY LONG SEARCH TIMES ON SLOWER DEVICES. IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.<br /><br />
+
+JUPITER AGGREGATOR API SERVERS ARE KNOW TO GET OVERLOADED ON OCCASION. SO IF YOU ARE HAVING ISSUES GETTING RESULTS FROM THEM, CHECK THE ERROR LOGS, AND TRY AGAIN LATER.
 
 </p>
 
@@ -308,22 +337,52 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          <span class='light_sea_green'>Name:</span> <?=$market_data['name']?><br />
                          <span class='light_sea_green'>Asset:</span> <?=$market_data['asset']?><br />
                          <span class='light_sea_green'>Pairing:</span> <?=$market_data['pairing']?><br />
+                         
                          <?php
                          if ( is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_') ) {
                          ?>
                          <span class='red'>Exchange Already Added:</span> (if selected, <i class='red'>would replace market ID: <?=preg_replace("/replacement_for_/i", "", $market_data['flagged_market'])?></i>)<br />
                          <?php
                          }
+                         
                          if ( isset($market_data['mcap_slug']) ) {
                          ?>
                          <span class='light_sea_green'>Marketcap Slug:</span> <?=$market_data['mcap_slug']?><br />
                          <?php
                          }
                          ?>
+                         
                          <span class='light_sea_green'>ID:</span> <?=$market_data['id']?><br />
+                         
+                         <?php
+                         if ( isset($market_data['contract_address']) ) {
+                         ?>
+                         <span class='light_sea_green'>Contract Address:</span> <?=$market_data['contract_address']?><br />
+                         <?php
+                         }
+                         ?>
+                         
                          <span class='light_sea_green'>Last Trade:</span> <?=$market_data['data']['last_trade']?><br />
+                         
+                         <?php
+                         if ( isset($market_data['24hr_asset_vol']) ) {
+                         ?>
                          <span class='light_sea_green'>24 Hour ASSET Volume:</span> <?=$market_data['data']['24hr_asset_vol']?><br />
+                         <?php
+                         }
+                         
+                         if ( isset($market_data['24hr_pair_vol']) ) {
+                         ?>
                          <span class='light_sea_green'>24 Hour PAIR Volume:</span> <?=$market_data['data']['24hr_pair_vol']?>
+                         <?php
+                         }
+                         
+                         if ( isset($market_data['24hr_usd_vol']) ) {
+                         ?>
+                         <span class='light_sea_green'>24 Hour USD Volume:</span> <?=$market_data['data']['24hr_usd_vol']?>
+                         <?php
+                         }
+                         ?>
                          
                          </p>
                          

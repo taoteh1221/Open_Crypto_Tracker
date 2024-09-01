@@ -18,6 +18,50 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function search_mode($haystack, $needle, $mode='stristr', $strip='symbols,space') {
+
+   global $ct; 
+   
+       
+       // Remove everything NOT alphanumeric
+       if ( stristr($strip, 'symbols') ) {
+       $haystack = preg_replace("/[^0-9a-zA-Z]+/i", "", $haystack);
+       $needle = preg_replace("/[^0-9a-zA-Z]+/i", "", $needle);
+       }
+       
+       
+       // Trim any whitespace off ends
+       if ( stristr($strip, 'space') ) {
+       $haystack = trim($haystack);
+       $needle = trim($needle);
+       }
+       
+       
+       // 'strict_search' MUST ALWAYS OVERRIDE stristr!
+       // Case insensitive EXACT MATCH
+       if ( $_POST['strict_search'] == 'yes' ) {
+           
+           if ( strtolower($haystack) == strtolower($needle) ) {
+           return true;
+           }
+           else {
+           return false;
+           }
+           
+       }
+       // Case insensitive PARTIAL MATCH
+       elseif ( $mode == 'stristr' ) {
+       return stristr($haystack, $needle);
+       }
+   
+
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function table_pager_nav($pager_id, $custom_class=false, $pager_options=false) {
 
    global $ct;                                      
@@ -94,14 +138,14 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
-   function array_debugging($array, $multidim=false) {
+   function array_debugging($array, $assoc_detailed=false) {
 
    global $ct;                                      
      
      if ( !is_array($array) ) {
      return false;
      }
-     elseif ( $this->has_string_keys($array) ) {
+     elseif ( $assoc_detailed && $this->has_string_keys($array) ) {
           
           foreach ( $array as $key => $val ) {
           ?>
@@ -109,9 +153,9 @@ var $ct_array = array();
           <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
           
                <?php
-               if ( $multidim && is_array($val) ) {
+               if ( is_array($val) ) {
                ?>
-               <?=$key?> (<?=sizeof($val)?> results):
+               <?=$key?> (<?=sizeof($val)?> value[s]):
                <?php
                }
                else {
