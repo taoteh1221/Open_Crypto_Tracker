@@ -442,7 +442,7 @@ echo '?';
 $asset_val_raw = $ct['var']->num_to_str($asset_val_raw);
 
 	// FIAT EQUIV
-	if ( $fiat_eqiv == 1 ) {
+	if ( $has_btc_pairing ) {
      $thres_dec = $ct['gen']->thres_dec($asset_val_raw, 'u', 'fiat'); // Units mode
 	}
 	else {
@@ -640,7 +640,7 @@ echo "<span class='app_sort_filter blue private_data'>" . ( $pretty_asset_amnt !
 $asset_val_total_raw = $ct['var']->num_to_str($asset_val_total_raw);
 
 	// UX on FIAT EQUIV
-	if ( $fiat_eqiv == 1 ) {
+	if ( $has_btc_pairing ) {
     $thres_dec = $ct['gen']->thres_dec($asset_val_total_raw, 'u', 'fiat'); // Units mode
 	}
 	else {

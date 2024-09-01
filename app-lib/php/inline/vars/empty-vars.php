@@ -146,6 +146,8 @@ $ct['upgraded_install'] = false;
 $ct['conf_upgraded'] = false;
 
 $ct['is_login_form'] = false;
+
+$ct['ticker_pairing_search'] = false;
         
 $ct['alphavantage_pairs'] = 0;
 
@@ -154,6 +156,8 @@ $ct['precache_feeds_count'] = 0;
 $ct['light_chart_first_build_count'] = 0; 
 
 $ct['count_2fa_fields'] = 0;
+
+$ct['jupiter_ag_search_results'] = 0;
 
 $ct['activate_proxies'] = 'off';
 

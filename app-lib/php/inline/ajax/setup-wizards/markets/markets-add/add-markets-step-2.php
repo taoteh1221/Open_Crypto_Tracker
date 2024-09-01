@@ -32,7 +32,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	<li class='blue'>
           	
           	<b>Search ALL EXCHANGES <span class='red'>(that have MULTIPLE markets search capability)</span>, for a TICKER, or TICKER / PAIRING.</b><br />
-          	<span class='red'>(includes similar results: bonk/usd search results will also include babybonk/usdt, etc etc)</span><br />
+          	<span class='red'>(includes similar results, UNLESS you have "Only Search For EXACT MATCHES" enabled below)</span><br />
           	<span class='bitcoin'>(example[s]: BTC, ETH, SOL, BONK, WEN, BTC/USD, ETH/EUR, ETH/BTC, SOL/GBP, SOL/ETH)</span>
           	
           	</li>
@@ -41,14 +41,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	
           	<b>Search a SPECIFIC EXCHANGE, for a SPECIFIC MARKET ID <span class='red'>(MARKET ID MUST BE AN **EXACT** MATCH)</span>.</b><br />
           	<span class='bitcoin'>(example[s]: XBTUSD at Bitmex, tBTCUSD at Bitfinex, ETHDAI at Binance, SOL-USD at Coinbase)</span>
-          	
-          	</li>
-	     
-          	<li class='blue'>
-          	
-          	<b>Search CoinGecko.com for an "APP ID", or "APP ID" / PAIRING <span class='red'>("APP ID" is found on the asset's CoinGecko page)</span>.</b><br />
-          	<span class='red'>(adding a CoinGecko market automatically adds asset name [for NEW assets], and link to it's CoinGecko page)</span><br />
-          	<span class='bitcoin'>(example[s]: bitcoin, ethereum, solana, bitcoin/usd, ethereum/eur, solana/hkd)</span>
           	
           	</li>
 	     
@@ -95,6 +87,16 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 		
 		</p>
 		
+     	
+     	<p class='input_margins'>
+     	
+     	<input type='checkbox' id='strict_search' name='strict_search' value='yes' <?=( !isset($_POST['strict_search']) || isset($_POST['strict_search']) && $_POST['strict_search'] == 'yes' ? 'checked' : '' )?> /> 
+     	
+     	<span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, Only Search For EXACT MATCHES</span> 
+	     
+		<img class='tooltip_style_control' id='strict_search_info' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /><br />
+		
+		</p>
 		
 	 <script>
 		
@@ -114,6 +116,36 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 			position: "top",
   			classname: 'balloon-tooltips',
 			contents: skip_alphavantage_info,
+			css: {
+					fontSize: "<?=$set_font_size?>em",
+					minWidth: "350px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		
+			var strict_search_info = '<h5 class="align_center bitcoin tooltip_title">Only Search For EXACT MATCHES</h5>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">When searching for assets / pairings, only show results that are an EXACT MATCH to what you are looking for, AND SKIP showing "similar" matches. This help a lot with narrowing search results down, especially if you are getting too many results in your searches without it enabled.</p>'
+			
+			
+			+'<p> </p>';
+
+	
+			$('#strict_search_info').balloon({
+			html: true,
+			position: "top",
+  			classname: 'balloon-tooltips',
+			contents: strict_search_info,
 			css: {
 					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
@@ -160,7 +192,7 @@ $saved_search = $_POST['saved_search'];
      	?>
      	
      	
-     	<p class='input_margins' style='width: calc(100% - 2em);'><input type='text' id='add_markets_search' name='add_markets_search' value='<?=$saved_search?>' style='width: 100%;' /> </p>
+     	<p class='input_margins' style='width: calc(100% - 2em);'><input type='text' id='add_markets_search' name='add_markets_search' value='<?=htmlspecialchars($saved_search)?>' style='width: 100%;' /> </p>
      	
      	<button class='force_button_style input_margins' onclick='
      	
@@ -174,9 +206,17 @@ $saved_search = $_POST['saved_search'];
      	    var exchange_count = Number("<?=$all_exchanges_search_count?>");
      	    }
      	    
+     	
+     	    if ( $("#strict_search").is(":checked") ) {
+     	    var strict_search = "yes";
+     	    }
+     	    else {
+     	    var strict_search = "no";
+     	    }
+     	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges, please wait, this may take awhile";
+     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges.<br />Please wait, this may take awhile";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();
@@ -187,6 +227,7 @@ $saved_search = $_POST['saved_search'];
      	                          "add_markets_search": $("#add_markets_search").val(),
      	                          "add_markets_search_exchange": $("#add_markets_search_exchange").val(),
      	                          "skip_alphavantage_search": skip_alphavantage_search,
+     	                          "strict_search": strict_search,
      	                          };
      	
      	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "results from " + search_desc, add_markets_search, true); // Secured
