@@ -1400,11 +1400,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
    
        // https://station.jup.ag/docs/token-list/token-list-api
-       if ( $ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] == 'yes' ) {
-       $jupiter_ag_search_tags = 'verified,strict,community,unknown';
+       if ( isset($_POST['jupiter_tags']) && trim($_POST['jupiter_tags']) != '' ) {
+       $jupiter_ag_search_tags = $_POST['jupiter_tags'];
        }
        else {
-       $jupiter_ag_search_tags = 'verified,strict,community';
+       $jupiter_ag_search_tags = 'verified';
        }
        
    
@@ -1475,8 +1475,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                      foreach( $data as $val ) {
           
                          
-                         // IF relevant, max $ct['conf']['ext_apis']['jupiter_ag_search_results_max'] results
-                         // (to avoid gateway timeout on server, from too many results)
                          if (
                          !$search_pairing && isset($val['symbol']) && $ct['gen']->search_mode($val['symbol'], $dyn_id)
                          || $search_pairing && isset($val['symbol']) && $ct['gen']->search_mode($val['symbol'], $dyn_id)
@@ -1485,10 +1483,14 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
                               
                               // Skip
+                              // JUPITER WON'T LET US GET MORE THAN 100 COINS W/ PRICE API ANYWAY (NO PAGINATION OPTION AS OF 2024/9/3),
+                              // SO (FEASIBLY) OUR HARD CAP IS 100 RELEVANT COINS PER SEARCH
+                              // IF relevant, max $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] results
+                              // (to avoid gateway timeout on server, from too many results)
                               if (
                               $ct['gen']->search_mode($val['symbol'], $required_pairing)
-                              || $loop_count >= 100
-                              || $ct['jupiter_ag_search_results'] >= $ct['conf']['ext_apis']['jupiter_ag_search_results_max']
+                              || $loop_count >= 100 
+                              || $ct['jupiter_ag_search_results'] >= ($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])
                               ) {
                               break;
                               }
@@ -4056,6 +4058,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
     		// (ONLY IF WE ARE ***NOT*** RUNNING A TICKER MARKETS SEARCH, AS IT COULD CAUSE HUNDREDS OF NEW API CALLS PER MINUTE!)
     		elseif ( !$ct['ticker_markets_search'] && isset($result['jup_ag_address']) ) {
     		
+    		// As of 2024/9/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
+    		// https://station.jup.ag/docs/token-list/token-list-api
           $response = @$ct['cache']->ext_data('url', 'https://tokens.jup.ag/token/' . $result['jup_ag_address'], 90);
             
           $data = json_decode($response, true);

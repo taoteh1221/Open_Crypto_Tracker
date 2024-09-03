@@ -109,7 +109,7 @@ var $ct_array = array();
               
               <b class='red'>PLEASE *FULLY* CONFIGURE THIS SETTING'S 'FORM FIELD TYPE' BELOW IN THE ADMIN INTERFACE CONFIG!<br />
               <?=$ct['gen']->key_to_name($passed_key)?>:</b><br />
-              <?=$passed_val?>
+              <?=( !isset($passed_val) || $passed_val == '' ? '(NO VALUE SET, CHECK /app-lib/php/inline/config/config-auto-adjust.php, FOR OUTDATED AUTO CORRECT / ADJUST LOGIC)' : $passed_val )?>
           
          </p>
          
@@ -175,6 +175,7 @@ var $ct_array = array();
         return $field_array_base;
         }
         else {
+        $ct['gen']->log('security_error', 'FAILED CHECK in valid_secure_config_update_request(), for "conf_id": ' . $_POST['conf_id']);
         return false;
         }
         
@@ -374,6 +375,15 @@ var $ct_array = array();
               <i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               <?php
               }
+              
+              
+              if ( isset($render_params[$passed_key]['is_script']) ) {
+              ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
+              <?php
+              }
               ?>
               
          </p>
@@ -478,6 +488,15 @@ var $ct_array = array();
               <i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               <?php
               }
+              
+              
+              if ( isset($render_params[$passed_key]['is_script']) ) {
+              ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
+              <?php
+              }
               ?>
               
          </p>
@@ -577,6 +596,15 @@ var $ct_array = array();
          <?php
          }
               
+              
+         if ( isset($render_params[$passed_key]['is_script']) ) {
+              ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
+              <?php
+         }
+              
                 
    }
 
@@ -641,6 +669,15 @@ var $ct_array = array();
           
               <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               
+              <?php
+              }
+              
+              
+              if ( isset($render_params[$passed_key]['is_script']) ) {
+              ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
               <?php
               }
               ?>
@@ -780,6 +817,15 @@ var $ct_array = array();
               if ( isset($render_params[$passed_key]['is_notes']) ) {
               ?>
               <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+              <?php
+              }
+              
+              
+              if ( isset($render_params[$passed_key]['is_script']) ) {
+              ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
               <?php
               }
               ?>
@@ -987,6 +1033,15 @@ var $ct_array = array();
                              
                <?php
                }
+              
+              
+               if ( isset($render_params[$passed_key]['is_script']) ) {
+               ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
+               <?php
+               }
                ?>
 
                <p class='subarray_repeatable_add <?=$subarray_class?>_add'><input type="button" value="<?=$render_params[$key]['is_repeatable']['add_button']?>" class="btn btn-default add" align="center"></p>
@@ -1001,14 +1056,23 @@ var $ct_array = array();
               <b class='bitcoin'><?=$ct['gen']->key_to_name($key)?></b> &nbsp; 
 
                <?php
-               // We render any notes at the TOP of subarray settings
-               if ( isset($render_params[$key]['is_notes']) ) {
+                   // We render any notes at the TOP of subarray settings
+                   if ( isset($render_params[$key]['is_notes']) ) {
                ?>
                     
                <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$key]['is_notes']?></span>
                              
                <?php
-               }
+                   }
+                   
+              
+                   if ( isset($render_params[$passed_key]['is_script']) ) {
+                   ?>
+                   <script>
+                   <?=$render_params[$passed_key]['is_script']?>
+                   </script>
+                   <?php
+                   }
                
               }
          
@@ -1033,35 +1097,35 @@ var $ct_array = array();
               // WE USE isset below, as some subarray RENDER PARAMS are NOT SUBARRAYS THEMSELVES
               // (SOME ARE JUST THE CONFIGS FOR SUBARRAYS)
               
-              // Ranges in subarray
-              if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_range']) ) {
-              $this->range_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
-              }
-               
-              // Radio buttons in subarray
-              if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_radio']) ) {
-              $this->radio_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
-              }
-              
-              // Select dropdowns in subarray
-              if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_select']) ) {
-              $this->select_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
-              }
-              
-              // Regular text fields in subarray
-              if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_text']) ) {
-              $this->text_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
-              }
-              
-              // Color fields in subarray
-              if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_color']) ) {
-              $this->color_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
-              }
-              
-              // Textarea fields in subarray
-              if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_textarea']) ) {
-              $this->textarea_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
-              }
+                   // Ranges in subarray
+                   if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_range']) ) {
+                   $this->range_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+                   }
+                    
+                   // Radio buttons in subarray
+                   if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_radio']) ) {
+                   $this->radio_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+                   }
+                   
+                   // Select dropdowns in subarray
+                   if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_select']) ) {
+                   $this->select_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+                   }
+                   
+                   // Regular text fields in subarray
+                   if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_text']) ) {
+                   $this->text_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+                   }
+                   
+                   // Color fields in subarray
+                   if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_color']) ) {
+                   $this->color_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+                   }
+                   
+                   // Textarea fields in subarray
+                   if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_textarea']) ) {
+                   $this->textarea_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+                   }
               
 	         
 	         $rendered_form_fields = ob_get_contents();
@@ -1323,6 +1387,15 @@ var $ct_array = array();
               
                  <?php
                  }
+              
+              
+                 if ( isset($render_params[$passed_key]['is_script']) ) {
+                 ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
+                 <?php
+                 }
                  ?>
               
               </div>
@@ -1543,6 +1616,15 @@ var $ct_array = array();
              if ( isset($render_params[$passed_key]['is_notes']) ) {
              ?>
              <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+             <?php
+             }
+              
+              
+             if ( isset($render_params[$passed_key]['is_script']) ) {
+             ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
              <?php
              }
              ?>

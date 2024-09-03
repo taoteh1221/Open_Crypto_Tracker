@@ -38,7 +38,6 @@ $ct['conf']['charts_alerts']['enable_price_charts'] = $ct['var']->auto_correct_s
 $ct['conf']['proxy']['proxy_alert_channels'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_channels'], 'lower');
 $ct['conf']['proxy']['proxy_alert_runtime'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_runtime'], 'lower');
 $ct['conf']['proxy']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_checkup_ok'], 'lower');
-$ct['conf']['ext_apis']['jupiter_ag_allow_unknown'] = $ct['var']->auto_correct_str($ct['conf']['ext_apis']['jupiter_ag_allow_unknown'], 'lower');
 
 
 // Trimming whitespace
@@ -405,11 +404,11 @@ $ct['opt_conf']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct['opt_conf']['crypto
 
 
 // Idiot-proof maximum RANGE of jupiter aggregator search results
-if ( $ct['conf']['ext_apis']['jupiter_ag_search_results_max'] > 500 ) {
-$ct['conf']['ext_apis']['jupiter_ag_search_results_max'] = 500;
+if ( $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] > 250 ) {
+$ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 250;
 }
-elseif ( $ct['conf']['ext_apis']['jupiter_ag_search_results_max'] < 100 ) {
-$ct['conf']['ext_apis']['jupiter_ag_search_results_max'] = 100;
+elseif ( $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] < 75 ) {
+$ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 75;
 }
 
 

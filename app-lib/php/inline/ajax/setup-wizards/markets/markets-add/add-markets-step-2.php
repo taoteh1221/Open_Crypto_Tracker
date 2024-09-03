@@ -54,7 +54,10 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	</ul>
 	
      	
-     	<p class='input_margins'><select id='add_markets_search_exchange' name='add_markets_search_exchange'>
+     	<p class='input_margins'>
+     	
+     	
+     	<select id='add_markets_search_exchange' name='add_markets_search_exchange'>
      	
      	<option value='all_exchanges'> ALL Exchanges </option>
      	
@@ -68,7 +71,41 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	}
      	?>
      	
-     	</select></p>
+     	</select>
+     	
+     	
+     	</p>
+     	
+     	
+     	<p class='input_margins'>
+     	
+     	
+     	FILTER Any Jupiter Aggregator Results By:<br />
+     	
+     	<select id='jupiter_tags' name='jupiter_tags'>
+     	
+     	<option value='verified' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified' ? 'selected' : '' )?> > VERIFIED Tokens </option>
+     	
+     	<option value='strict' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'strict' ? 'selected' : '' )?> > STRICT Tokens </option>
+     	
+     	<option value='community' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'community' ? 'selected' : '' )?> > COMMUNITY Tokens </option>
+     	
+     	<option value='lst' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'lst' ? 'selected' : '' )?> > SANCTUM Tokens </option>
+     	
+     	<option value='birdeye-trending' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'birdeye-trending' ? 'selected' : '' )?> > BirdEye Top 100 Trending Tokens </option>
+     	
+     	<option value='clone' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified' ? 'clone' : '' )?> > Clone Protocol Tokens </option>
+     	
+     	<option value='pump' value='birdeye-trending' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'pump' ? 'selected' : '' )?> > GRADUATED Pump.fun Tokens </option>
+     	
+     	<option value='all_tags_without_unknown' value='birdeye-trending' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified,community,strict,lst,birdeye-trending,clone,pump' ? 'selected' : '' )?> > ALL Tokens, EXCEPT Unknown </option>
+     	
+     	<option value='all_tags_with_unknown' value='birdeye-trending' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified,community,strict,lst,birdeye-trending,clone,pump,unknown' ? 'selected' : '' )?> > ALL Tokens, INCLUDING Unknown (POSSIBLY UNSAFE!) </option>
+     	
+     	</select>
+     	
+     	
+     	</p>
      	
      	
      	<?php
@@ -214,9 +251,20 @@ $saved_search = $_POST['saved_search'];
      	    var strict_search = "no";
      	    }
      	    
+     	
+     	    if ( $("#jupiter_tags").val() == "all_tags_without_unknown" ) {
+     	    var jupiter_tags = "verified,community,strict,lst,birdeye-trending,clone,pump";
+     	    }
+     	    else if ( $("#jupiter_tags").val() == "all_tags_with_unknown" ) {
+     	    var jupiter_tags = "verified,community,strict,lst,birdeye-trending,clone,pump,unknown";
+     	    }
+     	    else {
+     	    var jupiter_tags = $("#jupiter_tags").val();
+     	    }
+     	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges.<br />Please wait, this may take awhile";
+     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges.<br />Please wait, this may take up to a few minutes";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();
@@ -228,6 +276,7 @@ $saved_search = $_POST['saved_search'];
      	                          "add_markets_search_exchange": $("#add_markets_search_exchange").val(),
      	                          "skip_alphavantage_search": skip_alphavantage_search,
      	                          "strict_search": strict_search,
+     	                          "jupiter_tags": jupiter_tags,
      	                          };
      	
      	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "results from " + search_desc, add_markets_search, true); // Secured

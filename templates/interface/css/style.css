@@ -839,9 +839,7 @@ text-decoration: underline !important;
 .pretty_text_fields {
 max-width: 95%;
 text-align: left;
-width: fit-content;
-margin: auto;
-margin-left: 1.5em;
+width: 700px;
 }
 
 .pretty_text_fields form > p, .password-container, .subarray_item, .subarray_repeatable_add {
