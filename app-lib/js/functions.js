@@ -2576,10 +2576,10 @@ $(elm_id).html("<div style='margin: " + loading_height + "em; line-height: " + (
                   error: function(data) {
                        
                        if ( data.status == 504 && typeof post_data['add_markets_search'] !== 'undefined' && post_data['add_markets_search'].indexOf("/") == -1 ) {
-                       var more_info = 'Try narrowing your search, by including a pairing, or lower the search result limit for Jupiter Aggregator in: APIs => External APIs => Jupiter Aggregator Search Results Maximum, or just TRY AGAIN, NOW THAT THE ASSET SEARCH FEATURE HAS CACHED RECENT EXCHANGE DATA FOR 1 HOUR.';
+                       var more_info = 'Try narrowing your search, by including a pairing, or lower the search result limit for Jupiter Aggregator in: APIs => External APIs => Jupiter Aggregator Search Results Maximum Per CPU Core, or just TRY AGAIN, NOW THAT THE ASSET SEARCH FEATURE HAS CACHED RECENT EXCHANGE DATA FOR 1 HOUR.';
                        }
                        else if ( data.status == 504 && typeof post_data['add_markets_search'] !== 'undefined' ) {
-                       var more_info = 'Try lowering the search result limit for Jupiter Aggregator in: APIs => External APIs => Jupiter Aggregator Search Results Max Per CPU Core, or just TRY AGAIN, NOW THAT THE ASSET SEARCH FEATURE HAS RECENTLY CACHED EXCHANGE DATA.';
+                       var more_info = 'Try lowering the search result limit for Jupiter Aggregator in: APIs => External APIs => Jupiter Aggregator Search Results Maximum Per CPU Core, or just TRY AGAIN, NOW THAT THE ASSET SEARCH FEATURE HAS RECENTLY CACHED EXCHANGE DATA.';
                        }
                        
                   $(elm_id).html("<div style='margin: " + loading_height + "em; line-height: " + (loading_height * 1.07) + "em;'> <strong style='font-size: " + loading_height + "em;' class='bitcoin'>ERROR loading data...</strong><br /> <strong style='font-size: " + loading_height + "em;' class='red'>" + data.status + ": " + data.statusText + "</strong><br /> <strong style='font-size: " + loading_height + "em;' class='bitcoin'>" + more_info + "</strong> </div>");       
