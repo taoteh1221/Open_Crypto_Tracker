@@ -147,7 +147,7 @@ $ct['conf_upgraded'] = false;
 
 $ct['is_login_form'] = false;
 
-$ct['ticker_pairing_search'] = false;
+$ct['ticker_markets_search'] = false;
         
 $ct['alphavantage_pairs'] = 0;
 

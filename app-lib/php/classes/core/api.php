@@ -526,12 +526,9 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function exchange_api_data($selected_exchange, $market_id, $ticker_pairing_search=false) {
+   function exchange_api_data($selected_exchange, $market_id, $ticker_search_with_pairing=false) {
    
    global $ct;
-   
-   // Global alert that a ticker search is running or not
-   $ct['ticker_pairing_search'] = $ticker_pairing_search;
    
    $selected_exchange = strtolower($selected_exchange);
    
@@ -542,7 +539,7 @@ var $exchange_apis = array(
    
       // IF exchange API exists
       if ( isset($this->exchange_apis[$selected_exchange]) ) {
-      return $this->fetch_exchange_data($selected_exchange, $market_id, $ticker_pairing_search);
+      return $this->fetch_exchange_data($selected_exchange, $market_id, $ticker_search_with_pairing);
       }
       // IF exchange API doesn't exist, check to see if we are using our prefix delimiter, for a possible 'prefixed' exchange name
       // (for end-user descriptiveness / UX, BUT ONLY IF NOT A BLACKLISTED PREFIX!)
@@ -554,7 +551,7 @@ var $exchange_apis = array(
                
                // AUTO-CHECK FOR PREFIX USAGE: EXCHANGEKEY_
                if ( stristr($selected_exchange, $exchange_key . '_') ) {
-               return $this->fetch_exchange_data($exchange_key, $market_id, $ticker_pairing_search);
+               return $this->fetch_exchange_data($exchange_key, $market_id, $ticker_search_with_pairing);
                break; // will assure leaving the foreach loop immediately
                }
            
@@ -789,8 +786,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
     
    global $ct;
    
-   // Global alert that a ticker search is running or not
-   $ct['ticker_pairing_search'] = true;
+   // Global alert that a ticker search is running
+   $ct['ticker_markets_search'] = true;
    
    $results = array();
    
@@ -1357,12 +1354,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_id_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_id_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
    */
    
-   function exchange_search_endpoint($exchange_key, $market_search, $ticker_pairing_search, $single_asset_info=false) {
+   function exchange_search_endpoint($exchange_key, $market_search, $ticker_search_with_pairing, $single_asset_info=false) {
    
    global $ct;
-   
-   // Global alert that a ticker search is running or not
-   $ct['ticker_pairing_search'] = $ticker_pairing_search;
    
    // Defaults
    
@@ -1376,7 +1370,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
    
          // IF a PAIRING was included in the search string
-         if ( $ticker_pairing_search && stristr($market_search, '/') ) {
+         if ( $ticker_search_with_pairing && stristr($market_search, '/') ) {
               
          $search_params = array_map( "trim", explode('/', $market_search) ); // TRIM ANY USER INPUT WHITESPACE
 
@@ -1386,9 +1380,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          }
          
          
-         // IF $ticker_pairing_search is NOT boolean, it's a REQUIRED pairing for SEARCHING this exchange for a certain ticker
-         if ( is_bool($ticker_pairing_search) !== true ) {
-         $required_pairing = $ct['gen']->auto_correct_market_id($ticker_pairing_search, $exchange_key);
+         // IF $ticker_search_with_pairing is NOT boolean, it's a REQUIRED pairing for SEARCHING this exchange for a certain ticker
+         if ( is_bool($ticker_search_with_pairing) !== true ) {
+         $required_pairing = $ct['gen']->auto_correct_market_id($ticker_search_with_pairing, $exchange_key);
          }
    
          
@@ -1816,7 +1810,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
    
         // We only need this function during market searches
-        if ( !$ct['ticker_pairing_search'] ) {
+        if ( !$ct['ticker_markets_search'] ) {
         return false;
         }
         
@@ -2166,12 +2160,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_id_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_id_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
    */
    
-   function fetch_exchange_data($exchange_key, $market_id, $ticker_pairing_search=false, $return_all_results=false) {
+   function fetch_exchange_data($exchange_key, $market_id, $ticker_search_with_pairing=false, $return_all_results=false) {
         
    global $ct;
-   
-   // Alert globally on ticker search
-   $ct['ticker_pairing_search'] = $ticker_pairing_search;
    
    $possible_market_ids = array();
    
@@ -2181,8 +2172,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
      
      // ONLY TRIM IF NOT BOOLEEN!!!!!!!!!!
-     if ( is_bool($ticker_pairing_search) !== true ) {
-     $ticker_pairing_search = trim($ticker_pairing_search); // TRIM ANY USER INPUT WHITESPACE
+     if ( is_bool($ticker_search_with_pairing) !== true ) {
+     $ticker_search_with_pairing = trim($ticker_search_with_pairing); // TRIM ANY USER INPUT WHITESPACE
      }
      
 
@@ -2195,7 +2186,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
    $cache_time = $ct['conf']['power']['last_trade_cache_time']; // Default
    
-   $cache_time = ( $ticker_pairing_search ? 60 : $cache_time ); // IF ticker search, 60 minute caching, for runtime speed
+   $cache_time = ( $ticker_search_with_pairing ? 60 : $cache_time ); // IF ticker search, 60 minute caching, for runtime speed
    
    // IF alphavantage, we have to throttle LIVE requests for the FREE tier
    $cache_time = ( $exchange_key == 'alphavantage_stock' ? $ct['throttled_api_cache_time']['alphavantage.co'] : $cache_time );
@@ -2204,11 +2195,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
          
          // IF ticker search AND a LIMITED API WITH A MARKETS LIST ENDPOINT
-         if ( $ticker_pairing_search && $exchange_api['search_endpoint'] ) {
-         return $this->exchange_search_endpoint($exchange_key, $market_id, $ticker_pairing_search);
+         if ( $ticker_search_with_pairing && $exchange_api['search_endpoint'] ) {
+         return $this->exchange_search_endpoint($exchange_key, $market_id, $ticker_search_with_pairing);
          }
          // IF a PAIRING was included in the search string
-         elseif ( $ticker_pairing_search && stristr($market_id, '/') ) {
+         elseif ( $ticker_search_with_pairing && stristr($market_id, '/') ) {
               
          $search_params = array_map( "trim", explode('/', $market_id) ); // TRIM ANY USER INPUT WHITESPACE
 
@@ -2218,9 +2209,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          $required_pairing = $search_pairing;
 
          }
-         // ELSE IF $ticker_pairing_search is NOT boolean, it's a REQUIRED pairing for SEARCHING this exchange for a certain ticker
-         elseif ( is_bool($ticker_pairing_search) !== true ) {
-         $required_pairing = $ticker_pairing_search;
+         // ELSE IF $ticker_search_with_pairing is NOT boolean, it's a REQUIRED pairing for SEARCHING this exchange for a certain ticker
+         elseif ( is_bool($ticker_search_with_pairing) !== true ) {
+         $required_pairing = $ticker_search_with_pairing;
          }
              
          
@@ -2307,7 +2298,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           				          	
               $ct['gen']->log(
           				'market_error',
-          				'ct_api->fetch_exchange_data(): REQUIRED asset PAIRING missing (exchange: '.$exchange_key.'; market_id: '.$market_id.'; ticker_pairing_search: '.$ticker_pairing_search.'; )'
+          				'ct_api->fetch_exchange_data(): REQUIRED asset PAIRING missing (exchange: '.$exchange_key.'; market_id: '.$market_id.'; ticker_pairing_search: '.$ticker_search_with_pairing.'; )'
           				);
                  
               gc_collect_cycles(); // Clean memory cache
@@ -2354,7 +2345,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          }
          elseif ( $exchange_key == 'luno' ) {
          
-             if ( $ticker_pairing_search && strtolower($dyn_id) == 'btc' ) {
+             if ( $ticker_search_with_pairing && strtolower($dyn_id) == 'btc' ) {
              $dyn_id = 'xbt';
              }
 
@@ -2362,7 +2353,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
    
          // When we are getting SPECIFIED markets (NOT all markets on the exchange)
-         if ( !$ticker_pairing_search || $exchange_api['search_endpoint'] ) {
+         if ( !$ticker_search_with_pairing || $exchange_api['search_endpoint'] ) {
          $url = preg_replace("/\[MARKET\]/i", $dyn_id, $url);
          }
           
@@ -2410,9 +2401,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                             
                             // As long as we are NOT in search mode, OR parsed asset ticker is relevant
                             if (
-                            !$ticker_pairing_search && $val[ $exchange_api['all_markets_support'] ] == $dyn_id
-                            || $ticker_pairing_search && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
-                            || $ticker_pairing_search && $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
+                            !$ticker_search_with_pairing && $val[ $exchange_api['all_markets_support'] ] == $dyn_id
+                            || $ticker_search_with_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
+                            || $ticker_search_with_pairing && $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
                             && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
                             ) {
                             // Do nothing
@@ -2431,7 +2422,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                  if ( isset($test_data["market"]) && $test_data["market"] > 0 ) {
                                  
                                     
-                                    if ( $ticker_pairing_search ) {
+                                    if ( $ticker_search_with_pairing ) {
                                          
                                     // Minimize calls
                                     $check_market_data = $this->market($dyn_id, $exchange_key, $val[ $exchange_api['all_markets_support'] ]);
@@ -2471,8 +2462,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                             
                                  // As long as parsed asset ticker is relevant
                                  if ( 
-                                    !$search_pairing && $ticker_pairing_search && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
-                                    || $search_pairing && $ticker_pairing_search && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
+                                    !$search_pairing && $ticker_search_with_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
+                                    || $search_pairing && $ticker_search_with_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
                                     && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
                                     ) {
                                          
@@ -2513,7 +2504,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                    
               }
               // SEARCH ONLY on top level key name
-              elseif ( $ticker_pairing_search ) {
+              elseif ( $ticker_search_with_pairing ) {
          
          
                    foreach ($data as $key => $val) {
@@ -2566,11 +2557,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
          
          // If no data
-         if ( !$ticker_pairing_search && !is_array($data) || $ticker_pairing_search && sizeof($possible_market_ids) < 1 ) {
+         if ( !$ticker_search_with_pairing && !is_array($data) || $ticker_search_with_pairing && sizeof($possible_market_ids) < 1 ) {
          
               
               // DEBUG LOGGING
-              if ( $ticker_pairing_search && $ct['conf']['power']['debug_mode'] == 'markets' ) {
+              if ( $ticker_search_with_pairing && $ct['conf']['power']['debug_mode'] == 'markets' ) {
               
               $ct['gen']->log(
               		    'notify_debug',
@@ -2581,7 +2572,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
               }
               // For UX, we don't want to log 'no data' errors on exchange APIs DURING TICKER SEARCHES
-              elseif ( !$ticker_pairing_search ) {
+              elseif ( !$ticker_search_with_pairing ) {
          
               $ct['gen']->log(
               		    'notify_error',
@@ -2598,7 +2589,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          return false;
           
          }
-         elseif ( $ticker_pairing_search  ) {
+         elseif ( $ticker_search_with_pairing  ) {
          gc_collect_cycles(); // Clean memory cache
          return $possible_market_ids;  
          }

@@ -4,8 +4,6 @@
  */
 
 
-$skipped_results_count = 0;
-
 $included_results = array();
 
 $all_results_count = array();
@@ -109,8 +107,6 @@ $all_results_count[$exchange_key] = 0;
 
                }
                elseif ( $missing_required ) {
-          
-               $skipped_results_count = $skipped_results_count + 1;
                     
                $skipped_results[] = array(
                                                                                                           'flagged_market' => 'missing_required_' . $missing_required,
@@ -123,8 +119,6 @@ $all_results_count[$exchange_key] = 0;
                                                                  
                }
                elseif ( $market_data['flagged_market'] ) {
-          
-               $skipped_results_count = $skipped_results_count + 1;
                     
                $skipped_results[] = array(
                                                                                                           'flagged_market' => $market_data['flagged_market'],
@@ -194,13 +188,13 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
      
      if ( isset($_POST['add_markets_search']) ) {
-     echo '<p class="align_center '.( $search_runtime > 90 ? 'red' : 'green' ).'"> '.$results_count.' search results ('.$skipped_results_count.' skipped), completed in '.$search_runtime.' seconds.</p>';
+     echo '<p class="align_center '.( $search_runtime > 90 ? 'red' : 'green' ).'"> '.$results_count.' total results <span class="'.( sizeof($skipped_results) > 0 ? 'red' : '' ).'">('.sizeof($skipped_results).' skipped)</span> in '.$search_runtime.' seconds.</p>';
      }
 
 ?>
 
 
-<h3 class='green input_margins'>STEP #3: Select Asset Markets Found For Search "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</h3>
+<h3 class='green input_margins'>STEP #3: Select Asset Markets Found For (<?=( $_POST['strict_search'] == 'yes' ? 'Exact' : 'Similar' )?> Match) Search "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</h3>
 
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
 
