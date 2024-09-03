@@ -315,18 +315,6 @@ $ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['is_notes'] =
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$ct['admin_render_settings']['jupiter_ag_allow_unknown']['is_radio'] = array(
-                                                                         'no',
-                                                                         'yes',
-                                                                        );
-
-
-$ct['admin_render_settings']['jupiter_ag_allow_unknown']['is_notes'] = 'Allow UNKNOWN (POSSIBLY UNSAFE!) tokens to show in Jupiter aggregator search results (during ticker searches, when adding new assets)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
      
 $ct['admin_render_settings']['exchange_search_api_cache_time']['is_range'] = true;
 
@@ -344,19 +332,37 @@ $ct['admin_render_settings']['exchange_search_api_cache_time']['is_notes'] = 'HO
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['is_range'] = true;
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['is_range'] = true;
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_min'] = 100;
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['range_min'] = 75;
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_max'] = 500;
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['range_max'] = 250;
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_step'] = 25;
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['range_step'] = 25;
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_ui_prefix'] = 'MAXIMUM of ';
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['range_ui_prefix'] = 'MAXIMUM of ';
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['range_ui_suffix'] = ' search results';
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['range_ui_suffix'] = ' search results PER CPU CORE';
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max']['is_notes'] = 'We limit how many search results Jupiter Aggregator is allowed to process (when adding coin markets), to avoid 504 "gateway timeout" errors';
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['is_notes'] = 'We limit how many search results Jupiter Aggregator is allowed to process PER CPU CORE (when adding coin markets), to avoid 504 "gateway timeout" errors<br /><span class="red">(your have '.$ct['system_info']['cpu_threads'].' CPU Cores, your TOTAL results maximum for Jupiter is: <span id="jup_search_total_max"></span>)</span>';
+
+
+// Script, for dynamic content
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['is_script'] = '
+
+is_script_data_name = "' . md5('ext_apis' . 'jupiter_ag_search_results_max_per_cpu_core') . '";
+
+is_script_elm = $(\'[data-name="\' + is_script_data_name + \'"]\');
+
+// Onload
+$("#jup_search_total_max").html( is_script_elm.val() * ' . $ct['system_info']['cpu_threads'] . ' );
+
+// Onchange
+is_script_elm.on("change", function(){
+$("#jup_search_total_max").html( is_script_elm.val() * ' . $ct['system_info']['cpu_threads'] . ' );
+});
+
+';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

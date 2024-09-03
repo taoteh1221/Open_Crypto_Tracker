@@ -3230,6 +3230,12 @@ var $ct_array = array();
          elseif ( strtolower($val) == 'comms' ) {
          $words[$key] = 'Communications';
          }
+         elseif ( strtolower($val) == 'max' ) {
+         $words[$key] = 'Maximum';
+         }
+         elseif ( strtolower($val) == 'cpu' ) {
+         $words[$key] = 'CPU';
+         }
          elseif ( strtolower($val) == 'ico' ) {
          $words[$key] = 'ICO';
          }
@@ -4572,6 +4578,10 @@ var $ct_array = array();
    
    $system = array();
    
+   // Defaults
+   
+   $system['cpu_threads'] = 1; 
+   
    // OS
    $system['operating_system'] = php_uname();
    
@@ -4671,9 +4681,6 @@ var $ct_array = array();
          elseif ( $cpu['cpu_info']['siblings'] ) {
          $system['cpu_threads'] = $cpu['cpu_info']['siblings'];
          }
-         else {
-         $system['cpu_threads'] = 1; // Presume only one, if nothing parsed
-         }
          
       
       }
@@ -4690,9 +4697,6 @@ var $ct_array = array();
       
          if ( $win_cpu_cores > 0 ) {
          $system['cpu_threads'] = $win_cpu_cores;
-         }
-         else {
-         $system['cpu_threads'] = 1; // Presume only one, if nothing parsed
          }
       
       }

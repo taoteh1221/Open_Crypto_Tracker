@@ -197,17 +197,10 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 Our newly added jupiter trade volume data isnt working on crypto price charts, maybe price alerts too?
 
 
-Include in docs, that the "fix Linux desktop" script is compatible with fedora and Debian.
+BUILDOUT THE BACK END FOR ASSET MARKET DELETION.
 
 
 Test new setup wizard architecture in Firefox.
-
-
-BUILDOUT THE BACK END FOR ASSET MARKET DELETION. For Ethereum and Solana, we need to require at least one Bitcoin pair market (not allowed to be deleted via interface), just like we do for every Bitcoin pairing, so the app functions properly.
-
-
-Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry:
-https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specific-jstree-node
 
 
 TORTURE TEST ADDING / DELETING ASSETS AND MARKETS.
@@ -217,6 +210,13 @@ TORTURE TEST ADDING / DELETING ASSETS AND MARKETS.
 
 
 Do a bitcoin opentimestamp of the v6.00.39 release.
+
+
+Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry:
+https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specific-jstree-node
+
+
+Include in docs, that the "fix Linux desktop" script is compatible with fedora and Debian.
 
 
 Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.

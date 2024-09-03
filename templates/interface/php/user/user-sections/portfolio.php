@@ -1693,10 +1693,10 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		}
     		
     		if ( isset($ct['system_info']['model_name']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$ct['system_info']['model_name'].'</span> ' . ( $ct['system_info']['cpu_threads'] > 0 ? '(' . $ct['system_info']['cpu_threads'] . ' threads)' : '' ) . ' </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$ct['system_info']['model_name'].'</span> ' . ( $ct['system_info']['cpu_threads'] > 0 ? '(' . $ct['system_info']['cpu_threads'] . ' threads / cores)' : '' ) . ' </div>';
     		}
     		elseif ( isset($ct['system_info']['cpu_threads']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$ct['system_info']['cpu_threads'].' threads</span> </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$ct['system_info']['cpu_threads'].' threads / cores</span> </div>';
     		}
     		
     		if ( isset($ct['system_info']['software']) ) {

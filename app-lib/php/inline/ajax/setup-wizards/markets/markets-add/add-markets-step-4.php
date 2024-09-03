@@ -34,7 +34,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      	                  "interface_id": "asset_tracking",
      	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
 
-     	                  // Secured flag, for mode (add or delete)
+     	                  // Secured flag, for mode (add or remove)
      	                  "markets_update": "add",
      	                  "markets_nonce": "<?=$ct['gen']->admin_nonce('add')?>",
 
@@ -127,16 +127,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      }
 
 ?>
-
-          <input type='hidden' id='add_markets_review' name='add_markets_review' value='1' />
-     	
-     
-     <script>
-     
-     var selected_markets_post_data = <?php echo json_encode($_POST); ?>;
-     	                          
-     </script>
-     
      
      	<button class='force_button_style result_margins red' onclick='
      	
@@ -155,7 +145,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	                  "interface_id": "asset_tracking",
      	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
 
-     	                  // Secured flag, for mode (add or delete)
+     	                  // Secured flag, for mode (add or remove)
      	                  "markets_update": "add",
      	                  "markets_nonce": "<?=$ct['gen']->admin_nonce('add')?>",
 
@@ -172,6 +162,13 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<br clear='all' />
      	
+
+     <script>
+     
+     var selected_markets_post_data = <?php echo json_encode($_POST); ?>;
+     	                          
+     </script>
+     
   <?php
   }
   ?>
