@@ -367,19 +367,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          <span class='light_sea_green'>Last Trade:</span> <?=$market_data['data']['last_trade']?><br />
                          
                          <?php
-                         if ( isset($market_data['24hr_asset_vol']) ) {
+                         if ( isset($market_data['data']['24hr_asset_vol']) ) {
                          ?>
                          <span class='light_sea_green'>24 Hour ASSET Volume:</span> <?=$market_data['data']['24hr_asset_vol']?><br />
                          <?php
                          }
                          
-                         if ( isset($market_data['24hr_pair_vol']) ) {
+                         if ( isset($market_data['data']['24hr_pair_vol']) ) {
                          ?>
                          <span class='light_sea_green'>24 Hour PAIR Volume:</span> <?=$market_data['data']['24hr_pair_vol']?>
                          <?php
                          }
                          
-                         if ( isset($market_data['24hr_usd_vol']) ) {
+                         if ( isset($market_data['data']['24hr_usd_vol']) ) {
                          ?>
                          <span class='light_sea_green'>24 Hour USD Volume:</span> <?=$market_data['data']['24hr_usd_vol']?>
                          <?php
