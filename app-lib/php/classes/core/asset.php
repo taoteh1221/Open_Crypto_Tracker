@@ -1530,7 +1530,7 @@ var $ct_array = array();
       
       		    'market_error',
       							
-      		    'ct_asset->charts_price_alerts() - Minimum '.strtoupper($ct['default_bitcoin_primary_currency_pair']).' conversion value ('.strtoupper($pair).' pair) not met for "' . $asset_data . '"',
+      		    'ct_asset->charts_price_alerts() - Minimum '.strtoupper($ct['default_bitcoin_primary_currency_pair']).' conversion value ('.strtoupper($pair).' pair) not met for "' . $asset_data . '": ' . $asset_prim_currency_val_raw,
       							
       			$asset_data . ': ' . $asset . ' / ' . strtoupper($pair) . ' @ ' . $exchange . '; pair_id: ' . $ct['conf']['assets'][$asset]['pair'][$pair][$exchange] . ';'
       			
@@ -1552,12 +1552,15 @@ var $ct_array = array();
       $pair_vol_raw = $asset_mrkt_data['24hr_pair_vol']; 
       }
       // Otherwise, convert any set '24hr_usd_vol' to pair volume, IF THE PAIR HAS A BITCOIN MARKET FOR CONVERSION
-      elseif ( $has_btc_pairing && isset($asset_mrkt_data['24hr_usd_vol']) && $asset_mrkt_data['24hr_usd_vol'] > 0 ) {
+      elseif ( $has_btc_pairing && isset($asset_mrkt_data['24hr_usd_vol']) && $ct['var']->num_to_str($asset_mrkt_data['24hr_usd_vol']) > 0 ) {
            
       $btc_vol_raw = $ct['var']->num_to_str( $result['24hr_usd_vol'] / $this->pair_btc_val('usd') );         
            
       $pair_vol_raw = $ct['var']->num_to_str( $btc_vol_raw / $pair_btc_val );
 
+      }
+      elseif ( $has_btc_pairing && isset($asset_mrkt_data['jup_ag_address']) ) {
+      $ct['gen']->log('market_error', 'ct_asset->charts_price_alerts() - "24hr_usd_vol" error ');
       }
    
    
@@ -1589,7 +1592,7 @@ var $ct_array = array();
       
       		    'market_error',
       							
-      		    'ct_asset->charts_price_alerts() - Minimum '.( $has_btc_pairing ? 'currency' : 'crypto' ).' conversion value ('.strtoupper($pair).' pair) not met for "' . $asset_data . '"',
+      		    'ct_asset->charts_price_alerts() - Minimum '.( $has_btc_pairing ? 'currency' : 'crypto' ).' conversion value ('.strtoupper($pair).' pair) not met for "' . $asset_data . '": ' . $asset_mrkt_data['last_trade'],
       							
       			$asset_data . ': ' . $asset . ' / ' . strtoupper($pair) . ' @ ' . $exchange . '; pair_id: ' . $ct['conf']['assets'][$asset]['pair'][$pair][$exchange] . ';'
       			

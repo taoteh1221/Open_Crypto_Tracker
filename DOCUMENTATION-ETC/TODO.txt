@@ -197,7 +197,7 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 Our newly added jupiter trade volume data isnt working on crypto price charts, maybe price alerts too?
 
 
-BUILDOUT THE BACK END FOR ASSET MARKET DELETION. For Ethereum and Solana, we need to require at least one Bitcoin pair market (not allowed to be deleted via interface), just like we do for every Bitcoin pairing, so the app functions properly.
+BUILDOUT THE BACK END FOR ASSET MARKET DELETION.
 
 
 Test new setup wizard architecture in Firefox.

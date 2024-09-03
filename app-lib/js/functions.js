@@ -149,7 +149,7 @@ $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
           $('#' + tree_id).on('redraw.jstree', function () {
           
           // Delete button
-          $('.jstree_delete_selected').show(250, 'linear'); // 0.25 seconds
+          $('.jstree_remove_selected').show(250, 'linear'); // 0.25 seconds
           
                    admin_iframe_dom.forEach(function(iframe) {
                    iframe_size_adjust(iframe);
@@ -183,7 +183,7 @@ $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
 /////////////////////////////////////////////////////////////
 
 
-function jstree_delete(elm_id) {
+function jstree_remove(elm_id) {
 			
 			
      if ( $('#' + elm_id).jstree(true) ) {

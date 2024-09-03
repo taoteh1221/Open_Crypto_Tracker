@@ -48,7 +48,7 @@ $ct['conf']['gen']['google_font'] = 'Exo 2'; // 'Exo 2' / 'Tektur' / etc any goo
 
 // DEFAULT font size PERCENTAGE (*WITHOUT* THE PERCENT SYMBOL!)
 // LIMITS: MINIMUM OF 50 / MAXIMUM OF 200
-$ct['conf']['gen']['default_font_size'] = 100; // Default = 100 (equal to 100%)
+$ct['conf']['gen']['default_font_size'] = 95; // Default = 95 (equal to 95%)
 
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
@@ -86,7 +86,7 @@ $ct['conf']['gen']['primary_marketcap_site'] = 'coingecko';
 // For prettier / less-cluttered interface. IF YOU ADJUST $ct['conf']['gen']['bitcoin_primary_currency_pair'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
 // ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct['conf']['gen']['currency_decimals_max'] = 8; // Whole numbers only (represents number of decimals maximum to use...default = 8)
+$ct['conf']['gen']['currency_decimals_max'] = 20; // Whole numbers only (represents number of decimals maximum to use...default = 20)
 
 
 // Maximum decimal places for *CRYPTO* VALUES ACROSS THE ENTIRE APP (*INCLUDING UNDER-THE-HOOD CALCULATIONS*)
@@ -94,7 +94,7 @@ $ct['conf']['gen']['currency_decimals_max'] = 8; // Whole numbers only (represen
 // LOW VALUE ALTERNATE COINS / CURRENCIES NEED THIS SET REALLY HIGH TO BE INCLUDED IN THE ASSETS LIST (TO NOT HAVE A ZERO VALUE),
 // *ESPECIALLY* SINCE WE USE BITCOIN AS OUR BASE CURRENCY *CONVERTER* (DUE TO IT'S RELIABLY HIGH LIQUIDITY ACROSS THE PLANET)
 // !!!IF YOU CHANGE THIS, THE 'WATCH ONLY' FLAG ON THE 'UPDATE' PAGE *WILL ALSO CHANGE* (CHANGING WHAT IS FLAGGED 'WATCH ONLY')!!!
-$ct['conf']['gen']['crypto_decimals_max'] = 13; // Whole numbers only (represents number of decimals maximum to use...default = 13)
+$ct['conf']['gen']['crypto_decimals_max'] = 20; // Whole numbers only (represents number of decimals maximum to use...default = 20)
 
 
 // PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
@@ -415,7 +415,7 @@ $ct['conf']['sec']['login_alert_channels'] = 'all'; // 'off' (disabled) / 'all' 
 							
 							
 // HOURS until admin login cookie expires (requiring you to login again)
-// The lower number the better for higher security, epecially if the app server temporary session data 
+// The lower number the better for higher security, especially if the app server temporary session data 
 // doesn't auto-clear often (that also logs you off automatically, REGARDLESS of this setting's value)
 $ct['conf']['sec']['admin_cookie_expires'] = 6; // (default = 6, MAX ALLOWED IS 6)
 
@@ -1182,31 +1182,31 @@ $ct['conf']['news']['entries_to_show'] = 10; // (default = 10)
 
 
 // RSS feed entries under X DAYS old are marked as 'new' on the news page
-$ct['conf']['news']['mark_as_new'] = 2; // (default = 2)
+$ct['conf']['news']['mark_as_new'] = 3; // (default = 3)
 
 
 // Every X days email a list of #NEW# RSS feed posts. 
 // 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!
-$ct['conf']['news']['news_feed_email_frequency'] = 2; // (default = 2)
+$ct['conf']['news']['news_feed_email_frequency'] = 3; // (default = 3)
 
 
 // MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (that are less then 'news_feed_email_frequency' days old)
-$ct['conf']['news']['news_feed_email_entries_include'] = 20; // (default = 20)
+$ct['conf']['news']['news_feed_email_entries_include'] = 15; // (default = 15)
 
 
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
-// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
+// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTENTLY#
 $ct['conf']['news']['news_feed_cache_min_max'] = '100,200'; // 'min,max' (default = '100,200'), ADJUST WITH CARE!!!
 
 
 // Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
 // (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
-$ct['conf']['news']['news_feed_batched_maximum'] = 20; // (default = 20), ADJUST WITH CARE!!!
+$ct['conf']['news']['news_feed_batched_maximum'] = 15; // (default = 15), ADJUST WITH CARE!!!
 
 
 // Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
-$ct['conf']['news']['news_feed_precache_maximum'] = 45; // (default = 45), ADJUST WITH CARE!!!
+$ct['conf']['news']['news_feed_precache_maximum'] = 50; // (default = 50), ADJUST WITH CARE!!!
     
      
 // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)

@@ -14,7 +14,7 @@
      	
      	    if ( this.value == "BTC" || this.value == "ETH" || this.value == "SOL" ) {
      	    $("#asset_markets_alerts").show(250, "linear"); // 0.25 seconds
-     	    $("#asset_markets_alerts").html("BTC / ETH / SOL assets require AT LEAST ONE EXCHANGE PER-PAIRING (for currency conversions / other PRIMARY features), SO THE FIRST EXCHANGE INSIDE EACH PAIRING CANNOT BE DELETED.");
+     	    $("#asset_markets_alerts").html("BTC / ETH / SOL assets require AT LEAST ONE EXCHANGE PER-PAIRING (for currency conversions / other PRIMARY features), SO THE FIRST EXCHANGE INSIDE EACH PAIRING CANNOT BE REMOVED.");
      	    }
      	    else {
      	    $("#asset_markets_alerts").hide(250, "linear"); // 0.25 seconds
@@ -23,7 +23,7 @@
      	
      	}
      	else {
-     	$(".jstree_delete_selected").hide(250, "linear"); // 0.25 seconds
+     	$(".jstree_remove_selected").hide(250, "linear"); // 0.25 seconds
      	$("#asset_markets_alerts").hide(250, "linear"); // 0.25 seconds
      	$("#asset_markets").hide(250, "linear"); // 0.25 seconds
      	}
@@ -56,17 +56,17 @@
      	</select><br />	
     	
 
-<p class='jstree_delete_selected'>
+<p class='jstree_remove_selected'>
 
 
-<button class='red input_margins' type="button" onclick="jstree_delete('asset_markets');">Delete Selected Markets</button> &nbsp; &nbsp; &nbsp; 
+<button class='red input_margins' type="button" onclick="jstree_remove('asset_markets');">Remove Selected Markets</button> &nbsp; &nbsp; &nbsp; 
 
      	
 <button class='bitcoin force_button_style input_margins' onclick='
 
 
           if ( getObjectLength(jstree_json_data) < 1 ) {
-          alert("Nothing deleted yet, no changes to save.");
+          alert("Nothing removed yet, no changes to save.");
           return false;
           }
           else {

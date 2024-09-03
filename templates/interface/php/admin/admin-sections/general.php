@@ -186,9 +186,9 @@ $ct['admin_render_settings']['primary_marketcap_site']['is_notes'] = '<a href="h
      
 $ct['admin_render_settings']['currency_decimals_max']['is_range'] = true;
 
-$ct['admin_render_settings']['currency_decimals_max']['range_min'] = 5;
+$ct['admin_render_settings']['currency_decimals_max']['range_min'] = 15;
 
-$ct['admin_render_settings']['currency_decimals_max']['range_max'] = 15;
+$ct['admin_render_settings']['currency_decimals_max']['range_max'] = 30;
 
 $ct['admin_render_settings']['currency_decimals_max']['range_step'] = 1;
 
@@ -200,9 +200,9 @@ $ct['admin_render_settings']['currency_decimals_max']['is_notes'] = 'Sets the mi
      
 $ct['admin_render_settings']['crypto_decimals_max']['is_range'] = true;
 
-$ct['admin_render_settings']['crypto_decimals_max']['range_min'] = 8;
+$ct['admin_render_settings']['crypto_decimals_max']['range_min'] = 15;
 
-$ct['admin_render_settings']['crypto_decimals_max']['range_max'] = 15;
+$ct['admin_render_settings']['crypto_decimals_max']['range_max'] = 30;
 
 $ct['admin_render_settings']['crypto_decimals_max']['range_step'] = 1;
 

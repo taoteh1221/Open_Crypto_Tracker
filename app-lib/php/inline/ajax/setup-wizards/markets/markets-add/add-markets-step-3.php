@@ -4,6 +4,22 @@
  */
 
 
+$skipped_results_count = 0;
+
+$included_results = array();
+
+$all_results_count = array();
+
+$duplicate_check = array();
+
+$skipped_results = array();
+
+$not_required = array(
+                      'mcap_slug',
+                      'flagged_market',
+                     );
+                     
+                     
 // Assures we are getting cached data for this EXACT user login SESSION only
 $recent_search_id = 'add_asset_search_' . md5(session_id() . $ct['remote_ip']);   
    
@@ -38,28 +54,14 @@ $search_results = $ct['cache']->other_cached_data('load', $recent_search_id, $ct
 }
 
 
-$included_results = array();
-
-$included_results_count = array();
-
-$duplicate_check = array();
-
-$skipped_results = array();
-
-$not_required = array(
-                      'mcap_slug',
-                      'flagged_market',
-                     );
-
-
 foreach ( $search_results as $exchange_key => $exchange_data ) {
      
-$included_results_count[$exchange_key] = 0;
+$all_results_count[$exchange_key] = 0;
           
           
        foreach ( $exchange_data as $market_data ) {
           
-       $included_results_count[$exchange_key] = $included_results_count[$exchange_key] + 1;
+       $all_results_count[$exchange_key] = $all_results_count[$exchange_key] + 1;
                
        $missing_required = false; // RESET
                
@@ -107,6 +109,8 @@ $included_results_count[$exchange_key] = 0;
 
                }
                elseif ( $missing_required ) {
+          
+               $skipped_results_count = $skipped_results_count + 1;
                     
                $skipped_results[] = array(
                                                                                                           'flagged_market' => 'missing_required_' . $missing_required,
@@ -119,6 +123,8 @@ $included_results_count[$exchange_key] = 0;
                                                                  
                }
                elseif ( $market_data['flagged_market'] ) {
+          
+               $skipped_results_count = $skipped_results_count + 1;
                     
                $skipped_results[] = array(
                                                                                                           'flagged_market' => $market_data['flagged_market'],
@@ -162,9 +168,9 @@ foreach ( $included_results as $pairing_key => $unused ) {
 }
 
 
-// Results COUNT
+// ALL results COUNT
 $results_count = 0;
-foreach ( $included_results_count as $exchange_count ) {
+foreach ( $all_results_count as $exchange_count ) {
 $results_count = $results_count + $exchange_count;
 }
 
@@ -186,8 +192,10 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      $search_desc = $_POST['saved_search'];
      }
 
-
-echo '<p class="align_center '.( $search_runtime > 90 ? 'red' : 'green' ).'"> '.$results_count.' search results, completed in '.$search_runtime.' seconds.</p>';
+     
+     if ( isset($_POST['add_markets_search']) ) {
+     echo '<p class="align_center '.( $search_runtime > 90 ? 'red' : 'green' ).'"> '.$results_count.' search results ('.$skipped_results_count.' skipped), completed in '.$search_runtime.' seconds.</p>';
+     }
 
 ?>
 
@@ -202,7 +210,7 @@ MARKET DATA (PRICE, TRADE VOLUME, ETC, SHOWN WHEN YOU CLICK ON EXCHANGE NAMES) M
 
 FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEARCH PARAMETERS.<br /><br />
 
-WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=$ct['conf']['ext_apis']['jupiter_ag_search_results_max']?> (ADJUSTABLE IN: "APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM", <?=$included_results_count['jupiter_ag']?> results below [including skipped] are from Jupiter Aggregator), TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS, AND VERY LONG SEARCH TIMES ON SLOWER DEVICES. IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.<br /><br />
+WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=$ct['conf']['ext_apis']['jupiter_ag_search_results_max']?> (ADJUSTABLE IN: "APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM", <?=$all_results_count['jupiter_ag']?> results below [including skipped] are from Jupiter Aggregator), TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS, AND VERY LONG SEARCH TIMES ON SLOWER DEVICES. IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.<br /><br />
 
 JUPITER AGGREGATOR API SERVERS ARE KNOW TO GET OVERLOADED ON OCCASION. SO IF YOU ARE HAVING ISSUES GETTING RESULTS FROM THEM, CHECK THE ERROR LOGS, AND TRY AGAIN LATER.
 
@@ -407,9 +415,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
 ?>
 
-          <input type='hidden' id='add_markets_review' name='add_markets_review' value='1' />
-     	
-     	
      	<button class='force_button_style result_margins bitcoin' onclick='
      	
      	var post_data = {

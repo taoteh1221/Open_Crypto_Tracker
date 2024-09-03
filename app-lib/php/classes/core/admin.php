@@ -20,7 +20,7 @@ var $ct_array = array();
    
    
    // (must be carefully checked)
-   function delete_markets($field_array_base) {
+   function remove_markets($field_array_base) {
         
    global $ct;
                        
@@ -290,20 +290,21 @@ var $ct_array = array();
                   $ct['conf']['plug_conf'][ $parse_plugin_name[1] ] = $field_array_base;
                   }
                   // Adding / removing assets and markets
-                  elseif ( $_POST['conf_id'] == 'assets' ) {
+                  // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  elseif ( $_POST['conf_id'] === 'assets' ) {
                        
                        
                        if (
-                       $_POST['markets_update'] == 'add'
+                       $_POST['markets_update'] === 'add'
                        && $ct['gen']->pass_sec_check($_POST['markets_nonce'], $_POST['markets_update'])
                        ) {
                        $this->add_markets($field_array_base);
                        }
                        elseif (
-                       $_POST['markets_update'] == 'delete'
+                       $_POST['markets_update'] === 'remove'
                        && $ct['gen']->pass_sec_check($_POST['markets_nonce'], $_POST['markets_update'])
                        ) {
-                       $this->delete_markets($field_array_base);
+                       $this->remove_markets($field_array_base);
                        }
                        else {
                        $ct['gen']->log('conf_error', '"markets_nonce" MISMATCH on SECURITY check against "markets_update" (assets update mode): ' . $_POST['markets_update']);
