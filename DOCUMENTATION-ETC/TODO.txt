@@ -194,6 +194,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+valid_secure_config_update_request() test isn't passing for delete assets, because the structure isn't within params normally used for updating the cached config.
+
+
 Our newly added jupiter trade volume data isnt working on crypto price charts, maybe price alerts too?
 
 
