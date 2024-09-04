@@ -204,13 +204,13 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE (THEY ARE INCLUDED IN ANY "SKIPPED RESULTS" LINK BELOW).<br /><br />
 
-MARKET DATA (PRICE, TRADE VOLUME, ETC, SHOWN WHEN YOU CLICK ON EXCHANGE NAMES) MAY BE CACHED UP TO 1 HOUR, TO SPEED UP SEARCH TIMES.<br /><br />
-
 FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEARCH PARAMETERS.<br /><br />
 
-WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> (ADJUSTABLE IN: "APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE", <?=$all_results_count['jupiter_ag']?> results below [including skipped] are from Jupiter Aggregator), TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS, AND VERY LONG SEARCH TIMES ON SLOWER DEVICES. IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.<br /><br />
+MARKET DATA (PRICE, TRADE VOLUME, ETC, SHOWN WHEN YOU CLICK ON EXCHANGE NAMES) IS CACHED FOR <?=$ct['conf']['power']['exchange_search_cache_time']?> MINUTES (ADJUSTABLE IN THE "POWER USER" ADMIN SECTION), TO SPEED UP CONSECUTIVE SEARCHES.<br /><br />
 
-<span class='red'>JUPITER AGGREGATOR API SERVERS ARE KNOW TO GET OVERLOADED ON OCCASION. SO IF YOU ARE HAVING ISSUES GETTING RESULTS FROM THEM, CHECK THE ERROR LOGS, AND TRY AGAIN LATER.</span>
+WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> (ADJUSTABLE IN: "APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE", <?=$all_results_count['jupiter_ag']?> results below [including skipped] are from Jupiter Aggregator), TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS, AND VERY LONG SEARCH TIMES ON SLOWER DEVICES. <span class='red'>IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.</span><br /><br />
+
+<span class='red'>JUPITER AGGREGATOR API SERVERS ARE KNOW TO GET OVERLOADED ON OCCASION (AS OF AUGUST 2024). SO IF YOU ARE HAVING ISSUES GETTING RESULTS FROM THEM, CHECK THE ERROR LOGS, AND TRY AGAIN IN <?=$ct['conf']['power']['exchange_search_cache_time']?>+ MINUTES.</span>
 
 </p>
 
@@ -235,7 +235,7 @@ WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupit
                // Missing required value
                if ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'missing_required_') ) {
                ?>
-               <i><u><b>Missing Required: <?=preg_replace("/missing_required_/i", "", $skipped_market['flagged_market'])?> (Consider ADDING PAIRINGS to scan for in: "Asset Tracking => Currency Support => Additional Pairings Search" [that are in market id: <?=$skipped_market['id']?>])</b></u></i><br />
+               <i><u><b>Missing Required: <?=preg_replace("/missing_required_/i", "", $skipped_market['flagged_market'])?> (Consider ADDING PAIRINGS in: "Asset Tracking => Currency Support => Additional Pairings Search" [that are in the market id])</b></u></i><br />
                <?php
                }
                // Already added
@@ -247,7 +247,7 @@ WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupit
                // Pairing not supported
                elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'pairing_not_supported_') ) {
                ?>
-               <i><u><b>Pairing Not Supported: (ADD BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET, TO ENABLE SUPPORT, IF TRULY THE PAIRING FOR THIS MARKET [DETERMINED BY MARKET ID, VARIES PER-EXCHANGE])</b></u></i><br />
+               <i><u><b>Pairing Not Supported: (ADD BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET, TO ENABLE SUPPORT [DETERMINED BY MARKET ID])</b></u></i><br />
                <?php
                }
                // Other flag

@@ -1412,8 +1412,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
    $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
    
-   // API response data (CACHE SEARCH RESULTS FOR [HOURS MULTIPLIED BY 60, TO GET MINUTES])
-   $response = @$ct['cache']->ext_data('url', $url, ($ct['conf']['ext_apis']['exchange_search_api_cache_time'] * 60) );
+   // API response data
+   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['exchange_search_cache_time']);
    
    gc_collect_cycles(); // Clean memory cache
    
@@ -1583,7 +1583,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                $market_id_parse  = $this->market_id_parse($exchange_key, $market_key . '/' . $pairing_key, $pairing_key, $market_key);
                                          
                                $possible_market_ids[] = array(
-                                                               'name' => strtoupper($market_id_parse['asset']),
+                                                               'name' => $market_data['data']['name'],
                                                                'id' => $market_key . '/' . $pairing_key,
                                                                'contract_address' => $this_market_data['id'],
                                                                'asset' => $market_id_parse['asset'],
@@ -2188,7 +2188,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
    $cache_time = $ct['conf']['power']['last_trade_cache_time']; // Default
    
-   $cache_time = ( $ct['ticker_markets_search'] ? 60 : $cache_time ); // IF ticker search, 60 minute caching, for runtime speed
+   $cache_time = ( $ct['ticker_markets_search'] ? $ct['conf']['power']['exchange_search_cache_time'] : $cache_time ); // IF ticker searching, optimize for runtime speed
    
    // IF alphavantage, we have to throttle LIVE requests for the FREE tier
    $cache_time = ( $exchange_key == 'alphavantage_stock' ? $ct['throttled_api_cache_time']['alphavantage.co'] : $cache_time );
@@ -4060,7 +4060,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
     		
     		// As of 2024/9/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
     		// https://station.jup.ag/docs/token-list/token-list-api
-          $response = @$ct['cache']->ext_data('url', 'https://tokens.jup.ag/token/' . $result['jup_ag_address'], 90);
+          $response = @$ct['cache']->ext_data('url', 'https://tokens.jup.ag/token/' . $result['jup_ag_address'], 45); // 45 minute cache
             
           $data = json_decode($response, true);
           

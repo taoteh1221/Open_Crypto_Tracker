@@ -190,6 +190,22 @@ $ct['admin_render_settings']['last_trade_cache_time']['is_notes'] = 'MINUTES to 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
+$ct['admin_render_settings']['exchange_search_cache_time']['is_range'] = true;
+
+$ct['admin_render_settings']['exchange_search_cache_time']['range_min'] = 10;
+
+$ct['admin_render_settings']['exchange_search_cache_time']['range_max'] = 60;
+
+$ct['admin_render_settings']['exchange_search_cache_time']['range_step'] = 5;
+
+$ct['admin_render_settings']['exchange_search_cache_time']['range_ui_suffix'] = ' MINUTE cache';
+
+$ct['admin_render_settings']['exchange_search_cache_time']['is_notes'] = 'MINUTES to cache data, for exchange "search" mode, when adding new asset markets in the admin interface';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
 $ct['admin_render_settings']['blockchain_stats_cache_time']['is_range'] = true;
 
 $ct['admin_render_settings']['blockchain_stats_cache_time']['range_ui_meta_data'] .= 'zero_is_disabled;';

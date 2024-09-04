@@ -316,22 +316,6 @@ $ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['is_notes'] =
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$ct['admin_render_settings']['exchange_search_api_cache_time']['is_range'] = true;
-
-$ct['admin_render_settings']['exchange_search_api_cache_time']['range_min'] = 5;
-
-$ct['admin_render_settings']['exchange_search_api_cache_time']['range_max'] = 20;
-
-$ct['admin_render_settings']['exchange_search_api_cache_time']['range_step'] = 5;
-
-$ct['admin_render_settings']['exchange_search_api_cache_time']['range_ui_suffix'] = ' HOUR cache';
-
-$ct['admin_render_settings']['exchange_search_api_cache_time']['is_notes'] = 'HOURS to cache data, for exchanges that support a specific "search" endpoint in their API';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
 $ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['is_range'] = true;
 
 $ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['range_min'] = 75;
