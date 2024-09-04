@@ -117,7 +117,7 @@ else {
     
               <p class='align_center' style='margin: 15px;'>
               
-              <a href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a>
+              <a class='bitcoin' href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a>
               
               &nbsp;&nbsp; || &nbsp;&nbsp; 
               

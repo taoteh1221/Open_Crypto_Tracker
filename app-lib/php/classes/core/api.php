@@ -394,121 +394,6 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function coingecko_search($search_query, $app_id, $specific_pairing=false, $asset_data=false) {
-   
-   global $ct;
-               
-   $market_data = $this->fetch_exchange_data('coingecko', $app_id);
-   
-   //var_dump($specific_pairing);
-   
-   //$ct['gen']->array_debugging($market_data); // DEBUGGING ONLY
-                                                  
-                                                 
-        if ( $specific_pairing ) {
-        $check_pairing = $specific_pairing;
-        }
-        else {
-        $check_pairing = strtolower('usd');
-        }
-                                       
-                                       
-        // Coingecko needs INTERNATIONAL versions of pairings
-        if ( $check_pairing == 'nis' ) {
-        $check_pairing = 'ils';
-        }
-        elseif ( $check_pairing == 'rmb' ) {
-        $check_pairing = 'cny';
-        }
-
-                                  
-        if ( isset($market_data[$check_pairing]) ) {
-           
-                                                  
-             // Minimize calls
-             if ( is_array($asset_data) ) {
-             $coingecko_asset_data = $asset_data;
-             }
-             else {
-             $coingecko_asset_data = $this->exchange_search_endpoint('coingecko', $app_id, false, true); // Get asset data only
-             }
-                       
-                       
-             if ( isset($coingecko_asset_data['name']) ) {
-             $cg_name = $coingecko_asset_data['name'];
-             }
-             elseif ( isset($coingecko_asset_data['symbol']) ) {
-             $cg_name = strtoupper($coingecko_asset_data['symbol']);
-             }
-             
-             
-             if ( $specific_pairing ) {
-                                
-             $parsed_market_data = array(
-     	                        'last_trade' => $market_data[$specific_pairing],
-     	                        '24hr_pair_vol' => $market_data[$specific_pairing . "_24h_vol"]
-     	                        );
-             
-             // We still need to parse out 'flagged_market'
-             // Minimize calls
-             $market_id_parse = $this->market_id_parse('coingecko', $app_id, $specific_pairing, $coingecko_asset_data['symbol']);
-                                                
-             $results[] = array(
-                                                                           'name' => $cg_name,
-                                                                           'mcap_slug' =>  $app_id,
-                                                                           'id' =>  $app_id,
-                                                                           'asset' => $market_id_parse['asset'],
-                                                                           'pairing' => $market_id_parse['pairing'],
-                                                                           'flagged_market' => $market_id_parse['flagged_market'],
-                                                                           'data' => $parsed_market_data,
-                                                                          );
-             }
-             else {
-                          
-             $coingecko_pairings_search_array = array_map( "trim", explode(",", $ct['coingecko_pairs']) );
-   
-      
-                  foreach( $coingecko_pairings_search_array as $pair ) {
-                                
-                  $parsed_market_data = array(
-     	                        'last_trade' => $market_data[$pair],
-     	                        '24hr_pair_vol' => $market_data[$pair . "_24h_vol"]
-     	                        );
-                                                  
-                  // We still need to parse out 'flagged_market'
-                  // Minimize calls
-                  $market_id_parse = $this->market_id_parse('coingecko', $app_id, $pair, $coingecko_asset_data['symbol']);
-                                                
-                  $results[] = array(
-                                                                           'name' => $cg_name,
-                                                                           'mcap_slug' =>  $app_id,
-                                                                           'id' =>  $app_id,
-                                                                           'asset' => $market_id_parse['asset'],
-                                                                           'pairing' => $market_id_parse['pairing'],
-                                                                           'flagged_market' => $market_id_parse['flagged_market'],
-                                                                           'data' => $parsed_market_data,
-                                                                          );
-          
-                  }
-             
-             
-             }                               
-                      
-                                               
-        }
-        
-   
-   gc_collect_cycles(); // Clean memory cache
-    
-   return $results;
-                   
-   }
-   
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function bitcoin($request) {
     
    global $ct;
@@ -771,6 +656,345 @@ var $exchange_apis = array(
      
    }
    
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function mcap_data_coingecko($force_prim_currency=null) {
+      
+   global $ct;
+   
+   $data = array();
+   $sub_arrays = array();
+   $result = array();
+   
+   // Don't overwrite global
+   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($ct['conf']['gen']['bitcoin_primary_currency_pair']) );
+   
+         
+   // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
+   
+   
+      // Convert NATIVE tickers to INTERNATIONAL for coingecko
+      if ( $coingecko_prim_currency == 'nis' ) {
+      $coingecko_prim_currency = 'ils';
+      }
+      elseif ( $coingecko_prim_currency == 'rmb' ) {
+      $coingecko_prim_currency = 'cny';
+      }
+      
+   
+      // Batched / multiple API calls, if 'marketcap_ranks_max' is greater than 'coingecko_api_batched_maximum'
+      if ( $ct['conf']['power']['marketcap_ranks_max'] > $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] ) {
+          
+          // FAILSAFE (< V6.00.29 UPGRADES, IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON)
+          $batched_max = ( $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] > 0 ? $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] : 100 );
+      
+          $loop = 0;
+          $calls = ceil($ct['conf']['power']['marketcap_ranks_max'] / $batched_max);
+         
+          while ( $loop < $calls ) {
+         
+          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $batched_max . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+            
+              // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
+              // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
+              if ( $loop > 0 && $ct['cache']->update_cache($ct['base_dir'] . '/cache/secured/external_data/' . md5($url) . '.dat', $ct['conf']['power']['marketcap_cache_time']) == true ) {
+              sleep(6);
+              usleep(550000); 
+              }
+         
+          $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['marketcap_cache_time']);
+   
+          $sub_arrays[] = json_decode($response, true);
+         
+          $loop = $loop + 1;
+         
+          }
+      
+      }
+      else {
+      	
+      $response = @$ct['cache']->ext_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$ct['conf']['power']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_prim_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $ct['conf']['power']['marketcap_cache_time']);
+      
+      $sub_arrays[] = json_decode($response, true);
+      
+      }
+         
+         
+   // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
+   
+      
+      // Merge any sub arrays into one data set
+      foreach ( $sub_arrays as $sub ) {
+          if ( is_array($sub) ) {
+          $data = array_merge($data, $sub);
+          }
+      }
+      
+   
+      if ( is_array($data) ) {
+         
+          foreach ($data as $key => $unused) {
+            
+              if ( isset($data[$key]['symbol']) && $data[$key]['symbol'] != '' ) {
+              $result[strtolower($data[$key]['symbol'])] = $data[$key];
+              }
+       
+          }
+        
+      }
+           
+           
+   gc_collect_cycles(); // Clean memory cache
+   
+   return $result;
+     
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function coingecko_search($search_query, $app_id, $specific_pairing=false, $asset_data=false) {
+   
+   global $ct;
+               
+   $market_data = $this->fetch_exchange_data('coingecko', $app_id);
+                                                  
+                                                 
+        if ( $specific_pairing ) {
+        $check_pairing = $specific_pairing;
+        }
+        else {
+        $check_pairing = strtolower('usd');
+        }
+                                       
+                                       
+        // Coingecko needs INTERNATIONAL versions of pairings
+        if ( $check_pairing == 'nis' ) {
+        $check_pairing = 'ils';
+        }
+        elseif ( $check_pairing == 'rmb' ) {
+        $check_pairing = 'cny';
+        }
+
+                                  
+        if ( isset($market_data[$check_pairing]) ) {
+           
+                                                  
+             // Minimize calls
+             if ( is_array($asset_data) ) {
+             $coingecko_asset_data = $asset_data;
+             }
+             else {
+             $coingecko_asset_data = $this->exchange_search_endpoint('coingecko', $app_id, false, true); // Get asset data only
+             }
+                       
+                       
+             if ( isset($coingecko_asset_data['name']) ) {
+             $cg_name = $coingecko_asset_data['name'];
+             }
+             elseif ( isset($coingecko_asset_data['symbol']) ) {
+             $cg_name = strtoupper($coingecko_asset_data['symbol']);
+             }
+             
+             
+             if ( $specific_pairing ) {
+                                
+             $parsed_market_data = array(
+     	                        'last_trade' => $market_data[$specific_pairing],
+     	                        '24hr_pair_vol' => $market_data[$specific_pairing . "_24h_vol"]
+     	                        );
+             
+             // We still need to parse out 'flagged_market'
+             // Minimize calls
+             $market_id_parse = $this->market_id_parse('coingecko', $app_id, $specific_pairing, $coingecko_asset_data['symbol']);
+                                                
+             $results[] = array(
+                                                                           'name' => $cg_name,
+                                                                           'mcap_slug' =>  $app_id,
+                                                                           'id' =>  $app_id,
+                                                                           'asset' => $market_id_parse['asset'],
+                                                                           'pairing' => $market_id_parse['pairing'],
+                                                                           'flagged_market' => $market_id_parse['flagged_market'],
+                                                                           'data' => $parsed_market_data,
+                                                                          );
+             }
+             else {
+                          
+             $coingecko_pairings_search_array = array_map( "trim", explode(",", $ct['coingecko_pairs']) );
+   
+      
+                  foreach( $coingecko_pairings_search_array as $pair ) {
+                                
+                  $parsed_market_data = array(
+     	                        'last_trade' => $market_data[$pair],
+     	                        '24hr_pair_vol' => $market_data[$pair . "_24h_vol"]
+     	                        );
+                                                  
+                  // We still need to parse out 'flagged_market'
+                  // Minimize calls
+                  $market_id_parse = $this->market_id_parse('coingecko', $app_id, $pair, $coingecko_asset_data['symbol']);
+                                                
+                  $results[] = array(
+                                                                           'name' => $cg_name,
+                                                                           'mcap_slug' =>  $app_id,
+                                                                           'id' =>  $app_id,
+                                                                           'asset' => $market_id_parse['asset'],
+                                                                           'pairing' => $market_id_parse['pairing'],
+                                                                           'flagged_market' => $market_id_parse['flagged_market'],
+                                                                           'data' => $parsed_market_data,
+                                                                          );
+          
+                  }
+             
+             
+             }                               
+                      
+                                               
+        }
+        
+   
+   gc_collect_cycles(); // Clean memory cache
+    
+   return $results;
+                   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function mcap_data_coinmarketcap($force_prim_currency=null) {
+      
+   global $ct;
+   
+   $result = array();
+   
+   $coinmarketcap_currencies = array();
+   
+   
+      if ( trim($ct['conf']['ext_apis']['coinmarketcap_api_key']) == null ) {
+      	
+      $ct['gen']->log(
+      		    'notify_error',
+      		    '"coinmarketcap_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
+      		    false,
+      		    'coinmarketcap_api_key'
+      		    );
+      
+      return false;
+      
+      }
+         
+      
+   $headers = [
+               'Accepts: application/json',
+               'X-CMC_PRO_API_KEY: ' . $ct['conf']['ext_apis']['coinmarketcap_api_key']
+      	      ];
+   
+      
+   $cmc_params = array(
+                       'start' => '1',
+                       'limit' => 200
+                       );
+   
+   
+   $url = 'https://pro-api.coinmarketcap.com/v1/fiat/map';
+         
+   $qs = http_build_query($cmc_params); // query string encode the parameters
+      
+   $request = "{$url}?{$qs}"; // create the request URL
+   
+   // Cache fiat currency support list for a day (1440 minutes)
+   $response = @$ct['cache']->ext_data('url', $request, 1440, null, null, null, $headers);
+      
+   $data = json_decode($response, true);
+           
+   $data = $data['data'];
+   
+   
+      if ( is_array($data) ) {
+      
+          foreach ( $data as $currency ) {
+          $coinmarketcap_currencies[] = strtoupper($currency['symbol']);
+          }
+      
+      }
+      
+   
+   // Don't overwrite global
+   $coinmarketcap_prim_currency = strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']);
+      
+      
+      // Convert NATIVE tickers to INTERNATIONAL for coinmarketcap
+      if ( $coinmarketcap_prim_currency == 'NIS' ) {
+      $coinmarketcap_prim_currency = 'ILS';
+      }
+      elseif ( $coinmarketcap_prim_currency == 'RMB' ) {
+      $coinmarketcap_prim_currency = 'CNY';
+      }
+      
+      
+      if ( $force_prim_currency != null ) {
+      $convert = strtoupper($force_prim_currency);
+      $ct['mcap_data_force_usd'] = null;
+      }
+      elseif ( in_array($coinmarketcap_prim_currency, $coinmarketcap_currencies) ) {
+      $convert = $coinmarketcap_prim_currency;
+      $ct['mcap_data_force_usd'] = null;
+      }
+      // Default to USD, if currency is not supported
+      else {
+      $ct['cmc_notes'] = 'Coinmarketcap.com does not support '.$coinmarketcap_prim_currency.' stats,<br />showing USD stats instead.';
+      $convert = 'USD';
+      $ct['mcap_data_force_usd'] = 1;
+      }
+   
+      
+   $cmc_params = array(
+                       'start' => '1',
+                       'limit' => $ct['conf']['power']['marketcap_ranks_max'],
+                       'convert' => $convert
+                       );
+   
+   
+   $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
+         
+   $qs = http_build_query($cmc_params); // query string encode the parameters
+      
+   $request = "{$url}?{$qs}"; // create the request URL
+   
+   $response = @$ct['cache']->ext_data('url', $request, $ct['conf']['power']['marketcap_cache_time'], null, null, null, $headers);
+      
+   $data = json_decode($response, true);
+           
+   $data = $data['data'];
+              
+   
+      if ( is_array($data) ) {
+         
+          foreach ($data as $key => $unused) {
+            
+              if ( isset($data[$key]['symbol']) && $data[$key]['symbol'] != '' ) {
+              $result[strtolower($data[$key]['symbol'])] = $data[$key];
+              }
+          
+          }
+        
+      gc_collect_cycles(); // Clean memory cache
+      
+      return $result;
+      
+      }
+   
+           
+   }
+   
 
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -785,9 +1009,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    function ticker_markets_search($ticker_search, $specific_exchange=false) {
     
    global $ct;
-   
-   // Global alert that a ticker search is running
-   $ct['ticker_markets_search'] = true;
    
    $results = array();
    
@@ -983,9 +1204,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                         if ( $key == 'upbit' ) {
                         $try_pairing = $ct['conf']['currency']['upbit_pairings_search'];
                         }
-                        // RESET ALL PAIRS, SO WE ONLY PROCESS SEARCH RESULTS
                         elseif ( $key == 'jupiter_ag' ) {
-                        $ct['jupiter_ag_pairs'] = array(); 
                         $try_pairing = $ct['conf']['currency']['jupiter_ag_pairings_search'];
                         }
                     
@@ -1116,234 +1335,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
          
    }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function mcap_data_coingecko($force_prim_currency=null) {
-      
-   global $ct;
-   
-   $data = array();
-   $sub_arrays = array();
-   $result = array();
-   
-   // Don't overwrite global
-   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($ct['conf']['gen']['bitcoin_primary_currency_pair']) );
-   
-         
-   // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
-   
-   
-      // Convert NATIVE tickers to INTERNATIONAL for coingecko
-      if ( $coingecko_prim_currency == 'nis' ) {
-      $coingecko_prim_currency = 'ils';
-      }
-      elseif ( $coingecko_prim_currency == 'rmb' ) {
-      $coingecko_prim_currency = 'cny';
-      }
-      
-   
-      // Batched / multiple API calls, if 'marketcap_ranks_max' is greater than 'coingecko_api_batched_maximum'
-      if ( $ct['conf']['power']['marketcap_ranks_max'] > $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] ) {
-          
-          // FAILSAFE (< V6.00.29 UPGRADES, IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON)
-          $batched_max = ( $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] > 0 ? $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] : 100 );
-      
-          $loop = 0;
-          $calls = ceil($ct['conf']['power']['marketcap_ranks_max'] / $batched_max);
-         
-          while ( $loop < $calls ) {
-         
-          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $batched_max . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
-            
-              // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
-              // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-              if ( $loop > 0 && $ct['cache']->update_cache($ct['base_dir'] . '/cache/secured/external_data/' . md5($url) . '.dat', $ct['conf']['power']['marketcap_cache_time']) == true ) {
-              sleep(6);
-              usleep(550000); 
-              }
-         
-          $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['marketcap_cache_time']);
-   
-          $sub_arrays[] = json_decode($response, true);
-         
-          $loop = $loop + 1;
-         
-          }
-      
-      }
-      else {
-      	
-      $response = @$ct['cache']->ext_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$ct['conf']['power']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_prim_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $ct['conf']['power']['marketcap_cache_time']);
-      
-      $sub_arrays[] = json_decode($response, true);
-      
-      }
-         
-         
-   // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
-   
-      
-      // Merge any sub arrays into one data set
-      foreach ( $sub_arrays as $sub ) {
-          if ( is_array($sub) ) {
-          $data = array_merge($data, $sub);
-          }
-      }
-      
-   
-      if ( is_array($data) ) {
-         
-          foreach ($data as $key => $unused) {
-            
-              if ( isset($data[$key]['symbol']) && $data[$key]['symbol'] != '' ) {
-              $result[strtolower($data[$key]['symbol'])] = $data[$key];
-              }
-       
-          }
-        
-      }
-           
-           
-   gc_collect_cycles(); // Clean memory cache
-   
-   return $result;
-     
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function mcap_data_coinmarketcap($force_prim_currency=null) {
-      
-   global $ct;
-   
-   $result = array();
-   
-   $coinmarketcap_currencies = array();
-   
-   
-      if ( trim($ct['conf']['ext_apis']['coinmarketcap_api_key']) == null ) {
-      	
-      $ct['gen']->log(
-      		    'notify_error',
-      		    '"coinmarketcap_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
-      		    false,
-      		    'coinmarketcap_api_key'
-      		    );
-      
-      return false;
-      
-      }
-         
-      
-   $headers = [
-               'Accepts: application/json',
-               'X-CMC_PRO_API_KEY: ' . $ct['conf']['ext_apis']['coinmarketcap_api_key']
-      	      ];
-   
-      
-   $cmc_params = array(
-                       'start' => '1',
-                       'limit' => 200
-                       );
-   
-   
-   $url = 'https://pro-api.coinmarketcap.com/v1/fiat/map';
-         
-   $qs = http_build_query($cmc_params); // query string encode the parameters
-      
-   $request = "{$url}?{$qs}"; // create the request URL
-   
-   // Cache fiat currency support list for a day (1440 minutes)
-   $response = @$ct['cache']->ext_data('url', $request, 1440, null, null, null, $headers);
-      
-   $data = json_decode($response, true);
-           
-   $data = $data['data'];
-   
-   
-      if ( is_array($data) ) {
-      
-          foreach ( $data as $currency ) {
-          $coinmarketcap_currencies[] = strtoupper($currency['symbol']);
-          }
-      
-      }
-      
-   
-   // Don't overwrite global
-   $coinmarketcap_prim_currency = strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']);
-      
-      
-      // Convert NATIVE tickers to INTERNATIONAL for coinmarketcap
-      if ( $coinmarketcap_prim_currency == 'NIS' ) {
-      $coinmarketcap_prim_currency = 'ILS';
-      }
-      elseif ( $coinmarketcap_prim_currency == 'RMB' ) {
-      $coinmarketcap_prim_currency = 'CNY';
-      }
-      
-      
-      if ( $force_prim_currency != null ) {
-      $convert = strtoupper($force_prim_currency);
-      $ct['mcap_data_force_usd'] = null;
-      }
-      elseif ( in_array($coinmarketcap_prim_currency, $coinmarketcap_currencies) ) {
-      $convert = $coinmarketcap_prim_currency;
-      $ct['mcap_data_force_usd'] = null;
-      }
-      // Default to USD, if currency is not supported
-      else {
-      $ct['cmc_notes'] = 'Coinmarketcap.com does not support '.$coinmarketcap_prim_currency.' stats,<br />showing USD stats instead.';
-      $convert = 'USD';
-      $ct['mcap_data_force_usd'] = 1;
-      }
-   
-      
-   $cmc_params = array(
-                       'start' => '1',
-                       'limit' => $ct['conf']['power']['marketcap_ranks_max'],
-                       'convert' => $convert
-                       );
-   
-   
-   $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
-         
-   $qs = http_build_query($cmc_params); // query string encode the parameters
-      
-   $request = "{$url}?{$qs}"; // create the request URL
-   
-   $response = @$ct['cache']->ext_data('url', $request, $ct['conf']['power']['marketcap_cache_time'], null, null, null, $headers);
-      
-   $data = json_decode($response, true);
-           
-   $data = $data['data'];
-              
-   
-      if ( is_array($data) ) {
-         
-          foreach ($data as $key => $unused) {
-            
-              if ( isset($data[$key]['symbol']) && $data[$key]['symbol'] != '' ) {
-              $result[strtolower($data[$key]['symbol'])] = $data[$key];
-              }
-          
-          }
-        
-      gc_collect_cycles(); // Clean memory cache
-      
-      return $result;
-      
-      }
-   
-           
-   }
                            
    
    ////////////////////////////////////////////////////////
@@ -1412,8 +1403,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          
    $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
    
-   // API response data (CACHE SEARCH RESULTS FOR [HOURS MULTIPLIED BY 60, TO GET MINUTES])
-   $response = @$ct['cache']->ext_data('url', $url, ($ct['conf']['ext_apis']['exchange_search_api_cache_time'] * 60) );
+   // API response data
+   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['exchange_search_cache_time']);
    
    gc_collect_cycles(); // Clean memory cache
    
@@ -1509,8 +1500,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                            
                               
                               // We need to keep data set request to 100 or less, so we need to reset our pair array to empty,
-                              // since we loop up to 100 times
-                              if ( !array_key_exists($pairing_check, $temp_app_id_array) ) {
+                              // since we loop up to 100 times              
+                              if ( !isset($ct['jupiter_ag_pairs'][$pairing_check]) ) {
                               $ct['jupiter_ag_pairs'][$pairing_check] = $val['symbol'];
                               }
                               // IF APP ID wasn't bundled yet into the single call format we use for coingecko, add it now,
@@ -1539,18 +1530,10 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                      }
                      
                      
-                     //var_dump('jupiter_ag search results this loop = ' . $loop_count . ' ('.$ct['jupiter_ag_search_results'].' total)' );
-                     
-                     //$ct['gen']->array_debugging($ct['jupiter_ag_pairs']); // DEBUGGING ONLY
-                     
-                     //$ct['gen']->array_debugging($temp_app_id_array); // DEBUGGING ONLY
-                     
                      // Process results
                      foreach( $temp_app_id_array as $pairing_key => $pairing_data ) {
                           
                      $current = current($pairing_data);
-                     
-                     //var_dump($current['asset_check'] . '/' . $pairing_key);
                          
                      // FROM HERE ONWARD FOR JUPITER SEARCHES, WE MUST USE THE EXACT (CASE / SYMBOL SENSITIVE) MARKET IDS WE RETRIEVE,
                      // AS JUPITER CAN HAVE UPPERCASE / LOWERCASE / SYMBOLS IN THE TICKER FIELD ('symbol'), WHICH WE MUST MATCH EXACTLY!!!
@@ -1560,15 +1543,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                      // (RARELY useful, as it requires unique parsing per-exchange, BUT jupiter can have HUNDREDS of results,
                      // so this optimizes speed fairly well, for this one exchange's search results)
                      $check_market_data = $this->fetch_exchange_data($exchange_key, $current['asset_check'] . '/' . $pairing_key, false, true);
-                          
-                     //$ct['gen']->array_debugging($check_market_data); // DEBUGGING ONLY
-                          
+                     
                           
                           foreach( $pairing_data as $market_key => $market_data ) {
                                
                           $this_market_data = $check_market_data[$market_key];
-                          
-                          //$ct['gen']->array_debugging($this_market_data); // DEBUGGING ONLY
                           
                           $parsed_market_data = array(        
                                              'jup_ag_address' => $this_market_data['id'],
@@ -1583,7 +1562,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                $market_id_parse  = $this->market_id_parse($exchange_key, $market_key . '/' . $pairing_key, $pairing_key, $market_key);
                                          
                                $possible_market_ids[] = array(
-                                                               'name' => strtoupper($market_id_parse['asset']),
+                                                               'name' => $market_data['data']['name'],
                                                                'id' => $market_key . '/' . $pairing_key,
                                                                'contract_address' => $this_market_data['id'],
                                                                'asset' => $market_id_parse['asset'],
@@ -1628,11 +1607,15 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                               if ( isset($val['api_symbol']) && isset($val['symbol']) && $ct['gen']->search_mode($val['symbol'], $dyn_id) ) {
                                    
                               $temp_app_id_array[ $val['api_symbol'] ] = $val;
+                                
                                            
+                                   if ( $ct['coingecko_assets'] == null ) {
+                                   $ct['coingecko_assets'] = $val['api_symbol'];
+                                   }
                                    // IF APP ID wasn't bundled yet into the single call format we use for coingecko, add it now,
                                    // to optimize this search loop INTO A SINGLE CALL (consecutive calls will automatically use the cache system)
                                    // (THIS IS ***REQUIRED*** FOR MULTIPLE COINGECKO SEARCH RESULTS, DUE TO IT'S 'BATCHED' DATA CALL STRUCTURE!!!)
-                                   if (
+                                   elseif (
                                    substr($ct['coingecko_assets'], 0, strlen($val['api_symbol']) ) != $val['api_symbol']
                                    && !stristr($ct['coingecko_assets'], ',' . $val['api_symbol'])
                                    ) {
@@ -1664,6 +1647,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                               // If we searched with a pairing included, that's the only pairing we want in search results
                               if ( $search_pairing ) {
                               $ct['coingecko_pairs'] = $search_pairing;
+                              }
+                              elseif ( $ct['coingecko_pairs'] == null ) {
+                              $ct['coingecko_pairs'] = 'usd';
                               }
                               // Make sure any SPECIFIED pairing is in our optimized single calls to coingecko
                               elseif (
@@ -1823,56 +1809,16 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
         if ( $known_pairing && trim($known_pairing) != '' ) {
         $results['pairing'] = $known_pairing;
         }
-
-
         // Otherwise, parse pairing results out
-        if ( !isset($results['pairing']) ) {
+        else {
+             
               
-        $parsed_market_id = $market_id;
-        
-                  
-              // IF WE NEED SOME REGEX MAGIC TO PARSE THE VALUES WE WANT
-              // https://www.threesl.com/blog/special-characters-regular-expressions-escape/
-              if ( $exchange_key == 'loopring' ) {
-              $parsed_market_id = preg_replace("/AMM-/i", "", $parsed_market_id);
-              }
-              elseif ( $exchange_key == 'bitmex' || $exchange_key == 'luno' ) {
-              $parsed_market_id = preg_replace("/XBT/i", "BTC", $parsed_market_id);
-              }
-              elseif ( $exchange_key == 'aevo' ) {
-              $parsed_market_id = preg_replace("/-PERP/i", "-USD", $parsed_market_id);
-              }
-              elseif ( $exchange_key == 'crypto.com' ) {
-              $parsed_market_id = preg_replace("/-PERP(.*)/i", "", $parsed_market_id);
-              $parsed_market_id = preg_replace("/USD-(.*)/i", "USD", $parsed_market_id);
-              }
-              // WTF Kraken, LMFAO :)
-              elseif ( $exchange_key == 'kraken' ) {
-              
-              $parsed_market_id = preg_replace("/XXBTZ/i", "BTC", $parsed_market_id);
-              $parsed_market_id = preg_replace("/XXBT/i", "BTC", $parsed_market_id);
-              $parsed_market_id = preg_replace("/XBT/i", "BTC", $parsed_market_id);
-              $parsed_market_id = preg_replace("/XETHZ/i", "ETH", $parsed_market_id);
-              $parsed_market_id = preg_replace("/XETH/i", "ETH", $parsed_market_id);
-     
-              }
-              elseif ( $exchange_key == 'bybit' && substr($parsed_market_id, 0, 4) == '1000' ) {
-              $parsed_market_id = substr($parsed_market_id, 4);
-              }
-              elseif (
-              $exchange_key == 'bitfinex' && substr($parsed_market_id, 0, 1) == 't'
-              || 
-              $exchange_key == 'ethfinex' && substr($parsed_market_id, 0, 1) == 't'
-              ) {
-              $parsed_market_id = substr($parsed_market_id, 1);
-              }
-                   
-              
+              // Easy parsing
               if ( $exchange_key == 'bitbns' || $exchange_key == 'unocoin' ) {
-              $pairing_match = 'inr';
+              $results['pairing'] = 'inr';
               }
               elseif ( $exchange_key == 'coinspot' ) {
-              $pairing_match = 'aud';
+              $results['pairing'] = 'aud';
               }
               // Alphavantage still needs pairing determination for SINGLE-EXCHANGE SEARCHES
               elseif ( $exchange_key == 'alphavantage_stock' ) {
@@ -1881,34 +1827,75 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                    if ( stristr($market_id, '.') ) {
                         
                         if ( stristr($market_id, '.TRT') || stristr($market_id, '.TRV') ) {
-                        $pairing_match = 'cad';
+                        $results['pairing'] = 'cad';
                         }
                         elseif ( stristr($market_id, '.DEX') || stristr($market_id, '.FRK') ) {
-                        $pairing_match = 'eur';
+                        $results['pairing'] = 'eur';
                         }
                         elseif ( stristr($market_id, '.SHH') || stristr($market_id, '.SHZ') ) {
-                        $pairing_match = 'rmb';
+                        $results['pairing'] = 'rmb';
                         }
                         elseif ( stristr($market_id, '.LON') ) {
-                        $pairing_match = 'usd'; // usd for some odd reason
+                        $results['pairing'] = 'usd'; // usd for some odd reason
                         }
                         elseif ( stristr($market_id, '.SAO') ) {
-                        $pairing_match = 'brl';
+                        $results['pairing'] = 'brl';
                         }
                         elseif ( stristr($market_id, '.BSE') ) {
-                        $pairing_match = 'inr';
+                        $results['pairing'] = 'inr';
                         }
                    
                    }
                    else {
-                   $pairing_match = 'usd';
+                   $results['pairing'] = 'usd';
                    }
                    
               
               }
+              // Advanced parsing
               else {
-                  
-              $parsed_pairing = strtolower($parsed_market_id);
+                   
+              $cleaned_market_id = $market_id;
+             
+                       
+                   // IF WE NEED SOME REGEX MAGIC TO PARSE THE VALUES WE WANT
+                   // https://www.threesl.com/blog/special-characters-regular-expressions-escape/
+                   if ( $exchange_key == 'loopring' ) {
+                   $cleaned_market_id = preg_replace("/AMM-/i", "", $cleaned_market_id);
+                   }
+                   elseif ( $exchange_key == 'bitmex' || $exchange_key == 'luno' ) {
+                   $cleaned_market_id = preg_replace("/XBT/i", "BTC", $cleaned_market_id);
+                   }
+                   elseif ( $exchange_key == 'aevo' ) {
+                   $cleaned_market_id = preg_replace("/-PERP/i", "-USD", $cleaned_market_id);
+                   }
+                   elseif ( $exchange_key == 'crypto.com' ) {
+                   $cleaned_market_id = preg_replace("/-PERP(.*)/i", "", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/USD-(.*)/i", "USD", $cleaned_market_id);
+                   }
+                   // WTF Kraken, LMFAO :)
+                   elseif ( $exchange_key == 'kraken' ) {
+                   
+                   $cleaned_market_id = preg_replace("/XXBTZ/i", "BTC", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/XXBT/i", "BTC", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/XBT/i", "BTC", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/XETHZ/i", "ETH", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/XETH/i", "ETH", $cleaned_market_id);
+          
+                   }
+                   elseif ( $exchange_key == 'bybit' && substr($cleaned_market_id, 0, 4) == '1000' ) {
+                   $cleaned_market_id = substr($cleaned_market_id, 4);
+                   }
+                   elseif (
+                   $exchange_key == 'bitfinex' && substr($cleaned_market_id, 0, 1) == 't'
+                   || 
+                   $exchange_key == 'ethfinex' && substr($cleaned_market_id, 0, 1) == 't'
+                   ) {
+                   $cleaned_market_id = substr($cleaned_market_id, 1);
+                   }
+                   
+
+              $parsed_pairing = strtolower($cleaned_market_id);
                   
                   
                   if ( in_array($exchange_key, $ct['dev']['hyphen_delimited_markets']) ) {
@@ -2013,47 +2000,76 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                   
                   }
                        
+                  
+                  if ( is_array($ct['registered_pairs']) && sizeof($ct['registered_pairs']) > 0 ) {
+
+
+                       foreach ( $ct['registered_pairs'] as $val ) {
+                            
+                             
+                             // Leave loop, if match already found
+                             if ( $pairing_match ) {
+                             break; 
+                             }
+                             // REVERSE ordered (pairing at FRONT of market id)
+                             elseif ( in_array($exchange_key, $ct['dev']['reverse_id_markets']) ) {
+                                     
+                                 if ( substr($parsed_pairing, 0, strlen($val) ) == $val ) {
+                                 $pairing_match = $val;
+                                 }
+                                     
+                             }
+                             // COMMON ordered (pairing at END of market id)
+                             elseif ( substr($parsed_pairing, -strlen($val) ) == $val ) {
+                             $pairing_match = $val;
+                             }
+                            
+                            
+                       }
                        
-                  foreach ( $ct['registered_pairs'] as $val ) {
                        
-                        
-                        // Leave loop, if match already found
-                        if ( $pairing_match ) {
-                        break; 
-                        }
-                        // REVERSE ordered (pairing at FRONT of market id)
-                        elseif ( in_array($exchange_key, $ct['dev']['reverse_hyphen_delimited_markets']) ) {
-                                
-                            if ( substr($parsed_pairing, 0, strlen($val) ) == $val ) {
-                            $pairing_match = $val;
-                            }
-                                
-                        }
-                        // COMMON ordered (pairing at END of market id)
-                        elseif ( substr($parsed_pairing, -strlen($val) ) == $val ) {
-                        $pairing_match = $val;
-                        }
+                  $results['pairing'] = $pairing_match;          
+                  
+                  }
+                  else {
                        
-                       
+                  $ct['gen']->log( 'market_error', '"registered_pairs" array was not populated with any pairings (to search for in market ids)');
+                  
+                  // Set EVERYTHING to false, except exchange key
+                  $results['pairing'] = false;
+                  $results['asset'] = false;
+                  $results['flagged_market'] = false;
+                  $results['exchange'] = $exchange_key;
+                  
+                  return $results;
+        
                   }
                   
                   
               }
               
              
-        // DEBUGGING ONLY
-        //var_dump('$pairing_match = ' . $pairing_match);
-        //var_dump('$parsed_pairing = ' . $parsed_pairing);
-        
-        $results['pairing'] = ( $pairing_match ? $pairing_match : $parsed_pairing ); // Prep for dynamic logic below
-             
-             
+             // Log / return false if no pairing was parsed out
              if (
              !isset($results['pairing'])
              || trim($results['pairing']) == ''
              || strtolower($results['pairing']) == strtolower($market_id)
              ) {
-             $ct['gen']->log( 'market_error', 'No data CACHED for required value "pairing", during asset market search: "' . $_POST['add_markets_search'] . '" (for exchange API '.$exchange_key.')');
+                  
+                  
+                  if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {
+                  $ct['gen']->log( 'other_debug', 'value NOT parsed for "pairing" (value = '.$results['pairing'].'), within market id "'.$market_id.'", during asset market search: "' . $_POST['add_markets_search'] . '" (for exchange API '.$exchange_key.')');
+                  }
+                  
+             
+             // Set EVERYTHING to false, except exchange key
+             $results['pairing'] = false;
+             $results['asset'] = false;
+             $results['flagged_market'] = false;
+             $results['exchange'] = $exchange_key;
+             
+             return $results;
+             
              }
         
         
@@ -2065,17 +2081,17 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
         if ( $known_asset && trim($known_asset) != '' ) {
         $results['asset'] = $known_asset;
         }
-        // We flag stocks in this app with the suffix: STOCK [TICKERSTOCK]
-        elseif ( $exchange_key == 'alphavantage_stock' ) {
-        $results['asset'] = preg_replace("/\.(.*)/i", "", $market_id) . 'STOCK'; 
-        }
         // If we couldn't parse out the pairing, we also can't parse out the asset
         elseif ( trim($results['pairing']) == '' ) {
         $results['asset'] = ''; 
         }
+        // We flag stocks in this app with the suffix: STOCK [TICKERSTOCK]
+        elseif ( $exchange_key == 'alphavantage_stock' ) {
+        $results['asset'] = preg_replace("/\.(.*)/i", "", $market_id) . 'STOCK'; 
+        }
         else {
              
-        $parsed_asset = ( $parsed_market_id ? $parsed_market_id : $market_id );
+        $parsed_asset = ( $cleaned_market_id ? $cleaned_market_id : $market_id );
              
         $results['asset'] = preg_replace("/".$results['pairing']."/i", "", $parsed_asset);
         
@@ -2144,8 +2160,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
         
 
    $results['exchange'] = $exchange_key;
-   
-   //$ct['gen']->array_debugging($results);
         
    gc_collect_cycles(); // Clean memory cache
 
@@ -2188,7 +2202,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    
    $cache_time = $ct['conf']['power']['last_trade_cache_time']; // Default
    
-   $cache_time = ( $ct['ticker_markets_search'] ? 60 : $cache_time ); // IF ticker search, 60 minute caching, for runtime speed
+   $cache_time = ( $ct['ticker_markets_search'] ? $ct['conf']['power']['exchange_search_cache_time'] : $cache_time ); // IF ticker searching, optimize for runtime speed
    
    // IF alphavantage, we have to throttle LIVE requests for the FREE tier
    $cache_time = ( $exchange_key == 'alphavantage_stock' ? $ct['throttled_api_cache_time']['alphavantage.co'] : $cache_time );
@@ -2226,11 +2240,14 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
          // (coingecko's response path is DYNAMIC, based off market id)
          $exchange_api['markets_nested_path'] = $dyn_id;
                    
-                       
+                         
+              if ( $ct['coingecko_assets'] == null ) {
+              $ct['coingecko_assets'] = $dyn_id;
+              }
               // IF APP ID wasn't bundled yet into the single call format we use for coingecko,
               // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
               // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, AS WELL AS IT BEING THE FIRST VALUE
-              if (
+              elseif (
               substr($ct['coingecko_assets'], 0, strlen($dyn_id) ) != $dyn_id
               && !stristr($ct['coingecko_assets'], ',' . $dyn_id)
               ) {
@@ -2272,10 +2289,13 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
              else {
                   
                        
+                   if ( $ct['upbit_batched_markets'] == null ) {
+                   $ct['upbit_batched_markets'] = $dyn_id;
+                   }
                    // IF MARKET ID wasn't bundled yet into the single call format we use for upbit,
                    // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
                    // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, AS WELL AS IT BEING THE FIRST VALUE
-                   if (
+                   elseif (
                    substr($ct['upbit_batched_markets'], 0, strlen($dyn_id) ) != $dyn_id
                    && !stristr($ct['upbit_batched_markets'], ',' . $dyn_id)
                    ) {
@@ -4060,7 +4080,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
     		
     		// As of 2024/9/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
     		// https://station.jup.ag/docs/token-list/token-list-api
-          $response = @$ct['cache']->ext_data('url', 'https://tokens.jup.ag/token/' . $result['jup_ag_address'], 90);
+          $response = @$ct['cache']->ext_data('url', 'https://tokens.jup.ag/token/' . $result['jup_ag_address'], 45); // 45 minute cache
             
           $data = json_decode($response, true);
           

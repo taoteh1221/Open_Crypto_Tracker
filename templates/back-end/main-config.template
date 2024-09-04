@@ -299,10 +299,6 @@ $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 175; // 75 MINIMUM / 250 MAXIMUM / DEFAULT = 175
 
 
-// HOURS to cache data, for exchanges that support a specific "search" endpoint in their API
-$ct['conf']['ext_apis']['exchange_search_api_cache_time'] = 5; // Default = 5
-
-
 ////////////////////////////////////////
 // !END! EXTERNAL API SETTINGS CONFIGURATION
 ////////////////////////////////////////
@@ -1097,6 +1093,10 @@ $ct['conf']['power']['access_stats_delete_old'] = 15; // (default = 15, MAX = 36
 // MINUTES to cache real-time exchange price data...can be zero to DISABLE cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO IT'S RECOMMENDED TO KEEP FAIRLY HIGH
 $ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4, MAX = 60)
+
+
+// MINUTES to cache data, for exchange "search" mode, when adding new asset markets in the admin interface
+$ct['conf']['power']['exchange_search_cache_time'] = 20; // Default = 20
 
 
 // MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict

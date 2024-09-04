@@ -3079,7 +3079,7 @@ var $ct_array = array();
      
       // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
       if ( in_array($endpoint_tld_or_ip, $strict_news_feed_servers) ) {
-      curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
+      curl_setopt($ch, CURLOPT_USERAGENT, 'RSS_Feed_Parser/1.1 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       // Strict user agent
       elseif ( in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {

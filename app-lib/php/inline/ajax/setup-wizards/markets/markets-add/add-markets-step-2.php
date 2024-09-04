@@ -80,7 +80,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	<p class='input_margins'>
      	
      	
-     	FILTER Any Jupiter Aggregator Results By:<br />
+     	FILTER Any <i>Jupiter Aggregator</i> Results By:<br />
      	
      	<select id='jupiter_tags' name='jupiter_tags'>
      	
@@ -142,7 +142,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">DAILY live data requests are VERY LIMITED for the FREE tier of Alphavantage.co\'s Stock Market Prices API (25 DAILY). IF you know you are NOT searching for a STOCK MARKET asset, leave this box checked, TO AVOID USING UP your Alphavantage DAILY limits.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">This app automatically USES CACHED DATA (for a DYNAMIC period of time, based off what type of data is being retrieved from APIs), and auto-determines HOW OFTEN live data can be retrieved (without going over any limits), based on the number of STOCK assets you have added. BUT when SEARCHING for NEW stocks, you RISK using up your DAILY LIMIT FOR LIVE DATA. This app does cache SEARCH data for <?=$ct['conf']['ext_apis']['exchange_search_api_cache_time']?> HOURS though (adjustable in: "APIs => External APIs => Exchange Search API Cache Time"), to minimize usage of live data requests.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">This app automatically USES CACHED DATA (for a DYNAMIC period of time, based off what type of data is being retrieved from APIs), and auto-determines HOW OFTEN live data can be retrieved (without going over any limits), based on the number of STOCK assets you have added. BUT when SEARCHING for NEW stocks, you RISK using up your DAILY LIMIT FOR LIVE DATA.</p>'
 			
 			
 			+'<p> </p>';
@@ -264,7 +264,7 @@ $saved_search = $_POST['saved_search'];
      	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges.<br />Please wait, this may take up to a few minutes";
+     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges.<br />Please wait, this may take a few minutes";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();
