@@ -20,7 +20,13 @@ var $ct_array = array();
    
    function search_mode($haystack, $needle, $mode='stristr', $strip='symbols,space') {
 
-   global $ct; 
+   global $ct;
+   
+   
+       // If haystack equals false, return false
+       if ( $haystack == false ) {
+       return false;
+       }
    
        
        // Remove everything NOT alphanumeric

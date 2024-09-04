@@ -204,6 +204,13 @@ $ct['dev']['forwardlash_delimited_markets'] = array(
 $ct['dev']['colon_delimited_markets'] = array(
                                                  'cex',
                                                 );
+        
+
+// Market IDs HAVE PAIRING IN FRONT OF ASSET
+$ct['dev']['reverse_id_markets'] = array(
+                                                      'upbit',
+                                                      'buyucoin',
+                                                );
                             
 
 // Auto-correct for end user market searches, when adding new markets

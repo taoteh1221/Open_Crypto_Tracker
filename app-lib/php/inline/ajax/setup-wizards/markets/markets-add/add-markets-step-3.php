@@ -261,7 +261,7 @@ WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupit
                Name: <?=$skipped_market['name']?><br />
                Asset: <?=$skipped_market['asset']?><br />
                Pairing: <?=$skipped_market['pairing']?><br />
-               ID: <?=$skipped_market['id']?>
+               Market ID: <?=$skipped_market['id']?>
                
                </p>
                
@@ -358,7 +358,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          }
                          ?>
                          
-                         <span class='light_sea_green'>ID:</span> <?=$market_data['id']?><br />
+                         <span class='light_sea_green'>Market ID:</span> <?=$market_data['id']?><br />
                          
                          <?php
                          if ( isset($market_data['contract_address']) ) {
@@ -373,19 +373,19 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          <?php
                          if ( isset($market_data['data']['24hr_asset_vol']) ) {
                          ?>
-                         <span class='light_sea_green'>24 Hour ASSET Volume:</span> <?=$market_data['data']['24hr_asset_vol']?><br />
+                         <span class='light_sea_green'>24 Hour ASSET Volume:</span> <?=(  in_array($market_data['exchange'], $ct['dev']['no_trade_volume_api_data']) && $market_data['data']['24hr_asset_vol'] < 1 ? 'N/A' : $market_data['data']['24hr_asset_vol'] )?><br />
                          <?php
                          }
                          
                          if ( isset($market_data['data']['24hr_pair_vol']) ) {
                          ?>
-                         <span class='light_sea_green'>24 Hour PAIR Volume:</span> <?=$market_data['data']['24hr_pair_vol']?>
+                         <span class='light_sea_green'>24 Hour PAIR Volume:</span> <?=(  in_array($market_data['exchange'], $ct['dev']['no_trade_volume_api_data']) && $market_data['data']['24hr_pair_vol'] < 1 ? 'N/A' : $market_data['data']['24hr_pair_vol'] )?><br />
                          <?php
                          }
                          
                          if ( isset($market_data['data']['24hr_usd_vol']) ) {
                          ?>
-                         <span class='light_sea_green'>24 Hour USD Volume:</span> <?=$market_data['data']['24hr_usd_vol']?>
+                         <span class='light_sea_green'>24 Hour USD Volume:</span> <?=(  in_array($market_data['exchange'], $ct['dev']['no_trade_volume_api_data']) && $market_data['data']['24hr_usd_vol'] < 1 ? 'N/A' : $market_data['data']['24hr_usd_vol'] )?><br />
                          <?php
                          }
                          ?>

@@ -83,7 +83,7 @@ elseif ( $_POST['markets_update'] === 'remove' && is_array($_POST['revised_marke
 $ct['update_config_error'] .= 'DEBUG TEST for removal of: ' . $_POST['remove_markets_mode'];
 }
 
-$ct['update_config_error'] .= 'DEBUG TEST for removal of: ' . $_POST['remove_markets_mode'];
+
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>

@@ -12,54 +12,6 @@
 // MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
 
 
-// JUP AG - START
-
-$ct['jupiter_ag_pairs'] = array(); // RESET, since we reload this logic on config resets / user updates
-
-foreach ( $ct['conf']['assets'] as $markets ) {
-              
-    foreach ( $markets['pair'] as $exchange_pairs ) {
-         	            
-         if ( isset($exchange_pairs['jupiter_ag']) && $exchange_pairs['jupiter_ag'] != '' ) { // In case user messes up Admin Config, this helps
-         		        
-         $jup_market = explode('/', $exchange_pairs['jupiter_ag']);
-              
-         $ct['jupiter_ag_pairs'][ $jup_market[1] ] .= $jup_market[0] . ',';
-         		        
-         }
-         	            
-    }
-                
-}
-            
-foreach ( $ct['jupiter_ag_pairs'] as $key => $val ) {
-$ct['jupiter_ag_pairs'][$key] = substr($val, 0, -1);
-}
-            
-// JUP AG - END
-
-
-// UPBIT - START
-
-$ct['upbit_batched_markets'] = null; // RESET, since we reload this logic on config resets / user updates
-
-foreach ( $ct['conf']['assets'] as $markets ) {
-              
-    foreach ( $markets['pair'] as $exchange_pairs ) {
-    	            
-    	    if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up Admin Config, this helps
-    	    $ct['upbit_batched_markets'] .= $exchange_pairs['upbit'] . ',';
-    	    }
-    	            
-    }
-                
-}
-    
-$ct['upbit_batched_markets'] = substr($ct['upbit_batched_markets'], 0, -1);
-            
-// UPBIT - END
-
-
 // COINGECKO - START
 
 // RESET, since we reload this logic on config resets / user updates
@@ -119,10 +71,69 @@ $pairing = strtolower($pairing);
 }
 
 
-$ct['coingecko_pairs'] = substr($ct['coingecko_pairs'], 0, -1);
-$ct['coingecko_assets'] = substr($ct['coingecko_assets'], 0, -1);
+$ct['coingecko_pairs'] = substr($ct['coingecko_pairs'], 0, -1); // NEEDED NO MATTER WHAT
+// WE DONT WANT ASSETS FROM THE APP CONFIG, IF WE ARE IN ADMIN RUNNING 'ADD ASSET MARKET' SEARCH
+$ct['coingecko_assets'] = ( $ct['ticker_markets_search'] ? null : substr($ct['coingecko_assets'], 0, -1) );
             
 // COINGECKO - END
+
+
+$ct['jupiter_ag_pairs'] = array(); // RESET, since we reload this logic on config resets / user updates
+
+$ct['upbit_batched_markets'] = null; // RESET, since we reload this logic on config resets / user updates
+
+
+// OTHER THAN COINGECKO PAIRINGS ABOVE, we only pre-populate BATCHED asset price API calls from our asset configs IF WE ARE NOT IN ADMIN
+// RUNNING 'ADD ASSET MARKET' SEARCH, as we don't want to included assets WE ALREADY HAVE IN THE CONFIG when searching for new asset markets
+if ( !$ct['ticker_markets_search'] ) {
+
+
+// JUP AG - START
+
+     foreach ( $ct['conf']['assets'] as $markets ) {
+                   
+         foreach ( $markets['pair'] as $exchange_pairs ) {
+              	            
+              if ( isset($exchange_pairs['jupiter_ag']) && $exchange_pairs['jupiter_ag'] != '' ) { // In case user messes up Admin Config, this helps
+              		        
+              $jup_market = explode('/', $exchange_pairs['jupiter_ag']);
+                   
+              $ct['jupiter_ag_pairs'][ $jup_market[1] ] .= $jup_market[0] . ',';
+              		        
+              }
+              	            
+         }
+                     
+     }
+     
+                 
+     foreach ( $ct['jupiter_ag_pairs'] as $key => $val ) {
+     $ct['jupiter_ag_pairs'][$key] = substr($val, 0, -1);
+     }
+            
+// JUP AG - END
+
+
+// UPBIT - START
+
+     foreach ( $ct['conf']['assets'] as $markets ) {
+                   
+         foreach ( $markets['pair'] as $exchange_pairs ) {
+         	            
+         	    if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up Admin Config, this helps
+         	    $ct['upbit_batched_markets'] .= $exchange_pairs['upbit'] . ',';
+         	    }
+         	            
+         }
+                     
+     }
+    
+$ct['upbit_batched_markets'] = substr($ct['upbit_batched_markets'], 0, -1);
+            
+// UPBIT - END
+
+
+} // END !$ct['ticker_markets_search']
 
 
 //////////////////////////////////////////////////////////////////
