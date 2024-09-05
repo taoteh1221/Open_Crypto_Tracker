@@ -467,7 +467,7 @@ $ct['conf']['currency']['upbit_pairings_search'] = 'BTC,ETH,USDT,KRW';
 ////
 // OTHER upcoming / semi-popular market pairings searched for, when adding new assets / coins (comma-separated)
 // BE CAREFUL, AND ONLY ADD FIAT / STABLECOINS / ***MAJOR*** BLUECHIPS HERE, OR YOU RISK MESSING UP 'ADD MARKETS' SEARCH RESULTS!
-$ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,WBTC,WETH,FDUSD,CBBTC,USDD,WRX'; 
+$ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,BNB,WBTC,WETH,FDUSD,CBBTC,USDD,WRX'; 
 
 
 // Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)

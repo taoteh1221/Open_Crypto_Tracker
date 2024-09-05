@@ -1401,6 +1401,386 @@ var $ct_array = array();
    
    }
    
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function market_id_parse($exchange_key, $market_id, $known_pairing=false, $known_asset=false) {
+   
+   global $ct;
+   
+   
+        // We only need this function during market searches
+        if ( !$ct['ticker_markets_search'] ) {
+        return false;
+        }
+        
+   
+   $results = array();
+   
+   
+        if ( $known_pairing && trim($known_pairing) != '' ) {
+        $results['pairing'] = $known_pairing;
+        }
+        // Otherwise, parse pairing results out
+        else {
+             
+              
+              // Easy parsing
+              if ( $exchange_key == 'bitbns' || $exchange_key == 'unocoin' ) {
+              $results['pairing'] = 'inr';
+              }
+              elseif ( $exchange_key == 'coinspot' ) {
+              $results['pairing'] = 'aud';
+              }
+              // Alphavantage still needs pairing determination for SINGLE-EXCHANGE SEARCHES
+              elseif ( $exchange_key == 'alphavantage_stock' ) {
+                   
+                   
+                   if ( stristr($market_id, '.') ) {
+                        
+                        if ( stristr($market_id, '.TRT') || stristr($market_id, '.TRV') ) {
+                        $results['pairing'] = 'cad';
+                        }
+                        elseif ( stristr($market_id, '.DEX') || stristr($market_id, '.FRK') ) {
+                        $results['pairing'] = 'eur';
+                        }
+                        elseif ( stristr($market_id, '.SHH') || stristr($market_id, '.SHZ') ) {
+                        $results['pairing'] = 'rmb';
+                        }
+                        elseif ( stristr($market_id, '.LON') ) {
+                        $results['pairing'] = 'usd'; // usd for some odd reason
+                        }
+                        elseif ( stristr($market_id, '.SAO') ) {
+                        $results['pairing'] = 'brl';
+                        }
+                        elseif ( stristr($market_id, '.BSE') ) {
+                        $results['pairing'] = 'inr';
+                        }
+                   
+                   }
+                   else {
+                   $results['pairing'] = 'usd';
+                   }
+                   
+              
+              }
+              // Advanced parsing
+              else {
+                   
+              $cleaned_market_id = $market_id;
+             
+                       
+                   // IF WE NEED SOME REGEX MAGIC TO PARSE THE VALUES WE WANT
+                   // https://www.threesl.com/blog/special-characters-regular-expressions-escape/
+                   if ( $exchange_key == 'loopring' ) {
+                   $cleaned_market_id = preg_replace("/AMM-/i", "", $cleaned_market_id);
+                   }
+                   elseif ( $exchange_key == 'bitmex' || $exchange_key == 'luno' ) {
+                   $cleaned_market_id = preg_replace("/XBT/i", "BTC", $cleaned_market_id);
+                   }
+                   elseif ( $exchange_key == 'aevo' ) {
+                   $cleaned_market_id = preg_replace("/-PERP/i", "-USD", $cleaned_market_id);
+                   }
+                   elseif ( $exchange_key == 'crypto.com' ) {
+                   $cleaned_market_id = preg_replace("/-PERP(.*)/i", "", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/USD-(.*)/i", "USD", $cleaned_market_id);
+                   }
+                   // WTF Kraken, LMFAO :)
+                   elseif ( $exchange_key == 'kraken' ) {
+                   
+                   $cleaned_market_id = preg_replace("/XXBTZ/i", "BTC", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/XXBT/i", "BTC", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/XBT/i", "BTC", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/XETHZ/i", "ETH", $cleaned_market_id);
+                   $cleaned_market_id = preg_replace("/XETH/i", "ETH", $cleaned_market_id);
+          
+                   }
+                   elseif ( $exchange_key == 'bybit' && substr($cleaned_market_id, 0, 4) == '1000' ) {
+                   $cleaned_market_id = substr($cleaned_market_id, 4);
+                   }
+                   elseif (
+                   $exchange_key == 'bitfinex' && substr($cleaned_market_id, 0, 1) == 't'
+                   || 
+                   $exchange_key == 'ethfinex' && substr($cleaned_market_id, 0, 1) == 't'
+                   ) {
+                   $cleaned_market_id = substr($cleaned_market_id, 1);
+                   }
+                   
+
+              $parsed_pairing = strtolower($cleaned_market_id);
+                  
+                  
+                  if ( in_array($exchange_key, $ct['dev']['hyphen_delimited_markets']) ) {
+                  $parsed_pairing = preg_replace("/(.*)-/i", "", $parsed_pairing);
+                  }
+                  elseif ( in_array($exchange_key, $ct['dev']['reverse_hyphen_delimited_markets']) ) {
+                  $parsed_pairing = preg_replace("/-(.*)/i", "", $parsed_pairing);
+                  }
+                  elseif ( in_array($exchange_key, $ct['dev']['underscore_delimited_markets']) ) {
+                  $parsed_pairing = preg_replace("/(.*)_/i", "", $parsed_pairing);
+                  }
+                  elseif ( in_array($exchange_key, $ct['dev']['forwardlash_delimited_markets']) ) {
+                  $parsed_pairing = preg_replace("/(.*)\//i", "", $parsed_pairing);
+                  }
+                  elseif ( in_array($exchange_key, $ct['dev']['colon_delimited_markets']) ) {
+                  $parsed_pairing = preg_replace("/(.*):/i", "", $parsed_pairing);
+                  }                 
+                  
+                  
+                  // If we haven't registered all pairs yet this runtime, do it now
+                  // (we do a RUNTIME memory cache, to optimize / increase runtime speed)
+                  if ( sizeof($ct['registered_pairs']) < 1 ) {
+                       
+                  $temp_array = array();
+                       
+                  // IF the TICKER was a PARTIAL MATCH, we may NOT have CLEANLY parsed out the pairing yet...
+                       
+                  // HARD-CODED SPECIFIC / POPULAR pairing support (that we don't bundle with fresh install DEMO data)
+                  $other_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['additional_pairings_search']) );
+                       
+                  // Coingecko pairing support
+                  $coingecko_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['coingecko_pairings_search']) );
+                       
+                  // Upbit pairing support
+                  $upbit_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['upbit_pairings_search']) );
+                       
+                  // jupiter_ag pairing support
+                  $jupiter_ag_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['jupiter_ag_pairings_search']) );
+                   
+                       
+                       // Other pairings    
+                       foreach ( $other_pairings as $pair_val ) {
+                       $temp_array[] = $pair_val;
+                       }
+                   
+                       
+                       // Coingecko pairings    
+                       foreach ( $coingecko_pairings as $pair_val ) {
+                       $temp_array[] = $pair_val;
+                       }
+                   
+                       
+                       // Upbit pairings    
+                       foreach ( $upbit_pairings as $pair_val ) {
+                       $temp_array[] = $pair_val;
+                       }
+                   
+                       
+                       // jupiter_ag pairings    
+                       foreach ( $jupiter_ag_pairings as $pair_val ) {
+                       $temp_array[] = $pair_val;
+                       }
+                       
+                       
+                       // BTC currency pairings
+                       foreach ( $ct['conf']['assets']['BTC']['pair'] as $pairing_key => $unused ) {
+                       $temp_array[] = $pairing_key;
+                       }
+                       
+                       
+                       // 'crypto_pair' pairings
+                       foreach ( $ct['opt_conf']['crypto_pair'] as $pairing_key => $unused ) {
+                       $temp_array[] = $pairing_key;
+                       }
+               
+                      
+                       // Cleanup
+                       if ( sizeof($temp_array) > 0 ) { 
+                       
+                       // Remove whitespace
+                       $temp_array = array_map("trim", $temp_array);
+                       
+                       // To lowercase
+                       $temp_array = array_map("strtolower", $temp_array);
+                       
+                       // Remove duplicates
+                       $temp_array = array_unique($temp_array);
+                       
+                       // Get usd near top, and btc / eth below eur, before the usort below,
+                       // so we are looking for usd / eur pairings as early as possible (in the 3 character range)
+                       rsort($temp_array);
+                       
+                       // Now sort by length, so we are checking for LONGER pairings first (to assure SAFEST parsed results)
+                       usort($temp_array, array($ct['gen'], 'usort_length') );
+                       
+                       $ct['registered_pairs'] = $temp_array; // Set global now, since we finished building / sorting
+          
+                       }
+                  
+        
+                  gc_collect_cycles(); // Clean memory cache
+                  
+                  }
+                       
+                  
+                  if ( is_array($ct['registered_pairs']) && sizeof($ct['registered_pairs']) > 0 ) {
+
+
+                       foreach ( $ct['registered_pairs'] as $val ) {
+                            
+                             
+                             // Leave loop, if match already found
+                             if ( $pairing_match ) {
+                             break; 
+                             }
+                             // REVERSE ordered (pairing at FRONT of market id)
+                             elseif ( in_array($exchange_key, $ct['dev']['reverse_id_markets']) ) {
+                                     
+                                 if ( substr($parsed_pairing, 0, strlen($val) ) == $val ) {
+                                 $pairing_match = $val;
+                                 }
+                                     
+                             }
+                             // COMMON ordered (pairing at END of market id)
+                             elseif ( substr($parsed_pairing, -strlen($val) ) == $val ) {
+                             $pairing_match = $val;
+                             }
+                            
+                            
+                       }
+                       
+                       
+                  $results['pairing'] = $pairing_match;          
+                  
+                  }
+                  else {
+                       
+                  $ct['gen']->log( 'market_error', '"registered_pairs" array was not populated with any pairings (to search for in market ids)');
+                  
+                  // Set EVERYTHING to false, except exchange key
+                  $results['pairing'] = false;
+                  $results['asset'] = false;
+                  $results['flagged_market'] = false;
+                  $results['exchange'] = $exchange_key;
+                  
+                  return $results;
+        
+                  }
+                  
+                  
+              }
+              
+             
+             // Log / return false if no pairing was parsed out
+             if (
+             !isset($results['pairing'])
+             || trim($results['pairing']) == ''
+             || strtolower($results['pairing']) == strtolower($market_id)
+             ) {
+                  
+                  
+                  if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {
+                  $ct['gen']->log( 'other_debug', 'value NOT parsed for "pairing" (value = '.$results['pairing'].'), within market id "'.$market_id.'", during asset market search: "' . $_POST['add_markets_search'] . '" (for exchange API '.$exchange_key.')');
+                  }
+                  
+             
+             // Set EVERYTHING to false, except exchange key
+             $results['pairing'] = false;
+             $results['asset'] = false;
+             $results['flagged_market'] = false;
+             $results['exchange'] = $exchange_key;
+             
+             return $results;
+             
+             }
+        
+        
+        } // END OF PAIRING PARSE ROUTINE
+   
+   
+   // NOW WE CAN SAFELY PARSE OUT THE ASSET...
+   
+        if ( $known_asset && trim($known_asset) != '' ) {
+        $results['asset'] = $known_asset;
+        }
+        // If we couldn't parse out the pairing, we also can't parse out the asset
+        elseif ( trim($results['pairing']) == '' ) {
+        $results['asset'] = ''; 
+        }
+        // We flag stocks in this app with the suffix: STOCK [TICKERSTOCK]
+        elseif ( $exchange_key == 'alphavantage_stock' ) {
+        $results['asset'] = preg_replace("/\.(.*)/i", "", $market_id) . 'STOCK'; 
+        }
+        else {
+             
+        $parsed_asset = ( $cleaned_market_id ? $cleaned_market_id : $market_id );
+             
+        $results['asset'] = preg_replace("/".$results['pairing']."/i", "", $parsed_asset);
+        
+        }
+        
+        
+   // Remove 'perp', if in asset name
+   $results['asset'] = preg_replace("/perp/i", "", $results['asset']);
+           
+   // Remove everything NOT alphanumeric,
+   // AS IT'S A SHITSHOW SUPPORTING $TICKER etc in this app AT THE DATASET STORAGE LEVEL (should be interface ONLY!)
+   $results['asset'] = preg_replace("/[^0-9a-zA-Z]+/i", "", $results['asset']);
+        
+   // Lowercase / Trim any whitespace off ends
+   $results['asset'] = strtolower( trim($results['asset']) );
+      
+        
+   // Remove everything NOT alphanumeric, Lowercase / Trim any whitespace off ends
+   $results['pairing'] = preg_replace("/[^0-9a-zA-Z]+/i", "", $results['pairing']);
+   $results['pairing'] = strtolower( trim($results['pairing']) );
+   
+        
+        if ( $exchange_key == 'coingecko' ) {
+        $exchange_check = $exchange_key . '_' . $results['pairing'];
+        }
+        else {
+        $exchange_check = $exchange_key;
+        }
+             
+             
+        // Convert WRAPPED CRYPTO TICKERS to their NATIVE tickers
+        // MUST BE AFTER PARSING OUT ASSET!
+        if ( $results['pairing'] == 'tbtc' || $results['pairing'] == 'wbtc' ) {
+        $results['pairing'] = 'btc';
+        }
+        elseif ( $results['pairing'] == 'weth' ) {
+        $results['pairing'] = 'eth';
+        }
+        // Convert INTERNATIONAL TICKERS to their NATIVE tickers
+        elseif ( $results['pairing'] == 'cny' ) {
+        $results['pairing'] = 'rmb';
+        }
+        elseif ( $results['pairing'] == 'ils' ) {
+        $results['pairing'] = 'nis';
+        }
+   
+   
+        // If already added
+        if ( isset($ct['conf']['assets'][strtoupper($results['asset'])]['pair'][strtolower($results['pairing'])][$exchange_check]) ) {
+       
+           if ( $ct['conf']['assets'][strtoupper($results['asset'])]['pair'][strtolower($results['pairing'])][$exchange_check] == $market_id ) {
+           $results['flagged_market'] = 'already_added_' . $market_id;
+           }
+           else {
+           $results['flagged_market'] = 'replacement_for_' . $ct['conf']['assets'][strtoupper($results['asset'])]['pair'][strtolower($results['pairing'])][$exchange_check];
+           }
+       
+        }
+        // If no bitcoin market for pairing (to convert currency value to other currencies)
+        elseif ( strtolower($results['asset']) != 'btc' && strtolower($results['pairing']) != 'btc' && !isset($ct['conf']['assets']['BTC']['pair'][strtolower($results['pairing'])]) ) {
+        $results['flagged_market'] = 'pairing_not_supported_' . strtolower($results['pairing']);
+        }
+        else {
+        $results['flagged_market'] = false;
+        }
+        
+
+   $results['exchange'] = $exchange_key;
+        
+   gc_collect_cycles(); // Clean memory cache
+
+   return $results;
+      
+   }
+   
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////

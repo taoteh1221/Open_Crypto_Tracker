@@ -74,7 +74,7 @@ $ct['admin_render_settings']['jupiter_ag_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['jupiter_ag_pairings_search']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['jupiter_ag_pairings_search']['is_notes'] = 'Jupiter Aggregator market pairings searched for, when adding new assets / coins (comma-separated)';
+$ct['admin_render_settings']['jupiter_ag_pairings_search']['is_notes'] = 'Jupiter Aggregator market pairings searched for, when adding new assets / coins (comma-separated)<br /><span class="red">NOTES: We have a HARD CAP OF 100 for their PRICE API (as of Sept. 2024), which we use to verify markets discovered in searches.</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

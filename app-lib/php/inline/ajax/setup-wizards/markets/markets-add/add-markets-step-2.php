@@ -50,6 +50,13 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	<span class='bitcoin'>(example[s]: eth||0xb7ecb2aa52aa64a717180e030241bc75cd946726, sol||FgTCR1ufcaTZMwZZYhNRhJm2K3HgMA8V8kXtdqyttm19 <span class='red'>[pool addresses ARE CASE-SENSITIVE!]</span>)</span>
           	
           	</li>
+	     
+          	<li class='blue'>
+          	
+          	<b>Adding NEW PAIRINGS in "Asset Tracking => Currency Support => Additional Pairings Search", allows more pairings to be DETECTED during market searches.</b><br />
+          	<span class='bitcoin'>(example[s]: bnb,busd,tbtc)</span>
+          	
+          	</li>
      	
      	</ul>
 	
