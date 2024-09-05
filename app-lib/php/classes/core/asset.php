@@ -1929,9 +1929,13 @@ var $ct_array = array();
       // Otherwise, convert any set '24hr_usd_vol' to pair volume, IF $pair_btc_val IS SET
       elseif ( $pair_btc_val != null && isset($asset_mrkt_data['24hr_usd_vol']) && $ct['var']->num_to_str($asset_mrkt_data['24hr_usd_vol']) > 0 ) {
            
-      $btc_vol_raw = $ct['var']->num_to_str( $result['24hr_usd_vol'] / $this->pair_btc_val('usd') );         
+      $btc_vol_raw = $ct['var']->num_to_str( $asset_mrkt_data['24hr_usd_vol'] * $this->pair_btc_val('usd') );         
            
       $pair_vol_raw = $ct['var']->num_to_str( $btc_vol_raw / $pair_btc_val );
+      
+      //$debugging = array('btc_vol_raw' => $btc_vol_raw, 'pair_vol_raw' => $pair_vol_raw); // DEBUGGING ONLY
+      
+      //$ct['cache']->other_cached_data('save', 'debugging', $ct['base_dir'] . '/cache', $debugging); // DEBUGGING ONLY
 
       }
    

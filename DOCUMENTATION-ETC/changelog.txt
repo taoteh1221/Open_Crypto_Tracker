@@ -6783,15 +6783,15 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous fixes
 
--Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Portfolio Assets
-
 -Refactoring / optimization of ENTIRE markets API data parsing logic (for 'Add New Asset' feature, in admin 'Portfolio Assets' WEB INTERFACE)
+
+-Added Admin Config settings for: Portfolio Assets (adding / removing assets and markets is FINALLY available in the interface now)
+
+-Upgraded Jupiter Aggregator exchange API, including addition of market trade volume data
 
 -Cleaned up stale DEMO markets / news feeds / text gateways
 
 -Optimizations / polish on the Access Stats UX and logic
-
--Upgraded Jupiter Aggregator exchange API
 
 -Upgraded Idex exchange API to v4
 
