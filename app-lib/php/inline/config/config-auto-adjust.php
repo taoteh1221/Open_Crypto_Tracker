@@ -412,6 +412,24 @@ $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 75;
 }
 
 
+// Idiot-proof maximum RANGE of $ct['conf']['gen']['currency_decimals_max'] 
+if ( $ct['conf']['gen']['currency_decimals_max'] > 10 ) {
+$ct['conf']['gen']['currency_decimals_max'] = 10;
+}
+elseif ( $ct['conf']['gen']['currency_decimals_max'] < 5 ) {
+$ct['conf']['gen']['currency_decimals_max'] = 5;
+}
+
+
+// Idiot-proof maximum RANGE of $ct['conf']['gen']['crypto_decimals_max']
+if ( $ct['conf']['gen']['crypto_decimals_max'] > 15 ) {
+$ct['conf']['gen']['crypto_decimals_max'] = 15;
+}
+elseif ( $ct['conf']['gen']['crypto_decimals_max'] < 10 ) {
+$ct['conf']['gen']['crypto_decimals_max'] = 10;
+}
+
+
 // Idiot-proof maximum of +-35 on captcha text contrast
 if ( abs($ct['conf']['sec']['captcha_text_contrast']) > 35 ) {
 $ct['conf']['sec']['captcha_text_contrast'] = 35;

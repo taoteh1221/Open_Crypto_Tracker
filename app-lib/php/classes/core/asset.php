@@ -1796,30 +1796,25 @@ var $ct_array = array();
    // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
    $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, 'utf-8') ) );
    $asset = strtoupper($asset);
+        
+   $pair_btc_val = $this->pair_btc_val($pair); 
+   
+      
+	 if ( $pair_btc_val == null ) {
+	        	
+	 $ct['gen']->log(
+	        			 'market_error',
+	        			 'this->pair_btc_val() returned null in ct_asset->charts_price_alerts() (for ' . $pair . ')'
+	        			);
+	        
+	 }
    
    
       // Fiat or equivalent pair?
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
       if ( array_key_exists($pair, $ct['conf']['assets']['BTC']['pair']) && !array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
-           
       $has_btc_pairing = true;
-
       $min_vol_val_test = $min_fiat_val_test;
-  
-      // Used later in this function, in multiple places
-      $pair_btc_val = $this->pair_btc_val($pair); 
-  
-      
-	     if ( $pair_btc_val == null ) {
-	        	
-	     $ct['gen']->log(
-	        			 'market_error',
-	        			 'this->pair_btc_val() returned null in ct_asset->charts_price_alerts() (for ' . $pair . ')'
-	        			);
-	        
-	     }
-	 
-	 
       }
       else {
       $min_vol_val_test = $min_crypto_val_test;
@@ -1890,8 +1885,8 @@ var $ct_array = array();
       elseif ( $pair == 'btc' ) {
       $asset_prim_currency_val_raw = number_format( $ct['default_bitcoin_primary_currency_val'] * $asset_mrkt_data['last_trade'] , $ct['conf']['gen']['crypto_decimals_max'], '.', '');
       }
-      // OTHER PAIRS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
-      elseif ( $has_btc_pairing ) {
+      // OTHER PAIRS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS, IF $pair_btc_val IS SET
+      elseif ( $pair_btc_val != null ) {
       $asset_prim_currency_val_raw = number_format( $ct['default_bitcoin_primary_currency_val'] * ( $asset_mrkt_data['last_trade'] * $pair_btc_val ) , $ct['conf']['gen']['crypto_decimals_max'], '.', '');
       }
       
@@ -1931,18 +1926,14 @@ var $ct_array = array();
       if ( isset($asset_mrkt_data['24hr_pair_vol']) && $asset_mrkt_data['24hr_pair_vol'] > 0 ) {
       $pair_vol_raw = $asset_mrkt_data['24hr_pair_vol']; 
       }
-      // Otherwise, convert any set '24hr_usd_vol' to pair volume, IF THE PAIR HAS A BITCOIN MARKET FOR CONVERSION
-      elseif ( $has_btc_pairing && isset($asset_mrkt_data['24hr_usd_vol']) && $ct['var']->num_to_str($asset_mrkt_data['24hr_usd_vol']) > 0 ) {
+      // Otherwise, convert any set '24hr_usd_vol' to pair volume, IF $pair_btc_val IS SET
+      elseif ( $pair_btc_val != null && isset($asset_mrkt_data['24hr_usd_vol']) && $ct['var']->num_to_str($asset_mrkt_data['24hr_usd_vol']) > 0 ) {
            
       $btc_vol_raw = $ct['var']->num_to_str( $result['24hr_usd_vol'] / $this->pair_btc_val('usd') );         
            
       $pair_vol_raw = $ct['var']->num_to_str( $btc_vol_raw / $pair_btc_val );
 
       }
-      elseif ( $has_btc_pairing && isset($asset_mrkt_data['jup_ag_address']) ) {
-      $ct['gen']->log('market_error', 'ct_asset->charts_price_alerts() - "24hr_usd_vol" error ');
-      }
-   
    
      
    // Round PAIR volume to only keep $ct['conf']['charts_alerts']['chart_crypto_volume_decimals'] decimals max (for crypto volume etc), to save on data set / storage size

@@ -86,7 +86,7 @@ $ct['conf']['gen']['primary_marketcap_site'] = 'coingecko';
 // For prettier / less-cluttered interface. IF YOU ADJUST $ct['conf']['gen']['bitcoin_primary_currency_pair'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
 // ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct['conf']['gen']['currency_decimals_max'] = 20; // Whole numbers only (represents number of decimals maximum to use...default = 20)
+$ct['conf']['gen']['currency_decimals_max'] = 8; // Whole numbers only (represents number of decimals maximum to use...default = 20)
 
 
 // Maximum decimal places for *CRYPTO* VALUES ACROSS THE ENTIRE APP (*INCLUDING UNDER-THE-HOOD CALCULATIONS*)
@@ -94,7 +94,7 @@ $ct['conf']['gen']['currency_decimals_max'] = 20; // Whole numbers only (represe
 // LOW VALUE ALTERNATE COINS / CURRENCIES NEED THIS SET REALLY HIGH TO BE INCLUDED IN THE ASSETS LIST (TO NOT HAVE A ZERO VALUE),
 // *ESPECIALLY* SINCE WE USE BITCOIN AS OUR BASE CURRENCY *CONVERTER* (DUE TO IT'S RELIABLY HIGH LIQUIDITY ACROSS THE PLANET)
 // !!!IF YOU CHANGE THIS, THE 'WATCH ONLY' FLAG ON THE 'UPDATE' PAGE *WILL ALSO CHANGE* (CHANGING WHAT IS FLAGGED 'WATCH ONLY')!!!
-$ct['conf']['gen']['crypto_decimals_max'] = 20; // Whole numbers only (represents number of decimals maximum to use...default = 20)
+$ct['conf']['gen']['crypto_decimals_max'] = 13; // Whole numbers only (represents number of decimals maximum to use...default = 20)
 
 
 // PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)

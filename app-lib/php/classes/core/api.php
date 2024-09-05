@@ -3672,15 +3672,11 @@ var $exchange_apis = array(
     		}
 		      
 		      
-    		// Set primary currency volume value
-    		if ( isset($result['24hr_pair_vol']) && isset($pair) && $pair == $ct['conf']['gen']['bitcoin_primary_currency_pair'] ) {
-    		$result['24hr_prim_currency_vol'] = $ct['var']->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
-    		}
-    		elseif ( isset($result['24hr_pair_vol']) ) {
-    		$result['24hr_prim_currency_vol'] = $ct['var']->num_to_str( $ct['asset']->prim_currency_trade_vol($asset_symb, $pair, $result['last_trade'], $result['24hr_pair_vol']) );
-    		}
+    		// Set primary currency volume value...
+    		
+    		// JUP AG MUST BE FIRST CONDITION
     		// (ONLY IF WE ARE ***NOT*** RUNNING A TICKER MARKETS SEARCH, AS IT COULD CAUSE HUNDREDS OF NEW API CALLS PER MINUTE!)
-    		elseif ( !$ct['ticker_markets_search'] && isset($result['jup_ag_address']) ) {
+    		if ( !$ct['ticker_markets_search'] && isset($result['jup_ag_address']) ) {
     		
     		// As of 2024/9/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
     		// https://station.jup.ag/docs/token-list/token-list-api
@@ -3693,6 +3689,12 @@ var $exchange_apis = array(
                $result['24hr_usd_vol'] = $data['daily_volume'];
                }
     		
+    		}
+    		elseif ( isset($result['24hr_pair_vol']) && isset($pair) && $pair == $ct['conf']['gen']['bitcoin_primary_currency_pair'] ) {
+    		$result['24hr_prim_currency_vol'] = $ct['var']->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
+    		}
+    		elseif ( isset($result['24hr_pair_vol']) ) {
+    		$result['24hr_prim_currency_vol'] = $ct['var']->num_to_str( $ct['asset']->prim_currency_trade_vol($asset_symb, $pair, $result['last_trade'], $result['24hr_pair_vol']) );
     		}
     		else {
     		$result['24hr_prim_currency_vol'] = null;
