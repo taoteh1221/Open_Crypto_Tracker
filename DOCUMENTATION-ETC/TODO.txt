@@ -194,6 +194,15 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Add BNB to currency support -> Additional Pairings Search
+
+
+Move the market id parser over into the asset class file.
+
+
+On the search AND / OR search results pages, add documentation about the "Additional Pairings Search" setting on the "currency support" page, as it allows more base pairings to be detected in market IDs during market searches.
+
+
 valid_secure_config_update_request() test isn't passing for delete assets, because the structure isn't within params normally used for updating the cached config.
 
 

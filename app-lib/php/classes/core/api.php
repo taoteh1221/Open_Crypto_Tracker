@@ -1423,12 +1423,16 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                      $market_id_parse  = $this->market_id_parse($exchange_key, $val['id']);
                           
                          
-                         // Skip, if not relevant
+                         // If relevant
                          if ( 
-                         !$ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
-                         || $search_pairing && !$ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing) 
+                         !$search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
+                         || $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
+                         && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing) 
                          ) {
-                         continue;
+                         // Do nothing
+                         }
+                         else {
+                         continue; // Skip
                          }
                          
                          
@@ -1704,10 +1708,14 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          
                               // Skip, if not relevant
                               if ( 
-                              !$ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
-                              || $search_pairing && !$ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
+                              !$search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
+                              || $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
+                              && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
                               ) {
-                              continue;
+                              // Do nothing
+                              }
+                              else {
+                              continue; // Skip
                               }
                               
                                    
@@ -1736,9 +1744,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                              
                                              
                                     if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
-                                   
-                                    // Minimize calls
-                                    $market_id_parse  = $this->market_id_parse($exchange_key, $result["1. symbol"], $result["8. currency"]);
                                                   
                                     $possible_market_ids[] = array(
                                                                                  'name' => $result["2. name"],
@@ -2417,14 +2422,17 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                   
                        if ( isset($val[ $exchange_api['all_markets_support'] ]) ) {
                             
-                       // Minimize calls
-                       $market_id_parse  = $this->market_id_parse($exchange_key, $val[ $exchange_api['all_markets_support'] ]);
+                            
+                            // Minimize calls
+                            if ( $ticker_search_mode ) {
+                            $market_id_parse  = $this->market_id_parse($exchange_key, $val[ $exchange_api['all_markets_support'] ]);
+                            }
                             
                             
                             // As long as we are NOT in search mode, OR parsed asset ticker is relevant
                             if (
                             !$ticker_search_mode && $val[ $exchange_api['all_markets_support'] ] == $dyn_id
-                            || $ticker_search_mode && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
+                            || $ticker_search_mode && !$search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
                             || $ticker_search_mode && $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
                             && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
                             ) {
@@ -2440,6 +2448,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                             if ( $exchange_key == 'zebpay' ) {
                                  
                             $test_data = $val;
+                            
                        
                                  if ( isset($test_data["market"]) && $test_data["market"] > 0 ) {
                                  
@@ -2477,17 +2486,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                  
                             }
                             else {
-                                   
-                            // Minimize calls
-                            $market_id_parse  = $this->market_id_parse($exchange_key, $val[ $exchange_api['all_markets_support'] ]);
                                         
                             
                                  // As long as parsed asset ticker is relevant
-                                 if ( 
-                                    !$search_pairing && $ticker_search_mode && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
-                                    || $search_pairing && $ticker_search_mode && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
-                                    && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
-                                    ) {
+                                 if ( $ticker_search_mode ) {
+                                      
                                          
                                  // Minimize calls
                                  $check_market_data = $this->market($dyn_id, $exchange_key, $val[ $exchange_api['all_markets_support'] ]);
@@ -2514,6 +2517,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                                  $data = $val;
                                  break; // will assure leaving the foreach loop immediately
                                  }
+                                 
                        
                             }
      
