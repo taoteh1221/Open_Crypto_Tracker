@@ -35,14 +35,15 @@ $pair_count = 1;
                	 "children" : [
 	 
                               	 <?php
-                              	 foreach ( $pairing_data as $exchange_key => $unused ) {
+                              	 foreach ( $pairing_data as $exchange_key => $market_id ) {
                               	 ?>
                
                               				{
                               			      
                               			      "text" : "<?=$exchange_key?>",
                               				 "state" : { "selected" : false, "disabled" : <?=( in_array(strtolower($asset_key), $restricted_assets) && $exchange_count == 1 ? 'true' : 'false' )?> },
-                              				 "icon" : "jstree-file"
+                              				 "icon" : "jstree-file",
+                              				 "a_attr": { "title" : "Market ID: <?=$market_id?>" }
                               				 
                               				 }<?=( sizeof($pairing_data) > $exchange_count  ? ',' : '' )?>
                               				 

@@ -16,10 +16,8 @@ $_POST['markets_update'] === 'add' && !isset($_POST['assets'])
 $ct['update_config_error'] .= 'Please select at least one asset market to add.';
 }
 elseif (
-$_POST['markets_update'] === 'remove' && !isset($_POST['revised_markets'])
-|| $_POST['markets_update'] === 'remove' && !isset($_POST['revised_assets'])
-|| $_POST['markets_update'] === 'remove' && is_array($_POST['revised_markets']) && sizeof($_POST['revised_markets']) < 1
-|| $_POST['markets_update'] === 'remove' && is_array($_POST['revised_assets']) && sizeof($_POST['revised_assets']) < 1
+$_POST['markets_update'] === 'remove' && !isset($_POST['assets'])
+|| $_POST['markets_update'] === 'remove' && is_array($_POST['assets']) && sizeof($_POST['assets']) < 1
 ) {
 $ct['update_config_error'] .= 'Please select '.$_POST['remove_markets_mode'].' to remove.';
 }
@@ -75,12 +73,67 @@ elseif ( $_POST['markets_update'] === 'add' && is_array($_POST['assets']) && siz
 
 }
 // PHP7.4 NEEDS === HERE INSTEAD OF ==
-elseif ( $_POST['markets_update'] === 'remove' && is_array($_POST['revised_assets']) && sizeof($_POST['revised_assets']) > 0 ) {
-$ct['update_config_error'] .= 'DEBUG TEST for removal of: ' . $_POST['remove_markets_mode'];
+elseif ( $_POST['markets_update'] === 'remove' && $_POST['remove_markets_mode'] == 'assets' && sizeof($_POST['assets']) > 0 ) {
+
+     
+     // ASSET does NOT exist
+     foreach ( $_POST['assets'] as $posted_asset_key => $posted_asset_val ) {
+     
+          if ( !isset($ct['conf']['assets'][$posted_asset_key]) ) {
+          $ct['update_config_error'] .= $update_config_error_seperator . 'ASSET "'.$posted_asset_key.'" does NOT EXIST in the current assets config';
+          }
+     
+     }
+
+
 }
 // PHP7.4 NEEDS === HERE INSTEAD OF ==
-elseif ( $_POST['markets_update'] === 'remove' && is_array($_POST['revised_markets']) && sizeof($_POST['revised_markets']) > 0 ) {
-$ct['update_config_error'] .= 'DEBUG TEST for removal of: ' . $_POST['remove_markets_mode'];
+elseif ( $_POST['markets_update'] === 'remove' && $_POST['remove_markets_mode'] == 'markets' && sizeof($_POST['assets']) > 0 ) {
+
+
+     foreach ( $_POST['assets'] as $posted_asset_key => $posted_asset_val ) {
+     
+          
+          // ASSET does NOT exist
+          if ( !isset($ct['conf']['assets'][$posted_asset_key]) ) {
+          $ct['update_config_error'] .= $update_config_error_seperator . 'ASSET "'.$posted_asset_key.'" does NOT EXIST in the current assets config';
+          }
+
+          
+          foreach ( $posted_asset_val['pair'] as $posted_pair_key => $posted_pair_val ) {
+
+               
+               // PAIRING does NOT exist
+               if ( !isset($ct['conf']['assets'][$posted_asset_key]['pair'][$posted_pair_key]) ) {
+               $ct['update_config_error'] .= $update_config_error_seperator . 'PAIRING "'.strtoupper($posted_pair_key).'" does NOT EXIST for ASSET "'.$posted_asset_key.'", in the current assets config';
+               }
+               
+               
+               foreach ( $posted_pair_val as $posted_market_key => $posted_market_val ) {
+               
+          
+                    // MARKET does NOT exist
+                    if ( !isset($ct['conf']['assets'][$posted_asset_key]['pair'][$posted_pair_key][$posted_market_key]) ) {
+                    $ct['update_config_error'] .= $update_config_error_seperator . 'MARKET "'.$ct['gen']->key_to_name($posted_market_key).'" does NOT EXIST for ASSET / PAIRING "'.$posted_asset_key.' / '.strtoupper($posted_pair_key).'", in the current assets config';
+                    }
+                    // MARKET ID does NOT match
+                    elseif (
+                    isset($ct['conf']['assets'][$posted_asset_key]['pair'][$posted_pair_key][$posted_market_key])
+                    && $ct['conf']['assets'][$posted_asset_key]['pair'][$posted_pair_key][$posted_market_key] != $_POST['assets'][$posted_asset_key]['pair'][$posted_pair_key][$posted_market_key]
+                    ) {
+                    $ct['update_config_error'] .= $update_config_error_seperator . 'MARKET ID for "'.$ct['gen']->key_to_name($posted_market_key).'" does NOT MATCH for ASSET / PAIRING "'.$posted_asset_key.' / '.strtoupper($posted_pair_key).'", in the current assets config';
+                    }
+               
+               
+               }
+
+          
+          }
+
+     
+     }
+
+
 }
 
 

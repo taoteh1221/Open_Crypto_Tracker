@@ -436,7 +436,7 @@ nav_menu('.user-nav');
               // confirm whether or not they want to skip saving their changes
               if ( is_admin && unsaved_admin_config ) {
                        
-              var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
+              var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
                   
                   if ( !confirm_skip_saving_changes ) {
                        
@@ -461,7 +461,7 @@ nav_menu('.user-nav');
               }
               else if ( !is_admin && unsaved_user_config ) {
                        
-              var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes?");
+              var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
                   
                   if ( !confirm_skip_saving_changes ) {
                        

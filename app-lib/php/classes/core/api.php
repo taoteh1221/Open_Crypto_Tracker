@@ -805,8 +805,8 @@ var $exchange_apis = array(
              if ( $specific_pairing ) {
                                 
              $parsed_market_data = array(
-     	                        'last_trade' => $market_data[$specific_pairing],
-     	                        '24hr_pair_vol' => $market_data[$specific_pairing . "_24h_vol"]
+     	                        'last_trade' => $ct['var']->num_to_str($market_data[$specific_pairing]),
+     	                        '24hr_pair_vol' => $ct['var']->num_to_str($market_data[$specific_pairing . "_24h_vol"])
      	                        );
              
              // We still need to parse out 'flagged_market'
@@ -831,8 +831,8 @@ var $exchange_apis = array(
                   foreach( $coingecko_pairings_search_array as $pair ) {
                                 
                   $parsed_market_data = array(
-     	                        'last_trade' => $market_data[$pair],
-     	                        '24hr_pair_vol' => $market_data[$pair . "_24h_vol"]
+     	                        'last_trade' => $ct['var']->num_to_str($market_data[$pair]),
+     	                        '24hr_pair_vol' => $ct['var']->num_to_str($market_data[$pair . "_24h_vol"])
      	                        );
                                                   
                   // We still need to parse out 'flagged_market'
@@ -1546,7 +1546,7 @@ var $exchange_apis = array(
                           $parsed_market_data = array(        
                                              'jup_ag_address' => $this_market_data['id'],
                                              'last_trade' => number_format( $this_market_data['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
-                                             '24hr_usd_vol' => $market_data['data']['daily_volume'],
+                                             '24hr_usd_vol' => $ct['var']->num_to_str($market_data['data']['daily_volume']),
                                    	      );
                          	      
                          	        
@@ -1722,7 +1722,7 @@ var $exchange_apis = array(
                                                                                  'asset' => $market_id_parse['asset'],
                                                                                  'pairing' => $market_id_parse['pairing'],
                                                                                  'flagged_market' => $market_id_parse['flagged_market'],
-                                                                                 'data' => array('last_trade' => 'SKIPPED, SO FREE TIER STAYS WITHIN DAILY LIMITS! (upgrade your alphavantage API KEY to a PREMIUM tier [and adjust "AlphaVantage.co Per Minute Limit" HIGHER THAN 5 accordingly, in the "External APIs" section], to see price previews)'),
+                                                                                 'data' => array('last_trade' => 'SKIPPED, SO FREE TIER STAYS WITHIN DAILY LIMITS! (upgrade your alphavantage API KEY to a PREMIUM tier [and adjust "AlphaVantage.co Per Minute Limit" HIGHER THAN 5 accordingly, in the "External APIs" section], to SAFELY see price previews [without exceeding your limits])'),
                                                                                   );
                                                                                   
                               }
@@ -2656,7 +2656,7 @@ var $exchange_apis = array(
       $result = array(
                      'last_trade' => $data["mark_price"],
                      '24hr_asset_vol' => null, // Unavailable, set null
-                     '24hr_pair_vol' => $ct['var']->num_to_str($data["markets"]["daily_volume_contracts"] * $data["mark_price"])
+                     '24hr_pair_vol' => ($data["markets"]["daily_volume_contracts"] * $data["mark_price"])
                 	   );
       
       }
@@ -2838,8 +2838,8 @@ var $exchange_apis = array(
 	                           'last_trade' => $last_trade,
 	                           // Average of 24 hours, since we are always between 23.5 and 24.5
 	                           // (least resource-intensive way to get close enough to actual 24 hour volume)
-	                           '24hr_asset_vol' => $ct['var']->num_to_str($asset_vol - $half_oldest_hour_asset_vol),
-	                           '24hr_pair_vol' =>  $ct['var']->num_to_str($pair_vol - $half_oldest_hour_pair_vol)
+	                           '24hr_asset_vol' => ($asset_vol - $half_oldest_hour_asset_vol),
+	                           '24hr_pair_vol' =>  ($pair_vol - $half_oldest_hour_pair_vol)
 	                    	   );
       
       }
@@ -3285,7 +3285,7 @@ var $exchange_apis = array(
       elseif ( $sel_exchange == 'luno' ) {
       
       $result = array(
-                              'last_trade' => $ct['var']->num_to_str($data["last_trade"]), // Handle large / small values better with $ct['var']->num_to_str()
+                              'last_trade' => $data["last_trade"],
                               '24hr_asset_vol' => $data["rolling_24_hour_volume"],
                               '24hr_pair_vol' => null // Unavailable, set null
                      		  );
@@ -3686,7 +3686,7 @@ var $exchange_apis = array(
           
                if ( $ct['var']->num_to_str($data['daily_volume']) > 0 ) {
                $result['24hr_prim_currency_vol'] = $ct['var']->num_to_str( $ct['asset']->prim_currency_trade_vol($asset_symb, 'usd', $result['last_trade'], $data['daily_volume']) );
-               $result['24hr_usd_vol'] = $data['daily_volume'];
+               $result['24hr_usd_vol'] = $ct['var']->num_to_str($data['daily_volume']);
                }
     		
     		}
