@@ -54,7 +54,7 @@ $ct['admin_render_settings']['privacy_mode']['is_notes'] = 'In Privacy Mode, the
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['tracking']['is_notes'] = 'Track address balance changes, on popular blockchains.<br />Solana SPL tokens MUST:<br /> 1) Have a Jupiter Aggregator SOL market in the portfolio assets configuration, for "Privacy Mode" to work properly<br />2) Use your wallet\'s TOKEN address (NOT your primary wallet address, as Solana SPL tokens DERIVE *secondary addresses* for each token in your wallet)';
+$ct['admin_render_settings']['tracking']['is_notes'] = 'Track address balance changes, on popular blockchains.<br /><br />Solana SPL tokens MUST:<br /><br />1) Have a Jupiter Aggregator SOL market in the portfolio assets configuration, for "Privacy Mode" to work properly<br /><br />2) Use your wallet\'s TOKEN account / address that\'s specifically associated with this asset (NOT your primary wallet address, as Solana SPL tokens DERIVE *secondary addresses* for each token in your wallet)';
 
 
 $sol_subtokens = array();

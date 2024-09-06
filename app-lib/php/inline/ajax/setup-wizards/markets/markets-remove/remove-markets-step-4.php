@@ -8,6 +8,18 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 $updated_assets_structure = array();
 
+$skip_assets = array(
+          	                     'MISCASSETS',
+          	                     'BTCNFTS',
+          	                     'ETHNFTS',
+          	                     'SOLNFTS',
+          	                     'ALTNFTS',
+          	                     'BTC',
+          	                     'ETH',
+          	                     'SOL',
+          	                    );
+          	                    
+
 ?>
 
 <h3 class='red input_margins'>STEP #4: Review / Confirm <?=strtoupper($_POST['remove_markets_mode'])?> Removals</h3>  
@@ -18,6 +30,7 @@ $updated_assets_structure = array();
 if ( $_POST['remove_markets_mode'] == 'markets' && isset($_POST['remove_markets_asset']) && trim($_POST['remove_markets_asset']) != '' ) {
 
 $updated_assets_structure['revised_markets'][ $_POST['remove_markets_asset'] ] = array();
+
 
      foreach ( $_POST as $parse_markets_key => $parse_markets_val ) {
           
@@ -30,9 +43,45 @@ $updated_assets_structure['revised_markets'][ $_POST['remove_markets_asset'] ] =
           }
      
      }
+     
+
+     foreach ( $ct['conf']['assets'] as $existing_assets_key => $existing_assets_val ) {
+
+          
+          if ( !array_key_exists($existing_assets_key, $updated_assets_structure['revised_markets']) ) {
+          continue;          
+          }
+
+     
+          foreach ( $existing_assets_val['pair'] as $existing_pairs_key => $existing_pairs_val ) {
+               
+               
+               // If PAIRING removed
+               if ( !isset($updated_assets_structure['revised_markets'][$existing_assets_key]['pair'][$existing_pairs_key]) ) {
+               $updated_assets_structure['assets'][$existing_assets_key]['pair'][$existing_pairs_key] = $ct['conf']['assets'][$existing_assets_key]['pair'][$existing_pairs_key];
+               }
+               
+               
+               foreach ( $existing_pairs_val as $existing_markets_key => $existing_markets_val ) {
+               
+               
+                    // If MARKET removed
+                    if ( !isset($updated_assets_structure['revised_markets'][$existing_assets_key]['pair'][$existing_pairs_key][$existing_markets_key]) ) {
+                    $updated_assets_structure['assets'][$existing_assets_key]['pair'][$existing_pairs_key][$existing_markets_key] = $ct['conf']['assets'][$existing_assets_key]['pair'][$existing_pairs_key][$existing_markets_key];
+                    }
+
+               
+               }
+               
+          
+          }
+     
+     }
+     
     
 }
 elseif ( $_POST['remove_markets_mode'] == 'assets' ) {
+
 
      foreach ( $_POST as $parse_assets_key => $parse_assets_val ) {
           
@@ -41,7 +90,17 @@ elseif ( $_POST['remove_markets_mode'] == 'assets' ) {
           }
      
      }
-    
+     
+
+     foreach ( $ct['conf']['assets'] as $existing_assets_key => $existing_assets_val ) {
+     
+          // If ASSET removed
+          if ( !in_array($existing_assets_key, $skip_assets) && !isset($updated_assets_structure['revised_assets'][$existing_assets_key]) ) {
+          $updated_assets_structure['assets'][$existing_assets_key] = true;
+          }
+     
+     }
+     
 }
 
 
@@ -49,8 +108,7 @@ elseif ( $_POST['remove_markets_mode'] == 'assets' ) {
 
   <?php
   if (
-  is_array($updated_assets_structure['revised_assets']) && sizeof($updated_assets_structure['revised_assets']) > 0
-  || is_array($updated_assets_structure['revised_markets']) && sizeof($updated_assets_structure['revised_markets']) > 0
+  is_array($updated_assets_structure['assets']) && sizeof($updated_assets_structure['assets']) > 0
   ) {
   ?>
 
@@ -106,32 +164,20 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
    */
 
 
-     foreach ( $_POST['assets'] as $asset_key => $asset_data ) {
+     foreach ( $updated_assets_structure['assets'] as $asset_key => $asset_data ) {
      ?>
      
      <div style='font-weight: bold;' class='blue clear_both result_margins'><?=strtoupper($asset_key)?></div>
      
+     
+     <?php
+     if ( $_POST['remove_markets_mode'] == 'markets' ) {
+     ?>
+     
+     
      <div class='align_left clear_both result_margins'>
      
-          <div style='font-weight: bold;' class='green clear_both result_margins'>Name:</div> 
-          
-          <div class='align_left clear_both result_margins'>
-          <?=$asset_data['name']?> <span class='bitcoin'>(EDITABLE after adding [SKIPPED if already exists])</span>
-          </div>
-     
-     
           <?php
-          if ( isset($asset_data['mcap_slug']) && trim($asset_data['mcap_slug']) != '' ) {
-          ?>
-          <div style='font-weight: bold;' class='green clear_both result_margins'>Marketcap Slug (page):</div> 
-          
-          <div class='align_left clear_both result_margins'>
-          <?=$asset_data['mcap_slug']?> <span class='bitcoin'>(EDITABLE after adding [SKIPPED if already exists])</span>
-          </div>
-          <?php
-          }
-
-
           foreach ( $asset_data['pair'] as $pair_key => $pair_data ) {
           ?>
           <div style='font-weight: bold;' class='green clear_both result_margins'><?=strtoupper($pair_key)?></div>
@@ -144,7 +190,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                
                <div style='margin-left: 1em;'>
                     
-                    <a class='bitcoin clear_both' href='javascript:' title='CONFIRM all market details, before adding them to the app.'><?=$ct['gen']->key_to_name($market_key)?></a>
+                    <a class='bitcoin clear_both' href='javascript:' title='CONFIRM all market details, before removing them from the app.'><?=$ct['gen']->key_to_name($market_key)?></a>
                     
                     <div class='align_left clear_both'>
                     
@@ -169,6 +215,10 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           ?>
      
      </div>
+          
+     <?php
+     }
+     ?>
      
      <?php
      }
@@ -221,7 +271,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
      <script>
      
-     var updated_markets_post_data = <?php echo json_encode($updated_assets_structure); ?>;
+     var updated_markets_post_data = <?php echo json_encode( array('assets' => $updated_assets_structure['assets']) ); ?>;
      	                          
      </script>
      

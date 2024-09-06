@@ -837,7 +837,7 @@ text-decoration: underline !important;
 
 
 .pretty_text_fields {
-max-width: 95%;
+max-width: fit-content;
 text-align: left;
 width: 700px;
 }

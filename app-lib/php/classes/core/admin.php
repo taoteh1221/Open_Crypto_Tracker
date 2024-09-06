@@ -19,86 +19,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   // (must be carefully checked)
-   function remove_markets($field_array_base) {
-        
-   global $ct;
-                       
-                      
-   
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   // (must be carefully checked)
-   function add_markets($field_array_base) {
-        
-   global $ct;
-                       
-                      
-          foreach ( $field_array_base as $submitted_asset_key => $submitted_asset_val ) {
-          
-          
-               // If the asset doesn't exist
-               if ( !isset($ct['conf']['assets'][$submitted_asset_key]) ) {
-               $ct['conf']['assets'][$submitted_asset_key] = $submitted_asset_val;
-               }
-               else {
-                    
-                    // We allow updating 'name' / 'mcap_slug', if either are blank...
-               
-                    if ( trim($ct['conf']['assets'][$submitted_asset_key]['name']) == '' ) {
-                    $ct['conf']['assets'][$submitted_asset_key]['name'] = $submitted_asset_val['name'];
-                    }
-               
-               
-                    if ( trim($ct['conf']['assets'][$submitted_asset_key]['mcap_slug']) == '' ) {
-                    $ct['conf']['assets'][$submitted_asset_key]['mcap_slug'] = $submitted_asset_val['mcap_slug'];
-                    }
-                    
-                    
-                    // Check data in pairings
-                    foreach ( $submitted_asset_val['pair'] as $pairing_key => $pairing_val ) {
-                    
-                    
-                        // If the pairing doesn't exist
-                        if ( !isset($ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key]) ) {
-                        $ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key] = $pairing_val;
-                        }
-                        else {
-                        
-                        
-                             // We allow overwriting old exchange markets, so we can safely add them all
-                             foreach ( $pairing_val as $exchange_key => $exchange_val ) {
-                             $ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key][$exchange_key] = $exchange_val;
-                             }
-                             
-                        
-                        }
-                        
-                        
-                    }
-                    
-               
-               }
-          
-          
-          // Sanitize name value, make sure first character is uppercase
-          $ct['conf']['assets'][$submitted_asset_key]['name'] = ucfirst( filter_var($ct['conf']['assets'][$submitted_asset_key]['name'], FILTER_SANITIZE_STRING) );
-                  
-          }
-         
-   
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function unconfigured_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false, $conf_id=false, $interface_id=false) {
         
    global $ct;
@@ -109,7 +29,7 @@ var $ct_array = array();
               
               <b class='red'>PLEASE *FULLY* CONFIGURE THIS SETTING'S 'FORM FIELD TYPE' BELOW IN THE ADMIN INTERFACE CONFIG!<br />
               <?=$ct['gen']->key_to_name($passed_key)?>:</b><br />
-              <?=( !isset($passed_val) || $passed_val == '' ? '(NO VALUE SET, CHECK /app-lib/php/inline/config/config-auto-adjust.php, FOR OUTDATED AUTO CORRECT / ADJUST LOGIC)' : $passed_val )?>
+              <?=( !isset($passed_val) || $passed_val == '' ? '(NO VALUE SET, DO NOT FORGET TO ALSO REVIEW config-auto-adjust.php AUTO-CORRECTING LOGIC)' : $passed_val )?>
           
          </p>
          
@@ -146,16 +66,10 @@ var $ct_array = array();
         $parse_plugin_name = explode('|', $_POST['conf_id']);
 
         $field_array_base = $_POST[ $parse_plugin_name[1] ];
-        
-        $valid_existing_base = isset($ct['conf']['plug_conf'][ $parse_plugin_name[1] ]);
 
         }
         elseif ( isset($_POST['conf_id']) ) {
-             
         $field_array_base = $_POST[ $_POST['conf_id'] ];
-        
-        $valid_existing_base = isset($ct['conf'][ $_POST['conf_id'] ]);
-        
         }
         else {
         return false;
@@ -165,8 +79,7 @@ var $ct_array = array();
         // Make sure ALL security checks pass / data structure seems valid, for updating the admin config
         // (INCLUDES 'STRICT' 2FA MODE CHECK [returns true if 'strict' 2fa is turned off, OR 'strict' 2fa checked out as valid])
         if (
-        $valid_existing_base
-        && isset($_POST['conf_id'])
+        isset($_POST['conf_id'])
         && isset($_POST['interface_id'])
         && is_array($field_array_base)
         && $ct['gen']->pass_sec_check($_POST['admin_nonce'], $_POST['interface_id'])
@@ -175,10 +88,58 @@ var $ct_array = array();
         return $field_array_base;
         }
         else {
-        $ct['gen']->log('security_error', 'FAILED CHECK in valid_secure_config_update_request(), for "conf_id": ' . $_POST['conf_id']);
+        $ct['gen']->log('security_error', 'FAILED CHECK in valid_secure_config_update_request() (from '.$ct['remote_ip'].'), for "conf_id": ' . $_POST['conf_id']);
         return false;
         }
         
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   // (must be carefully checked)
+   function remove_markets($field_array_base) {
+        
+   global $ct;
+                 
+
+      foreach ( $field_array_base as $posted_asset_key => $posted_asset_val ) {
+     
+
+          // Remove ASSET
+          if ( $_POST['remove_markets_mode'] == 'assets' ) {
+          unset($ct['conf']['assets'][$posted_asset_key]);
+          }
+          // Remove MARKETS
+          elseif ( $_POST['remove_markets_mode'] == 'markets' ) {
+               
+               
+               foreach ( $posted_asset_val['pair'] as $posted_pair_key => $posted_pair_val ) {
+               
+                    
+                    // Market removal
+                    foreach ( $posted_pair_val as $posted_market_key => $posted_market_val ) {
+                    unset($ct['conf']['assets'][$posted_asset_key]['pair'][$posted_pair_key][$posted_market_key]);
+                    }
+                    
+                    
+                    // If no more markets exist for this PAIRING, remove it
+                    if ( sizeof($ct['conf']['assets'][$posted_asset_key]['pair'][$posted_pair_key]) < 1 ) {
+                    unset($ct['conf']['assets'][$posted_asset_key]['pair'][$posted_pair_key]);
+                    }
+                    
+                    
+               }
+               
+          
+          }
+          
+          
+      }
+          
    
    }
 
@@ -246,6 +207,72 @@ var $ct_array = array();
         
    return ( isset($ct['update_config_error']) && trim($ct['update_config_error']) != '' ? false : true );
         
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   // (must be carefully checked)
+   function add_markets($field_array_base) {
+        
+   global $ct;
+                       
+                      
+          foreach ( $field_array_base as $submitted_asset_key => $submitted_asset_val ) {
+          
+          
+               // If the asset doesn't exist
+               if ( !isset($ct['conf']['assets'][$submitted_asset_key]) ) {
+               $ct['conf']['assets'][$submitted_asset_key] = $submitted_asset_val;
+               }
+               else {
+                    
+                    // We allow updating 'name' / 'mcap_slug', if either are blank...
+               
+                    if ( trim($ct['conf']['assets'][$submitted_asset_key]['name']) == '' ) {
+                    $ct['conf']['assets'][$submitted_asset_key]['name'] = $submitted_asset_val['name'];
+                    }
+               
+               
+                    if ( trim($ct['conf']['assets'][$submitted_asset_key]['mcap_slug']) == '' ) {
+                    $ct['conf']['assets'][$submitted_asset_key]['mcap_slug'] = $submitted_asset_val['mcap_slug'];
+                    }
+                    
+                    
+                    // Check data in pairings
+                    foreach ( $submitted_asset_val['pair'] as $pairing_key => $pairing_val ) {
+                    
+                    
+                        // If the pairing doesn't exist
+                        if ( !isset($ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key]) ) {
+                        $ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key] = $pairing_val;
+                        }
+                        else {
+                        
+                        
+                             // We allow overwriting old exchange markets, so we can safely add them all
+                             foreach ( $pairing_val as $exchange_key => $exchange_val ) {
+                             $ct['conf']['assets'][$submitted_asset_key]['pair'][$pairing_key][$exchange_key] = $exchange_val;
+                             }
+                             
+                        
+                        }
+                        
+                        
+                    }
+                    
+               
+               }
+          
+          
+          // Sanitize name value, make sure first character is uppercase
+          $ct['conf']['assets'][$submitted_asset_key]['name'] = ucfirst( filter_var($ct['conf']['assets'][$submitted_asset_key]['name'], FILTER_SANITIZE_STRING) );
+                  
+          }
+         
+   
    }
 
    
