@@ -197,7 +197,8 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 valid_secure_config_update_request() test isn't passing for delete assets, because the structure isn't within params normally used for updating the cached config.
 
 
-FINISH BUILDOUT OF THE BACK END FOR ASSET MARKET DELETION.
+FINISH BUILDOUT OF THE BACK END FOR ASSET MARKET DELETION. Look into "tooltips" / "more information on hover info icon", for jstree showing MARKET ID on an exchange name entry:
+https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specific-jstree-node
 
 
 Test new setup wizard architecture in Firefox.
@@ -213,10 +214,6 @@ Test add / delete markets INTERFACE on raspi zero w (1st gen).
 
 
 Do a bitcoin opentimestamp of the v6.00.39 release.
-
-
-Look into "tooltips" / "more information on hover info icon", for jstree showing more information on an entry:
-https://stackoverflow.com/questions/59205386/how-do-i-add-a-tooltip-to-a-specific-jstree-node
 
 
 Include in docs, that the "fix Linux desktop" script is compatible with fedora and Debian.
