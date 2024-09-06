@@ -328,7 +328,7 @@ $ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['rang
 
 $ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['range_ui_suffix'] = ' search results PER CPU CORE';
 
-$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['is_notes'] = 'We limit how many search results Jupiter Aggregator is allowed to process PER CPU CORE (when adding coin markets), to avoid 504 "gateway timeout" errors<br /><span class="red">(your have '.$ct['system_info']['cpu_threads'].' CPU Cores, your TOTAL results maximum for Jupiter is: <span id="jup_search_total_max"></span>)</span>';
+$ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['is_notes'] = 'We limit how many search results Jupiter Aggregator is allowed to process PER CPU CORE (when adding coin markets), to avoid 504 "gateway timeout" errors<br /><span style="font-weight: bold;" class="green">(your have '.$ct['system_info']['cpu_threads'].' CPU Cores, so your TOTAL results maximum for Jupiter is: <span id="jup_search_total_max"></span>)</span><br /><span class="red">NOTES: We have a HARD CAP OF 100 asset search results maximum PER-MARKET-PAIRING [USD, BTC, ETC], as their PRICE API (as of Sept. 2024) has this 100 maximum limitation, and we use this to verify market data for assets discovered in searches. SO THIS SETTING HERE ONLY APPLIES TO THE **TOTAL** AMOUNT OF SEARCH RESULTS (FOR **ALL** PAIRINGS).</span>';
 
 
 // Script, for dynamic content
