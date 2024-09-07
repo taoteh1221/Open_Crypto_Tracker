@@ -12,9 +12,9 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 <h3 class='green input_margins'>STEP #4: Review / Confirm Selected Markets</h3>
 
 
-  <?php
-  if ( is_array($_POST['assets']) && sizeof($_POST['assets']) > 0 ) {
-  ?>
+<?php
+if ( is_array($_POST['assets']) && sizeof($_POST['assets']) > 0 ) {
+?>
 
      
      	<button class='force_button_style result_margins red' onclick='
@@ -169,9 +169,16 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	                          
      </script>
      
-  <?php
-  }
-  ?>
+<?php
+}
+else {
+?>
+
+  <p class='red result_margins' style='font-weight: bold;'>Please select asset markets to add.</p>
+
+<?php
+}
+?>
 
      
      

@@ -35,7 +35,8 @@ $ct['possible_http_users'] = array(
 
 // Check for cache directory path creation, create if needed...if it fails, flag a force exit and alert end-user
 
-if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != true
+if (
+$ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/archival/') != true
@@ -59,7 +60,9 @@ if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != tr
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/vars/state-tracking/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/xml_error_parsing/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/market_id_parsing/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/plugins/') != true ) {
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/debugging/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/plugins/') != true
+) {
     
     foreach ( $ct['change_dir_perm'] as $dir ) {
     $dir_error_detail = explode(':', $dir);

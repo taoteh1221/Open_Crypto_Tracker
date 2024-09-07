@@ -75,7 +75,7 @@ $ct['dev']['data_obfuscating'][] = $address;
 
     // Add this altcoin to $ct['opt_conf']['crypto_pair'] DYNAMICALLY #IF# it doesn't exist there, #IF# it has a BTC market configured
     // (For conversion of it's BTC value to the user's fiat value, set in $ct['conf']['gen']['bitcoin_primary_currency_pair'])
-    // ONLY IF THIS COIN IS NOT ON SOLANA (as we can easily get solana SPL token value from on-chain data with the jupiter aggregator API)
+    // ONLY IF THIS COIN IS NOT ON SOLANA (as we can easily get solana SPL token value from jupiter aggregator / any other available 'sol' paired market)
     if ( $asset != 'btc' && $chain != 'sol' && !isset($ct['opt_conf']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
     $ct['opt_conf']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
     }
@@ -87,14 +87,14 @@ $ct['dev']['data_obfuscating'][] = $address;
 
 // Only getting BTC value for non-bitcoin assets is supported
 // SUPPORTED even for BTC ( $ct['asset']->pair_btc_val('btc') ALWAYS = 1 )
-$pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['asset']->pair_btc_val($asset) ); 
+$pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) ); 
   	 
   	 
 	if ( $pair_btc_val == null ) {
 		
 	$ct['gen']->log(
 				'market_error',
-				'ct_asset->pair_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
+				'ct_asset->pair_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, from exchange API request failure, OR no BTC markets available'
 				);
 	
 	}
@@ -186,17 +186,25 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
         
         
             // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
-            if ( $chain == 'sol' ) {
+            if ( $pair_btc_val != null ) {
+            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
+            }
+            elseif (
+            $chain == 'sol'
+            && is_array($ct['conf']['assets'][strtoupper($asset)]['pair']['sol'])
+            && sizeof($ct['conf']['assets'][strtoupper($asset)]['pair']['sol']) > 0
+            ) {
             
-            $sol_btc_val = $pair_btc_val;
+            $sol_btc_val = $ct['asset']->pair_btc_val('sol');
             
-            $spl_token_sol_worth_raw = $ct['api']->market( strtoupper($asset), 'jupiter_ag', strtoupper($asset) . '/SOL' )['last_trade'];
+            $exchange_key = $ct['gen']->array_key_first($ct['conf']['assets'][strtoupper($asset)]['pair']['sol']);
+            
+            $market_id = $ct['conf']['assets'][strtoupper($asset)]['pair']['sol'][$exchange_key];
+            
+            $spl_token_sol_worth_raw = $ct['api']->market( strtoupper($asset), $exchange_key, $market_id)['last_trade'];
             
             $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ( $difference_amnt * ($spl_token_sol_worth_raw * $sol_btc_val) ) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
             
-            }
-            else {
-            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
             }
         
         
