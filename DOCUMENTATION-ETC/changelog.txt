@@ -6779,15 +6779,17 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.39
 
+-BUG FIX: Fixed 'address-balance-tracker' plugin getting currency conversion values (for the primary currency set in the Currency Support section)
+
 -BUG FIX: Fixed CoinMarketCap.com support
 
 -BUG FIX: Miscellaneous fixes
 
 -Refactoring / optimization of ENTIRE markets API data parsing logic (for 'Add New Asset' feature, in admin 'Portfolio Assets' WEB INTERFACE)
 
--Added Admin Config settings for: Portfolio Assets (adding / removing assets and markets is FINALLY available in the interface now)
+-Upgraded Jupiter Aggregator exchange API, including case-sensitive support for asset IDs, and the addition of market trade volume data
 
--Upgraded Jupiter Aggregator exchange API, including addition of market trade volume data
+-Added Admin Config settings for: Portfolio Assets (adding / removing assets and markets is FINALLY available in the interface now)
 
 -More reliable currency price conversions (between different currencies)
 
