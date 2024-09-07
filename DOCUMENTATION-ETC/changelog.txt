@@ -6789,6 +6789,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Upgraded Jupiter Aggregator exchange API, including addition of market trade volume data
 
+-More reliable currency price conversions (between different currencies)
+
 -Cleaned up stale DEMO markets / news feeds / text gateways
 
 -Optimizations / polish on the Access Stats UX and logic

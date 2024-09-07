@@ -19,7 +19,7 @@ $not_required = array(
                      
                      
 // Assures we are getting cached data for this EXACT user login SESSION only
-$recent_search_id = 'add_asset_search_' . md5(session_id() . $ct['remote_ip']);   
+$recent_search_cache_file = 'add_asset_search_' . md5(session_id() . $ct['remote_ip']) . '.dat';   
    
    
 if ( isset($_POST['add_markets_search']) ) {
@@ -43,12 +43,12 @@ $search_runtime = round( ($time - $start_runtime) , 3);
 
 
 // UX: SAVE results for users hitting the 'Go Back To Previous Step' link
-$ct['cache']->other_cached_data('save', $recent_search_id, $ct['base_dir'] . '/cache/secured/other_data', $search_results);
+$ct['cache']->other_cached_data('save', $ct['base_dir'] . '/cache/secured/other_data/' . $recent_search_cache_file, $search_results);
 
 }
-else {
+elseif ( file_exists($ct['base_dir'] . '/cache/secured/other_data/' . $recent_search_cache_file) ) {
 // UX: LOAD results for users hitting the 'Go Back To Previous Step' link
-$search_results = $ct['cache']->other_cached_data('load', $recent_search_id, $ct['base_dir'] . '/cache/secured/other_data');
+$search_results = $ct['cache']->other_cached_data('load', $ct['base_dir'] . '/cache/secured/other_data/' . $recent_search_cache_file);
 }
 
 

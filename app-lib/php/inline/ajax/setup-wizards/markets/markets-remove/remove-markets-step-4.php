@@ -104,13 +104,11 @@ elseif ( $_POST['remove_markets_mode'] == 'assets' ) {
 }
 
 
+// If we have detected markets to remove
+if (
+is_array($updated_assets_structure['assets']) && sizeof($updated_assets_structure['assets']) > 0
+) {
 ?>
-
-  <?php
-  if (
-  is_array($updated_assets_structure['assets']) && sizeof($updated_assets_structure['assets']) > 0
-  ) {
-  ?>
 
      
      	<button class='force_button_style result_margins red' onclick='
@@ -277,8 +275,15 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
 
 <?php
+}
+else {
+?>
+  
+  <p class='red result_margins' style='font-weight: bold;'>Please select asset markets to remove.</p>
+  
+<?php
+}
 
-  }
 
 // DEBUGGING
 if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {

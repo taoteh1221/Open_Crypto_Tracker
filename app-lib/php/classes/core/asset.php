@@ -979,7 +979,7 @@ var $ct_array = array();
    
    
       // Safeguard / cut down on runtime
-      if ( $pair == null ) {
+      if ( !$pair || $pair == null || trim($pair) == '' ) {
       return null;
       }
       // If BTC
@@ -990,23 +990,18 @@ var $ct_array = array();
       elseif ( isset($ct['btc_pair_mrkts'][$pair.'_btc']) ) {
       return $ct['btc_pair_mrkts'][$pair.'_btc'];
       }
-      // If we need an ALTCOIN/BTC market value (RUN BEFORE CURRENCIES FOR BEST MARKET DATA, AS SOME CRYPTOS ARE INCLUDED IN BOTH)
-      elseif ( array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
+      // If we need an ALTCOIN/BTC market value
+      elseif (
+      is_array($ct['conf']['assets'][strtoupper($pair)]['pair']['btc'])
+      && sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) > 0 
+      ) {
         
         
-	        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
-	        if ( !is_array($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) ) {
-	        	
-	        $ct['gen']->log(
-	        			'market_error',
-	        			'this->pair_btc_val() - market failure (unknown pair) for ' . $pair
-	        			);
-	        
-	        return null;
-	        
-	        }
 	        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-	        elseif ( is_array($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) && sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) > 1 && array_key_exists($pair, $ct['opt_conf']['crypto_pair_preferred_markets']) ) {
+	        if (
+	        sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) > 1
+	        && array_key_exists($pair, $ct['opt_conf']['crypto_pair_preferred_markets'])
+	        ) {
 	        $mrkt_override = $ct['opt_conf']['crypto_pair_preferred_markets'][$pair];
 	        }
 	      
@@ -1059,7 +1054,10 @@ var $ct_array = array();
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
 			            // We only want to loop a fallback for the amount of available markets
-			            elseif ( is_array($ct['btc_pair_mrkts_excluded'][$pair]) && sizeof($ct['btc_pair_mrkts_excluded'][$pair]) >= sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) ) {
+			            elseif (
+			            is_array($ct['btc_pair_mrkts_excluded'][$pair])
+			            && sizeof($ct['btc_pair_mrkts_excluded'][$pair]) >= sizeof($ct['conf']['assets'][strtoupper($pair)]['pair']['btc']) 
+			            ) {
 			            	
 			            $ct['gen']->log(
 			            			'market_error',
@@ -1092,22 +1090,17 @@ var $ct_array = array();
       }
       // If we need a BITCOIN/CURRENCY market value 
       // RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      elseif ( array_key_exists($pair, $ct['conf']['assets']['BTC']['pair']) ) {
+      elseif (
+      is_array($ct['conf']['assets']['BTC']['pair'][$pair])
+      && sizeof($ct['conf']['assets']['BTC']['pair'][$pair]) > 0 
+      ) {
       
       
-	        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
-	        if ( !is_array($ct['conf']['assets']['BTC']['pair'][$pair]) ) {
-	        	
-	        $ct['gen']->log(
-	        			 'market_error',
-	        			 'this->pair_btc_val() - market failure (unknown pair) for ' . $pair
-	        			);
-	        
-	        return null;
-	        
-	        }
 	        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-	        elseif ( is_array($ct['conf']['assets']['BTC']['pair'][$pair]) && sizeof($ct['conf']['assets']['BTC']['pair'][$pair]) > 1 && array_key_exists($pair, $ct['opt_conf']['bitcoin_preferred_currency_markets']) ) {
+	        if ( 
+	        sizeof($ct['conf']['assets']['BTC']['pair'][$pair]) > 1 
+	        && array_key_exists($pair, $ct['opt_conf']['bitcoin_preferred_currency_markets']) 
+	        ) {
 	        $mrkt_override = $ct['opt_conf']['bitcoin_preferred_currency_markets'][$pair];
 	        }
 	            
@@ -1167,7 +1160,10 @@ var $ct_array = array();
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
 			            // We only want to loop a fallback for the amount of available markets
-			            elseif ( is_array($ct['conf']['assets']['BTC']['pair'][$pair]) && is_array($ct['btc_pair_mrkts_excluded'][$pair]) && sizeof($ct['btc_pair_mrkts_excluded'][$pair]) >= sizeof($ct['conf']['assets']['BTC']['pair'][$pair]) ) {
+			            elseif (
+			            is_array($ct['btc_pair_mrkts_excluded'][$pair])
+			            && sizeof($ct['btc_pair_mrkts_excluded'][$pair]) >= sizeof($ct['conf']['assets']['BTC']['pair'][$pair])
+			            ) {
 			            	
 			            $ct['gen']->log(
 			            			'market_error',
@@ -1197,7 +1193,14 @@ var $ct_array = array();
              
       }
       else {
-      return null; // If we made it this deep in the logic, no data was found
+	        
+	 $ct['gen']->log(
+	        			'market_error',
+	        			'this->pair_btc_val() - market failure (unknown pair) for ' . $pair
+	        			);
+	        
+      return null;
+      
       }
       
       
@@ -1933,9 +1936,10 @@ var $ct_array = array();
            
       $pair_vol_raw = $ct['var']->num_to_str( $btc_vol_raw / $pair_btc_val );
       
-      //$debugging = array('btc_vol_raw' => $btc_vol_raw, 'pair_vol_raw' => $pair_vol_raw); // DEBUGGING ONLY
+      //$debug_array = array('btc_vol_raw' => $btc_vol_raw, 'pair_vol_raw' => $pair_vol_raw); // DEBUGGING ONLY
       
-      //$ct['cache']->other_cached_data('save', 'debugging', $ct['base_dir'] . '/cache', $debugging); // DEBUGGING ONLY
+      // DEBUGGING ONLY (UNLOCKED file write)
+      //$ct['cache']->other_cached_data('save', $ct['base_dir'] . '/cache/debugging/pair_vol.dat', $debug_array, true, "append", false);
 
       }
    

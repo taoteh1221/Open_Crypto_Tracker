@@ -18,7 +18,7 @@ $force_exit = 1;
 
 
 
-// PHP v5.5 or higher required for this app
+// PHP v7.2 or higher required for this app
 if (PHP_VERSION_ID < 70200) {
 $system_error = '<br />PHP version 7.2 or higher is required. Please upgrade your PHP version to run this application. <br />';
 echo $system_error;
