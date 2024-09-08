@@ -72,20 +72,7 @@ $label = $target_val['label'];
 // (so it's always obfuscated in any logs)
 $ct['dev']['data_obfuscating'][] = $address;
 
-
-    // Add this altcoin to $ct['opt_conf']['crypto_pair'] DYNAMICALLY #IF# it doesn't exist there, #IF# it has a BTC market configured
-    // (For conversion of it's BTC value to the user's fiat value, set in $ct['conf']['gen']['bitcoin_primary_currency_pair'])
-    // ONLY IF THIS COIN IS NOT ON SOLANA (as we can easily get solana SPL token value from jupiter aggregator / any other available 'sol' paired market)
-    if ( $asset != 'btc' && $chain != 'sol' && !isset($ct['opt_conf']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
-    $ct['opt_conf']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
-    }
-    // Make sure we can get the SOL / BTC trade value (if user removed SOL from $ct['opt_conf']['crypto_pair'])
-    elseif ( $chain == 'sol' && !isset($ct['opt_conf']['crypto_pair']['sol']) ) {
-    $ct['opt_conf']['crypto_pair']['sol'] = '◎ ';
-    }  
-
-
-// Only getting BTC value for non-bitcoin assets is supported
+// Getting BTC value for non-bitcoin assets is supported
 // SUPPORTED even for BTC ( $ct['asset']->pair_btc_val('btc') ALWAYS = 1 )
 $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) ); 
   	 
@@ -148,8 +135,11 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
 	
 	
 // DEBUGGING ONLY
-//$ct['cache']->save_file( $ct['plug']->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance . '|' . $cache_reset );
-	
+//$debug_array = array('cached_address_balance' => $cached_address_balance, 'address_balance' => $address_balance, 'cache_reset' => $cache_reset);
+      
+// DEBUGGING ONLY (UNLOCKED file write)
+//$ct['cache']->other_cached_data('save', $ct['base_dir'] . '/cache/debugging/debugging-' . $target_key . '.dat', $debug_array, true, "append", false);
+
 	
 	// If a cache reset was flagged
 	if ( $cache_reset ) {
@@ -167,9 +157,13 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
 	// If address balance has changed, send a notification...
 	if ( $address_balance != $cached_address_balance ) {
 		
-		
 	// Balance change amount
 	$difference_amnt = $ct['var']->num_to_str( abs($cached_address_balance - $address_balance) );
+	
+	// Token amount to calculate currency value on
+	// Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts),
+	// OR get primary currency value of the current address TOTAL balance (when NOT in privacy mode)
+	$token_to_currency_amount = ( $plug['conf'][$this_plug]['privacy_mode'] == 'on' ? $difference_amnt : $address_balance );
 		
 		
 		if ( $address_balance > $cached_address_balance ) {
@@ -180,76 +174,69 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
 		$direction = 'decrease';
 		$plus_minus = '-';
 		}
+        
+          
+          // Currency conversion value...
+          
+          // If BTC value exists
+          if ( $pair_btc_val != null ) {
+          $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($token_to_currency_amount * $pair_btc_val) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
+          }
+          // If SOL value exists
+          elseif (
+          $chain == 'sol'
+          && is_array($ct['conf']['assets'][strtoupper($asset)]['pair']['sol'])
+          && sizeof($ct['conf']['assets'][strtoupper($asset)]['pair']['sol']) > 0
+          ) {
+            
+          $sol_btc_val = $ct['asset']->pair_btc_val('sol');
+            
+          $exchange_key = $ct['gen']->array_key_first($ct['conf']['assets'][strtoupper($asset)]['pair']['sol']);
+            
+          $market_id = $ct['conf']['assets'][strtoupper($asset)]['pair']['sol'][$exchange_key];
+            
+          $spl_token_sol_worth_raw = $ct['api']->market( strtoupper($asset), $exchange_key, $market_id)['last_trade'];
+          
+          $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ( $token_to_currency_amount * ($spl_token_sol_worth_raw * $sol_btc_val) ) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
+            
+          }
 
         
-        if ( $plug['conf'][$this_plug]['privacy_mode'] == 'on' ) {
+          if ( $plug['conf'][$this_plug]['privacy_mode'] == 'on' ) {
         
+          $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['currency']['currency_decimals_max']);
+            
+          $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
+	   
+          $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth; 
+	    
+	     $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
+	     
+          }
+          else {
+               
+          $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['currency']['currency_decimals_max']);
         
-            // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
-            if ( $pair_btc_val != null ) {
-            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
-            }
-            elseif (
-            $chain == 'sol'
-            && is_array($ct['conf']['assets'][strtoupper($asset)]['pair']['sol'])
-            && sizeof($ct['conf']['assets'][strtoupper($asset)]['pair']['sol']) > 0
-            ) {
+          $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['currency']['crypto_decimals_max']);  
             
-            $sol_btc_val = $ct['asset']->pair_btc_val('sol');
-            
-            $exchange_key = $ct['gen']->array_key_first($ct['conf']['assets'][strtoupper($asset)]['pair']['sol']);
-            
-            $market_id = $ct['conf']['assets'][strtoupper($asset)]['pair']['sol'][$exchange_key];
-            
-            $spl_token_sol_worth_raw = $ct['api']->market( strtoupper($asset), $exchange_key, $market_id)['last_trade'];
-            
-            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ( $difference_amnt * ($spl_token_sol_worth_raw * $sol_btc_val) ) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
-            
-            }
-        
-        
-        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['gen']['currency_decimals_max']);
-            
-            
-	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
-	    
-	    
-        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
-	    
-	    
-	   $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
-
-	    
-        }
-        else {
-
-        // Get primary currency value of the current address TOTAL balance
-        $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($address_balance * $pair_btc_val) * $ct['sel_opt']['sel_btc_prim_currency_val'] );
-        
-        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['gen']['crypto_decimals_max']);
-        
-        $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['gen']['crypto_decimals_max']);
-            
-            
-	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ").";
-	    
-	    
-        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ")";
+	     $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ").";
+	
+          $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ")";
 	    
 
-    		// Add blockchain explorer link to email message
-    		if ( $asset == 'btc' ) {
-    		$email_msg = $base_msg . " https://www.blockchain.com/btc/address/" . $address;
-    		}
-    		elseif ( $asset == 'eth' || $chain == 'eth' ) {
-    		$email_msg = $base_msg . " https://etherscan.io/address/" . $address;
-    		}
-    		elseif ( $asset == 'sol' || $chain == 'sol' ) {
-    		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
-    		}
+         		// Add blockchain explorer link to email message
+         		if ( $asset == 'btc' ) {
+         		$email_msg = $base_msg . " https://www.blockchain.com/btc/address/" . $address;
+         		}
+         		elseif ( $asset == 'eth' || $chain == 'eth' ) {
+         		$email_msg = $base_msg . " https://etherscan.io/address/" . $address;
+         		}
+         		elseif ( $asset == 'sol' || $chain == 'sol' ) {
+         		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
+         		}
 		
 	    
-        }
+          }
               
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts

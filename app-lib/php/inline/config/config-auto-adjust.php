@@ -27,8 +27,8 @@ $ct['light_chart_day_intervals'][] = 'all';
 $ct['conf']['comms']['to_email'] = $ct['var']->auto_correct_str($ct['conf']['comms']['to_email'], 'lower');
 $ct['conf']['power']['debug_mode'] = $ct['var']->auto_correct_str($ct['conf']['power']['debug_mode'], 'lower');
 $ct['conf']['comms']['upgrade_alert_channels'] = $ct['var']->auto_correct_str($ct['conf']['comms']['upgrade_alert_channels'], 'lower');
-$ct['conf']['gen']['bitcoin_primary_currency_pair'] = $ct['var']->auto_correct_str($ct['conf']['gen']['bitcoin_primary_currency_pair'], 'lower');
-$ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $ct['var']->auto_correct_str($ct['conf']['gen']['bitcoin_primary_currency_exchange'], 'lower');
+$ct['conf']['currency']['bitcoin_primary_currency_pair'] = $ct['var']->auto_correct_str($ct['conf']['currency']['bitcoin_primary_currency_pair'], 'lower');
+$ct['conf']['currency']['bitcoin_primary_currency_exchange'] = $ct['var']->auto_correct_str($ct['conf']['currency']['bitcoin_primary_currency_exchange'], 'lower');
 $ct['conf']['power']['log_verbosity'] = $ct['var']->auto_correct_str($ct['conf']['power']['log_verbosity'], 'lower');
 $ct['conf']['gen']['default_theme'] = $ct['var']->auto_correct_str($ct['conf']['gen']['default_theme'], 'lower');
 $ct['conf']['gen']['primary_marketcap_site'] = $ct['var']->auto_correct_str($ct['conf']['gen']['primary_marketcap_site'], 'lower');
@@ -412,21 +412,21 @@ $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 75;
 }
 
 
-// Idiot-proof maximum RANGE of $ct['conf']['gen']['currency_decimals_max'] 
-if ( $ct['conf']['gen']['currency_decimals_max'] > 10 ) {
-$ct['conf']['gen']['currency_decimals_max'] = 10;
+// Idiot-proof maximum RANGE of $ct['conf']['currency']['currency_decimals_max'] 
+if ( $ct['conf']['currency']['currency_decimals_max'] > 10 ) {
+$ct['conf']['currency']['currency_decimals_max'] = 10;
 }
-elseif ( $ct['conf']['gen']['currency_decimals_max'] < 5 ) {
-$ct['conf']['gen']['currency_decimals_max'] = 5;
+elseif ( $ct['conf']['currency']['currency_decimals_max'] < 5 ) {
+$ct['conf']['currency']['currency_decimals_max'] = 5;
 }
 
 
-// Idiot-proof maximum RANGE of $ct['conf']['gen']['crypto_decimals_max']
-if ( $ct['conf']['gen']['crypto_decimals_max'] > 15 ) {
-$ct['conf']['gen']['crypto_decimals_max'] = 15;
+// Idiot-proof maximum RANGE of $ct['conf']['currency']['crypto_decimals_max']
+if ( $ct['conf']['currency']['crypto_decimals_max'] > 15 ) {
+$ct['conf']['currency']['crypto_decimals_max'] = 15;
 }
-elseif ( $ct['conf']['gen']['crypto_decimals_max'] < 10 ) {
-$ct['conf']['gen']['crypto_decimals_max'] = 10;
+elseif ( $ct['conf']['currency']['crypto_decimals_max'] < 10 ) {
+$ct['conf']['currency']['crypto_decimals_max'] = 10;
 }
 
 

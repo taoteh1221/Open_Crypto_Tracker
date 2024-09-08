@@ -55,61 +55,9 @@ $ct['conf']['gen']['default_font_size'] = 95; // Default = 95 (equal to 95%)
 $ct['conf']['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
 
 
-// Default BITCOIN market currencies (20+ currencies supported)
-// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aud / brl / cad / chf / dai / eth / eur / gbp / hkd / inr / jpy
-// krw / mxn / nis / rub / sgd / try / twd / usd / usdc / usdt / zar
-// SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct['conf']['gen']['bitcoin_primary_currency_exchange'] directly below)
-$ct['conf']['gen']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
-
-
-// Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
-// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex
-// bitso / bitstamp / btcmarkets / btcturk / buyucoin / cex
-// coinbase / coindcx / coingecko_hkd / coingecko_sgd / coingecko_twd / coingecko_usd
-// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin
-// loopring_amm / luno / okcoin / okex / unocoin / upbit / wazirx
-// SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct['conf']['gen']['bitcoin_primary_currency_pair'] directly above)
-$ct['conf']['gen']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
-
-
 // Default marketcap data source: 'coingecko', or 'coinmarketcap'
 // (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct['conf']['ext_apis']['coinmarketcap_api_key'] BELOW in the APIs section)
 $ct['conf']['gen']['primary_marketcap_site'] = 'coingecko'; 
-
-
-// Maximum decimal places for *CURRENCY* VALUES, of fiat currencies worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc]
-// Sets the minimum-allowed CURRENCY value, adjust with care!
-// For prettier / less-cluttered interface. IF YOU ADJUST $ct['conf']['gen']['bitcoin_primary_currency_pair'] ABOVE, 
-// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
-// ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct['conf']['gen']['currency_decimals_max'] = 8; // Whole numbers only (represents number of decimals maximum to use...default = 20)
-
-
-// Maximum decimal places for *CRYPTO* VALUES ACROSS THE ENTIRE APP (*INCLUDING UNDER-THE-HOOD CALCULATIONS*)
-// Sets the minimum-allowed CRYPTO value, adjust with care!
-// LOW VALUE ALTERNATE COINS / CURRENCIES NEED THIS SET REALLY HIGH TO BE INCLUDED IN THE ASSETS LIST (TO NOT HAVE A ZERO VALUE),
-// *ESPECIALLY* SINCE WE USE BITCOIN AS OUR BASE CURRENCY *CONVERTER* (DUE TO IT'S RELIABLY HIGH LIQUIDITY ACROSS THE PLANET)
-// !!!IF YOU CHANGE THIS, THE 'WATCH ONLY' FLAG ON THE 'UPDATE' PAGE *WILL ALSO CHANGE* (CHANGING WHAT IS FLAGGED 'WATCH ONLY')!!!
-$ct['conf']['gen']['crypto_decimals_max'] = 13; // Whole numbers only (represents number of decimals maximum to use...default = 20)
-
-
-// PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
-// (FINE-GRAINED CONTROL OVER INTERFACE PRICE ROUNDING #AMOUNT OF DECIMALS SHOWN#)
-// (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
-// (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
-// (interface examples: one = 10.9, tenth = 10.09, hundredth = 10.009, thousandth = 10.0009)
-// #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
-// #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'currency_decimals_max' DECIMALS MAXIMUM#
-// THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
-$ct['conf']['gen']['price_rounding_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
-////
-// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_rounding_percent SETTING
-// (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
-$ct['conf']['gen']['price_rounding_fixed_decimals'] = 'on'; // 'off', 'on'
 
 
 ////////////////////////////////////////
@@ -447,6 +395,63 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 ////////////////////////////////////////
 
 
+// Default BITCOIN market currencies (40+ currencies supported)
+// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
+// aed / ars / aud / bdt / brl / cad / chf / clp / czk / dai / dkk / eth / eur / gbp / gel 
+// hkd / huf / idr / inr / jpy / krw / kwd / lkr / mxn / myr / ngn / nis / nok / nzd / php 
+// pkr / pln / rmb / rub / sar / sek / sgd / sol / thb / try / twd / uah / usd / usdc / usdt / vnd / zar
+// SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct['conf']['currency']['bitcoin_primary_currency_exchange'] directly below)
+$ct['conf']['currency']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
+
+
+// Default BITCOIN market exchanges (60+ bitcoin exchanges supported)
+// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitso / bitstamp
+// btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_aed / coingecko_ars 
+// coingecko_bdt / coingecko_clp / coingecko_czk / coingecko_dkk / coingecko_gel / coingecko_hkd 
+// coingecko_huf / coingecko_idr / coingecko_inr / coingecko_kwd / coingecko_lkr / coingecko_myr 
+// coingecko_ngn / coingecko_nis / coingecko_nok / coingecko_nzd / coingecko_php / coingecko_pkr 
+// coingecko_pln / coingecko_rmb / coingecko_rub / coingecko_sar / coingecko_sek / coingecko_sgd 
+// coingecko_thb / coingecko_twd / coingecko_uah / coingecko_usd / coingecko_vnd / coinspot 
+// gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / loopring_amm / luno 
+// okcoin / okex / unocoin / upbit / wazirx
+// SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct['conf']['currency']['bitcoin_primary_currency_pair'] directly above)
+$ct['conf']['currency']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
+
+
+// Maximum decimal places for *CURRENCY* VALUES, of fiat currencies worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc]
+// Sets the minimum-allowed CURRENCY value, adjust with care!
+// For prettier / less-cluttered interface. IF YOU ADJUST $ct['conf']['currency']['bitcoin_primary_currency_pair'] ABOVE, 
+// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
+// ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$ct['conf']['currency']['currency_decimals_max'] = 8; // Whole numbers only (represents number of decimals maximum to use...default = 20)
+
+
+// Maximum decimal places for *CRYPTO* VALUES ACROSS THE ENTIRE APP (*INCLUDING UNDER-THE-HOOD CALCULATIONS*)
+// Sets the minimum-allowed CRYPTO value, adjust with care!
+// LOW VALUE ALTERNATE COINS / CURRENCIES NEED THIS SET REALLY HIGH TO BE INCLUDED IN THE ASSETS LIST (TO NOT HAVE A ZERO VALUE),
+// *ESPECIALLY* SINCE WE USE BITCOIN AS OUR BASE CURRENCY *CONVERTER* (DUE TO IT'S RELIABLY HIGH LIQUIDITY ACROSS THE PLANET)
+// !!!IF YOU CHANGE THIS, THE 'WATCH ONLY' FLAG ON THE 'UPDATE' PAGE *WILL ALSO CHANGE* (CHANGING WHAT IS FLAGGED 'WATCH ONLY')!!!
+$ct['conf']['currency']['crypto_decimals_max'] = 13; // Whole numbers only (represents number of decimals maximum to use...default = 20)
+
+
+// PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
+// (FINE-GRAINED CONTROL OVER INTERFACE PRICE ROUNDING #AMOUNT OF DECIMALS SHOWN#)
+// (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
+// (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
+// (interface examples: one = 10.9, tenth = 10.09, hundredth = 10.009, thousandth = 10.0009)
+// #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
+// #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'currency_decimals_max' DECIMALS MAXIMUM#
+// THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
+$ct['conf']['currency']['price_rounding_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+////
+// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_rounding_percent SETTING
+// (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
+$ct['conf']['currency']['price_rounding_fixed_decimals'] = 'on'; // 'off', 'on'
+
+
 // HIVE INTEREST CALCULATOR SETTINGS
 // Weeks to power down all HIVE Power holdings
 $ct['conf']['currency']['hive_powerdown_time'] = 13; 
@@ -491,84 +496,49 @@ $ct['conf']['currency']['conversion_currency_symbols'] = array(
                               						'aed = د.إ',
                               						'ars = ARS$',
                               						'aud = A$',
-                              						'bam = KM ',
                               						'bdt = ৳',
-                              						'bob = Bs ',
                               						'brl = R$',
-                              						'bwp = P ',
-                              						'byn = Br ',
                               						'cad = C$',
                               						'chf = CHf ',
                               						'clp = CLP$',
                               						'rmb = ¥',
-                              						'cop = Col$',
-                              						'crc = ₡',
                               						'czk = Kč ',
                               						'dai = ◈ ',
                               						'dkk = Kr. ',
-                              						'dop = RD$',
-                              						'egp = ج.م',
                               						'eth = Ξ ',
                               						'eur = €',
                               						'gbp = £',
                               						'gel = ლ',
-                              						'ghs = GH₵',
-                              						'gtq = Q ',
                               						'hkd = HK$',
                               						'huf = Ft ',
                               						'idr = Rp ',
                               						'inr = ₹',
-                              						'irr = ﷼',
-                              						'jmd = JA$',
-                              						'jod = د.ا',
                               						'jpy = J¥',
-                              						'kes = Ksh ',
                               						'krw = ₩',
                               						'kwd = د.ك',
-                              						'kzt = ₸',
                               						'lkr = රු, ரூ',
-                              						'mad = د.م.',
-                              						'mur = ₨ ',
-                              						'mwk = MK ',
                               						'mxn = Mex$',
                               						'myr = RM ',
                               						'ngn = ₦',
                               						'nis = ₪',
                               						'nok = kr ',
                               						'nzd = NZ$',
-                              						'pab = B/. ',
-                              						'pen = S/ ',
                               						'php = ₱',
                               						'pkr = ₨ ',
                               						'pln = zł ',
-                              						'pyg = ₲',
-                              						'qar = ر.ق',
-                              						'ron = lei ',
-                              						'rsd = din ',
                               						'rub = ₽',
-                              						'rwf = R₣ ',
                               						'sar = ﷼',
                               						'sek = kr ',
                               						'sgd = S$',
                               						'thb = ฿',
                               						'try = ₺',
-                              						'tusd = Ⓢ ',
                               						'twd = NT$',
-                              						'tzs = TSh ',
                               						'uah = ₴',
-                              						'ugx = USh ',
                               						'usd = $',
                               						'usdc = Ⓢ ',
-                              						'fdusd = Ⓢ ',
-                              						'usdd = Ⓢ ',
                               						'usdt = ₮ ',
-                              						'uyu = $U ',
                               						'vnd = ₫',
-                              						'ves = Bs ',
-                              						'xaf = FCFA ',
-                              						'xof = CFA ',
                               						'zar = R ',
-                              						'zmw = ZK ',
                          						);
 
 
@@ -1762,12 +1732,27 @@ $ct['conf']['assets'] = array(
                         'name' => 'Bitcoin',
                         'mcap_slug' => 'bitcoin',
                         'pair' => array(
+
+                                                    
+                                    'aed' => array(
+                                          'coingecko_aed' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'ars' => array(
+                                          'coingecko_ars' => 'bitcoin',
+                                                    ),
                         
                         
                         			'aud' => array(
                                     	  'kraken' => 'XBTAUD',
                                     	  'btcmarkets' => 'BTC/AUD',
                                           'coinspot' => 'btc',
+                                                    ),
+
+                                                    
+                                    'bdt' => array(
+                                          'coingecko_bdt' => 'bitcoin',
                                                     ),
 
                                                     
@@ -1786,12 +1771,27 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'clp' => array(
+                                          'coingecko_clp' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'czk' => array(
+                                          'coingecko_czk' => 'bitcoin',
+                                                    ),
+
+                                                    
                                     'dai' => array(
                                         	'binance' => 'BTCDAI',
                                         	'hitbtc' => 'BTCDAI',
                                     	 	'kraken' => 'XBTDAI',
                                         	'okex' => 'BTC-DAI',
                                         	'kucoin' => 'BTC-DAI',
+                                                    ),
+
+                                                    
+                                    'dkk' => array(
+                                          'coingecko_dkk' => 'bitcoin',
                                                     ),
 
                                                     
@@ -1811,6 +1811,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'gel' => array(
+                                          'coingecko_gel' => 'bitcoin',
+                                                    ),
+
+                                                    
                                     'gbp' => array(
                                           'coinbase' => 'BTC-GBP',
                                           'kraken' => 'XXBTZGBP',
@@ -1821,6 +1826,16 @@ $ct['conf']['assets'] = array(
                                                     
                                     'hkd' => array(
                                           'coingecko_hkd' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'huf' => array(
+                                          'coingecko_huf' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'idr' => array(
+                                          'coingecko_idr' => 'bitcoin',
                                                     ),
 
                                                     
@@ -1846,14 +1861,59 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'kwd' => array(
+                                          'coingecko_kwd' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'lkr' => array(
+                                          'coingecko_lkr' => 'bitcoin',
+                                                    ),
+
+                                                    
                                     'mxn' => array(
                                           'bitso' => 'btc_mxn',
+                                                    ),
+
+                                                    
+                                    'myr' => array(
+                                          'coingecko_myr' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'ngn' => array(
+                                          'coingecko_ngn' => 'bitcoin',
                                                     ),
 
                                                     
                                     'nis' => array(
                                           'coingecko_nis' => 'bitcoin',
                                           'bit2c' => 'BtcNis',
+                                                    ),
+
+                                                    
+                                    'nok' => array(
+                                          'coingecko_nok' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'nzd' => array(
+                                          'coingecko_nzd' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'php' => array(
+                                          'coingecko_php' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'pkr' => array(
+                                          'coingecko_pkr' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'pln' => array(
+                                          'coingecko_pln' => 'bitcoin',
                                                     ),
 
                                                     
@@ -1867,6 +1927,16 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'sar' => array(
+                                          'coingecko_sar' => 'bitcoin',
+                                                    ),
+
+                                                    
+                                    'sek' => array(
+                                          'coingecko_sek' => 'bitcoin',
+                                                    ),
+
+                                                    
                                     'sgd' => array(
                                           'coingecko_sgd' => 'bitcoin',
                                                     ),
@@ -1874,6 +1944,11 @@ $ct['conf']['assets'] = array(
                         
                                     'sol' => array(
                                     	 'jupiter_ag' => 'WBTC/SOL',
+                                                    ),
+
+                                                    
+                                    'thb' => array(
+                                          'coingecko_thb' => 'bitcoin',
                                                     ),
 
                                                     
@@ -1925,6 +2000,11 @@ $ct['conf']['assets'] = array(
                                           'okex' => 'BTC-USDT',
                                           'bitbns' => 'BTCUSDT',
                                           'wazirx' => 'btcusdt',
+                                                    ),
+
+                                                    
+                                    'vnd' => array(
+                                          'coingecko_vnd' => 'bitcoin',
                                                     ),
 
                                                     

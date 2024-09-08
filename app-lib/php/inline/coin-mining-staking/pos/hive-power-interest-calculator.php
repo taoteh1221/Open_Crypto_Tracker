@@ -40,15 +40,15 @@ $hive_mrkt = $ct['api']->market('HIVE', 'binance', 'HIVEBTC')['last_trade'];
 if ( $_POST['hive_submitted'] ) {
 ?>
 
-<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> values may change significantly over long periods of time</u></i>):</p>
+<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?> values may change significantly over long periods of time</u></i>):</p>
 
 <?php
-$hive_val_raw = number_format( ( $hive_mrkt * $ct['sel_opt']['sel_btc_prim_currency_val'] ) , $ct['conf']['gen']['crypto_decimals_max'], '.', ',');
+$hive_val_raw = number_format( ( $hive_mrkt * $ct['sel_opt']['sel_btc_prim_currency_val'] ) , $ct['conf']['currency']['crypto_decimals_max'], '.', ',');
 $hive_val_raw = $ct['var']->num_to_str($hive_val_raw); // Cleanup any trailing zeros
 ?>
 
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct['var']->num_to_str($hive_mrkt)?> BTC (<?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?php echo $hive_val_raw; ?>)</p>
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct['var']->num_to_str($hive_mrkt)?> BTC (<?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?php echo $hive_val_raw; ?>)</p>
 
 
 <?php

@@ -194,6 +194,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Move EVERYTHING AFTER "Defualt theme" in the GENERAL section, over to the new CURRENCY SUPPORT section.
+
+
 Test new setup wizard architecture in Firefox.
 
 
@@ -203,10 +206,19 @@ TORTURE TEST ADDING / DELETING ASSETS AND MARKETS.
 Test add / delete markets INTERFACE on raspi zero w (1st gen).
 
 
+Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking up dual boot / bitlocker setups a ton the past few months (lol)
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Do a bitcoin opentimestamp of the v6.00.39 release.
+
+
+We moved A LOT of ADMIN settings into more relevant sections the past year. MAKE SURE ALL INPUT VALIDATION LOGIC HAS ALSO BEEN MOVED TO THE DIFFERENT INPUT VALIDATION FILES.
+
+
+https://api.coingecko.com/api/v3/simple/supported_vs_currencies
 
 
 Include in docs, that the "fix Linux desktop" script is compatible with fedora and Debian.
@@ -246,7 +258,7 @@ Add these feature-assets to developer-config.php, AND have it DYNAMICALLY USED i
 
 Since we do not allow removing BITCOIN / ETHEREUM / SOLANA ASSET'S exchanges IF THEY ARE THE FIRST ONE LISTED IN THE PAIRING 'REMOVAL' INTERFACING, create 'scheduled maintainence' logic that:
 1) checks any BITCOIN / ETHEREUM / SOLANA pairing THAT ONLY HAS ONE EXCHANGE MARKET
-2) CHECKS FOR VALID INTERNET CONNECTIVITY, BY CHECKING THE DEFAULT BITCOIN CURRECY CONVERSION MARKET (with $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_currency_exchange']) WITH CACHE TIME SET TO ZERO (NO CACHE)
+2) CHECKS FOR VALID INTERNET CONNECTIVITY, BY CHECKING THE DEFAULT BITCOIN CURRECY CONVERSION MARKET (with $ct['conf']['currency']['bitcoin_primary_currency_pair'] / $ct['conf']['currency']['bitcoin_primary_currency_exchange']) WITH CACHE TIME SET TO ZERO (NO CACHE)
 3) IF STEP 1 AND 2 PASS, and the only exchange in step 1 DOES NOT RETURN A NUMERIC VALUE FOR TRADE PRICE AS WELL, BLACKLIST USING THAT EXCHANGE FOR THAT PAIRING (SO ANY CACHED CONFIG REBUILDS NEVER RE-INCLUDE IT), REMOVE IT FROM THE CACHED CONFIG, AND WRITE TO THE ERROR LOG ABOUT THE ISSUE (ONLY DURING THE SCHEDULED MAINTENANCE THAT DOES THIS, SO WE DONT FILL THE LOGS UP)
 
 

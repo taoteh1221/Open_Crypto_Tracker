@@ -52,7 +52,7 @@ $plug['conf'][$this_plug]['reminders'] = array(
 										// PORTFOLIO RE-BALANCE REVIEW REMINDER
 										array(
 											 'days' => 30,
-											 'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different percentage of your portfolio's total " . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . " value)." // Reminder message
+											 'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different percentage of your portfolio's total " . strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) . " value)." // Reminder message
 											 ),
 																			
 																			

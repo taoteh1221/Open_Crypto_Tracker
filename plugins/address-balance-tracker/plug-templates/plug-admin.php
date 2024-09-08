@@ -54,7 +54,7 @@ $ct['admin_render_settings']['privacy_mode']['is_notes'] = 'In Privacy Mode, the
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['tracking']['is_notes'] = 'Track address balance changes, on popular blockchains.<br /><br /><span style="font-weight: bold;" class="yellow">Solana SPL tokens MUST:</span><br /><span class="light_sea_green"><b>1)</b> Have a Solana (SOL) market in it\'s asset config, to AUTOMATICALLY be designated as such / included in the SPL ASSETS LIST below (as a selection option, for the "Asset" setting)<br /><br /><b>2)</b> Have EITHER a Bitcoin (BTC) OR Solana (SOL) market in it\'s asset config, for "Privacy Mode" to work properly<br /><br /><b>3)</b> Use your wallet\'s TOKEN account / address, that\'s specifically associated with this asset (NOT your primary wallet address, as Solana SPL tokens DERIVE *secondary addresses* for each token in your wallet)</span>';
+$ct['admin_render_settings']['tracking']['is_notes'] = 'Track address balance changes, on popular blockchains.<br /><br /><span style="font-weight: bold;" class="yellow">Solana SPL tokens MUST:</span><br /><span class="light_sea_green"><b>1)</b> Have EITHER a Jupiter Aggregator OR CoinGecko Terminal Solana market in it\'s asset config, to AUTOMATICALLY be designated as such / included in the SPL ASSETS LIST below (as a selection option, for the "Asset" setting)<br /><br /><b>2)</b> Have EITHER a Bitcoin (BTC) OR Solana (SOL) market in it\'s asset config, for "Privacy Mode" to work properly<br /><br /><b>3)</b> Use your wallet\'s TOKEN account / address, that\'s specifically associated with this asset (NOT your primary wallet address, as Solana SPL tokens DERIVE *secondary addresses* for each token in your wallet)</span>';
 
 
 $sol_subtokens = array();
@@ -66,7 +66,11 @@ foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
    foreach ( $ct['conf']['assets'][$asset_key]['pair'] as $pair_key => $pair_val ) {
       
       // PHP7.4 NEEDS === HERE INSTEAD OF ==
-      if ( $pair_key === 'sol' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['jupiter_ag']) ) { 
+      if (
+      $pair_key === 'sol' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['jupiter_ag'])
+      || $pair_key === 'usd' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal'])
+      && stristr($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal'], 'solana') 
+      ) { 
       $sol_subtokens[] = strtolower($asset_key);
       }
    

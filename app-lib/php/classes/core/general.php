@@ -1930,7 +1930,7 @@ var $ct_array = array();
           if ( $num < $min_val ) {
           $result['min_dec'] = 0;
           }
-          elseif ( $ct['conf']['gen']['price_rounding_fixed_decimals'] == 'on' ) {
+          elseif ( $ct['conf']['currency']['price_rounding_fixed_decimals'] == 'on' ) {
           $result['min_dec'] = $result['max_dec'];
           }
    		elseif ( $type == 'fiat' ) {
@@ -2965,16 +2965,16 @@ var $ct_array = array();
    $price_raw = abs($price_raw); // Assure no negative number used
    
         
-        if ( $ct['conf']['gen']['price_rounding_percent'] == 'one' ) {
+        if ( $ct['conf']['currency']['price_rounding_percent'] == 'one' ) {
         $x = 1;
         }
-        else if ( $ct['conf']['gen']['price_rounding_percent'] == 'tenth' ) {
+        else if ( $ct['conf']['currency']['price_rounding_percent'] == 'tenth' ) {
         $x = 0.1;
         }
-        else if ( $ct['conf']['gen']['price_rounding_percent'] == 'hundredth' ) {
+        else if ( $ct['conf']['currency']['price_rounding_percent'] == 'hundredth' ) {
         $x = 0.01;
         }
-        else if ( $ct['conf']['gen']['price_rounding_percent'] == 'thousandth' ) {
+        else if ( $ct['conf']['currency']['price_rounding_percent'] == 'thousandth' ) {
         $x = 0.001;
         }
         
@@ -2988,8 +2988,8 @@ var $ct_array = array();
         
         
              $loop = 0;
-             $track_decimals = $ct['conf']['gen']['currency_decimals_max'];
-             while ( !isset($decimals) && $loop < $ct['conf']['gen']['currency_decimals_max'] ) {
+             $track_decimals = $ct['conf']['currency']['currency_decimals_max'];
+             while ( !isset($decimals) && $loop < $ct['conf']['currency']['currency_decimals_max'] ) {
 
                   // $track_decimals decimals rounding
                   if ( !isset($decimals) && $unit_percent <= $track_target ) {
@@ -3012,8 +3012,8 @@ var $ct_array = array();
              
              
              // Force to max decimals if applicable
-             if ( $decimals > $ct['conf']['gen']['currency_decimals_max'] ) {
-             return $ct['conf']['gen']['currency_decimals_max'];
+             if ( $decimals > $ct['conf']['currency']['currency_decimals_max'] ) {
+             return $ct['conf']['currency']['currency_decimals_max'];
              }
              else {
              return $decimals;
@@ -3027,8 +3027,8 @@ var $ct_array = array();
         
         
              $loop = 0;
-             $track_decimals = $ct['conf']['gen']['crypto_decimals_max'];
-             while ( !isset($decimals) && $loop < $ct['conf']['gen']['crypto_decimals_max'] ) {
+             $track_decimals = $ct['conf']['currency']['crypto_decimals_max'];
+             while ( !isset($decimals) && $loop < $ct['conf']['currency']['crypto_decimals_max'] ) {
 
                   // $track_decimals decimals rounding
                   if ( !isset($decimals) && $unit_percent <= $track_target ) {
@@ -3051,8 +3051,8 @@ var $ct_array = array();
              
              
              // Force to max decimals if applicable
-             if ( $decimals > $ct['conf']['gen']['crypto_decimals_max'] ) {
-             return $ct['conf']['gen']['crypto_decimals_max'];
+             if ( $decimals > $ct['conf']['currency']['crypto_decimals_max'] ) {
+             return $ct['conf']['currency']['crypto_decimals_max'];
              }
              else {
              return $decimals;
