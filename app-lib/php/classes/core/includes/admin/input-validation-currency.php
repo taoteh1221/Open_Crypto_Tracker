@@ -15,6 +15,12 @@ $upbit_pairings_search = array_map( "trim", explode(',', $_POST['currency']['upb
 $additional_pairings_search = array_map( "trim", explode(',', $_POST['currency']['additional_pairings_search']) );
 
 
+// Make sure primary currency conversion params are set properly
+if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['currency']['bitcoin_primary_currency_pair'] ][ $_POST['currency']['bitcoin_primary_currency_exchange'] ] ) {
+$ct['update_config_error'] = 'Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['currency']['bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($_POST['currency']['bitcoin_primary_currency_pair']) . '" market';
+}
+        
+
 foreach ( $_POST['currency']['token_presales_usd'] as $key => $val ) {
 
 // Auto-correct
@@ -117,6 +123,8 @@ else {
         
 
 foreach ( $_POST['currency']['conversion_currency_symbols'] as $key => $val ) {
+     
+$skip_market_check = false; // RESET
 
 // Auto-correct
 $val = $ct['var']->auto_correct_str($val, 'lower'); 
@@ -137,11 +145,30 @@ $val_config = array_map( "trim", explode("=", $val) );
      
           if ( !ctype_alnum($val_config[0]) ) {
           $ct['update_config_error'] .= '<br />"conversion_currency_symbols" Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $skip_market_check = true;
           }
      
           if ( !isset($val_config[1]) || $val_config[1] == '' ) {
           $ct['update_config_error'] .= '<br />"conversion_currency_symbols" No ticker SYMBOL detected: "'.$val_config[1].'" ('.$val.')';
+          $skip_market_check = true;
           }
+          
+          
+          if ( !$skip_market_check ) {
+          
+          
+               if (
+               is_array($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])]) && sizeof($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])]) > 0
+               ) {
+               // Do nothing (a bitcoin market exists)
+               }
+               else {
+               $ct['update_config_error'] .= '<br />No BITCOIN MARKET detected for conversion currency asset: "'.strtoupper($val_config[0]).'" ('.$val.')';
+               }
+
+          
+          }
+          
 
      }
      
@@ -183,6 +210,8 @@ $val_config = array_map( "trim", explode("=", $val) );
         
 
 foreach ( $_POST['currency']['crypto_pair'] as $key => $val ) {
+     
+$skip_market_check = false; // RESET
 
 // Auto-correct
 $val = $ct['var']->auto_correct_str($val, 'lower'); 
@@ -200,14 +229,36 @@ $val_config = array_map( "trim", explode("=", $val) );
      $ct['update_config_error'] .= '<br />"crypto_pair" formatting is NOT valid (MUST be: TICKER = SYMBOL): "' . $val;
      }
      else {
+
      
           if ( !ctype_alnum($val_config[0]) ) {
           $ct['update_config_error'] .= '<br />"crypto_pair" Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $skip_market_check = true;
           }
+
      
           if ( !isset($val_config[1]) || $val_config[1] == '' ) {
           $ct['update_config_error'] .= '<br />"crypto_pair" No ticker SYMBOL detected: "'.$val_config[1].'" ('.$val.')';
+          $skip_market_check = true;
           }
+          
+          
+          if ( !$skip_market_check ) {
+          
+          
+               if (
+               is_array($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])]) && sizeof($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])]) > 0
+               || is_array($ct['conf']['assets'][strtoupper($val_config[0])]['pair']['btc']) && sizeof($ct['conf']['assets'][strtoupper($val_config[0])]['pair']['btc']) > 0
+               ) {
+               // Do nothing (a bitcoin market exists)
+               }
+               else {
+               $ct['update_config_error'] .= '<br />No BITCOIN MARKET detected for crypto asset: "'.strtoupper($val_config[0]).'" ('.$val.')';
+               }
+
+          
+          }
+          
 
      }
      

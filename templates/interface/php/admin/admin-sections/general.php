@@ -140,99 +140,12 @@ $ct['admin_render_settings']['default_theme']['is_radio'] = array(
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_confirm'] = 'This will PERMANENTLY DELETE any ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' *CONVERSION* price charts (' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' *BASE-PAIRED [MARKET]* price charts WILL *NOT* BE DELETED). Do you still wish to select a new primary currency pair?';
-
-foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
-$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
-}
-
-$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE AVAILABLE ON THE CHOSEN "Bitcoin Primary Currency Exchange" BELOW.';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// List all exchanges that have a Bitcoin market
-foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
-			
-	foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
-					
-		// Detects better with side space included
-		if ( stristr($supported_btc_exchange_scan, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
-          $ct['admin_render_settings']['bitcoin_primary_currency_exchange']['is_select'][] = $exchange_key;
-		$supported_btc_exchange_scan .= ' ' . $exchange_key . ' /';
-		}
-				
-	}
-	
-sort($ct['admin_render_settings']['bitcoin_primary_currency_exchange']['is_select']);
-				
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 $ct['admin_render_settings']['primary_marketcap_site']['is_radio'] = array(
                                                           'coingecko',
                                                           'coinmarketcap',
                                                          );
 
 $ct['admin_render_settings']['primary_marketcap_site']['is_notes'] = '<a href="https://coinmarketcap.com/api" target="_BLANK">CoinMarketCap API Key Required</a> (in "External APIs" section)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$ct['admin_render_settings']['currency_decimals_max']['is_range'] = true;
-
-$ct['admin_render_settings']['currency_decimals_max']['range_min'] = 5;
-
-$ct['admin_render_settings']['currency_decimals_max']['range_max'] = 10;
-
-$ct['admin_render_settings']['currency_decimals_max']['range_step'] = 1;
-
-$ct['admin_render_settings']['currency_decimals_max']['is_notes'] = 'Sets the minimum-allowed CURRENCY value, adjust with care!';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$ct['admin_render_settings']['crypto_decimals_max']['is_range'] = true;
-
-$ct['admin_render_settings']['crypto_decimals_max']['range_min'] = 10;
-
-$ct['admin_render_settings']['crypto_decimals_max']['range_max'] = 15;
-
-$ct['admin_render_settings']['crypto_decimals_max']['range_step'] = 1;
-
-$ct['admin_render_settings']['crypto_decimals_max']['is_notes'] = 'Sets the minimum-allowed CRYPTO value, adjust with care!';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$ct['admin_render_settings']['price_rounding_percent']['is_select'] = array(
-                                                                    'one',
-                                                                    'tenth',
-                                                                    'hundredth',
-                                                                    'thousandth',
-                                                                   );
-
-
-$ct['admin_render_settings']['price_rounding_percent']['is_notes'] = 'Example: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$ct['admin_render_settings']['price_rounding_fixed_decimals']['is_radio'] = array(
-                                                                         'off',
-                                                                         'on',
-                                                                        );
-
-
-$ct['admin_render_settings']['price_rounding_fixed_decimals']['is_notes'] = '(whether to keep trailing decimal zeros, or remove them)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

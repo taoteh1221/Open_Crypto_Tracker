@@ -76,11 +76,11 @@ $csv_download_array[] = array(
 			}
 											
 	    
-	    $asset_amnt_dec = ( $fiat_equiv ? $ct['conf']['gen']['currency_decimals_max'] : $ct['conf']['gen']['crypto_decimals_max'] );
+	    $asset_amnt_dec = ( $fiat_equiv ? $ct['conf']['currency']['currency_decimals_max'] : $ct['conf']['currency']['crypto_decimals_max'] );
 	    
 	    $asset_amnt_val = $ct['var']->num_pretty($asset_amnt_val, $asset_amnt_dec);
 	    
-	    $asset_paid_val = $ct['var']->num_pretty($asset_paid_val, $ct['conf']['gen']['currency_decimals_max']);
+	    $asset_paid_val = $ct['var']->num_pretty($asset_paid_val, $ct['conf']['currency']['currency_decimals_max']);
 	  	 
 	    
 	   	// Asset data to array for CSV export

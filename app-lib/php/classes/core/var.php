@@ -428,11 +428,11 @@ var $ct_array = array();
       
       
       // Get max decimals from the config settings
-      if ( $ct['conf']['gen']['crypto_decimals_max'] >= $ct['conf']['gen']['currency_decimals_max'] ) {
-      $dec_max = $ct['conf']['gen']['crypto_decimals_max'];
+      if ( $ct['conf']['currency']['crypto_decimals_max'] >= $ct['conf']['currency']['currency_decimals_max'] ) {
+      $dec_max = $ct['conf']['currency']['crypto_decimals_max'];
       }
       else {
-      $dec_max = $ct['conf']['gen']['currency_decimals_max'];
+      $dec_max = $ct['conf']['currency']['currency_decimals_max'];
       }
       
       

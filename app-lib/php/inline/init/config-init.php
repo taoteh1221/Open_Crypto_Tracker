@@ -532,9 +532,9 @@ $ct['gen']->log('other_error', 'RSS feeds failed to sort alphabetically');
 // Set minimum CURRENCY value used in the app
 $loop = 0;
 $min_fiat_val_test = "0.";
-while ( $loop < $ct['conf']['gen']['currency_decimals_max'] ) {
+while ( $loop < $ct['conf']['currency']['currency_decimals_max'] ) {
 $loop = $loop + 1;
-$min_fiat_val_test .= ( $loop < $ct['conf']['gen']['currency_decimals_max'] ? '0' : '1' );
+$min_fiat_val_test .= ( $loop < $ct['conf']['currency']['currency_decimals_max'] ? '0' : '1' );
 }
 unset($loop);
       
@@ -542,9 +542,9 @@ unset($loop);
 // Set minimum CRYPTO value used in the app (important for currency conversions on very low-value coins, like BONK etc)
 $loop = 0;
 $min_crypto_val_test = "0.";
-while ( $loop < $ct['conf']['gen']['crypto_decimals_max'] ) {
+while ( $loop < $ct['conf']['currency']['crypto_decimals_max'] ) {
 $loop = $loop + 1;
-$min_crypto_val_test .= ( $loop < $ct['conf']['gen']['crypto_decimals_max'] ? '0' : '1' );
+$min_crypto_val_test .= ( $loop < $ct['conf']['currency']['crypto_decimals_max'] ? '0' : '1' );
 }
 unset($loop);
 

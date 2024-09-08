@@ -150,7 +150,7 @@ var $ct_array = array();
    
      $pair_loop = 0;
      
-     foreach ( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] as $mrkt_key => $mrkt_id ) {
+     foreach ( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] as $mrkt_key => $mrkt_id ) {
        
         // If a numeric id, return the exchange name
         if ( is_int($data) && $pair_loop == $data ) {
@@ -301,7 +301,7 @@ var $ct_array = array();
    
      // Get primary currency volume value	
      // Currency volume from Bitcoin's DEFAULT PAIR volume
-     if ( $pair == $ct['conf']['gen']['bitcoin_primary_currency_pair'] ) {
+     if ( $pair == $ct['conf']['currency']['bitcoin_primary_currency_pair'] ) {
      $vol_prim_currency_raw = number_format( $vol_in_pair , 0, '.', '');
      }
      // Currency volume from btc PAIR volume
@@ -397,7 +397,7 @@ var $ct_array = array();
        <h2> Interest Per <?=ucfirst($time)?> </h2>
        <ul>
            
-           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $powertime_prim_currency, 2, '.', ',')?></b></li>
+           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $powertime_prim_currency, 2, '.', ',')?></b></li>
        
        </ul>
    
@@ -411,10 +411,10 @@ var $ct_array = array();
                </tr>
                    <tr>
    
-                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
-                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
+                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
+                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
+                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
+                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
    
                    </tr>
               
@@ -484,7 +484,7 @@ var $ct_array = array();
            <p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
            
            
-           <p><b>kWh Rate (<?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+           <p><b>kWh Rate (<?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
            
            
            <p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
@@ -535,9 +535,9 @@ var $ct_array = array();
            	}
          
          }
-         elseif ( !isset($ct['coingecko_api']['btc']['market_cap_rank']) && strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) != 'USD' ) {
+         elseif ( !isset($ct['coingecko_api']['btc']['market_cap_rank']) && strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) != 'USD' ) {
            
-         $app_notice = 'Coingecko.com does not seem to support '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).' stats,<br />showing USD stats instead.';
+         $app_notice = 'Coingecko.com does not seem to support '.strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).' stats,<br />showing USD stats instead.';
          
          $ct['mcap_data_force_usd'] = 1;
          
@@ -551,7 +551,7 @@ var $ct_array = array();
          
          }
          elseif ( $ct['mcap_data_force_usd'] == 1 ) {
-         $app_notice = 'Coingecko.com does not seem to support '.strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']).' stats,<br />showing USD stats instead.';
+         $app_notice = 'Coingecko.com does not seem to support '.strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).' stats,<br />showing USD stats instead.';
          }
      
      
@@ -592,7 +592,7 @@ var $ct_array = array();
      elseif ( $ct['conf']['gen']['primary_marketcap_site'] == 'coinmarketcap' ) {
    
      // Don't overwrite global
-     $coinmarketcap_prim_currency = strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']);
+     $coinmarketcap_prim_currency = strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']);
       
       
          // Covert NATIVE tickers to INTERNATIONAL for coinmarketcap
@@ -815,8 +815,8 @@ var $ct_array = array();
            
                  
                  // OVERWRITE SELECTED BITCOIN CURRENCY MARKET GLOBALS
-                 $ct['conf']['gen']['bitcoin_primary_currency_pair'] = $mrkt_conversion;
-                 $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $btc_exchange;
+                 $ct['conf']['currency']['bitcoin_primary_currency_pair'] = $mrkt_conversion;
+                 $ct['conf']['currency']['bitcoin_primary_currency_exchange'] = $btc_exchange;
                  
                  // OVERWRITE #GLOBAL# BTC PRIMARY CURRENCY VALUE (so we get correct values for volume in currency etc)
                  $ct['sel_opt']['sel_btc_prim_currency_val'] = $mrkt_conv_btc_val;
@@ -1323,7 +1323,7 @@ var $ct_array = array();
       }
       else {
      
-      $btc_trade_eqiv_raw = number_format( ($asset_val_raw * $pair_btc_val) , $ct['conf']['gen']['crypto_decimals_max'], '.', '');
+      $btc_trade_eqiv_raw = number_format( ($asset_val_raw * $pair_btc_val) , $ct['conf']['currency']['crypto_decimals_max'], '.', '');
       $btc_trade_eqiv_raw = $ct['var']->num_to_str($btc_trade_eqiv_raw); // Cleanup any trailing zeros
        
       $ct['btc_worth_array'][$asset_symb] = $ct['var']->num_to_str($asset_val_total_raw * $pair_btc_val);
@@ -1886,19 +1886,19 @@ var $ct_array = array();
       }
       // BTC PAIRS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
       elseif ( $pair == 'btc' ) {
-      $asset_prim_currency_val_raw = number_format( $ct['default_bitcoin_primary_currency_val'] * $asset_mrkt_data['last_trade'] , $ct['conf']['gen']['crypto_decimals_max'], '.', '');
+      $asset_prim_currency_val_raw = number_format( $ct['default_bitcoin_primary_currency_val'] * $asset_mrkt_data['last_trade'] , $ct['conf']['currency']['crypto_decimals_max'], '.', '');
       }
       // OTHER PAIRS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS, IF $pair_btc_val IS SET
       elseif ( $pair_btc_val != null ) {
-      $asset_prim_currency_val_raw = number_format( $ct['default_bitcoin_primary_currency_val'] * ( $asset_mrkt_data['last_trade'] * $pair_btc_val ) , $ct['conf']['gen']['crypto_decimals_max'], '.', '');
+      $asset_prim_currency_val_raw = number_format( $ct['default_bitcoin_primary_currency_val'] * ( $asset_mrkt_data['last_trade'] * $pair_btc_val ) , $ct['conf']['currency']['crypto_decimals_max'], '.', '');
       }
       
       
       // Cleanup the asset value 
       if ( $asset_prim_currency_val_raw >= $min_fiat_val_test ) {
       // Continue
-      // Round PRIMARY CURRENCY CONFIG asset price to only keep $ct['conf']['gen']['currency_decimals_max'] decimals maximum 
-      $asset_prim_currency_val_raw = round($asset_prim_currency_val_raw, $ct['conf']['gen']['currency_decimals_max']);
+      // Round PRIMARY CURRENCY CONFIG asset price to only keep $ct['conf']['currency']['currency_decimals_max'] decimals maximum 
+      $asset_prim_currency_val_raw = round($asset_prim_currency_val_raw, $ct['conf']['currency']['currency_decimals_max']);
       $asset_prim_currency_val_raw = $ct['var']->num_to_str($asset_prim_currency_val_raw); // Cleanup any trailing zeros
       }
       // Return false if we have no minimum asset value
@@ -1959,10 +1959,10 @@ var $ct_array = array();
    
       
       if ( $has_btc_pairing && $asset_mrkt_data['last_trade'] >= $min_fiat_val_test ) {
-      $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['gen']['currency_decimals_max'], '.', '');
+      $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['currency']['currency_decimals_max'], '.', '');
       }
       elseif ( $asset_mrkt_data['last_trade'] >= $min_crypto_val_test ) {
-      $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['gen']['crypto_decimals_max'], '.', '');
+      $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['currency']['crypto_decimals_max'], '.', '');
       }
       // Return false if we have no minimum asset value
       else {

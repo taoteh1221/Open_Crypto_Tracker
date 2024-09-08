@@ -127,7 +127,7 @@
 				<option value='7' <?=( $ct['sel_opt']['sorted_by_col'] == 7 ? ' selected ' : '' )?>> Holdings </option>
 				<option value='8' <?=( $ct['sel_opt']['sorted_by_col'] == 8 ? ' selected ' : '' )?>> Ticker </option>
 				<option value='9' <?=( $ct['sel_opt']['sorted_by_col'] == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $ct['sel_opt']['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (in <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>) </option>
+				<option value='10' <?=( $ct['sel_opt']['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) </option>
 			    </select> 
 			    
 			     <select class='browser-default custom-select' id='sorted_asc_desc' onchange='
@@ -227,11 +227,11 @@
 					
 					<?php
 					
-					$exchange_field_id = $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_currency_exchange']);
+					$exchange_field_id = $ct['asset']->btc_mrkt($ct['conf']['currency']['bitcoin_primary_currency_exchange']);
 					
 					foreach (  $ct['conf']['assets']['BTC']['pair'] as $pair_key => $pair_id ) {
 					?>
-					<option value='<?=$pair_key?>' <?=( $ct['conf']['gen']['bitcoin_primary_currency_pair'] == $pair_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pair_key))?> </option>
+					<option value='<?=$pair_key?>' <?=( $ct['conf']['currency']['bitcoin_primary_currency_pair'] == $pair_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pair_key))?> </option>
 					<?php
 					
 									
@@ -248,16 +248,16 @@
 				    
 				     @ 
 				    
-				    <input type='hidden' id='btc_prim_currency' name='btc_prim_currency' value='<?=$ct['conf']['gen']['bitcoin_primary_currency_pair']?>' />
+				    <input type='hidden' id='btc_prim_currency' name='btc_prim_currency' value='<?=$ct['conf']['currency']['bitcoin_primary_currency_pair']?>' />
 				     
 				    <input type='hidden' id='prim_currency_mrkt_id' name='prim_currency_mrkt_id' value='<?=$exchange_field_id?>' />
 				     
 				     
 				     <span id='prim_currency_mrkt_id_lists' style='display: inline;'>
-				     <!-- Selected (or first if none selected) pair: <?=$ct['conf']['gen']['bitcoin_primary_currency_pair']?> -->
+				     <!-- Selected (or first if none selected) pair: <?=$ct['conf']['currency']['bitcoin_primary_currency_pair']?> -->
 				     <!-- prim_currency_mrkt_standalone[1]: <?=$ct['sel_opt']['prim_currency_mrkt_standalone'][1]?> -->
 				     <!-- prim_currency_mrkt_standalone[0]: <?=$ct['sel_opt']['prim_currency_mrkt_standalone'][0]?> -->
-				     <!-- bitcoin_primary_currency_exchange: <?=$ct['conf']['gen']['bitcoin_primary_currency_exchange']?> -->
+				     <!-- bitcoin_primary_currency_exchange: <?=$ct['conf']['currency']['bitcoin_primary_currency_exchange']?> -->
 				    <?php
 				    
 				    foreach ( $btc_mrkt_list as $key => $value ) {
@@ -302,7 +302,7 @@
 				    
                         red_save_button();
 				    
-				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $ct['conf']['gen']['bitcoin_primary_currency_pair'] == $key ? 'inline' : 'none' )?>;'>
+				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $ct['conf']['currency']['bitcoin_primary_currency_pair'] == $key ? 'inline' : 'none' )?>;'>
 				    
 				    <?=$btc_mrkt_list[$key]?>
 				    
@@ -315,8 +315,8 @@
 				    
 				    </span> <img class='tooltip_style_control' id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_prim_currency_enabled' name='standalone_prim_currency_enabled' value='1' onchange='
 				    
-				    btc_prim_currency = $("#btc_prim_currency").val() ? $("#btc_prim_currency").val() : "<?=$ct['conf']['gen']['bitcoin_primary_currency_pair']?>";
-				    prim_currency_mrkt = $("#prim_currency_mrkt_id").val() ? $("#prim_currency_mrkt_id").val() : <?=$ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_currency_exchange'])?>;
+				    btc_prim_currency = $("#btc_prim_currency").val() ? $("#btc_prim_currency").val() : "<?=$ct['conf']['currency']['bitcoin_primary_currency_pair']?>";
+				    prim_currency_mrkt = $("#prim_currency_mrkt_id").val() ? $("#prim_currency_mrkt_id").val() : <?=$ct['asset']->btc_mrkt($ct['conf']['currency']['bitcoin_primary_currency_exchange'])?>;
 				    
 				    /////////////////////////////////////////////////////////
 				    
@@ -381,7 +381,7 @@
 		
 			// On page load / reload
 			
-			var settings_tab_prim_btc_exchange = document.getElementById("<?=$ct['conf']['gen']['bitcoin_primary_currency_pair']?>btc_currency_pairs");
+			var settings_tab_prim_btc_exchange = document.getElementById("<?=$ct['conf']['currency']['bitcoin_primary_currency_pair']?>btc_currency_pairs");
 
 			exchange_name_ui = settings_tab_prim_btc_exchange.options[settings_tab_prim_btc_exchange.selectedIndex].text;
 

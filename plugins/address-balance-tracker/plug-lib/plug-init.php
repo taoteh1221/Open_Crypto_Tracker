@@ -72,20 +72,7 @@ $label = $target_val['label'];
 // (so it's always obfuscated in any logs)
 $ct['dev']['data_obfuscating'][] = $address;
 
-
-    // Add this altcoin to $ct['opt_conf']['crypto_pair'] DYNAMICALLY #IF# it doesn't exist there, #IF# it has a BTC market configured
-    // (For conversion of it's BTC value to the user's fiat value, set in $ct['conf']['gen']['bitcoin_primary_currency_pair'])
-    // ONLY IF THIS COIN IS NOT ON SOLANA (as we can easily get solana SPL token value from jupiter aggregator / any other available 'sol' paired market)
-    if ( $asset != 'btc' && $chain != 'sol' && !isset($ct['opt_conf']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
-    $ct['opt_conf']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
-    }
-    // Make sure we can get the SOL / BTC trade value (if user removed SOL from $ct['opt_conf']['crypto_pair'])
-    elseif ( $chain == 'sol' && !isset($ct['opt_conf']['crypto_pair']['sol']) ) {
-    $ct['opt_conf']['crypto_pair']['sol'] = '◎ ';
-    }  
-
-
-// Only getting BTC value for non-bitcoin assets is supported
+// Getting BTC value for non-bitcoin assets is supported
 // SUPPORTED even for BTC ( $ct['asset']->pair_btc_val('btc') ALWAYS = 1 )
 $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) ); 
   	 
@@ -148,8 +135,11 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
 	
 	
 // DEBUGGING ONLY
-//$ct['cache']->save_file( $ct['plug']->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance . '|' . $cache_reset );
-	
+//$debug_array = array('cached_address_balance' => $cached_address_balance, 'address_balance' => $address_balance, 'cache_reset' => $cache_reset);
+      
+// DEBUGGING ONLY (UNLOCKED file write)
+//$ct['cache']->other_cached_data('save', $ct['base_dir'] . '/cache/debugging/debugging-' . $target_key . '.dat', $debug_array, true, "append", false);
+
 	
 	// If a cache reset was flagged
 	if ( $cache_reset ) {
@@ -214,24 +204,24 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
         
           if ( $plug['conf'][$this_plug]['privacy_mode'] == 'on' ) {
         
-          $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['gen']['currency_decimals_max']);
+          $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['currency']['currency_decimals_max']);
             
-          $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
+          $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
 	   
-          $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth; 
+          $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth; 
 	    
 	     $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
 	     
           }
           else {
                
-          $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['gen']['currency_decimals_max']);
+          $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['currency']['currency_decimals_max']);
         
-          $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['gen']['crypto_decimals_max']);  
+          $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['currency']['crypto_decimals_max']);  
             
-	     $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ").";
+	     $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ").";
 	
-          $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ")";
+          $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ")";
 	    
 
          		// Add blockchain explorer link to email message

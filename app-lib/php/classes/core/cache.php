@@ -3314,7 +3314,7 @@ var $ct_array = array();
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
              							
-             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['currency']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['currency']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			
              			);
             
@@ -3393,7 +3393,7 @@ var $ct_array = array();
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
             							
-            			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['currency']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['currency']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			
             			);
              

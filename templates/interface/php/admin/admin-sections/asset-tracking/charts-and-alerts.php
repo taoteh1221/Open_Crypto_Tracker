@@ -99,9 +99,9 @@ $ct['admin_render_settings']['price_alert_minimum_volume']['range_max'] = 500000
 
 $ct['admin_render_settings']['price_alert_minimum_volume']['range_step'] = 1000;
 
-$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_prefix'] = $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ];
+$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_prefix'] = $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ];
 
-$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_suffix'] = ' (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . ')';
+$ct['admin_render_settings']['price_alert_minimum_volume']['range_ui_suffix'] = ' (' . strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) . ')';
 
 $ct['admin_render_settings']['price_alert_minimum_volume']['is_notes'] = 'Skip alerts, if 24 hour trade volume is less than a MINIMUM amount (BUT is greater than zero)';
                                                          

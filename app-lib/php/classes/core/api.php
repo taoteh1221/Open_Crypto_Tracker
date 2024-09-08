@@ -670,7 +670,7 @@ var $exchange_apis = array(
    $result = array();
    
    // Don't overwrite global
-   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($ct['conf']['gen']['bitcoin_primary_currency_pair']) );
+   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($ct['conf']['currency']['bitcoin_primary_currency_pair']) );
    
          
    // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
@@ -928,7 +928,7 @@ var $exchange_apis = array(
       
    
    // Don't overwrite global
-   $coinmarketcap_prim_currency = strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']);
+   $coinmarketcap_prim_currency = strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']);
       
       
       // Convert NATIVE tickers to INTERNATIONAL for coinmarketcap
@@ -1545,7 +1545,7 @@ var $exchange_apis = array(
                           
                           $parsed_market_data = array(        
                                              'jup_ag_address' => $this_market_data['id'],
-                                             'last_trade' => number_format( $this_market_data['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
+                                             'last_trade' => number_format( $this_market_data['price'], $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
                                              '24hr_usd_vol' => $ct['var']->num_to_str($market_data['data']['daily_volume']),
                                    	      );
                          	      
@@ -2869,7 +2869,7 @@ var $exchange_apis = array(
       elseif ( $sel_exchange == 'bitstamp' ) {
         
       $result = array(
-                     'last_trade' => number_format( $data['last'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
+                     'last_trade' => number_format( $data['last'], $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
                      '24hr_asset_vol' => $data["volume"],
                      '24hr_pair_vol' => null // Unavailable, set null
       	           );
@@ -2936,7 +2936,7 @@ var $exchange_apis = array(
       $last_trade = ( stristr($mrkt_id, '1000') == true ? ($data["last_price"] / 1000) : $data["last_price"] );
              
 	 $result = array(             
-	                              'last_trade' => number_format( $last_trade, $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
+	                              'last_trade' => number_format( $last_trade, $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
 	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
 	                              '24hr_pair_vol' => $data["volume_24h"] 
 	                     		  );
@@ -3203,7 +3203,7 @@ var $exchange_apis = array(
       
       $result = array(        
                               'jup_ag_address' => $data['id'],
-                              'last_trade' => number_format( $data['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
+                              'last_trade' => number_format( $data['price'], $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
                               '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
                               '24hr_pair_vol' => null // Unavailable, set null
                     	      );
@@ -3690,7 +3690,7 @@ var $exchange_apis = array(
                }
     		
     		}
-    		elseif ( isset($result['24hr_pair_vol']) && isset($pair) && $pair == $ct['conf']['gen']['bitcoin_primary_currency_pair'] ) {
+    		elseif ( isset($result['24hr_pair_vol']) && isset($pair) && $pair == $ct['conf']['currency']['bitcoin_primary_currency_pair'] ) {
     		$result['24hr_prim_currency_vol'] = $ct['var']->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
     		}
     		elseif ( isset($result['24hr_pair_vol']) ) {
