@@ -395,10 +395,11 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 ////////////////////////////////////////
 
 
-// Default BITCOIN market currencies (20+ currencies supported)
+// Default BITCOIN market currencies (40+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aud / brl / cad / chf / dai / eth / eur / gbp / hkd / inr / jpy
-// krw / mxn / nis / rub / sgd / try / twd / usd / usdc / usdt / zar
+// aed / ars / aud / bdt / brl / cad / chf / clp / czk / dai / dkk / eth / eur / gbp / gel 
+// hkd / huf / idr / inr / jpy / krw / kwd / lkr / mxn / myr / ngn / nis / nok / nzd / php 
+// pkr / pln / rmb / rub / sar / sek / sgd / sol / thb / try / twd / uah / usd / usdc / usdt / vnd / zar
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct['conf']['currency']['bitcoin_primary_currency_exchange'] directly below)
 $ct['conf']['currency']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
