@@ -17,7 +17,7 @@ $additional_pairings_search = array_map( "trim", explode(',', $_POST['currency']
 
 // Make sure primary currency conversion params are set properly
 if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['currency']['bitcoin_primary_currency_pair'] ][ $_POST['currency']['bitcoin_primary_currency_exchange'] ] ) {
-$ct['update_config_error'] = 'Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['currency']['bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($_POST['currency']['bitcoin_primary_currency_pair']) . '" market';
+$ct['update_config_error'] .= '<br />Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['currency']['bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($_POST['currency']['bitcoin_primary_currency_pair']) . '" market';
 }
         
 

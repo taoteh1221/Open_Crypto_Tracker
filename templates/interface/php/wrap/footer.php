@@ -58,7 +58,7 @@ if ( $is_iframe ) {
 
 
      // Get exchange keys for info bubble
-     if ( $_GET['subsection'] == 'price_alerts_charts' ) {
+     if ( $is_admin && $_GET['subsection'] == 'price_alerts_charts' ) {
      require($ct['base_dir'] . '/app-lib/php/inline/debugging/exchange-and-pair-info.php');
      }
 

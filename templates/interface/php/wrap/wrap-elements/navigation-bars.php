@@ -37,13 +37,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
    
    <div class="smallnav_spacer"></div>
-
    
-   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
-
-   
-   <div class="smallnav_spacer"></div>
-
    
    <div class="align_center"><a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='Use this to Refresh / Reload the app data. <?=$refresh_link_documentation?>'><img src='templates/interface/media/images/auto-preloaded/icons8-refresh-64-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
 
@@ -66,6 +60,26 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    
    <div class="align_center"><a href='javascript:' class='user_settings_save settings_save bitcoin' style='font-weight: bold;' title='Save settings for the user area.'><img src='templates/interface/media/images/auto-preloaded/icons8-save-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
 
+   
+   <div class="smallnav_spacer"></div>
+   
+   <?php
+   }
+   ?>
+   
+   
+   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
+
+   
+   <div class="smallnav_spacer"></div>
+   
+        
+   <?php
+   if ( $ct['gen']->admin_logged_in() ) {
+   ?>
+
+   
+   <div class="align_center"><a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$ct['sel_opt']['theme_selected']?>.png' class='admin_logout nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
    
    <div class="smallnav_spacer"></div>
    
@@ -202,21 +216,6 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
       
      </div>
    
-        
-        
-   <?php
-   if ( $ct['gen']->admin_logged_in() ) {
-   ?>
-
-   
-   <div class="smallnav_spacer"></div>
-   
-   <div class="align_center"><a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$ct['sel_opt']['theme_selected']?>.png' class='admin_logout nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
-   
-   <?php
-   }
-   ?>
-   
    
    <div class="smallnav_spacer"></div>
    
@@ -313,10 +312,6 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
         <ul id='sidebar_menu' class="list-unstyled components">
             
             <li class='sidebar-item'>
-                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode: Off</a>
-            </li>
-        
-            <li class='sidebar-item'>
                 <a href='javascript:app_reloading_check();' class='blue' title='Use this to Refresh / Reload the app data. <?=$refresh_link_documentation?>'>Refresh Data</a>
             </li>
    
@@ -337,6 +332,22 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                 <a href='javascript:' class='user_settings_save settings_save blue' title='Save settings for the user area.'>Save User Changes</a>
             </li>
         
+            <?php
+            }
+            ?>
+        
+            <li class='sidebar-item'>
+                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode: Off</a>
+            </li>
+        
+            <?php
+            if ( $ct['gen']->admin_logged_in() ) {
+            ?>
+   
+            <li class='sidebar-item'>
+                <a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>" class="admin_logout bitcoin" title='Logout from the admin area.'>Admin Logout</a>
+            </li>
+            
             <?php
             }
             ?>
@@ -595,18 +606,6 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                 
             </li>
             
-            
-            <?php
-            if ( $ct['gen']->admin_logged_in() ) {
-            ?>
-   
-            <li class='sidebar-item'>
-                <a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>" class="admin_logout red" title='Logout from the admin area.'>Admin Logout</a>
-            </li>
-            
-            <?php
-            }
-            ?>
             
             <li class='sidebar-item'>
                 <a href="javascript: return false;" class="modal_style_control show_help_faq red" title='Get help with running and setting up this app.'>Help? / FAQ</a>

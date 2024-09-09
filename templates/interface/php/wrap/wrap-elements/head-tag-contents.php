@@ -1,5 +1,6 @@
 
      <!-- !!DEBUGGING!!: (debugging logic here) -->
+     
 
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
@@ -12,139 +13,28 @@
 	
 	<meta name="referrer" content="same-origin"> <!-- Keeps this URL private (BROWSER referral data won't be sent when clicking external links) -->
 	
-	
-	<!-- Preload a few UI-related files -->
-	
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/login-<?=$ct['sel_opt']['theme_selected']?>-theme.png" as="image">
-	
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$ct['sel_opt']['theme_selected']?>-line.png" as="image">
-	
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/loader.gif" as="image">
     
-    
-	<link rel="preload" href="templates/interface/css/bootstrap/bootstrap.min.css" as="style" />
-
-	<link rel="preload" href="templates/interface/css/modaal.css" as="style" />
+	<link rel="stylesheet" href="templates/interface/css/bootstrap/bootstrap.min.css" type="text/css" />
 	
-	<link rel="preload" href="templates/interface/css/jquery-ui/jquery-ui.css" as="style" />
+	<link rel="stylesheet" href="templates/interface/css/jquery-ui/jquery-ui.css" type="text/css" />
 	
-	<link rel="preload" href="templates/interface/css/jstree/default/style.min.css" as="style" />
+	<link rel="stylesheet" href="templates/interface/css/jstree/default/style.min.css" type="text/css" />
 	
-	<link rel="preload" href="templates/interface/css/tablesorter/jquery.tablesorter.pager.css" as="style" />
+	<link rel="stylesheet" href="templates/interface/css/tablesorter/jquery.tablesorter.pager.css" type="text/css" />
 	
-	<link rel="preload" href="templates/interface/css/jquery.mCustomScrollbar.min.css" as="style" />
+	<link rel="stylesheet" href="templates/interface/css/root-css-combined.php?theme=<?=$ct['sel_opt']['theme_selected']?>" type="text/css" />
 	
-	<link rel="preload" href="templates/interface/css/style.css" as="style" />
+	<!-- responsive-menus NEEDS TO LOAD SEPARATELY! -->
 	
-	<link rel="preload" href="templates/interface/css/responsive-menus.css" as="style" />
+	<link rel="stylesheet" href="templates/interface/css/responsive-menus.css" type="text/css" title="responsive-menus" />
+
+	<script src="app-lib/js/jquery/jquery-javascript-combined.php"></script>
 	
-	<link rel="preload" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.style.css" as="style" />
-
-	<link rel="preload" href="templates/interface/css/highlightjs.min.css" as="style" />
-
-	<link rel="preload" href="//fonts.googleapis.com/css?family=<?=$font_name_url_formatting?>&display=swap" as="style" />
-	
-	
-	<?php
-	if ( $is_admin ) {
-	?>
-	
-	<link rel="preload" href="templates/interface/css/admin.css" as="style" />
-	
-	<link rel="preload" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.admin.css" as="style" />
-	
-	<?php
-	}
-	?>
-
-
-	<link rel="preload" href="app-lib/js/jquery/jquery-3.6.3.min.js" as="script" />
-	
-	<link rel="preload" href="app-lib/js/jquery/jquery-ui/jquery-ui.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.min.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.widgets.min.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.pager.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.pager-custom-controls.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/jquery/jquery.balloon.min.js" as="script" />
-
-     <link rel="preload" href="app-lib/js/jquery/jquery.repeatable.js" as="script" />
-
-     <link rel="preload" href="app-lib/js/jquery/jstree.min.js" as="script" />
-
-     <link rel="preload" href="app-lib/js/jquery/jquery.mCustomScrollbar.concat.min.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/bootstrap/bootstrap.min.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/modaal.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/base64-decode.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/autosize.min.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/popper.min.js" as="script" />
-	
-	<link rel="preload" href="app-lib/js/zingchart.min.js" as="script" />
-	
-	<link rel="preload" href="app-lib/js/crypto-js.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/var_defaults.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/functions.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/random-tips.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/init.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/highlight.min.js" as="script" />
-
-	<link rel="preload" href="app-lib/js/insQ.min.js" as="script" />
-	
-	
-	<!-- END Preload a few UI-related files -->
-
-
-	<script src="app-lib/js/jquery/jquery-3.6.3.min.js"></script>
+	<!-- jquery UI NEEDS TO LOAD SEPARATELY AFTER JQUERY! -->
 	
 	<script src="app-lib/js/jquery/jquery-ui/jquery-ui.js"></script>
 
-	<script src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.tablesorter.pager.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.tablesorter.pager-custom-controls.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.balloon.min.js"></script>
-
-     <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
-
-     <script src="app-lib/js/jquery/jstree.min.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.mCustomScrollbar.concat.min.js"></script>
-
-	<script src="app-lib/js/modaal.js"></script>
-
-	<script src="app-lib/js/base64-decode.js"></script>
-
-	<script src="app-lib/js/autosize.min.js"></script>
-
-	<script src="app-lib/js/popper.min.js"></script>
-	
-	<script src="app-lib/js/zingchart.min.js"></script>
-	
-	<script src="app-lib/js/insQ.min.js"></script>
-	
-	<script src="app-lib/js/crypto-js.js"></script>
-
-	<script src="app-lib/js/var_defaults.js"></script>
-
-	<script src="app-lib/js/functions.js"></script>
+	<script src="app-lib/js/root-javascript-combined.php"></script>
 	
 	
 	<script>
@@ -421,51 +311,15 @@
 	<script src="app-lib/js/init.js"></script>
 
 	<script src="app-lib/js/random-tips.js"></script>
-    
-    
-	<link rel="stylesheet" href="templates/interface/css/bootstrap/bootstrap.min.css" type="text/css" />
-
-	<link rel="stylesheet" href="templates/interface/css/modaal.css" type="text/css" />
-	
-	<link rel="stylesheet" href="templates/interface/css/jquery-ui/jquery-ui.css" type="text/css" />
-	
-	<link rel="stylesheet" href="templates/interface/css/jstree/default/style.min.css" type="text/css" />
-	
-	<link rel="stylesheet" href="templates/interface/css/jquery.mCustomScrollbar.min.css" type="text/css" />
-	
-	<!-- Load theme styling last to over rule -->
-	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />
-	
-	<link rel="stylesheet" href="templates/interface/css/responsive-menus.css" type="text/css" title="responsive-menus" />
-	
-	<link rel="stylesheet" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.style.css" type="text/css" />
-	
-	<link rel="stylesheet" href="templates/interface/css/tablesorter/jquery.tablesorter.pager.css" type="text/css" />
-	
-	
-	<?php
-	if ( $is_admin ) {
-	?>
-	
-	<link rel="stylesheet" href="templates/interface/css/admin.css" type="text/css" />
-	
-	<link rel="stylesheet" href="templates/interface/css/<?=$ct['sel_opt']['theme_selected']?>.admin.css" type="text/css" />
-	
-	<?php
-	}
-	?>
 	
 	
 	<style>
 
 	@import "templates/interface/css/tablesorter/theme.<?=$ct['sel_opt']['theme_selected']?>.css";
 	
-	.tablesorter-<?=$ct['sel_opt']['theme_selected']?> .header, .tablesorter-<?=$ct['sel_opt']['theme_selected']?> .tablesorter-header {
-     white-space: nowrap;
-	}
-
-
+	
      <?php
+     // ALL @IMPORT MUST BE AT VERY TOP OF ANY STYLE SECTION (BEFORE ANYTHING ELSE), SO BROWSERS WON'T IGNORE IT
      // IF there is a configged google font
      if ( isset($google_font_name) ) {
      ?>
@@ -491,6 +345,12 @@
      }
      ?>
      
+	
+	.tablesorter-<?=$ct['sel_opt']['theme_selected']?> .header, .tablesorter-<?=$ct['sel_opt']['theme_selected']?> .tablesorter-header {
+     white-space: nowrap;
+	}
+
+
      /* info icon size CSS selector */
      <?php
      // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)

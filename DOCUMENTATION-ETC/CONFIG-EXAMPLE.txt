@@ -244,7 +244,7 @@ $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 
 
 // We limit how many search results Jupiter Aggregator is allowed to process PER CPU CORE (when adding coin markets), to avoid 504 "gateway timeout" errors
-$ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 175; // 75 MINIMUM / 250 MAXIMUM / DEFAULT = 175
+$ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 125; // 75 MINIMUM / 250 MAXIMUM / DEFAULT = 125
 
 
 ////////////////////////////////////////
@@ -530,6 +530,7 @@ $ct['conf']['currency']['conversion_currency_symbols'] = array(
                               						'sar = ﷼',
                               						'sek = kr ',
                               						'sgd = S$',
+                              						'sol = ◎ ',
                               						'thb = ฿',
                               						'try = ₺',
                               						'twd = NT$',
@@ -2639,7 +2640,6 @@ $ct['conf']['assets'] = array(
                         
                                     'btc' => array(
                                           'binance' => 'MANABTC',
-                                          'ethfinex' => 'tMNABTC',
                                           'kucoin' => 'MANA-BTC',
                                           'upbit' => 'BTC-MANA',
                                           'poloniex' => 'MANA_BTC',
@@ -2670,6 +2670,7 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                           'coinbase' => 'MANA-USD',
+                                          'ethfinex' => 'tMNAUSD',
                                           'presale_usd_value' => 'mana',
                                                     ),
 

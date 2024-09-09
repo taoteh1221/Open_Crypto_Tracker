@@ -194,15 +194,6 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Test new setup wizard architecture in Firefox.
-
-
-TORTURE TEST ADDING / DELETING ASSETS AND MARKETS.
-
-
-Test add / delete markets INTERFACE on raspi zero w (1st gen).
-
-
 Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking up dual boot / bitlocker setups a ton the past few months (lol)
 
 
@@ -212,7 +203,7 @@ Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking
 Do a bitcoin opentimestamp of the v6.00.39 release.
 
 
-We moved A LOT of ADMIN settings into more relevant sections the past year. MAKE SURE ALL INPUT VALIDATION LOGIC HAS ALSO BEEN MOVED TO THE DIFFERENT INPUT VALIDATION FILES.
+Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
 
 
 https://api.coingecko.com/api/v3/simple/supported_vs_currencies
@@ -222,6 +213,9 @@ Add a third option in the 'remove asset markets' wizard, that scans ALL markets,
 
 
 Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.
+
+
+Buildout the top navigation, for responsive templating on small mobile screens.
 
 
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
