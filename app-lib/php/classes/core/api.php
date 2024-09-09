@@ -2763,11 +2763,32 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'bitfinex' || $sel_exchange == 'ethfinex' ) {
       
-      $result = array(
-	                              'last_trade' => $data[( sizeof($data) - 4 )],
-	                              '24hr_asset_vol' => $data[( sizeof($data) - 3 )],
+      $finex_price = $data[( sizeof($data) - 4 )];
+      
+      $finex_vol = $data[( sizeof($data) - 3 )];
+           
+           
+           // Bitfinex is a VERY funky data structure to parse for RESULTS VALIDITY,
+           // so best way is to make sure the parsed data is NOT an array
+           if ( !is_array($finex_price) && !is_array($finex_vol) ) {
+           
+           $result = array(
+	                              'last_trade' => $finex_price,
+	                              '24hr_asset_vol' => $finex_vol,
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
+           
+           }
+           else {
+           
+           $result = array(
+	                              'last_trade' => 0,
+	                              '24hr_asset_vol' => 0,
+	                              '24hr_pair_vol' => null // Unavailable, set null
+	                     		  );
+           
+           }
+           
       
       }
      

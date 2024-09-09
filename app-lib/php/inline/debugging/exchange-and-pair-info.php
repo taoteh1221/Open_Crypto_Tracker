@@ -11,8 +11,11 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 $exchange_count = 0;
 $currency_count = 0;
 
-	// Print out all market configurations
-	if ( $ct['conf']['power']['debug_mode'] == 'markets_conf' ) {
+	// Summarize all market configurations
+	if (
+	$ct['conf']['power']['debug_mode'] == 'markets_conf'
+	|| $_GET['subsection'] == 'price_alerts_charts'
+	) {
 		
 		
 		foreach ( $ct['conf']['assets']['BTC']['pair'] as $key => $unused ) {
@@ -92,17 +95,21 @@ $currency_count = 0;
 		$all_exchanges_list = $ct['var']->list_sort($all_exchanges_list, '/', 'sort', true);
 	
 	
-	$ct['gen']->log(
-				'conf_debug',
-				"\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$currency_count.']: ' . $supported_prim_currency_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n"
-				);
-	
-	
-	
-	$ct['gen']->log(
-				'conf_debug',
-				"\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairs_list['.$pairs_count.']: ' . strtoupper($all_supported_pairs_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n"
-				);
+	     if ( $ct['conf']['power']['debug_mode'] == 'markets_conf' ) {
+	     
+     	$ct['gen']->log(
+     				'conf_debug',
+     				"\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$currency_count.']: ' . $supported_prim_currency_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n"
+     				);
+     	
+     	
+     	
+     	$ct['gen']->log(
+     				'conf_debug',
+     				"\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairs_list['.$pairs_count.']: ' . strtoupper($all_supported_pairs_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n"
+     				);
+				
+	     }
 	
 	
 	}

@@ -6793,9 +6793,11 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -More reliable currency price conversions (between different currencies)
 
+-Optimizations / polish / cleanup on the Access Stats UX, and app logic
+
 -Cleaned up stale DEMO markets / news feeds / text gateways
 
--Optimizations / polish on the Access Stats UX and logic
+-Optimized / cleaned up page loading logic
 
 -Upgraded Idex exchange API to v4
 

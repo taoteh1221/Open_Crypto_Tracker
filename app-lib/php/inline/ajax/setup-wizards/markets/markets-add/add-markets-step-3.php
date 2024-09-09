@@ -202,13 +202,16 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
 
-ANY EXCHANGE MARKETS **THAT ALREADY EXIST IN THIS APP** ARE NEVER DISPLAYED IN SEARCH RESULTS HERE (THEY ARE INCLUDED IN ANY "SKIPPED RESULTS" LINK BELOW).<br /><br />
 
+<?php
+if ( !stristr($search_desc, '/') ) {
+?>
 FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEARCH PARAMETERS.<br /><br />
+<?php
+}
+?>
 
-MARKET DATA (PRICE, TRADE VOLUME, ETC, SHOWN WHEN YOU CLICK ON EXCHANGE NAMES) IS CACHED FOR <?=$ct['conf']['power']['exchange_search_cache_time']?> MINUTES (ADJUSTABLE IN THE "POWER USER" ADMIN SECTION), TO SPEED UP CONSECUTIVE SEARCHES.<br /><br />
-
-WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> (ADJUSTABLE IN: "APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE", <?=$all_results_count['jupiter_ag']?> results below [including skipped] are from Jupiter Aggregator), TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS, AND VERY LONG SEARCH TIMES ON SLOWER DEVICES. <span class='red'>IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.</span><br /><br />
+WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> <span class='yellow'>(ADJUSTABLE IN: <span class='light_sea_green'>"APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE"</span>, <?=$all_results_count['jupiter_ag']?> results below [including any marked as skipped] are from Jupiter Aggregator)</span>, TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS / LONG SEARCH TIMES ON SLOWER DEVICES. <span class='red'>IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.</span><br /><br />
 
 <span class='red'>JUPITER AGGREGATOR API SERVERS ARE KNOW TO GET OVERLOADED ON OCCASION (AS OF AUGUST 2024). SO IF YOU ARE HAVING ISSUES GETTING RESULTS FROM THEM, CHECK THE ERROR LOGS, AND TRY AGAIN IN <?=$ct['conf']['power']['exchange_search_cache_time']?>+ MINUTES.</span>
 
@@ -221,55 +224,60 @@ WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupit
 
      
      <br />
-     <a style='font-weight: bold;' class='red clear_both result_margins' href='javascript: show_more("results_skipped");' title='Click to show / hide additional details.'>Skipped Results (already exist in app, OR missing required data)</a>
      
-     <div id='results_skipped' style='display: none;' class='red align_left clear_both result_margins'>
+     <div class='red_dotted'>
      
-          <?php
-          foreach ( $skipped_results as $skipped_market ) {
-          ?>
+          <a style='font-weight: bold;' class='red clear_both result_margins' href='javascript: show_more("results_skipped");' title='Click to show / hide additional details.'>Skipped Results (already exist in app, OR missing required data)</a>
      
-               <p>
-               
+          <div id='results_skipped' style='display: none;' class='red align_left clear_both result_margins'>
+          
                <?php
-               // Missing required value
-               if ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'missing_required_') ) {
+               foreach ( $skipped_results as $skipped_market ) {
                ?>
-               <i><u><b>Missing Required: <?=preg_replace("/missing_required_/i", "", $skipped_market['flagged_market'])?> (Consider ADDING PAIRINGS in: "Asset Tracking => Currency Support => Additional Pairings Search" [that are in the market id])</b></u></i><br />
+          
+                    <p>
+                    
+                    <?php
+                    // Missing required value
+                    if ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'missing_required_') ) {
+                    ?>
+                    <i><u><b>Missing Required: <?=preg_replace("/missing_required_/i", "", $skipped_market['flagged_market'])?> (Consider ADDING PAIRINGS in: "Asset Tracking => Currency Support => Additional Pairings Search" [that are in the market id])</b></u></i><br />
+                    <?php
+                    }
+                    // Already added
+                    elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'already_added_') ) {
+                    ?>
+                    <i><u><b>Already Added: (exists already in current config)</b></u></i><br />
+                    <?php
+                    }
+                    // Pairing not supported
+                    elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'pairing_not_supported_') ) {
+                    ?>
+                    <i><u><b>Pairing Not Supported: (ADD BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET, TO ENABLE SUPPORT [DETERMINED BY MARKET ID])</b></u></i><br />
+                    <?php
+                    }
+                    // Other flag
+                    elseif ( $skipped_market['flagged_market'] ) {
+                    ?>
+                    <i><u><b>Flagged Market: <?=$skipped_market['flagged_market']?></b></u></i><br />
+                    <?php
+                    }
+                    ?>
+                    Exchange: <?=$skipped_market['exchange']?><br />
+                    Name: <?=$skipped_market['name']?><br />
+                    Asset: <?=$skipped_market['asset']?><br />
+                    Pairing: <?=$skipped_market['pairing']?><br />
+                    Market ID: <?=$skipped_market['id']?>
+                    
+                    </p>
+                    
                <?php
                }
-               // Already added
-               elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'already_added_') ) {
                ?>
-               <i><u><b>Already Added: (exists already in current config)</b></u></i><br />
-               <?php
-               }
-               // Pairing not supported
-               elseif ( isset($skipped_market['flagged_market']) && stristr($skipped_market['flagged_market'], 'pairing_not_supported_') ) {
-               ?>
-               <i><u><b>Pairing Not Supported: (ADD BTC / <?=strtoupper( preg_replace("/pairing_not_supported_/i", "", $skipped_market['flagged_market']) )?> MARKET, TO ENABLE SUPPORT [DETERMINED BY MARKET ID])</b></u></i><br />
-               <?php
-               }
-               // Other flag
-               elseif ( $skipped_market['flagged_market'] ) {
-               ?>
-               <i><u><b>Flagged Market: <?=$skipped_market['flagged_market']?></b></u></i><br />
-               <?php
-               }
-               ?>
-               Exchange: <?=$skipped_market['exchange']?><br />
-               Name: <?=$skipped_market['name']?><br />
-               Asset: <?=$skipped_market['asset']?><br />
-               Pairing: <?=$skipped_market['pairing']?><br />
-               Market ID: <?=$skipped_market['id']?>
-               
-               </p>
-               
-          <?php
-          }
-          ?>
+          
+          </div><br clear='all' />
      
-     </div><br clear='all' /><br clear='all' />
+     </div><br clear='all' />
      
      <?php
      }
