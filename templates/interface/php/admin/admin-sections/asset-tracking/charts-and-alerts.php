@@ -381,7 +381,7 @@ $ct['admin_render_settings']['tracked_markets']['is_notes'] = 'Add price charts 
 ticker||exchange||trade_pair||alert<br />
 ticker-2||exchange2||trade_pair2||chart<br />
 ticker-3||exchange3||trade_pair3||both<br />
-ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker[-number]) SETS CHART *FILENAMES*, KEEP THIS THE SAME TO *RESTORE OLD CHART DATA* PROPERLY!';
+ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker[-number]) SETS CHART *FILENAMES*, KEEP THIS THE SAME TO *RESTORE OLD CHART DATA* PROPERLY!<br /><span class="red">The EXCHANGE value MUST be the "key value" assigned to that exchange.</span> <img class="tooltip_style_control" id="exchange_keys_info" src="templates/interface/media/images/info-red.png" alt="" width="30" style="position: relative; left: -5px;" />';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
