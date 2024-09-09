@@ -194,7 +194,7 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking up dual boot / bitlocker setups a ton the past few months (lol)
+Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking up dual boot / bitlocker setups a ton the past few months (lol) 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
