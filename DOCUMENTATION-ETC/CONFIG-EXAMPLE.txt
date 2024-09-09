@@ -844,7 +844,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					// MANA
 					'mana-2||binance||btc||both',
 					'mana-3||kucoin||btc||none',
-					'mana-4||ethfinex||btc||none',
+					'mana-4||ethfinex||usd||none',
 					'mana-5||binance||eth||none',
 					
 					
