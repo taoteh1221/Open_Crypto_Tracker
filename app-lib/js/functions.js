@@ -2541,7 +2541,7 @@ $(elm_id).html("<div style='margin: " + loading_height + "em; line-height: " + (
                   $(elm_id).html(data); // Load response into the passed element id
           
      
-                       // Resets / inits after 0.75 seconds (to give rendering time to finish)
+                       // Resets / inits after 1.25 seconds (to give rendering time to finish)
                        setTimeout(function() {
                             
                        // Highlightjs
@@ -2568,7 +2568,7 @@ $(elm_id).html("<div style='margin: " + loading_height + "em; line-height: " + (
                             
                             }
                              
-                       }, 750);
+                       }, 1250);
                   
                   },
                   

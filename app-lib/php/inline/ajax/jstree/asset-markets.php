@@ -30,7 +30,7 @@ $pair_count = 1;
      {
           
 	 "text" : "<?=$pairing_key?>",
-	 "state" : { "opened" : true, "disabled" : <?=( in_array(strtolower($asset_key), $restricted_assets) ? 'true' : 'false' )?> },
+	 "state" : { "opened" : true, "disabled" : <?=( in_array(strtolower($asset_key), $restricted_assets) || in_array(strtolower($pairing_key), $restricted_assets) ? 'true' : 'false' )?> },
                	 
                	 "children" : [
 	 
@@ -41,7 +41,7 @@ $pair_count = 1;
                               				{
                               			      
                               			      "text" : "<?=$exchange_key?>",
-                              				 "state" : { "selected" : false, "disabled" : <?=( in_array(strtolower($asset_key), $restricted_assets) && $exchange_count == 1 ? 'true' : 'false' )?> },
+                              				 "state" : { "selected" : false, "disabled" : <?=( in_array(strtolower($asset_key), $restricted_assets) && $exchange_count == 1 || in_array(strtolower($pairing_key), $restricted_assets) && $exchange_count == 1 ? 'true' : 'false' )?> },
                               				 "icon" : "jstree-file",
                               				 "a_attr": { "title" : "Market ID: <?=$market_id?>" }
                               				 

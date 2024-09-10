@@ -53,7 +53,7 @@ var $array1 = array();
 	$data = json_decode($response, true);
 		   
 		   
-		if ( isset($data['final_balance']) ) {
+		if ( isset($data['final_balance']) && is_numeric($data['final_balance']) ) {
 		return $ct['var']->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
 		}
 		elseif ( !isset($data['address']) ) {
@@ -91,8 +91,8 @@ var $array1 = array();
 	$data = json_decode($response, true);
 		   
 		   
-		if ( isset($data['result']) ) {
-		return $ct['var']->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
+		if ( isset($data['result']) && is_numeric($data['result']) ) {
+		return $ct['var']->num_to_str($data['result'] / 1000000000000000000); // Convert wei to ETH
 		}
 		elseif ( !isset($data['message']) ) {
 			
@@ -128,10 +128,10 @@ var $array1 = array();
 		if ( isset($data['value']) ) {
 		    
 		    
-		    if ( $spl_token == false ) {
+		    if ( $spl_token == false && is_numeric($data['value']) ) {
 		    return $ct['var']->num_to_str( $data['value'] / 1000000000 ); // Convert lamports to SOL
 		    }
-		    else {
+		    elseif ( isset($data['value']['amount']) && is_numeric($data['value']['amount']) ) {
 		    $divide_by = str_pad(1, (1 + $data['value']['decimals']), "0");
 		    return $ct['var']->num_to_str( $data['value']['amount'] / $divide_by ); // Convert to spl token's unit value
 		    }

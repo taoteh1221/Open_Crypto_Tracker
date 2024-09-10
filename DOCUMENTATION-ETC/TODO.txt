@@ -34,7 +34,11 @@ GENERAL REMINDERS
 ----------------------------------------------------------------------
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!                                                                                    
+!!!! 
+===> Keep an eye out for EFFECTS ON any 3rd party libraries using the 'unload' eventListener,
+===> as it's being FULLY DEPRECIATED / DISABLED in chrome by the end of 2024:
+===> https://developer.chrome.com/docs/web-platform/deprecating-unload                                                                                   
+!!!!
 ===> WHEN DEBUGGING PHP, LEAVE "$ct['dev']['debug_php_errors']" IN "developer-config.php" SET
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
 !!!!
@@ -50,9 +54,6 @@ GENERAL REMINDERS
 !!!!
 ===> config.php (and plug-conf.php for plugins) MUST only contain STATIC VALUES,
 ===> as all configs are saved to / run from the cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
-!!!!
-===> DO *NOT* UPGRADE ZingCart, as it can be BUGGY occasionally for auto-resizing on page showing,
-===> AND we FORCE the BRANDING LINK to show EVEN IN A LOCALHOST environment (with custom tweaks)
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
 ===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
@@ -194,13 +195,19 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking up dual boot / bitlocker setups a ton the past few months (lol)
+Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking up dual boot / bitlocker setups a ton the past few months (lol) 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Do a bitcoin opentimestamp of the v6.00.39 release.
+
+
+Add any other 'required api key' notices, near the top of the external data function. This is a VERY RELIABLE PLACE to have ALL of the checks, as we ALWAYS use the external data function to get API data.
+
+
+Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
 
 
 Add bitcoin as a 'primary currency' option (like we can do for eth / sol).

@@ -2766,6 +2766,33 @@ var $ct_array = array();
      
   $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($api_endpoint);
   
+  
+    if ( $endpoint_tld_or_ip == 'alphavantage.co' && trim($ct['conf']['ext_apis']['alphavantage_api_key']) == '' ) {
+    
+    $ct['gen']->log(
+          		    'notify_error',
+          		    '"alphavantage_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
+          		    false,
+          		    'alphavantage_api_key'
+          		    );
+    
+    return false;
+    
+    }
+    elseif ( $endpoint_tld_or_ip == 'etherscan.io' && trim($ct['conf']['ext_apis']['etherscan_api_key']) == '' ) {
+    
+    $ct['gen']->log(
+          		    'notify_error',
+          		    '"etherscan_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
+          		    false,
+          		    'etherscan_api_key'
+          		    );
+    
+    return false;
+    
+    }
+
+  
   // IPV6 friendly filename (no illegal filename characters)
   $safe_name = $ct['gen']->safe_name($endpoint_tld_or_ip);
   

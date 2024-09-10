@@ -205,8 +205,9 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 <?php
 if ( !stristr($search_desc, '/') ) {
+$ui_example = strtolower( trim($search_desc) );
 ?>
-FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEARCH PARAMETERS.<br /><br />
+FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEARCH PARAMETERS (example: <?=htmlspecialchars($ui_example, ENT_QUOTES)?>/<?=( stristr($search_desc, 'btc') ? 'usd' : 'btc' )?>).<br /><br />
 <?php
 }
 ?>

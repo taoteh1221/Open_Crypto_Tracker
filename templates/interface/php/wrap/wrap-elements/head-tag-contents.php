@@ -198,23 +198,6 @@
      
 	<?php
 	}
-
-
-     // Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
-	
-	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
-	$preloaded_files = $ct['gen']->list_files($preloaded_files_dir);
-	
-	$loop = 0;
-	foreach ( $preloaded_files as $preload_file ) {
-	?>
-	
-	var loader_image_<?=$loop?> = new Image();
-	loader_image_<?=$loop?>.src = '<?=$preloaded_files_dir?>/<?=$preload_file?>';
-	
-	<?php
-	$loop = $loop + 1;
-	}
 	
 	
 	foreach ( $ct['dev']['limited_apis'] as $api ) {
@@ -280,7 +263,25 @@
 	
 	
 	<?php
-	// If a 2FA feild needs to be highlighted (due to invalid input)
+
+     // Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
+	
+	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
+	$preloaded_files = $ct['gen']->list_files($preloaded_files_dir);
+	
+	$loop = 0;
+	foreach ( $preloaded_files as $preload_file ) {
+	?>
+	
+	var loader_image_<?=$loop?> = new Image();
+	loader_image_<?=$loop?>.src = '<?=$preloaded_files_dir?>/<?=$preload_file?>';
+	
+	<?php
+	$loop = $loop + 1;
+	}
+	
+
+	// If a 2FA field needs to be highlighted (due to invalid input)
 	if ( $ct['check_2fa_id'] != null ) {
 	?>
 	

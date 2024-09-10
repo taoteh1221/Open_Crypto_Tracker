@@ -25,8 +25,12 @@ $js_content = '';
 
 // Loop the js Array
 foreach ($js as $js_file) {
-    // Load the content of the js file 
-    $js_content .= "\n\n\n\n" . '/******* COMBINED JAVASCRIPT FILE: '.$js_file.' *******/ ' . "\n\n\n\n" . file_get_contents($js_file);
+     
+$file_contents = file_get_contents($js_file);
+
+// Load the content of the js file 
+$js_content .= "\n\n\n\n" . '/******* COMBINED JAVASCRIPT FILE: '.$js_file.' *******/ ' . "\n\n\n\n" . $file_contents;
+
 }
 
 // print the js content

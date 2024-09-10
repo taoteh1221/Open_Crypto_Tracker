@@ -76,14 +76,6 @@ var $exchange_apis = array(
                                                   ),
 
 
-                           'ethfinex' => array(
-                                                   'markets_endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
-                                                   'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'all_markets_support' => '0', // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
-                                                  ),
-
-
                            'bitflyer' => array(
                                                    'markets_endpoint' => 'https://api.bitflyer.com/v1/getticker?product_code=[MARKET]',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
@@ -542,10 +534,6 @@ var $exchange_apis = array(
    function etherscan($block_info) {
     
    global $ct;
-   
-      if ( trim($ct['conf']['ext_apis']['etherscan_api_key']) == '' ) {
-      return false;
-      }
    
    $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
      
@@ -2666,21 +2654,6 @@ var $exchange_apis = array(
       
       
       elseif ( $sel_exchange == 'alphavantage_stock' ) {
-   
-   
-          if ( trim($ct['conf']['ext_apis']['alphavantage_api_key']) == null ) {
-          	
-          $ct['gen']->log(
-          		    'notify_error',
-          		    '"alphavantage_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
-          		    false,
-          		    'alphavantage_api_key'
-          		    );
-          
-          return false;
-          
-          }
-          
 	      
 	 $result = array(
      	                         'alphavantage_asset' => preg_replace("/\.(.*)/i", "", $data["01. symbol"]),
@@ -2761,7 +2734,7 @@ var $exchange_apis = array(
     
     
     
-      elseif ( $sel_exchange == 'bitfinex' || $sel_exchange == 'ethfinex' ) {
+      elseif ( $sel_exchange == 'bitfinex' ) {
       
       $finex_price = $data[( sizeof($data) - 4 )];
       

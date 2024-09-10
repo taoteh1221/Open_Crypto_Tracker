@@ -14,11 +14,11 @@
      	
      	    if ( this.value == "BTC" || this.value == "ETH" || this.value == "SOL" ) {
      	    $("#asset_markets_alerts").show(250, "linear"); // 0.25 seconds
-     	    $("#asset_markets_alerts").html("BTC / ETH / SOL assets require AT LEAST ONE EXCHANGE PER-PAIRING (for currency conversions / other PRIMARY features), SO THE FIRST EXCHANGE INSIDE EACH PAIRING CANNOT BE REMOVED.");
+     	    $("#asset_markets_alerts").html("BTC / ETH / SOL assets require AT LEAST ONE EXCHANGE PER-PAIRING (for currency conversions / other app features), SO THE FIRST EXCHANGE INSIDE EACH PAIRING CANNOT BE REMOVED.");
      	    }
      	    else {
-     	    $("#asset_markets_alerts").hide(250, "linear"); // 0.25 seconds
-     	    $("#asset_markets_alerts").html("");
+     	    $("#asset_markets_alerts").show(250, "linear"); // 0.25 seconds
+     	    $("#asset_markets_alerts").html("BTC / ETH / SOL pairings are required (for currency conversions / other app features), SO THEY CANNOT BE REMOVED, AND THE FIRST EXCHANGE INSIDE THESE PAIRINGS ALSO CANNOT BE REMOVED.");
      	    }
      	
      	}
@@ -88,7 +88,7 @@
 </p>
 
 
-<div id="asset_markets_alerts" class='red red_dotted input_margins' style='display: none; font-weight: bold;'></div>
+<div id="asset_markets_alerts" class='red red_dotted input_margins' style='display: none; font-weight: bold;'>BTC / ETH / SOL pairings are required (for currency conversions / other app features), SO THEY CANNOT BE REMOVED, AND THE FIRST EXCHANGE INSIDE THESE PAIRINGS ALSO CANNOT BE REMOVED.</div>
 
 
 <div class='ct_jstree' id="asset_markets"></div>
