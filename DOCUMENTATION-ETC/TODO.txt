@@ -204,6 +204,12 @@ Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking
 Do a bitcoin opentimestamp of the v6.00.39 release.
 
 
+Add any other 'required api key' notices, near the top of the external data function. This is a VERY RELIABLE PLACE to have ALL of the checks, as we ALWAYS use the external data function to get API data.
+
+
+Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
+
+
 Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
 
 

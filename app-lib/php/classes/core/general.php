@@ -2705,26 +2705,17 @@ var $ct_array = array();
         // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
         if (
         
-        // QR Code Generator (GET / POST, for crypto addresses)
-        $ext_key == 'qr_code_crypto_address'
+        // Security tokens, WITH 'token' IN NAME
+        stristr($ext_key, 'token')
         
-        // General security token (GET ONLY, for user area [NOT logged into admin])
-        || strtolower($method) == 'get' && $ext_key == 'token'
+        // Security tokens, WITH 'nonce' IN NAME
+        || stristr($ext_key, 'nonce')
         
-        // Admin hashed nonce security tokens (GET ONLY...for EXPIRED logout link UX, WE *CAN SAFELY* SKIP $ct['gen']->admin_logged_in() REQUIREMENT)
-        || strtolower($method) == 'get' && $ext_key == 'admin_nonce'
+        // Admin 2FA setup security token
+        || $ext_key == '2fa_setup'
         
-        // Admin 2FA setup security token (GET ONLY)
-        || $ct['gen']->admin_logged_in() && strtolower($method) == 'get' && $ext_key == '2fa_setup'
-        
-        // Admin iframe security tokens (GET ONLY)
-        || $ct['gen']->admin_logged_in() && strtolower($method) == 'get' && $ext_key == 'iframe_nonce'
-        
-        // Admin hashed nonce security tokens (POST ONLY)
-        || $ct['gen']->admin_logged_in() && strtolower($method) == 'post' && $ext_key == 'admin_nonce'
-        
-        // Admin medium security level's hashed nonce security token (POST ONLY)
-        || $ct['gen']->admin_logged_in() && strtolower($method) == 'post' && $ext_key == 'medium_security_nonce'
+        // QR Code Generator (for crypto addresses)
+        || $ext_key == 'qr_code_crypto_address'
 
         ) {
         return $data;

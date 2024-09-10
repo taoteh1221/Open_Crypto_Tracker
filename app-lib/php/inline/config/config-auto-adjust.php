@@ -77,11 +77,7 @@ $ct['conf']['proxy']['anti_proxy_servers'] = array_map("strtolower", $ct['conf']
 
 $ct['conf']['news']['strict_news_feed_servers'] = array_map("strtolower", $ct['conf']['news']['strict_news_feed_servers']);
 
-$ct['conf']['currency']['conversion_currency_symbols'] = array_map("strtolower", $ct['conf']['currency']['conversion_currency_symbols']);
-
 $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array_map("strtolower", $ct['conf']['currency']['bitcoin_preferred_currency_markets']);
-
-$ct['conf']['currency']['crypto_pair'] = array_map("strtolower", $ct['conf']['currency']['crypto_pair']);
 
 $ct['conf']['currency']['crypto_pair_preferred_markets'] = array_map("strtolower", $ct['conf']['currency']['crypto_pair_preferred_markets']);
 
@@ -205,7 +201,7 @@ if ( is_array($ct['conf']['currency']['conversion_currency_symbols']) ) {
      $conversion_array = explode('=', $val);
      $conversion_array = array_map("trim", $conversion_array);
      // Auto-formatting
-     $ct['opt_conf']['conversion_currency_symbols'][ strtolower($conversion_array[0]) ] = strtoupper($conversion_array[1]);
+     $ct['opt_conf']['conversion_currency_symbols'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
      }
      
 // Alphabetically sort
@@ -270,7 +266,7 @@ if ( is_array($ct['conf']['currency']['crypto_pair']) ) {
      $conversion_array = explode('=', $val);
      $conversion_array = array_map("trim", $conversion_array);
      // Auto-formatting
-     $ct['opt_conf']['crypto_pair'][ strtolower($conversion_array[0]) ] = strtoupper($conversion_array[1]);
+     $ct['opt_conf']['crypto_pair'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
      }
      
 // Alphabetically sort
