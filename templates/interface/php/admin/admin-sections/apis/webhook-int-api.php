@@ -504,7 +504,6 @@ var_dump($api_data_array);
         "coingecko_usd",
         "coinspot",
         "crypto.com",
-        "ethfinex",
         "gateio",
         "gemini",
         "hitbtc",

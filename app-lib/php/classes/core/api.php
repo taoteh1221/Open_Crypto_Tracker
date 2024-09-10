@@ -76,14 +76,6 @@ var $exchange_apis = array(
                                                   ),
 
 
-                           'ethfinex' => array(
-                                                   'markets_endpoint' => 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL',
-                                                   'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'all_markets_support' => '0', // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
-                                                  ),
-
-
                            'bitflyer' => array(
                                                    'markets_endpoint' => 'https://api.bitflyer.com/v1/getticker?product_code=[MARKET]',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
@@ -2761,7 +2753,7 @@ var $exchange_apis = array(
     
     
     
-      elseif ( $sel_exchange == 'bitfinex' || $sel_exchange == 'ethfinex' ) {
+      elseif ( $sel_exchange == 'bitfinex' ) {
       
       $finex_price = $data[( sizeof($data) - 4 )];
       

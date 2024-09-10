@@ -1503,11 +1503,7 @@ var $ct_array = array();
                    elseif ( $exchange_key == 'bybit' && substr($cleaned_market_id, 0, 4) == '1000' ) {
                    $cleaned_market_id = substr($cleaned_market_id, 4);
                    }
-                   elseif (
-                   $exchange_key == 'bitfinex' && substr($cleaned_market_id, 0, 1) == 't'
-                   || 
-                   $exchange_key == 'ethfinex' && substr($cleaned_market_id, 0, 1) == 't'
-                   ) {
+                   elseif ( $exchange_key == 'bitfinex' && substr($cleaned_market_id, 0, 1) == 't' ) {
                    $cleaned_market_id = substr($cleaned_market_id, 1);
                    }
                    

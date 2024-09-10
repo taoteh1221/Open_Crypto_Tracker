@@ -26,8 +26,20 @@ $js_content = '';
 
 // Loop the js Array
 foreach ($js as $js_file) {
-    // Load the content of the js file 
-    $js_content .= "\n\n\n\n" . '/******* COMBINED JAVASCRIPT FILE: '.$js_file.' *******/ ' . "\n\n\n\n" . file_get_contents($js_file);
+     
+$file_contents = file_get_contents($js_file);
+
+     // Force zingchart BRANDING LINK to ALWAYS SHOW, even on localhost / 127.0.0.1 (local user's machine)
+     // (DESKTOP EDITIONS RUN AS LOCALHOST, BUT WE WANT TO DISPLAY THEIR BRANDING FOR LICENSING REQUIREMENTS)
+     if ( $js_file == 'zingchart.min.js' ) {
+     $file_contents = preg_replace("/localhost/i", "sameforlocalhost", $file_contents);
+     $file_contents = preg_replace("/127\.0\.0\.1/i", "0.0.0.0", $file_contents);
+     }
+
+
+// Load the content of the js file 
+$js_content .= "\n\n\n\n" . '/******* COMBINED JAVASCRIPT FILE: '.$js_file.' *******/ ' . "\n\n\n\n" . $file_contents;
+
 }
 
 // print the js content

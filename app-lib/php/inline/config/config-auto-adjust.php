@@ -500,7 +500,8 @@ foreach ( $ct['conf']['assets']['BTC']['pair'] as $btc_currency_pair => $unused 
      && !isset($ct['opt_conf']['conversion_currency_symbols'][$btc_currency_pair])
      ) {
      // Just set the ticker as the symbol, since we really should include this automatically for better (more) currency support
-     $ct['opt_conf']['conversion_currency_symbols'][$btc_currency_pair] = strtoupper($btc_currency_pair);
+     // (ADD A SPACE AT END, SO IT DOESN'T LOOK WEIRD)
+     $ct['opt_conf']['conversion_currency_symbols'][$btc_currency_pair] = strtoupper($btc_currency_pair) . ' ';
      }
 
 }

@@ -23,8 +23,12 @@ $css_content = '';
 
 // Loop the css Array
 foreach ($css as $css_file) {
-    // Load the content of the css file 
-    $css_content .= "\n\n\n\n" . '/******* COMBINED CSS FILE: '.$css_file.' *******/ ' . "\n\n\n\n" . file_get_contents($css_file);
+     
+$file_contents = file_get_contents($css_file);
+
+// Load the content of the css file 
+$css_content .= "\n\n\n\n" . '/******* COMBINED CSS FILE: '.$css_file.' *******/ ' . "\n\n\n\n" . $file_contents;
+
 }
 
 // print the css content
