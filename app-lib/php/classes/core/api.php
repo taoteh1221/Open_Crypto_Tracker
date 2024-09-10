@@ -535,10 +535,6 @@ var $exchange_apis = array(
     
    global $ct;
    
-      if ( trim($ct['conf']['ext_apis']['etherscan_api_key']) == '' ) {
-      return false;
-      }
-   
    $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
      
    $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
@@ -2658,21 +2654,6 @@ var $exchange_apis = array(
       
       
       elseif ( $sel_exchange == 'alphavantage_stock' ) {
-   
-   
-          if ( trim($ct['conf']['ext_apis']['alphavantage_api_key']) == null ) {
-          	
-          $ct['gen']->log(
-          		    'notify_error',
-          		    '"alphavantage_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
-          		    false,
-          		    'alphavantage_api_key'
-          		    );
-          
-          return false;
-          
-          }
-          
 	      
 	 $result = array(
      	                         'alphavantage_asset' => preg_replace("/\.(.*)/i", "", $data["01. symbol"]),

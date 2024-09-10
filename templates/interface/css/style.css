@@ -157,13 +157,6 @@ input[type=range]::-moz-range-thumb {
 }
 
 
-fieldset {
-    width: auto;
-    padding: 25px; /* To give a bit of padding on the left and right */
-  border-radius: 8px;
-}
-
-
 legend {
     float: none !important;
     width:auto;
@@ -726,6 +719,11 @@ position: relative;
 width: 100%;
 padding-left: 30px;
 padding-right: 9px;
+}
+
+
+#admin_wrapper .full_width_wrapper {
+margin-left: 0.45em !important;
 }
 
 
@@ -1606,5 +1604,16 @@ border-radius: 0px !important;
 display: none;
 }
 
+
+/* ---------------------------------------------------
+    *fit-content* CAN FLIP OUT COLOR-CODING IN EDITORS
+----------------------------------------------------- */
+
+
+fieldset {
+    min-width: fit-content !important;
+    padding: 25px; /* To give a bit of padding on the left and right */
+  border-radius: 8px;
+}
 
 
