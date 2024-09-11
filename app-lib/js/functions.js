@@ -2875,20 +2875,20 @@ function row_alert(tr_id, alert_type, color, theme) {
 				
 				if ( color == 'yellow' ) {
 				
-				$('.tablesorter tr#' + tr_id).css("background", alert_color_loss);
-				$('.tablesorter tr#' + tr_id + ' td').css("background", alert_color_loss);
-				$('.tablesorter tr#' + tr_id).css("background-color", alert_color_loss);
-				$('.tablesorter tr#' + tr_id + ' td').css("background-color", alert_color_loss);
+				$('#coins_table tr#' + tr_id).css("background", alert_color_loss);
+				$('#coins_table tr#' + tr_id + ' td').css("background", alert_color_loss);
+				$('#coins_table tr#' + tr_id).css("background-color", alert_color_loss);
+				$('#coins_table tr#' + tr_id + ' td').css("background-color", alert_color_loss);
 				
 				}
 				
 				
 				if ( color == 'green' ) {
 				
-				$('.tablesorter tr#' + tr_id).css("background", alert_color_gain);
-				$('.tablesorter tr#' + tr_id + ' td').css("background", alert_color_gain);
-				$('.tablesorter tr#' + tr_id).css("background-color", alert_color_gain);
-				$('.tablesorter tr#' + tr_id + ' td').css("background-color", alert_color_gain);
+				$('#coins_table tr#' + tr_id).css("background", alert_color_gain);
+				$('#coins_table tr#' + tr_id + ' td').css("background", alert_color_gain);
+				$('#coins_table tr#' + tr_id).css("background-color", alert_color_gain);
+				$('#coins_table tr#' + tr_id + ' td').css("background-color", alert_color_gain);
 				
 				}
 					

@@ -9,6 +9,8 @@
  
 // Consolidate function calls for runtime speed improvement
  $mcap_data = $this->mcap_data($asset_symb);
+
+ //$ct['gen']->array_debugging($mcap_data); // DEBUGGING ONLY
  
  ?>
  
@@ -245,7 +247,7 @@ echo '?';
         	
         $percent_alert_filter = $ct['sel_opt']['alert_percent'][2]; // gain / loss / both
     
-        $percent_change_alert = $ct['sel_opt']['alert_percent'][1];
+        $percent_change_alert = $ct['var']->num_to_str($ct['sel_opt']['alert_percent'][1]);
     
         $percent_alert_type = $ct['sel_opt']['alert_percent'][4];
     
@@ -259,6 +261,9 @@ echo '?';
             elseif ( $ct['sel_opt']['alert_percent'][3] == '7day' ) {
             $percent_change = $mcap_data['percent_change_7d'];
             }
+            
+            
+            $percent_change = $ct['var']->num_to_str($percent_change);
           
          
             if ( $percent_alert_filter != 'gain' && stristr($percent_change, '-') != false && abs($percent_change) >= abs($percent_change_alert) && is_numeric($percent_change) ) {
@@ -266,6 +271,7 @@ echo '?';
          
             setTimeout(function() {
                row_alert("<?=strtolower($asset_symb)?>_row", "<?=$percent_alert_type?>", "yellow", "<?=$ct['sel_opt']['theme_selected']?>");
+               console.log('<?=$asset_symb?> set to: yellow');
             }, 1000);
             
             <?php
@@ -275,6 +281,7 @@ echo '?';
             
             setTimeout(function() {
                row_alert("<?=strtolower($asset_symb)?>_row", "<?=$percent_alert_type?>", "green", "<?=$ct['sel_opt']['theme_selected']?>");
+               console.log('<?=$asset_symb?> set to: green');
             }, 1000);
             
             <?php

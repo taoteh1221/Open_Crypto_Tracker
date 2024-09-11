@@ -6803,7 +6803,7 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Upgraded Idex exchange API to v4
 
--Upgraded ZingChart to v2.9.15
+-Upgraded ZingChart to v2.9.14
 
 -Upgraded Kraken exchange API
 

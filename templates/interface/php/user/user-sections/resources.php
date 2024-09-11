@@ -424,6 +424,8 @@
 	        
 	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a> <span class='yellow'>(hands down, the BEST source for crypto news!)</span></li>
 	        
+	        <li class='links_list'><a href='https://www.defieducationfund.org/' target='_blank'>DeFi Education Fund</a> <span class='yellow'>(non-profit cryptocurrency research and advocacy center)</span></li>
+	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='http://OpenCryptoTracker.org/' target='_blank'>OpenCryptoTracker.org</a> <span class='yellow'>(Open Crypto Tracker website shortcut)</span></li>
