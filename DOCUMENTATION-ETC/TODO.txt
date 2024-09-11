@@ -329,9 +329,6 @@ Send out an OPTIONAL comms alert when we change the admin security mode, OR when
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 
 
-DOUBLE-CHECK ALL security tokens are skipped by the input sanitizer, since they can cause false positives, and they are already HEAVILY scanned in other ways.
-
-
 On windows desktop edition, when registering an admin account for the first time, if you click on certain links in the user area menu, it just hangs with a loading message, and never redirects back to the registration page like it should.
 
 
