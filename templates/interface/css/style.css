@@ -722,11 +722,6 @@ padding-right: 9px;
 }
 
 
-#admin_wrapper .full_width_wrapper {
-margin-left: 0.45em !important;
-}
-
-
 .countdown_notice {
 display: inline;
 float: right;
@@ -816,16 +811,7 @@ min-width: 1150px !important;
 }
 
 
-.admin_login_alerts {
-display: inline-block;
-font-weight: bold;
-padding: 0.4em;
-margin: 0.4em;
-font-size: 1.5em; 
-}
-
-
-.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
+.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error {
 border-radius: 0.7em !important;
 }
 
@@ -846,30 +832,6 @@ width: 700px;
 white-space: nowrap;
 margin-top: 2.5em;
 margin-bottom: 2.5em;
-}
-
-.pretty_text_fields .admin_range_fields {
-     position: relative;
-white-space: nowrap;
-margin-top: 3.75em;
-margin-bottom: 3.75em;
-}
-
-.admin_range_fields {
-position: relative;
-min-width: 100%;
-max-width: 100%;
-}
-
-.admin_range_fields .setting_title {
-position: absolute;
-top: -1em;
-font-weight: bold;
-}
-
-
-.subarray_item .admin_range_fields {
-margin-top: unset;
 }
 
 
@@ -1002,12 +964,6 @@ i.gg-eye, i.gg-eye-alt {
 }
 
 
-.password-container{
-  width: fit-content;
-  position: relative;
-  display: block;
-  text-align: left;
-}
 .password-container input[type="password"],
 .password-container input[type="text"]{
 
@@ -1020,7 +976,7 @@ position: relative;
 }
 
 
-.admin_settings_notes {
+.settings_notes {
      display: inline-block;
    box-sizing: border-box;
    max-width: 600px !important;
@@ -1616,4 +1572,12 @@ fieldset {
   border-radius: 8px;
 }
 
+
+
+.password-container{
+  width: fit-content;
+  position: relative;
+  display: block;
+  text-align: left;
+}
 

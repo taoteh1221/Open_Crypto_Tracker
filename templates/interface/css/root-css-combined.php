@@ -12,11 +12,20 @@ $css = array(
     'modaal.css',
     'jquery.mCustomScrollbar.min.css',
     'style.css',
-    'admin.css',
-    ''.$_GET['theme'].'.style.css',
-    ''.$_GET['theme'].'.admin.css',
+    $_GET['theme'].'.style.css',
     'highlightjs.min.css',
 );
+
+
+// Only include ADMIN CSS, if flagged to
+if ( $_GET['admin'] == 'yes' ) {
+
+$css[] = 'admin.css';
+
+$css[] = $_GET['theme'].'.admin.css';
+
+}
+
 
 // Prevent a notice
 $css_content = '';

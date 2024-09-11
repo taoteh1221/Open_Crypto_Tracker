@@ -22,7 +22,7 @@
 	
 	<link rel="stylesheet" href="templates/interface/css/tablesorter/jquery.tablesorter.pager.css" type="text/css" />
 	
-	<link rel="stylesheet" href="templates/interface/css/root-css-combined.php?theme=<?=$ct['sel_opt']['theme_selected']?>" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/css/root-css-combined.php?theme=<?=$ct['sel_opt']['theme_selected']?>&admin=<?=( $is_admin ? 'yes' : 'no' )?>" type="text/css" />
 	
 	<!-- responsive-menus NEEDS TO LOAD SEPARATELY! -->
 	

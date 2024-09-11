@@ -134,7 +134,7 @@ $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
      
      // IF secured with the general CSRF security token
      if ( csrf_sec_token ) {
-     url_params = url_params + "&token=" + Base64.decode(gen_csrf_sec_token);
+     url_params = url_params + "&gen_nonce=" + Base64.decode(gen_csrf_sec_token);
      }
      
      
@@ -2517,7 +2517,7 @@ $(elm_id).html("<div style='margin: " + loading_height + "em; line-height: " + (
      
      // IF secured with the general CSRF security token
      if ( csrf_sec_token ) {
-     url_params = url_params + "&token=" + Base64.decode(gen_csrf_sec_token);
+     url_params = url_params + "&gen_nonce=" + Base64.decode(gen_csrf_sec_token);
      }
 
      
@@ -2624,7 +2624,7 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
     	  
     	  	
    // Get log data
-	$.getJSON("ajax.php?token=" + Base64.decode(logs_csrf_sec_token) + "&type=log&logfile=" + log_file + '&lines=' + set_lines, function( data ) {
+	$.getJSON("ajax.php?logs_nonce=" + Base64.decode(logs_csrf_sec_token) + "&type=log&logfile=" + log_file + '&lines=' + set_lines, function( data ) {
       
    	data_length = data.length;
    	

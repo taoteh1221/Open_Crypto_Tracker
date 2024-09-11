@@ -329,13 +329,13 @@
 		
 		<button style='margin-left: 40px;' class='force_button_style' onclick='
 		// HELP THWART CSRF ATTACKS VIA POST METHOD (IN COMBINATION WITH THE TOKEN HASH), DATA IS SENSITIVE!
-		set_target_action("coin_amnts", "_blank", "download.php?token=<?=$ct['gen']->nonce_digest('download')?>&csv_export=1");
+		set_target_action("coin_amnts", "_blank", "download.php?download_nonce=<?=$ct['gen']->nonce_digest('download')?>&csv_export=1");
 		document.coin_amnts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
 		set_target_action("coin_amnts", "_self", "<?=$ct['gen']->start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
 		
 		
-		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?token=<?=$ct['gen']->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
+		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?download_nonce=<?=$ct['gen']->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
 	     
 		<img class='tooltip_style_control' id='spreadsheet_import_export' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 		

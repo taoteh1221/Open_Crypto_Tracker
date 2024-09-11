@@ -399,7 +399,7 @@ var $ct_array = array();
               <?php
               if ( isset($render_params[$passed_key]['is_notes']) ) {
               ?>
-              <i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+              <i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               <?php
               }
               
@@ -512,7 +512,7 @@ var $ct_array = array();
               <?php
               if ( isset($render_params[$passed_key]['is_notes']) ) {
               ?>
-              <i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+              <i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               <?php
               }
               
@@ -618,7 +618,7 @@ var $ct_array = array();
          if ( isset($render_params[$passed_key]['is_notes']) ) {
          ?>
           
-         <p><span class='admin_settings_notes red red_dotted'><?=$render_params[$passed_key]['is_notes']?></span></p>
+         <p><span class='settings_notes red red_dotted'><?=$render_params[$passed_key]['is_notes']?></span></p>
               
          <?php
          }
@@ -694,7 +694,7 @@ var $ct_array = array();
               if ( isset($render_params[$passed_key]['is_notes']) ) {
               ?>
           
-              <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+              <br /><i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               
               <?php
               }
@@ -843,7 +843,7 @@ var $ct_array = array();
               
               if ( isset($render_params[$passed_key]['is_notes']) ) {
               ?>
-              <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+              <br /><i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               <?php
               }
               
@@ -1056,7 +1056,7 @@ var $ct_array = array();
                if ( isset($render_params[$key]['is_notes']) ) {
                ?>
                     
-               <i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$key]['is_notes']?></span>
+               <i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'><?=$render_params[$key]['is_notes']?></span>
                              
                <?php
                }
@@ -1087,7 +1087,7 @@ var $ct_array = array();
                    if ( isset($render_params[$key]['is_notes']) ) {
                ?>
                     
-               <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$key]['is_notes']?></span>
+               <br /><i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'><?=$render_params[$key]['is_notes']?></span>
                              
                <?php
                    }
@@ -1410,7 +1410,7 @@ var $ct_array = array();
                  if ( isset($render_params[$passed_key]['is_notes']) ) {
                  ?>
           
-                 <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+                 <br /><i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               
                  <?php
                  }
@@ -1642,7 +1642,7 @@ var $ct_array = array();
              
              if ( isset($render_params[$passed_key]['is_notes']) ) {
              ?>
-             <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+             <br /><i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
              <?php
              }
               

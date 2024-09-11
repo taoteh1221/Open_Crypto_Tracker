@@ -22,7 +22,7 @@ header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 
 
 // If we are not admin logged in, OR fail the CSRF security token check, exit
-if ( !$ct['gen']->admin_logged_in() || !$ct['gen']->pass_sec_check($_GET['token'], 'general_csrf_security') ) {
+if ( !$ct['gen']->admin_logged_in() || !$ct['gen']->pass_sec_check($_GET['gen_nonce'], 'general_csrf_security') ) {
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();
 $ct['cache']->send_notifications();
