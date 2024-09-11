@@ -214,7 +214,7 @@ FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEAR
 
 WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> <span class='yellow'>(ADJUSTABLE IN: <span class='light_sea_green'>"APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE"</span>, <?=$all_results_count['jupiter_ag']?> results below [including any marked as skipped] are from Jupiter Aggregator)</span>, TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS / LONG SEARCH TIMES ON SLOWER DEVICES. <span class='red'>IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.</span><br /><br />
 
-<span class='red'>JUPITER AGGREGATOR API SERVERS ARE KNOW TO GET OVERLOADED ON OCCASION (AS OF AUGUST 2024). SO IF YOU ARE HAVING ISSUES GETTING RESULTS FROM THEM, CHECK THE ERROR LOGS, AND TRY AGAIN IN <?=$ct['conf']['power']['exchange_search_cache_time']?>+ MINUTES.</span>
+<span class='red'>JUPITER AGGREGATOR API SERVERS ARE KNOWN TO GET OVERLOADED ON OCCASION (AS OF AUGUST 2024). SO IF YOU ARE HAVING ISSUES GETTING RESULTS FROM THEM, CHECK THE ERROR LOGS, AND TRY AGAIN IN <?=$ct['conf']['power']['exchange_search_cache_time']?>+ MINUTES.</span>
 
 </p>
 
