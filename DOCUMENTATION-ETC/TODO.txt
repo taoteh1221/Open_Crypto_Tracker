@@ -195,12 +195,6 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Test LINUX Desktop Edition FIRST, as Windows 11 forced updates have been borking up dual boot / bitlocker setups a ton the past few months (lol) 
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 Do a bitcoin opentimestamp of the v6.00.39 release.
 
 
@@ -234,9 +228,6 @@ Start looking at which exchange APIs have a 'search' API endpoint (for exchanges
 Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
 
 
-Add a new mode for the asset perfomance chart (on the 'more stats' modal page), which is a drop-down menu option, that switches from showing comparisons between assets, over to showing ONLY ASSETS A USER HOLDS, AND INCLUDES A "TOTAL PORTFOLIO VALUE" CHART LINE TOO (showing perecent increase / decrease in TOTAL PORTFOLIO VALUE).
-
-
 Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
 
 
@@ -244,6 +235,12 @@ On the backup / restore admin page, have all the backups (charts / configs) list
 
 
 Add admin settings feature to restore CONFIG backups, AND CHART DATA backups, from the zip archive backups (with admin authentication ONLY).
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add a new mode for the asset perfomance chart (on the 'more stats' modal page), which is a drop-down menu option, that switches from showing comparisons between assets, over to showing ONLY ASSETS A USER HOLDS, AND INCLUDES A "TOTAL PORTFOLIO VALUE" CHART LINE TOO (showing perecent increase / decrease in TOTAL PORTFOLIO VALUE).
 
 
 Add these feature-assets to developer-config.php, AND have it DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
@@ -327,9 +324,6 @@ Send out an OPTIONAL comms alert when we change the admin security mode, OR when
 
 
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
-
-
-DOUBLE-CHECK ALL security tokens are skipped by the input sanitizer, since they can cause false positives, and they are already HEAVILY scanned in other ways.
 
 
 On windows desktop edition, when registering an admin account for the first time, if you click on certain links in the user area menu, it just hangs with a loading message, and never redirects back to the registration page like it should.

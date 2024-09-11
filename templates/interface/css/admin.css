@@ -15,6 +15,41 @@ CLASSES
 ////////////////////////////// */
 
 
+.pretty_text_fields .admin_range_fields {
+     position: relative;
+white-space: nowrap;
+margin-top: 3.75em;
+margin-bottom: 3.75em;
+}
+
+.admin_range_fields {
+position: relative;
+min-width: 100%;
+max-width: 100%;
+}
+
+.admin_range_fields .setting_title {
+position: absolute;
+top: -1em;
+font-weight: bold;
+}
+
+
+.subarray_item .admin_range_fields {
+margin-top: unset;
+}
+
+
+.admin_login_alerts {
+display: inline-block;
+font-weight: bold;
+padding: 0.4em;
+margin: 0.4em;
+font-size: 1.5em; 
+border-radius: 0.7em !important;
+}
+
+
 .admin_iframe {
 overflow: hidden;
 width: 100%; 
@@ -78,6 +113,11 @@ margin: auto;
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#admin_wrapper .full_width_wrapper {
+margin-left: 0.45em !important;
+}
 
 
 #admin_tabs li a {

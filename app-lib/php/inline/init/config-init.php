@@ -195,7 +195,7 @@ $ct['curl_cacert_path'] = false;
 
 
 // Global alert that a ticker search is running
-if ( isset($_POST['add_markets_search']) && $ct['gen']->admin_logged_in() && $ct['gen']->pass_sec_check($_GET['token'], 'general_csrf_security') ) {
+if ( isset($_POST['add_markets_search']) && $ct['gen']->admin_logged_in() && $ct['gen']->pass_sec_check($_GET['gen_nonce'], 'general_csrf_security') ) {
 $ct['ticker_markets_search'] = true;
 }
 
