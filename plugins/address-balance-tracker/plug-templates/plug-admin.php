@@ -69,7 +69,9 @@ foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
       if (
       $pair_key === 'sol' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['jupiter_ag'])
       || $pair_key === 'usd' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal'])
-      && stristr($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal'], 'solana') 
+      && preg_match("/sol\|\|/i", $ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal']) 
+      || $pair_key === 'usd' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal'])
+      && preg_match("/solana\|\|/i", $ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal']) 
       ) { 
       $sol_subtokens[] = strtolower($asset_key);
       }
