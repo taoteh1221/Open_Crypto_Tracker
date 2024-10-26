@@ -386,52 +386,6 @@ var $ct_array = array();
       }
       
    }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function get_url($include_host=false, $section_only=false) {
-        
-        
-      if ( $include_host ) {
-           
-           if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-           $url = "https://";
-           }
-           else {
-           $url = "http://"; 
-           }
-
-      $url .= $_SERVER['HTTP_HOST'];   
-
-      }
-
-
-      if ( !$section_only ) {
-      $url .= $_SERVER['REQUEST_URI'];
-      }
-      elseif ( $_GET['section'] ) {
-      $url .= $_SERVER['SCRIPT_NAME'] . '?section=' . $_GET['section'];
-      }
-      elseif ( $_GET['subsection'] ) {
-      $url .= $_SERVER['SCRIPT_NAME'] . '?parent=' . $_GET['parent'] . '&subsection=' . $_GET['subsection'];
-      }
-      elseif ( $_GET['plugin'] ) {
-      $url .= $_SERVER['SCRIPT_NAME'] . '?plugin=' . $_GET['plugin'];
-      }
-      elseif ( $_GET['type'] ) {
-      $url .= $_SERVER['SCRIPT_NAME'] . '?type=' . $_GET['type'];
-      }
-      else {
-      $url .= $_SERVER['SCRIPT_NAME'];
-      }
-       
-   
-   return $url;
-     
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -660,43 +614,6 @@ var $ct_array = array();
    
    return $files;
      
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function text_email($str) {
-   
-   global $ct;
-   
-   $str = array_map( "trim", explode("||", $str) );
-   
-   $phone_number = $ct['var']->strip_non_alpha($str[0]);
-   
-   $network_name = $str[1];
-   
-   $network_data = $ct['var']->begins_with_in_array($ct['conf']['mobile_network']['text_gateways'], $network_name)['key'];
-   
-      // Set text domain
-      if ( $network_data >= 0 ) {
-           
-      $network_data_array = array_map( "trim", explode("||", $ct['conf']['mobile_network']['text_gateways'][$network_data]) );
-      
-          if ( isset($network_data_array[1]) && $network_data_array[1] != '' && isset($phone_number) && trim($phone_number) != '' ) {
-          return trim($phone_number) . '@' . $network_data_array[1]; // Return formatted texting email address
-          }
-          else {
-          return false;
-          }
-      
-      }
-      else {
-      return false;
-      }
-   
-   
    }
    
    
@@ -971,7 +888,6 @@ var $ct_array = array();
 
    global $ct, $smtp_vars;
    
-   
       // Set connection type based on port number
       if ( $smtp_vars['cfg_port'] == 465 ) {
       $connection_type = 'ssl';
@@ -980,12 +896,8 @@ var $ct_array = array();
       else {
       $connection_type = 'tcp';
       }
-
-      
-      if ( !$this->server_online($smtp_vars['cfg_server'], $smtp_vars['cfg_port'], $connection_type) ) {
-      return false;
-      }
-
+   
+   return $this->server_online($smtp_vars['cfg_server'], $smtp_vars['cfg_port'], $connection_type);
 
    }
    
@@ -1053,6 +965,43 @@ var $ct_array = array();
       
       
    return true; // If we made it this far, we can safely return true
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function text_email($str) {
+   
+   global $ct;
+   
+   $str = array_map( "trim", explode("||", $str) );
+   
+   $phone_number = $ct['var']->strip_non_alpha($str[0]);
+   
+   $network_name = $str[1];
+   
+   $network_data = $ct['var']->begins_with_in_array($ct['conf']['mobile_network']['text_gateways'], $network_name)['key'];
+   
+      // Set text domain
+      if ( $network_data >= 0 ) {
+           
+      $network_data_array = array_map( "trim", explode("||", $ct['conf']['mobile_network']['text_gateways'][$network_data]) );
+      
+          if ( isset($network_data_array[1]) && $network_data_array[1] != '' && isset($phone_number) && trim($phone_number) != '' ) {
+          return trim($phone_number) . '@' . $network_data_array[1]; // Return formatted texting email address
+          }
+          else {
+          return false;
+          }
+      
+      }
+      else {
+      return false;
+      }
+   
    
    }
    
@@ -1168,6 +1117,52 @@ var $ct_array = array();
    
    return $path;
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function get_url($include_host=false, $section_only=false) {
+        
+        
+      if ( $include_host ) {
+           
+           if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+           $url = "https://";
+           }
+           else {
+           $url = "http://"; 
+           }
+
+      $url .= $_SERVER['HTTP_HOST'];   
+
+      }
+
+
+      if ( !$section_only ) {
+      $url .= $_SERVER['REQUEST_URI'];
+      }
+      elseif ( $_GET['section'] ) {
+      $url .= $_SERVER['SCRIPT_NAME'] . '?section=' . $_GET['section'];
+      }
+      elseif ( $_GET['subsection'] ) {
+      $url .= $_SERVER['SCRIPT_NAME'] . '?parent=' . $_GET['parent'] . '&subsection=' . $_GET['subsection'];
+      }
+      elseif ( $_GET['plugin'] ) {
+      $url .= $_SERVER['SCRIPT_NAME'] . '?plugin=' . $_GET['plugin'];
+      }
+      elseif ( $_GET['type'] ) {
+      $url .= $_SERVER['SCRIPT_NAME'] . '?type=' . $_GET['type'];
+      }
+      else {
+      $url .= $_SERVER['SCRIPT_NAME'];
+      }
+       
+   
+   return $url;
+     
    }
 
 
@@ -3852,6 +3847,12 @@ var $ct_array = array();
             
             // USER SETTINGS for *MAIL* SSL support (we want to know if the SSL config on the server is per-user-settings preferences)
             if ( in_array($port, $ssl_mail_ports) ) {
+
+                 
+                 if ( $smtp_vars['cfg_strict_ssl'] == 'on' ) {
+                 $ssl_desc = 'strict SSL = on';
+                 }
+                 
                  
             $ssl_params = array(
                               "ssl" => array(
@@ -3892,7 +3893,7 @@ var $ct_array = array();
             
        $ct['gen']->log(
     			'other_error',
-    			'Server at "'.$host.'" SEEMS offline (port = "'.$port.'", connection type = "'.$connection_type.'", timeout = "'.$timeout.'"): ' . "$errstr ($errno)"
+    			'Server at "' . $host . '" SEEMS offline (port = "' . $port . '", connection type = "' . $connection_type . '", timeout = "' . $timeout . '"' . ( isset($ssl_desc) ? ', ' . $ssl_desc : '' ) . '): ' . "$errstr ($errno)"
     			);
        
        return false;

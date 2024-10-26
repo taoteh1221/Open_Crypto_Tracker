@@ -9,15 +9,16 @@
 
 // SMTP email setup (if needed...MUST RUN AFTER dynamic app config auto-adjust)
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-// THE ENTIRE APP (ESPECIALLY THE INTERFACE) WILL HANG / FREEZE, IF A SPECIFIED SMTP SERVER IS OFFLINE!!
-// (so we CANCEL using SMTP mail, if our server check FAILS)
-if ( $ct['conf']['comms']['smtp_login'] != '' && $ct['conf']['comms']['smtp_server'] != '' ) {
+if ( $ct['conf']['comms']['smtp_login'] != '' && $ct['conf']['comms']['smtp_server'] != '' && $ct['email_activated'] ) {
 
 // Passing smtp server login vars to config structure used by the 3rd party SMTP class, to maintain ease with any future upgrade compatibility
 // Must be loaded as a global var before class instance is created
 $smtp_vars = $ct['gen']->smtp_vars();
      
+     
      // Only enable, IF SERVER IS ONLINE
+     // THE ENTIRE APP (ESPECIALLY THE INTERFACE) WILL HANG / FREEZE, IF A SPECIFIED SMTP SERVER IS OFFLINE!!
+     // (so we CANCEL using / enabling SMTP mail, if our server check FAILS)
      if ( $ct['gen']->smtp_server_online() ) {
      
      require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/smtp-mailer/SMTPMailer.php');
@@ -26,6 +27,12 @@ $smtp_vars = $ct['gen']->smtp_vars();
      $smtp = new SMTPMailer();
      
      }
+     // Otherwise, we need to disable email GLOBALLY (as the SMTP server specified by the user has issues of some sort)
+     // (we log these server offline issues, so users should see the issue in app logs / UI alerts)
+     else {
+     $ct['email_activated'] = false;
+     }
+
 
 }
 

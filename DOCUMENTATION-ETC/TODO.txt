@@ -202,6 +202,27 @@ https://fedoramagazine.org/feed/
 "private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.
 
 
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+
+
+Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
+
+
+On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
+
+
+Add admin settings feature to restore CONFIG backups, AND CHART DATA backups, from the zip archive backups (with admin authentication ONLY).
+
+
+Add help page entry for : 2FA passcode was invalid, please try again
+
+
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
 Add any other 'required api key' notices, near the top of the external data function. This is a VERY RELIABLE PLACE to have ALL of the checks, as we ALWAYS use the external data function to get API data.
 
 
@@ -223,25 +244,19 @@ Pretty up the light theme CSS text / link coloring, as it's missing decent CONTR
 Buildout the top navigation, for responsive templating on small mobile screens.
 
 
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
-
-
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
 Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
 
 
-Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
-
-
-On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
-
-
-Add admin settings feature to restore CONFIG backups, AND CHART DATA backups, from the zip archive backups (with admin authentication ONLY).
+Update screenshots, since we overhauled everything in the interface.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add full redhat support for auto-installer.
 
 
 Update MKR and DAI to the new rebranded tokens: SKY and USDS
@@ -333,12 +348,6 @@ Send out an OPTIONAL comms alert when we change the admin security mode, OR when
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 
 
-On windows desktop edition, when registering an admin account for the first time, if you click on certain links in the user area menu, it just hangs with a loading message, and never redirects back to the registration page like it should.
-
-
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
 Review / fully test all the different SUBARRAY logic for the cached config upgrade mechanism (string-keyed / auto-indexed, etc)
 
 
@@ -348,13 +357,7 @@ Look for "0.0000" in app, for more instances we need to now be dynamic in the lo
 Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field on update page, to try to recreate a possible issue related to invisible whitespace causing "paid" value to set as zero on form submission.
 
 
-Update screenshots, since we overhauled everything in the interface.
-
-
 Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on. Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
-
-
-Add full redhat support for auto-installer.
 
 
 "The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
@@ -400,12 +403,6 @@ On the plugins admin page, add an info balloon next to a title "How can I make s
 
 
 On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
-
-
-Add help page entry for : 2FA passcode was invalid, please try again
-
-
-New FAQ entry "my text alerts aren't working, or are delayed"
 
 
 Start creating github wiki with USER AND DEVELOPER documentation.
@@ -467,9 +464,6 @@ Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most 
 
 
 Purge stale data in cookies / post submission with coin portfolio data, in runtime-type-init.php (if the coin market no longer is in the config, like we already do there for feeds / charts).
-
-
-Move the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
 
 
 Consider adding some SPECIFIC filenames that are sensitive data to obfusc_path_data() via the $file = basename($path) method. Not sure if needed for log security, BUT right now obfusc_path_data() DOES #NOT# OBFUSCATE THE FILENAME AT ALL (just path up to the file).

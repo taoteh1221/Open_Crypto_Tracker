@@ -6821,7 +6821,7 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed app hanging / freezing, when SMTP server user settings are added (for sending email-based alerts / etc), BUT THE SMTP SERVER IS OFFLINE / MISCONFIGURED
 
--Housekeeping on the code base
+-Housekeeping / refactoring / optimization on the codebase
 
 -------------------------------------------------------------------
 

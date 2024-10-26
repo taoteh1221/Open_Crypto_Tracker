@@ -21,13 +21,8 @@ $proxy_parse_errors = 0;
           if ( trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) { 	
      					
      	    // Config error check(s)
-              if ( $valid_from_email != 'valid' ) {
-              $ct['conf_parse_error'][] = 'FROM email not configured properly for proxy alerts (' . $valid_from_email . ')';
-              $proxy_parse_errors = $proxy_parse_errors + 1;
-              }
-               		
-              if ( $ct['email_activated'] != 'valid' ) {
-              $ct['conf_parse_error'][] = 'TO email not configured properly for proxy alerts (' . $ct['email_activated'] . ')';
+              if ( !$ct['email_activated'] ) {
+              $ct['conf_parse_error'][] = 'Email not configured properly for proxy alerts';
               $proxy_parse_errors = $proxy_parse_errors + 1;
               }
                	
@@ -166,13 +161,9 @@ if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']
       	
       $alerts_enabled_types[] = 'Email';
 					
-			// Config error check(s)
-         if ( $valid_from_email != 'valid' ) {
-         $ct['conf_parse_error'][] = 'FROM email not configured properly for price alerts (' . $valid_from_email . ')';
-         }
-          		
-         if ( $ct['email_activated'] != 'valid' ) {
-         $ct['conf_parse_error'][] = 'TO email not configured properly for price alerts (' . $ct['email_activated'] . ')';
+	    // Config error check(s)
+         if ( !$ct['email_activated'] ) {
+         $ct['conf_parse_error'][] = 'Email not configured properly for price alerts';
          }
           	
 	 }
@@ -325,12 +316,8 @@ if ( $ct['conf']['comms']['logs_email'] > 0 && trim($ct['conf']['comms']['from_e
 					
 					
    // Config error check(s)
-   if ( $valid_from_email != 'valid' ) {
-   $ct['conf_parse_error'][] = 'FROM email not configured properly for emailing error logs (' . $valid_from_email . ')';
-   }
-          		
-   if ( $ct['email_activated'] != 'valid' ) {
-   $ct['conf_parse_error'][] = 'TO email not configured properly for emailing error logs (' . $ct['email_activated'] . ')';
+   if ( !$ct['email_activated'] ) {
+   $ct['conf_parse_error'][] = 'Email not configured properly for emailing error logs';
    }
 
 
@@ -367,12 +354,8 @@ $ct['conf_parse_error'] = array(); // Blank it out for any other config checks
 if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['charts_alerts']['charts_backup_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
 					
    // Config error check(s)
-   if ( $valid_from_email != 'valid' ) {
-   $ct['conf_parse_error'][] = 'FROM email not configured properly for emailing backup archive notice / link (' . $valid_from_email . ')';
-   }
-          		
-   if ( $ct['email_activated'] != 'valid' ) {
-   $ct['conf_parse_error'][] = 'TO email not configured properly for emailing backup archive notice / link (' . $ct['email_activated'] . ')';
+   if ( !$ct['email_activated'] ) {
+   $ct['conf_parse_error'][] = 'Email not configured properly for emailing backup archive notice / link';
    }
 
 
