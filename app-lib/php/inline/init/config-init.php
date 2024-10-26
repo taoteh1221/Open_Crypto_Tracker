@@ -206,7 +206,10 @@ require_once('app-lib/php/inline/config/load-config-by-security-level.php');
 // Dynamic app config auto-adjust (MUST RUN AS EARLY AS POSSIBLE AFTER #FULL# ct_conf setup)
 require_once('app-lib/php/inline/config/config-auto-adjust.php');
 
-// Load any activated 3RD PARTY classes WITH CONFIGS (MUST RUN AS EARLY AS POSSIBLE AFTER app config auto-adjust)
+// VERY EARLY init BASED OFF USER CONFIGS (MUST RUN AS EARLY AS POSSIBLE AFTER app config auto-adjust)
+require_once('app-lib/php/inline/init/config-early-init.php');
+
+// Load any activated 3RD PARTY classes WITH CONFIGS (MUST RUN AS EARLY AS POSSIBLE AFTER config-early-init.php)
 require_once('app-lib/php/classes/3rd-party-classes-with-configs-loader.php');
 
 
@@ -314,27 +317,6 @@ $ct['dev']['tasks_time_offset'] = ceil($ct['dev']['tasks_time_offset'] * 2);
 }
 
 
-// htaccess login...SET BEFORE ui-preflight-security-checks.php
-$interface_login_array = explode("||", $ct['conf']['sec']['interface_login']);
-$htaccess_username = $interface_login_array[0];
-$htaccess_password = $interface_login_array[1];
-
-
-// User agent (MUST BE SET VERY EARLY [AFTER primary-init / CONFIG-AUTO-ADJUST], 
-// FOR ANY CURL-BASED API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-
-
-if ( trim($ct['conf']['power']['override_curl_user_agent']) != '' ) {
-$ct['curl_user_agent'] = $ct['conf']['power']['override_curl_user_agent'];  // Custom user agent
-}
-elseif ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
-$ct['curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
-}
-else {
-$ct['curl_user_agent'] = $ct['strict_curl_user_agent']; // SET IN primary-init.php (NEEDED MUCH EARLIER THAN HERE [FOR ADMIN INPUT VALIDATION])
-}
-
-
 // #GUI# PHP TIMEOUT tracking / updating (checking for changes to the config value)
 $conf_php_timeout = $ct['dev']['ui_max_exec_time'];
 
@@ -360,84 +342,6 @@ unlink($ct['base_dir'] . '/cache/secured/.app_htpasswd');
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/php_timeout.dat', $conf_php_timeout);
 
 }
-
-
-// Email TO service check
-if ( isset($ct['conf']['comms']['to_email']) && $ct['gen']->valid_email($ct['conf']['comms']['to_email']) == 'valid' ) {
-$ct['email_activated'] = true;
-}
-
-
-// Email FROM service check
-if ( isset($ct['conf']['comms']['from_email']) && $ct['gen']->valid_email($ct['conf']['comms']['from_email']) == 'valid' ) {
-$valid_from_email = true;
-}
-
-
-// Notifyme service check
-if ( isset($ct['conf']['ext_apis']['notifyme_access_code']) && trim($ct['conf']['ext_apis']['notifyme_access_code']) != '' ) {
-$ct['notifyme_activated'] = true;
-}
-
-
-// Texting (SMS) services check
-// (if MORE THAN ONE is activated, keep ALL disabled to avoid a texting firestorm)
-if ( isset($ct['conf']['ext_apis']['textbelt_api_key']) && trim($ct['conf']['ext_apis']['textbelt_api_key']) != '' ) {
-$ct['activated_sms_services'][] = 'textbelt';
-}
-
-
-if (
-isset($ct['conf']['ext_apis']['twilio_number']) && trim($ct['conf']['ext_apis']['twilio_number']) != ''
-&& isset($ct['conf']['ext_apis']['twilio_sid']) && trim($ct['conf']['ext_apis']['twilio_sid']) != ''
-&& isset($ct['conf']['ext_apis']['twilio_token']) && trim($ct['conf']['ext_apis']['twilio_token']) != ''
-) {
-$ct['activated_sms_services'][] = 'twilio';
-}
-
-
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if (
-isset($ct['conf']['ext_apis']['textlocal_sender'])
-&& trim($ct['conf']['ext_apis']['textlocal_sender']) != ''
-&& isset($ct['conf']['ext_apis']['textlocal_api_key'])
-&& $ct['conf']['ext_apis']['textlocal_api_key'] != ''
-) {
-$ct['activated_sms_services'][] = 'textlocal';
-}
-
-
-$text_email_gateway_check = explode("||", trim($ct['conf']['comms']['to_mobile_text']) );
-
-
-if (
-isset($text_email_gateway_check[0])
-&& isset($text_email_gateway_check[1])
-&& trim($text_email_gateway_check[0]) != ''
-&& trim($text_email_gateway_check[1]) != ''
-&& trim($text_email_gateway_check[1]) != 'skip_network_name'
-&& $ct['gen']->valid_email( $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) ) == 'valid'
-) {
-$ct['activated_sms_services'][] = 'email_gateway';
-}
-
-
-if ( sizeof($ct['activated_sms_services']) == 1 ) {
-$ct['sms_service'] = $ct['activated_sms_services'][0];
-}
-elseif ( sizeof($ct['activated_sms_services']) > 1 ) {
-$ct['gen']->log( 'conf_error', 'only one SMS service is allowed, please deactivate ALL BUT ONE of the following: ' . implode(", ", $ct['activated_sms_services']) );
-}
-
-
-// Backup archive password protection / encryption
-if ( $ct['conf']['sec']['backup_archive_password'] != '' ) {
-$backup_archive_password = $ct['conf']['sec']['backup_archive_password'];
-}
-else {
-$backup_archive_password = false;
-}
-
 
 // Light chart config tracking / updating (checking for changes to light chart app config, to trigger light chart rebuilds)
 $conf_light_chart_struct = md5( serialize($ct['light_chart_day_intervals']) . $ct['conf']['charts_alerts']['light_chart_data_points_maximum'] );
@@ -466,19 +370,6 @@ $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/system/light');
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat', $conf_light_chart_struct);
 
 $admin_reset_success = 'The Light Charts were reset successfully.';
-
-}
-
-
-// Configged google font
-if ( isset($ct['conf']['gen']['google_font']) && trim($ct['conf']['gen']['google_font']) != '' ) {
-          
-$google_font_name = trim($ct['conf']['gen']['google_font']);
-     
-$font_name_url_formatting = $google_font_name;
-$font_name_url_formatting = preg_replace("/  /", " ", $font_name_url_formatting);
-$font_name_url_formatting = preg_replace("/  /", " ", $font_name_url_formatting);
-$font_name_url_formatting = preg_replace("/ /", "+", $font_name_url_formatting);
 
 }
 
@@ -565,6 +456,5 @@ require_once('app-lib/php/inline/config/chart-directories-config.php');
 //////////////////////////////////////////////////////////////////
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
-
  
  ?>

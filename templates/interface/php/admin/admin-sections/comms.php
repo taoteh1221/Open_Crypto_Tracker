@@ -117,7 +117,7 @@ $ct['admin_render_settings']['from_email']['is_trim'] = true;
 
 $ct['admin_render_settings']['from_email']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['from_email']['is_notes'] = 'FROM Email address MUST match the app server\'s DOMAIN NAME, *UNLESS* it has no email server, OR you are behind a home internet gateway (in those cases, it should match the Email address associated with the "SMTP Login" account above)';
+$ct['admin_render_settings']['from_email']['is_notes'] = 'FROM Email address MUST be a REAL address on the app server, *UNLESS* you are behind a home internet gateway (in those cases, it should match the Email address associated with an "SMTP Login" account [further above])';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

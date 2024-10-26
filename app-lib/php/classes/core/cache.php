@@ -850,7 +850,7 @@ var $ct_array = array();
      elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'textlocal' ) { 
      $this->save_file($ct['base_dir'] . '/cache/secured/messages/textlocal-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
-     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'email_gateway' ) { 
+     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'email_gateway' && $ct['email_activated'] ) { 
      
      // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
      // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
@@ -2601,7 +2601,7 @@ var $ct_array = array();
                // Text email
                // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
                // Only use text-to-email if other text services aren't configured
-               elseif ( $ct['sms_service'] == 'email_gateway' && preg_match("/textemail/i", $queued_cache_file) ) {
+               elseif ( $ct['email_activated'] && $ct['sms_service'] == 'email_gateway' && preg_match("/textemail/i", $queued_cache_file) ) {
                  
                $textemail_array = json_decode($msg_data, true);
                  
