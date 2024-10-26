@@ -18,235 +18,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
-   function search_mode($haystack, $needle, $mode='stristr', $strip='symbols,space') {
-
-   global $ct;
-   
-   
-       // If haystack equals false, return false
-       if ( $haystack == false ) {
-       return false;
-       }
-   
-       
-       // Remove everything NOT alphanumeric
-       if ( stristr($strip, 'symbols') ) {
-       $haystack = preg_replace("/[^0-9a-zA-Z]+/i", "", $haystack);
-       $needle = preg_replace("/[^0-9a-zA-Z]+/i", "", $needle);
-       }
-       
-       
-       // Trim any whitespace off ends
-       if ( stristr($strip, 'space') ) {
-       $haystack = trim($haystack);
-       $needle = trim($needle);
-       }
-       
-       
-       // 'strict_search' MUST ALWAYS OVERRIDE stristr!
-       // Case insensitive EXACT MATCH
-       if ( $_POST['strict_search'] == 'yes' ) {
-           
-           if ( strtolower($haystack) == strtolower($needle) ) {
-           return true;
-           }
-           else {
-           return false;
-           }
-           
-       }
-       // Case insensitive PARTIAL MATCH
-       elseif ( $mode == 'stristr' ) {
-       return stristr($haystack, $needle);
-       }
-   
-
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
-   function table_pager_nav($pager_id, $custom_class=false, $pager_options=false) {
-
-   global $ct;                                      
-   
-   
-       if ( !$pager_options || !is_array($pager_options) || sizeof($pager_options) < 1 ) {
-       
-       // Default pager options
-       $pager_options = array(
-                           5,
-                           10,
-                           25,
-                           50,
-                           );
-       
-       }
-
-   
-   ?>
-               <!-- table_pager -->
-               <div class="table_pager table_pager_<?=$pager_id?> <?=( $custom_class ? $custom_class : '' )?>">
-
-               	<span class="pagedisplay"></span> 
-               	
-               	<br /><br />
-					&nbsp;<span class="blue">Show Per Page:</span>
-					
-               	<span class="left choose_pp">
-               	
-               	     <?php
-               	     
-               	     $first_rendered = false;
-
-               	     foreach ( $pager_options as $per_page ) {
-               	          
-               	          if ( $first_rendered ) {
-               	          echo ' | ';
-               	          }
-               	          
-               	     ?>
-               	     
-					<a href="#" data-track='<?=$per_page?>'><?=$per_page?></a>
-					
-               	     <?php
-
-               	     $first_rendered = true;
-
-               	     }
-               	     ?>
-					
-				</span>
-				
-               	<br /><br />
-				<span class="right">
-
-					&nbsp;<span class="blue">View Page:</span> <span class="prev">
-						Prev
-					</span>&nbsp;
-
-					<span class="pagecount"></span>
-					
-					&nbsp;<span class="next">Next
-					</span>
-					
-				</span>
-
-               </div>
-   <?php
-   
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
-   function array_debugging($array, $assoc_detailed=false) {
-
-   global $ct;                                      
-     
-     if ( !is_array($array) ) {
-     return false;
-     }
-     elseif ( $assoc_detailed && $this->has_string_keys($array) ) {
-          
-          foreach ( $array as $key => $val ) {
-          ?>
-          
-          <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
-          
-               <?php
-               if ( is_array($val) ) {
-               ?>
-               <?=$key?> (<?=sizeof($val)?> value[s]):
-               <?php
-               }
-               else {
-               ?>
-               <?=$key?>:
-               <?php
-               }
-               ?>
-          
-          <?=print_r($val, true)?>
-          
-          </code></pre>
-          
-          <br /><br /><br />
-          
-          <?php
-          }
-     
-     }
-     else {
-     ?>
-          
-     <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
-          
-     <?=print_r($array, true)?>
-          
-     </code></pre>
-          
-     <br /><br /><br />
-          
-     <?php
-     }
-
-
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
-   function auto_correct_market_id($var, $exchange) {
-
-   global $ct;                                      
-                                      
-       // Auto-correct, if we know we ABSOLUTELY MUST USE ALL UPPER / LOWER CASE
-       // (important to auto-correct early here, as we are setting the ID in the results)
-       if ( in_array($exchange, $ct['dev']['markets_uppercase_search']) ) {
-       $var = strtoupper($var);
-       }
-       elseif ( in_array($exchange, $ct['dev']['markets_lowercase_search']) ) {
-       $var = strtolower($var);
-       }
-       
-   return $var;
-
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
-   function ajax_wizard_back_button($ajax_id, $secured=true) {
-
-     if ( isset($_GET['step']) && $_GET['step'] > 1 ) {
-     ?>
-     <a style='font-weight: bold;' class='blue input_margins' href='javascript: ct_ajax_load("type=<?=$_GET['type']?>&step=<?=($_GET['step'] - 1)?>", "<?=$ajax_id?>", "previous step", prev_post_data, <?=( $secured ? 'true' : 'false' )?>);' title='Go back to the previous step in this wizard. (previous CHOICES are only saved for the LAST PREVIOUS STEP)'>Go Back To Previous Step</a>
-     
-     <script>
-     
-     var prev_post_data = <?php echo json_encode($_POST); ?>;
-     	                          
-     </script>
-     
-     <?php
-     }
-
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
    function usort_length($a, $b) {
    return strlen($b)-strlen($a); // Descending sort
    }
@@ -825,6 +596,28 @@ var $ct_array = array();
        }
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function auto_correct_market_id($var, $exchange) {
+
+   global $ct;                                      
+                                      
+       // Auto-correct, if we know we ABSOLUTELY MUST USE ALL UPPER / LOWER CASE
+       // (important to auto-correct early here, as we are setting the ID in the results)
+       if ( in_array($exchange, $ct['dev']['markets_uppercase_search']) ) {
+       $var = strtoupper($var);
+       }
+       elseif ( in_array($exchange, $ct['dev']['markets_lowercase_search']) ) {
+       $var = strtolower($var);
+       }
+       
+   return $var;
+
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -1146,6 +939,55 @@ var $ct_array = array();
       }
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function ajax_wizard_back_button($ajax_id, $secured=true) {
+
+     if ( isset($_GET['step']) && $_GET['step'] > 1 ) {
+     ?>
+     <a style='font-weight: bold;' class='blue input_margins' href='javascript: ct_ajax_load("type=<?=$_GET['type']?>&step=<?=($_GET['step'] - 1)?>", "<?=$ajax_id?>", "previous step", prev_post_data, <?=( $secured ? 'true' : 'false' )?>);' title='Go back to the previous step in this wizard. (previous CHOICES are only saved for the LAST PREVIOUS STEP)'>Go Back To Previous Step</a>
+     
+     <script>
+     
+     var prev_post_data = <?php echo json_encode($_POST); ?>;
+     	                          
+     </script>
+     
+     <?php
+     }
+
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function smtp_server_online() {
+
+   global $ct, $smtp_vars;
+   
+   
+      // Set connection type based on port number
+      if ( $smtp_vars['cfg_port'] == 465 ) {
+      $connection_type = 'ssl';
+      }
+      // Everything else is over TCP (including TCP on port 587 FOR TLS ENCRYPTION)
+      else {
+      $connection_type = 'tcp';
+      }
+
+      
+      if ( !$this->server_online($smtp_vars['cfg_server'], $smtp_vars['cfg_port'], $connection_type) ) {
+      return false;
+      }
+
+
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -1326,6 +1168,56 @@ var $ct_array = array();
    
    return $path;
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function search_mode($haystack, $needle, $mode='stristr', $strip='symbols,space') {
+
+   global $ct;
+   
+   
+       // If haystack equals false, return false
+       if ( $haystack == false ) {
+       return false;
+       }
+   
+       
+       // Remove everything NOT alphanumeric
+       if ( stristr($strip, 'symbols') ) {
+       $haystack = preg_replace("/[^0-9a-zA-Z]+/i", "", $haystack);
+       $needle = preg_replace("/[^0-9a-zA-Z]+/i", "", $needle);
+       }
+       
+       
+       // Trim any whitespace off ends
+       if ( stristr($strip, 'space') ) {
+       $haystack = trim($haystack);
+       $needle = trim($needle);
+       }
+       
+       
+       // 'strict_search' MUST ALWAYS OVERRIDE stristr!
+       // Case insensitive EXACT MATCH
+       if ( $_POST['strict_search'] == 'yes' ) {
+           
+           if ( strtolower($haystack) == strtolower($needle) ) {
+           return true;
+           }
+           else {
+           return false;
+           }
+           
+       }
+       // Case insensitive PARTIAL MATCH
+       elseif ( $mode == 'stristr' ) {
+       return stristr($haystack, $needle);
+       }
+   
+
    }
    
    
@@ -1863,6 +1755,7 @@ var $ct_array = array();
    
    // Using 3rd party SMTP class, initiated already as global var $smtp
    global $ct, $smtp;
+
    
       if ( $charset == null ) {
       $charset = $ct['dev']['charset_default'];
@@ -2400,6 +2293,65 @@ var $ct_array = array();
    return $result;
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function array_debugging($array, $assoc_detailed=false) {
+
+   global $ct;                                      
+     
+     if ( !is_array($array) ) {
+     return false;
+     }
+     elseif ( $assoc_detailed && $this->has_string_keys($array) ) {
+          
+          foreach ( $array as $key => $val ) {
+          ?>
+          
+          <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
+          
+               <?php
+               if ( is_array($val) ) {
+               ?>
+               <?=$key?> (<?=sizeof($val)?> value[s]):
+               <?php
+               }
+               else {
+               ?>
+               <?=$key?>:
+               <?php
+               }
+               ?>
+          
+          <?=print_r($val, true)?>
+          
+          </code></pre>
+          
+          <br /><br /><br />
+          
+          <?php
+          }
+     
+     }
+     else {
+     ?>
+          
+     <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%;'>
+          
+     <?=print_r($array, true)?>
+          
+     </code></pre>
+          
+     <br /><br /><br />
+          
+     <?php
+     }
+
+
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -2761,6 +2713,82 @@ var $ct_array = array();
         
    return $data;
         
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function table_pager_nav($pager_id, $custom_class=false, $pager_options=false) {
+
+   global $ct;                                      
+   
+   
+       if ( !$pager_options || !is_array($pager_options) || sizeof($pager_options) < 1 ) {
+       
+       // Default pager options
+       $pager_options = array(
+                           5,
+                           10,
+                           25,
+                           50,
+                           );
+       
+       }
+
+   
+   ?>
+               <!-- table_pager -->
+               <div class="table_pager table_pager_<?=$pager_id?> <?=( $custom_class ? $custom_class : '' )?>">
+
+               	<span class="pagedisplay"></span> 
+               	
+               	<br /><br />
+					&nbsp;<span class="blue">Show Per Page:</span>
+					
+               	<span class="left choose_pp">
+               	
+               	     <?php
+               	     
+               	     $first_rendered = false;
+
+               	     foreach ( $pager_options as $per_page ) {
+               	          
+               	          if ( $first_rendered ) {
+               	          echo ' | ';
+               	          }
+               	          
+               	     ?>
+               	     
+					<a href="#" data-track='<?=$per_page?>'><?=$per_page?></a>
+					
+               	     <?php
+
+               	     $first_rendered = true;
+
+               	     }
+               	     ?>
+					
+				</span>
+				
+               	<br /><br />
+				<span class="right">
+
+					&nbsp;<span class="blue">View Page:</span> <span class="prev">
+						Prev
+					</span>&nbsp;
+
+					<span class="pagecount"></span>
+					
+					&nbsp;<span class="next">Next
+					</span>
+					
+				</span>
+
+               </div>
+   <?php
+   
    }
 
 
@@ -3789,6 +3817,92 @@ var $ct_array = array();
    header("Location: admin.php");
    exit;
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   // Default to TCP, if not specified in passed params
+   function server_online($host, $port, $connection_type='tcp') {
+        
+   global $ct, $smtp_vars;
+
+   // 5 second timeout (make it quick, as we are just running a check)
+   $timeout = 5;
+   
+   // ALL SSL-designated ports
+   $ssl_ports = array(
+                      443,
+                      465,
+                      587
+                     );
+   
+   // MAIL SSL-designated ports
+   $ssl_mail_ports = array(
+                      465,
+                      587
+                     );
+       
+       
+       // USE SSL CONTEXT PARAMS, based on port number
+       if ( in_array($port, $ssl_ports) ) {
+
+            
+            // USER SETTINGS for *MAIL* SSL support (we want to know if the SSL config on the server is per-user-settings preferences)
+            if ( in_array($port, $ssl_mail_ports) ) {
+                 
+            $ssl_params = array(
+                              "ssl" => array(
+                         				'verify_peer'       => ( $smtp_vars['cfg_strict_ssl'] == 'on' ? true : false ),
+                         				'verify_peer_name'  => ( $smtp_vars['cfg_strict_ssl'] == 'on' ? true : false ),
+                         				'allow_self_signed' => ( $smtp_vars['cfg_strict_ssl'] == 'on' ? false : true ),
+                                             'verify_depth'      => 0, // ALWAYS KEEP AS ZERO
+                                            ),
+                             );  
+                             
+            }
+            // *NON-MAIL* SSL support (we just want to know if the server IS ONLINE [we don't care about invalid SSL server configs])
+            else {
+                 
+            $ssl_params = array(
+                              "ssl" => array(
+                                             "verify_peer" => false,
+                                             "verify_peer_name" => false,
+                                        	"allow_self_signed" => true,
+                                             "verify_depth"      => 0, // ALWAYS KEEP AS ZERO
+                                            ),
+                             );  
+                             
+            }
+            
+       
+       $ssl_context = stream_context_create($ssl_params);
+       
+       $connection = stream_socket_client($connection_type . '://' . $host . ':' . $port, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $ssl_context);
+       
+       }
+       else {
+       $connection = stream_socket_client($connection_type . '://' . $host . ':' . $port, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT);
+       }
+      
+
+       if ( !is_resource($connection) ) {
+            
+       $ct['gen']->log(
+    			'other_error',
+    			'Server at "'.$host.'" SEEMS offline (port = "'.$port.'", connection type = "'.$connection_type.'", timeout = "'.$timeout.'"): ' . "$errstr ($errno)"
+    			);
+       
+       return false;
+       
+       }
+       else {
+       fclose($connection);
+       return true;
+       }
+
    }
    
    

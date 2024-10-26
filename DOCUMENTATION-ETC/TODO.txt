@@ -195,19 +195,11 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Crypto tracker app hangs BADLY / SILENTLY if configured SENDING email
-server is offline (and their are messages queued to send). Build in
-detection, so it gracefully fails / logs issue to error logging.
-
-
 Fedora's news feed:
 https://fedoramagazine.org/feed/
 
 
 "private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.
-
-
-Update MKR and DAI to the new rebranded tokens: SKY and USDS
 
 
 Add any other 'required api key' notices, near the top of the external data function. This is a VERY RELIABLE PLACE to have ALL of the checks, as we ALWAYS use the external data function to get API data.
@@ -250,6 +242,9 @@ Add admin settings feature to restore CONFIG backups, AND CHART DATA backups, fr
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Update MKR and DAI to the new rebranded tokens: SKY and USDS
 
 
 Add a new mode for the asset perfomance chart (on the 'more stats' modal page), which is a drop-down menu option, that switches from showing comparisons between assets, over to showing ONLY ASSETS A USER HOLDS, AND INCLUDES A "TOTAL PORTFOLIO VALUE" CHART LINE TOO (showing perecent increase / decrease in TOTAL PORTFOLIO VALUE).

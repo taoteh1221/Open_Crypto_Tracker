@@ -92,6 +92,12 @@ $ct['conf']['power']['strict_consecutive_connect_servers'] = array_map("strtolow
 
 // Trim whitepace from some values THAT ARE SAFE TO RUN TRIMMING ON...
 
+// STRINGS
+
+$ct['conf']['comms']['smtp_server'] = trim($ct['conf']['comms']['smtp_server']);
+
+// ARRAYS
+
 $ct['conf']['proxy']['proxy_list'] = array_map("trim", $ct['conf']['proxy']['proxy_list']);
 
 $ct['conf']['proxy']['anti_proxy_servers'] = array_map("trim", $ct['conf']['proxy']['anti_proxy_servers']);
