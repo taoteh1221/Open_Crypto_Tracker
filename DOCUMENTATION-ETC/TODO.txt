@@ -195,6 +195,21 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Change all "no data error" detection in the external data function, over to logic that LOOKS FOR REGULAR DATA, AND TRIGGERS THE NO DATA FLAG ONLY IF REGULAR DATA FIELDS AREN'T THERE (rather than look for "blank data set signatures", like we do for Jupiter aggregator right now).
+
+
+For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
+
+
+Write tests, that send a test message to all comms channels, tracks how long it runs, and when / if it seems to exit cleanly (after everything finishes running).
+
+
+
+
+
+Build a SUPER SIMPLE auto-trading bot as a plugin, to help automatically dump airdrop shitcoins if a certain price target (up or down) is met. There should be a "one time trade" mode, where if the price target is met, it makes whatever trade you setup to occur, AND *NEVER* EXECUTES *SECONDARY* TRADES AFTERWARDS. Useful if you want to go to bed, and automatically sell your shitcoin airdrop while you sleep, or any other "one time" trade.
+
+
 BUG: adding "grass||jupiter_ag||sol||both" AFTER ADDING THE MARKETS threw a error "market does not exist" (even though it DID EXIST), but after adding "grass||coingecko_usd||usd||both" INSTEAD, IT WORKED FINE. Then adding "grass-2||jupiter_ag||sol||both" ALSO WORKED FINE. Try to replicate, and find the issue.
 
 
@@ -573,9 +588,6 @@ Fully include all leverage in all portfolio summaries, with "(X% leverage)" next
 
 
 Do a gains / losses bar chart for the gains / losses summary (tooltip, like balance stats chart).
-
-
-Simple trading bot, to run as a cron plugin (with web UI for configuration / stats / etc)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
