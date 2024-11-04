@@ -28,7 +28,7 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 
 GITHUB SECURITY NOTICE:
 
-As of 2024/11/02, I am signing EVERY GITHUB CODE COMMIT with my PGP key. For verification, see the file: taoteh1221-pgp-pub-key.asc (in the app main directory)
+As of 2024/11/02, I am signing EVERY GITHUB CODE COMMIT with my PGP key. For verification, see the file: taoteh1221-gpg-pub-key.asc (in the app main directory)
 
 Project Website: https://taoteh1221.github.io
 
