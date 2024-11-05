@@ -302,6 +302,10 @@ app_path_result="${app_path_result#*$1:}"
           elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="rsyslog"
 
+          # xorg (debian package name differs)
+          elif [ "$1" == "xorg" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="xserver-xorg"
+
           else
           SYS_PACK="$1"
           fi
