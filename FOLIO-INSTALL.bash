@@ -306,6 +306,14 @@ app_path_result="${app_path_result#*$1:}"
           elif [ "$1" == "xorg" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="xserver-xorg"
 
+          # chromium-browser (debian package name differs)
+          elif [ "$1" == "chromium-browser" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="chromium"
+
+          # epiphany-browser (debian package name differs)
+          elif [ "$1" == "epiphany-browser" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="epiphany"
+
           else
           SYS_PACK="$1"
           fi
