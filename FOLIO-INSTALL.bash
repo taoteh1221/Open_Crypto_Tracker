@@ -374,6 +374,61 @@ fi
 ######################################
 
 
+# Make sure automatic suspend / sleep is disabled
+if [ -f "/etc/debian_version" ]; then
+
+echo "${red}We need to make sure your system will NOT AUTO SUSPEND / SLEEP, or your app server could stop running.${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to fix this (disables auto suspend / sleep), OR any other key to skip fixing..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    echo " "
+    echo "${cyan}Disabling auto suspend / sleep...${reset}"
+    echo " "
+    
+    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target > /dev/null 2>&1
+	   
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
+elif [ -f "/etc/redhat-release" ]; then
+
+echo "${red}We need to make sure your system will NOT AUTO SUSPEND / SLEEP, or your app server could stop running.${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to fix this (disables auto suspend / sleep), OR any other key to skip fixing..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    echo " "
+    echo "${cyan}Disabling auto suspend / sleep...${reset}"
+    echo " "
+    
+    sudo -u gdm dbus-run-session gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0 > /dev/null 2>&1
+	   
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
+fi
+
+
+######################################
+
+
 # ON DEBIAN-BASED SYSTEMS ONLY:
 # Do we have less than 900MB PHYSICAL RAM (IN KILOBYTES),
 # AND no swap / less swap virtual memory than 900MB (IN BYTES)?
