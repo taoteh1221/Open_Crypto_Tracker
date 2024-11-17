@@ -770,8 +770,19 @@ var $ct_array = array();
           $backup_file = $backup_prefix . '_' . $ct['year_month_day'] . '_' . $secure_128bit_hash.'.zip';
           $backup_dest = $ct['base_dir'] . '/cache/secured/backups/' . $backup_file;
            
-          // Zip archive
-          $backup_results = $ct['ext_zip']->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
+           
+              // Zip archive
+              if ( is_dir($backup_target) || is_file($backup_target) ) {
+              $backup_results = $ct['ext_zip']->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
+              }
+              else {
+              
+              $ct['gen']->log(
+          			'other_error',
+          			'zip file backup target "'.$backup_target.'" does NOT exist'
+          			);
+          
+              }
            
            
               if ( $backup_results == 'done' ) {
@@ -1394,6 +1405,8 @@ var $ct_array = array();
         		else {
         		
         		$newest_cached_ct_conf = 1;
+        		
+	          $ct['cached_conf_path'] = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         			
         		$cached_ct_conf = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
         			
