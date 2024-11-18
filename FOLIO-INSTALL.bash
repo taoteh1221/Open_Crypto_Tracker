@@ -302,6 +302,18 @@ app_path_result="${app_path_result#*$1:}"
           elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="rsyslog"
 
+          # xorg (debian package name differs)
+          elif [ "$1" == "xorg" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="xserver-xorg"
+
+          # chromium-browser (debian package name differs)
+          elif [ "$1" == "chromium-browser" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="chromium"
+
+          # epiphany-browser (debian package name differs)
+          elif [ "$1" == "epiphany-browser" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="epiphany"
+
           else
           SYS_PACK="$1"
           fi
@@ -356,6 +368,43 @@ app_path_result="${app_path_result#*$1:}"
 # Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
 if [ "$IS_UBUNTU" != "" ]; then
 UBUNTU_SNAP_PATH=$(get_app_path "snap")
+fi
+
+
+######################################
+
+
+# Make sure automatic suspend / sleep is disabled
+if [ ! -f "${HOME}/.sleep_disabled.dat" ]; then
+
+echo "${red}We need to make sure your system will NOT AUTO SUSPEND / SLEEP, or your app server could stop running.${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to fix this (disables auto suspend / sleep), OR any other key to skip fixing..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    echo " "
+    echo "${cyan}Disabling auto suspend / sleep...${reset}"
+    echo " "
+    
+         if [ -f "/etc/debian_version" ]; then
+         sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target > /dev/null 2>&1
+         elif [ -f "/etc/redhat-release" ]; then
+         sudo -u gdm dbus-run-session gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0 > /dev/null 2>&1
+         fi
+    
+    echo -e "ran" > ${HOME}/.sleep_disabled.dat
+	   
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
 fi
 
 

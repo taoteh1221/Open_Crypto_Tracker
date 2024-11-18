@@ -11,19 +11,40 @@ class ext_zip extends ZipArchive {
 
 
     // Member function to add a whole file system subtree to the archive
-    public function addTree($source_dir, $localname = '') {
+    public function addSource($source, $localname = '', $password) {
         
         if ($localname) {
         $this->addEmptyDir($localname);
         }
         
-    $this->_addTree($source_dir, $localname);
+        if ( is_dir($source) ) {
+        $this->_addTree($source, $localname, $password);
+        }
+        elseif ( is_file($source) ) {
+        $this->_addFile($source, $localname, $password);
+        }
     
     }
 
 
-    // Internal function, to recurse
-    protected function _addTree($source_dir, $localname, $password='no') {
+    // Internal function, to add single file as source
+    protected function _addFile($source_file, $localname, $password) {
+        
+    $path = $source_file;
+    $localpath = $localname ? ($localname . '/' . basename($source_file) ) : basename($source_file);
+            
+    $this->addFile($path, $localpath);
+            
+        // Password-encrypting
+        if ( $password != 'no' ) {
+        $this->setEncryptionName($localpath, ZipArchive::EM_AES_256, $password);
+        }
+                
+    }
+
+
+    // Internal function, to recurse directory as source
+    protected function _addTree($source_dir, $localname, $password) {
     
     $dir = opendir($source_dir);
         
@@ -41,17 +62,17 @@ class ext_zip extends ZipArchive {
             // Directory: add & recurse
             if ( is_dir($path) ) {
             $this->addEmptyDir($localpath);
-            $this->_addTree($path, $localpath);
+            $this->_addTree($path, $localpath, $password);
             }
             // File: just add
             elseif ( is_file($path) ) {
             
             $this->addFile($path, $localpath);
-                  
-                  // If we are password-protecting
-                  if ( $password != 'no' ) {
-                  $this->setEncryptionName($path, ZipArchive::EM_AES_256);
-                  }
+            
+                // Password-encrypting
+                if ( $password != 'no' ) {
+                $this->setEncryptionName($localpath, ZipArchive::EM_AES_256, $password);
+                }
                   
             }
             
@@ -63,25 +84,21 @@ class ext_zip extends ZipArchive {
     
 
     // Helper function
-    public static function zip_recursively($source_dir, $target_zip, $password='no', $flags = 0, $localname = '') {
+    public static function zip_recursively($source, $target_zip, $password='no', $flags = 0, $localname = '') {
       
          if ( !extension_loaded('zip') ) {
          return 'no_extension';
          }
-         elseif ( !file_exists($source_dir) ) {
+         elseif ( !is_dir($source) && !file_exists($source) ) {
          return 'no_source';
          }
     
     $zip = new self();
          
-         
-         // If we are password-protecting
-         if ( $password != 'no' ) {
-         $zip->setPassword($password);
-         }
-         
     $zip->open($target_zip, $flags);
-    $zip->addTree($source_dir, $localname, $password);
+    
+    $zip->addSource($source, $localname, $password);
+         
     $zip->close();
     
     return 'done';

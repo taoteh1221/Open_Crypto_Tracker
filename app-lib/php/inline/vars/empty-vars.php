@@ -114,6 +114,8 @@ $ct['coingecko_assets'] = null;
 
 $ct['restore_conf_path'] = null;
 
+$ct['cached_conf_path'] = null;
+
 $ct['sms_service'] = null;
 
 $ct['check_2fa_id'] = null;

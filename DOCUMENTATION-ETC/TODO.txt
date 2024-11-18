@@ -195,14 +195,16 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Fedora's news feed:
-https://fedoramagazine.org/feed/
+For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
 
 
-"private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.
+Write tests, that send a test message to all comms channels, tracks how long it runs, and when / if it seems to exit cleanly (after everything finishes running).
 
 
-Make sure everything STILL runs smoothly with the charts page turned off.
+Build a SUPER SIMPLE auto-trading bot as a plugin, to help automatically dump airdrop shitcoins if a certain price target (up or down) is met. There should be a "one time trade" mode, where if the price target is met, it makes whatever trade you setup to occur, AND *NEVER* EXECUTES *SECONDARY* TRADES AFTERWARDS. Useful if you want to go to bed, and automatically sell your shitcoin airdrop while you sleep, or any other "one time" trade.
+
+
+BUG: adding "grass||jupiter_ag||sol||both" AFTER ADDING THE MARKETS threw a error "market does not exist" (even though it DID EXIST), but after adding "grass||coingecko_usd||usd||both" INSTEAD, IT WORKED FINE. Then adding "grass-2||jupiter_ag||sol||both" ALSO WORKED FINE. Try to replicate, and find the issue.
 
 
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
@@ -211,43 +213,31 @@ Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sur
 Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
 
 
-On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
-
-
-Add admin settings feature to restore CONFIG backups, AND CHART DATA backups, from the zip archive backups (with admin authentication ONLY).
-
-
-Add help page entry for : 2FA passcode was invalid, please try again
-
-
-New FAQ entry "my text alerts aren't working, or are delayed"
-
-
-Add any other 'required api key' notices, near the top of the external data function. This is a VERY RELIABLE PLACE to have ALL of the checks, as we ALWAYS use the external data function to get API data.
-
-
-Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
-
-
-Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
-
-
-https://api.coingecko.com/api/v3/simple/supported_vs_currencies
+On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download. INCLUDE AN UPLOAD FIELD TOO, TO RESTORE FROM BACKUPS SAVED TO A PC. See PHP's 'setPassword' for automatically using the config backup password, to open / restore config backups:
+https://www.php.net/manual/en/ziparchive.setpassword.php
 
 
 Add a third option in the 'remove asset markets' wizard, that scans ALL markets, and returns a list of MARKETS THAT DID NOT RETURN A VALID TRADE PRICE, to select the ones you want to remove (and then have a confirm page to be safe, like we normally do). Add a note on the RESULTS page to double-check that none of the markets are just offline for maintainence.
 
 
-Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.
-
-
-Buildout the top navigation, for responsive templating on small mobile screens.
-
-
-Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
-
-
 Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
+
+
+Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
+
+
+Fedora's news feed:
+https://fedoramagazine.org/feed/
+
+
+Update bankless feed:
+https://feeds.libsyn.com/247424/rss
+
+
+"private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.
+
+
+https://api.coingecko.com/api/v3/simple/supported_vs_currencies
 
 
 Update screenshots, since we overhauled everything in the interface.
@@ -256,7 +246,31 @@ Update screenshots, since we overhauled everything in the interface.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+Add any other 'required api key' notices, near the top of the external data function. This is a VERY RELIABLE PLACE to have ALL of the checks, as we ALWAYS use the external data function to get API data.
+
+
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
+
+
+Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.
+
+
+Add help page entry for : 2FA passcode was invalid, please try again
+
+
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
+Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
+
+
 Add full redhat support for auto-installer.
+
+
+Buildout the top navigation, for responsive templating on small mobile screens.
 
 
 Update MKR and DAI to the new rebranded tokens: SKY and USDS
@@ -569,9 +583,6 @@ Fully include all leverage in all portfolio summaries, with "(X% leverage)" next
 
 
 Do a gains / losses bar chart for the gains / losses summary (tooltip, like balance stats chart).
-
-
-Simple trading bot, to run as a cron plugin (with web UI for configuration / stats / etc)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

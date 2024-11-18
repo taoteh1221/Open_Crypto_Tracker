@@ -770,8 +770,19 @@ var $ct_array = array();
           $backup_file = $backup_prefix . '_' . $ct['year_month_day'] . '_' . $secure_128bit_hash.'.zip';
           $backup_dest = $ct['base_dir'] . '/cache/secured/backups/' . $backup_file;
            
-          // Zip archive
-          $backup_results = $ct['ext_zip']->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
+           
+              // Zip archive
+              if ( is_dir($backup_target) || is_file($backup_target) ) {
+              $backup_results = $ct['ext_zip']->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
+              }
+              else {
+              
+              $ct['gen']->log(
+          			'other_error',
+          			'zip file backup target "'.$backup_target.'" does NOT exist'
+          			);
+          
+              }
            
            
               if ( $backup_results == 'done' ) {
@@ -1394,6 +1405,8 @@ var $ct_array = array();
         		else {
         		
         		$newest_cached_ct_conf = 1;
+        		
+	          $ct['cached_conf_path'] = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         			
         		$cached_ct_conf = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
         			
@@ -3387,10 +3400,11 @@ var $ct_array = array();
             || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
             || preg_match("/block access from your country/i", $data)  // ByBit (via Amazon CloudFront)
             // API-specific (confirmed no price data in response)
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
-            || $endpoint_tld_or_ip == 'jup.ag' && preg_match("/\"data\":\{\}/i", $data) 
-            || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/05\. price/i", $data) 
+            || $endpoint_tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) 
+            || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/price/i", $data) 
+            // API-specific (confirmed error message in response)
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             ) {
               
             
