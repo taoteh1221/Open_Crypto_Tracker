@@ -375,7 +375,7 @@ fi
 
 
 # Make sure automatic suspend / sleep is disabled
-if [ -f "/etc/debian_version" ]; then
+if [ ! -f "${HOME}/.sleep_disabled.dat" ]; then
 
 echo "${red}We need to make sure your system will NOT AUTO SUSPEND / SLEEP, or your app server could stop running.${reset}"
 
@@ -389,31 +389,13 @@ echo "${reset} "
     echo "${cyan}Disabling auto suspend / sleep...${reset}"
     echo " "
     
-    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target > /dev/null 2>&1
-	   
-    else
-
-    echo " "
-    echo "${green}Skipping...${reset}"
-    echo " "
+         if [ -f "/etc/debian_version" ]; then
+         sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target > /dev/null 2>&1
+         elif [ -f "/etc/redhat-release" ]; then
+         sudo -u gdm dbus-run-session gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0 > /dev/null 2>&1
+         fi
     
-    fi
-
-elif [ -f "/etc/redhat-release" ]; then
-
-echo "${red}We need to make sure your system will NOT AUTO SUSPEND / SLEEP, or your app server could stop running.${reset}"
-
-echo "${yellow} "
-read -n1 -s -r -p $"PRESS F to fix this (disables auto suspend / sleep), OR any other key to skip fixing..." key
-echo "${reset} "
-
-    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
-
-    echo " "
-    echo "${cyan}Disabling auto suspend / sleep...${reset}"
-    echo " "
-    
-    sudo -u gdm dbus-run-session gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0 > /dev/null 2>&1
+    echo -e "ran" > ${HOME}/.sleep_disabled.dat
 	   
     else
 
