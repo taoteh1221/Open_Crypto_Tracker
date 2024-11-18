@@ -3400,10 +3400,11 @@ var $ct_array = array();
             || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
             || preg_match("/block access from your country/i", $data)  // ByBit (via Amazon CloudFront)
             // API-specific (confirmed no price data in response)
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
-            || $endpoint_tld_or_ip == 'jup.ag' && preg_match("/\"data\":\{\}/i", $data) 
-            || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/05\. price/i", $data) 
+            || $endpoint_tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) 
+            || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/price/i", $data) 
+            // API-specific (confirmed error message in response)
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             ) {
               
             
