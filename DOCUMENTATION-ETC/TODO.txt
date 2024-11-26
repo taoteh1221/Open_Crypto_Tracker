@@ -195,6 +195,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Revert Jupiter aggregator "no data" API response check, OR refine it to include the other endpoints I forgot about.
+
+
 For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
 
 
