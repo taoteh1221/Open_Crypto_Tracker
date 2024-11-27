@@ -218,11 +218,80 @@
 </fieldset>
 
 <!-- RESET DIFFERENT webhook keys END -->
-		    
 
-	<p> Backup & Restore: Coming Soon&trade; </p>
+
+
+<!-- backup / restore START -->
+
+<fieldset class='subsection_fieldset'>
+
+<legend class='subsection_legend'> Backup & Restore </legend>
+
+<?php
+
+$backup_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/backups', 'zip', 'asc');
+
+$backup_links = array();
+
+foreach( $backup_files as $back_file ) {
+
+     if ( preg_match("/config-data/i", $back_file) ) {
+     $backup_links['config-data'][] = $back_file;
+     }
+     elseif ( preg_match("/charts-data/i", $back_file) ) {
+     $backup_links['charts-data'][] = $back_file;
+     }
+
+}
+
+$backup_count_max = ( sizeof($backup_links['charts-data']) > sizeof($backup_links['config-data']) ? sizeof($backup_links['charts-data']) : sizeof($backup_links['config-data']) );
+
+?>	
+
+    		
+   <ul style='font-weight: bold;'>
 	
-			    
+	<li class='bitcoin' style='font-weight: bold;'>CONFIGURATION backups are password-protected, IF you set a password in the "Security => Backup Archive Password" section (HIGHLY RECOMMENDED, for protection of any personal data).</li>	
+   
+   </ul>
+               
+               <?=$ct['gen']->table_pager_nav('backup_restore')?>
+               
+               <table id='backup_restore' border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
+                <thead>
+                   <tr>
+                    <th class="filter-match" data-placeholder="Filter Results">Configuration Backups <span class='bitcoin'>(RESTORE feature soon&trade;)</span></th>
+                    <th class="filter-match" data-placeholder="Filter Results">Chart Backups <span class='bitcoin'>(RESTORE feature soon&trade;)</span></th>
+                   </tr>
+                 </thead>
+                 
+                <tbody>
+                   
+                   <?php
+                   
+                   $loop = 0;
+                   while ( $loop < $backup_count_max ) {
+                        
+                   ?>
+                   
+                   <tr>
+                   
+                     <td><?=( isset($backup_links['config-data'][$loop]) ? '<a href="download.php?backup='. $backup_links['config-data'][$loop] . '" target="_BLANK">' . $backup_links['config-data'][$loop] . '</a>' : '' )?></td>
+                     <td><?=( isset($backup_links['charts-data'][$loop]) ? '<a href="download.php?backup='. $backup_links['charts-data'][$loop] . '" target="_BLANK">' . $backup_links['charts-data'][$loop] . '</a>' : '' )?></td>
+                   
+                   </tr>
+                   
+                   <?php
+                   $loop = $loop + 1;
+                   }
+                   ?>
+
+                </tbody>
+                </table>
+
+	
+</fieldset>
 
 
-		    
+<!-- backup / restore END -->
+
