@@ -36,7 +36,7 @@ class ext_zip extends ZipArchive {
     $this->addFile($path, $localpath);
             
         // Password-encrypting
-        if ( $password != 'no' ) {
+        if ( $password != 'no' && $password != '' ) {
         $this->setEncryptionName($localpath, ZipArchive::EM_AES_256, $password);
         }
                 
@@ -70,7 +70,7 @@ class ext_zip extends ZipArchive {
             $this->addFile($path, $localpath);
             
                 // Password-encrypting
-                if ( $password != 'no' ) {
+                if ( $password != 'no' && $password != '' ) {
                 $this->setEncryptionName($localpath, ZipArchive::EM_AES_256, $password);
                 }
                   

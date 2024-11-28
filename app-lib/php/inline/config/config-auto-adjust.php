@@ -680,7 +680,6 @@ uasort($ct['conf']['assets'], array($ct['gen'], 'usort_alpha') );
 // Better decimal support for these vars...
 $ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale']); 
 $ct['conf']['charts_alerts']['price_alert_threshold'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['price_alert_threshold']); 
-$ct['conf']['currency']['hivepower_yearly_interest'] = $ct['var']->num_to_str($ct['conf']['currency']['hivepower_yearly_interest']); 
 
 
 // Admin login MAX expiration time

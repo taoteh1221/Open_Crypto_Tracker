@@ -19,19 +19,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function powerdown_prim_curr($data) {
-   
-   global $ct, $hive_mrkt;
-   
-   return ( $data * $hive_mrkt * $ct['sel_opt']['sel_btc_prim_currency_val'] );
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function static_usd_price($chosen_mrkt, $mrkt_pair) {
    
    global $ct;
@@ -330,99 +317,6 @@ var $ct_array = array();
      
    return $vol_prim_currency_raw;
    
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function hivepower_time($time) {
-       
-   global $ct, $hive_mrkt;
-   
-   $powertime = null;
-   $powertime = null;
-   $hive_total = null;
-   $prim_currency_total = null;
-   
-   $decimal_yearly_interest = $ct['conf']['currency']['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
-   
-   $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest per minute
-   
-   
-       if ( $time == 'day' ) {
-       $powertime = ($speed * 60 * 24);
-       }
-       elseif ( $time == 'week' ) {
-       $powertime = ($speed * 60 * 24 * 7);
-       }
-       elseif ( $time == 'month' ) {
-       $powertime = ($speed * 60 * 24 * 30);
-       }
-       elseif ( $time == '2month' ) {
-       $powertime = ($speed * 60 * 24 * 60);
-       }
-       elseif ( $time == '3month' ) {
-       $powertime = ($speed * 60 * 24 * 90);
-       }
-       elseif ( $time == '6month' ) {
-       $powertime = ($speed * 60 * 24 * 180);
-       }
-       elseif ( $time == '9month' ) {
-       $powertime = ($speed * 60 * 24 * 270);
-       }
-       elseif ( $time == '12month' ) {
-       $powertime = ($speed * 60 * 24 * 365);
-       }
-       
-       
-   $powertime_prim_currency = ( $powertime * $hive_mrkt * $ct['sel_opt']['sel_btc_prim_currency_val'] );
-       
-   $hive_total = ( $powertime + $_POST['hp_total'] );
-   $prim_currency_total = ( $hive_total * $hive_mrkt * $ct['sel_opt']['sel_btc_prim_currency_val'] );
-       
-   $power_purchased = ( $_POST['hp_purchased'] / $hive_total );
-   $power_earned = ( $_POST['hp_earned'] / $hive_total );
-   $power_interest = 1 - ( $power_purchased + $power_earned );
-       
-   $powerdown_total = ( $hive_total / $ct['conf']['currency']['hive_powerdown_time'] );
-   $powerdown_purchased = ( $powerdown_total * $power_purchased );
-   $powerdown_earned = ( $powerdown_total * $power_earned );
-   $powerdown_interest = ( $powerdown_total * $power_interest );
-       
-   ?>
-       
-   <div class='result'>
-       <h2> Interest Per <?=ucfirst($time)?> </h2>
-       <ul>
-           
-           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $powertime_prim_currency, 2, '.', ',')?></b></li>
-       
-       </ul>
-   
-     <p><b>A Power Down Weekly Payout <i>Started At This Time</i> Would Be (rounded to nearest cent):</b></p>
-           <table border='5' cellpadding='20' cellspacing='20'>
-               <tr>
-           <th class='normal'> Purchased </th>
-           <th class='normal'> Earned </th>
-           <th class='normal'> Interest </th>
-           <th> Total </th>
-               </tr>
-                   <tr>
-   
-                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
-                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><?=number_format( $this->powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
-   
-                   </tr>
-              
-           </table>     
-           
-   </div>
-   
-   <?php
    }
    
    
