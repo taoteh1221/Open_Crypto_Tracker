@@ -107,7 +107,7 @@ Please ALWAYS use snake case (var_name), as it's way harder to accidentally form
 Occasionally check Youtube channels on the resources page, and news feeds latest posts timestamp, to see any that MAY BE DYING.
 
 
-Post on Hive, Telegram, Discord, Twitter, and Facebook whenever there is a new release of the app.
+Post on Telegram, Discord, Twitter, and Facebook whenever there is a new release of the app.
 
 
 Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
@@ -204,9 +204,6 @@ Write tests, that send a test message to all comms channels, tracks how long it 
 Build a SUPER SIMPLE auto-trading bot as a plugin, to help automatically dump airdrop shitcoins if a certain price target (up or down) is met. There should be a "one time trade" mode, where if the price target is met, it makes whatever trade you setup to occur, AND *NEVER* EXECUTES *SECONDARY* TRADES AFTERWARDS. Useful if you want to go to bed, and automatically sell your shitcoin airdrop while you sleep, or any other "one time" trade.
 
 
-BUG: adding "grass||jupiter_ag||sol||both" AFTER ADDING THE MARKETS threw a error "market does not exist" (even though it DID EXIST), but after adding "grass||coingecko_usd||usd||both" INSTEAD, IT WORKED FINE. Then adding "grass-2||jupiter_ag||sol||both" ALSO WORKED FINE. Try to replicate / find the issue.
-
-
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
@@ -228,10 +225,6 @@ Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
 
 Fedora's news feed:
 https://fedoramagazine.org/feed/
-
-
-Update bankless feed:
-https://feeds.libsyn.com/247424/rss
 
 
 "private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.

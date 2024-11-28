@@ -46,12 +46,7 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
      $ct['api']->bitcoin('getdifficulty');
     
      // Ethereum
-     $ct['api']->etherscan('number');
-     $ct['api']->etherscan('difficulty');
      $ct['api']->etherscan('gasLimit');
-    
-     // Hive
-     $ct['api']->market('HIVE', 'binance', 'HIVEBTC');
     
      // Chain data END
    

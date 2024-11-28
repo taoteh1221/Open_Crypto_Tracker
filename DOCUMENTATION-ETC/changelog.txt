@@ -6827,6 +6827,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Housekeeping / refactoring / optimization on the codebase
 
+-Cleaned up DEMO config
+
 -------------------------------------------------------------------
 
 

@@ -41,14 +41,6 @@
 			 }
 			 ?>
 			
-			
-			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>HIVE Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>
-				
-				<?php require("app-lib/php/inline/coin-mining-staking/pos/hive-power-interest-calculator.php"); ?>
-				
-			</fieldset>
-		    
 		    
 </div> <!-- full_width_wrapper END -->
 
