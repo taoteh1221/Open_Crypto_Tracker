@@ -59,7 +59,7 @@ TIME=$(date '+%H:%M:%S')
 CURRENT_TIMESTAMP=$(date +%s)
 
 # Are we running on Ubuntu OS?
-IS_UBUNTU=$(cat /etc/os-release | grep "Ubuntu")
+IS_UBUNTU=$(cat /etc/os-release | grep -i "ubuntu")
 
 
 # If a symlink, get link target for script location
