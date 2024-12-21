@@ -199,6 +199,15 @@ JUPITER AGGREGATOR **COMPLETELY DROPPED** V1 PRICE API SUPPORT, so we need to CO
 https://station.jup.ag/docs/apis/price-api-v2
 
 
+Button click animation:
+
+https://www.w3schools.com/howto/howto_css_shake_image.asp
+
+https://www.w3schools.com/howto/howto_css_animate_buttons.asp
+
+https://www.google.com/search?q=button+click+animation
+
+
 For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
 
 
