@@ -29,14 +29,18 @@ $dev_status = @$ct['api']->dev_status();
 	
 	</div>
 				
-				
-	<br />
-		
-		
-	Every 90 minutes, this app checks for development status alerts (related to security / functionality / etc), at this location on github.com:<br />
-	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json</a><br /><br />
+    		
+   <ul style='margin-top: 25px; font-weight: bold;'>
 	
-	<span class='bitcoin'>For security reasons, you MUST login to check YOUR app version number (found in "Admin Area => System Monitoring => System Stats").</span><br /><br />
+	<li class='bitcoin' style='font-weight: bold;'>Every 90 minutes, this app checks for development status alerts (related to security / functionality / etc), at this location on github.com:<br />
+	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json</a></li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>For security reasons, you MUST login to check YOUR app version number (found in "Admin Area => System Monitoring => System Stats").</li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>Entries are sorted newest to oldest.</li>	
+   
+   </ul>
+		
 	
 	<?php
 	if ( is_array($dev_status) && sizeof($dev_status) > 0 ) {
