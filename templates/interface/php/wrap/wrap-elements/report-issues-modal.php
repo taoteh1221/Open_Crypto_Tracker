@@ -39,7 +39,8 @@ $dev_status = @$ct['api']->dev_status();
 	<?php
 	if ( is_array($dev_status) && sizeof($dev_status) > 0 ) {
 	     
-	     foreach ( $dev_status as $alert )
+	     foreach ( $dev_status as $alert ) {
+	          
 	?>
 	
 	<fieldset class='subsection_fieldset red'><legend class='subsection_legend red'> <strong><?=date('Y-m-d', $alert['timestamp'])?> (UTC):</strong> </legend>
