@@ -175,6 +175,7 @@ else {
 
 require("templates/interface/php/wrap/wrap-elements/donation-links.php");
 require("templates/interface/php/wrap/wrap-elements/help-faq-modal.php");
+require("templates/interface/php/wrap/wrap-elements/report-issues-modal.php");
 
           
         // IF WE HAVE A LOG WRITE ERROR FOR ANY LOGS, PRINT IT IN THE FOOTER HERE

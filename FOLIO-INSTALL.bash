@@ -59,7 +59,7 @@ TIME=$(date '+%H:%M:%S')
 CURRENT_TIMESTAMP=$(date +%s)
 
 # Are we running on Ubuntu OS?
-IS_UBUNTU=$(cat /etc/os-release | grep "PRETTY_NAME" | grep "Ubuntu")
+IS_UBUNTU=$(cat /etc/os-release | grep -i "ubuntu")
 
 
 # If a symlink, get link target for script location
@@ -389,13 +389,13 @@ echo "${reset} "
     echo "${cyan}Disabling auto suspend / sleep...${reset}"
     echo " "
     
+    echo -e "ran" > ${HOME}/.sleep_disabled.dat
+    
          if [ -f "/etc/debian_version" ]; then
          sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target > /dev/null 2>&1
          elif [ -f "/etc/redhat-release" ]; then
          sudo -u gdm dbus-run-session gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0 > /dev/null 2>&1
          fi
-    
-    echo -e "ran" > ${HOME}/.sleep_disabled.dat
 	   
     else
 

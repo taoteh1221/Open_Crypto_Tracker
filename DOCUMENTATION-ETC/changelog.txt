@@ -6821,6 +6821,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed app hanging / freezing, when SMTP server user settings are added (for sending email-based alerts / etc), BUT THE SMTP SERVER IS OFFLINE / MISCONFIGURED
 
+-Upgraded Coinbase.com price API (OLD endpoint was taken offline, UPGRADE NOW to restore getting Coinbase price data)
+
 -Backup routine for user configuration data
 
 -Backup files listed in "Reset / Backup & Restore" admin section (with download links)

@@ -161,7 +161,7 @@ var $exchange_apis = array(
 
 
                            'coinbase' => array(
-                                                   'markets_endpoint' => 'https://api.pro.coinbase.com/products/[MARKET]/ticker',
+                                                   'markets_endpoint' => 'https://api.exchange.coinbase.com/products/[MARKET]/ticker',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
                                                    'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => 'https://api.exchange.coinbase.com/products', // false|[API endpoint with all market pairings]
@@ -380,6 +380,30 @@ var $exchange_apis = array(
                                                   
                                                   
                            );
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function dev_status() {
+    
+   global $ct;
+         
+   $url = 'https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json';
+         
+   $response = @$ct['cache']->ext_data('url', $url, 60); // 60 minute cache
+   
+   $data = json_decode($response, true);
+   
+      if ( is_array($data) ) {
+      return $data;
+      }
+      else {
+      return false;
+      }
+     
+   }
    
 
    ////////////////////////////////////////////////////////
