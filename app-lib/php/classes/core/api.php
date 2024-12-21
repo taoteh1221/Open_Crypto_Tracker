@@ -392,7 +392,7 @@ var $exchange_apis = array(
          
    $url = 'https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json';
          
-   $response = @$ct['cache']->ext_data('url', $url, 60); // 60 minute cache
+   $response = @$ct['cache']->ext_data('url', $url, 90); // 90 minute cache
    
    $data = json_decode($response, true);
    

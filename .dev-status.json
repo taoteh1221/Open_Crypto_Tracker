@@ -1,6 +1,8 @@
-{
-    "timestamp": 1734794109,
-    "affected_version": "6.00.39",
-    "affected_earlier": true,
-    "affected_desc": "I'm now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. \ud83d\ude29 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release."
-}
+[
+    {
+        "timestamp": 1734739200,
+        "affected_version": "6.00.39",
+        "affected_earlier": false,
+        "affected_desc": "I'm now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. \ud83d\ude29 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release."
+    }
+]
