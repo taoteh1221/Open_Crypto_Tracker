@@ -33,13 +33,26 @@ $dev_status = @$ct['api']->dev_status();
 	<br />
 		
 		
-	    <fieldset class='subsection_fieldset red'><legend class='subsection_legend red'> <strong>Development Status:</strong> </legend>
+	Every 90 minutes, this app checks for development status alerts (related to security / functionality / etc), at this location on github.com:<br />
+	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json</a><br /><br />
+	
 	<?php
 	if ( is_array($dev_status) && sizeof($dev_status) > 0 ) {
+	     
+	     foreach ( $dev_status as $alert )
 	?>
 	
+	<fieldset class='subsection_fieldset red'><legend class='subsection_legend red'> <strong><?=date('Y-m-d', $alert['timestamp'])?> (UTC):</strong> </legend>
+	
+	<?=$alert['affected_desc']?><br /><br />
+	
+	Affected Version(s): v<?=$alert['affected_version']?> <?=( $alert['affected_earlier'] ? ' and earlier' : '' )?>
+	
+	</fieldset>
 	
 	<?php
+	    }
+	    
 	}
 	else {
 	?>
@@ -49,8 +62,6 @@ $dev_status = @$ct['api']->dev_status();
 	<?php
 	}
 	?>
-	
-	    </fieldset>
 	    
 	
 </div>
