@@ -225,7 +225,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    
    <div class="smallnav_spacer"></div>
    
-   <div class="align_center"><a href="https://github.com/taoteh1221/Open_Crypto_Tracker/issues" target='_BLANK' class="" title='Report issues with this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-issue-96-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Report issues with this app.' /></a></div>
+   <div class="align_center"><a href="javascript: return false;" class="modal_style_control show_report_issues" title='Report issues with this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-issue-96-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Report issues with this app, AND check Development Status (for info about UPCOMING fixes, that are not released yet).' /></a></div>
 
 
    <br clear='all' />
@@ -612,7 +612,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
             </li>
             
             <li class='sidebar-item'>
-                <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/issues" target='_BLANK' class="red" title='Report issues with this app.'>Report Issues</a>
+                <a href="javascript: return false;" class="modal_style_control show_report_issues red" title='Report issues with this app, AND check Development Status (for info about UPCOMING fixes, that are not released yet).'>Report Issues</a>
             </li>
             
             

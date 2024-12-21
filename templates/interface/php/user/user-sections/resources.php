@@ -46,7 +46,6 @@
 	    
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Other Stats</strong> </legend>
 	    <ul>
-	    <ul>
 	        
 	        <li class='links_list'><a href='https://dune.com/21co/solana-key-metrics' target='_blank'>21.co's Dune Metrics Page For Solana</a></li>
 	        
