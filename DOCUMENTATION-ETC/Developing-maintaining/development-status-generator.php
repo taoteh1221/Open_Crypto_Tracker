@@ -15,6 +15,8 @@ $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2024-12-21'),
+                   
+                   'very_important' => true,
 
                    // HIGHEST VERSION AFFECTED
                    'affected_version' => '6.00.39',
@@ -32,6 +34,8 @@ $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2024-11-28'),
+                   
+                   'very_important' => false,
 
                    // HIGHEST VERSION AFFECTED
                    'affected_version' => '6.00.40',

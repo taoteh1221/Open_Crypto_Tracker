@@ -2,7 +2,13 @@
 /*
  * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
+ 
 
+// We only use .dev-status.json for dev status updates on github.com,
+// we don't want any bots snooping around to read this data from production installs
+if ( file_exists('.dev-status.json') ) {
+unlink('.dev-status.json');
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
