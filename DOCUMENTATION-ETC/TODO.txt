@@ -211,7 +211,7 @@ Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sur
 Create CONFIG backups, using same logic we use for chart backups, EXCEPT WE USE $ct['conf']['sec']['backup_archive_password'] TO EXCRYPT THE ZIP FILE (for security of any sensitive config data).
 
 
-On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download. INCLUDE AN UPLOAD FIELD TOO, TO RESTORE FROM BACKUPS SAVED TO A PC. See PHP's 'setPassword' for automatically using the config backup password, to open / restore config backups:
+On the backup / restore admin page, have all the backups have a dropdown menu next to each, for restore / download. INCLUDE AN UPLOAD FIELD TOO, TO RESTORE FROM BACKUPS SAVED TO A PC. See PHP's 'setPassword' for automatically using the config backup password, to open / restore config backups:
 https://www.php.net/manual/en/ziparchive.setpassword.php
 
 
