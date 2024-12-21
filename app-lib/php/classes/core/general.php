@@ -41,7 +41,6 @@ var $ct_array = array();
    }
    
    
-   
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
@@ -727,19 +726,23 @@ var $ct_array = array();
    function timestamps_usort_newest($a, $b) {
       
       if ( isset($a->pubDate) && $a->pubDate != '' ) {
-      $a = $a->pubDate;
-      $b = $b->pubDate;
+      $result_a = strtotime($a->pubDate);
+      $result_b = strtotime($b->pubDate);
       }
       elseif ( isset($a->published) && $a->published != '' ) {
-      $a = $a->published;
-      $b = $b->published;
+      $result_a = strtotime($a->published);
+      $result_b = strtotime($b->published);
       }
       elseif ( isset($a->updated) && $a->updated != '' ) {
-      $a = $a->updated;
-      $b = $b->updated;
+      $result_a = strtotime($a->updated);
+      $result_b = strtotime($b->updated);
+      }
+      elseif ( isset($a['timestamp']) && $a['timestamp'] != '' ) {
+      $result_a = $a['timestamp'];
+      $result_b = $b['timestamp'];
       }
    
-   return strtotime($b) - strtotime($a);
+   return $result_b - $result_a;
       
    }
    

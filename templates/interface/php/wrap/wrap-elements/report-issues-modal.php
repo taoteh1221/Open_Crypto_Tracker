@@ -21,7 +21,7 @@ $dev_status = @$ct['api']->dev_status();
 	<br clear='all' />
 	
 	
-	<div class='bitcoin_dotted blue' style='font-weight: bold;'>
+	<div class='blue_dotted blue' style='font-weight: bold;'>
 	
 	If your issue is NOT listed below in the Development Status section, please REPORT IT HERE:<br />
 	
@@ -36,8 +36,12 @@ $dev_status = @$ct['api']->dev_status();
 	Every 90 minutes, this app checks for development status alerts (related to security / functionality / etc), at this location on github.com:<br />
 	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json</a><br /><br />
 	
+	<span class='bitcoin'>For security reasons, you MUST login to check YOUR app version number (found in "Admin Area => System Monitoring => System Stats").</span><br /><br />
+	
 	<?php
 	if ( is_array($dev_status) && sizeof($dev_status) > 0 ) {
+
+     usort($dev_status, array($ct['gen'], 'timestamps_usort_newest') );
      
      //var_dump($dev_status);	     
 	     
@@ -49,11 +53,11 @@ $dev_status = @$ct['api']->dev_status();
 	          
 	?>
 	
-	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-m-d', $dev_alert['timestamp'])?> (UTC)</strong> </legend>
+	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-m-d', $dev_alert['timestamp'])?></strong> </legend>
 	
-	<?=$dev_alert['affected_desc']?><br /><br />
+	<b><u><i>Affected Version(s):</i></u></b> &nbsp; v<?=$dev_alert['affected_version']?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?><br /><br />
 	
-	Affected Version(s): v<?=$dev_alert['affected_version']?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?>
+	<?=$dev_alert['affected_desc']?>
 	
 	</fieldset>
 	
