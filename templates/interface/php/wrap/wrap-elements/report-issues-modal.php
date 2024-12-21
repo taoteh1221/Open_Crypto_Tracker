@@ -21,7 +21,7 @@ $dev_status = @$ct['api']->dev_status();
 	<br clear='all' />
 	
 	
-	<div class='bitcoin_dotted bitcoin' style='font-weight: bold;'>
+	<div class='bitcoin_dotted blue' style='font-weight: bold;'>
 	
 	If your issue is NOT listed below in the Development Status section, please REPORT IT HERE:<br />
 	
@@ -38,16 +38,22 @@ $dev_status = @$ct['api']->dev_status();
 	
 	<?php
 	if ( is_array($dev_status) && sizeof($dev_status) > 0 ) {
+     
+     //var_dump($dev_status);	     
 	     
-	     foreach ( $dev_status as $alert ) {
+	     foreach ( $dev_status as $dev_alert ) {
+	          
+	          if ( $dev_alert['dummy_entry'] ) {
+	          continue;
+	          }
 	          
 	?>
 	
-	<fieldset class='subsection_fieldset red'><legend class='subsection_legend red'> <strong><?=date('Y-m-d', $alert['timestamp'])?> (UTC):</strong> </legend>
+	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-m-d', $dev_alert['timestamp'])?> (UTC)</strong> </legend>
 	
-	<?=$alert['affected_desc']?><br /><br />
+	<?=$dev_alert['affected_desc']?><br /><br />
 	
-	Affected Version(s): v<?=$alert['affected_version']?> <?=( $alert['affected_earlier'] ? ' and earlier' : '' )?>
+	Affected Version(s): v<?=$dev_alert['affected_version']?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?>
 	
 	</fieldset>
 	
