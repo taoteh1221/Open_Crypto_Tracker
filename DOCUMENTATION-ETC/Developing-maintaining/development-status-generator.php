@@ -14,25 +14,6 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
-                   'timestamp' => strtotime('2024-12-21'),
-                   
-                   'very_important' => true,
-
-                   // HIGHEST VERSION AFFECTED
-                   'affected_version' => '6.00.39',
-
-                   // DOES THIS AFFECT EARLIER VERSIONS
-                   'affected_earlier' => false,
-                   
-                   // DESCRIPTION
-                   'affected_desc' => 'I\'m now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. 😩 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release.',
-
-                   );
-
-// NEW ENTRY
-$dev_status[] = array(
-
-                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2024-11-28'),
                    
                    'very_important' => false,
@@ -45,6 +26,26 @@ $dev_status[] = array(
                    
                    // DESCRIPTION
                    'affected_desc' => 'You can now download your price chart and app config backups, on the "Reset / Backup & Restore" ADMIN page. In an UPCOMING (unknown when) release, you will be able to RESTORE these backups on the same admin page.',
+
+                   );
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2024-12-21'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.00.39',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => false,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'I\'m now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. 😩 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release.',
 
                    );
 

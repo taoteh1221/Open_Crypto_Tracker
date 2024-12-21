@@ -6,17 +6,17 @@
         "dummy_entry": true
     },
     {
-        "timestamp": 1734739200,
-        "very_important": true,
-        "affected_version": "6.00.39",
-        "affected_earlier": false,
-        "affected_desc": "I'm now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. \ud83d\ude29 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release."
-    },
-    {
         "timestamp": 1732752000,
         "very_important": false,
         "affected_version": "6.00.40",
         "affected_earlier": false,
         "affected_desc": "You can now download your price chart and app config backups, on the \"Reset \/ Backup & Restore\" ADMIN page. In an UPCOMING (unknown when) release, you will be able to RESTORE these backups on the same admin page."
+    },
+    {
+        "timestamp": 1734739200,
+        "very_important": true,
+        "affected_version": "6.00.39",
+        "affected_earlier": false,
+        "affected_desc": "I'm now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. \ud83d\ude29 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release."
     }
 ]
