@@ -32,10 +32,15 @@ $dev_status = @$ct['api']->dev_status();
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
 	
-	<li class='bitcoin' style='font-weight: bold;'>Every 90 minutes, this app checks for development status alerts (related to security / functionality / etc), at this location on github.com:<br />
+	<li class='bitcoin' style='font-weight: bold;'>Every 90 minutes (in the interface, during user interaction / auto-reloads), this app checks for development status alerts (related to security / functionality / etc), at this location on Github.com:<br />
 	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json</a></li>	
 	
-	<li class='bitcoin' style='font-weight: bold;'>For security reasons, you MUST login to check YOUR app version number (found in "Admin Area => System Monitoring => System Stats").</li>	
+	<li class='bitcoin' style='font-weight: bold;'>ALL Github.com code (update) commits are SECURED with this GPG Key:<br />
+	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/taoteh1221-gpg-pub-key.asc' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/taoteh1221-gpg-pub-key.asc</a></li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>For security reasons, you MUST login to check YOUR app version number (found in your app install, at: "Admin Area => System Monitoring => System Stats").</li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>RED highlighting indicates IMPORTANT notification(s).</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>Entries are sorted newest to oldest.</li>	
    
@@ -59,7 +64,7 @@ $dev_status = @$ct['api']->dev_status();
 	
 	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-m-d', $dev_alert['timestamp'])?></strong> </legend>
 	
-	<b><u><i>Affected Version(s):</i></u></b> &nbsp; v<?=$dev_alert['affected_version']?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?><br /><br />
+	<b><u><i>Affected Version(s):</i></u> &nbsp; v<?=$dev_alert['affected_version']?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?></b><br /><br />
 	
 	<?=$dev_alert['affected_desc']?>
 	

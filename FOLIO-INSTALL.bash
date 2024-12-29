@@ -1909,6 +1909,7 @@ select opt in $OPTIONS; do
 				rm .gitattributes > /dev/null 2>&1
 				rm .gitignore > /dev/null 2>&1
 				rm .travis.yml > /dev/null 2>&1
+				rm .dev-status.json > /dev/null 2>&1
 				rm CODEOWNERS > /dev/null 2>&1
 				
 				\cp -r ./ $DOC_ROOT
