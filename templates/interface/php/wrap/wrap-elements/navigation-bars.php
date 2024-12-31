@@ -612,7 +612,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
             </li>
             
             <li class='sidebar-item'>
-                <a href="javascript: return false;" class="modal_style_control show_report_issues red" title='Report issues with this app, AND check Development Status (for info about UPCOMING fixes / features, that are not released yet).'>Report Issues</a>
+                <a href="javascript: return false;" class="modal_style_control show_report_issues red" title='Report issues with this app, AND check Development Status (for info about UPCOMING fixes / features, that are not released yet).'>Issues / Status</a>
             </li>
             
             

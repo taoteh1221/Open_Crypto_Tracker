@@ -3,10 +3,6 @@
  * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
-// Development status DATA SET from github file:
-// https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json
-$dev_status = @$ct['api']->dev_status();
-
 ?>
 	
 <!-- START report issues modal -->
@@ -48,13 +44,10 @@ $dev_status = @$ct['api']->dev_status();
 		
 	
 	<?php
-	if ( is_array($dev_status) && sizeof($dev_status) > 0 ) {
-
-     usort($dev_status, array($ct['gen'], 'timestamps_usort_newest') );
-     
-     //var_dump($dev_status);	     
+	
+	if ( $ct['dev']['status_data_found'] ) {
 	     
-	     foreach ( $dev_status as $dev_alert ) {
+	     foreach ( $ct['dev']['status'] as $dev_alert ) {
 	          
 	          if ( $dev_alert['dummy_entry'] ) {
 	          continue;

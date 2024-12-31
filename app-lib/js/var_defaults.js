@@ -124,11 +124,15 @@ var donations_notice_storage;
 
 var refresh_cache_upgrade_notice_storage;
 
+var issues_page_visit_time_storage;
+
 var scroll_position_storage;
 
 var notes_storage;
 
 var reload_time;
+
+var latest_important_dev_alerts_timestamp;
 
 var reload_countdown;
 	

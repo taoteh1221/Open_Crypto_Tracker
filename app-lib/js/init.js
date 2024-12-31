@@ -205,7 +205,36 @@ nav_menu('.user-nav');
          ct_ajax_load('type=access_stats', '#access_stats_data', 'latest access stats', false, true, true); // Secured / tablesorter
          }
      });
+	
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Viewing "Issues / Status" sidebar link(s), 
+     // sets js timestamp of WHEN LAST VIEWED (to js storage)
+     // (to )
+     $('.show_report_issues').on({
+        "click":function(e){
+         localStorage.setItem(issues_page_visit_time_storage, Date.now() );
+         }
+     });
+
+
+     // Make sure local storage data is parsed as an integer (for javascript to run math on it)
+     var issues_page_last_visit = parseInt( localStorage.getItem(issues_page_visit_time_storage) , 10);
+     
+     //console.log('latest_important_dev_alerts_timestamp = ' + latest_important_dev_alerts_timestamp);
+     //console.log('issues_page_last_visit = ' + issues_page_last_visit);
+                     
+     // Determine if we should highlight "Issues / Status" sidebar link(s),
+     // if an "important" status update has been added AFTER last page view
+     if ( isNaN(issues_page_last_visit) || latest_important_dev_alerts_timestamp >= issues_page_last_visit ) {
+     $(".show_report_issues").css({ "border": '4px dotted red'});
+     $(".show_report_issues").css({ "border-radius": '1em'});
+     $(".show_report_issues .nav-image").css({ "border-radius": '0.3em'});
+     $(".show_report_issues .nav-image").css({ "background-color": 'red'});
+     }
+                     
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	

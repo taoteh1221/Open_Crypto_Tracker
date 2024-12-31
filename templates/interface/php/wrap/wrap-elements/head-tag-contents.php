@@ -137,7 +137,18 @@
 	
 	refresh_cache_upgrade_notice_storage = storage_app_id("refresh_cache_upgrade_notice_storage");
 	
+	issues_page_visit_time_storage = storage_app_id("issues_page_visit_time_storage");
+	
 	notes_storage = storage_app_id("notes");
+	
+	    <?php
+	    if ( isset($ct['dev']['latest_important_dev_alerts_timestamp']) ) {
+	    ?>
+	    // JS-Compatible timestamp (as milliseconds)
+	    latest_important_dev_alerts_timestamp = Number(<?=$ct['dev']['latest_important_dev_alerts_timestamp']?>000);
+	    <?php
+	    }
+	    ?>
 	
 	<?php
 	}
