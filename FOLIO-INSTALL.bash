@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+# Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 
 ISSUES_URL="https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
@@ -1909,6 +1909,7 @@ select opt in $OPTIONS; do
 				rm .gitattributes > /dev/null 2>&1
 				rm .gitignore > /dev/null 2>&1
 				rm .travis.yml > /dev/null 2>&1
+				rm .dev-status.json > /dev/null 2>&1
 				rm CODEOWNERS > /dev/null 2>&1
 				
 				\cp -r ./ $DOC_ROOT

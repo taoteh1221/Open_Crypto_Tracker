@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
  
 header('Content-type: text/html; charset=' . $ct['dev']['charset_default']);
@@ -21,7 +21,7 @@ header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 <html lang="en">
 
 <!-- /*
- * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */ -->
 
 <?=( isset($ct['system_info']['portfolio_cookies']) ? '<!-- CURRENT COOKIES SIZE TOTAL: ' . $ct['var']->num_pretty( ($ct['system_info']['portfolio_cookies'] / 1000) , 2) . ' kilobytes -->' : '' )?>	

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -1556,7 +1556,7 @@ border-radius: 0px !important;
 }
 
 
-#alert_source, #percent_change_amnt, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_help_faq, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, .sys_stats_admin_link_info, #header_size_warning, #access_stats_data, .jstree_remove_selected, .show_2fa_verification, .hidden, .save_notice {
+#alert_source, #percent_change_amnt, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_report_issues, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, .sys_stats_admin_link_info, #header_size_warning, #access_stats_data, .jstree_remove_selected, .show_2fa_verification, .hidden, .save_notice {
 display: none;
 }
 

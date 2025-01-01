@@ -1,5 +1,5 @@
 
-// Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+// Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 
 // Set ALL global vars (EVEN BLANK ONES)...
@@ -124,11 +124,15 @@ var donations_notice_storage;
 
 var refresh_cache_upgrade_notice_storage;
 
+var issues_page_visit_time_storage;
+
 var scroll_position_storage;
 
 var notes_storage;
 
 var reload_time;
+
+var latest_important_dev_alerts_timestamp;
 
 var reload_countdown;
 	
