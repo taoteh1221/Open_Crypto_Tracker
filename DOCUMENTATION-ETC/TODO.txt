@@ -195,6 +195,10 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+NEW installs always show this. Move this logic, so it's only called when actually used...
+[2025-01-01 19:09:29.728] cron => notify: "etherscan_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section; 
+
+
 JUPITER AGGREGATOR **COMPLETELY DROPPED** V1 PRICE API SUPPORT, so we need to COMPLETELY REWRITE **EVERY** THING RELATED TO JUP AG PRICE API SUPPORT, SO IT USES THE CASE-SENSITIVE TOKEN CONTRACT ADDRESSES INSTEAD OF CASE-SENSITIVE TICKER SYMBOLS:
 https://station.jup.ag/docs/apis/price-api-v2
 

@@ -231,27 +231,33 @@
 
 $backup_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/backups', 'zip', 'asc');
 
+
+if ( is_array($backup_files) && sizeof($backup_files) > 0 ) {
+
 $backup_links = array();
 
-foreach( $backup_files as $back_file ) {
+     foreach( $backup_files as $back_file ) {
+     
+          if ( preg_match("/config-data/i", $back_file) ) {
+          $backup_links['config-data'][] = $back_file;
+          }
+          elseif ( preg_match("/charts-data/i", $back_file) ) {
+          $backup_links['charts-data'][] = $back_file;
+          }
+     
+     }
 
-     if ( preg_match("/config-data/i", $back_file) ) {
-     $backup_links['config-data'][] = $back_file;
-     }
-     elseif ( preg_match("/charts-data/i", $back_file) ) {
-     $backup_links['charts-data'][] = $back_file;
-     }
+$backup_count_max = ( sizeof($backup_links['charts-data']) > sizeof($backup_links['config-data']) ? sizeof($backup_links['charts-data']) : sizeof($backup_links['config-data']) );
 
 }
 
-$backup_count_max = ( sizeof($backup_links['charts-data']) > sizeof($backup_links['config-data']) ? sizeof($backup_links['charts-data']) : sizeof($backup_links['config-data']) );
 
 ?>	
 
     		
    <ul style='font-weight: bold;'>
 	
-	<li class='bitcoin' style='font-weight: bold;'>CONFIGURATION backups are password-protected, IF you set a password in the "Security => Backup Archive Password" section (HIGHLY RECOMMENDED, for protection of any personal data).</li>	
+	<li class='red' style='font-weight: bold;'>CONFIGURATION backups are password-protected, IF you set a password in the "Security => Backup Archive Password" section (HIGHLY RECOMMENDED, for protection of any personal data).</li>	
    
    </ul>
                
@@ -269,8 +275,10 @@ $backup_count_max = ( sizeof($backup_links['charts-data']) > sizeof($backup_link
                    
                    <?php
                    
-                   $loop = 0;
-                   while ( $loop < $backup_count_max ) {
+                   if ( isset($backup_count_max) ) {
+                        
+                      $loop = 0;
+                      while ( $loop < $backup_count_max ) {
                         
                    ?>
                    
@@ -282,7 +290,22 @@ $backup_count_max = ( sizeof($backup_links['charts-data']) > sizeof($backup_link
                    </tr>
                    
                    <?php
-                   $loop = $loop + 1;
+                      
+                      $loop = $loop + 1;
+                      }
+                      
+                   }
+                   else {
+                   ?>
+                   
+                   <tr>
+                   
+                     <td class='bitcoin'>No backups yet, please check back later.</td>
+                     <td class='bitcoin'></td>
+                   
+                   </tr>
+                   
+                   <?php
                    }
                    ?>
 

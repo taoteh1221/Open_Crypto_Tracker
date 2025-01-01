@@ -210,9 +210,8 @@ nav_menu('.user-nav');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
      
-     // Viewing "Issues / Status" sidebar link(s), 
+     // Viewing "Issues Help & Status" sidebar link(s), 
      // sets js timestamp of WHEN LAST VIEWED (to js storage)
-     // (to )
      $('.show_report_issues').on({
         "click":function(e){
          localStorage.setItem(issues_page_visit_time_storage, Date.now() );

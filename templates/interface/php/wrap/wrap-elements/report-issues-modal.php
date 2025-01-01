@@ -38,7 +38,7 @@
 	
 	<li class='bitcoin' style='font-weight: bold;'>For security reasons, you MUST login to check YOUR app version number (found in your app install, at: "Admin Area => System Monitoring => System Stats").</li>	
 	
-	<li class='bitcoin' style='font-weight: bold;'>The "Issues Help & Status" sidebar button will be highlighted, whenever the is a new IMPORTANT alert (in red), that you have NOT seen yet.</li>	
+	<li class='bitcoin' style='font-weight: bold;'>The "Issues Help & Status" sidebar button will be highlighted, whenever the is a new IMPORTANT notification (in red), that you have NOT seen yet.</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>RED coloring indicates IMPORTANT notification(s).</li>	
 	
