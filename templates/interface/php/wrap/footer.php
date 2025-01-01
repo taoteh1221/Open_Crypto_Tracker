@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -174,7 +174,6 @@ else {
 <?php
 
 require("templates/interface/php/wrap/wrap-elements/donation-links.php");
-require("templates/interface/php/wrap/wrap-elements/help-faq-modal.php");
 require("templates/interface/php/wrap/wrap-elements/report-issues-modal.php");
 
           
@@ -266,7 +265,7 @@ footer_banner(desktop_windows_notice_storage, 'This web app *SOMETIMES* MAY NOT 
 
 
 <!-- /*
- * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */ -->
 
  
