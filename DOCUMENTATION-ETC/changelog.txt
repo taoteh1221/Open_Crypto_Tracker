@@ -6819,15 +6819,19 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.40
 
--BUG FIX: Fixed app hanging / freezing, when SMTP server user settings are added (for sending email-based alerts / etc), BUT THE SMTP SERVER IS OFFLINE / MISCONFIGURED
+-BUG FIX: Fixed app hanging / freezing, when SMTP server user settings are added (for sending email-based alerts / etc), AND THE SMTP SERVER IS OFFLINE / MISCONFIGURED BY USER
 
--Upgraded Coinbase.com price API (OLD endpoint was taken offline, UPGRADE NOW to restore getting Coinbase price data)
+-Moved Help FAQ into a new help section (at bottom of sidebars), and included a "Development Status" sub-section, that gives users status updates of critical security bugs / issues, new features, etc (retrieves data from https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json every 90 minutes)
 
--Backup routine for user configuration data
+-"Issues Help & Status" at bottom of sidebars IS HIGHLIGHTED, WHEN NEW IMPORTANT DEV STATUS UPDATES ARE AVAILABLE (if you have not viewed NEW updates yet)
+
+-Upgraded Coinbase.com price API (OLD endpoint was taken offline, UPGRADE NOW to restore getting Coinbase price data!)
 
 -Backup files listed in "Reset / Backup & Restore" admin section (with download links)
 
 -Housekeeping / refactoring / optimization on the codebase
+
+-Backup routine for user configuration data
 
 -Cleaned up DEMO config
 
