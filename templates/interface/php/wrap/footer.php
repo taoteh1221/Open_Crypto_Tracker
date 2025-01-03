@@ -240,12 +240,6 @@ if ( is_safari && localStorage.getItem(cookies_notice_storage) == "understood" &
 footer_banner(safari_notice_storage, 'This web app MAY NOT WORK PROPERLY on the Apple Safari web browser. FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are highly recommended for the best user experience.');
 
 }
-// OR creates windows phpdesktop notice footer banner (if using Desktop on Windows / has ALREADY ACKNOWLEDGED the cookies / donations banners)
-else if ( app_edition == 'desktop' && app_platform == 'windows' && app_container == 'phpdesktop' && localStorage.getItem(cookies_notice_storage) == "understood" && localStorage.getItem(donations_notice_storage) == "understood" ) {
-
-footer_banner(desktop_windows_notice_storage, 'This web app *SOMETIMES* MAY NOT WORK PROPERLY for this "PHPdesktop"-based WINDOWS DESKTOP EDITION (all other Editions work fine). Try installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Newest Windows Desktop Edition of this app</a>, as we now use "PHPbrowserBox" instead of "PHPdesktop", which makes the Windows Edition RUN WAY BETTER.');
-
-}
 
 
 </script>

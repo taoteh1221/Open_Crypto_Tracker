@@ -232,6 +232,16 @@ echo "${reset} "
 
 fi
 
+
+echo "${cyan} "
+echo "Using PHP (Version) Github Release Tag: ${yellow}${PHP_GITHUB_RELEASE_TAG}"
+echo " "
+echo "${red}TO CHOOSE A DIFFERENT VERSION, DETERMINE THE RELEASE TAG NAME HERE:"
+echo "https://github.com/php/php-src/tags"
+echo " "
+echo "THEN CHANGE THIS VARIABLE AT THE TOP OF THIS SCRIPT:"
+echo "PHP_GITHUB_RELEASE_TAG"
+echo "${reset} "
      
 echo "${yellow} "
 read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
