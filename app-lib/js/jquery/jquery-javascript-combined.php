@@ -9,7 +9,7 @@ header("Content-type: application/javascript");
 
 // Array of JS files
 $js = array(
-    'jquery-3.6.3.min.js',
+    'jquery-3.7.1.min.js',
     'jquery.tablesorter.min.js',
     'jquery.tablesorter.widgets.min.js',
     'jquery.tablesorter.pager.js',

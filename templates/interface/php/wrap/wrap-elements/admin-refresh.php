@@ -131,11 +131,11 @@ function <?=$reload_function_name?>() {
   
   // Skip any corrupt interface config sections
   if ( skip_corrupt_sections.includes(refresh_iframe) ) {
-  console.log('SKIPPING CORRUPT CONFIG SECTION IFRAME: ' + refresh_iframe + ' (in "<?=$iframe_id?>")');
+  console.log('SKIPPING CORRUPT CONFIG SECTION IFRAME: ' + refresh_iframe + ' (called from "<?=$iframe_id?>")');
   }
   // Skip any about:blank pages
   else if ( parent.document.getElementById(refresh_iframe).contentWindow.location.href == 'about:blank' ) {
-  console.log('SKIPPING ABOUT:BLANK IFRAME: ' + refresh_iframe + ' (in "<?=$iframe_id?>")');
+  console.log('SKIPPING ABOUT:BLANK IFRAME: ' + refresh_iframe + ' (called from "<?=$iframe_id?>")');
   }
   else {
   

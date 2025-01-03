@@ -6833,6 +6833,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Backup routine for user configuration data
 
+-Upgraded Jquery to v3.7.1
+
 -Cleaned up DEMO config
 
 -------------------------------------------------------------------

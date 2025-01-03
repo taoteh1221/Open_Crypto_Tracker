@@ -79,28 +79,7 @@
 	<?php
 	}
 	?>
-	    
-				
-	<?php
-	if ( $ct['app_edition'] == 'desktop' && $ct['app_platform'] == 'windows' && $ct['app_container'] == 'phpdesktop' ) {
-	?>
 	
-	<div class='red red_dotted'>
-	
-	This web app *SOMETIMES* MAY NOT WORK PROPERLY for this "PHPdesktop"-based WINDOWS DESKTOP EDITION (all other Editions work fine).<br /><br />
-	
-	Try installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Newest Windows Desktop Edition of this app</a>, as we now use "PHPbrowserBox" instead of "PHPdesktop", which makes the Windows Edition RUN WAY BETTER.<br /><br />
-	
-	You can still view the contents of this Help / FAQ page here: <a href='TROUBLESHOOTING.txt' target='_blank'>TROUBLESHOOTING.txt</a>
-	
-	</div>
-	
-	<?php
-	}
-	?>
-	
-	
-
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->
 	
