@@ -10,7 +10,7 @@
 
      
 // Adjust CSS for LINUX PHPDESKTOP or ALL OTHER browsers
-if ( $ct['app_container'] == 'phpdesktop' ) {
+if ( $ct['app_container'] == 'phpdesktop' && $ct['app_platform'] == 'linux' ) {
 $ct['dev']['small_font_size_css_selector'] .= $ct['dev']['small_font_size_css_selector_adjusted'];
 $ct['dev']['tiny_font_size_css_selector'] .= $ct['dev']['tiny_font_size_css_selector_adjusted'];
 }
