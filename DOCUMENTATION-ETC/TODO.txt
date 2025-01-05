@@ -195,6 +195,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Run dev status alert parsing on the 'issues help and status' page through html entities converter or html tag remover (or both preferabbly for tighter seurity), so HTML IS NOT ALLOWED (FOR SECURITY REASONS).
+
+
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
 
 
