@@ -70,7 +70,7 @@
 		
 			$('#news_raspi_crash').balloon({
 			html: true,
-			position: "left",
+			position: "bottom",
   			classname: 'balloon-tooltips',
 			contents: news_raspi_crash,
 			css: {

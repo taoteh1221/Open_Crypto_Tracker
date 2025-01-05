@@ -152,7 +152,7 @@
 		
 			$('#charts_raspi_crash').balloon({
 			html: true,
-			position: "left",
+			position: "bottom",
   			classname: 'balloon-tooltips',
 			contents: charts_raspi_crash,
 			css: {

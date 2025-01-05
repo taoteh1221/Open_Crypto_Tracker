@@ -801,7 +801,7 @@ $PACKAGE_INSTALL freetype-devel -y
 
 sleep 2
 
-sudo yum groupinstall 'Development Tools' -y
+sudo yum group install -y --skip-broken --skip-unavailable development-tools
 
 # Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
 $PACKAGE_INSTALL autoconf bison re2c -y

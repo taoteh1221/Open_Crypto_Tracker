@@ -205,7 +205,7 @@ NEW installs always show this. Move this logic, so it's only called when actuall
 [2025-01-01 19:09:29.728] cron => notify: "etherscan_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section; 
 
 
-WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API...
+WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API (server / linux desktop editions do NOT have any issues, so it MAY just be a powershell issue)...
 PS C:\Users\taote> Remove-item alias:curl
 PS C:\Users\taote> curl -d "api_key=9f1eaf5e8af9bf5c1a4c7c0f2866b23078ff7b1aaae168438e2ed20a6fc33965" -X POST http://127.0.0.1:38393/internal-api.php?data_set=market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
 curl: (8) Header without colon
