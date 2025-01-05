@@ -214,7 +214,7 @@ unset($webhook_plug);
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 # WINDOWS USERS: REMOVE THE "Invoke-WebRequest" CURL ALIAS FIRST: Remove-item alias:curl
 
-curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
+curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
 </code></pre>
 	        
 	        
@@ -249,7 +249,7 @@ htaccess_login.send();
 
 var api_request = new XMLHttpRequest();
 
-api_request.open("POST", "<?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
+api_request.open("POST", "<?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc", true);
 
 var params = "api_key=<?=$int_api_key?>";
 
@@ -299,7 +299,7 @@ exit;
 }
 
 // Initiate CURL
-$ch = curl_init('<?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
+$ch = curl_init('<?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc');
 
 $params = array('api_key' => '<?=$int_api_key?>');
 
@@ -351,7 +351,7 @@ var_dump($api_data_array);
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Example API Responses (JSON format) </legend>
 	        
-	    <p class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd</p>
+	    <p class='bitcoin'>/<?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -404,7 +404,7 @@ var_dump($api_data_array);
 }
 </code></pre>
 
-	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$ct['int_api_base_endpoint']?>market_conversion/market_only/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$ct['int_api_base_endpoint']?>market_conversion/market_only/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -559,7 +559,7 @@ var_dump($api_data_array);
             "binance-sol-eur",
             "binance-sol-rub",
             "binance-sol-try",
-            "binance-sol-usdc",
+            "binance_us-sol-usdc",
             "binance-sol-usdt",
             "binance-uni-btc",
             "binance-uni-usdt",

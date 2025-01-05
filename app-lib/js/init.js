@@ -433,7 +433,7 @@ nav_menu('.user-nav');
 	
      
      // iframe info balloon text sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
-     if ( app_container == 'phpdesktop' ) {
+     if ( app_container == 'phpdesktop' && app_platform == 'linux' ) {
      var adjusted_font_size_percent = is_iframe ? 70 : 100;
      }
      else {
