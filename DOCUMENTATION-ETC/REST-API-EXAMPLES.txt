@@ -60,7 +60,7 @@ THE API ADMIN SECTION IN THE APP GIVES YOU CUSTOMIZED CODE EXAMPLES (AUTO-INCLUD
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 # WINDOWS USERS: REMOVE THE "Invoke-WebRequest" CURL ALIAS FIRST: Remove-item alias:curl
 
-curl -d "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" -X POST https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
+curl -d "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" -X POST https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ curl -d "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" -X PO
 
 var api_request = new XMLHttpRequest();
 
-api_request.open("POST", "https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
+api_request.open("POST", "https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc", true);
 
 var params = "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
@@ -109,7 +109,7 @@ exit;
 
 
 // Initiate CURL
-$ch = curl_init('https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
+$ch = curl_init('https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc');
 
 $params = array('api_key' => 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 

@@ -195,8 +195,20 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
+
+
+When range sliders are clicked to adjust in admin sections, their widths all "jump" to 100% of their parent element. We don't want 100%  width, because it makes the interface layouts look messy. Make it so everything always stays the same width.
+
+
 NEW installs always show this. Move this logic, so it's only called when actually used...
 [2025-01-01 19:09:29.728] cron => notify: "etherscan_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section; 
+
+
+WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API...
+PS C:\Users\taote> Remove-item alias:curl
+PS C:\Users\taote> curl -d "api_key=9f1eaf5e8af9bf5c1a4c7c0f2866b23078ff7b1aaae168438e2ed20a6fc33965" -X POST http://127.0.0.1:38393/internal-api.php?data_set=market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
+curl: (8) Header without colon
 
 
 JUPITER AGGREGATOR **COMPLETELY DROPPED** V1 PRICE API SUPPORT, so we need to COMPLETELY REWRITE **EVERY** THING RELATED TO JUP AG PRICE API SUPPORT, SO IT USES THE CASE-SENSITIVE TOKEN CONTRACT ADDRESSES INSTEAD OF CASE-SENSITIVE TICKER SYMBOLS:

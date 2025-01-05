@@ -141,7 +141,7 @@ function <?=$reload_function_name?>() {
   
   var refresh_url = update_url_param(parent.document.getElementById(refresh_iframe).contentWindow.location.href, 'refresh', 'auto');
   
-  console.log('AUTO-REFRESHING (safely avoiding data submissions / runaway loops) CONFIG SECTION IFRAME: ' + refresh_iframe + ' ( ' + refresh_url + ' ) (in "<?=$iframe_id?>")');
+  console.log('AUTO-REFRESHING (safely avoiding data submissions / runaway loops) CONFIG SECTION IFRAME: ' + refresh_iframe + ' ( ' + refresh_url + ' ) (called from "<?=$iframe_id?>")');
   
   // Remove any POST data (so we don't get endless loops under certain conditions)
   parent.document.getElementById(refresh_iframe).contentWindow.location.replace(refresh_url);
