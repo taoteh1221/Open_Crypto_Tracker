@@ -224,19 +224,7 @@ echo '?';
         position: "right",
   		  classname: 'balloon-tooltips',
         contents: cmc_content,
-        css: {
-                fontSize: "<?=$set_font_size?>em",
-                minWidth: "350px",
-                padding: ".3rem .7rem",
-                border: "2px solid rgba(212, 212, 212, .4)",
-                borderRadius: "6px",
-                boxShadow: "3px 3px 6px #555",
-                color: "#eee",
-                backgroundColor: "#111",
-                opacity: "0.99",
-                zIndex: "32767",
-                textAlign: "left"
-                }
+        css: balloon_css()
         });
     
     
@@ -382,19 +370,7 @@ echo '?';
   position: "right",
   classname: 'balloon-tooltips',
   contents: cmc_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+  css: balloon_css()
 });
 
 		<?php
@@ -767,19 +743,7 @@ echo '<span class="private_data ' . ( $purchase_price >= $min_fiat_val_test && $
 			position: "left",
   			classname: 'balloon-tooltips',
 			contents: lvrg_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 		
 		 </script>

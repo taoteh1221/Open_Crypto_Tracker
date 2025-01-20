@@ -201,6 +201,21 @@ Run dev status alert parsing on the 'issues help and status' page through html e
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
 
 
+add mara stock ticker, for the nasdaq listed bitcoin mining company.
+
+
+add sonic svm token to demo markets
+
+
+Add solo mining odds stat, to pow mining calculator (DAILY odds: 1 in X of mining a block)
+
+
+Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
+
+
+If Dev status notifications are more than 4, AND the 5th oldest notification is older than 90 days, have a "view / hide notifications older than 90 days" link, to show older entries. If there are only 4 or less Dev notifications, just show them all (WITHOUT a show / hide link).
+
+
 When range sliders are clicked to adjust in admin sections, their widths all "jump" to 100% of their parent element. We don't want 100%  width, because it makes the interface layouts look messy. Make it so everything always stays the same width.
 
 

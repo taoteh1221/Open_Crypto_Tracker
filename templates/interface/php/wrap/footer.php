@@ -98,19 +98,7 @@ if ( $is_iframe ) {
 			position: "bottom",
   			classname: 'balloon-tooltips',
 			contents: exchange_keys_info,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 		
 		
