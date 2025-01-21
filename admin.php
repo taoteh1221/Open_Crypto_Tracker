@@ -39,7 +39,7 @@ $security_error_ui = 'Possible code injection attack stopped, please DO NOT atte
 echo '<style>html,body,a{color:red;}</style>' . $security_error_ui;
 
 // Log errors before exiting
-// WE ALREADY QUEUED THE ERROR LOG ENTRY FOR THIS ISSUE IN: $ct['gen']->sanitize_string()
+// WE ALREADY QUEUED THE ERROR LOG ENTRY FOR THIS ISSUE IN: $ct['gen']->malware_scan_string()
 $ct['cache']->app_log();
 
 exit;

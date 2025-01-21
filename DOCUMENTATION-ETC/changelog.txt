@@ -6841,6 +6841,15 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.01.0
+
+-Polished interface styling
+
+-------------------------------------------------------------------
+
+
+
 
 
 
