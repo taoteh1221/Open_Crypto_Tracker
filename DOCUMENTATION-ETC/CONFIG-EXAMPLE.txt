@@ -828,6 +828,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'polis-2||kraken||usd||both',
 					
 					
+					// SONIC
+					'sonic||coingecko_usd||usd||both',
+					
+					
 					// NEON
 					'neon-2||coingecko_terminal||usd||both',
 					
@@ -847,6 +851,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'popcat||coingecko_usd||usd||chart',
 					
 					
+					// M3M3
+					'm3m3||coingecko_usd||usd||chart',
+					
+					
 					// SHOPSTOCK (Shopify stock)
 					'shopstock||alphavantage_stock||cad||both',
 					
@@ -857,6 +865,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// COINSTOCK (Coinbase stock)
 					'coinstock||alphavantage_stock||usd||both',
+					
+					
+					// MARASTOCK (MARA Holdings stock)
+					'marastock||alphavantage_stock||usd||both',
 					
 					
 					// AMZNSTOCK (Amazon stock)
@@ -1154,11 +1166,23 @@ $ct['conf']['news']['feeds'] = array(
             			      "title" => "Blog - Bitmex",
             			      "url" => "https://blog.bitmex.com/feed/?lang=en_us"
         				     ),
+        
+        
+        				array(
+            			      "title" => "Blog - Colosseum (Solana Hackathons / Accelerators / etc)",
+            			      "url" => "https://blog.colosseum.org/rss/"
+        				     ),
     
     
         				array(
             			      "title" => "Blog - Kraken",
             			      "url" => "https://blog.kraken.com/feed/"
+        				     ),
+    
+    
+        				array(
+            			      "title" => "Blog - Meteora Aggregator (DeFi LP interfacing)",
+            			      "url" => "https://meteoraag.medium.com/feed"
         				     ),
         
         
@@ -1219,6 +1243,12 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Newsletter - CoinCenter (D.C. non-profit crypto lobbying)",
             			      "url" => "https://www.newsletter.coincenter.org/feed"
+        				     ),
+    
+    
+        				array(
+            			      "title" => "Newsletter - Helius Labs (Solana API infra)",
+            			      "url" => "https://helius.substack.com/feed"
         				     ),
     
     
@@ -2478,6 +2508,40 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // SONIC
+                    'SONIC' => array(
+                        
+                        'name' => 'Sonic SVM',
+                        'mcap_slug' => 'sonic-svm',
+                        'pair' => array(
+                                 
+
+                                    "aud" => array(
+                                        "coingecko_aud" => "sonic-svm"
+                                    ),
+                                    
+                                    
+                                    "usd" => array(
+                                        "coingecko_usd" => "sonic-svm",
+                                    ),
+                                    
+                                    
+                                    "usdt" => array(
+                                        "gateio" => "SONIC_USDT",
+                                        'upbit' => 'USDT-SONIC',
+                                        'kucoin' => 'SONIC-USDT',
+                                        'coinex' => 'SONICUSDT',
+                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // NEON
                     'NEON' => array(
                         
@@ -2603,6 +2667,37 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // M3M3
+                    'M3M3' => array(
+                        
+                        'name' => 'M3M3',
+                        'mcap_slug' => 'm3m3',
+                        'pair' => array(
+                                 
+
+                                    "aud" => array(
+                                        "coingecko_aud" => "m3m3"
+                                    ),
+                                    
+                                    
+                                    "usd" => array(
+                                        "coingecko_usd" => "m3m3",
+                                    ),
+                                    
+                                    
+                                    "usdt" => array(
+                                        "kucoin" => "M3M3-USDT"
+                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // SHOPSTOCK
                     'SHOPSTOCK' => array(
                         
@@ -2627,7 +2722,7 @@ $ct['conf']['assets'] = array(
                     // DTGSTOCK
                     'DTGSTOCK' => array(
                         
-                        'name' => 'Daimler Truck Holding AG',
+                        'name' => 'Daimler Truck Holding',
                         'mcap_slug' => 'DTG:ETR',
                         'pair' => array(
 
@@ -2648,7 +2743,7 @@ $ct['conf']['assets'] = array(
                     // COINSTOCK
                     'COINSTOCK' => array(
                         
-                        'name' => 'Coinbase Global Inc',
+                        'name' => 'Coinbase Global',
                         'mcap_slug' => 'COIN:NASDAQ',
                         'pair' => array(
 
@@ -2666,10 +2761,31 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // MARASTOCK
+                    'MARASTOCK' => array(
+                        
+                        'name' => 'MARA Holdings',
+                        'mcap_slug' => 'MARA:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'MARA',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // AMZNSTOCK
                     'AMZNSTOCK' => array(
                         
-                        'name' => 'Amazon Inc',
+                        'name' => 'Amazon',
                         'mcap_slug' => 'AMZN:NASDAQ',
                         'pair' => array(
 
@@ -2711,7 +2827,7 @@ $ct['conf']['assets'] = array(
                     // NFLXSTOCK
                     'NFLXSTOCK' => array(
                         
-                        'name' => 'Netflix Inc',
+                        'name' => 'Netflix',
                         'mcap_slug' => 'NFLX:NASDAQ',
                         'pair' => array(
 
@@ -2732,7 +2848,7 @@ $ct['conf']['assets'] = array(
                     // MCDSTOCK
                     'MCDSTOCK' => array(
                         
-                        'name' => 'McDonalds Corp',
+                        'name' => 'McDonalds',
                         'mcap_slug' => 'MCD:NYSE',
                         'pair' => array(
 

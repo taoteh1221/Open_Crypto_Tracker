@@ -195,24 +195,8 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-solana news feed for news section:
-https://blog.colosseum.org/rss/
-
-
-add rss feed to app:
-https://helius.substack.com/feed
-
 
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
-
-
-add mara stock ticker, for the nasdaq listed bitcoin mining company.
-
-
-add sonic svm token to demo markets
-
-
-Add m3m3 token to demo data
 
 
 Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.

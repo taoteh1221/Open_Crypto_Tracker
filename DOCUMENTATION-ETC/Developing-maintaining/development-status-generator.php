@@ -30,6 +30,9 @@ $dev_status[] = array(
                    );
 
 
+///////////////////////////////////////////////////////////////////
+
+
 // NEW ENTRY
 $dev_status[] = array(
 
@@ -46,6 +49,29 @@ $dev_status[] = array(
                    
                    // DESCRIPTION
                    'affected_desc' => 'I\'m now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. 😩 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release.',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2025-2-4'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.00.40',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => false,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'There is an UPSTREAM bug in Embedded Chromium (for Windows), causing JavaScript dialogue boxes to be suppressed in the DESKTOP EDITION of this app, FOR WINDOWS 11 USERS. v6.00.41 has been released today, with a fix for this issue.',
 
                    );
 
