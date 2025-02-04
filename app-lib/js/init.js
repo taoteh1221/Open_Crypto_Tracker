@@ -10,10 +10,6 @@ window.zingAlert= function(){
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function(){ 
 
-// ASSURE JS DIALOG ALERT 'POPUPS' ARE ALLOWED TO DISPLAY,
-// BY FORCING THE FOCUS ON THIS WINDOW
-// (OTHERWISE THEY CAN BE SUPPRESSED IN CHROMIUM!)
-window.focus();
     
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
@@ -149,19 +145,7 @@ nav_menu('.user-nav');
 			position: "left",
   			classname: 'balloon-tooltips',
 			contents: cookies_size_warning_info,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 		
                                   

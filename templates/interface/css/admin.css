@@ -22,11 +22,11 @@ margin-top: 3.75em;
 margin-bottom: 3.75em;
 }
 
+
 .admin_range_fields {
-position: relative;
-min-width: 100%;
-max-width: 100%;
+max-width: 700px;
 }
+
 
 .admin_range_fields .setting_title {
 position: absolute;

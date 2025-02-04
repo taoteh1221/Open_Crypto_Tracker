@@ -80,19 +80,7 @@
 			position: "top",
   			classname: 'btc_click_to_open',
 			contents: btc_donate_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "999",
-					textAlign: "left"
-					}
+			css: balloon_css("left", "999")
 					
 			 	});
 			 	
@@ -151,19 +139,7 @@
 			position: "top",
   			classname: 'eth_click_to_open',
 			contents: eth_donate_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "999",
-					textAlign: "left"
-					}
+			css: balloon_css("left", "999")
 					
 			 	});
 			 	
@@ -219,19 +195,7 @@
 			position: "top",
   			classname: 'sol_click_to_open',
 			contents: sol_donate_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "999",
-					textAlign: "left"
-					}
+			css: balloon_css("left", "999")
 					
 			 	});
 			 	

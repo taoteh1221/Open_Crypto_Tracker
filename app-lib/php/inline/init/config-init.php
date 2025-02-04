@@ -169,8 +169,9 @@ $file_ssl_context = stream_context_create($file_ssl_params);
         
 $curl_cacert_data = file_get_contents('https://curl.se/ca/cacert.pem', false, $file_ssl_context);
 
-     // If data was received, save it, otherwise reset with touch(), to wait another week before trying again
-     if ( $curl_cacert_data ) {
+     // If data was received (GREATER THAN ZERO BYTES), save it,
+     // otherwise reset with touch(), to wait another week before trying again
+     if ( $curl_cacert_data && strlen($curl_cacert_data) > 0 ) {
      file_put_contents($cached_curl_cacert_path, $curl_cacert_data, LOCK_EX);
      }
      else {

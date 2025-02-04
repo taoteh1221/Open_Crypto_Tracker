@@ -125,11 +125,9 @@
 	        
 	        <li class='links_list'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
 	        
-	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets ANYBODY can trade on Ethereum)</span></li>
+	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets you can trade on Ethereum)</span></li>
 	        
 	        <li class='links_list'><a href='https://jup.ag/' target='_blank'>Jupiter Aggregator</a>  <span class='yellow'>(#AUTOMATIC BEST SPOT PRICE# NON-CUSTODIAL markets ANYBODY can trade on Solana)</span></li>
-	        
-	        <li class='links_list'><a href='https://zksync.io/' target='_blank'>ZKsync.io</a>  <span class='yellow'>(#EARLY BETA TESTING# Ethereum Layer 2 [low TX fee] NON-CUSTODIAL markets ANYBODY can trade)</span></li>
 	        
 	        
 	        
@@ -151,8 +149,6 @@
 	        <li class='links_list'><a href='https://solana.fm/' target='_blank'>SolanaFM - Solana Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io - Solana Explorer</a></li>
-	        
-	        <li class='links_list'><a href='https://zkscan.io/' target='_blank'>ZKscan.io - ZKsync Explorer</a> <span class='yellow'>(Ethereum layer 2)</span></li>
 	        
 	        
 	    </ul>
@@ -392,6 +388,8 @@
 	        
 	        <li class='links_list'><a href='https://btcpayserver.org/' target='_blank'>BTCPay Server</a>    <span class='yellow'>(Self-hosted Bitcoin payment processor)</span></li>
 	        
+	        <li class='links_list'><a href='https://meteora.ag/' target='_blank'>Meteora Aggregator</a>    <span class='yellow'>(Solana DeFi LP interfacing)</span></li>
+	        
 	        <li class='links_list'><a href='https://mynodebtc.com/' target='_blank'>MyNode</a>    <span class='yellow'>(Bitcoin / Lightning nodes and tools)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.opennode.com/' target='_blank'>OpenNode</a>    <span class='yellow'>(Bitcoin / Lightning ecommerce gateway services)</span></li>
@@ -421,7 +419,7 @@
 	        
 	        <li class='links_list'><a href='https://coinshares.com/' target='_blank'>CoinShares.com</a> <span class='yellow'>(professional cryptocurrency investing / advising)</span></li>
 	        
-	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a> <span class='yellow'>(hands down, the BEST source for crypto news!)</span></li>
+	        <li class='links_list'><a href='https://x.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a> <span class='yellow'>(hands down, the BEST source for crypto news!)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.defieducationfund.org/' target='_blank'>DeFi Education Fund</a> <span class='yellow'>(non-profit cryptocurrency research and advocacy center)</span></li>
 	        

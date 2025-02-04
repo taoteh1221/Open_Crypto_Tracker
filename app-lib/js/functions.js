@@ -5,6 +5,28 @@
 /////////////////////////////////////////////////////////////
 
 
+function balloon_css(text_align="left", z_index="32767", min_width="fit-content") {
+
+return {
+					fontSize: set_font_size + "em",
+					minWidth: min_width,
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: z_index,
+					textAlign: text_align,
+					}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 // Javascript OBJECTS are different from javascript ARRAYS (lol),
 // so we need a custom function to get the length
 function getObjectLength (o) {

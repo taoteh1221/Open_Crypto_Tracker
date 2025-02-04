@@ -195,10 +195,14 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
 
 
-When range sliders are clicked to adjust in admin sections, their widths all "jump" to 100% of their parent element. We don't want 100%  width, because it makes the interface layouts look messy. Make it so everything always stays the same width.
+Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
+
+
+If Dev status notifications are more than 4, AND the 5th oldest notification is older than 90 days, have a "view / hide notifications older than 90 days" link, to show older entries. If there are only 4 or less Dev notifications, just show them all (WITHOUT a show / hide link).
 
 
 NEW installs always show this. Move this logic, so it's only called when actually used...

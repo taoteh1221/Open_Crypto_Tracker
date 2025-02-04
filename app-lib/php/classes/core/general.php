@@ -72,6 +72,20 @@ var $ct_array = array();
 
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
+
+   
+   function sanitize_string($data) {
+   
+   $data = strip_tags($data);
+   $data = htmlspecialchars($data);
+   
+   return $data;
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
    
    
    function valid_domain($url) {
@@ -775,7 +789,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function sanitize_requests($method, $ext_key, $data, $mysqli_connection=false) {
+   function malware_scan_requests($method, $ext_key, $data, $mysqli_connection=false) {
    
    
         if ( is_array($data) ) {
@@ -783,17 +797,17 @@ var $ct_array = array();
             foreach ( $data as $key => $val ) {
                 
                 if ( is_array($val) ) {
-                $data[$key] = $this->sanitize_requests($method, $key, $val, $mysqli_connection);
+                $data[$key] = $this->malware_scan_requests($method, $key, $val, $mysqli_connection);
                 }
                 else {
-                $data[$key] = $this->sanitize_string($method, $key, $val, $mysqli_connection);
+                $data[$key] = $this->malware_scan_string($method, $key, $val, $mysqli_connection);
                 }
             
             }
         
         }
         else {
-        $data = $this->sanitize_string($method, $ext_key, $data, $mysqli_connection);
+        $data = $this->malware_scan_string($method, $ext_key, $data, $mysqli_connection);
         }
    
    
@@ -2644,8 +2658,8 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   // RECURSIVELY USED VIA sanitize_requests() (scans all subarray values too)
-   function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
+   // RECURSIVELY USED VIA malware_scan_requests() (scans all subarray values too)
+   function malware_scan_string($method, $ext_key, $data, $mysqli_connection=false) {
    
    global $ct;
 

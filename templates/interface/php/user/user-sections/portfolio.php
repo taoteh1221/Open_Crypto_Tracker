@@ -576,19 +576,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 			position: "top",
   			classname: 'balloon-tooltips',
 			contents: crypto_val_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 
 
@@ -635,19 +623,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 			position: "right",
   			classname: 'balloon-tooltips',
 			contents: fiat_val_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 			
 		
@@ -740,19 +716,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 			position: "right",
   			classname: 'balloon-tooltips',
 			contents: gain_loss_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 		
 		 </script>
@@ -859,19 +823,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=chart&mode=asset_balance&lvrg_added=<?=$lvrg_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "999",
-					textAlign: "left"
-					}
+			css: balloon_css("left", "999", "700px")
 			});
 	
 		 </script>
@@ -1096,19 +1048,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 			position: "left",
   			classname: 'balloon-tooltips',
 			contents: performance_chart_defaults_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 			
 		
@@ -1334,19 +1274,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 			position: "left",
   			classname: 'balloon-tooltips',
 			contents: marketcap_chart_defaults_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 			
 		
@@ -1651,19 +1579,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			position: "left",
   			classname: 'balloon-tooltips',
 			contents: sys_stats_quick_link_info_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 			
   
@@ -1753,19 +1669,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 			position: "bottom",
   			classname: 'balloon-tooltips',
 			contents: server_header_defaults_content,
-			css: {
-					fontSize: "<?=$set_font_size?>em",
-					minWidth: "350px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			css: balloon_css()
 			});
 			
 		

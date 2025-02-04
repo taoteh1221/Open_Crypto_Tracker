@@ -45,6 +45,14 @@ else {
 <?php
 echo round($years, 2);
 }
+
+$thres_dec = $ct['gen']->thres_dec($days, 'u', 'fiat'); // Units mode
+$days_pretty = $ct['var']->num_pretty($days, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
+?>
+<br />
+<br />
+<b class='bitcoin'>(SOLO MINING *DAILY* ODDS: 1 in <?=$days_pretty?> chance of mining a block)</b>
+<?php
 				
 $calculate_daily = ( 24 / $hours );
 				

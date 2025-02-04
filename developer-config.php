@@ -16,8 +16,8 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-// PLEASE UPDATE TIMESTAMP HERE, TO DATE OF LATEST VERSION BUMP: 2024/OCTOBER/26TH
-$ct['app_version'] = '6.00.40';
+// PLEASE UPDATE TIMESTAMP HERE, TO DATE OF LATEST VERSION BUMP: 2025/FEBRUARY/4TH
+$ct['app_version'] = '6.00.41';
 
 
 // #PHP# ERROR LOGGING
@@ -359,7 +359,7 @@ $ct['dev']['limited_apis'] = array(
 
         
 // Attack signatures, used when scanning for script / HTML injection attacks
-// (via sanitize_string() [which is called in sanitize_requests()] in early-security-logic.php, when scanning all POST / GET data submissions)
+// (via malware_scan_string() [which is called in malware_scan_requests()] in early-security-logic.php, when scanning all POST / GET data submissions)
 // (NOT CASE SENSITIVE, JUST GET THE SIGNATURES RIGHT)
 $ct['dev']['script_injection_checks'] = array(
                                                "base64", // base64 PHP ENCODE / DECODE

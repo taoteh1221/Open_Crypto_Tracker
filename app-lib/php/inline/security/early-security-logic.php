@@ -130,10 +130,10 @@ if ( !$is_fast_runtime && $ct['runtime_mode'] == 'cron' || !$is_fast_runtime && 
 
 // Sanitize any user inputs VERY EARLY (for security / compatibility)
 foreach ( $_GET as $scan_get_key => $unused ) {
-$_GET[$scan_get_key] = $ct['gen']->sanitize_requests('get', $scan_get_key, $_GET[$scan_get_key]);
+$_GET[$scan_get_key] = $ct['gen']->malware_scan_requests('get', $scan_get_key, $_GET[$scan_get_key]);
 }
 foreach ( $_POST as $scan_post_key => $unused ) {
-$_POST[$scan_post_key] = $ct['gen']->sanitize_requests('post', $scan_post_key, $_POST[$scan_post_key]);
+$_POST[$scan_post_key] = $ct['gen']->malware_scan_requests('post', $scan_post_key, $_POST[$scan_post_key]);
 }
 
 

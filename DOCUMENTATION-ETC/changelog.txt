@@ -6841,6 +6841,19 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.00.41
+
+-BUG FIX: Fixed issues in the DESKTOP EDITION, FOR THE WINDOWS 11 VERSION, where JavaScript-based dialogue boxes were being suppressed (due to an UPSTREAM bug in Embedded chromium), which resulted in the Windows 11 version being un-usable (sorry!)
+
+-Revised DEMO config / resources page
+
+-Minor polished interface styling
+
+-------------------------------------------------------------------
+
+
+
 
 
 
