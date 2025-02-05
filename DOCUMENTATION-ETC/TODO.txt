@@ -195,9 +195,6 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-highlighting the 'issues help and status' sidebar link does NOT work, for new 'important' updates
-
-
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
 
 

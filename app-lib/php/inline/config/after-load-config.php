@@ -33,6 +33,34 @@ $ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; 
 $dev_only_configs_mode = 'after-load-config'; // Flag to only run 'after-load-config' section
 require('developer-config.php');
 
+// Development status DATA SET from github file:
+// https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json
+$ct['dev']['status'] = @$ct['api']->dev_status();
+
+//var_dump($ct['dev']['status']);
+
+
+// Sort the alerts by NEWEST
+if ( is_array($ct['dev']['status']) && sizeof($ct['dev']['status']) > 0 ) {
+
+usort($ct['dev']['status'], array($ct['gen'], 'timestamps_usort_newest') );
+
+$ct['dev']['status_data_found'] = true; // Flag as data was found (for loading in interface)
+
+	// Timestamp, of latest important status alert
+	foreach ( $ct['dev']['status'] as $dev_alert ) {
+	
+	if ( $dev_alert['dummy_entry'] ) {
+	continue;
+	}
+	elseif ( $dev_alert['very_important'] && !isset($ct['dev']['latest_important_dev_alerts_timestamp']) ) {
+	$ct['dev']['latest_important_dev_alerts_timestamp'] = $dev_alert['timestamp'];
+	}
+	
+	}
+
+}
+
 
 //////////////////////////////////////////////////////////////////
 // END AFTER LOAD CONFIG
