@@ -242,6 +242,21 @@ echo " "
 ######################################
 
 
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+
+sudo apt install snapd -y
+
+sleep 3
+          
+UBUNTU_SNAP_INSTALL="sudo snap install"
+
+fi
+
+
+######################################
+
+
 # Path to app (CROSS-DISTRO-COMPATIBLE)
 get_app_path() {
 
@@ -294,13 +309,17 @@ app_path_result="${app_path_result#*$1:}"
           if [ "$1" == "bsdtar" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="libarchive-tools"
           
-          # xdg-user-dir (debian package name differs slightly)
+          # xdg-user-dir (debian package name differs)
           elif [ "$1" == "xdg-user-dir" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="xdg-user-dirs"
 
-          # rsyslogd (debian package name differs slightly)
+          # rsyslogd (debian package name differs)
           elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="rsyslog"
+
+          # snap (debian package name differs)
+          elif [ "$1" == "snap" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="snapd"
 
           # xorg (debian package name differs)
           elif [ "$1" == "xorg" ] && [ -f "/etc/debian_version" ]; then
@@ -338,9 +357,7 @@ app_path_result="${app_path_result#*$1:}"
      
           # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
           # (as they moved some libs over to snap / snap-only? now)
-          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
-          
-          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
+          if [ $SYS_PACK != "snapd" ]; then
           
           echo " " > /dev/tty
           echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
@@ -363,12 +380,6 @@ app_path_result="${app_path_result#*$1:}"
 
 
 }
-
-
-# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
-if [ "$IS_UBUNTU" != "" ]; then
-UBUNTU_SNAP_PATH=$(get_app_path "snap")
-fi
 
 
 ######################################
