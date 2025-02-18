@@ -4,7 +4,7 @@
 COPYRIGHT_YEARS="2022-2025"
 
 # Version of this script
-APP_VERSION="1.11.1" # 2024/DECEMBER/22ND
+APP_VERSION="1.12.0" # 2025/FEBRUARY/17TH
 
 
 ########################################################################################################################
@@ -182,6 +182,16 @@ export PWD=$PWD
 
 ######################################
 
+# Are we running on an ARM-based CPU?
+if [ -f "/etc/debian_version" ]; then
+IS_ARM=$(dpkg --print-architecture | grep -i "arm")
+elif [ -f "/etc/redhat-release" ]; then
+IS_ARM=$(uname -r | grep -i "aarch64")
+fi
+
+
+######################################
+
 
 # Get date / time
 DATE=$(date '+%Y-%m-%d')
@@ -353,6 +363,21 @@ fi
 ######################################
 
 
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+
+sudo apt install snapd -y
+
+sleep 3
+          
+UBUNTU_SNAP_INSTALL="sudo snap install"
+
+fi
+
+
+######################################
+
+
 # Path to app (CROSS-DISTRO-COMPATIBLE)
 get_app_path() {
 
@@ -405,13 +430,17 @@ app_path_result="${app_path_result#*$1:}"
           if [ "$1" == "bsdtar" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="libarchive-tools"
           
-          # xdg-user-dir (debian package name differs slightly)
+          # xdg-user-dir (debian package name differs)
           elif [ "$1" == "xdg-user-dir" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="xdg-user-dirs"
 
-          # rsyslogd (debian package name differs slightly)
+          # rsyslogd (debian package name differs)
           elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
           SYS_PACK="rsyslog"
+
+          # snap (debian package name differs)
+          elif [ "$1" == "snap" ] && [ -f "/etc/debian_version" ]; then
+          SYS_PACK="snapd"
 
           # xorg (debian package name differs)
           elif [ "$1" == "xorg" ] && [ -f "/etc/debian_version" ]; then
@@ -449,9 +478,7 @@ app_path_result="${app_path_result#*$1:}"
      
           # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
           # (as they moved some libs over to snap / snap-only? now)
-          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
-          
-          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
+          if [ $SYS_PACK != "snapd" ]; then
           
           echo " " > /dev/tty
           echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
@@ -474,12 +501,6 @@ app_path_result="${app_path_result#*$1:}"
 
 
 }
-
-
-# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
-if [ "$IS_UBUNTU" != "" ]; then
-UBUNTU_SNAP_PATH=$(get_app_path "snap")
-fi
 
 
 ######################################
@@ -515,6 +536,63 @@ echo "${reset} "
     echo " "
     
     fi
+
+fi
+
+
+######################################
+
+
+# Are we auto-selecting the NEWEST kernel, to boot by default in grub?
+KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel)
+
+
+# ON ARM REDHAT-BASED SYSTEMS ONLY:
+# Do we have kernel updates disabled?
+if [ -f "/etc/redhat-release" ] && [ "$IS_ARM" != "" ] && [ "$KERNEL_BOOTED_UPDATES" != "" ]; then
+
+echo "${red}Your ARM-based device is CURRENTLY setup to UPDATE the grub bootloader to boot from THE LATEST KERNEL. THIS MAY CAUSE SOME ARM-BASED DEVICES TO NOT BOOT (without MANUALLY selecting a different kernel at boot time).${reset}"
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to fix this (disable grub auto-selecting NEW kernels to boot), OR any other key to skip fixing..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    echo " "
+    echo "${cyan}Disabling grub auto-selecting NEW kernels to boot...${reset}"
+    echo " "
+    
+    sudo sed -i 's/UPDATEDEFAULT=.*/UPDATEDEFAULT=no/g' /etc/sysconfig/kernel > /dev/null 2>&1
+
+    echo "${red} "
+    read -n1 -s -r -p $"Press ANY KEY to REBOOT (to assure this update takes effect)..." key
+    echo "${reset} "
+             
+             
+            if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+                 
+            echo " "
+            echo "${green}Rebooting...${reset}"
+            echo " "
+                 
+            sudo shutdown -r now
+                 
+            exit
+                 
+            fi
+             
+             
+    echo " "
+     
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
 
 fi
 
@@ -606,8 +684,14 @@ clean_system_update () {
      echo " "
      echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Debian, Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
      echo " "
-     echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
+     echo "${red}(You can SEVERELY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
      echo " "
+     
+     
+          if [ ! -f /usr/bin/raspi-config ] && [ "$IS_ARM" != "" ]; then
+          echo "${red}(Your ARM-based device MAY NOT BOOT IF YOU RUN SYSTEM UPGRADES [if you have NOT freezed kernel updating / rebooted FIRST]. To play it safe, you can just choose \"ARM Device\")${reset}"
+          echo " "
+          fi
      
      echo "Enter the NUMBER next to your chosen option.${reset}"
      
