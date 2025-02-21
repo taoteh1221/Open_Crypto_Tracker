@@ -2433,8 +2433,7 @@ select opt in $OPTIONS; do
         echo " "
         
         echo " "
-        echo "${red}Making sure $BLU_MAC is not ALREADY registered as paired (STALE pairings can cause RE-pairing issues), please wait up to a few minutes for the removal check to complete (silently, in the background)...${reset}"
-        echo " "
+        echo "${red}Checking $BLU_MAC pairing status (for STALE pairings), this may take a few minutes (running silently in the background), please wait..."
         
         sleep 5
         
