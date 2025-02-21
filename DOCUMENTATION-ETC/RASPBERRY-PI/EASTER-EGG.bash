@@ -589,55 +589,60 @@ fi
 ######################################
 
 
+# ON ARM REDHAT-BASED SYSTEMS ONLY:
+# Do we have kernel updates disabled?
+if [ -f "/etc/redhat-release" ]; then
+
 # Are we auto-selecting the NEWEST kernel, to boot by default in grub?
 KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel)
 
 
-# ON ARM REDHAT-BASED SYSTEMS ONLY:
-# Do we have kernel updates disabled?
-if [ -f "/etc/redhat-release" ] && [ "$IS_ARM" != "" ] && [ "$KERNEL_BOOTED_UPDATES" != "" ]; then
-
-echo "${red}Your ARM-based device is CURRENTLY setup to UPDATE the grub bootloader to boot from THE LATEST KERNEL. THIS MAY CAUSE SOME ARM-BASED DEVICES TO NOT BOOT (without MANUALLY selecting a different kernel at boot time).${reset}"
-
-echo "${yellow} "
-read -n1 -s -r -p $"PRESS F to fix this (disable grub auto-selecting NEW kernels to boot), OR any other key to skip fixing..." key
-echo "${reset} "
-
-    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
-
-    echo " "
-    echo "${cyan}Disabling grub auto-selecting NEW kernels to boot...${reset}"
-    echo " "
-    
-    sudo sed -i 's/UPDATEDEFAULT=.*/UPDATEDEFAULT=no/g' /etc/sysconfig/kernel > /dev/null 2>&1
-
-    echo "${red} "
-    read -n1 -s -r -p $"Press ANY KEY to REBOOT (to assure this update takes effect)..." key
-    echo "${reset} "
-             
-             
-            if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
-                 
-            echo " "
-            echo "${green}Rebooting...${reset}"
-            echo " "
-                 
-            sudo shutdown -r now
-                 
-            exit
-                 
-            fi
-             
-             
-    echo " "
+     if [ "$IS_ARM" != "" ] && [ "$KERNEL_BOOTED_UPDATES" != "" ]; then
      
-    else
-
-    echo " "
-    echo "${green}Skipping...${reset}"
-    echo " "
-    
-    fi
+     echo "${red}Your ARM-based device is CURRENTLY setup to UPDATE the grub bootloader to boot from THE LATEST KERNEL. THIS MAY CAUSE SOME ARM-BASED DEVICES TO NOT BOOT (without MANUALLY selecting a different kernel at boot time).${reset}"
+     
+     echo "${yellow} "
+     read -n1 -s -r -p $"PRESS F to fix this (disable grub auto-selecting NEW kernels to boot), OR any other key to skip fixing..." key
+     echo "${reset} "
+     
+         if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+     
+         echo " "
+         echo "${cyan}Disabling grub auto-selecting NEW kernels to boot...${reset}"
+         echo " "
+         
+         sudo sed -i 's/UPDATEDEFAULT=.*/UPDATEDEFAULT=no/g' /etc/sysconfig/kernel > /dev/null 2>&1
+     
+         echo "${red} "
+         read -n1 -s -r -p $"Press ANY KEY to REBOOT (to assure this update takes effect)..." key
+         echo "${reset} "
+                  
+                  
+                 if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+                      
+                 echo " "
+                 echo "${green}Rebooting...${reset}"
+                 echo " "
+                      
+                 sudo shutdown -r now
+                      
+                 exit
+                      
+                 fi
+                  
+                  
+         echo " "
+          
+         else
+     
+         echo " "
+         echo "${green}Skipping...${reset}"
+         echo " "
+         
+         fi
+     
+     
+     fi
 
 
 fi
