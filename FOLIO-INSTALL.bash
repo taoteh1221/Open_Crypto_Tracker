@@ -203,7 +203,7 @@ fi
 
 if [ -f "/etc/debian_version" ]; then
 
-echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated script."
+echo "${green}Your system has been detected as Debian-based, which is compatible with this automated script."
 
 # USE 'apt-get' IN SCRIPTING!
 # https://askubuntu.com/questions/990823/apt-gives-unstable-cli-interface-warning
@@ -216,7 +216,7 @@ echo " "
 
 elif [ -f "/etc/redhat-release" ]; then
 
-echo "${cyan}Your system has been detected as RedHat-based, which is ${red}CURRENTLY STILL IN DEVELOPMENT TO EVENTUALLY BE (BUT IS *NOT* YET) ${cyan}compatible with this automated script."
+echo "${yellow}Your system has been detected as Redhat-based, which is ${red}CURRENTLY STILL IN DEVELOPMENT TO EVENTUALLY BE (BUT IS *NOT* YET) ${yellow} fully compatible with this automated script."
 
 PACKAGE_INSTALL="sudo yum install"
 PACKAGE_REMOVE="sudo yum remove"
