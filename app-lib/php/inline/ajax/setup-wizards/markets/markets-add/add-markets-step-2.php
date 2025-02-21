@@ -112,7 +112,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	</select>
      	
      	<script>
-     	select_confirm("jupiter_tags", "NOT using the STRICT filter CAN BE DANGEROUS (you risk getting search results that MAY include SCAM COINS)! Are you sure you want to continue?");
+     	select_confirm("jupiter_tags", "NOT using the STRICT filter CAN BE DANGEROUS (you risk getting search results that MAY include SCAM COINS)! Are you sure you want to continue?", "strict");
      	</script>
      	
      	</p>
