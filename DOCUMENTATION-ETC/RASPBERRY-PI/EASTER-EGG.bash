@@ -178,6 +178,13 @@ fi
 export XAUTHORITY=~/.Xauthority 
 # Working directory
 export PWD=$PWD
+				
+
+######################################
+
+
+# Get the *INTERNAL* NETWORK ip address
+IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
 
 
 ######################################
@@ -426,34 +433,73 @@ app_path_result="${app_path_result#*$1:}"
      
           # Handle package name exceptions...
           
-          # bsdtar on Ubuntu 18.x and higher
-          if [ "$1" == "bsdtar" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="libarchive-tools"
+          if [ -f "/etc/debian_version" ]; then
           
-          # xdg-user-dir (debian package name differs)
-          elif [ "$1" == "xdg-user-dir" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="xdg-user-dirs"
-
-          # rsyslogd (debian package name differs)
-          elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="rsyslog"
-
-          # snap (debian package name differs)
-          elif [ "$1" == "snap" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="snapd"
-
-          # xorg (debian package name differs)
-          elif [ "$1" == "xorg" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="xserver-xorg"
-
-          # chromium-browser (debian package name differs)
-          elif [ "$1" == "chromium-browser" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="chromium"
-
-          # epiphany-browser (debian package name differs)
-          elif [ "$1" == "epiphany-browser" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="epiphany"
-
+          
+               # bsdtar on Ubuntu 18.x and higher
+               if [ "$1" == "bsdtar" ]; then
+               SYS_PACK="libarchive-tools"
+               
+               # xdg-user-dir (package name differs)
+               elif [ "$1" == "xdg-user-dir" ]; then
+               SYS_PACK="xdg-user-dirs"
+     
+               # rsyslogd (package name differs)
+               elif [ "$1" == "rsyslogd" ]; then
+               SYS_PACK="rsyslog"
+     
+               # snap (package name differs)
+               elif [ "$1" == "snap" ]; then
+               SYS_PACK="snapd"
+     
+               # xorg (package name differs)
+               elif [ "$1" == "xorg" ]; then
+               SYS_PACK="xserver-xorg"
+     
+               # chromium-browser (package name differs)
+               elif [ "$1" == "chromium-browser" ]; then
+               SYS_PACK="chromium"
+     
+               # epiphany-browser (package name differs)
+               elif [ "$1" == "epiphany-browser" ]; then
+               SYS_PACK="epiphany"
+     
+               else
+               SYS_PACK="$1"
+               fi
+          
+          
+          elif [ -f "/etc/redhat-release" ]; then
+          
+          
+               if [ "$1" == "xdg-user-dir" ]; then
+               SYS_PACK="xdg-user-dirs"
+     
+               # rsyslogd (package name differs)
+               elif [ "$1" == "rsyslogd" ]; then
+               SYS_PACK="rsyslog"
+     
+               # xorg (package name differs)
+               elif [ "$1" == "xorg" ]; then
+               SYS_PACK="gnome-session-xsession"
+     
+               # chromium-browser (package name differs)
+               elif [ "$1" == "chromium-browser" ]; then
+               SYS_PACK="chromium"
+     
+               # epiphany-browser (package name differs)
+               elif [ "$1" == "epiphany-browser" ]; then
+               SYS_PACK="epiphany"
+     
+               # avahi-daemon (package name differs)
+               elif [ "$1" == "avahi-daemon" ]; then
+               SYS_PACK="avahi"
+     
+               else
+               SYS_PACK="$1"
+               fi
+               
+               
           else
           SYS_PACK="$1"
           fi
@@ -814,13 +860,6 @@ SED_PATH=$(get_app_path "sed")
 WGET_PATH=$(get_app_path "wget")
 
 # PRIMARY dependency lib's paths END
-				
-
-######################################
-
-
-# Get the *INTERNAL* NETWORK ip address
-IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
 
 
 ######################################
