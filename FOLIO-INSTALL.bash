@@ -68,6 +68,17 @@ fi
 ######################################
 
 
+# Are we using lightdm, as the display manager?
+if [ -f "/etc/debian_version" ]; then
+LIGHTDM_DISPLAY=$(cat /etc/X11/default-display-manager | grep "lightdm")
+elif [ -f "/etc/redhat-release" ]; then
+LIGHTDM_DISPLAY=$(ls -al /etc/systemd/system/display-manager.service | grep "lightdm")
+fi
+
+
+######################################
+
+
 # Get date / time
 DATE=$(date '+%Y-%m-%d')
 TIME=$(date '+%H:%M:%S')
@@ -552,6 +563,50 @@ KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel
 
 
 fi
+              
+
+######################################
+
+
+# Armbian freeze kernel updates
+if [ -f "/usr/bin/armbian-config" ] && [ ! -f "${HOME}/.armbian_kernel_alert.dat" ]; then
+echo "${red}YOU MAY NEED TO *DISABLE* KERNEL UPDATES ON YOUR ARMBIAN DEVICE (IF YOU HAVE NOT ALREADY), SO YOUR DEVICE ALWAYS BOOTS UP PROPERLY."
+echo " "
+echo "${green}Run this command, and then choose 'System > Updates > Disable Armbian firmware upgrades':"
+echo " "
+echo "sudo armbian-config${reset}"
+echo " "
+echo "${red}This will assure you always use a kernel compatible with your device."
+echo " "
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to run armbian-config and fix this NOW, OR any other key to skip fixing..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    sudo armbian-config
+    
+    sleep 1
+
+    echo " "
+    echo "${cyan}Resuming auto-installer..."
+    echo " "
+    echo "${red}DON'T FORGET TO REBOOT BEFORE ALLOWING ANY SYSTEM UPGRADES!${reset}"
+    echo " "
+	   
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
+
+echo -e "ran" > ${HOME}/.armbian_kernel_alert.dat
+
+fi
 
 
 ######################################
@@ -646,15 +701,26 @@ clean_system_update () {
      
      
           if [ ! -f /usr/bin/raspi-config ] && [ "$IS_ARM" != "" ]; then
-          echo "${red}(Your ARM-based device MAY NOT BOOT IF YOU RUN SYSTEM UPGRADES [if you have NOT freezed kernel updating / rebooted FIRST]. To play it safe, you can just choose \"NON Raspberry Pi ARM Device\")${reset}"
+          
+          echo "${red}(Your ARM-based device MAY NOT BOOT IF YOU RUN SYSTEM UPGRADES [if you have NOT freezed kernel firmware updating / rebooted FIRST]. To play it safe, you can SAFELY choose \"NON Raspberry Pi ARM Device\", OR \"I don't know\")${reset}"
           echo " "
+     
+          echo "Enter the NUMBER next to your chosen option.${reset}"
+     
+          echo " "
+          
+          OPTIONS="rolling long_term i_dont_know non_raspberrypi_arm_device"
+          
+          else
+     
+          echo "Enter the NUMBER next to your chosen option.${reset}"
+     
+          echo " "
+          
+          OPTIONS="rolling long_term i_dont_know"
+          
           fi
      
-     echo "Enter the NUMBER next to your chosen option.${reset}"
-     
-     echo " "
-     
-          OPTIONS="rolling long_term i_dont_know non_raspberrypi_arm_device"
           
           select opt in $OPTIONS; do
                   if [ "$opt" = "long_term" ]; then
