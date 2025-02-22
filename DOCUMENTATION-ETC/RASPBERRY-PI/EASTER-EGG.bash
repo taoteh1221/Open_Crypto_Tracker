@@ -210,6 +210,24 @@ CURRENT_TIMESTAMP=$(date +%s)
 # Are we running on Ubuntu OS?
 IS_UBUNTU=$(cat /etc/os-release | grep -i "ubuntu")
 
+# Are we using x11 display manager?
+RUNNING_X11=$(loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type | grep -i x11)
+
+# Are we using wayland display manager?
+RUNNING_WAYLAND=$(loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type | grep -i wayland)
+
+
+# Are we running a wayland compositor?
+if [ "$RUNNING_WAYLAND" != "" ]; then
+
+# Are we using wayfire compositor?
+RUNNING_WAYFIRE=$(ps aux | grep wayfire | grep -v grep) # EXCLUDE THE WORD GREP!
+	   
+# Are we using labwc compositor?
+RUNNING_LABWC=$(ps aux | grep labwc | grep -v grep) # EXCLUDE THE WORD GREP!
+
+fi
+
 
 # If a symlink, get link target for script location
  # WE ALWAYS WANT THE FULL PATH!
@@ -524,7 +542,7 @@ app_path_result="${app_path_result#*$1:}"
      
           # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
           # (as they moved some libs over to snap / snap-only? now)
-          if [ $SYS_PACK != "snapd" ]; then
+          if [ "$IS_UBUNTU" != "" ] && [ $SYS_PACK != "snapd" ]; then
           
           echo " " > /dev/tty
           echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
@@ -740,7 +758,7 @@ clean_system_update () {
      
      
           if [ ! -f /usr/bin/raspi-config ] && [ "$IS_ARM" != "" ]; then
-          echo "${red}(Your ARM-based device MAY NOT BOOT IF YOU RUN SYSTEM UPGRADES [if you have NOT freezed kernel updating / rebooted FIRST]. To play it safe, you can just choose \"ARM Device\")${reset}"
+          echo "${red}(Your ARM-based device MAY NOT BOOT IF YOU RUN SYSTEM UPGRADES [if you have NOT freezed kernel updating / rebooted FIRST]. To play it safe, you can just choose \"NON Raspberry Pi ARM Device\")${reset}"
           echo " "
           fi
      
@@ -748,7 +766,7 @@ clean_system_update () {
      
      echo " "
      
-          OPTIONS="rolling long_term i_dont_know"
+          OPTIONS="rolling long_term i_dont_know non_raspberrypi_arm_device"
           
           select opt in $OPTIONS; do
                   if [ "$opt" = "long_term" ]; then
