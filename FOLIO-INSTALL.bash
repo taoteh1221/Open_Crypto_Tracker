@@ -89,24 +89,6 @@ CURRENT_TIMESTAMP=$(date +%s)
 # Are we running on Ubuntu OS?
 IS_UBUNTU=$(cat /etc/os-release | grep -i "ubuntu")
 
-# Are we using x11 display manager?
-RUNNING_X11=$(loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type | grep -i x11)
-
-# Are we using wayland display manager?
-RUNNING_WAYLAND=$(loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type | grep -i wayland)
-
-
-# Are we running a wayland compositor?
-if [ "$RUNNING_WAYLAND" != "" ]; then
-
-# Are we using wayfire compositor?
-RUNNING_WAYFIRE=$(ps aux | grep wayfire | grep -v grep) # EXCLUDE THE WORD GREP!
-	   
-# Are we using labwc compositor?
-RUNNING_LABWC=$(ps aux | grep labwc | grep -v grep) # EXCLUDE THE WORD GREP!
-
-fi
-
 
 # If a symlink, get link target for script location
  # WE ALWAYS WANT THE FULL PATH!
@@ -115,6 +97,7 @@ SCRIPT_LOCATION=$(readlink "$0")
 else
 SCRIPT_LOCATION="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/"$(basename "$0")""
 fi
+
 
 # Now set path / file vars, after setting SCRIPT_LOCATION
 SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
@@ -228,6 +211,29 @@ fi
 
 
 ######################################
+
+
+# Find out what display manager is being used on the PHYSICAL display
+DISPLAY_SESSION=$(loginctl show-user "$TERMINAL_USERNAME" -p Display --value)
+DISPLAY_SESSION=$(echo "${DISPLAY_SESSION}" | xargs) # trim whitespace
+
+# Are we using x11 display manager?
+RUNNING_X11=$(loginctl show-session "$DISPLAY_SESSION" -p Type | grep -i x11)
+
+# Are we using wayland display manager?
+RUNNING_WAYLAND=$(loginctl show-session "$DISPLAY_SESSION" -p Type | grep -i wayland)
+
+
+# Are we running a wayland compositor?
+if [ "$RUNNING_WAYLAND" != "" ]; then
+
+# Are we using wayfire compositor?
+RUNNING_WAYFIRE=$(ps aux | grep wayfire | grep -v grep) # EXCLUDE THE WORD GREP!
+	   
+# Are we using labwc compositor?
+RUNNING_LABWC=$(ps aux | grep labwc | grep -v grep) # EXCLUDE THE WORD GREP!
+
+fi
 
 
 if [ -f "/etc/debian_version" ]; then
@@ -1052,35 +1058,30 @@ echo " "
 echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY HAVE A APP SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting environment that a service provider has already provisioned, please quit this auto-install session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
 echo " "
 
-echo "${yellow}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
+
+echo "${red}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
 echo " "
 
 echo "${yellow} "
-read -n1 -s -r -p $"Press Y to continue (or press N to exit)..." key
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
 echo "${reset} "
-
-    if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
-    
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
     echo " "
     echo "${green}Continuing...${reset}"
-         
-    # If all clear for takeoff, make sure a group exists with same name as user,
-    # AND user is a member of it (believe it or not, I've seen this not always hold true!)
-    groupadd -f $APP_USER > /dev/null 2>&1
-    sleep 3
-    usermod -a -G $APP_USER $APP_USER > /dev/null 2>&1
-
     echo " "
-
-    else
-    echo " "
-    echo "${green}Exiting...${reset}"
-    echo " "
-    exit
     fi
+     
+echo " "
+
+# Make sure a group exists with same name as user,
+# AND user is a member of it (believe it or not, I've seen this not always hold true!)
+groupadd -f $APP_USER > /dev/null 2>&1
+sleep 3
+usermod -a -G $APP_USER $APP_USER > /dev/null 2>&1
 
 echo " "
-                    
+
 
 ######################################
 
@@ -2542,6 +2543,11 @@ echo " "
 
 ######################################
 
+echo "${red} "
+echo "============================================================="
+echo "=======  E N D   O F   I N S T A L L A T I O N  ============="
+echo "============================================================="
+echo "${reset} "
 
 echo "${yellow}ANY DONATIONS (LARGE OR SMALL) HELP SUPPORT DEVELOPMENT OF MY APPS..."
 echo " "

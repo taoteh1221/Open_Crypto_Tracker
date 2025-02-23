@@ -4,7 +4,7 @@
 COPYRIGHT_YEARS="2022-2025"
 
 # Version of this script
-APP_VERSION="1.12.0" # 2025/FEBRUARY/17TH
+APP_VERSION="1.12.1" # 2025/FEBRUARY/23RD
 
 
 ########################################################################################################################
@@ -221,24 +221,6 @@ CURRENT_TIMESTAMP=$(date +%s)
 # Are we running on Ubuntu OS?
 IS_UBUNTU=$(cat /etc/os-release | grep -i "ubuntu")
 
-# Are we using x11 display manager?
-RUNNING_X11=$(loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type | grep -i x11)
-
-# Are we using wayland display manager?
-RUNNING_WAYLAND=$(loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type | grep -i wayland)
-
-
-# Are we running a wayland compositor?
-if [ "$RUNNING_WAYLAND" != "" ]; then
-
-# Are we using wayfire compositor?
-RUNNING_WAYFIRE=$(ps aux | grep wayfire | grep -v grep) # EXCLUDE THE WORD GREP!
-	   
-# Are we using labwc compositor?
-RUNNING_LABWC=$(ps aux | grep labwc | grep -v grep) # EXCLUDE THE WORD GREP!
-
-fi
-
 
 # If a symlink, get link target for script location
  # WE ALWAYS WANT THE FULL PATH!
@@ -247,6 +229,7 @@ SCRIPT_LOCATION=$(readlink "$0")
 else
 SCRIPT_LOCATION="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/"$(basename "$0")""
 fi
+
 
 # Now set path / file vars, after setting SCRIPT_LOCATION
 SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
@@ -352,6 +335,29 @@ fi
 
 
 ######################################
+
+
+# Find out what display manager is being used on the PHYSICAL display
+DISPLAY_SESSION=$(loginctl show-user "$TERMINAL_USERNAME" -p Display --value)
+DISPLAY_SESSION=$(echo "${DISPLAY_SESSION}" | xargs) # trim whitespace
+
+# Are we using x11 display manager?
+RUNNING_X11=$(loginctl show-session "$DISPLAY_SESSION" -p Type | grep -i x11)
+
+# Are we using wayland display manager?
+RUNNING_WAYLAND=$(loginctl show-session "$DISPLAY_SESSION" -p Type | grep -i wayland)
+
+
+# Are we running a wayland compositor?
+if [ "$RUNNING_WAYLAND" != "" ]; then
+
+# Are we using wayfire compositor?
+RUNNING_WAYFIRE=$(ps aux | grep wayfire | grep -v grep) # EXCLUDE THE WORD GREP!
+	   
+# Are we using labwc compositor?
+RUNNING_LABWC=$(ps aux | grep labwc | grep -v grep) # EXCLUDE THE WORD GREP!
+
+fi
 
 
 if [ -f "/etc/debian_version" ]; then
