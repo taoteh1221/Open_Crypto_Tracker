@@ -169,6 +169,7 @@ fi
 # Get logged-in username (if sudo, this works best with logname)
 TERMINAL_USERNAME=$(logname)
 
+
 # If logname doesn't work, use the $SUDO_USER or $USER global var
 if [ -z "$TERMINAL_USERNAME" ]; then
 
@@ -207,11 +208,14 @@ fi
 DISPLAY_SESSION=$(loginctl show-user "$TERMINAL_USERNAME" -p Display --value)
 DISPLAY_SESSION=$(echo "${DISPLAY_SESSION}" | xargs) # trim whitespace
 
+# Display type
+DISPLAY_TYPE=$(loginctl show-session "$DISPLAY_SESSION" -p Type)
+
 # Are we using x11 display manager?
-RUNNING_X11=$(loginctl show-session "$DISPLAY_SESSION" -p Type | grep -i x11)
+RUNNING_X11=$(echo "$DISPLAY_TYPE" | grep -i x11)
 
 # Are we using wayland display manager?
-RUNNING_WAYLAND=$(loginctl show-session "$DISPLAY_SESSION" -p Type | grep -i wayland)
+RUNNING_WAYLAND=$(echo "$DISPLAY_TYPE" | grep -i wayland)
 
 
 # Are we running a wayland compositor?
@@ -223,7 +227,7 @@ RUNNING_WAYFIRE=$(ps aux | grep wayfire | grep -v grep) # EXCLUDE THE WORD GREP!
 # Are we using labwc compositor?
 RUNNING_LABWC=$(ps aux | grep labwc | grep -v grep) # EXCLUDE THE WORD GREP!
 
-elif [ "RUNNING_X11" != "" ]; then
+elif [ "$RUNNING_X11" != "" ]; then
 
      # Are we using lightdm, as the display manager?
      if [ -f "/etc/debian_version" ]; then
@@ -962,9 +966,9 @@ echo " "
 echo "${yellow}This script MAY NOT work on ALL Debian-based / RedHat-based system setups.${reset}"
 echo " "
 
-echo "${cyan}Your operating system has been detected as:"
+echo "${cyan}Your system has been detected as:"
 echo " "
-echo "$OS v$VER${reset}"
+echo "$OS v$VER (display: ${DISPLAY_TYPE})${reset}"
 echo " "
 
 echo "${red}Recommended MINIMUM system specs:${reset}"
