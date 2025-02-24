@@ -57,22 +57,12 @@ IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
 
 ######################################
 
+
 # Are we running on an ARM-based CPU?
 if [ -f "/etc/debian_version" ]; then
 IS_ARM=$(dpkg --print-architecture | grep -i "arm")
 elif [ -f "/etc/redhat-release" ]; then
 IS_ARM=$(uname -r | grep -i "aarch64")
-fi
-
-
-######################################
-
-
-# Are we using lightdm, as the display manager?
-if [ -f "/etc/debian_version" ]; then
-LIGHTDM_DISPLAY=$(cat /etc/X11/default-display-manager | grep "lightdm")
-elif [ -f "/etc/redhat-release" ]; then
-LIGHTDM_DISPLAY=$(ls -al /etc/systemd/system/display-manager.service | grep "lightdm")
 fi
 
 
@@ -233,6 +223,15 @@ RUNNING_WAYFIRE=$(ps aux | grep wayfire | grep -v grep) # EXCLUDE THE WORD GREP!
 # Are we using labwc compositor?
 RUNNING_LABWC=$(ps aux | grep labwc | grep -v grep) # EXCLUDE THE WORD GREP!
 
+elif [ "RUNNING_X11" != "" ]; then
+
+     # Are we using lightdm, as the display manager?
+     if [ -f "/etc/debian_version" ]; then
+     LIGHTDM_DISPLAY=$(cat /etc/X11/default-display-manager | grep "lightdm")
+     elif [ -f "/etc/redhat-release" ]; then
+     LIGHTDM_DISPLAY=$(ls -al /etc/systemd/system/display-manager.service | grep "lightdm")
+     fi
+
 fi
 
 
@@ -334,7 +333,7 @@ app_path_result="${app_path_result#*$1:}"
      echo "System path for '$1' NOT FOUND, even AFTER package installation attempts, giving up." > /dev/tty
      echo " " > /dev/tty
 
-     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
+     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT OR THE INSTALLED APP FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
      echo " " > /dev/tty
      echo "$ISSUES_URL" > /dev/tty
      echo "${reset} " > /dev/tty
@@ -708,14 +707,14 @@ clean_system_update () {
      
           if [ ! -f /usr/bin/raspi-config ] && [ "$IS_ARM" != "" ]; then
           
-          echo "${red}(Your ARM-based device MAY NOT BOOT IF YOU RUN SYSTEM UPGRADES [if you have NOT freezed kernel firmware updating / rebooted FIRST]. To play it safe, you can SAFELY choose \"NON Raspberry Pi ARM Device\", OR \"I don't know\")${reset}"
+          echo "${red}(Your ARM-based device MAY NOT BOOT IF YOU RUN SYSTEM UPGRADES [if you have NOT freezed kernel firmware updating / rebooted FIRST]. To play it safe, you can SAFELY choose \"NOT Raspberry Pi OS Software\", OR \"I don't know\")${reset}"
           echo " "
      
           echo "Enter the NUMBER next to your chosen option.${reset}"
      
           echo " "
           
-          OPTIONS="rolling long_term i_dont_know non_raspberrypi_arm_device"
+          OPTIONS="rolling long_term i_dont_know not_raspberrypi_os_software"
           
           else
      
