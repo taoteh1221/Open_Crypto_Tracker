@@ -46,6 +46,24 @@ fi
 export XAUTHORITY=~/.Xauthority 
 # Working directory
 export PWD=$PWD
+				
+
+######################################
+
+
+# Get the *INTERNAL* NETWORK ip address
+IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
+
+
+######################################
+
+
+# Are we running on an ARM-based CPU?
+if [ -f "/etc/debian_version" ]; then
+IS_ARM=$(dpkg --print-architecture | grep -i "arm")
+elif [ -f "/etc/redhat-release" ]; then
+IS_ARM=$(uname -r | grep -i "aarch64")
+fi
 
 
 ######################################
@@ -69,6 +87,7 @@ SCRIPT_LOCATION=$(readlink "$0")
 else
 SCRIPT_LOCATION="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/"$(basename "$0")""
 fi
+
 
 # Now set path / file vars, after setting SCRIPT_LOCATION
 SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
@@ -150,6 +169,7 @@ fi
 # Get logged-in username (if sudo, this works best with logname)
 TERMINAL_USERNAME=$(logname)
 
+
 # If logname doesn't work, use the $SUDO_USER or $USER global var
 if [ -z "$TERMINAL_USERNAME" ]; then
 
@@ -184,9 +204,41 @@ fi
 ######################################
 
 
+# Find out what display manager is being used on the PHYSICAL display
+DISPLAY_SESSION=$(loginctl show-user "$TERMINAL_USERNAME" -p Display --value)
+DISPLAY_SESSION=$(echo "${DISPLAY_SESSION}" | xargs) # trim whitespace
+
+# Display type
+DISPLAY_TYPE=$(loginctl show-session "$DISPLAY_SESSION" -p Type)
+
+# Are we using x11 display manager?
+RUNNING_X11=$(echo "$DISPLAY_TYPE" | grep -i x11)
+
+# Are we using wayland display manager?
+RUNNING_WAYLAND=$(echo "$DISPLAY_TYPE" | grep -i wayland)
+
+
+# Are we running a wayland compositor?
+if [ "$RUNNING_WAYLAND" != "" ]; then
+	   
+# Are we using labwc compositor?
+RUNNING_LABWC=$(ps aux | grep labwc | grep -v grep) # EXCLUDE THE WORD GREP!
+
+elif [ "$RUNNING_X11" != "" ]; then
+
+     # Are we using lightdm, as the display manager?
+     if [ -f "/etc/debian_version" ]; then
+     LIGHTDM_DISPLAY=$(cat /etc/X11/default-display-manager | grep "lightdm")
+     elif [ -f "/etc/redhat-release" ]; then
+     LIGHTDM_DISPLAY=$(ls -al /etc/systemd/system/display-manager.service | grep "lightdm")
+     fi
+
+fi
+
+
 if [ -f "/etc/debian_version" ]; then
 
-echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated script."
+echo "${green}Your system has been detected as Debian-based, which is compatible with this automated script."
 
 # USE 'apt-get' IN SCRIPTING!
 # https://askubuntu.com/questions/990823/apt-gives-unstable-cli-interface-warning
@@ -199,7 +251,7 @@ echo " "
 
 elif [ -f "/etc/redhat-release" ]; then
 
-echo "${cyan}Your system has been detected as RedHat-based, which is ${red}CURRENTLY STILL IN DEVELOPMENT TO EVENTUALLY BE (BUT IS *NOT* YET) ${cyan}compatible with this automated script."
+echo "${yellow}Your system has been detected as Redhat-based, which is ${red}CURRENTLY STILL IN DEVELOPMENT TO EVENTUALLY BE (BUT IS *NOT* YET) ${yellow} fully compatible with this automated script."
 
 PACKAGE_INSTALL="sudo yum install"
 PACKAGE_REMOVE="sudo yum remove"
@@ -242,6 +294,21 @@ echo " "
 ######################################
 
 
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+
+sudo apt install snapd -y
+
+sleep 3
+          
+UBUNTU_SNAP_INSTALL="sudo snap install"
+
+fi
+
+
+######################################
+
+
 # Path to app (CROSS-DISTRO-COMPATIBLE)
 get_app_path() {
 
@@ -267,7 +334,7 @@ app_path_result="${app_path_result#*$1:}"
      echo "System path for '$1' NOT FOUND, even AFTER package installation attempts, giving up." > /dev/tty
      echo " " > /dev/tty
 
-     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
+     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT OR THE INSTALLED APP FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
      echo " " > /dev/tty
      echo "$ISSUES_URL" > /dev/tty
      echo "${reset} " > /dev/tty
@@ -290,34 +357,76 @@ app_path_result="${app_path_result#*$1:}"
      
           # Handle package name exceptions...
           
-          # bsdtar on Ubuntu 18.x and higher
-          if [ "$1" == "bsdtar" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="libarchive-tools"
+          if [ -f "/etc/debian_version" ]; then
           
-          # xdg-user-dir (debian package name differs slightly)
-          elif [ "$1" == "xdg-user-dir" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="xdg-user-dirs"
-
-          # rsyslogd (debian package name differs slightly)
-          elif [ "$1" == "rsyslogd" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="rsyslog"
-
-          # xorg (debian package name differs)
-          elif [ "$1" == "xorg" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="xserver-xorg"
-
-          # chromium-browser (debian package name differs)
-          elif [ "$1" == "chromium-browser" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="chromium"
-
-          # epiphany-browser (debian package name differs)
-          elif [ "$1" == "epiphany-browser" ] && [ -f "/etc/debian_version" ]; then
-          SYS_PACK="epiphany"
-
+          
+               # bsdtar on Ubuntu 18.x and higher
+               if [ "$1" == "bsdtar" ]; then
+               SYS_PACK="libarchive-tools"
+               
+               # xdg-user-dir (package name differs)
+               elif [ "$1" == "xdg-user-dir" ]; then
+               SYS_PACK="xdg-user-dirs"
+     
+               # rsyslogd (package name differs)
+               elif [ "$1" == "rsyslogd" ]; then
+               SYS_PACK="rsyslog"
+     
+               # snap (package name differs)
+               elif [ "$1" == "snap" ]; then
+               SYS_PACK="snapd"
+     
+               # xorg (package name differs)
+               elif [ "$1" == "xorg" ]; then
+               SYS_PACK="xserver-xorg"
+     
+               # chromium-browser (package name differs)
+               elif [ "$1" == "chromium-browser" ]; then
+               SYS_PACK="chromium"
+     
+               # epiphany-browser (package name differs)
+               elif [ "$1" == "epiphany-browser" ]; then
+               SYS_PACK="epiphany"
+     
+               else
+               SYS_PACK="$1"
+               fi
+          
+          
+          elif [ -f "/etc/redhat-release" ]; then
+          
+          
+               if [ "$1" == "xdg-user-dir" ]; then
+               SYS_PACK="xdg-user-dirs"
+     
+               # rsyslogd (package name differs)
+               elif [ "$1" == "rsyslogd" ]; then
+               SYS_PACK="rsyslog"
+     
+               # xorg (package name differs)
+               elif [ "$1" == "xorg" ]; then
+               SYS_PACK="gnome-session-xsession"
+     
+               # chromium-browser (package name differs)
+               elif [ "$1" == "chromium-browser" ]; then
+               SYS_PACK="chromium"
+     
+               # epiphany-browser (package name differs)
+               elif [ "$1" == "epiphany-browser" ]; then
+               SYS_PACK="epiphany"
+     
+               # avahi-daemon (package name differs)
+               elif [ "$1" == "avahi-daemon" ]; then
+               SYS_PACK="avahi"
+     
+               else
+               SYS_PACK="$1"
+               fi
+               
+               
           else
           SYS_PACK="$1"
           fi
-          
           
           # Terminal alert for good UX...
           if [ "$1" != "$SYS_PACK" ]; then
@@ -338,9 +447,7 @@ app_path_result="${app_path_result#*$1:}"
      
           # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
           # (as they moved some libs over to snap / snap-only? now)
-          if [ ! -z "$UBUNTU_SNAP_PATH" ]; then
-          
-          UBUNTU_SNAP_INSTALL="sudo $UBUNTU_SNAP_PATH install"
+          if [ "$IS_UBUNTU" != "" ] && [ $SYS_PACK != "snapd" ]; then
           
           echo " " > /dev/tty
           echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
@@ -363,12 +470,6 @@ app_path_result="${app_path_result#*$1:}"
 
 
 }
-
-
-# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
-if [ "$IS_UBUNTU" != "" ]; then
-UBUNTU_SNAP_PATH=$(get_app_path "snap")
-fi
 
 
 ######################################
@@ -404,6 +505,114 @@ echo "${reset} "
     echo " "
     
     fi
+
+fi
+
+
+######################################
+
+
+# ON ARM REDHAT-BASED SYSTEMS ONLY:
+# Do we have kernel updates disabled?
+if [ -f "/etc/redhat-release" ] && [ ! -f "${HOME}/.redhat_kernel_alert.dat" ]; then
+
+# Are we auto-selecting the NEWEST kernel, to boot by default in grub?
+KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel)
+
+
+     if [ "$IS_ARM" != "" ] && [ "$KERNEL_BOOTED_UPDATES" != "" ]; then
+     
+     echo "${red}Your ARM-based device is CURRENTLY setup to UPDATE the grub bootloader to boot from THE LATEST KERNEL. THIS MAY CAUSE SOME ARM-BASED DEVICES TO NOT BOOT (without MANUALLY selecting a different kernel at boot time).${reset}"
+     
+     echo "${yellow} "
+     read -n1 -s -r -p $"PRESS F to fix this (disable grub auto-selecting NEW kernels to boot), OR any other key to skip fixing..." key
+     echo "${reset} "
+     
+         if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+     
+         echo " "
+         echo "${cyan}Disabling grub auto-selecting NEW kernels to boot...${reset}"
+         echo " "
+         
+         sudo sed -i 's/UPDATEDEFAULT=.*/UPDATEDEFAULT=no/g' /etc/sysconfig/kernel > /dev/null 2>&1
+     
+         echo "${red} "
+         read -n1 -s -r -p $"Press ANY KEY to REBOOT (to assure this update takes effect)..." key
+         echo "${reset} "
+                  
+                  
+                 if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
+                      
+                 echo " "
+                 echo "${green}Rebooting...${reset}"
+                 echo " "
+                      
+                 sudo shutdown -r now
+                      
+                 exit
+                      
+                 fi
+                  
+                  
+         echo " "
+          
+         else
+     
+         echo " "
+         echo "${green}Skipping...${reset}"
+         echo " "
+         
+         fi
+     
+     
+     fi
+
+
+echo -e "ran" > ${HOME}/.redhat_kernel_alert.dat
+
+fi
+              
+
+######################################
+
+
+# Armbian freeze kernel updates
+if [ -f "/usr/bin/armbian-config" ] && [ ! -f "${HOME}/.armbian_kernel_alert.dat" ]; then
+echo "${red}YOU MAY NEED TO *DISABLE* KERNEL UPDATES ON YOUR ARMBIAN DEVICE (IF YOU HAVE NOT ALREADY), SO YOUR DEVICE ALWAYS BOOTS UP PROPERLY."
+echo " "
+echo "${green}Run this command, and then choose 'System > Updates > Disable Armbian firmware upgrades':"
+echo " "
+echo "sudo armbian-config${reset}"
+echo " "
+echo "${red}This will assure you always use a kernel compatible with your device."
+echo " "
+
+echo "${yellow} "
+read -n1 -s -r -p $"PRESS F to run armbian-config and fix this NOW, OR any other key to skip fixing..." key
+echo "${reset} "
+
+    if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
+
+    sudo armbian-config
+    
+    sleep 1
+
+    echo " "
+    echo "${cyan}Resuming auto-installer..."
+    echo " "
+    echo "${red}DON'T FORGET TO REBOOT BEFORE ALLOWING ANY SYSTEM UPGRADES!${reset}"
+    echo " "
+	   
+    else
+
+    echo " "
+    echo "${green}Skipping...${reset}"
+    echo " "
+    
+    fi
+
+
+echo -e "ran" > ${HOME}/.armbian_kernel_alert.dat
 
 fi
 
@@ -493,16 +702,34 @@ clean_system_update () {
      if [ -z "$ALLOW_FULL_UPGRADE" ]; then
      
      echo " "
-     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Debian, Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
-     echo " "
-     echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
-     echo " "
+     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, Fedora Rawhide, etc), or the \"Long-Term Release\" model (Debian, Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, Fedora, etc)?"
+     echo "${reset} "
      
-     echo "Enter the NUMBER next to your chosen option.${reset}"
      
-     echo " "
+          if [ ! -f /usr/bin/raspi-config ] && [ "$IS_ARM" != "" ]; then
+          
+          echo "${red}(You can SEVERELY MESS UP an ${yellow}ARM-based / NOT-RASPI-OS \"Rolling Release\" Operating System${red}, IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
+          echo " "
      
+          echo "${red}(Your ${yellow}ARM-based / NOT-RASPI-OS Operating System${red} MAY NOT BOOT IF YOU RUN SYSTEM UPGRADES [if you have NOT frozen kernel firmware updating / rebooted FIRST]. To avoid this potential issue (IF you have NOT frozen kernel firmware updating), you can SAFELY choose \"NOT Raspberry Pi OS Software\", OR \"I don't know\")${reset}"
+          echo " "
+     
+          echo "Enter the NUMBER next to your chosen option.${reset}"
+     
+          echo " "
+          
+          OPTIONS="rolling long_term i_dont_know not_raspberrypi_os_software"
+          
+          else
+     
+          echo "Enter the NUMBER next to your chosen option.${reset}"
+     
+          echo " "
+          
           OPTIONS="rolling long_term i_dont_know"
+          
+          fi
+     
           
           select opt in $OPTIONS; do
                   if [ "$opt" = "long_term" ]; then
@@ -622,13 +849,6 @@ SED_PATH=$(get_app_path "sed")
 WGET_PATH=$(get_app_path "wget")
 
 # PRIMARY dependency lib's paths END
-				
-
-######################################
-
-
-# Get the *INTERNAL* NETWORK ip address
-IP=$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
 
 				
 ######################################
@@ -746,9 +966,9 @@ echo " "
 echo "${yellow}This script MAY NOT work on ALL Debian-based / RedHat-based system setups.${reset}"
 echo " "
 
-echo "${cyan}Your operating system has been detected as:"
+echo "${cyan}Your system has been detected as:"
 echo " "
-echo "$OS v$VER${reset}"
+echo "$OS v$VER (CURRENT display: ${DISPLAY_TYPE})${reset}"
 echo " "
 
 echo "${red}Recommended MINIMUM system specs:${reset}"
@@ -841,34 +1061,44 @@ echo " "
 echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY HAVE A APP SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting environment that a service provider has already provisioned, please quit this auto-install session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
 echo " "
 
-echo "${yellow}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
+
+echo "${red}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
 echo " "
 
 echo "${yellow} "
-read -n1 -s -r -p $"Press Y to continue (or press N to exit)..." key
+read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
 echo "${reset} "
-
-    if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
-    
+     
+    if [ "$key" = 'y' ] || [ "$key" != 'y' ]; then
     echo " "
     echo "${green}Continuing...${reset}"
-         
-    # If all clear for takeoff, make sure a group exists with same name as user,
-    # AND user is a member of it (believe it or not, I've seen this not always hold true!)
-    groupadd -f $APP_USER > /dev/null 2>&1
-    sleep 3
-    usermod -a -G $APP_USER $APP_USER > /dev/null 2>&1
-
     echo " "
-
-    else
-    echo " "
-    echo "${green}Exiting...${reset}"
-    echo " "
-    exit
     fi
+     
+echo " "
+
+# Make sure a group exists with same name as user,
+# AND user is a member of it (believe it or not, I've seen this not always hold true!)
+groupadd -f $APP_USER > /dev/null 2>&1
+sleep 3
+usermod -a -G $APP_USER $APP_USER > /dev/null 2>&1
 
 echo " "
+
+
+######################################
+
+
+if [ -f "/etc/redhat-release" ]; then
+
+# Install cron / fire it up (will persist between reboots)
+$PACKAGE_INSTALL -y cronie
+
+sleep 3
+
+sudo systemctl start crond.service
+
+fi
 
 
 ######################################
@@ -2316,6 +2546,13 @@ echo " "
 
 ######################################
 
+echo "${red} "
+echo "============================================================="
+echo "============================================================="
+echo "=======  E N D   O F   I N S T A L L A T I O N !  ==========="
+echo "============================================================="
+echo "============================================================="
+echo "${reset} "
 
 echo "${yellow}ANY DONATIONS (LARGE OR SMALL) HELP SUPPORT DEVELOPMENT OF MY APPS..."
 echo " "

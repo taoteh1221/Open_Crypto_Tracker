@@ -91,9 +91,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<select id='jupiter_tags' name='jupiter_tags'>
      	
-     	<option value='verified' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified' ? 'selected' : '' )?> > VERIFIED Tokens </option>
-     	
      	<option value='strict' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'strict' ? 'selected' : '' )?> > STRICT Tokens </option>
+     	
+     	<option value='verified' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified' ? 'selected' : '' )?> > VERIFIED Tokens </option>
      	
      	<option value='community' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'community' ? 'selected' : '' )?> > COMMUNITY Tokens </option>
      	
@@ -111,6 +111,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	</select>
      	
+     	<script>
+     	select_confirm("jupiter_tags", "NOT using the STRICT filter CAN BE DANGEROUS (you risk getting search results that MAY include SCAM COINS)! Are you sure you want to continue?", "strict");
+     	</script>
      	
      	</p>
      	

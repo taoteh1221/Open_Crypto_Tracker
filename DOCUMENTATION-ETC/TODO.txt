@@ -195,6 +195,8 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Consider removing M3M3 as an example asset (looks like there MAY be some shady business going on with memecoin launches).
+
 
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
 
@@ -203,10 +205,6 @@ Move system stats chart scale settings from asset charts section, back to power 
 
 
 If Dev status notifications are more than 4, AND the 5th oldest notification is older than 90 days, have a "view / hide notifications older than 90 days" link, to show older entries. If there are only 4 or less Dev notifications, just show them all (WITHOUT a show / hide link).
-
-
-NEW installs always show this. Move this logic, so it's only called when actually used...
-[2025-01-01 19:09:29.728] cron => notify: "etherscan_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section; 
 
 
 WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API (server / linux desktop editions do NOT have any issues, so it MAY just be a powershell issue)...

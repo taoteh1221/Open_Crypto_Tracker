@@ -654,16 +654,26 @@ function feeds_loading_check() {
 /////////////////////////////////////////////////////////////
 
 
-function select_confirm(id, message) {
+function select_confirm(id, message, alert_if_specific_unselected=false) {
 
      var $sel = $('#'+id).on('change', function(){
-         if (confirm(message)) {
+         
+         // If OPTIONAL param NOT set, OR is set and it's same as the CURRENT value
+         if ( !alert_if_specific_unselected || alert_if_specific_unselected == $sel.data('currVal') ) {
+         var confirmed_change = confirm(message);
+         }
+          
+         if (
+         confirmed_change
+         || alert_if_specific_unselected && alert_if_specific_unselected != $sel.data('currVal')
+         ) {
              // store new value        
              $sel.trigger('update');
          } else {
               // reset
               $sel.val( $sel.data('currVal') );        
          }
+         
      }).on('update', function(){
          $(this).data('currVal', $(this).val());
      }).trigger('update');
