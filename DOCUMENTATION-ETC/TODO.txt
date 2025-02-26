@@ -195,9 +195,6 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Consider removing M3M3 as an example asset (looks like there MAY be some shady business going on with memecoin launches).
-
-
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
 
 
