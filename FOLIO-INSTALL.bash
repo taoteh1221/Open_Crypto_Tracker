@@ -968,7 +968,7 @@ echo " "
 
 echo "${cyan}Your system has been detected as:"
 echo " "
-echo "$OS v$VER (display: ${DISPLAY_TYPE})${reset}"
+echo "$OS v$VER (CURRENT display: ${DISPLAY_TYPE})${reset}"
 echo " "
 
 echo "${red}Recommended MINIMUM system specs:${reset}"
