@@ -285,6 +285,10 @@ Start looking at which exchange APIs have a 'search' API endpoint (for exchanges
 Add full redhat support for auto-installer.
 
 
+Look into feasibility of adding smart card login support:
+https://www.google.com/search?q=smart+card+reader+website+login
+
+
 Buildout the top navigation, for responsive templating on small mobile screens.
 
 
