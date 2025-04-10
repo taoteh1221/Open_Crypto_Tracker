@@ -24,7 +24,7 @@ $alphavantage_per_day_limit = $ct['conf']['ext_apis']['alphavantage_free_plan_da
 }
 
 
-// IF we don't have a PREMIUM PLAN (ALL premium plans are UNLIMITED daily requests)
+// IF we do NOT have a PREMIUM PLAN (ALL premium plans are UNLIMITED daily requests)
 // (zero is the flag for UNLIMITED daily requests, auto-adjusted in config-init.php)
 if ( $alphavantage_per_day_limit > 0 ) {
 

@@ -198,6 +198,10 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
 
 
+Lastest standard to connect auth hardware in browsers is "webauthn":
+https://webauthn.io/
+
+
 Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
 
 

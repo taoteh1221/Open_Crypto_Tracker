@@ -708,7 +708,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 		
 			+'<p class="coin_info balloon_notation bitcoin" style=" white-space: normal;"> *Includes any leverage.</p>'
 				
-			+'<p class="coin_info balloon_notation bitcoin">*<?=( $lvrg_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</p>';
+			+'<p class="coin_info balloon_notation bitcoin">*<?=( $lvrg_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-unit)" value on the Update page.</p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({
@@ -746,7 +746,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 			}
 			
 			if ( $ct['var']->num_to_str($miscassets_dominance) >= 0.01 ) {
-			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="bitcoin_primary_currency_pair">' . strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) . '</span>';
+			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% Misc. Assets (<span class="bitcoin_primary_currency_pair">' . strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) . '</span>)';
 			$seperator_miscassets = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) + $ct['var']->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
@@ -823,7 +823,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=chart&mode=asset_balance&lvrg_added=<?=$lvrg_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
-			css: balloon_css("left", "999", "700px")
+			css: balloon_css("left", "999", "750px")
 			});
 	
 		 </script>

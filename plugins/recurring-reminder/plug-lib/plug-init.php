@@ -46,7 +46,7 @@ $run_reminder = false;
 	
 $recurring_reminder_cache_file = $ct['plug']->event_cache('alert-' . $key . '.dat');
 
-// Remove any leading zeros in do-not-disturb time format
+// Remove any leading zeros in do-not-disturb time format (safe, as we ALWAYS FORCE double-zero format: 00:00)
 $plug['conf'][$this_plug]['do_not_disturb']['on'] = ltrim($plug['conf'][$this_plug]['do_not_disturb']['on'], "0");
 $plug['conf'][$this_plug]['do_not_disturb']['off'] = ltrim($plug['conf'][$this_plug]['do_not_disturb']['off'], "0");
 
@@ -91,26 +91,26 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		
 		// If 'do not disturb' enabled with valid time fomats in plug conf
 		if (
-    	$plug['class'][$this_plug]->valid_time_format($plug['conf'][$this_plug]['do_not_disturb']['on'])
-    	&& $plug['class'][$this_plug]->valid_time_format($plug['conf'][$this_plug]['do_not_disturb']['off'])
-	    ) {
+    	     $plug['class'][$this_plug]->valid_time_format($plug['conf'][$this_plug]['do_not_disturb']['on'])
+    	     && $plug['class'][$this_plug]->valid_time_format($plug['conf'][$this_plug]['do_not_disturb']['off'])
+	     ) {
 		
 		// Human-readable year-month-date for today, ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
 		$offset_date = $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'standard_date');
 		
-		// Time of day in decimals (as hours) for dnd on/off config settings
-		$dnd_on_dec = $plug['class'][$this_plug]->time_dec_hours($plug['conf'][$this_plug]['do_not_disturb']['on'], 'to');
-		$dnd_off_dec = $plug['class'][$this_plug]->time_dec_hours($plug['conf'][$this_plug]['do_not_disturb']['off'], 'to');
+		// Time of day IN DECIMAL FORMAT (as hours) for dnd on/off config settings
+		$dnd_on_dec = $plug['class'][$this_plug]->calc_hours($plug['conf'][$this_plug]['do_not_disturb']['on'], 'in_decimals');
+		$dnd_off_dec = $plug['class'][$this_plug]->calc_hours($plug['conf'][$this_plug]['do_not_disturb']['off'], 'in_decimals');
 		
 			
-			// Time of day in hours:minutes for dnd on/off (IN UTC TIME), ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
+			// Time of day IN TIME FORMAT for dnd on/off (IN UTC TIME), ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
 			if ( $ct['conf']['gen']['local_time_offset'] < 0 ) {
-			$offset_dnd_on = $plug['class'][$this_plug]->time_dec_hours( ( $dnd_on_dec + abs($ct['conf']['gen']['local_time_offset']) ) , 'from');
-			$offset_dnd_off = $plug['class'][$this_plug]->time_dec_hours( ( $dnd_off_dec + abs($ct['conf']['gen']['local_time_offset']) ) , 'from');
+			$offset_dnd_on = $plug['class'][$this_plug]->calc_hours( ( $dnd_on_dec + abs($ct['conf']['gen']['local_time_offset']) ) , 'in_time_format');
+			$offset_dnd_off = $plug['class'][$this_plug]->calc_hours( ( $dnd_off_dec + abs($ct['conf']['gen']['local_time_offset']) ) , 'in_time_format');
 			}
 			else {
-			$offset_dnd_on = $plug['class'][$this_plug]->time_dec_hours( ( $dnd_on_dec - $ct['conf']['gen']['local_time_offset'] ) , 'from');
-			$offset_dnd_off = $plug['class'][$this_plug]->time_dec_hours( ( $dnd_off_dec - $ct['conf']['gen']['local_time_offset'] ) , 'from');
+			$offset_dnd_on = $plug['class'][$this_plug]->calc_hours( ( $dnd_on_dec - $ct['conf']['gen']['local_time_offset'] ) , 'in_time_format');
+			$offset_dnd_off = $plug['class'][$this_plug]->calc_hours( ( $dnd_off_dec - $ct['conf']['gen']['local_time_offset'] ) , 'in_time_format');
 			}
 		
 		
