@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////////////////
 
 
-function balloon_css(text_align="left", z_index="32767", min_width="fit-content") {
+function balloon_css(text_align="left", z_index="32767", min_width="500px") {
 
 return {
 					fontSize: set_font_size + "em",

@@ -19,7 +19,7 @@ $csv_download_array = array();
 $csv_download_array[] = array(
 	        					'Ticker Key',
 	        					'Holdings',
-	        					'Average Paid (per-token)',
+	        					'Average Paid (per-unit)',
 	        					'Margin Leverage',
 	        					'Long or Short',
 	        					'Exchange ID',

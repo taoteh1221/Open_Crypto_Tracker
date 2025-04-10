@@ -265,7 +265,7 @@
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/1cJrrfGY1SKBIRn5noKSAf' target='_blank'>Unchained</a></li>
 	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/0mWUJuONiilW5JSBBFZ0s7' target='_blank'>What Bitcoin Did</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/18Pixm6jNMATYXSO6cUnTH' target='_blank'>What Bitcoin Did</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/5Xan1x9Cj7BBvRs2Ss4keG' target='_blank'>Zero Knowledge</a></li>
 	        

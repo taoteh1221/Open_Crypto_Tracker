@@ -43,7 +43,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Asset / Pair @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-unit)" field with the average price paid in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?> per-unit. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column "(<?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>)" per-asset, which you can also hover over for margin leverage stats.</p>'
 			
@@ -612,7 +612,7 @@
 	     ' <?=( $ct['var']->rem_num_format($asset_amnt_val) > 0 && $ct['var']->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
+	     <b>Average Paid (per-unit):</b> <?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img class='tooltip_style_control' id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 

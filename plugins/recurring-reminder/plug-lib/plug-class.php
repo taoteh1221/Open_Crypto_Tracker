@@ -76,12 +76,12 @@ var $array1 = array();
    ////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
-   function time_dec_hours($var, $mode) {
+   function calc_hours($var, $mode) {
    	
    global $ct;
    
    
-   	if ( $mode == 'to' ) {
+   	if ( $mode == 'in_decimals' ) {
    	
    	$hours_minutes = explode(':', $var);
     
@@ -93,7 +93,7 @@ var $array1 = array();
   	return $ct['var']->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
    	
    	}
-   	else if ( $mode == 'from' ) {
+   	else if ( $mode == 'in_time_format' ) {
    
    	$var = abs($var);
    	

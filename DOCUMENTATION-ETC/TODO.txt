@@ -195,10 +195,11 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Consider removing M3M3 as an example asset (looks like there MAY be some shady business going on with memecoin launches).
-
-
 Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
+
+
+Lastest standard to connect auth hardware in browsers is "webauthn":
+https://webauthn.io/
 
 
 Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
@@ -286,6 +287,10 @@ Start looking at which exchange APIs have a 'search' API endpoint (for exchanges
 
 
 Add full redhat support for auto-installer.
+
+
+Look into feasibility of adding smart card login support:
+https://www.google.com/search?q=smart+card+reader+website+login
 
 
 Buildout the top navigation, for responsive templating on small mobile screens.

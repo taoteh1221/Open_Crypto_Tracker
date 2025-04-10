@@ -88,7 +88,7 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
       	if ( stristr($asset_key, 'MISC__') != false ) {
       	$asset_key = strtolower($asset_key);
       	$misc_array = explode("__", $asset_key);
-      	$asset_key = strtoupper($misc_array[1]);
+      	$asset_key = 'Misc. Assets' . ' (' . strtoupper($misc_array[1]) . ')';
       	}
       	elseif ( stristr($asset_key, 'BTCNFTS') != false ) {
       	$asset_key = 'BTC NFTs';
@@ -145,6 +145,7 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
                   	$asset_key = strtolower($asset_key);
                   	$misc_array = explode("__", $asset_key);
                   	$asset_key = strtoupper($misc_array[1]);
+                  	$asset_key = 'Misc. Assets' . ' (' . strtoupper($misc_array[1]) . ')';
                   	}
                   	elseif ( stristr($asset_key, 'BTCNFTS') != false ) {
                   	$asset_key = 'BTC NFTs';

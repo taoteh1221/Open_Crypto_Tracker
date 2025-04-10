@@ -37,7 +37,7 @@ exit;
 
 // Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 15 / 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct['conf']['gen']['local_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
+$ct['conf']['gen']['local_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75
 
 
 // Displays interface text in ANY google font found at: https://fonts.google.com
@@ -773,8 +773,8 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'btc-28||bitmex||usd||both',
 					
 					
-					// TBTC
-					'tbtc||kraken||usd||both',
+					// ZBTC
+					'zbtc||coingecko_btc||btc||both',
 					
 					
 					// FBTCSTOCK (Fidelity Bitcoin ETF)
@@ -799,6 +799,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'sol-2||kraken||usd||both',
 					'sol-3||binance||btc||chart',
 					'sol-4||binance||eth||chart',
+					
+					
+					// OSOLSTOCK (Osprey Solana Trust stock)
+					'osolstock||alphavantage_stock||usd||both',
 					
 					
 					// USDC
@@ -828,6 +832,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'polis-2||kraken||usd||both',
 					
 					
+					// DIO
+					'dio||gateio||usdt||both',
+					
+					
 					// SONIC
 					'sonic||coingecko_usd||usd||both',
 					
@@ -851,10 +859,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'popcat||coingecko_usd||usd||chart',
 					
 					
-					// M3M3
-					'm3m3||coingecko_usd||usd||chart',
-					
-					
 					// SHOPSTOCK (Shopify stock)
 					'shopstock||alphavantage_stock||cad||both',
 					
@@ -873,6 +877,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// AMZNSTOCK (Amazon stock)
 					'amznstock||alphavantage_stock||usd||both',
+					
+					
+					// NVDASTOCK (Advanced Micro Devices stock)
+					'nvdastock||alphavantage_stock||usd||both',
 					
 					
 					// AMDSTOCK (Advanced Micro Devices stock)
@@ -1142,7 +1150,6 @@ $ct['conf']['news']['strict_news_feed_servers'] = array(
                                                       'cointelegraph.com',
                                                       'medium.com',
                                                       'reddit.com',
-                                                      'whatbitcoindid.com',
                                                       'simplecast.com',
                                                      );
 
@@ -1247,6 +1254,12 @@ $ct['conf']['news']['feeds'] = array(
     
     
         				array(
+            			      "title" => "Newsletter - Crypto In America",
+            			      "url" => "https://www.cryptoinamerica.com/feed"
+        				     ),
+    
+    
+        				array(
             			      "title" => "Newsletter - Helius Labs (Solana API infra)",
             			      "url" => "https://helius.substack.com/feed"
         				     ),
@@ -1309,12 +1322,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Podcast - Unchained",
             			      "url" => "https://unchained.libsyn.com/unchained"
-        				     ),
-    
-    
-        				array(
-            			      "title" => "Podcast - What Bitcoin Did",
-            			      "url" => "https://www.whatbitcoindid.com/podcast?format=RSS"
         				     ),
     
     
@@ -1417,6 +1424,12 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Youtube - Unlayered",
             			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCaWbgxQdyz5GtZM-OTxK6Bg"
+        				     ),
+    
+    
+        				array(
+            			      "title" => "Youtube - What Bitcoin Did",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCtvg5cXLY_tHDJeBoRySBtg"
         				     ),
         
         
@@ -1927,27 +1940,27 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // TBTC
-                    'TBTC' => array(
+                    // ZBTC
+                    'ZBTC' => array(
                         
-                        'name' => 'tBTC',
-                        'mcap_slug' => 'tbtc',
+                        'name' => 'Zeus Network zBTC',
+                        'mcap_slug' => 'zeus-netwok-zbtc',
                         'pair' => array(
 
                         
                                     'btc' => array(
-                                    	 'kraken' => 'TBTCXBT',
+                                        'coingecko_btc' => 'zeus-netwok-zbtc',
                                                     ),
 
                                                     
                                     'eur' => array(
-                                    	 'kraken' => 'TBTCEUR',
+                                        'coingecko_eur' => 'zeus-netwok-zbtc',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                    	'kraken' => 'TBTCUSD',
-                                    	'coingecko_terminal' => 'ethereum||0xb7ecb2aa52aa64a717180e030241bc75cd946726',
+                                        'coingecko_usd' => 'zeus-netwok-zbtc',
+                                    	'coingecko_terminal' => 'solana||ek5qUSH3qws3FjLVko1kqkKopFw6SUNtr5jijrcR9pi',
                                                     ),
 
                                                     
@@ -2264,6 +2277,27 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // OSOLSTOCK
+                    'OSOLSTOCK' => array(
+                        
+                        'name' => 'Osprey Solana Trust',
+                        'mcap_slug' => 'OSOL:OTCMKTS',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'OSOL',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // USDC
                     'USDC' => array(
                         
@@ -2508,6 +2542,39 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // DIO
+                    'DIO' => array(
+                        
+                        'name' => 'Decimated',
+                        'mcap_slug' => 'decimated',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'coingecko_btc' => 'decimated',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        'coingecko_usd' => 'decimated',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'huobi' => 'diousdt',
+                                        'gateio' => 'DIO_USDT',
+                                        'coinex' => 'DIOUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // SONIC
                     'SONIC' => array(
                         
@@ -2532,6 +2599,39 @@ $ct['conf']['assets'] = array(
                                         'kucoin' => 'SONIC-USDT',
                                         'coinex' => 'SONICUSDT',
                                     ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DIO
+                    'DIO' => array(
+                        
+                        'name' => 'Decimated',
+                        'mcap_slug' => 'decimated',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'coingecko_btc' => 'decimated',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        'coingecko_usd' => 'decimated',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'huobi' => 'diousdt',
+                                        'gateio' => 'DIO_USDT',
+                                        'coinex' => 'DIOUSDT',
+                                                    ),
 
                                                     
                         ) // pair END
@@ -2667,37 +2767,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // M3M3
-                    'M3M3' => array(
-                        
-                        'name' => 'M3M3',
-                        'mcap_slug' => 'm3m3',
-                        'pair' => array(
-                                 
-
-                                    "aud" => array(
-                                        "coingecko_aud" => "m3m3"
-                                    ),
-                                    
-                                    
-                                    "usd" => array(
-                                        "coingecko_usd" => "m3m3",
-                                    ),
-                                    
-                                    
-                                    "usdt" => array(
-                                        "kucoin" => "M3M3-USDT"
-                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // SHOPSTOCK
                     'SHOPSTOCK' => array(
                         
@@ -2729,6 +2798,69 @@ $ct['conf']['assets'] = array(
                         
                                     'eur' => array(
                                         'alphavantage_stock' => 'DTG.DEX',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // IYYSTOCK
+                    'IYYSTOCK' => array(
+                        
+                        'name' => 'iShares Dow Jones ETF',
+                        'mcap_slug' => 'IYY:NYSEARCA',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'IYY',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ONEQSTOCK
+                    'ONEQSTOCK' => array(
+                        
+                        'name' => 'Fidelity NASDAQ Index ETF',
+                        'mcap_slug' => 'ONEQ:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'ONEQ',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // IVVSTOCK
+                    'IVVSTOCK' => array(
+                        
+                        'name' => 'iShares S&P 500 ETF',
+                        'mcap_slug' => 'IVV:NYSEARCA',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'IVV',
                                                     ),
 
                                                     
@@ -2792,6 +2924,27 @@ $ct['conf']['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'AMZN',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // NVDASTOCK
+                    'NVDASTOCK' => array(
+                        
+                        'name' => 'NVIDIA Corp',
+                        'mcap_slug' => 'NVDA:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'NVDA',
                                                     ),
 
                                                     
