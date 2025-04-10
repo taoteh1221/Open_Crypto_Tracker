@@ -195,7 +195,27 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Add a sol market in the btc asset, AFTER upgrading Jupiter price api to v2.
+JUPITER AGGREGATOR **COMPLETELY DROPPED** V1 PRICE API SUPPORT, so we need to COMPLETELY REWRITE **EVERY** THING RELATED TO JUP AG PRICE API SUPPORT, SO IT USES THE CASE-SENSITIVE TOKEN CONTRACT ADDRESSES INSTEAD OF CASE-SENSITIVE TICKER SYMBOLS:
+https://station.jup.ag/docs/apis/price-api-v2
+
+
+RE-Add sol markets in the btc / other major assets, AFTER upgrading Jupiter price api to v2, so the address balance tracker plugin supports SPL token tracking MUCH BETTER (again).
+
+
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+
+
+Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
+
+
+Fedora's news feed:
+https://fedoramagazine.org/feed/
+
+
+"private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Lastest standard to connect auth hardware in browsers is "webauthn":
@@ -214,10 +234,6 @@ PS C:\Users\taote> curl -d "api_key=9f1eaf5e8af9bf5c1a4c7c0f2866b23078ff7b1aaae1
 curl: (8) Header without colon
 
 
-JUPITER AGGREGATOR **COMPLETELY DROPPED** V1 PRICE API SUPPORT, so we need to COMPLETELY REWRITE **EVERY** THING RELATED TO JUP AG PRICE API SUPPORT, SO IT USES THE CASE-SENSITIVE TOKEN CONTRACT ADDRESSES INSTEAD OF CASE-SENSITIVE TICKER SYMBOLS:
-https://station.jup.ag/docs/apis/price-api-v2
-
-
 Button click animation:
 
 https://www.w3schools.com/howto/howto_css_shake_image.asp
@@ -233,9 +249,6 @@ For app marketing, make a user account at https://buymeacoffee.com, and submit a
 Write tests, that send a test message to all comms channels, tracks how long it runs, and when / if it seems to exit cleanly (after everything finishes running).
 
 
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
-
-
 On the backup / restore admin page, have all the backups have a RESTORE LINK next to each. INCLUDE AN UPLOAD FIELD TOO, TO RESTORE FROM BACKUPS SAVED TO A PC. See PHP's 'setPassword' for automatically using the config backup password, to open / restore config backups:
 https://www.php.net/manual/en/ziparchive.setpassword.php
 
@@ -244,16 +257,6 @@ Add a third option in the 'remove asset markets' wizard, that scans ALL markets,
 
 
 Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
-
-
-Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
-
-
-Fedora's news feed:
-https://fedoramagazine.org/feed/
-
-
-"private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.
 
 
 https://api.coingecko.com/api/v3/simple/supported_vs_currencies
