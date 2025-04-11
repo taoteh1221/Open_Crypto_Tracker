@@ -195,6 +195,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password'], AS THATS ONLY FOR ADMIN USE!).
+
+
 JUPITER AGGREGATOR **COMPLETELY DROPPED** V1 PRICE API SUPPORT, so we need to COMPLETELY REWRITE **EVERY** THING RELATED TO JUP AG PRICE API SUPPORT, SO IT USES THE CASE-SENSITIVE TOKEN CONTRACT ADDRESSES INSTEAD OF CASE-SENSITIVE TICKER SYMBOLS:
 https://station.jup.ag/docs/apis/price-api-v2
 
@@ -218,20 +221,10 @@ https://fedoramagazine.org/feed/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Lastest standard to connect auth hardware in browsers is "webauthn":
-https://webauthn.io/
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
 
 
-Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
-
-
-If Dev status notifications are more than 4, AND the 5th oldest notification is older than 90 days, have a "view / hide notifications older than 90 days" link, to show older entries. If there are only 4 or less Dev notifications, just show them all (WITHOUT a show / hide link).
-
-
-WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API (server / linux desktop editions do NOT have any issues, so it MAY just be a powershell issue)...
-PS C:\Users\taote> Remove-item alias:curl
-PS C:\Users\taote> curl -d "api_key=9f1eaf5e8af9bf5c1a4c7c0f2866b23078ff7b1aaae168438e2ed20a6fc33965" -X POST http://127.0.0.1:38393/internal-api.php?data_set=market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
-curl: (8) Header without colon
+If "strict" 2FA mode has been enabled, make sure the 2FA field is easily visible on the submission form page, OR add it near the "save" button in the sidebar (and have it auto fill the 2FA field on the submission form page with that).
 
 
 Button click animation:
@@ -241,6 +234,77 @@ https://www.w3schools.com/howto/howto_css_shake_image.asp
 https://www.w3schools.com/howto/howto_css_animate_buttons.asp
 
 https://www.google.com/search?q=button+click+animation
+
+
+Look into adding the architecture for "chrome push alerts".
+
+
+Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
+
+
+Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
+
+
+Buildout the top navigation, for responsive templating on small mobile screens.
+
+
+Add these feature-assets to developer-config.php, AND have it DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
+          	                     'MISCASSETS',
+          	                     'BTCNFTS',
+          	                     'ETHNFTS',
+          	                     'SOLNFTS',
+          	                     'ALTNFTS',
+
+
+For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
+https://www.alphavantage.co/query?function=OVERVIEW&symbol=TICKER_HERE&apikey=API_KEY_HERE
+
+There are also endpoints available for income statement / balance sheet / cash flow / earnings / etc here:
+https://www.alphavantage.co/documentation/#fundamentals
+
+Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
+
+
+Add full redhat support for auto-installer.
+
+
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
+
+
+Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.
+
+
+HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
+
+
+Move all admin-related functions into the new 'ct_admin' PHP class.
+
+
+Ad a GENERAL / GENERIC POS rewards calculator to the tools page.
+
+
+Security page should show the app version number, AND any version upgrade alerts (if available).
+
+
+Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
+
+
+Add a 24 hour time picker, in the recurring reminder plugin settings interface.
+
+
+All STALE charts (light AND archival) that no longer have any corresponding charts config (user removed it), should be scanned for and deleted automatically WITH A BUTTON ATOP THE CHARTS / ALERTS PAGE. Button should have a confirmation prompt: "This will DELETE *ALL* PRICE CHARTS that currently don't have an ACTIVE CONFIG SETUP BELOW. Are you sure you wish to proceed?"
+
+
+If Dev status notifications are more than 4, AND the 5th oldest notification is older than 90 days, have a "view / hide notifications older than 90 days" link, to show older entries. If there are only 4 or less Dev notifications, just show them all (WITHOUT a show / hide link).
+
+
+WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API (server / linux desktop editions do NOT have any issues, so it MAY just be a powershell issue)...
+PS C:\Users\taote> Remove-item alias:curl
+PS C:\Users\taote> curl -d "api_key=9f1eaf5e8af9bf5c1a4c7c0f2866b23078ff7b1aaae168438e2ed20a6fc33965" -X POST http://127.0.0.1:38393/internal-api.php?data_set=market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
+curl: (8) Header without colon
 
 
 For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
@@ -265,19 +329,23 @@ https://api.coingecko.com/api/v3/simple/supported_vs_currencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Build a SUPER SIMPLE auto-trading bot as a plugin, to help automatically dump airdrop shitcoins if a certain price target (up or down) is met. There should be a "one time trade" mode, where if the price target is met, it makes whatever trade you setup to occur, AND *NEVER* EXECUTES *SECONDARY* TRADES AFTERWARDS. Useful if you want to go to bed, and automatically sell your shitcoin airdrop while you sleep, or any other "one time" trade.
+Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
+
+
+On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
+
+
+On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
+
+
+Admin iframes: ADD A 'REVERT TO LAST-KNOWN WORKING CONFIG' OPTION ON RESET PAGE, IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG (WE ALREADY SAVE AS "restore_conf" in secured cache folder)
+
+
+Lastest standard to connect auth hardware in browsers is "webauthn":
+https://webauthn.io/
 
 
 Add any other 'required api key' notices, near the top of the external data function. This is a VERY RELIABLE PLACE to have ALL of the checks, as we ALWAYS use the external data function to get API data.
-
-
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
-
-
-Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.
 
 
 Add help page entry for : 2FA passcode was invalid, please try again
@@ -289,28 +357,11 @@ New FAQ entry "my text alerts aren't working, or are delayed"
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
-Add full redhat support for auto-installer.
-
-
 Look into feasibility of adding smart card login support:
 https://www.google.com/search?q=smart+card+reader+website+login
 
 
-Buildout the top navigation, for responsive templating on small mobile screens.
-
-
-Update MKR and DAI to the new rebranded tokens: SKY and USDS
-
-
 Add a new mode for the asset perfomance chart (on the 'more stats' modal page), which is a drop-down menu option, that switches from showing comparisons between assets, over to showing ONLY ASSETS A USER HOLDS, AND INCLUDES A "TOTAL PORTFOLIO VALUE" CHART LINE TOO (showing perecent increase / decrease in TOTAL PORTFOLIO VALUE).
-
-
-Add these feature-assets to developer-config.php, AND have it DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
-          	                     'MISCASSETS',
-          	                     'BTCNFTS',
-          	                     'ETHNFTS',
-          	                     'SOLNFTS',
-          	                     'ALTNFTS',
 
 
 Since we do not allow removing BITCOIN / ETHEREUM / SOLANA ASSET'S exchanges IF THEY ARE THE FIRST ONE LISTED IN THE PAIRING 'REMOVAL' INTERFACING, create 'scheduled maintainence' logic that:
@@ -322,37 +373,17 @@ Since we do not allow removing BITCOIN / ETHEREUM / SOLANA ASSET'S exchanges IF 
 Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
 
 
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password']).
-
-
-HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
-
-
-For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
-https://www.alphavantage.co/query?function=OVERVIEW&symbol=TICKER_HERE&apikey=API_KEY_HERE
-
-There are also endpoints available for income statement / balance sheet / cash flow / earnings / etc here:
-https://www.alphavantage.co/documentation/#fundamentals
-
-Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
-
-
 Add a drop-down menu on the access stats page, to switch between listing visits as 'per ip address' (which we have already) OR 'per visit time' (combining all visits into one list, based of visit timestamp).
 
 
 For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp.
 
 
-Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
-
-
 Add new plugin standard config 'ui_display_mode':
 
 $plug['conf'][$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
 
-Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
-
-Defaults to 'inline' if not set.
+Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections) Defaults to 'inline' if not set.
 
 
 Add new plugin standard config 'admin_page_width':
@@ -373,21 +404,6 @@ Add the ability to allow a BLANK single array item admin user input for domains 
 Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' PAGE (AND WHEREVER IT'S CALLED BY THAT ID IN THE APP), as it now also handles charts / news feeds / etc.
 
 
-Move all admin-related functions into the new 'ct_admin' PHP class.
-
-
-Ad a GENERAL / GENERIC POS rewards calculator to the tools page.
-
-
-Security page should show the app version number, AND any version upgrade alerts (if available).
-
-
-Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
-Add a 24 hour time picker, in the recurring reminder plugin settings interface.
-
-
 Review / fully test all the different SUBARRAY logic for the cached config upgrade mechanism (string-keyed / auto-indexed, etc)
 
 
@@ -403,19 +419,10 @@ Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a w
 "The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
 
 
-All STALE charts (light AND archival) that no longer have any corresponding charts config (user removed it), should be scanned for and deleted automatically WITH A BUTTON ATOP THE CHARTS / ALERTS PAGE. Button should have a confirmation prompt: "This will DELETE *ALL* PRICE CHARTS that currently don't have an ACTIVE CONFIG SETUP BELOW. Are you sure you wish to proceed?"
-
-
-Look into adding the architecture for "chrome push alerts".
-
-
 Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
 
 
 Create / refresh a cache file with a key order mapping array (in json format) of the MAIN CONFIG TEMPLATE, which runs on new installs AND detected upgrades, by using include() to load /templates/back-end/main-config.template (BEFORE config.php is LOADED, SO WE DON'T OVERWRITE CUSTOMIZED USER SETTINGS). Then use this cache file's data for the array key ordering logic in the cached config upgrade AND update functions. THEN WE WILL ENCOUNTER LESS ARRAY KEY ORDERING ISSUES WHEN AN END-USER USES AN **OUTDATED CONFIG.PHP FILE**. ALSO USE THIS MAPPING DATA TO GET A HASH OF ALL SETTING KEYS (INCLUDING EACH SETTING WITHIN A SETTING CATEGORY) CONCATENATED TOGETHER, SO WE CAN COMPARE AGAINST THE LIVE HARD-CODED MAIN CONFIG, AND ALERT END USERS IF THEY HAVE AN OUTDATED MAIN CONFIG FILE. CACHE RESULTS FOR BOTH, AND ALSO ONLY RUN CACHING ON NEW INSTALLS / UPGRADES, BUT ALERT USERS EVERY RUNTIME IF THE CACHED HASHES DONT MATCH.
-
-
-Admin iframes: ADD A 'REVERT TO LAST-KNOWN WORKING CONFIG' OPTION ON RESET PAGE, IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG (WE ALREADY SAVE AS "restore_conf" in secured cache folder)
 
 
 Look into adding temperature / CPU monitoring support for systems other than linux devices: https://phoenixnap.com/kb/linux-cpu-temp
@@ -439,12 +446,6 @@ Add an info icon next to admin config fields, with info on what it is, usage, et
 Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
 
 
-On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
-
-
-On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
-
-
 Start creating github wiki with USER AND DEVELOPER documentation.
 
 
@@ -454,13 +455,13 @@ Remove the requirement for a secondary crypto market needing a BTC market, by al
 Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).
 
 
-Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
-
-
 Add openserum markets support.
 
 
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 
+
+
+Build a SUPER SIMPLE auto-trading bot as a plugin, to help automatically dump airdrop shitcoins if a certain price target (up or down) is met. There should be a "one time trade" mode, where if the price target is met, it makes whatever trade you setup to occur, AND *NEVER* EXECUTES *SECONDARY* TRADES AFTERWARDS. Useful if you want to go to bed, and automatically sell your shitcoin airdrop while you sleep, or any other "one time" trade.
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
