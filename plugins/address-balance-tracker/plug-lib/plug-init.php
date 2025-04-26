@@ -141,8 +141,8 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
 //$ct['cache']->other_cached_data('save', $ct['base_dir'] . '/cache/debugging/debugging-' . $target_key . '.dat', $debug_array, true, "append", false);
 
 	
-	// If a cache reset was flagged
-	if ( $cache_reset ) {
+	// If a cache reset was flagged (AND telemetry is valid), then reset
+	if ( isset($address) && is_numeric($address_balance) && $cache_reset ) {
 		
 	$new_cache_data = $address . '|' . $address_balance;
 	
