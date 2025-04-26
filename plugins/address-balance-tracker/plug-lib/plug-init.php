@@ -154,8 +154,8 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
 	}
 
 	
-	// If address balance has changed, send a notification...
-	if ( $address_balance != $cached_address_balance ) {
+	// If address balance has changed (AND *NEW* value is validated as numeric), send a notification...
+	if ( is_numeric($address_balance) && $address_balance != $cached_address_balance ) {
 		
 	// Balance change amount
 	$difference_amnt = $ct['var']->num_to_str( abs($cached_address_balance - $address_balance) );
