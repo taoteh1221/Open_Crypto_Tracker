@@ -630,6 +630,7 @@ var $ct_array = array();
 
      
      // Set OR reset MINUTE start time / counts, if needed
+     // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
      if (
      !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name]) && !isset($ct['api_throttle_count'][$safe_name]['minute_count']['start'])
      || isset($ct['api_throttle_count'][$safe_name]['minute_count']['start']) && $ct['api_throttle_count'][$safe_name]['minute_count']['start'] <= ( time() - 60 )
@@ -639,98 +640,85 @@ var $ct_array = array();
      }
      
      
-     // Set OR reset HOUR start time / counts, if needed
-     // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
-     if (
-     !$cached_path && isset($ct['throttled_api_per_day_limit'][$safe_name]) && !isset($ct['api_throttle_count'][$safe_name]['hour_count']['start'])
-     || isset($ct['api_throttle_count'][$safe_name]['hour_count']['start']) && $ct['api_throttle_count'][$safe_name]['hour_count']['start'] <= ( time() - 3600 )
-     ) {
-     $ct['api_throttle_count'][$safe_name]['hour_count']['start'] = time();
-     $ct['api_throttle_count'][$safe_name]['hour_count']['count'] = 0;
-     }
-     
-     
      // Thresholds for API servers (we throttle-limit, to have reliable LIVE data EVERY HOUR OF THE DAY) 
      // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $ct['api_throttle_flag'][$safe_name] *AND* THE FUNCTION CALL)
      
      
-     // CACHE TIME BASED
-     if ( $cached_path && isset($ct['throttled_api_cache_time'][$safe_name]) && $this->update_cache($cached_path, $ct['throttled_api_cache_time'][$safe_name]) == false ) {
-     
-     $minutes_old = round( ( time() - filemtime($cached_path) ) / 60 );
-     
-     $cache_file_name = preg_replace("/(.*)external_data\//", "", $cached_path);
+     // CACHE GLOBAL LIMIT TIME BASED (NEVER LESS THAN MINUTES!)
+     if ( $cached_path && isset($ct['throttled_api_min_cache_time'][$safe_name]) && $this->update_cache($cached_path, $ct['throttled_api_min_cache_time'][$safe_name]) == false ) {
      
      
+          // DEV DEBUGGING MODE
           if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
+     
+          $how_old = round( ( time() - filemtime($cached_path) ) / 60 );
+          
+          $cache_file_name = preg_replace("/(.*)external_data\//", "", $cached_path);     
           
           // Log for each cache file's throttle
           $ct['gen']->log(
                        'notify_debug',
-                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct['var']->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $ct['throttled_api_cache_time'][$safe_name] . ')'
+                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct['var']->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $how_old . ', minimum_cache_global=' . $ct['throttled_api_min_cache_time'][$safe_name] . ')'
                	  );
           	  
           }
+          
      
-     
-     // For dev-notes ONLY (so it's realized IN THIS INSTANCE we throttle this API server by cache time, instead of API request counts)
-     $ct['api_throttle_count'][$safe_name]['cache_time_based'][$cache_file_name] = array(
-                                                                             'minutes_cached' => $minutes_old,
-                                                                             'minimum_cache_minutes' => $ct['throttled_api_cache_time'][$safe_name],
-                                                                            );
-                  
-     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
-     $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
-         
-     $ct['api_throttle_flag'][$safe_name] = true;
-     
-     return $ct['api_throttle_flag'][$safe_name];
+     // NO NEED TO UPDATE JSON STORAGE, AS WE ARE NOT UPDATING ANYTHING (JUST RETURN TRUE)
+     return true;
      
      }
      // API REQUEST COUNTING BASED
-     // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
+     // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
      elseif (
      !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name]) && $ct['api_throttle_count'][$safe_name]['minute_count']['count'] >= $ct['throttled_api_per_minute_limit'][$safe_name]
-     || !$cached_path && isset($ct['throttled_api_per_day_limit'][$safe_name]) && $ct['api_throttle_count'][$safe_name]['hour_count']['count'] >= floor($ct['throttled_api_per_day_limit'][$safe_name] / 24)
      ) {
           
+       $interval_count = $ct['api_throttle_count'][$safe_name]['minute_count']['count'];
+     
           
           if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
           
-          // Only log once, as it's the minute / hour thresholds met
+          // Only log once, as it's the minute thresholds met
           $ct['gen']->log(
                        'notify_debug',
-                       'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests='.$ct['api_throttle_count'][$safe_name]['minute_count']['count'].', hour_requests='.$ct['api_throttle_count'][$safe_name]['hour_count']['count'].')',
+                       'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests=' . $interval_count . ')',
                	   false,
                	   md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
                	  );
           
           }
-          
-                  
-     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
-     $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
-         
-     $ct['api_throttle_flag'][$safe_name] = true;
      
-     return $ct['api_throttle_flag'][$safe_name];
+     
+     // NO NEED TO UPDATE JSON STORAGE, AS WE ARE NOT UPDATING ANYTHING (JUST RETURN TRUE)
+     return true;
      
      }
-     elseif ( !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name]) || !$cached_path && isset($ct['throttled_api_per_day_limit'][$safe_name]) ) {
+     elseif (
+     !$cached_path && isset($ct['throttled_api_per_second_limit'][$safe_name])
+     || !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name])
+     ) {
          
+         
+         // PER-MINUTE MUST BE CHECKED FIRST!
          if ( isset($ct['throttled_api_per_minute_limit'][$safe_name]) ) {
+              
          $ct['api_throttle_count'][$safe_name]['minute_count']['count'] = $ct['api_throttle_count'][$safe_name]['minute_count']['count'] + 1;
-         }
          
-         // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
-         if ( isset($ct['throttled_api_per_day_limit'][$safe_name]) ) {
-         $ct['api_throttle_count'][$safe_name]['hour_count']['count'] = $ct['api_throttle_count'][$safe_name]['hour_count']['count'] + 1;
+         // We only store to cached file, if there is a per-minute limit set
+         $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
+         $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count)
+
          }
-                  
-     $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
-     $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
-         
-     unset($ct['api_throttle_flag'][$safe_name]);
+         // FOR VALID PER-SECOND LIMITS, WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME,
+         // TO PREFORM THE REQUIRED THROTTLING FOR THIS SERVER (NO NEED TO TALLY A REQUEST COUNTER)
+         elseif (
+         isset($ct['throttled_api_per_second_limit'][$safe_name])
+         && $ct['throttled_api_per_second_limit'][$safe_name] >= 1
+         ) {
+         sleep(1);
+         }
+ 
      
      return false;
      
@@ -2935,7 +2923,6 @@ var $ct_array = array();
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
       // (are processed by api_throttling(), to avoid using up request limits getting LIVE DATA)
       if ( isset($ct['dev']['tracked_throttle_limited_servers'][$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
-              
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
       // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)

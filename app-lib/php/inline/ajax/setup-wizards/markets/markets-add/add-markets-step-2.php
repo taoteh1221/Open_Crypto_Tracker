@@ -103,11 +103,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<option value='clone' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified' ? 'clone' : '' )?> > Clone Protocol Tokens </option>
      	
-     	<option value='pump' value='birdeye-trending' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'pump' ? 'selected' : '' )?> > GRADUATED Pump.fun Tokens </option>
+     	<option value='pump' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'pump' ? 'selected' : '' )?> > GRADUATED Pump.fun Tokens </option>
      	
-     	<option value='all_tags_without_unknown' value='birdeye-trending' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified,community,strict,lst,birdeye-trending,clone,pump' ? 'selected' : '' )?> > ALL Tokens, EXCEPT Unknown </option>
+     	<option value='all_tags_without_unknown' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'all_tags_without_unknown' ? 'selected' : '' )?> > ALL Tokens, EXCEPT Unknown </option>
      	
-     	<option value='all_tags_with_unknown' value='birdeye-trending' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified,community,strict,lst,birdeye-trending,clone,pump,unknown' ? 'selected' : '' )?> > ALL Tokens, INCLUDING Unknown (POSSIBLY UNSAFE!) </option>
+     	<option value='all_tags_with_unknown' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'all_tags_with_unknown' ? 'selected' : '' )?> > ALL Tokens, INCLUDING Unknown (POSSIBLY UNSAFE!) </option>
      	
      	</select>
      	

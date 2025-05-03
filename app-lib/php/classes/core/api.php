@@ -266,10 +266,10 @@ var $exchange_apis = array(
 
                            
                            'jupiter_ag' => array(
-                                                   'markets_endpoint' => 'https://price.jup.ag/v6/price?ids=[JUP_AG_ASSETS]&vsToken=[JUP_AG_PAIRING]',
-                                                   'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => 'https://tokens.jup.ag/tokens?tags=[JUP_AG_TAGS]', // false|[API endpoint with all market pairings]
+                                            'markets_endpoint' => 'https://lite-api.jup.ag/price/v2?ids=[JUP_AG_ASSETS]&vsToken=[JUP_AG_PAIRING]',
+                                            'markets_nested_path' => 'data', // Delimit multiple depths with >
+                                            'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                            'search_endpoint' => 'https://lite-api.jup.ag/tokens/v1/tagged/[JUP_AG_TAGS]', // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -1391,10 +1391,21 @@ var $exchange_apis = array(
    
    $url = preg_replace("/\[SEARCH_QUERY\]/i", $dyn_id, $url);
    
-   
-       // https://station.jup.ag/docs/token-list/token-list-api
+       
+       // WE ALLOW FILTERING BY TAG, FOR SAFETY
+       // https://dev.jup.ag/docs/api/token-api/tagged
        if ( isset($_POST['jupiter_tags']) && trim($_POST['jupiter_tags']) != '' ) {
-       $jupiter_ag_search_tags = $_POST['jupiter_tags'];
+            
+            if ( trim($_POST['jupiter_tags']) == 'all_tags_without_unknown' ) {
+            $jupiter_ag_search_tags 'verified,community,strict,lst,birdeye-trending,clone,pump';
+            }
+            elseif ( trim($_POST['jupiter_tags']) == 'all_tags_with_unknown' ) {
+            $jupiter_ag_search_tags = 'verified,community,strict,lst,birdeye-trending,clone,pump,unknown';
+            }
+            else {
+            $jupiter_ag_search_tags = trim($_POST['jupiter_tags']);
+            }
+
        }
        else {
        $jupiter_ag_search_tags = 'verified';
@@ -1824,7 +1835,7 @@ var $exchange_apis = array(
    $cache_time = ( $ct['ticker_markets_search'] ? $ct['conf']['power']['exchange_search_cache_time'] : $cache_time ); // IF ticker searching, optimize for runtime speed
    
    // IF alphavantage, we have to throttle LIVE requests for the FREE tier
-   $cache_time = ( $exchange_key == 'alphavantage_stock' ? $ct['throttled_api_cache_time']['alphavantage.co'] : $cache_time );
+   $cache_time = ( $exchange_key == 'alphavantage_stock' ? $ct['throttled_api_min_cache_time']['alphavantage.co'] : $cache_time );
           
    $url = $exchange_api['markets_endpoint'];
    
@@ -3696,9 +3707,9 @@ var $exchange_apis = array(
     		// (ONLY IF WE ARE ***NOT*** RUNNING A TICKER MARKETS SEARCH, AS IT COULD CAUSE HUNDREDS OF NEW API CALLS PER MINUTE!)
     		if ( !$ct['ticker_markets_search'] && isset($result['jup_ag_address']) ) {
     		
-    		// As of 2024/9/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
-    		// https://station.jup.ag/docs/token-list/token-list-api
-          $response = @$ct['cache']->ext_data('url', 'https://tokens.jup.ag/token/' . $result['jup_ag_address'], 45); // 45 minute cache
+    		// As of 2025/5/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
+    		// https://dev.jup.ag/docs/token-api#get-token-information
+          $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/token/' . $result['jup_ag_address'], 45); // 45 minute cache
             
           $data = json_decode($response, true);
           

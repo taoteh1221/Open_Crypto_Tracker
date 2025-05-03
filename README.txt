@@ -364,7 +364,7 @@ aevo_futures / alphavantage_stock / binance / binance_us / bit2c / bitbns / bitf
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).
 
 
-Ethereum ICO subtoken support (pre-exchange listing) has been built in (values are static ICO values in ETH).
+Token Presales support (pre-exchange value in USD) has been built in (as static USD values...see example below).
 
 
 USAGE (ADDING / UPDATING COINS):

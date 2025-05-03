@@ -69,10 +69,6 @@ GENERAL REMINDERS
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
-===> PHPbrowserBox (used for Windows Desktop Editions) Shortcut Keys:
-===> Reload / refresh browser : Shift + F5 (Mac: Command + R)
-===> Open devtools : F12 (Mac: Fn + F12)
-!!!!
 ===> Occasionally update cacert.pem in the main directory:
 ===> https://curl.se/ca/cacert.pem
 !!!!
@@ -80,6 +76,7 @@ GENERAL REMINDERS
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
 !!!!
+===> Make sure you ESCAPE special characters in regular expressions (regex)!
 ===> https://www.threesl.com/blog/special-characters-regular-expressions-escape/
 !!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -202,7 +199,7 @@ Option to use new zip file encryption password feature to encrypt portfolio spre
 
 
 JUPITER AGGREGATOR **COMPLETELY DROPPED** V1 PRICE API SUPPORT, so we need to COMPLETELY REWRITE **EVERY** THING RELATED TO JUP AG PRICE API SUPPORT, SO IT USES THE CASE-SENSITIVE TOKEN CONTRACT ADDRESSES INSTEAD OF CASE-SENSITIVE TICKER SYMBOLS:
-https://station.jup.ag/docs/apis/price-api-v2
+https://dev.jup.ag/docs/api/price-api/price
 
 
 RE-Add sol markets in the btc / other major assets, AFTER upgrading Jupiter price api to v2, so the address balance tracker plugin supports SPL token tracking MUCH BETTER (again).
