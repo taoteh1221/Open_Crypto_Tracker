@@ -192,10 +192,28 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-TEST BEFORE RELEASE, ON ALL PLATFORMS!
+Double check that the asset search field is excluded from malware scanning (as crypto addresses can cause false positives), BUT make sure all special characters are escaped (since we print the search phrase on subsequent wizard step pages [in it's title]).
+
+
+Test htaccess password protection on Windows desktop edition, to see if we need to disable it, now that we've reverted to using PHPdesktop on Windows.
+
+
+Pass the posted asset filter tags to the ticker address mapping function, but only for the ASSET instances using it (NOT the pairings).
+
+
+Move coinbase and coingecko APIs over to the new per-second throttling system.
+
+
+Double check all new Jupiter exchange market logic.
+
+
+Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Move all relevent APIs over to the new per-second throttling system.
 
 
 Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
