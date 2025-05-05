@@ -610,6 +610,13 @@ var $ct_array = array();
   
   global $ct;
   
+     
+     // If there is no throttling profile, skip / return false
+     if ( !isset($ct['dev']['throttle_limited_servers'][$tld_or_ip]) ) {
+     return false;
+     }
+     
+  
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   
@@ -707,16 +714,29 @@ var $ct_array = array();
          
          // We only store to cached file, if there is a per-minute limit set
          $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
-         $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count)
+         $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
 
          }
-         // FOR VALID PER-SECOND LIMITS, WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME,
+         // FOR VALID PER-SECOND LIMITS, WE CAN JUST USE USLEEP DURING THIS RUNTIME,
          // TO PREFORM THE REQUIRED THROTTLING FOR THIS SERVER (NO NEED TO TALLY A REQUEST COUNTER)
          elseif (
          isset($ct['throttled_api_per_second_limit'][$safe_name])
          && $ct['throttled_api_per_second_limit'][$safe_name] >= 1
          ) {
-         sleep(1);
+              
+              // Cap per-second throttle to 1 million, to support our usleep auto-calculation logic
+              if ( $ct['throttled_api_per_second_limit'][$safe_name] > 1000000 ) {
+              $ct['throttled_api_per_second_limit'][$safe_name] = 1000000;
+              }
+         
+         $sleep_microseconds = (1 / $ct['throttled_api_per_second_limit'][$safe_name]) * 1000000;
+         
+         // Assure any large number is NON-scientific format
+         $sleep_microseconds = $ct['var']->num_to_str($sleep_microseconds);
+         
+         // https://www.php.net/manual/en/function.usleep.php
+         usleep($sleep_microseconds);
+
          }
  
      
@@ -2922,7 +2942,7 @@ var $ct_array = array();
       
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
       // (are processed by api_throttling(), to avoid using up request limits getting LIVE DATA)
-      if ( isset($ct['dev']['tracked_throttle_limited_servers'][$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
+      if ( $this->api_throttling($endpoint_tld_or_ip) == true ) {
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
       // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
@@ -3548,7 +3568,7 @@ var $ct_array = array();
     
     
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API CACHED TIME******, due to limited-allowed daily requests
-      if ( isset($ct['dev']['tracked_throttle_limited_servers'][$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip, $ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
+      if ( isset($ct['dev']['throttle_limited_servers'][$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip, $ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
       
           // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
           //  FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)

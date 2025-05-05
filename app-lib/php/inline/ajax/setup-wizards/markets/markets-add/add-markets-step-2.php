@@ -7,7 +7,7 @@
 $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
    /*
-If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_id_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_id_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
+If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_tickers_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_tickers_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
    */
    
 ?>
@@ -54,7 +54,24 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	<li class='blue'>
           	
           	<b>Adding NEW PAIRINGS in "Asset Tracking => Currency Support => Additional Pairings Search", allows more pairings to be DETECTED during market searches.</b><br />
-          	<span class='bitcoin'>(example[s]: bnb,busd,tbtc)</span>
+          	<span class='bitcoin'>(example[s]: bnb,busd,zbtc)</span>
+          	
+          	</li>
+	     
+          	<li class='blue'>
+          	
+          	<b><span class='blue'>Jupiter Aggregator "ALL Exchanges" searches:</span><br /><span class='bitcoin'>Any BASE PAIRINGS [asset/base_pairing] included in your search MUST BE CASE-SENSITIVE! You can SKIP including a base pairing, to get a list of popular ones to choose from.</span></b><br />
+
+          	<span class='bitcoin'>(example[s]: asset/base_PAIRING,bonk/zBTC,asset_only,bonk <span class='red'>[see what cases to use at: <a class='red' href='https://jup.ag/swap/' target='_BLANK'>jup.ag/swap</a>]</span>)</span>
+          	
+          	
+          	</li>
+	     
+          	<li class='blue'>
+          	
+          	<b><span class='blue'>Jupiter Aggregator SPECIFIC EXCHANGE searches:</span><br /><span class='bitcoin'>ASSETS *AND* BASE PAIRINGS are BOTH REQUIRED, AND *BOTH* MUST BE CASE-SENSITIVE!</span></b><br />
+          	<span class='bitcoin'>(example[s]: Asset/base_PAIRING,Bonk/zBTC <span class='red'>[see what cases to use at: <a class='red' href='https://jup.ag/swap/' target='_BLANK'>jup.ag/swap</a>]</span>)</span>
+          	
           	
           	</li>
      	
@@ -63,6 +80,8 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<p class='input_margins'>
      	
+     	
+     	<b class='yellow'>Search:</b><br />
      	
      	<select id='add_markets_search_exchange' name='add_markets_search_exchange'>
      	
@@ -87,13 +106,13 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	<p class='input_margins'>
      	
      	
-     	FILTER Any <i>Jupiter Aggregator</i> Results By:<br />
+     	<b class='yellow'>FILTER Any <i>Jupiter Aggregator</i> Results By:</b><br />
      	
      	<select id='jupiter_tags' name='jupiter_tags'>
      	
-     	<option value='strict' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'strict' ? 'selected' : '' )?> > STRICT Tokens </option>
-     	
      	<option value='verified' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified' ? 'selected' : '' )?> > VERIFIED Tokens </option>
+     	
+     	<option value='strict' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'strict' ? 'selected' : '' )?> > STRICT Tokens </option>
      	
      	<option value='community' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'community' ? 'selected' : '' )?> > COMMUNITY Tokens </option>
      	
@@ -105,14 +124,14 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<option value='pump' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'pump' ? 'selected' : '' )?> > GRADUATED Pump.fun Tokens </option>
      	
-     	<option value='all_tags_without_unknown' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'all_tags_without_unknown' ? 'selected' : '' )?> > ALL Tokens, EXCEPT Unknown </option>
+     	<option value='all_tags_without_unknown' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'all_tags_without_unknown' ? 'selected' : '' )?> > ALL Tokens (EXCEPT Unknown) </option>
      	
-     	<option value='all_tags_with_unknown' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'all_tags_with_unknown' ? 'selected' : '' )?> > ALL Tokens, INCLUDING Unknown (POSSIBLY UNSAFE!) </option>
+     	</select><br />
      	
-     	</select>
+     	<span class='yellow'>(use "ALL Tokens" filter SPARINGLY, IF you get "timeout" errors)</span><br />
      	
      	<script>
-     	select_confirm("jupiter_tags", "NOT using the STRICT filter CAN BE DANGEROUS (you risk getting search results that MAY include SCAM COINS)! Are you sure you want to continue?", "strict");
+     	select_confirm("jupiter_tags", "NOT using the STRICT or VERIFIED filter MAY BE DANGEROUS (allowing UN-VETTED tokens risks getting search results that MAY include SCAM COINS)! Are you sure you want to continue?", "verified");
      	</script>
      	
      	</p>
@@ -128,9 +147,9 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<input type='checkbox' id='skip_alphavantage_search' name='skip_alphavantage_search' value='yes' <?=( !isset($_POST['skip_alphavantage_search']) || isset($_POST['skip_alphavantage_search']) && $_POST['skip_alphavantage_search'] == 'yes' ? 'checked' : '' )?> /> 
      	
-     	<span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, SKIP Using Up All Your Alphavantage.co Stock (25 DAILY) Live Requests For NEW Data</span> 
+     	<span class='yellow'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, SKIP Using Up All Your Alphavantage.co Stock (25 DAILY) Live Requests For NEW Data</span> 
 	     
-		<img class='tooltip_style_control' id='skip_alphavantage_info' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /><br />
+		<img class='tooltip_style_control' id='skip_alphavantage_info' src='templates/interface/media/images/info-yellow.png' alt='' width='30' style='position: relative; left: -5px;' /><br />
 		
 		</p>
 		
@@ -139,15 +158,15 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<input type='checkbox' id='strict_search' name='strict_search' value='yes' <?=( !isset($_POST['strict_search']) || isset($_POST['strict_search']) && $_POST['strict_search'] == 'yes' ? 'checked' : '' )?> /> 
      	
-     	<span class='bitcoin'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, Only Search For EXACT MATCHES</span> 
+     	<span class='yellow'><b><i><u>WHEN SEARCHING 'ALL Exchanges'</u></i></b>, Only Search For EXACT MATCHES</span> 
 	     
-		<img class='tooltip_style_control' id='strict_search_info' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /><br />
+		<img class='tooltip_style_control' id='strict_search_info' src='templates/interface/media/images/info-yellow.png' alt='' width='30' style='position: relative; left: -5px;' /><br />
 		
 		</p>
 		
 	 <script>
 		
-			var skip_alphavantage_info = '<h5 class="align_center bitcoin tooltip_title">SKIP Alphavantage During "ALL Exchanges" Search</h5>'
+			var skip_alphavantage_info = '<h5 class="align_center yellow tooltip_title">SKIP Alphavantage During "ALL Exchanges" Search</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">DAILY live data requests are VERY LIMITED for the FREE tier of Alphavantage.co\'s Stock Market Prices API (25 DAILY). IF you know you are NOT searching for a STOCK MARKET asset, leave this box checked, TO AVOID USING UP your Alphavantage DAILY limits.</p>'
@@ -167,7 +186,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 			});
 		
 		
-			var strict_search_info = '<h5 class="align_center bitcoin tooltip_title">Only Search For EXACT MATCHES</h5>'
+			var strict_search_info = '<h5 class="align_center yellow tooltip_title">Only Search For EXACT MATCHES</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">When searching for assets / pairings, only show results that are an EXACT MATCH to what you are looking for, AND SKIP showing "similar" matches. This help a lot with narrowing search results down, especially if you are getting too many results in your searches without it enabled.</p>'
@@ -237,17 +256,6 @@ $saved_search = $_POST['saved_search'];
      	    var strict_search = "no";
      	    }
      	    
-     	
-     	    if ( $("#jupiter_tags").val() == "all_tags_without_unknown" ) {
-     	    var jupiter_tags = "verified,community,strict,lst,birdeye-trending,clone,pump";
-     	    }
-     	    else if ( $("#jupiter_tags").val() == "all_tags_with_unknown" ) {
-     	    var jupiter_tags = "verified,community,strict,lst,birdeye-trending,clone,pump,unknown";
-     	    }
-     	    else {
-     	    var jupiter_tags = $("#jupiter_tags").val();
-     	    }
-     	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
      	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges.<br />Please wait, this may take a few minutes";
@@ -262,7 +270,7 @@ $saved_search = $_POST['saved_search'];
      	                          "add_markets_search_exchange": $("#add_markets_search_exchange").val(),
      	                          "skip_alphavantage_search": skip_alphavantage_search,
      	                          "strict_search": strict_search,
-     	                          "jupiter_tags": jupiter_tags,
+     	                          "jupiter_tags": $("#jupiter_tags").val(),
      	                          };
      	
      	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "results from " + search_desc, add_markets_search, true); // Secured

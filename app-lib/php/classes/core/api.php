@@ -385,6 +385,45 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
+
+   function token_address($ticker, $api='jupiter', $safety_filter=true) {
+        
+   global $ct;
+   
+   
+      if ( $api == 'jupiter' ) {
+           
+           if ( $safety_filter == true ) {
+           $tags = 'verified';
+           }
+           else {
+           $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump,unknown';
+           }
+      
+      // 1 day cache (1440 minutes)
+      $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/tagged/' . $tags, 1440);
+      
+      gc_collect_cycles(); // Clean memory cache
+   
+      $data = json_decode($response, true);
+      
+          foreach ( $data as $val ) {
+          
+               if ( isset($val['symbol']) && $val['symbol'] == $ticker ) {
+               return $val['address'];
+               }
+
+          }
+   
+      }
+      
+ 
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
    
    function dev_status() {
     
@@ -823,15 +862,15 @@ var $exchange_apis = array(
              
              // We still need to parse out 'flagged_market'
              // Minimize calls
-             $market_id_parse = $ct['asset']->market_id_parse('coingecko', $app_id, $specific_pairing, $coingecko_asset_data['symbol']);
+             $market_tickers_parse = $ct['asset']->market_tickers_parse('coingecko', $app_id, $specific_pairing, $coingecko_asset_data['symbol']);
                                                 
              $results[] = array(
                                                                            'name' => $cg_name,
                                                                            'mcap_slug' =>  $app_id,
                                                                            'id' =>  $app_id,
-                                                                           'asset' => $market_id_parse['asset'],
-                                                                           'pairing' => $market_id_parse['pairing'],
-                                                                           'flagged_market' => $market_id_parse['flagged_market'],
+                                                                           'asset' => $market_tickers_parse['asset'],
+                                                                           'pairing' => $market_tickers_parse['pairing'],
+                                                                           'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                            'data' => $parsed_market_data,
                                                                           );
              }
@@ -849,15 +888,15 @@ var $exchange_apis = array(
                                                   
                   // We still need to parse out 'flagged_market'
                   // Minimize calls
-                  $market_id_parse = $ct['asset']->market_id_parse('coingecko', $app_id, $pair, $coingecko_asset_data['symbol']);
+                  $market_tickers_parse = $ct['asset']->market_tickers_parse('coingecko', $app_id, $pair, $coingecko_asset_data['symbol']);
                                                 
                   $results[] = array(
                                                                            'name' => $cg_name,
                                                                            'mcap_slug' =>  $app_id,
                                                                            'id' =>  $app_id,
-                                                                           'asset' => $market_id_parse['asset'],
-                                                                           'pairing' => $market_id_parse['pairing'],
-                                                                           'flagged_market' => $market_id_parse['flagged_market'],
+                                                                           'asset' => $market_tickers_parse['asset'],
+                                                                           'pairing' => $market_tickers_parse['pairing'],
+                                                                           'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                            'data' => $parsed_market_data,
                                                                           );
           
@@ -1059,14 +1098,14 @@ var $exchange_apis = array(
                     if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                          
                     // Minimize calls
-                    $market_id_parse  = $ct['asset']->market_id_parse('presale_usd_value', $key, 'usd', $key);
+                    $market_tickers_parse  = $ct['asset']->market_tickers_parse('presale_usd_value', $key, 'usd', $key);
                
                     $results['presale_usd_value'][] = array(
                                                             'name' => strtoupper($key),
                                                             'id' => $key,
                                                             'asset' => $key,
                                                             'pairing' => 'usd',
-                                                            'flagged_market' => $market_id_parse['flagged_market'],
+                                                            'flagged_market' => $market_tickers_parse['flagged_market'],
                                                             'data' => $check_market_data,
                                                             );
                     
@@ -1101,12 +1140,21 @@ var $exchange_apis = array(
        // Defaults
        $exchange_check = $specific_exchange;
        $ticker_check = $ticker_search;
+       
+       // Parsing tickers for this market (before any id conversions)
+       $ticker_parsing = $ticker_check;
           
           
           // Exchange-specific
           if ( $specific_exchange == 'coingecko' ) {
+               
           $exchange_check = $specific_exchange . '_usd';
+
           $ticker_check = $ticker_only;
+
+          // Parsing tickers for this market (before any id conversions)
+          $ticker_parsing = $ticker_check;
+
           }
           elseif ( $specific_exchange == 'jupiter_ag' ) {
                
@@ -1116,6 +1164,14 @@ var $exchange_apis = array(
                else {
                $ticker_check = $ticker_search . '/' . ( $ticker_search == 'SOL' ? 'WBTC' : 'SOL' );
                }
+          
+          // Parsing tickers for this market (before any id conversions)
+          $ticker_parsing = $ticker_check;
+               
+          // Convert to token addresses for jupiter's price API
+          $ticker_check_array = explode('/', $ticker_check);
+               
+          $ticker_check = $this->token_address($ticker_check_array[0]) . '/' . $this->token_address($ticker_check_array[1]);
 
           }
 
@@ -1155,15 +1211,29 @@ var $exchange_apis = array(
                     }
                     
                     
+                    // IF jupiter ag, get name / mcap slug
+                    if ( $specific_exchange == 'jupiter_ag' ) {
+                         
+              		// https://dev.jup.ag/docs/token-api#get-token-information
+                    $jup_response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/token/' . $this->token_address($ticker_check_array[0]), 45); // 45 minute cache
+                      
+                    $jup_data = json_decode($jup_response, true);
+                    
+                    
+                    }
+                    
+                    
              // Minimize calls
-               $market_id_parse = $ct['asset']->market_id_parse($specific_exchange, $ticker_check, $set_pairing, $set_asset);
+               $market_tickers_parse = $ct['asset']->market_tickers_parse($specific_exchange, $ticker_parsing, $set_pairing, $set_asset);
                               
                $results[$specific_exchange][] = array(
-                                                  'name' => strtoupper($market_id_parse['asset']),
+                                                  'name' => ( isset($jup_data['name']) && $jup_data['name'] != '' ? $jup_data['name'] : strtoupper($market_tickers_parse['asset']) ),
+                                                  'mcap_slug' => ( isset($jup_data['extensions']['coingeckoId']) && $jup_data['extensions']['coingeckoId'] != '' ? $jup_data['extensions']['coingeckoId'] : '' ),
                                                   'id' => $ticker_check,
-                                                  'asset' => $market_id_parse['asset'],
-                                                  'pairing' => $market_id_parse['pairing'],
-                                                  'flagged_market' => $market_id_parse['flagged_market'],
+                                                  'asset' => $market_tickers_parse['asset'],
+                                                  'pairing' => $market_tickers_parse['pairing'],
+                                                  'orig_pairing' => $market_tickers_parse['orig_pairing'],
+                                                  'flagged_market' => $market_tickers_parse['flagged_market'],
                                                   'data' => $check_market_data,
                                                   );
                
@@ -1397,10 +1467,7 @@ var $exchange_apis = array(
        if ( isset($_POST['jupiter_tags']) && trim($_POST['jupiter_tags']) != '' ) {
             
             if ( trim($_POST['jupiter_tags']) == 'all_tags_without_unknown' ) {
-            $jupiter_ag_search_tags 'verified,community,strict,lst,birdeye-trending,clone,pump';
-            }
-            elseif ( trim($_POST['jupiter_tags']) == 'all_tags_with_unknown' ) {
-            $jupiter_ag_search_tags = 'verified,community,strict,lst,birdeye-trending,clone,pump,unknown';
+            $jupiter_ag_search_tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
             }
             else {
             $jupiter_ag_search_tags = trim($_POST['jupiter_tags']);
@@ -1416,12 +1483,16 @@ var $exchange_apis = array(
          
    $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
    
+   //var_dump($url);
+   
    // API response data
    $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['exchange_search_cache_time']);
    
    gc_collect_cycles(); // Clean memory cache
    
    $data = json_decode($response, true);
+                
+   //$ct['gen']->array_debugging($data, true); // DEBUGGING
    
    
        if ( is_array($data) ) {
@@ -1433,14 +1504,14 @@ var $exchange_apis = array(
                      foreach( $data as $val ) {
                           
                      // Minimize calls
-                     $market_id_parse  = $ct['asset']->market_id_parse($exchange_key, $val['id']);
+                     $market_tickers_parse  = $ct['asset']->market_tickers_parse($exchange_key, $val['id']);
                           
                          
                          // If relevant
                          if ( 
-                         !$search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
-                         || $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
-                         && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing) 
+                         !$search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id) 
+                         || $search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id) 
+                         && $ct['gen']->search_mode($market_tickers_parse['pairing'], $search_pairing) 
                          ) {
                          // Do nothing
                          }
@@ -1457,11 +1528,11 @@ var $exchange_apis = array(
                          if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                                         
                          $possible_market_ids[] = array(
-                                                                       'name' => strtoupper($market_id_parse['asset']),
+                                                                       'name' => strtoupper($market_tickers_parse['asset']),
                                                                        'id' => $val['id'],
-                                                                       'asset' => $market_id_parse['asset'],
-                                                                       'pairing' => $market_id_parse['pairing'],
-                                                                       'flagged_market' => $market_id_parse['flagged_market'],
+                                                                       'asset' => $market_tickers_parse['asset'],
+                                                                       'pairing' => $market_tickers_parse['pairing'],
+                                                                       'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                        'data' => $check_market_data,
                                                                         );
                                                                         
@@ -1478,10 +1549,19 @@ var $exchange_apis = array(
                 
                 $temp_app_id_array = array();
                 
+                $debug_pairing = array(
+                                       'required_pairing' => $required_pairing,
+                                       'search_pairing' => $search_pairing,
+                                      );
+                
+                //$ct['gen']->array_debugging($debug_pairing, false); // DEBUGGING
+                
+                //$ct['gen']->array_debugging($data, true); // DEBUGGING
+                
                      
                      $loop_count = 0;
                      foreach( $data as $val ) {
-          
+                         
                          
                          if (
                          !$search_pairing && isset($val['symbol']) && $ct['gen']->search_mode($val['symbol'], $dyn_id)
@@ -1492,7 +1572,8 @@ var $exchange_apis = array(
                               
                               // Skip
                               // JUPITER WON'T LET US GET MORE THAN 100 COINS W/ PRICE API ANYWAY (NO PAGINATION OPTION AS OF 2024/9/3),
-                              // SO (FEASIBLY) OUR HARD CAP IS 100 RELEVANT COINS PER SEARCH
+                              // AND AS OF 2025/9/3, WE HAVE TO THROTTLE FREE TIER API CONNECTIONS TO 1 PER-SECOND,
+                              // SO (FEASIBLY) OUR HARD CAP IS ~100 RELEVANT COINS PER SEARCH (TO AVOID VERY LONG RUNTIMES)
                               // IF relevant, max $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] results
                               // (to avoid gateway timeout on server, from too many results)
                               if (
@@ -1502,6 +1583,9 @@ var $exchange_apis = array(
                               ) {
                               break;
                               }
+                     
+                     
+                         //$ct['gen']->array_debugging($val, false); // DEBUGGING
                               
                               
                               if ( $val['symbol'] == 'SOL' ) {
@@ -1516,7 +1600,7 @@ var $exchange_apis = array(
                          $pairing_check = ( $required_pairing ? $required_pairing : $default_pairing );
                                            
                               
-                              // We need to keep data set request to 100 or less, so we need to reset our pair array to empty,
+                              // We need to keep MARKET VALIDATION CHECK requests to 100 or less, so we need to reset our pair array to empty,
                               // since we loop up to 100 times              
                               if ( !isset($ct['jupiter_ag_pairs'][$pairing_check]) ) {
                               $ct['jupiter_ag_pairs'][$pairing_check] = $val['symbol'];
@@ -1535,6 +1619,9 @@ var $exchange_apis = array(
                          $temp_app_id_array[$pairing_check][ $val['symbol'] ] = array(
                                                                                       'data' => $val,
                                                                                       'asset_check' => $asset_check,
+                                                                                      'asset_address' => $val['address'],
+                                                                                      'pairing_check' => $pairing_check,
+                                                                                      'pairing_address' => $this->token_address($pairing_check),
                                                                                       );
                                    
                          $ct['jupiter_ag_search_results'] = $ct['jupiter_ag_search_results'] + 1;
@@ -1545,26 +1632,37 @@ var $exchange_apis = array(
                          
                      
                      }
+                          
+                          
+                     //$ct['gen']->array_debugging($temp_app_id_array, true); // DEBUGGING
                      
                      
                      // Process results
                      foreach( $temp_app_id_array as $pairing_key => $pairing_data ) {
                           
                      $current = current($pairing_data);
+                     
+                     //$ct['gen']->array_debugging($current, false); // DEBUGGING
                          
                      // FROM HERE ONWARD FOR JUPITER SEARCHES, WE MUST USE THE EXACT (CASE / SYMBOL SENSITIVE) MARKET IDS WE RETRIEVE,
                      // AS JUPITER CAN HAVE UPPERCASE / LOWERCASE / SYMBOLS IN THE TICKER FIELD ('symbol'), WHICH WE MUST MATCH EXACTLY!!!
                      // Minimize calls, AND throttle to avoid being blocked
                      usleep(1500000); // Wait 1.5 seconds
                      // Returns ALL API results, with $return_all_results = true in the fetch_exchange_data() call
-                     // (RARELY useful, as it requires unique parsing per-exchange, BUT jupiter can have HUNDREDS of results,
+                     // (RARELY useful, as it requires unique parsing per-exchange, BUT jupiter can have MANY results,
                      // so this optimizes speed fairly well, for this one exchange's search results)
-                     $check_market_data = $this->fetch_exchange_data($exchange_key, $current['asset_check'] . '/' . $pairing_key, false, true);
+                     $check_market_data = $this->fetch_exchange_data($exchange_key, $current['asset_address'] . '/' . $current['pairing_address'], false, true);
+                     
+                     //$ct['gen']->array_debugging($check_market_data, false); // DEBUGGING
+                     
+                     //$ct['gen']->array_debugging($pairing_data, false); // DEBUGGING
                      
                           
                           foreach( $pairing_data as $market_key => $market_data ) {
                                
-                          $this_market_data = $check_market_data[$market_key];
+                          $this_market_data = $check_market_data[ $current['asset_address'] ];
+                          
+                          //$ct['gen']->array_debugging($this_market_data, false); // DEBUGGING
                           
                           $parsed_market_data = array(        
                                              'jup_ag_address' => $this_market_data['id'],
@@ -1576,15 +1674,18 @@ var $exchange_apis = array(
                                if ( isset($parsed_market_data['last_trade']) && $parsed_market_data['last_trade'] > 0 ) {
                                     
                                // Minimize calls
-                               $market_id_parse  = $ct['asset']->market_id_parse($exchange_key, $market_key . '/' . $pairing_key, $pairing_key, $market_key);
-                                         
+                               $market_tickers_parse = $ct['asset']->market_tickers_parse($exchange_key, $market_key . '/' . $pairing_key, $pairing_key, $market_key);
+                               
+                               // IF they included coingecko app-id meta data, populate the mcap slug too
                                $possible_market_ids[] = array(
                                                                'name' => $market_data['data']['name'],
-                                                               'id' => $market_key . '/' . $pairing_key,
-                                                               'contract_address' => $this_market_data['id'],
-                                                               'asset' => $market_id_parse['asset'],
-                                                               'pairing' => $market_id_parse['pairing'],
-                                                               'flagged_market' => $market_id_parse['flagged_market'],
+                                                               'mcap_slug' => ( isset($market_data['data']['extensions']['coingeckoId']) && $market_data['data']['extensions']['coingeckoId'] != '' ? $market_data['data']['extensions']['coingeckoId'] : '' ),
+                                                               'id' => $current['asset_address'] . '/' . $current['pairing_address'],
+                                                               'contract_address' => $current['asset_address'],
+                                                               'asset' => $market_tickers_parse['asset'],
+                                                               'pairing' => $market_tickers_parse['pairing'],
+                                                               'orig_pairing' => $market_tickers_parse['orig_pairing'],
+                                                               'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                'data' => $parsed_market_data,
                                                                 );
                                                                 
@@ -1716,14 +1817,14 @@ var $exchange_apis = array(
                          foreach( $data['bestMatches'] as $result ) {
                                    
                          // Minimize calls
-                         $market_id_parse  = $ct['asset']->market_id_parse($exchange_key, $result["1. symbol"], $result["8. currency"]);
+                         $market_tickers_parse  = $ct['asset']->market_tickers_parse($exchange_key, $result["1. symbol"], $result["8. currency"]);
                          
                          
                               // Skip, if not relevant
                               if ( 
-                              !$search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
-                              || $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
-                              && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
+                              !$search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id) 
+                              || $search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id) 
+                              && $ct['gen']->search_mode($market_tickers_parse['pairing'], $search_pairing)
                               ) {
                               // Do nothing
                               }
@@ -1742,9 +1843,9 @@ var $exchange_apis = array(
                                                                                  'id' => $result["1. symbol"],
                                            // Even though we know the pairing, we still need to replace any MULTI-TICKER CURRENCY (NIS/CNY) with ticker used in-app
                                            // (for pairing UX in the app)
-                                                                                 'asset' => $market_id_parse['asset'],
-                                                                                 'pairing' => $market_id_parse['pairing'],
-                                                                                 'flagged_market' => $market_id_parse['flagged_market'],
+                                                                                 'asset' => $market_tickers_parse['asset'],
+                                                                                 'pairing' => $market_tickers_parse['pairing'],
+                                                                                 'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                                  'data' => array('last_trade' => 'SKIPPED, SO FREE TIER STAYS WITHIN DAILY LIMITS! (upgrade your alphavantage API KEY to a PREMIUM tier [and adjust "AlphaVantage.co Per Minute Limit" HIGHER THAN 5 accordingly, in the "External APIs" section], to SAFELY see price previews [without exceeding your limits])'),
                                                                                   );
                                                                                   
@@ -1763,9 +1864,9 @@ var $exchange_apis = array(
                                                                                  'id' => $result["1. symbol"],
                                            // Even though we know the pairing, we still need to replace any MULTI-TICKER CURRENCY (NIS/CNY) with ticker used in-app
                                            // (for pairing UX in the app)
-                                                                                 'asset' => $market_id_parse['asset'],
-                                                                                 'pairing' => $market_id_parse['pairing'],
-                                                                                 'flagged_market' => $market_id_parse['flagged_market'],
+                                                                                 'asset' => $market_tickers_parse['asset'],
+                                                                                 'pairing' => $market_tickers_parse['pairing'],
+                                                                                 'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                                  'data' => $check_market_data,
                                                                                   );
                                                                                   
@@ -2048,16 +2149,16 @@ var $exchange_apis = array(
                             
                             // Minimize calls
                             if ( $ticker_search_mode ) {
-                            $market_id_parse  = $ct['asset']->market_id_parse($exchange_key, $val[ $exchange_api['all_markets_support'] ]);
+                            $market_tickers_parse  = $ct['asset']->market_tickers_parse($exchange_key, $val[ $exchange_api['all_markets_support'] ]);
                             }
                             
                             
                             // As long as we are NOT in search mode, OR parsed asset ticker is relevant
                             if (
                             !$ticker_search_mode && $val[ $exchange_api['all_markets_support'] ] == $dyn_id
-                            || $ticker_search_mode && !$search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
-                            || $ticker_search_mode && $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
-                            && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
+                            || $ticker_search_mode && !$search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id)
+                            || $ticker_search_mode && $search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id)
+                            && $ct['gen']->search_mode($market_tickers_parse['pairing'], $search_pairing)
                             ) {
                             // Do nothing
                             }
@@ -2085,11 +2186,11 @@ var $exchange_apis = array(
                                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                                                         
                                         $possible_market_ids[] = array(
-                                                                       'name' => strtoupper($market_id_parse['asset']),
+                                                                       'name' => strtoupper($market_tickers_parse['asset']),
                                                                        'id' => $val[ $exchange_api['all_markets_support'] ],
-                                                                       'asset' => $market_id_parse['asset'],
-                                                                       'pairing' => $market_id_parse['pairing'],
-                                                                       'flagged_market' => $market_id_parse['flagged_market'],
+                                                                       'asset' => $market_tickers_parse['asset'],
+                                                                       'pairing' => $market_tickers_parse['pairing'],
+                                                                       'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                        'data' => $check_market_data,
                                                                       );
                                                                                  
@@ -2122,11 +2223,11 @@ var $exchange_apis = array(
                                         if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                                                         
                                         $possible_market_ids[] = array(
-                                                                   'name' => strtoupper($market_id_parse['asset']),
+                                                                   'name' => strtoupper($market_tickers_parse['asset']),
                                                                    'id' => $val[ $exchange_api['all_markets_support'] ],
-                                                                   'asset' => $market_id_parse['asset'],
-                                                                   'pairing' => $market_id_parse['pairing'],
-                                                                   'flagged_market' => $market_id_parse['flagged_market'],
+                                                                   'asset' => $market_tickers_parse['asset'],
+                                                                   'pairing' => $market_tickers_parse['pairing'],
+                                                                   'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                    'data' => $check_market_data,
                                                                   );
                                                                   
@@ -2159,13 +2260,13 @@ var $exchange_apis = array(
                    foreach ($data as $key => $val) {
 
                    // Minimize calls
-                   $market_id_parse = $ct['asset']->market_id_parse($exchange_key, $key);
+                   $market_tickers_parse = $ct['asset']->market_tickers_parse($exchange_key, $key);
                        
                        
                        if (
-                       !$search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id)
-                       || $search_pairing && $ct['gen']->search_mode($market_id_parse['asset'], $dyn_id) 
-                       && $ct['gen']->search_mode($market_id_parse['pairing'], $search_pairing)
+                       !$search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id)
+                       || $search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id) 
+                       && $ct['gen']->search_mode($market_tickers_parse['pairing'], $search_pairing)
                        ) {
                                          
                        // Minimize calls
@@ -2175,11 +2276,11 @@ var $exchange_apis = array(
                             if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
                                              
                             $possible_market_ids[] = array(
-                                                                   'name' => strtoupper($market_id_parse['asset']),
+                                                                   'name' => strtoupper($market_tickers_parse['asset']),
                                                                    'id' => $key,
-                                                                   'asset' => $market_id_parse['asset'],
-                                                                   'pairing' => $market_id_parse['pairing'],
-                                                                   'flagged_market' => $market_id_parse['flagged_market'],
+                                                                   'asset' => $market_tickers_parse['asset'],
+                                                                   'pairing' => $market_tickers_parse['pairing'],
+                                                                   'flagged_market' => $market_tickers_parse['flagged_market'],
                                                                    'data' => $check_market_data,
                                                                   );
                                                                   
@@ -3704,8 +3805,7 @@ var $exchange_apis = array(
     		// Set primary currency volume value...
     		
     		// JUP AG MUST BE FIRST CONDITION
-    		// (ONLY IF WE ARE ***NOT*** RUNNING A TICKER MARKETS SEARCH, AS IT COULD CAUSE HUNDREDS OF NEW API CALLS PER MINUTE!)
-    		if ( !$ct['ticker_markets_search'] && isset($result['jup_ag_address']) ) {
+    		if ( isset($result['jup_ag_address']) ) {
     		
     		// As of 2025/5/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
     		// https://dev.jup.ag/docs/token-api#get-token-information

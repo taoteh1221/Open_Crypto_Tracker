@@ -192,63 +192,31 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
-
-
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password'], AS THATS ONLY FOR ADMIN USE!).
-
-
-JUPITER AGGREGATOR **COMPLETELY DROPPED** V1 PRICE API SUPPORT, so we need to COMPLETELY REWRITE **EVERY** THING RELATED TO JUP AG PRICE API SUPPORT, SO IT USES THE CASE-SENSITIVE TOKEN CONTRACT ADDRESSES INSTEAD OF CASE-SENSITIVE TICKER SYMBOLS:
-https://dev.jup.ag/docs/api/price-api/price
-
-
-RE-Add sol markets in the btc / other major assets, AFTER upgrading Jupiter price api to v2, so the address balance tracker plugin supports SPL token tracking MUCH BETTER (again).
-
-
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
-
-
-Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
-
-
-Fedora's news feed:
-https://fedoramagazine.org/feed/
-
-
-"private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.
+TEST BEFORE RELEASE, ON ALL PLATFORMS!
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
-
-
 If "strict" 2FA mode has been enabled, make sure the 2FA field is easily visible on the submission form page, OR add it near the "save" button in the sidebar (and have it auto fill the 2FA field on the submission form page with that).
-
-
-Button click animation:
-
-https://www.w3schools.com/howto/howto_css_shake_image.asp
-
-https://www.w3schools.com/howto/howto_css_animate_buttons.asp
-
-https://www.google.com/search?q=button+click+animation
-
-
-Look into adding the architecture for "chrome push alerts".
 
 
 Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
 
 
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password'], AS THATS ONLY FOR ADMIN USE!).
+
+
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+
+
 Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
 
 
-Buildout the top navigation, for responsive templating on small mobile screens.
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
 
 
-Add these feature-assets to developer-config.php, AND have it DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
+Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
           	                     'MISCASSETS',
           	                     'BTCNFTS',
           	                     'ETHNFTS',
@@ -271,7 +239,38 @@ Add full redhat support for auto-installer.
 Make sure everything STILL runs smoothly with the charts page turned off.
 
 
+Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
+
+
+Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
+
+
+Fedora's news feed:
+https://fedoramagazine.org/feed/
+
+
+"private contact" link on project page (and maybe docs?) points to the ".com" site. Change it to the ".org" site.
+
+
+Button click animation:
+
+https://www.w3schools.com/howto/howto_css_shake_image.asp
+
+https://www.w3schools.com/howto/howto_css_animate_buttons.asp
+
+https://www.google.com/search?q=button+click+animation
+
+
+Look into adding the architecture for "chrome push alerts".
+
+
+Buildout the top navigation, for responsive templating on small mobile screens.
+
+
 Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.

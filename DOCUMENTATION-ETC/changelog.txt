@@ -6859,7 +6859,7 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Added API throttling PER-SECOND capability (needed for the new jupiter aggregator API *FREE* tier limits), on top of the already-existing PER-MINUTE throttling capability (we use for alphavantage stocks)
 
--Upgraded to the new jupiter aggregator token search / info / price API endpoints
+-Upgraded to the new jupiter aggregator token search / info / price API endpoints (so Jupiter markets work again now)
 
 -Revised DEMO config / resources pages
 
