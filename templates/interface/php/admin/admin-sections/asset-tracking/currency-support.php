@@ -114,38 +114,6 @@ $ct['admin_render_settings']['price_rounding_fixed_decimals']['is_notes'] = '(wh
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-     
-$ct['admin_render_settings']['hive_powerdown_time']['is_range'] = true;
-
-$ct['admin_render_settings']['hive_powerdown_time']['range_min'] = 1;
-
-$ct['admin_render_settings']['hive_powerdown_time']['range_max'] = 30;
-
-$ct['admin_render_settings']['hive_powerdown_time']['range_step'] = 1;
-
-$ct['admin_render_settings']['hive_powerdown_time']['range_ui_suffix'] = ' Weeks';
-
-$ct['admin_render_settings']['hive_powerdown_time']['is_notes'] = 'Weeks to power down all HIVE Power holdings';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$ct['admin_render_settings']['hivepower_yearly_interest']['is_range'] = true;
-
-$ct['admin_render_settings']['hivepower_yearly_interest']['range_min'] = 0.075;
-
-$ct['admin_render_settings']['hivepower_yearly_interest']['range_max'] = 0.975;
-
-$ct['admin_render_settings']['hivepower_yearly_interest']['range_step'] = 0.075;
-
-$ct['admin_render_settings']['hivepower_yearly_interest']['range_ui_suffix'] = '% APR';
-
-$ct['admin_render_settings']['hivepower_yearly_interest']['is_notes'] = 'HIVE Power yearly interest rate<br />(decreases every year by roughly 0.075%, until it hits a minimum of 0.075% and stays there)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 $ct['admin_render_settings']['coingecko_pairings_search']['is_text'] = true;
 
@@ -161,7 +129,7 @@ $ct['admin_render_settings']['jupiter_ag_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['jupiter_ag_pairings_search']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['jupiter_ag_pairings_search']['is_notes'] = 'Jupiter Aggregator market pairings searched for, when adding new assets / coins (comma-separated)<br /><span class="red">NOTES: We have a HARD CAP OF 100 asset search results maximum PER-PAIRING, as their PRICE API (as of Sept. 2024) has this 100 maximum limitation, and we use this to verify market data for assets discovered in searches.</span>';
+$ct['admin_render_settings']['jupiter_ag_pairings_search']['is_notes'] = 'Jupiter Aggregator market pairing tokens searched for, when adding new assets / coins (comma-separated, CASE-SENSITIVE)<br /><span class="red">NOTES: We have a HARD CAP OF 100 asset search results maximum PER-PAIRING (to avoid search timeouts [taking too long]), AND each pairing token MUST be VERIFIED (for your SAFETY!).</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

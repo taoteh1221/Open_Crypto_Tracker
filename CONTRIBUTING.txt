@@ -133,10 +133,6 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
-===> PHPbrowserBox (used for Windows Desktop Editions) Shortcut Keys:
-===> Reload / refresh browser : Shift + F5 (Mac: Command + R)
-===> Open devtools : F12 (Mac: Fn + F12)
-!!!!
 ===> Occasionally update cacert.pem in the main directory:
 ===> https://curl.se/ca/cacert.pem
 !!!!
@@ -144,6 +140,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
 !!!!
+===> Make sure you ESCAPE special characters in regular expressions (regex)!
 ===> https://www.threesl.com/blog/special-characters-regular-expressions-escape/
 !!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

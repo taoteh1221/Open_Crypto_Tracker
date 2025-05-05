@@ -54,29 +54,64 @@ $ct['admin_render_settings']['privacy_mode']['is_notes'] = 'In Privacy Mode, the
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['tracking']['is_notes'] = 'Track address balance changes, on popular blockchains.<br /><br /><span style="font-weight: bold;" class="yellow">Solana SPL tokens MUST:</span><br /><span class="light_sea_green"><b>1)</b> Have EITHER a Jupiter Aggregator OR CoinGecko Terminal Solana market in it\'s asset config, to AUTOMATICALLY be designated as such / included in the SPL ASSETS LIST below (as a selection option, for the "Asset" setting)<br /><br /><b>2)</b> Have EITHER a Bitcoin (BTC) OR Solana (SOL) market in it\'s asset config, for "Privacy Mode" to work properly<br /><br /><b>3)</b> Use your wallet\'s TOKEN account / address, that\'s specifically associated with this asset (NOT your primary wallet address, as Solana SPL tokens DERIVE *secondary addresses* for each token in your wallet)</span>';
+$ct['admin_render_settings']['tracking']['is_notes'] = 'Track address balance changes, on popular blockchains.<br /><br /><span style="font-weight: bold;" class="yellow">Solana SPL tokens MUST:</span><br /><span class="light_sea_green"><b>1)</b> Have EITHER a SOL-based Jupiter Aggregator or USD-based CoinGecko Terminal SOLANA market in it\'s asset config, to AUTOMATICALLY be included in the SOLANA SPL ASSETS LISTS below (as a selection option, for the "Asset" setting)<br /><br /><b>2)</b> Use your wallet\'s TOKEN account / address, that\'s specifically associated with your wallet for this asset (NOT your primary wallet address, as Solana SPL tokens DERIVE *secondary addresses* for each token in your wallet)</span>';
 
+$supported_native_tokens = array(
+                                 'BTC',
+                                 'ETH',
+                                 'SOL',
+                                 );
+
+$native_tokens = array();
 
 $sol_subtokens = array();
 
-// Get all the solana subtokens in asset config, WHICH HAVE A SOL PAIRING WITH JUPITER AGGREGATOR IN IT
+// Get all the solana subtokens in asset config, WHICH HAVE A SOL PAIRING,
+// OR USD PAIRING WITH A SOLANA-BASED COIN COINGECKO TERMINAL IN IT
 // (for privacy mode / primary currency value)
 foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
      
-   foreach ( $ct['conf']['assets'][$asset_key]['pair'] as $pair_key => $pair_val ) {
-      
-      // PHP7.4 NEEDS === HERE INSTEAD OF ==
-      if (
-      $pair_key === 'sol' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['jupiter_ag'])
-      || $pair_key === 'usd' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal'])
-      && preg_match("/sol\|\|/i", $ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal']) 
-      || $pair_key === 'usd' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal'])
-      && preg_match("/solana\|\|/i", $ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal']) 
-      ) { 
-      $sol_subtokens[] = strtolower($asset_key);
-      }
+$pair_btc_val = null; // Reset
+$is_spl_token = false; // Reset
+     
+     
+   if ( !in_array($asset_key, $ct['dev']['special_assets']) ) {
+   
+        
+        // If it's a supported NATIVE token
+        if ( in_array($asset_key, $supported_native_tokens) ) {
+        
+        $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset_key) );
+
+        
+            if ( $pair_btc_val != null ) {
+            $native_tokens[strtolower($asset_key)] = true; // Overwrites duplicates automatically
+            }
+            
+            
+        }
+
+   
+        // If it's a Solana SPL token
+        foreach ( $ct['conf']['assets'][$asset_key]['pair'] as $pair_key => $pair_val ) {
+           
+           
+           // PHP7.4 NEEDS === HERE INSTEAD OF ==
+           if (
+           $pair_key === 'sol' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['jupiter_ag'])
+           || $pair_key === 'usd' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal'])
+           && preg_match("/sol|solana\|\|/i", $ct['conf']['assets'][$asset_key]['pair'][$pair_key]['coingecko_terminal']) 
+           ) { 
+           $sol_subtokens[strtolower($asset_key)] = true; // Overwrites duplicates automatically
+           $is_spl_token = true;
+           }
+
+        
+        }
+
    
    }
+
 
 }
 
@@ -86,14 +121,13 @@ foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
 $ct['admin_render_settings']['tracking']['is_repeatable']['add_button'] = 'Add Address To Track (at bottom)';
 
 
-$ct['admin_render_settings']['tracking']['is_repeatable']['is_select']['asset'] = array(
-                                                                                  'btc',
-                                                                                  'eth',
-                                                                                  'sol',
-                                                                                 );
-          
-foreach ( $sol_subtokens as $val ) {
-$ct['admin_render_settings']['tracking']['is_repeatable']['is_select']['asset'][] = 'sol||' . $val;
+foreach ( $native_tokens as $key => $unused ) {
+$ct['admin_render_settings']['tracking']['is_repeatable']['is_select']['asset'][] = $key;
+}
+
+
+foreach ( $sol_subtokens as $key => $unused ) {
+$ct['admin_render_settings']['tracking']['is_repeatable']['is_select']['asset'][] = 'sol||' . $key;
 }
 
 
@@ -128,15 +162,14 @@ $usort_tracking_results = usort($ct['conf']['plug_conf'][$this_plug]['tracking']
           
                if ( $tracked_key === 'asset' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                     
-               $ct['admin_render_settings']['tracking']['has_subarray'][$key]['is_select'][$tracked_key] = array(
-                                                                                                           'btc',
-                                                                                                           'eth',
-                                                                                                           'sol',
-                                                                                                          );
+
+                    foreach ( $native_tokens as $key2 => $unused ) {
+                    $ct['admin_render_settings']['tracking']['has_subarray'][$key]['is_select'][$tracked_key][] = $key2;
+                    }
+                    
                
-               
-                    foreach ( $sol_subtokens as $val ) {
-                    $ct['admin_render_settings']['tracking']['has_subarray'][$key]['is_select'][$tracked_key][] = 'sol||' . $val;
+                    foreach ( $sol_subtokens as $key2 => $unused ) {
+                    $ct['admin_render_settings']['tracking']['has_subarray'][$key]['is_select'][$tracked_key][] = 'sol||' . $key2;
                     }
                
                
@@ -159,15 +192,14 @@ $usort_tracking_results = usort($ct['conf']['plug_conf'][$this_plug]['tracking']
 }
 else {
 
-$ct['admin_render_settings']['tracking']['has_subarray'][0]['is_select']['asset'] = array(
-                                                                                    'btc',
-                                                                                    'eth',
-                                                                                    'sol',
-                                                                                   );
+
+     foreach ( $native_tokens as $key => $unused ) {
+     $ct['admin_render_settings']['tracking']['has_subarray'][0]['is_select']['asset'][] = $key;
+     }
+     
                
-               
-     foreach ( $sol_subtokens as $val ) {
-     $ct['admin_render_settings']['tracking']['has_subarray'][0]['is_select']['asset'][] = 'sol||' . $val;
+     foreach ( $sol_subtokens as $key => $unused ) {
+     $ct['admin_render_settings']['tracking']['has_subarray'][0]['is_select']['asset'][] = 'sol||' . $key;
      }
                
                

@@ -455,15 +455,15 @@ $ct['conf']['currency']['price_rounding_fixed_decimals'] = 'on'; // 'off', 'on'
 // CoinGecko market pairings searched for, when adding new assets / coins (comma-separated)
 $ct['conf']['currency']['coingecko_pairings_search'] = 'usd,gbp,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd,cny,ils'; 
 ////
-// Jupiter aggregator market pairings searched for, when adding new assets / coins (comma-separated)
-$ct['conf']['currency']['jupiter_ag_pairings_search'] = 'SOL,USDC,ETH,WBTC,USDT'; 
+// Jupiter aggregator market pairings searched for, when adding new assets / coins (comma-separated, CASE-SENSITIVE)
+$ct['conf']['currency']['jupiter_ag_pairings_search'] = 'SOL,USDC,ETH,WBTC,zBTC,USDT'; 
 ////
 // Upbit market pairings searched for, when adding new assets / coins (comma-separated)
 $ct['conf']['currency']['upbit_pairings_search'] = 'BTC,ETH,USDT,KRW'; 
 ////
 // OTHER upcoming / semi-popular market pairings searched for, when adding new assets / coins (comma-separated)
 // BE CAREFUL, AND ONLY ADD FIAT / STABLECOINS / ***MAJOR*** BLUECHIPS HERE, OR YOU RISK MESSING UP 'ADD MARKETS' SEARCH RESULTS!
-$ct['conf']['currency']['additional_pairings_search'] = 'TBTC,BUSD,BNB,WBTC,WETH,FDUSD,CBBTC,USDD,WRX'; 
+$ct['conf']['currency']['additional_pairings_search'] = 'BUSD,BNB,WBTC,ZBTC,WETH,FDUSD,CBBTC,USDD,WRX'; 
 
 
 // Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)
@@ -1865,6 +1865,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'sol' => array(
+                                    	'jupiter_ag' => '3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh/So11111111111111111111111111111111111111112',
+                                                    ),
+
+                                                    
                                     'thb' => array(
                                           'coingecko_thb' => 'bitcoin',
                                                     ),
@@ -1956,6 +1961,11 @@ $ct['conf']['assets'] = array(
                                     'eur' => array(
                                         'coingecko_eur' => 'zeus-netwok-zbtc',
                                                     ),
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => 'zBTCug3er3tLyffELcvDNrKkCymbPWysGcWihESYfLg/So11111111111111111111111111111111111111112',
+                                    ),
 
                                                     
                                     'usd' => array(
@@ -2023,7 +2033,7 @@ $ct['conf']['assets'] = array(
                                           'kraken' => 'XETHXXBT',
                                           'bitfinex' => 'tETHBTC',
                                           'bitmex_u20' => 'ETHU20',
-                                    	  'jupiter_ag' => 'ETH/WBTC',
+                                    	  'jupiter_ag' => '7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs/3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh',
                                           'hitbtc' => 'ETHBTC',
                                           'upbit' => 'BTC-ETH',
                                           'bitflyer' => 'ETH_BTC',
@@ -2107,7 +2117,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'sol' => array(
-                                    	'jupiter_ag' => 'ETH/SOL',
+                                    	'jupiter_ag' => '7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs/So11111111111111111111111111111111111111112',
                                                     ),
 
                                                     
@@ -2199,7 +2209,7 @@ $ct['conf']['assets'] = array(
                                         'huobi' => 'solbtc',
                                         'okex' => 'SOL-BTC',
                                     	'crypto.com' => 'SOL_BTC',
-                                    	'jupiter_ag' => 'SOL/WBTC',
+                                    	'jupiter_ag' => 'So11111111111111111111111111111111111111112/3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh',
                                         'hitbtc' => 'SOLBTC',
                                         'coinex' => 'SOLBTC',
                                                     ),
@@ -2208,7 +2218,7 @@ $ct['conf']['assets'] = array(
                                     'eth' => array(
                                         'okex' => 'SOL-ETH',
                                         'binance' => 'SOLETH',
-                                    	'jupiter_ag' => 'SOL/ETH',
+                                    	'jupiter_ag' => 'So11111111111111111111111111111111111111112/7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs',
                                         'hitbtc' => 'SOLETH',
                                                     ),
 
@@ -2248,7 +2258,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'usdc' => array(
-                                    	 'jupiter_ag' => 'SOL/USDC',
+                                    	 'jupiter_ag' => 'So11111111111111111111111111111111111111112/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
                                          'binance_us' => 'SOLUSDC',
                                          'gateio' => 'SOL_USDC',
                                                     ),
@@ -2307,7 +2317,7 @@ $ct['conf']['assets'] = array(
 
                         
                                     'btc' => array(
-                                    	 'jupiter_ag' => 'USDC/WBTC',
+                                    	 'jupiter_ag' => 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh',
                                                     ),
 
                                                     
@@ -2322,7 +2332,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'sol' => array(
-                                    	 'jupiter_ag' => 'USDC/SOL',
+                                    	 'jupiter_ag' => 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/So11111111111111111111111111111111111111112',
                                                     ),
 
                                                     
@@ -2356,12 +2366,12 @@ $ct['conf']['assets'] = array(
                         
                                     'btc' => array(
                                          'coingecko_btc' => 'jupiter-exchange-solana',
-                                    	 'jupiter_ag' => 'JUP/WBTC',
+                                    	 'jupiter_ag' => 'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN/3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh',
                                                     ),
 
                                                     
                                     'sol' => array(
-                                    	 'jupiter_ag' => 'JUP/SOL',
+                                    	 'jupiter_ag' => 'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN/So11111111111111111111111111111111111111112',
                                                     ),
 
                                                     
@@ -2377,7 +2387,7 @@ $ct['conf']['assets'] = array(
 
                                                     
                                     'usdc' => array(
-                                    	 'jupiter_ag' => 'JUP/USDC',
+                                    	 'jupiter_ag' => 'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
                                                     ),
 
                                                     
@@ -2476,6 +2486,11 @@ $ct['conf']['assets'] = array(
                                     'eth' => array(
                                          'coingecko_eth' => 'render-token',
                                                     ),
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => 'rndrizKT3MK1iimdxRdWabcF7Zg7AR5T4nud4EkHBof/So11111111111111111111111111111111111111112',
+                                    ),
 
                                                     
                                     'usd' => array(
@@ -2520,6 +2535,11 @@ $ct['conf']['assets'] = array(
                                     'eur' => array(
                                     	 'kraken' => 'POLISEUR',
                                                     ),
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => 'poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk/So11111111111111111111111111111111111111112',
+                                    ),
 
                                                     
                                     'usd' => array(
@@ -2553,6 +2573,11 @@ $ct['conf']['assets'] = array(
                                     'btc' => array(
                                         'coingecko_btc' => 'decimated',
                                                     ),
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => 'BiDB55p4G3n1fGhwKFpxsokBMqgctL4qnZpDH1bVQxMD/So11111111111111111111111111111111111111112',
+                                    ),
 
                                                     
                                     'usd' => array(
@@ -2586,6 +2611,11 @@ $ct['conf']['assets'] = array(
                                     "aud" => array(
                                         "coingecko_aud" => "sonic-svm"
                                     ),
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => 'SonicxvLud67EceaEzCLRnMTBqzYUUYNr93DBkBdDES/So11111111111111111111111111111111111111112',
+                                    ),
                                     
                                     
                                     "usd" => array(
@@ -2609,45 +2639,17 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // DIO
-                    'DIO' => array(
-                        
-                        'name' => 'Decimated',
-                        'mcap_slug' => 'decimated',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'coingecko_btc' => 'decimated',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'decimated',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'huobi' => 'diousdt',
-                                        'gateio' => 'DIO_USDT',
-                                        'coinex' => 'DIOUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // NEON
                     'NEON' => array(
                         
                         'name' => 'Neon',
                         'mcap_slug' => 'neon',
                         'pair' => array(
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => 'NeonTjSjsuo3rexg9o6vHuMXw62f9V7zvmu8M8Zut44/So11111111111111111111111111111111111111112',
+                                    ),
 
                                                     
                                     'usd' => array(
@@ -2669,6 +2671,11 @@ $ct['conf']['assets'] = array(
                         'name' => 'ZEUS',
                         'mcap_slug' => 'zeus-network',
                         'pair' => array(
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => 'ZEUS1aR7aX8DFFJf5QjWj2ftDDdNTroMNGo8YoQm3Gq/So11111111111111111111111111111111111111112',
+                                    ),
 
                                                     
                                     'usd' => array(
@@ -2709,6 +2716,11 @@ $ct['conf']['assets'] = array(
                                     'eth' => array(
                                         'coingecko_eth' => 'bonk',
                                                     ),
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => 'DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/So11111111111111111111111111111111111111112',
+                                    ),
 
                                                     
                                     'usd' => array(
@@ -2742,6 +2754,11 @@ $ct['conf']['assets'] = array(
 
                                     "aud" => array(
                                         "coingecko_aud" => "popcat"
+                                    ),
+                                 
+
+                                    "sol" => array(
+                                    	'jupiter_ag' => '7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr/So11111111111111111111111111111111111111112',
                                     ),
                                     
                                     

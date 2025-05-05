@@ -17,7 +17,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 // Application version
 // PLEASE UPDATE TIMESTAMP HERE, TO DATE OF LATEST VERSION BUMP: 2025/FEBRUARY/4TH
-$ct['app_version'] = '6.00.41';
+$ct['app_version'] = '6.01.00';
 
 
 // #PHP# ERROR LOGGING
@@ -146,12 +146,24 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
      
      
-// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
+// Static value SPECIAL assets, to exclude or include throughout the app
+$ct['dev']['special_assets'] = array(
+                                     // 'TICKER',
+                                     'MISCASSETS',
+                                     'BTCNFTS',
+                                     'ETHNFTS',
+                                     'SOLNFTS',
+                                     'ALTNFTS',
+                                     );
+     
+     
+// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed second / minute / hour / daily requests
 // (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
 // ADDITIONAL (CORRESPONDING) LOGIC MUST BE ADDED IN /inline/config/throttled-markets-config.php
-$ct['dev']['tracked_throttle_limited_servers'] = array(
+$ct['dev']['throttle_limited_servers'] = array(
                                                        // 'tld_domain_name' => 'corresponding_exchange_identifier_OR_BOOLEAN_TRUE',
                                                      	'alphavantage.co' => 'alphavantage_stock',
+                                                     	'jup.ag' => 'jupiter_ag',
                                                       );
      
      
@@ -214,6 +226,7 @@ $ct['dev']['reverse_id_markets'] = array(
                             
 
 // Auto-correct for end user market searches, when adding new markets
+// NOTE: We don't include jupiter ag, as their tickers are case-sensitive!
 $ct['dev']['markets_uppercase_search'] = array(
                                                  'alphavantage_stock',
                                                  'binance',
@@ -228,7 +241,6 @@ $ct['dev']['markets_uppercase_search'] = array(
                                                  'coinbase',
                                                  'coindcx',
                                                  'hitbtc',
-                                                 'jupiter_ag',
                                                  'kraken',
                                                  'loopring',
                                                  'luno',

@@ -14,6 +14,7 @@ $skipped_results = array();
 
 $not_required = array(
                       'mcap_slug',
+                      'orig_pairing',
                       'flagged_market',
                      );
                      
@@ -98,40 +99,43 @@ foreach ( $search_results as $exchange_key => $exchange_data ) {
                
                     
                $included_results[ $market_data['asset'] ][ $market_data['pairing'] ][] = array(
-                                                                                                          'flagged_market' => ( $market_data['flagged_market'] ? $market_data['flagged_market'] : false ),
-                                                                                                          'exchange' => $exchange_key,
-                                                                                                          'name' => $market_data['name'],
-                                                                                                          'asset' => $market_data['asset'],
-                                                                                                          'pairing' => $market_data['pairing'],
-                                                                                                          'mcap_slug' => $market_data['mcap_slug'],
-                                                                                                          'id' => $market_data['id'],
-                                                                                                          'contract_address' => $market_data['contract_address'],
-                                                                                                          'data' => $market_data['data'],
-                                                                                                         );
+                                                                                               'flagged_market' => ( $market_data['flagged_market'] ? $market_data['flagged_market'] : false ),
+                                                                                               'exchange' => $exchange_key,
+                                                                                               'name' => $market_data['name'],
+                                                                                               'asset' => $market_data['asset'],
+                                                                                               'pairing' => $market_data['pairing'],
+                                                                                               'orig_pairing' => $market_data['orig_pairing'],
+                                                                                               'mcap_slug' => $market_data['mcap_slug'],
+                                                                                               'id' => $market_data['id'],
+                                                                                               'contract_address' => $market_data['contract_address'],
+                                                                                               'data' => $market_data['data'],
+                                                                                               );
 
                }
                elseif ( $missing_required ) {
                     
                $skipped_results[] = array(
-                                                                                                          'flagged_market' => 'missing_required_' . $missing_required,
-                                                                                                          'exchange' => $ct['gen']->key_to_name($exchange_key),
-                                                                                                          'name' => $market_data['name'],
-                                                                                                          'asset' => $market_data['asset'],
-                                                                                                          'pairing' => $market_data['pairing'],
-                                                                                                          'id' => $market_data['id'],
-                                                                                                         );
+                                          'flagged_market' => 'missing_required_' . $missing_required,
+                                          'exchange' => $ct['gen']->key_to_name($exchange_key),
+                                          'name' => $market_data['name'],
+                                          'asset' => $market_data['asset'],
+                                          'pairing' => $market_data['pairing'],
+                                          'orig_pairing' => $market_data['orig_pairing'],
+                                          'id' => $market_data['id'],
+                                          );
                                                                  
                }
                elseif ( $market_data['flagged_market'] ) {
                     
                $skipped_results[] = array(
-                                                                                                          'flagged_market' => $market_data['flagged_market'],
-                                                                                                          'exchange' => $ct['gen']->key_to_name($exchange_key),
-                                                                                                          'name' => $market_data['name'],
-                                                                                                          'asset' => $market_data['asset'],
-                                                                                                          'pairing' => $market_data['pairing'],
-                                                                                                          'id' => $market_data['id'],
-                                                                                                         );
+                                          'flagged_market' => $market_data['flagged_market'],
+                                          'exchange' => $ct['gen']->key_to_name($exchange_key),
+                                          'name' => $market_data['name'],
+                                          'asset' => $market_data['asset'],
+                                          'pairing' => $market_data['pairing'],
+                                          'orig_pairing' => $market_data['orig_pairing'],
+                                          'id' => $market_data['id'],
+                                          );
                                                                  
                }
           
@@ -212,9 +216,7 @@ FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEAR
 }
 ?>
 
-WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> <span class='yellow'>(ADJUSTABLE IN: <span class='light_sea_green'>"APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE"</span>, <?=$all_results_count['jupiter_ag']?> results below [including any marked as skipped] are from Jupiter Aggregator)</span>, TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS / LONG SEARCH TIMES ON SLOWER DEVICES. <span class='red'>IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.</span><br /><br />
-
-<span class='red'>JUPITER AGGREGATOR API SERVERS ARE KNOWN TO GET OVERLOADED ON OCCASION (AS OF AUGUST 2024). SO IF YOU ARE HAVING ISSUES GETTING RESULTS FROM THEM, CHECK THE ERROR LOGS, AND TRY AGAIN IN <?=$ct['conf']['power']['exchange_search_cache_time']?>+ MINUTES.</span>
+WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> <span class='yellow'>(ADJUSTABLE IN: <span class='light_sea_green'>"APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE"</span>, <?=$all_results_count['jupiter_ag']?> results below [including any marked as skipped] are from Jupiter Aggregator)</span>, TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS / LONG SEARCH TIMES ON SLOWER DEVICES. <span class='red'>IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.</span>
 
 </p>
 
@@ -268,6 +270,16 @@ WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupit
                     Name: <?=$skipped_market['name']?><br />
                     Asset: <?=$skipped_market['asset']?><br />
                     Pairing: <?=$skipped_market['pairing']?><br />
+                    
+                    <?php
+                    // IF we changed the ticker of the base pairing for app UX (wbtc,weth,etc)
+                    if ( $skipped_market['orig_pairing'] != '' ) {
+                    ?>
+                    ORIGINAL Pairing Ticker: <?=$skipped_market['orig_pairing']?><br />
+                    <?php
+                    }
+                    ?>
+                    
                     Market ID: <?=$skipped_market['id']?>
                     
                     </p>
@@ -310,7 +322,7 @@ WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupit
 <?php
      
    /*
-If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_id_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_id_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
+If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG THIS AS AN ERROR IN $ct['api']->market_tickers_parse() WITH DETAILS, AND ****DO NOT DISPLAY IT**** AS A RESULT TO THE ****END USER INTERFACE****. We DO NOT want to COMPLETELY block it from the 'under the hood' results array output, BECAUSE WE NEED TO KNOW FROM ERROR DETECTION / LOGS WHAT WE NEED TO PATCH / FIX IN $ct['api']->market_tickers_parse(), TO PROPERLY PARSE THE PAIRING FOR THIS PARTICULAR SEARCH / FUNCTION CALL.
    */
 
 
@@ -352,6 +364,15 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
                          <span class='light_sea_green'>Name:</span> <?=$market_data['name']?><br />
                          <span class='light_sea_green'>Asset:</span> <?=$market_data['asset']?><br />
                          <span class='light_sea_green'>Pairing:</span> <?=$market_data['pairing']?><br />
+                         
+                         <?php
+                         // IF we changed the ticker of the base pairing for app UX (wbtc,weth,etc)
+                         if ( $market_data['orig_pairing'] != '' ) {
+                         ?>
+                         <span class='light_sea_green'>ORIGINAL Pairing Ticker:</span> <?=$market_data['orig_pairing']?><br />
+                         <?php
+                         }
+                         ?>
                          
                          <?php
                          if ( is_bool($market_data['flagged_market']) !== true && stristr($market_data['flagged_market'], 'replacement_for_') ) {

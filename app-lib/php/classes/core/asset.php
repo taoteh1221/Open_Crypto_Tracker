@@ -1303,7 +1303,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function market_id_parse($exchange_key, $market_id, $known_pairing=false, $known_asset=false) {
+   function market_tickers_parse($exchange_key, $market_id, $known_pairing=false, $known_asset=false) {
    
    global $ct;
    
@@ -1315,6 +1315,18 @@ var $ct_array = array();
         
    
    $results = array();
+              
+        
+        // Determine the ORIGINAL jupiter ag market id (based on contract addresses),
+        // so we can determine at the end of this function if the exact market has
+        // already been added to this app for jupiter markets
+        if ( $exchange_key == 'jupiter_ag' ) {
+        $jup_parse_tickers = explode('/', $market_id);
+        $orig_market_id = $ct['api']->token_address($jup_parse_tickers[0]) . '/' . $ct['api']->token_address($jup_parse_tickers[1]);
+        }
+        else {
+        $orig_market_id = $market_id;
+        }
    
    
         if ( $known_pairing && trim($known_pairing) != '' ) {
@@ -1462,8 +1474,10 @@ var $ct_array = array();
                    
                        
                        // jupiter_ag pairings    
+                       // USUALLY LEFT CASE-SENSITIVE FOR API CALLS, BUT WE ARE JUST PARSING
+                       // FOR LOCAL USAGE, SO CONVERT TO UPPERCASE
                        foreach ( $jupiter_ag_pairings as $pair_val ) {
-                       $temp_array[] = $pair_val;
+                       $temp_array[] = strtoupper($pair_val);
                        }
                        
                        
@@ -1631,25 +1645,33 @@ var $ct_array = array();
              
         // Convert WRAPPED CRYPTO TICKERS to their NATIVE tickers
         // MUST BE AFTER PARSING OUT ASSET!
-        if ( $results['pairing'] == 'tbtc' || $results['pairing'] == 'wbtc' ) {
+        if ( $results['pairing'] == 'zbtc' || $results['pairing'] == 'wbtc' ) {
+        $results['orig_pairing'] = $results['pairing'];
         $results['pairing'] = 'btc';
         }
         elseif ( $results['pairing'] == 'weth' ) {
+        $results['orig_pairing'] = $results['pairing'];
         $results['pairing'] = 'eth';
         }
         // Convert INTERNATIONAL TICKERS to their NATIVE tickers
         elseif ( $results['pairing'] == 'cny' ) {
+        $results['orig_pairing'] = $results['pairing'];
         $results['pairing'] = 'rmb';
         }
         elseif ( $results['pairing'] == 'ils' ) {
+        $results['orig_pairing'] = $results['pairing'];
         $results['pairing'] = 'nis';
         }
-   
+        else {
+        $results['orig_pairing'] = '';
+        }
+        
+        
    
         // If already added
         if ( isset($ct['conf']['assets'][strtoupper($results['asset'])]['pair'][strtolower($results['pairing'])][$exchange_check]) ) {
        
-           if ( $ct['conf']['assets'][strtoupper($results['asset'])]['pair'][strtolower($results['pairing'])][$exchange_check] == $market_id ) {
+           if ( $ct['conf']['assets'][strtoupper($results['asset'])]['pair'][strtolower($results['pairing'])][$exchange_check] == $orig_market_id ) {
            $results['flagged_market'] = 'already_added_' . $market_id;
            }
            else {
@@ -1890,11 +1912,11 @@ var $ct_array = array();
    /////////////////////////////////////////////////////////////////
    
    
-      // Skip storing price chart data, IF API limits have been reached ON APIs REGISTERED IN: $ct['dev']['tracked_throttle_limited_servers']
+      // Skip storing price chart data, IF API limits have been reached ON APIs REGISTERED IN: $ct['dev']['throttle_limited_servers']
       // (to save on storage space / using same repetitive CACHED API price data)
       // (ONLY IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS BEEN UPDATED WITHIN THE PAST $ct['throttled_api_cache_time'][$api_tld_or_ip] MINUTES,
       // OTHERWISE IT COULD BE NEW PRICE DATA CACHED FROM INTERFACE USAGE ETC ETC, SO WE STILL WANT TO UPDATE CHARTS IN THIS CASE)
-      foreach ( $ct['dev']['tracked_throttle_limited_servers'] as $api_tld_or_ip => $api_exchange_id ) {
+      foreach ( $ct['dev']['throttle_limited_servers'] as $api_tld_or_ip => $api_exchange_id ) {
       
            // Keep initial match check quick, for runtime speed
            if ( $exchange == $api_exchange_id ) {

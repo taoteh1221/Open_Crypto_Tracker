@@ -53,18 +53,27 @@ $ct['alphavantage_pairs'] = 0; // RESET, since we reload this logic on config re
 
 
 // Throttled based on how many times a day each asset can get LIVE data, AND STILL NOT GO OVER THE DAILY LIMIT
-$ct['throttled_api_cache_time']['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct['conf']['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct['conf']['power']['last_trade_cache_time'] );
+$ct['throttled_api_min_cache_time']['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct['conf']['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct['conf']['power']['last_trade_cache_time'] );
 
 }
 // Otherwise, if we have an UNLIMITED daily requests plan, just use the same 'last_trade_cache_time' as everything else does
 else {
-$ct['throttled_api_cache_time']['alphavantage.co'] = $ct['conf']['power']['last_trade_cache_time'];
+$ct['throttled_api_min_cache_time']['alphavantage.co'] = $ct['conf']['power']['last_trade_cache_time'];
 }
 
 // We still do per minute too, because Alphavantage has a per-minute restriction (EVEN FOR PREMIUM SERVICES)
 $ct['throttled_api_per_minute_limit']['alphavantage.co'] = $ct['conf']['ext_apis']['alphavantage_per_minute_limit'];
 
 // THROTTLE ALPHAVANTAGE - END
+
+
+// THROTTLE JUP_AG - START
+
+// FREE tier is one request per second (as of 2025/may/3rd):
+// https://dev.jup.ag/docs/api-setup
+$ct['throttled_api_per_second_limit']['jup.ag'] = 1;
+
+// THROTTLE JUP_AG - END
 
 
 //////////////////////////////////////////////////////////////////
