@@ -192,19 +192,22 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Document new 'plug_version' setting for plugins.
-
-
-Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
+Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).
 
 
 Pass the posted asset filter tags to the ticker address mapping function, but only for the ASSET instances using it (NOT the pairings).
 
 
+Research whether the "verified" Jupiter API filter tag assures us a case-sensitive match to a SINGLE contract address, with accuracy (no duplicate tickers on different coins).
+
+
 Double check all new Jupiter exchange market logic.
 
 
-Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).
+Document new 'plug_version' setting for plugins.
+
+
+Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
