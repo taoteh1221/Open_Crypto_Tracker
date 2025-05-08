@@ -9,9 +9,16 @@
 // ###########################################################################################
 
 
-// PLUGIN setting keys to ALLOW cached config RESETS on (during cached config upgrades)
+// Version number of this plugin (MANDATORY)
+$plug['conf'][$this_plug]['plug_version'] = '1.01.00'; // VERSION BUMP DATE: 2025/May/7TH
+
+
+// FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
+// As of v1.01.00, we change the input field key name for crypto addresses,
+// so the app's built-in malware injection scanner doesn't flag a FALSE POSITIVE
+// (safe, since we only render inside a text input field)
 $ct['dev']['plugin_allow_resets'][$this_plug] = array(
-                                                      // 'plugin-setting-key',
+                                                      'tracking',
                                                      );
 
 
@@ -65,7 +72,7 @@ $plug['conf'][$this_plug]['tracking'] = array(
 												array(
 													'asset' => 'btc', // Ticker Key (LOWERCASE)
 													'label' => 'Crypto Tracker BTC Donations', // Description of address
-													'address' => '3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW', // BTC address
+													'crypto_address' => '3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW', // BTC address
 													),
 																			
 																			
@@ -74,7 +81,7 @@ $plug['conf'][$this_plug]['tracking'] = array(
 												array(
 													'asset' => 'eth', // Ticker Key (LOWERCASE)
 													'label' => 'Crypto Tracker ETH Donations', // Description of address
-													'address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // ETH address
+													'crypto_address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // ETH address
 													),
 																			
 												
@@ -82,7 +89,7 @@ $plug['conf'][$this_plug]['tracking'] = array(
 												array(
 													'asset' => 'sol', // Ticker Key (LOWERCASE)
 													'label' => 'Crypto Tracker SOL Donations', // Description of address
-													'address' => 'GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU', // SOL address
+													'crypto_address' => 'GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU', // SOL address
 													),
 																			
 												
@@ -90,7 +97,7 @@ $plug['conf'][$this_plug]['tracking'] = array(
 												array(
 													'asset' => 'sol||usdc', // 'sol||spl_token_symbol' (LOWERCASE)
 													'label' => 'Crypto Tracker USDC Donations (on Solana)', // Description of address
-													'address' => '5G2GFz6HrmEtWYVZU85wb9WCVVg5zYypMCgxW2Vgkc9q', // SPL token address
+													'crypto_address' => '5G2GFz6HrmEtWYVZU85wb9WCVVg5zYypMCgxW2Vgkc9q', // SPL token address
 													),
 																	
 																	

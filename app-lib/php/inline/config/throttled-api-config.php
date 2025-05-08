@@ -64,16 +64,71 @@ $ct['throttled_api_min_cache_time']['alphavantage.co'] = $ct['conf']['power']['l
 // We still do per minute too, because Alphavantage has a per-minute restriction (EVEN FOR PREMIUM SERVICES)
 $ct['throttled_api_per_minute_limit']['alphavantage.co'] = $ct['conf']['ext_apis']['alphavantage_per_minute_limit'];
 
+
+// Add 1 request per-second throttling for the FREE tier,
+// AS THE ALPHAVANTAGE FREE API CAN BE A LITTLE WONKY TO BEGIN WITH
+if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
+$ct['throttled_api_per_second_limit']['alphavantage.co'] = 1;
+}
+
+
 // THROTTLE ALPHAVANTAGE - END
 
 
-// THROTTLE JUP_AG - START
+// THROTTLE Coingecko (PER-MINUTE)
+// https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
+$ct['throttled_api_per_minute_limit']['coingecko.com'] = 15;
 
+
+// THROTTLE Coingecko TERMINAL (PER-MINUTE)
+// https://apiguide.geckoterminal.com/faq
+$ct['throttled_api_per_minute_limit']['geckoterminal.com'] = 30;
+
+
+// THROTTLE Reddit (PER-MINUTE)
+// https://www.reddit.com/r/redditdev/comments/14nbw6g/updated_rate_limits_going_into_effect_over_the/
+$ct['throttled_api_per_minute_limit']['reddit.com'] = 10;
+
+
+// THROTTLE JUP_AG (PER-SECOND)
 // FREE tier is one request per second (as of 2025/may/3rd):
 // https://dev.jup.ag/docs/api-setup
 $ct['throttled_api_per_second_limit']['jup.ag'] = 1;
 
-// THROTTLE JUP_AG - END
+
+// THROTTLE Coinbase (PER-SECOND)
+// https://docs.cdp.coinbase.com/exchange/docs/rate-limits
+$ct['throttled_api_per_second_limit']['coinbase.com'] = 10;
+
+
+// THROTTLE Solana (PER-SECOND)
+// https://solana.com/docs/references/clusters
+$ct['throttled_api_per_second_limit']['solana.com'] = 4;
+
+
+// THROTTLE Twilio (PER-SECOND)
+// https://help.twilio.com/articles/115002943027-Understanding-Twilio-Rate-Limits-and-Message-Queues
+$ct['throttled_api_per_second_limit']['twilio.com'] = 1;
+
+
+// THROTTLE Etherscan (PER-SECOND)
+// https://docs.etherscan.io/support/rate-limits
+$ct['throttled_api_per_second_limit']['etherscan.io'] = 10;
+
+
+// THROTTLE Gemini (PER-SECOND)
+// https://docs.gemini.com/rest-api/#two-factor-authentication
+$ct['throttled_api_per_second_limit']['gemini.com'] = 1;
+
+
+// THROTTLE Bitstamp (PER-SECOND)
+// https://www.bitstamp.net/api/#section/Response-codes
+$ct['throttled_api_per_second_limit']['bitstamp.net'] = 400;
+
+
+// THROTTLE Medium (PER-SECOND)
+// NO DOCS, BUT CAN BE FINICKY, SO MIGHT AS WELL THROTTLE IT
+$ct['throttled_api_per_second_limit']['medium.com'] = 1;
 
 
 //////////////////////////////////////////////////////////////////

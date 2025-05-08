@@ -192,28 +192,34 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-TEST BEFORE RELEASE, ON ALL PLATFORMS!
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-If "strict" 2FA mode has been enabled, make sure the 2FA field is easily visible on the submission form page, OR add it near the "save" button in the sidebar (and have it auto fill the 2FA field on the submission form page with that).
-
-
-Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
-
-
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password'], AS THATS ONLY FOR ADMIN USE!).
-
-
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+Document new 'plug_version' setting for plugins.
 
 
 Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
 
 
-Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
+Pass the posted asset filter tags to the ticker address mapping function, but only for the ASSET instances using it (NOT the pairings).
+
+
+Double check all new Jupiter exchange market logic.
+
+
+Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Move all remaining relevent APIs over to the new per-second / per-minute throttling system.
+
+
+Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
+
+
+If "strict" 2FA mode has been enabled, make sure the 2FA field is easily visible on the submission form page, OR add it near the "save" button in the sidebar (and have it auto fill the 2FA field on the submission form page with that).
+
+
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
 Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
@@ -222,6 +228,12 @@ Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in ev
           	                     'ETHNFTS',
           	                     'SOLNFTS',
           	                     'ALTNFTS',
+
+
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password'], AS THATS ONLY FOR ADMIN USE!).
+
+
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
 
 
 For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:

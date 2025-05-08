@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$ct['cached_plug_version'] = array();
+
 $ct['registered_pairs'] = array();
 
 $ct['conf_parse_error'] = array();
@@ -36,8 +38,6 @@ $ct['system_warnings_cron_interval'] = array();
 $ct['rand_color_ranged'] =  array();
 
 $ct['processed_msgs'] = array();
-
-$ct['api_connections'] = array();
 
 $ct['api_runtime_cache'] = array();
 

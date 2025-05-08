@@ -1146,10 +1146,15 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 <span class='blue'>11)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] *ABOVE* YOUR PLUGIN CONFIG SETTINGS.
 <br /><br />
 
-<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$ct['dev']['plugin_allow_resets'][$this_plug] = array('plugin-setting-key-1', 'plugin-setting-key-2');</code></pre>
+
+<pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
+// FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
+$ct['dev']['plugin_allow_resets'][$this_plug] = array('plugin-setting-key-1', 'plugin-setting-key-2');
+
+</code></pre>
 <br /><br />
 
-This will COMPLETELY RESET these plugin settings, using the DEFAULT settings in the currently-installed version of the plugin, during upgrade checks on the cached config.
+This will COMPLETELY RESET these plugin settings (ONLY IF THE PLUGIN VERSION HAS CHANGED), using the DEFAULT settings in the currently-installed version of the plugin, during upgrade checks on the cached config.
 <br /><br /><br />
 
 
@@ -1179,7 +1184,7 @@ Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
 Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
 <br /><br />
 
-<span class='bitcoin'>IMPORTANT NOTES:</span> Since <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'runtime_mode'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_location'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_name'</code></pre> (mentioned further up in steps 8, 9, and 10) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this admin interface template.
+<span class='bitcoin'>IMPORTANT NOTES:</span> Since <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'plug_version'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'runtime_mode'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_location'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_name'</code></pre> (mentioned further up in steps 8, 9, and 10) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this admin interface template.
 <br /><br /><br />
 
 

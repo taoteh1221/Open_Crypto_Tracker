@@ -136,7 +136,7 @@ sort($ct['admin_render_settings']['tracking']['is_repeatable']['is_select']['ass
 
 
 $ct['admin_render_settings']['tracking']['is_repeatable']['is_text']['label'] = true;
-$ct['admin_render_settings']['tracking']['is_repeatable']['is_text']['address'] = true;
+$ct['admin_render_settings']['tracking']['is_repeatable']['is_text']['crypto_address'] = true;
 $ct['admin_render_settings']['tracking']['is_repeatable']['text_field_size'] = 50;
                
 
@@ -208,7 +208,7 @@ sort($ct['admin_render_settings']['tracking']['has_subarray'][0]['is_select']['a
 
 
 $ct['admin_render_settings']['tracking']['has_subarray'][0]['is_text']['label'] = true;
-$ct['admin_render_settings']['tracking']['has_subarray'][0]['is_text']['address'] = true;
+$ct['admin_render_settings']['tracking']['has_subarray'][0]['is_text']['crypto_address'] = true;
 $ct['admin_render_settings']['tracking']['has_subarray'][0]['text_field_size'] = 50;
                
 }

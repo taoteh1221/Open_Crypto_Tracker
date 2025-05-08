@@ -49,7 +49,6 @@ $ct['admin_render_settings']['php_error_reporting']['is_notes'] = 'Enable / disa
 
 $ct['admin_render_settings']['debug_mode']['is_select'] = array(
                                                                'off',
-                                                               'all_telemetry',
                                                                'conf_telemetry',
                                                                'light_chart_telemetry',
                                                                'memory_usage_telemetry',
@@ -74,7 +73,6 @@ $ct['admin_render_settings']['debug_mode']['is_notes'] = 'Enable / disable the d
 ////
 // ### TELEMETRY ###
 ////
-// 'all_telemetry' (ALL in-app telemetry), 
 // 'conf_telemetry' (ct['conf'] caching),
 // 'light_chart_telemetry' (light chart caching),
 // 'memory_usage_telemetry' (PHP system memory usage),
@@ -371,37 +369,6 @@ $ct['admin_render_settings']['cookies_size_warning']['is_text'] = true;
 $ct['admin_render_settings']['cookies_size_warning']['text_field_size'] = 15;
 
 $ct['admin_render_settings']['cookies_size_warning']['is_notes'] = 'If ALL COOKIES TOTAL DATA SIZE is X BYTES (or more), trigger warning<br />This format MUST be used: cookies_size_bytes||hours_between_alerts';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// EMPTY add / remove (repeatable) fields TEMPLATE rendering
-
-$ct['admin_render_settings']['strict_consecutive_connect_servers']['is_repeatable']['add_button'] = 'Add Strict Consecutive Connect Server Domain (at bottom)';
-
-$ct['admin_render_settings']['strict_consecutive_connect_servers']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
-$ct['admin_render_settings']['strict_consecutive_connect_servers']['is_repeatable']['text_field_size'] = 25;
-               
-
-// FILLED IN setting values
-
-
-if ( sizeof($ct['conf']['power']['strict_consecutive_connect_servers']) > 0 ) {
-
-     foreach ( $ct['conf']['power']['strict_consecutive_connect_servers'] as $key => $val ) {
-     $ct['admin_render_settings']['strict_consecutive_connect_servers']['is_subarray'][$key]['is_text'] = true;
-     $ct['admin_render_settings']['strict_consecutive_connect_servers']['is_subarray'][$key]['text_field_size'] = 25;
-     }
-
-}
-else {
-$ct['admin_render_settings']['strict_consecutive_connect_servers']['is_subarray'][0]['is_text'] = true;
-$ct['admin_render_settings']['strict_consecutive_connect_servers']['is_subarray'][0]['text_field_size'] = 25;
-}
-
-
-$ct['admin_render_settings']['strict_consecutive_connect_servers']['is_notes'] = 'Servers with STRICT CONSECUTIVE CONNECT limits (DOMAIN ONLY, we add 1.11 seconds to the wait between consecutive connections)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

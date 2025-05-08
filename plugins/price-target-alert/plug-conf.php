@@ -9,7 +9,11 @@
 // ###########################################################################################
 
 
-// PLUGIN setting keys to ALLOW cached config RESETS on (during cached config upgrades)
+// Version number of this plugin (MANDATORY)
+$plug['conf'][$this_plug]['plug_version'] = '1.01.00'; // VERSION BUMP DATE: 2025/May/7TH
+
+
+// FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
 $ct['dev']['plugin_allow_resets'][$this_plug] = array(
                                                       // 'plugin-setting-key',
                                                      );

@@ -147,8 +147,6 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 		}
 	
 	}
-		
-
 
 
 }

@@ -85,8 +85,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array_map("strtolower", $ct['co
 
 $ct['conf']['currency']['token_presales_usd'] = array_map("strtolower", $ct['conf']['currency']['token_presales_usd']);
 
-$ct['conf']['power']['strict_consecutive_connect_servers'] = array_map("strtolower", $ct['conf']['power']['strict_consecutive_connect_servers']);
-
 
 // Trim whitepace from some values THAT ARE SAFE TO RUN TRIMMING ON...
 
@@ -115,8 +113,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array_map("trim", $ct['conf'][
 $ct['conf']['mobile_network']['text_gateways'] = array_map("trim", $ct['conf']['mobile_network']['text_gateways']);
 
 $ct['conf']['currency']['token_presales_usd'] = array_map("trim", $ct['conf']['currency']['token_presales_usd']);
-
-$ct['conf']['power']['strict_consecutive_connect_servers'] = array_map("trim", $ct['conf']['power']['strict_consecutive_connect_servers']);
 
 
 foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
@@ -161,20 +157,6 @@ if ( is_array($ct['conf']['news']['strict_news_feed_servers']) && sizeof($ct['co
      
           if ( trim($val) == '' ) {
           unset($ct['conf']['news']['strict_news_feed_servers'][$key]);
-          }
-     
-     }
-     
-}
-
-
-if ( is_array($ct['conf']['power']['strict_consecutive_connect_servers']) && sizeof($ct['conf']['power']['strict_consecutive_connect_servers']) == 1 ) {
-     
-     // We are NOT assured key == 0, if it was updated via the admin interface
-     foreach ( $ct['conf']['power']['strict_consecutive_connect_servers'] as $key => $val ) {
-     
-          if ( trim($val) == '' ) {
-          unset($ct['conf']['power']['strict_consecutive_connect_servers'][$key]);
           }
      
      }

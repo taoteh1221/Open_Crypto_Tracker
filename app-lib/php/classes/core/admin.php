@@ -920,6 +920,7 @@ var $ct_array = array();
       $config_array_base = $ct['conf']['plug_conf'][ $parse_plugin_data[1] ];
       
       $hidden_plugin_settings = array(
+                                      'plug_version',
                                       'runtime_mode',
                                       'ui_location',
                                       'ui_name',

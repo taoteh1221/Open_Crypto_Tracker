@@ -21,7 +21,7 @@ if ( is_array($plug['conf'][$this_plug]['tracking']) && sizeof($plug['conf'][$th
      // We are NOT assured key == 0, if it was updated via the admin interface
      foreach ( $plug['conf'][$this_plug]['tracking'] as $key => $val ) {
      
-          if ( trim($val['address']) == '' ) {
+          if ( trim($val['crypto_address']) == '' ) {
           unset($plug['conf'][$this_plug]['tracking'][$key]);
           }
      
@@ -64,7 +64,7 @@ $asset = strtolower($target_val['asset']);
     $asset = $sub_asset[1];
     }
 
-$address = $target_val['address'];
+$address = $target_val['crypto_address'];
 $label = $target_val['label'];
 
 
