@@ -2664,11 +2664,10 @@ var $ct_array = array();
    global $ct;
 
         
-        // STRINGS THAT ARE *SECURITY TOKENS* / QR CODE GENERATOR INPUTS ARE *ALREADY* HEAVILY SCANNED / CHECKED, SO WE CAN SAFELY EXCLUDE THEM 
-        // (AND THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening and closing tag symbols <>,
+        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* / HARD-CODE-SANITIZED ARE *ALREADY* HEAVILY CHECKED, SO WE CAN SAFELY EXCLUDE THEM 
+        // (AS THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening and closing tag symbols <>,
         // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
-        // Security tokens, WITH 'nonce' IN NAME, AND QR Code Generator (for crypto addresses)
-        if ( stristr($ext_key, 'nonce') || $ext_key == 'qr_code_crypto_address' ) {
+        if ( stristr($ext_key, 'nonce') || in_array($ext_key, $ct['dev']['skip_injection_scanner']) ) {
         return $data;
         }
 
@@ -2845,7 +2844,7 @@ var $ct_array = array();
      	               
          	          $ct['update_config'] = true;
      	               
-     	               if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+     	               if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
          	               $ct['gen']->log('conf_debug', 'plugin "'.$file_info->getFilename().'" ADDED, updating CACHED ct_conf');
          	               }
          	          
@@ -2880,7 +2879,7 @@ var $ct_array = array();
 	              
     	         $ct['update_config'] = true;
     	         
-    	            if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    	            if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     	            $ct['gen']->log('conf_debug', 'plugin "'.$key.'" REMOVED, updating CACHED ct_conf');
     	            }
     	         

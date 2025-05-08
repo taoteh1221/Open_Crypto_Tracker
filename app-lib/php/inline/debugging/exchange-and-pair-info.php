@@ -11,6 +11,7 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 $exchange_count = 0;
 $currency_count = 0;
 
+
 	// Summarize all market configurations
 	if (
 	$ct['conf']['power']['debug_mode'] == 'markets_conf'
@@ -28,10 +29,13 @@ $currency_count = 0;
 			
 		
 		}
-		$supported_prim_currency_list = ltrim($supported_prim_currency_list);
 		
-		$pairs_count = $currency_count;
-		$all_supported_pairs_list = $supported_prim_currency_list;
+		
+	$supported_prim_currency_list = ltrim($supported_prim_currency_list);
+		
+	$pairs_count = $currency_count;
+	$all_supported_pairs_list = $supported_prim_currency_list;
+		
 		
 		foreach ( $ct['opt_conf']['crypto_pair'] as $key => $unused ) {
 			
@@ -43,12 +47,13 @@ $currency_count = 0;
 			
 		
 		}
-		$all_supported_pairs_list = ltrim($all_supported_pairs_list);
 		
 		
-		// Alphabetical sorting
-		$supported_prim_currency_list = $ct['var']->list_sort($supported_prim_currency_list, '/', 'sort', true);
-		$all_supported_pairs_list = $ct['var']->list_sort($all_supported_pairs_list, '/', 'sort', true);
+	$all_supported_pairs_list = ltrim($all_supported_pairs_list);
+		
+	// Alphabetical sorting
+	$supported_prim_currency_list = $ct['var']->list_sort($supported_prim_currency_list, '/', 'sort', true);
+	$all_supported_pairs_list = $ct['var']->list_sort($all_supported_pairs_list, '/', 'sort', true);
 		
 		
 		foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
@@ -65,10 +70,13 @@ $currency_count = 0;
 				}
 				
 		}
-		$supported_btc_exchange_list = ltrim($supported_btc_exchange_list);
 		
-		$all_exchange_count = $exchange_count;
-		$all_exchanges_list = $supported_btc_exchange_list;
+		
+	$supported_btc_exchange_list = ltrim($supported_btc_exchange_list);
+		
+	$all_exchange_count = $exchange_count;
+	$all_exchanges_list = $supported_btc_exchange_list;
+		
 		
 		foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
 			
@@ -87,33 +95,25 @@ $currency_count = 0;
 				}
 				
 		}
-		$all_exchanges_list = ltrim($all_exchanges_list);
 		
 		
-		// Alphabetical sorting
-		$supported_btc_exchange_list = $ct['var']->list_sort($supported_btc_exchange_list, '/', 'sort', true);
-		$all_exchanges_list = $ct['var']->list_sort($all_exchanges_list, '/', 'sort', true);
+	$all_exchanges_list = ltrim($all_exchanges_list);		
+		
+	// Alphabetical sorting
+	$supported_btc_exchange_list = $ct['var']->list_sort($supported_btc_exchange_list, '/', 'sort', true);
+	$all_exchanges_list = $ct['var']->list_sort($all_exchanges_list, '/', 'sort', true);
 	
-	
-	     if ( $ct['conf']['power']['debug_mode'] == 'markets_conf' ) {
-	     
-     	$ct['gen']->log(
+     $ct['gen']->log(
      				'conf_debug',
      				"\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$currency_count.']: ' . $supported_prim_currency_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n"
      				);
      	
-     	
-     	
-     	$ct['gen']->log(
+     $ct['gen']->log(
      				'conf_debug',
      				"\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairs_list['.$pairs_count.']: ' . strtoupper($all_supported_pairs_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n"
      				);
-				
-	     }
-	
 	
 	}
-
 
 
 }

@@ -249,7 +249,7 @@ var $ct_array = array();
    
    function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
    
-   global $ct, $default_ct_conf;
+   global $ct, $plug, $default_ct_conf;
         
         
         if ( is_array($conf[$cat_key][$conf_key]) ) {
@@ -307,12 +307,15 @@ var $ct_array = array();
                              			'notify_error',
                              			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
                              			);
-                   
+                      
                       }
                       
                    
                    }
-                   
+                      
+                      
+              // Now that we've upgraded the plugin, save any NEW plugin version to the state cache
+              $this->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $plug['conf'][$this_plug]['plug_version']);   
               
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
@@ -401,7 +404,10 @@ var $ct_array = array();
                       }
                    
                    }
-                   
+                      
+                      
+              // Now that we've upgraded the plugin, save any NEW plugin version to the state cache
+              $this->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $plug['conf'][$this_plug]['plug_version']);     
               
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
@@ -731,8 +737,8 @@ var $ct_array = array();
          
          $sleep_microseconds = (1 / $ct['throttled_api_per_second_limit'][$safe_name]) * 1000000;
          
-         // Assure any large number is NON-scientific format
-         $sleep_microseconds = $ct['var']->num_to_str($sleep_microseconds);
+         // Assure any large number is NON-scientific format (and NO DECIMALS!)
+         $sleep_microseconds = $ct['var']->num_to_str( round($sleep_microseconds, 0) );
          
          // https://www.php.net/manual/en/function.usleep.php
          usleep($sleep_microseconds);
@@ -1384,7 +1390,7 @@ var $ct_array = array();
         		     
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
     		
-         		     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+         		     if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
         		     $ct['gen']->log('conf_debug', 'OLD CACHED restore_conf found, deleting');
          		     }
     		     
@@ -1405,7 +1411,7 @@ var $ct_array = array();
         		     
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
     		
-         		     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+         		     if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
         		     $ct['gen']->log('conf_debug', 'OLD CACHED ct_conf found, deleting');
          		     }
     		     
@@ -1533,13 +1539,13 @@ var $ct_array = array();
                   
           $passed_config = $default_ct_conf;
     		
-    		     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    		     if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		     $ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESET using the DEFAULT ct_conf');
     		     }
              
     		}
           // All other conditions
-          elseif ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+          elseif ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		$ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESTORED using the LAST-KNOWN WORKING ct_conf');
           }
              
@@ -1665,7 +1671,7 @@ var $ct_array = array();
     		     }
     		
     		
-    		     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    		     if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		          
     		          if ( $reset_flagged ) {
     		          $update_desc = 'RESET';
@@ -1845,10 +1851,6 @@ var $ct_array = array();
         
           if ( $store_file_contents != true ) {
           return 'Error logs write error for "' . $ct['base_dir'] . '/cache/logs/app_log.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($app_log) . ' bytes';
-          }
-          // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
-          return 'Error logs write success for "' . $ct['base_dir'] . '/cache/logs/app_log.log", data_size_bytes: ' . strlen($app_log) . ' bytes';
           }
       
       }
@@ -2292,10 +2294,7 @@ var $ct_array = array();
      
     $_SESSION['light_charts_updated'] = $_SESSION['light_charts_updated'] + 1;
       
-      if ( 
-      $ct['conf']['power']['debug_mode'] == 'all_telemetry'
-      || $ct['conf']['power']['debug_mode'] == 'light_chart_telemetry' 
-      ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'light_chart_telemetry' ) {
       	
       $ct['gen']->log(
       			'cache_debug',
@@ -2304,10 +2303,7 @@ var $ct_array = array();
       
       }
        
-      if ( 
-      $ct['conf']['power']['debug_mode'] == 'all_telemetry'
-      || $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' 
-      ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' ) {
       	
       $ct['gen']->log(
       			'system_debug',
@@ -2495,7 +2491,7 @@ var $ct_array = array();
                    
                    $this->save_file($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', $ct['processed_msgs']['notifyme_count']); 
                    
-                     if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                     if ( $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                      $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
                      }
                    
@@ -2532,7 +2528,7 @@ var $ct_array = array();
                   }
                    
                  
-                  if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                  if ( $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                   $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
                   }
                
@@ -2549,7 +2545,6 @@ var $ct_array = array();
                // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
                $text_sleep = 1 * ( $ct['processed_msgs']['text_count'] > 0 ? $ct['processed_msgs']['text_count'] : 1 );
                sleep($text_sleep);
-               usleep(500000); // Wait 0.5 seconds EXTRA, as standard twilio pay-as-you-go plans are 1 text per second (so play it safe)
                  
                $twilio_response = @$this->ext_data('params', $twilio_params, 0, 'https://api.twilio.com/2010-04-01/Accounts/' . $ct['conf']['ext_apis']['twilio_sid'] . '/Messages.json', 2);
                  
@@ -2557,7 +2552,7 @@ var $ct_array = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-twilio.log', $twilio_response);
                  }
                
@@ -2582,7 +2577,7 @@ var $ct_array = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
                  }
                
@@ -2607,7 +2602,7 @@ var $ct_array = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
                  }
                
@@ -2788,7 +2783,7 @@ var $ct_array = array();
   $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($api_endpoint);
   
   
-    if ( $endpoint_tld_or_ip == 'alphavantage.co' && trim($ct['conf']['ext_apis']['alphavantage_api_key']) == '' ) {
+    if ( $endpoint_tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_api_key'] == '' ) {
     
     $ct['gen']->log(
           		    'notify_error',
@@ -2800,7 +2795,7 @@ var $ct_array = array();
     return false;
     
     }
-    elseif ( $endpoint_tld_or_ip == 'etherscan.io' && trim($ct['conf']['ext_apis']['etherscan_api_key']) == '' ) {
+    elseif ( $endpoint_tld_or_ip == 'etherscan.io' && $ct['conf']['ext_apis']['etherscan_api_key'] == '' ) {
     
     $ct['gen']->log(
           		    'notify_error',
@@ -2899,7 +2894,7 @@ var $ct_array = array();
       }
       
       
-      if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
       
         if ( !$ct['log_debugging']['debug_duplicates'][$hash_check] ) {
@@ -2978,18 +2973,6 @@ var $ct_array = array();
       return $data;
                 
                 
-      }
-              
-      
-      // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.26 seconds to the wait between consecutive connections)
-      if ( in_array($endpoint_tld_or_ip, $ct['conf']['power']['strict_consecutive_connect_servers']) ) {
-        
-      $ct['api_connections'][$tld_session_prefix] = $ct['api_connections'][$tld_session_prefix] + 1;
-      
-        if ( $ct['api_connections'][$tld_session_prefix] > 1 ) {
-        usleep(1260000); // Throttle 1.26 seconds
-        }
-       
       }
     
     
@@ -3234,7 +3217,7 @@ var $ct_array = array();
     
       
       // LIVE data debugging telemetry
-      if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
          
       // LOG-SAFE VERSION (no post data with API keys etc)
       $ct['gen']->log(
@@ -3413,7 +3396,7 @@ var $ct_array = array();
             // API-specific (confirmed error message in response)
             || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             ) {
-              
+                 
             
             // Reset $data var with any cached value (null / false result is OK), as we don't want to cache a KNOWN error response
             // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
@@ -3424,18 +3407,51 @@ var $ct_array = array();
                 if ( isset($data) && $data != '' && $data != 'none' ) {
                 $fallback_cache_data = true;
                 }
-               
-               
+                    
+                    
                 if ( isset($fallback_cache_data) ) {
                 $log_append = ' (cache fallback SUCCEEDED)';
                 }
                 else {
                 $log_append = ' (cache fallback FAILED)';
                 }
+                     
+                 
+                // FREE alphavantage API tier limit hit LOGGING
+                if ( 
+                $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $endpoint_tld_or_ip == 'alphavantage.co' && preg_match("/api rate limit/i", $data)
+                || $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $endpoint_tld_or_ip == 'alphavantage.co' && $data == ''
+                ) {
+                     
+                          
+                      if ( preg_match("/api rate limit/i", $data) ) {
+                      $desc = 'HAS';
+                      }
+                      else {
+                      $desc = 'MAY HAVE';
+                      }
+                     
+                     
+                $ct['gen']->log(
+                   		    'notify_error',
+                   		    'your FREE tier API key for "' . $endpoint_tld_or_ip . '" ' . $desc . ' hit it\'s DAILY LIMIT for LIVE data requests (this is USUALLY auto-throttled [to stay within limits], BUT if you recently installed OR updated "' . $endpoint_tld_or_ip . '" markets, YOU MAY NEED TO WAIT ~24 HOURS for this issue to start auto-fixing itself, OR upgrade to the premium tier at: alphavantage.co/premium [AND raise the auto-throttle limits in "Admin => APIs => External APIs"])',
+                   		    false,
+                   		    'no_market_data_' . $endpoint_tld_or_ip
+                   		    );
+                   		    
+                }
+                // Everything else LOGGING
+                else {
+                   
+                $ct['gen']->log(
+                   		    'notify_error',
+                   		    'make sure your markets for the "' . $endpoint_tld_or_ip . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                   		    false,
+                   		    'no_market_data_' . $endpoint_tld_or_ip
+                   		    );
              
-             
-            // LOG-SAFE VERSION (no post data with API keys etc)
-            $ct['gen']->log(
+                // LOG-SAFE VERSION (no post data with API keys etc)
+                $ct['gen']->log(
             
             			'ext_data_error',
             							
@@ -3446,25 +3462,27 @@ var $ct_array = array();
             			);
              
       			
-                  // Servers which are known to block API access by location / jurisdiction
-                  // (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
-                  if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
-          
-                      
-                  $ct['gen']->log(
-                  
-                    		'notify_error',
-
-                    		'your ' . $ip_description . '\'S IP ADDRESS location / jurisdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
-
-                    		false,
-
-                    		md5($endpoint_tld_or_ip) . '_possibly_blocked'
-
-                    		);
-                    		    
-                  }
-                  
+                     // Servers which are known to block API access by location / jurisdiction
+                     // (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
+                     if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
+               
+                     $ct['gen']->log(
+                       
+                         		'notify_error',
+     
+                         		'your ' . $ip_description . '\'S IP ADDRESS location / jurisdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+     
+                         		false,
+     
+                         		md5($endpoint_tld_or_ip) . '_possibly_blocked'
+     
+                         		);
+                         		    
+                     }
+                       
+                   
+                }
+                
            
             }
     
@@ -3625,7 +3643,7 @@ var $ct_array = array();
       }
       
       
-      if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$ct['log_debugging']['debug_duplicates'][$hash_check] ) {
         $ct['log_debugging']['debug_duplicates'][$hash_check] = 1; 

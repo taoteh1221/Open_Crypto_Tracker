@@ -35,6 +35,25 @@ $this_plug = trim($key);
 	$plug['conf'][$this_plug] = array();
 		
 	require_once($plug_conf_file); // Populate $plug['conf'][$this_plug] with the defaults
+
+	$ct['cached_plug_version'][$this_plug] = trim( file_get_contents( $ct['plug']->state_cache('plug_version.dat') ) );
+	
+	
+          // DISABLE FULL RESET on settings (CAN be an arrays), IF plugin version has NOT changed
+          if ( $ct['cached_plug_version'][$this_plug] == $plug['conf'][$this_plug]['plug_version'] ) {
+          $ct['dev']['plugin_allow_resets'][$this_plug] = array();
+          }
+          // OTHERWISE, RUN PLUGIN DATABASE UPGRADES, IF VERSION IS DIFFERENT
+          elseif ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
+               
+          $ct['app_upgrade_check'] = true;
+     
+          // Developer-only configs
+          $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
+          require($ct['base_dir'] . '/developer-config.php');
+          
+          }
+
      		
      $default_ct_conf['plug_conf'][$this_plug] = $plug['conf'][$this_plug]; // Add each plugin's HARD-CODED config into the DEFAULT app config
      		

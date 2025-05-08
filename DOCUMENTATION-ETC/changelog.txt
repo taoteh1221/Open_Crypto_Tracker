@@ -6857,9 +6857,13 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.00
 
--Added API throttling PER-SECOND capability (needed for the new jupiter aggregator API *FREE* tier limits), on top of the already-existing PER-MINUTE throttling capability (we use for alphavantage stocks)
+-address-balance-tracker plugin MANDATORY upgrade, that changes the input field key name for crypto addresses, so the app's built-in malware injection scanner doesn't flag a FALSE POSITIVE (when checking for hexicimal / base64 encoded malware injection attacks). BACKUP YOUR TRACKED ADDRESSES BEFORE UPGRADING!
+
+-Added API throttling PER-SECOND capability, on top of the already-existing PER-MINUTE throttling capability, AND added MANY exchanges / other APIs to it, for a smoother user experience (with fewer rejected data requests)
 
 -Upgraded to the new jupiter aggregator token search / info / price API endpoints (so Jupiter markets work again now)
+
+-Added versioning to the plugins system (to support solo plugin upgrading [without a full app upgrade required to trigger checks])
 
 -Revised DEMO config / resources pages
 

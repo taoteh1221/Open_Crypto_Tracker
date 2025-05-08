@@ -157,16 +157,6 @@ $ct['dev']['special_assets'] = array(
                                      );
      
      
-// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed second / minute / hour / daily requests
-// (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
-// ADDITIONAL (CORRESPONDING) LOGIC MUST BE ADDED IN /inline/config/throttled-markets-config.php
-$ct['dev']['throttle_limited_servers'] = array(
-                                                       // 'tld_domain_name' => 'corresponding_exchange_identifier_OR_BOOLEAN_TRUE',
-                                                     	'alphavantage.co' => 'alphavantage_stock',
-                                                     	'jup.ag' => 'jupiter_ag',
-                                                      );
-     
-     
 // Servers which are known to block API access by location / jurisdiction
 // (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
 $ct['dev']['location_blocked_servers'] = array(
@@ -274,7 +264,6 @@ $ct['dev']['config_allow_resets'] = array();
 // INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
 $ct['dev']['config_deny_additions'] = array(
                                            //////// STANDARD LIST //////////////////////
-                                           'strict_consecutive_connect_servers', // Subarray setting (power user)
                                            'strict_news_feed_servers', // Subarray setting (strict news feed servers)
                                            'feeds', // Subarray setting (news feeds)
                                            'anti_proxy_servers', // Subarray setting (anti-proxy servers)
@@ -295,7 +284,6 @@ $ct['dev']['config_deny_additions'] = array(
 // INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
 $ct['dev']['config_deny_removals'] = array(
                                            //////// STANDARD LIST //////////////////////
-                                           'strict_consecutive_connect_servers', // Subarray setting (power user)
                                            'strict_news_feed_servers', // Subarray setting (strict news feed servers)
                                            'feeds', // Subarray setting (news feeds)
                                            'anti_proxy_servers', // Subarray setting (anti-proxy servers)
@@ -335,6 +323,26 @@ $ct['dev']['no_trade_volume_api_data'] = array(
                                                 'coinspot',
                                                 'unocoin',
                                                );
+     
+     
+// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed second / minute / hour / daily requests
+// (are processed by ct_cache->api_throttling(), to avoid using up API request limits)
+// ADDITIONAL (CORRESPONDING) LOGIC MUST BE ADDED IN /inline/config/throttled-markets-config.php
+$ct['dev']['throttle_limited_servers'] = array(
+                                                       // 'tld_domain_name' => 'corresponding_exchange_identifier_OR_BOOLEAN_TRUE',
+                                                     	'alphavantage.co' => 'alphavantage_stock',
+                                                     	'jup.ag' => 'jupiter_ag',
+                                                     	'coinbase.com' => 'coinbase',
+                                                     	'gemini.com' => 'gemini',
+                                                     	'bitstamp.net' => 'bitstamp',
+                                                     	'geckoterminal.com' => 'coingecko_terminal',
+                                                     	'coingecko.com' => true,
+                                                     	'solana.com' => true,
+                                                     	'reddit.com' => true,
+                                                     	'twilio.com' => true,
+                                                     	'etherscan.io' => true,
+                                                     	'medium.com' => true,
+                                                      );
 							
 
 // PRIMARY Domain only (NO SUBDOMAINS), for each API service that requires multiple calls (for each data set)
@@ -344,26 +352,16 @@ $ct['dev']['no_trade_volume_api_data'] = array(
 // !MUST BE LOWERCASE!
 // #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
 // WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY ENHANCEMENT
+// DON'T ADD ANYTHING DIRECTLY ABOVE THIS SETTING IN $ct['dev']['throttle_limited_servers'], SO WE DON'T THROTTLE A CALL *TWICE*!!!
 $ct['dev']['limited_apis'] = array(
                           		'aevo.xyz',
-                          		'alphavantage.co',
                           		'anchor.fm',
                           		'bitflyer.com',
                           		'bitmex.com',
                           		'bitso.com',
-                          		'bitstamp.net',
                           		'blockchain.info',
                           		'btcmarkets.net',
-                          		'coinbase.com',
-                          		// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-                          	     'coingecko.com',
-                          	     'geckoterminal.com',
-                          		'etherscan.io',
-                          		'gemini.com',
-                          		'medium.com',
                           		'megaphone.fm',
-                          		'reddit.com',
-                          		'solana.com',
                           		'substack.com',
                           		'stackexchange.com',
                           		'youtube.com',
@@ -403,6 +401,17 @@ $ct['dev']['script_injection_checks'] = array(
                                                "onsubmit",
                                                "onunload",
                                              );
+
+        
+// Input keys to EXCLUDE SCANNING for malware injection attacks
+// (SHOULD STILL BE HARD-CODE-SANITIZED WITH HTML SPECIAL CHARACTER FILTERS,
+// UNLESS IT'S A USER'S WALLET CRYPTO ADDRESS IN A FORM FIELD OUTPUT [AS WE DON'T WANT IT MALFORMED])
+$ct['dev']['skip_injection_scanner'] = array(
+                                               // GET / POST key
+                                               'qr_code_crypto_address',
+                                               'crypto_address',
+                                               'add_markets_search',
+                                               );
                            
 
 }

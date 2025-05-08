@@ -970,7 +970,6 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 ////
 // ### TELEMETRY ###
 ////
-// 'all_telemetry' (ALL in-app telemetry), 
 // 'conf_telemetry' (ct['conf'] caching),
 // 'light_chart_telemetry' (light chart caching),
 // 'memory_usage_telemetry' (PHP system memory usage),
@@ -1093,12 +1092,6 @@ $ct['conf']['power']['portfolio_cache_warning'] = '2500||72'; // 'portfolio_cach
 // Because the header data MAY be approaching the server limit (WHICH CAN CRASH THIS APP!!)
 // STANDARD SERVER HEADER SIZE LIMITS (IN BYTES)...Apache: 8000, NGINX: 4000 - 8000, IIS: 8000 - 16000, Tomcat: 8000 - 48000
 $ct['conf']['power']['cookies_size_warning'] = '4500||6'; // 'cookies_size_bytes||hours_between_alerts' (default = '4500||6')
-     
-     
-// Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)
-$ct['conf']['power']['strict_consecutive_connect_servers'] = array(
-                                      					       'alphavantage.co',
-                                      					      );
 
 
 ////////////////////////////////////////

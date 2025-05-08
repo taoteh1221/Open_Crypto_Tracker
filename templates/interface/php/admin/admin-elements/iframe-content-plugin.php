@@ -37,7 +37,13 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         //// P L U G I N   A D M I N   #S T A R T#
         /////////////////////////////////////////////////////////////////////////////////////////////////
         
+        ?>
         
+     	   <p>
+     	   <b class='yellow'>Plugin version:</b> <?=$plug['conf'][$this_plug]['plug_version']?>
+     	   </p>
+        
+        <?php
         if ( !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
         ?>
 	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Usage / Documentation</a></p>
@@ -67,7 +73,61 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         $ct['admin_render_settings'] = array();
 
         require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
+        
+        ?>
+        
 
+     	 <?php
+     	 if ( $admin_general_error != null ) {
+     	 ?>
+     	 <div class='red red_dotted' style='font-weight: bold;'><?=$admin_general_error?></div>
+     	 <div style='min-height: 1em;'></div>
+     	 <?php
+     	 }
+     	 elseif ( $admin_general_success != null ) {
+     	 ?>
+     	 <div class='green green_dotted' style='font-weight: bold;'><?=$admin_general_success?></div>
+     	 <div style='min-height: 1em;'></div>
+     	 <?php
+     	 }
+     	 ?>
+     	 
+
+          	<!-- UPGRADE ct_conf key START -->
+          
+          	<div style='margin-top: 25px;'>
+          	
+          	<form id='upgrade_ct_conf' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>' method='post'>
+          	
+          	<input type='hidden' name='admin_nonce' value='<?=$ct['gen']->admin_nonce('upgrade_ct_conf')?>' />
+          	
+          	<input type='hidden' name='upgrade_ct_conf' value='1' />
+          	
+          	</form>
+          	
+          	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
+          	<button id='upgrade_ct_conf_button' class='force_button_style' onclick='
+          	
+          	var ct_conf_reset = confirm("Scans your CACHED configuration for upgrades. This happens automatically after upgrading / downgrading, but you can double-check with this if you are having issues.\n\nIf things act weird after upgrades, its more likely from OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files needing to be cleared. IF NEITHER SOLUTION WORKS, TRY RESETTING THE ENTIRE CONFIG ON THE RESET PAGE.");
+          	
+          		if ( ct_conf_reset ) {
+          		document.getElementById("upgrade_ct_conf_button").disable = true;
+          		$("#upgrade_ct_conf").submit(); // Triggers "app reloading" sequence
+          		document.getElementById("upgrade_ct_conf_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
+          		}
+          	
+          	'>Scan For Database Upgrades</button>
+          	
+          	</div>
+          				
+          	<!-- UPGRADE ct_conf key END -->
+          
+          	
+          	<?=$ct['gen']->input_2fa('strict')?>
+        
+        
+        <?php
+        
         // $ct['admin']->admin_config_interface($conf_id, $interface_id)
         $ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $ct['admin_render_settings']);
         

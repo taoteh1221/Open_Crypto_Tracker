@@ -748,13 +748,6 @@ var $exchange_apis = array(
           while ( $loop < $calls ) {
          
           $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $batched_max . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
-            
-              // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
-              // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-              if ( $loop > 0 && $ct['cache']->update_cache($ct['base_dir'] . '/cache/secured/external_data/' . md5($url) . '.dat', $ct['conf']['power']['marketcap_cache_time']) == true ) {
-              sleep(6);
-              usleep(550000); 
-              }
          
           $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['marketcap_cache_time']);
    
@@ -1520,8 +1513,6 @@ var $exchange_apis = array(
                          }
                          
                          
-                     // Minimize calls, AND throttle to avoid being blocked
-                     usleep(1500000); // Wait 1.5 seconds
                      $check_market_data = $this->market($dyn_id, $exchange_key, $val['id']);
                                    
                                    
@@ -1646,8 +1637,7 @@ var $exchange_apis = array(
                          
                      // FROM HERE ONWARD FOR JUPITER SEARCHES, WE MUST USE THE EXACT (CASE / SYMBOL SENSITIVE) MARKET IDS WE RETRIEVE,
                      // AS JUPITER CAN HAVE UPPERCASE / LOWERCASE / SYMBOLS IN THE TICKER FIELD ('symbol'), WHICH WE MUST MATCH EXACTLY!!!
-                     // Minimize calls, AND throttle to avoid being blocked
-                     usleep(1500000); // Wait 1.5 seconds
+                     
                      // Returns ALL API results, with $return_all_results = true in the fetch_exchange_data() call
                      // (RARELY useful, as it requires unique parsing per-exchange, BUT jupiter can have MANY results,
                      // so this optimizes speed fairly well, for this one exchange's search results)
@@ -1778,8 +1768,6 @@ var $exchange_apis = array(
                               }
                                    
                          
-                          // Minimize calls, AND throttle to avoid being blocked
-                          usleep(1500000); // Wait 1.5 seconds
                           $check_market_data = $this->market($app_id, $exchange_key . '_' . $pairing_for_initial_check, $app_id);
                                         
                                         
@@ -1852,8 +1840,6 @@ var $exchange_apis = array(
                               }
                               else {
                     
-                              // Minimize calls, AND throttle to avoid being blocked
-                              usleep(1500000); // Wait 1.5 seconds
                               $check_market_data = $this->market($dyn_id, $exchange_key, $result["1. symbol"]);
                                              
                                              
@@ -2321,11 +2307,10 @@ var $exchange_apis = array(
               		    );
          
               }
-              // For UX, we don't want to log 'no data' errors on exchange APIs DURING TICKER SEARCHES
-              elseif ( !$ticker_search_mode ) {
-         
+              elseif ( $ct['conf']['power']['debug_mode'] == 'markets' ) {
+                   
               $ct['gen']->log(
-              		    'notify_error',
+              		    'notify_debug',
               		    'NO DATA for market: "' . $dyn_id . ( $required_pairing ? '/' . $required_pairing : '' ) . '" @ ' . $exchange_key,
               		    false,
               		    'no_market_data_' . $exchange_key . $dyn_id . ( $required_pairing ? $required_pairing : '' )
@@ -2398,7 +2383,7 @@ var $exchange_apis = array(
       $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($url);
    
          
-          if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' ) {
+          if ( $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' ) {
          	
           $ct['gen']->log(
          			  'system_debug',
@@ -2415,15 +2400,14 @@ var $exchange_apis = array(
           if ( !isset($_SESSION[$fetched_feeds][$tld_session]) ) {
           $_SESSION[$fetched_feeds][$tld_session] = 0;
           }
-          // If it's a consecutive feed request to the same server, sleep X seconds to avoid rate limiting request denials
+          // If it's a consecutive feed request to the same server, sleep 1 second to avoid rate limiting request denials
           elseif ( $_SESSION[$fetched_feeds][$tld_session] > 0 ) {
             
-              if ( $endpoint_tld_or_ip == 'reddit.com' ) {
-              sleep(7);
-              usleep(100000); // 0.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
+              if ( $endpoint_tld_or_ip == 'reddit.com' || $endpoint_tld_or_ip == 'medium.com' ) {
+              // We already throttle reddit / medium in $ct['dev']['throttle_limited_servers']
               }
               else {
-              usleep(550000); // 0.55 seconds
+              sleep(1); // 1 second for everything else generic
               }
             
           }

@@ -53,17 +53,6 @@ $val_config = array_map( "trim", explode("||", $_POST['power']['cookies_size_war
 if ( !is_numeric($val_config[0]) || !is_numeric($val_config[1]) ) {
 $ct['update_config_error'] .= '<br />"cookies_size_warning" seems INVALID (NOT numeric values): ' . $_POST['power']['cookies_size_warning'];
 }
-
-
-$_POST['power']['strict_consecutive_connect_servers'] = array_map( "trim", $_POST['power']['strict_consecutive_connect_servers']); 
-
-foreach ( $_POST['power']['strict_consecutive_connect_servers'] as $domain ) {
-
-     if ( !$ct['gen']->valid_domain($domain) ) {
-     $ct['update_config_error'] .= '<br />"strict_consecutive_connect_servers" seems INVALID (NOT a domain): ' . $domain;
-     }
-
-}
      	 
   
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

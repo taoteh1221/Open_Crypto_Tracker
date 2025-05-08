@@ -931,20 +931,7 @@ var $ct_array = array();
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
 			            // FUTURE-PROOF FIAT ROUNDING WITH $min_crypto_val_test, IN CASE BITCOIN MOONS HARD
 			            if ( stristr($mrkt_key, 'bitmex_') == false && $ct['btc_pair_mrkts'][$pair.'_btc'] >= $min_crypto_val_test ) {
-			              
-				              // Data debugging telemetry
-				              if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
-				              	
-				              $ct['gen']->log(
-				              			  'market_debug',
-				              			  'this->pair_btc_val() market request succeeded for ' . $pair,
-				              			  'exchange: ' . $mrkt_key
-				              			 );
-				              
-				              }
-			                
-			            return $ct['btc_pair_mrkts'][$pair.'_btc'];
-			            
+				       return $ct['btc_pair_mrkts'][$pair.'_btc'];
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
 			            // We only want to loop a fallback for the amount of available markets
@@ -1037,20 +1024,7 @@ var $ct_array = array();
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
 			            // FUTURE-PROOF FIAT ROUNDING WITH $min_crypto_val_test, IN CASE BITCOIN MOONS HARD
 			            if ( stristr($mrkt_key, 'bitmex_') == false && $ct['btc_pair_mrkts'][$pair.'_btc'] >= $min_crypto_val_test ) {
-			                  
-				              // Data debugging telemetry
-				              if ( $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
-				              	
-				              $ct['gen']->log(
-				              			  'market_debug',
-				              			  'ct_asset->pair_btc_val() market request succeeded for ' . $pair,
-				              			  'exchange: ' . $mrkt_key
-				              			 );
-				              
-				              }
-			                  
 			            return $ct['btc_pair_mrkts'][$pair.'_btc'];
-			                
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
 			            // We only want to loop a fallback for the amount of available markets
