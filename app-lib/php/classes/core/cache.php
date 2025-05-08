@@ -3417,7 +3417,7 @@ var $ct_array = array();
                 }
                      
                  
-                // FREE alphavantage API tier limit hit LOGGING
+                // FREE alphavantage API tier limit hit ERROR LOGGING
                 if ( 
                 $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $endpoint_tld_or_ip == 'alphavantage.co' && preg_match("/api rate limit/i", $data)
                 || $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $endpoint_tld_or_ip == 'alphavantage.co' && $data == ''
@@ -3440,15 +3440,23 @@ var $ct_array = array();
                    		    );
                    		    
                 }
-                // Everything else LOGGING
+                // Everything else ERROR LOGGING
                 else {
-                   
-                $ct['gen']->log(
+                
+                
+                     // For UX, we don't want "check your markets" user alerts,
+                     // IF IT'S JUST AN ASSET SEARCH (BEFORE EVEN ADDING AS A TRACKED MARKET)
+                     if ( !$ct['ticker_markets_search'] ) {
+                     
+                     $ct['gen']->log(
                    		    'notify_error',
                    		    'make sure your markets for the "' . $endpoint_tld_or_ip . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
                    		    false,
                    		    'no_market_data_' . $endpoint_tld_or_ip
                    		    );
+                   		    
+                     }
+                     
              
                 // LOG-SAFE VERSION (no post data with API keys etc)
                 $ct['gen']->log(
