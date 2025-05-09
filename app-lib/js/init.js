@@ -437,7 +437,7 @@ nav_menu('.user-nav');
                   
              interface_font_percent( (set_font_size * adjusted_font_size_percent), false, '.balloon-tooltips', 'reg' );
           
-             // Convert numbers to browser locale, BUT ONLY ON THE PORTFOLIO PAGE
+             // Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
              // (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
              // !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
              convert_numbers('.balloon-tooltips .coin_info', pref_number_format);
@@ -447,12 +447,6 @@ nav_menu('.user-nav');
 
              console.log( $(this).attr("id") );
            
-     });
-
-
-     // Dynamically style balloon tooltips AFTER THEY OPEN (AFTER the dynamically-created elements are created)
-     $('.tooltip_style_control').mouseout(function(){
-             
      });
 	
 
@@ -1288,7 +1282,7 @@ nav_menu('.user-nav');
          
          resize_password_notes();
          
-         // Convert numbers to browser locale, BUT ONLY ON THE PORTFOLIO PAGE
+         // Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
          // (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
          // !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
          convert_numbers('.data .app_sort_filter', pref_number_format);
