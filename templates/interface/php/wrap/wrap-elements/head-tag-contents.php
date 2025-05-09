@@ -50,6 +50,8 @@
 	
 	theme_selected = '<?=$ct['sel_opt']['theme_selected']?>';
 	
+     pref_number_format = get_cookie('pref_number_format') ? get_cookie('pref_number_format') : 'en-US';
+         
 	// Opposite of app theme, for better contrast
      scrollbar_theme = theme_selected == 'dark' ? 'minimal' : 'minimal-dark';
 	

@@ -192,6 +192,9 @@ P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Number format locale is NOT working in the balance stats info ballon.
+
+
 Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).
 
 
@@ -211,6 +214,9 @@ Create documentation for exposing plugin settings into it's admin interface (to 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add support for Jupiter's "freeze authority" meta data, in asset search results. Maybe even show the tag meta data?
 
 
 Move all remaining relevent APIs over to the new per-second / per-minute throttling system.

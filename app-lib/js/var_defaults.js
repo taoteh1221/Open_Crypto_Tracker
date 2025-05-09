@@ -78,6 +78,8 @@ var sorted_asc_desc;
 	
 var theme_selected;
 
+var pref_number_format;
+
 var scrollbar_theme;
 	
 var charts_background;
@@ -171,6 +173,8 @@ var background_tasks_recheck;
 var range_inputs;
 
 var collapsed_sidebar_scroll_position;
+
+var doc_title_stats;
 
 // With defaults
 	
