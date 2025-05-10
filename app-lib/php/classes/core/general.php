@@ -2540,14 +2540,14 @@ var $ct_array = array();
    function start_page_html($page) {
       
       if ( isset($_GET['start_page']) && $_GET['start_page'] != '' ) {
-      $border_highlight = '_red';
+      $border_highlight = '_blue';
       $text_class = 'red';
       }
       
    ?>
    <span class='start_page_menu<?=$border_highlight?>'> 
       
-      <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
+      <span class='blue' style='font-weight: bold;'>Show:</span> <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
       
          if ( this.value == "index.php?start_page=<?=$page?>" ) {
          var anchor = "#<?=$page?>";
@@ -2563,32 +2563,21 @@ var $ct_array = array();
       $("#coin_amnts").submit();
       
       '>
-         <option value='index.php#<?=$page?>'> Show First: Last-Visited </option>
+         <option value='index.php#<?=$page?>'> Last-Visited </option>
          <?php
          if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;
          ?>
-         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show First: <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> </option>
+         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> </option>
          <?php
          }
          ?>
-         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show First: <?=ucwords( preg_replace("/_/i", " ", $page) )?> </option>
+         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > <?=ucwords( preg_replace("/_/i", " ", $page) )?> </option>
       </select> 
       
    </span>
    
-      <?php
-      if ( $another_set == 1 ) {
-      ?>
-      <b class='red'>&nbsp;(other shows first)</b>
-      <?php
-      }
-      elseif ( $_GET['start_page'] == $page ) {
-      ?>
-      <b class='red'>&nbsp;(current shows first)</b>
-      <?php
-      }
-      
+   <?php
    }
    
    

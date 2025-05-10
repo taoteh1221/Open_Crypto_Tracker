@@ -243,6 +243,11 @@ color: #28b2ed !important;
 }
 
 
+.start_page_menu_blue {
+border: 0.2em dotted #28b2ed; 
+}
+
+
 .start_page_menu_red {
 border: 0.2em dotted #ff4747; 
 }

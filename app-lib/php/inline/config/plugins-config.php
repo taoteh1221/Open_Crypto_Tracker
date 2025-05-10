@@ -94,7 +94,7 @@ $this_plug = trim($key);
 		         
 		
 	     // Check MANDATORY 'runtime_mode' plugin config setting		
-		if ( !isset($plug['conf'][$this_plug]['runtime_mode']) || isset($plug['conf'][$this_plug]['runtime_mode']) && !in_array($plug['conf'][$this_plug]['runtime_mode'], $plugin_runtime_mode_check) ) {
+		if ( !isset($plug['conf'][$this_plug]['runtime_mode']) || isset($plug['conf'][$this_plug]['runtime_mode']) && !in_array($plug['conf'][$this_plug]['runtime_mode'], $ct['plugin_runtime_mode_check']) ) {
      	    
      	unset($plug['conf'][$this_plug]);
 

@@ -166,7 +166,7 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
       
 						if ( $orig_key != 'mode' && $orig_key != 'type' && $orig_key != 'lvrg_added' && $orig_key != 'short_added' && $asset_val >= 0.01 ) {
 				?>
-			<p class="coin_info"><span class="bitcoin"><?=$asset_key?>:</span> <?=$asset_val?>%</p>
+			<p class="coin_info"><span class="bitcoin"><?=$asset_key?>:</span> <span class="num_conv"><?=$asset_val?></span>%</p>
 			
 			<?php
 						}

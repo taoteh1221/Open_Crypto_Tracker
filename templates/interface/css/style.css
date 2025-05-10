@@ -190,6 +190,14 @@ CLASSES
 ////////////////////////////// */
 
 
+.num_conv:not(input) {
+all: inherit !important;
+display: inline-block !important;
+margin: 0px !important;
+padding: 0px !important;
+}
+
+
 .ct_jstree {
      display: none;
     background-color: white !important;
@@ -542,7 +550,7 @@ line-height: 2.6em;
 }
 
 
-.start_page_menu_red {
+.start_page_menu_red, .start_page_menu_blue, .start_page_menu_green {
 padding: 0.4em !important;
 }
 
@@ -811,7 +819,7 @@ min-width: 1150px !important;
 }
 
 
-.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error {
+.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .start_page_menu_red, .start_page_menu_blue, .start_page_menu_green, #watch_only, #charts_error, #system_charts_error {
 border-radius: 0.7em !important;
 }
 
