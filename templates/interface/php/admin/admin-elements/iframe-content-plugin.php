@@ -40,13 +40,13 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         ?>
         
      	   <p>
-     	   <b class='yellow'>Plugin version:</b> <?=$plug['conf'][$this_plug]['plug_version']?>
+     	   <b class='yellow'>Plugin Version:</b> <?=$plug['conf'][$this_plug]['plug_version']?>
      	   </p>
         
         <?php
         if ( !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
         ?>
-	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Usage / Documentation</a></p>
+	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Plugin Usage / Documentation</a></p>
         <?php
         }
 
