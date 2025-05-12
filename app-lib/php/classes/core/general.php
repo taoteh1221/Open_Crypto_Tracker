@@ -106,8 +106,8 @@ var $ct_array = array();
        // Case-insensitive equivalent comparison via strtolower()
        
        // Sort by specific subkey value
-       if ( $ct['usort_alpha'] ) {
-       return strcmp( strtolower($a[ $ct['usort_alpha'] ]) , strtolower($b[ $ct['usort_alpha'] ]) ); 
+       if ( $ct['sort_alpha_assoc_multidem'] ) {
+       return strcmp( strtolower($a[ $ct['sort_alpha_assoc_multidem'] ]) , strtolower($b[ $ct['sort_alpha_assoc_multidem'] ]) ); 
        }
        // Sort by value
        else {

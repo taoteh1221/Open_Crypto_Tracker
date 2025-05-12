@@ -178,7 +178,7 @@ $results_count = $results_count + $exchange_count;
 
 
 // Sort skipped markets by exchange
-$ct['usort_alpha'] = 'exchange';
+$ct['sort_alpha_assoc_multidem'] = 'exchange';
 usort($skipped_results, array($ct['gen'], 'usort_alpha') );
 
 

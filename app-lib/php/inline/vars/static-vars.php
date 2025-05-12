@@ -243,7 +243,7 @@ $ct['country_locales'] = array(
                          'zu-ZA' => 'UI_DESC',
                          );
 
-$ct['usort_alpha'] = false; // NOT sorting by subkey value
+$ct['sort_alpha_assoc_multidem'] = false; // NOT sorting by subkey value
 // uasort (instead of usort) maintains the associations of the (NON-numeric) keys
 uasort($ct['country_locales'], array($ct['gen'], 'usort_alpha') );
 

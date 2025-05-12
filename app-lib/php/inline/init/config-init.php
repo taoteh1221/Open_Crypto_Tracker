@@ -411,7 +411,7 @@ $set_tiny_font_line_height = round( ($set_tiny_font_size * $ct['dev']['global_li
 
 // Alphabetically sort news feeds
 if ( is_array($ct['conf']['news']['feeds']) ) { 
-$ct['usort_alpha'] = 'title';
+$ct['sort_alpha_assoc_multidem'] = 'title';
 $usort_feeds_results = usort($ct['conf']['news']['feeds'], array($ct['gen'], 'usort_alpha') );
 }
    	
