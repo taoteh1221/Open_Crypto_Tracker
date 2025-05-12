@@ -186,25 +186,15 @@ Add clicksend.com mobile text messaging support
 
 NOTES TO HELP AVOID ALL-NIGHTERS (as much as possible):
 
-Any "new feature / architechture ideas" should AT THE EARLIEST be worked on AFTER the next app release, AND should broken up into milestones as much as possible. Maybe even setup a testing environment separate from this app, if it's a new concept with a learning curve for you (so you can easily take breaks at anytime, without worrying about messing up the codebase in this app).
+Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER the next app release, AND should broken up into milestones as much as possible. Maybe even setup a testing environment separate from this app, if it's a new concept with a learning curve for you (so you can easily take breaks at anytime, without worrying about messing up the codebase in this app). THIS TAKES DISCIPLINE, BUT allows you to still code heavily, even when you're old enough to be your coworker's parent! ;)
 
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-In the portfolio page header, move everything only associated with the portfolio page (NOT the rest of the app) into a TABLE header in the data table below it, so end users easily realize those settings are only for the portfolio page.
-
-
 Add an "automatic" setting for locales, AND set it as the default. This way, people using it in their own web browser should automatically have the locale set correctly (we just skip specifing a certain locale in our logic, and the browser should choose the correct one automatically). 
 
 We still need the ability to switch it though, for user fine tuning AND the Desktop Editions (so users can setup the correct locale, as the Desktop Editions won't do that automatically).
-
-Verify that the number parser is only targeting the numbers we want, AND only on the portfolio page (except for the info balloons, which SHOULD be safe to parse on any pages). 
-
-Also, tighten up the CSS selectors to only target the portfolio page element id, as it's UNSAFE to target any other pages that could have textual submission forms.
-
-
-Number format locale is NOT working in the 'balance stats' info ballon.
 
 
 Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).

@@ -103,7 +103,16 @@ var $ct_array = array();
    
    global $ct;
    
-   return strcmp( strtolower($a[ $ct['usort_alpha'] ]) , strtolower($b[ $ct['usort_alpha'] ]) ); // Case-insensitive equivelent comparision via strtolower()
+       // Case-insensitive equivalent comparison via strtolower()
+       
+       // Sort by specific subkey value
+       if ( $ct['usort_alpha'] ) {
+       return strcmp( strtolower($a[ $ct['usort_alpha'] ]) , strtolower($b[ $ct['usort_alpha'] ]) ); 
+       }
+       // Sort by value
+       else {
+       return strcmp( strtolower($a) , strtolower($b) ); 
+       }
    
    }
 
@@ -2547,7 +2556,7 @@ var $ct_array = array();
    ?>
    <span class='start_page_menu<?=$border_highlight?>'> 
       
-      <span class='blue' style='font-weight: bold;'>Show:</span> <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
+      <span class='blue' style='font-weight: bold;'>Start Page:</span> <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
       
          if ( this.value == "index.php?start_page=<?=$page?>" ) {
          var anchor = "#<?=$page?>";

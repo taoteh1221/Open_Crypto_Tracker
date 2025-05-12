@@ -445,7 +445,7 @@ nav_menu('.user-nav');
      	   }, 100);
      	   
 
-             console.log( $(this).attr("id") );
+             //console.log( $(this).attr("id") );
            
      });
 	
@@ -1282,12 +1282,14 @@ nav_menu('.user-nav');
          
          resize_password_notes();
          
+         insert_before_text_fields();
+         
          // Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
          // (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
          // !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
-         convert_numbers('.data .app_sort_filter', pref_number_format);
-         convert_numbers('.data .crypto_worth', pref_number_format);
-         convert_numbers('.portfolio_summary .private_data', pref_number_format);
+         convert_numbers('#portfolio .data .app_sort_filter', pref_number_format);
+         convert_numbers('#portfolio .data .crypto_worth', pref_number_format);
+         convert_numbers('#portfolio .portfolio_summary .private_data', pref_number_format);
          
          
              // If we are in the user section, AND gains / losses have been calculated,

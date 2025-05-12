@@ -126,10 +126,10 @@ $ct['check_2fa_error'] = null;
 
 $ct['telegram_user_data_path'] = null;
 
-$ct['usort_alpha'] = null;
-
 
 // Initial zero-set / false strings
+
+$ct['usort_alpha'] = false;
 
 $ct['is_subsection_config'] = false;
 

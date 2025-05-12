@@ -13,7 +13,25 @@
 <div class='full_width_wrapper'>
 			
 
-			<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct['gen']->start_page_html('tools')?></p>	
+	<p style='margin-top: 0.5em; margin-bottom: 2em;'>
+	
+	<?=$ct['gen']->start_page_html('tools')?>
+			
+			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 reload_time = this.value;
+			 auto_reload();
+			 '>
+				<option value='0'> Manually </option>
+				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
+				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> 10 Minutes </option>
+				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> 15 Minutes </option>
+				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
+			</select> 
+			
+			&nbsp; <span id='reload_notice' class='red'></span>		
+		
+		
+	   </p>	
 			
 			
 			<p style='margin-top: 25px;' class='red'>Using tools on this page that submit data for processing <i><u>may need to set this page as the start page (to display the results on page reload)</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using these tools.</p>
@@ -25,7 +43,7 @@
 			<p>If you need to safely / quickly copy an address to yours or someone else's phone / air-gapped machine / etc, with a QR Code scanner app. 
 			<br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>
 
-			<form method='post' action='<?=$ct['gen']->start_page('tools')?>'>
+			<form class='numeric_format_safe' method='post' action='<?=$ct['gen']->start_page('tools')?>'>
 
 			<p><input type='text' name='qr_code_crypto_address' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr_code_crypto_address'])?>' style='width: 100%;' /></p>
 

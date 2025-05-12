@@ -190,6 +190,14 @@ CLASSES
 ////////////////////////////// */
 
 
+/* https://talk.tiddlywiki.org/t/how-to-limit-the-width-of-select-widget-if-the-text-in-the-dropdown-in-lengthy/10406 */
+.narrow_dropdown {
+max-width:13em !important;
+overflow:hidden !important;
+text-overflow:ellipsis !important;
+}
+
+
 .num_conv:not(input) {
 all: inherit !important;
 display: inline-block !important;
@@ -631,6 +639,12 @@ color: #ffb83f !important;
 }
 
 
+.yellow_dotted {
+padding: 10px;
+border: 0.4em dotted #ffb83f !important;
+}
+
+
 .light_sea_green {
 color: lightseagreen;
 }
@@ -816,11 +830,6 @@ min-width: 1150px !important;
     overflow: hidden !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
-}
-
-
-.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .start_page_menu_red, .start_page_menu_blue, .start_page_menu_green, #watch_only, #charts_error, #system_charts_error {
-border-radius: 0.7em !important;
 }
 
 
@@ -1573,6 +1582,13 @@ display: none;
 /* ---------------------------------------------------
     *fit-content* CAN FLIP OUT COLOR-CODING IN EDITORS
 ----------------------------------------------------- */
+
+
+.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .yellow_dotted, .start_page_menu_red, .start_page_menu_blue, .start_page_menu_green, #watch_only, #charts_error, #system_charts_error {
+border-radius: 0.7em !important;
+width: fit-content !important;
+margin: 1em !important;
+}
 
 
 fieldset {

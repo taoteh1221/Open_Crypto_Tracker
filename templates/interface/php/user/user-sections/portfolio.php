@@ -14,13 +14,58 @@ $pref_number_format = ( isset($_COOKIE['pref_number_format']) ? $_COOKIE['pref_n
 
 <div class='full_width_wrapper align_center'>
 			
-	
-	<div style='display: inline;'><?=$ct['gen']->start_page_html('portfolio')?></div>
 			
-			&nbsp; <span class='blue' style='font-weight: bold;'>Format:</span> <select class='browser-default custom-select' id='pref_number_format' name='pref_number_format' onchange="
+	   <div class='align_left' style='margin-top: 0.5em; margin-bottom: 1em;'>
+	
+	
+	         <div style='display: inline;'><?=$ct['gen']->start_page_html('portfolio')?></div>
+			
+			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 reload_time = this.value;
+			 auto_reload();
+			 '>
+				<option value='0'> Manually </option>
+				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
+				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> 10 Minutes </option>
+				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> 15 Minutes </option>
+				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
+			</select> 
+			
+			&nbsp; <span id='reload_notice' class='red'></span>		
+		
+		
+	   </div>
+					
+                            
+<?php
+// Start outputting results
+if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
+?>
+
+
+<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="data_table align_center" style='margin-top: 10px !important;'>
+ <thead>
+    <tr>
+         <th class='border_lt border_rt align_left' colspan="11">
+    
+			
+			 &nbsp; <span class='blue' style='font-weight: bold;'>View:</span> <select title='Select which portfolio view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange='
+			 
+			 if ( this.value = "tall" ) {
+			 alert("Comin Soon&trade;");
+			 $(this).val("wide");   
+			 }
+			 
+			 '>
+				<option value='wide'> Wide </option>
+				<option value='tall'> Tall </option>
+			</select> 
+			
+         
+         &nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>Numbers:</span> <select class='browser-default custom-select narrow_dropdown' id='pref_number_format' name='pref_number_format' onchange="
 	
 	if ( !get_cookie('pref_number_format') ) {
-	number_format_cookie = confirm('This feature requires using cookie data. ADDITIONALLY, this feature can only be used on the \'My Portfolio\' page. You MUST still use \'en-US\' number formatting on ALL submission forms / spreadsheets, OR your numbers data will become corrupted.');
+	number_format_cookie = confirm('This feature REQUIRES using cookie data. This ONLY changes the number format of your portfolio summaries. To change the currency, see the \'User Settings => Primary Currency Market\' setting.');
 	}
 	else {
 	number_format_cookie = true;
@@ -38,32 +83,15 @@ $pref_number_format = ( isset($_COOKIE['pref_number_format']) ? $_COOKIE['pref_n
 	">
 	<!-- Locales by country: https://www.localeplanet.com/icu/iso3166.html  -->
 	<?php
-	foreach ( $ct['country_locales'] as $single_local ) {
+	foreach ( $ct['country_locales'] as $locale_key => $locale_val ) {
 	?>
-    <option value='<?=$single_local?>' <?=( $pref_number_format == $single_local ? 'selected' : '' )?> > <?=$single_local?> </option>	
+    <option value='<?=$locale_key?>' <?=( $pref_number_format == $locale_key ? 'selected' : '' )?> > <?=$locale_val?> </option>	
      <?php
 	}
 	?>
     </select> 
     
-			
-			 &nbsp; <span class='blue' style='font-weight: bold;'>View:</span> <select title='Select which portfolio view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange=''>
-				<option value='0'> Desktop </option>
-			</select> 
-			
-			
-			 &nbsp; <span class='blue' style='font-weight: bold;'>Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
-			 reload_time = this.value;
-			 auto_reload();
-			 '>
-				<option value='0'> Manually </option>
-				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
-				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> 10 Minutes </option>
-				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> 15 Minutes </option>
-				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
-			</select> 
-     
-	
+    
 			<?php
 			if ( is_array($ct['sel_opt']['alert_percent']) && sizeof($ct['sel_opt']['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 				
@@ -97,37 +125,28 @@ $pref_number_format = ( isset($_COOKIE['pref_number_format']) ? $_COOKIE['pref_n
 				
 			?>
 			
-			&nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$ct['sel_opt']['alert_percent'][1]?>%)</span>
+			
+			&nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts: (<?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$ct['sel_opt']['alert_percent'][1]?>%)</span>
 			
 			<?php
 			}
 			?>  
-			
-			
-			&nbsp; <span id='reload_notice' class='red'></span>		
-					
-					
-                            
-<?php
-// Start outputting results
-if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
-?>
-
-
-<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="data_table align_center" style='margin-top: 10px !important;'>
- <thead>
+         
+         
+         </th>
+    </tr>
     <tr>
-<th class='border_lt num-sort'>Rank</th>
-<th class='border_lt blue al_right'><span>Asset Name</span></th>
-<th class='border_t num-sort'>Unit Value</th>
-<th class='border_lt num-sort al_right'>Trade Value</th>
-<th class='border_t blue'>Market</th>
-<th class='border_t blue'>Exchange</th>
-<th class='border_t num-sort'>24hr Volume</th>
-<th class='border_lt blue num-sort al_right'>Holdings</th>
-<th class='border_t'>Ticker</th>
-<th class='border_t blue num-sort'>Holdings Value</th>
-<th class='border_rt blue num-sort'>(in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>)</th>
+<th class='border_lb num-sort'>Rank</th>
+<th class='border_lb blue al_right'><span>Asset Name</span></th>
+<th class='border_b num-sort'>Unit Value</th>
+<th class='border_lb num-sort al_right'>Trade Value</th>
+<th class='border_b blue'>Market</th>
+<th class='border_b blue'>Exchange</th>
+<th class='border_b num-sort'>24hr Volume</th>
+<th class='border_lb blue num-sort al_right'>Holdings</th>
+<th class='border_b'>Ticker</th>
+<th class='border_b blue num-sort'>Holdings Value</th>
+<th class='border_rb blue num-sort'>(in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>)</th>
     </tr>
   </thead>
  <tbody>

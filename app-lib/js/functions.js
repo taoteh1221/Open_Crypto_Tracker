@@ -5,6 +5,37 @@
 /////////////////////////////////////////////////////////////
 
 
+function insert_before_text_fields() {
+
+// Selects all form elements WITHOUT class "numeric_format_safe"
+var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'); 
+     
+     target_elements.forEach(function(sub_target) {
+     
+     var text_inputs = sub_target.querySelectorAll('input[type="text"]');
+          
+         // IF any TEXT inputs exist, render the alert element
+         if ( text_inputs.length > 0 ) {
+              
+          var newElement = document.createElement('p');
+          newElement.classList.add("yellow");
+          newElement.classList.add("yellow_dotted");
+          newElement.textContent = 'Any NUMERIC values MUST be ENGLISH-formatted (1,234.56)!';
+                    
+          var parent = sub_target.parentNode;
+          
+          parent.insertBefore(newElement, sub_target);
+         
+         }
+          
+     });
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 /*
 Usage:
 convert_numbers('selected_css'); // Automatically uses browser's locale
@@ -20,7 +51,7 @@ var numbers_wrapped = wrap_numbers(selected_css); // Add 'num_conv' CSS class
 
      if ( numbers_wrapped ) {
 
-     console.log('All numbers have been wrapped...');
+     //console.log('All numbers have been wrapped...');
      
      var target_elements = document.querySelectorAll(css_selector + ' .num_conv'); // Selects all elements with class "my-class"
      
