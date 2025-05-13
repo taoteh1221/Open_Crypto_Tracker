@@ -4,7 +4,7 @@
  */
 
 
-$pref_number_format = ( isset($_COOKIE['pref_number_format']) ? $_COOKIE['pref_number_format'] : 'en-US' );
+$pref_number_format = ( isset($_COOKIE['pref_number_format']) ? $_COOKIE['pref_number_format'] : 'automatic' );
 
 ?>
 
@@ -81,6 +81,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 	}
 	
 	">
+    <option value='automatic'> Automatic </option>	
 	<!-- Locales by country: https://www.localeplanet.com/icu/iso3166.html  -->
 	<?php
 	foreach ( $ct['country_locales'] as $locale_key => $locale_val ) {

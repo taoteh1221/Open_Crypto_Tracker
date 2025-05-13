@@ -192,9 +192,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Add an "automatic" setting for locales, AND set it as the default. This way, people using it in their own web browser should automatically have the locale set correctly (we just skip specifing a certain locale in our logic, and the browser should choose the correct one automatically). 
-
-We still need the ability to switch it though, for user fine tuning AND the Desktop Editions (so users can setup the correct locale, as the Desktop Editions won't do that automatically).
+Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
 
 
 Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).
@@ -222,9 +220,6 @@ Add support for Jupiter's "freeze authority" meta data, in asset search results.
 
 
 Move all remaining relevent APIs over to the new per-second / per-minute throttling system.
-
-
-Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
 
 
 If "strict" 2FA mode has been enabled, make sure the 2FA field is easily visible on the submission form page, OR add it near the "save" button in the sidebar (and have it auto fill the 2FA field on the submission form page with that).

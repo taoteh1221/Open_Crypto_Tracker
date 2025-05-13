@@ -129,8 +129,9 @@ parse = parse.replace(/,/g, ''); // Remove commas
 parse = Number(parse);
 
      
-     // Convert number to locale formatting
-     if ( locale ) {
+     // Convert number to locale formatting,
+     // IF locale is set (UNLESS set to 'automatic')
+     if ( locale && locale != 'automatic' ) {
           
      var result = new Intl.NumberFormat(locale, {
          minimumFractionDigits: 2,
@@ -139,8 +140,9 @@ parse = Number(parse);
          
      }
      else {
-          
-     var result = new Intl.NumberFormat({
+     
+     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
+     var result = new Intl.NumberFormat(undefined, {
          minimumFractionDigits: 2,
          maximumFractionDigits: 25,
          }).format(parse);
