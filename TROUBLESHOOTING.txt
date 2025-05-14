@@ -694,12 +694,17 @@ Example: $plug['conf'][$this_plug]['ui_name'] = 'My Plugin Name';
 
 
 
-11) ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] *ABOVE* YOUR PLUGIN CONFIG SETTINGS.
+11) ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
 
 Example: 
 
 // FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
-$ct['dev']['plugin_allow_resets'][$this_plug] = array('plugin-setting-key-1', 'plugin-setting-key-2');
+$ct['dev']['plugin_allow_resets'][$this_plug] = array(
+                                                      // key id, and plugin version number of when the reset was added
+                                                      // NO DUPLICATE KEYS, REPLACE ANY KEY'S VALUE WITH LATEST VERSION!
+                                                      'plugin-setting-key-1' => '0.90.00',
+                                                      'plugin-setting-key-2' => '1.23.45',
+                                                      );
 
 This will COMPLETELY RESET these plugin settings (ONLY IF THE PLUGIN VERSION HAS CHANGED), using the DEFAULT settings in the currently-installed version of the plugin, during upgrade checks on the cached config.
 

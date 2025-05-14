@@ -39,18 +39,22 @@ $this_plug = trim($key);
 	$ct['cached_plug_version'][$this_plug] = trim( file_get_contents( $ct['plug']->state_cache('plug_version.dat') ) );
 	
 	
-          // DISABLE FULL RESET on settings (CAN be an arrays), IF plugin version has NOT changed
-          if ( $ct['cached_plug_version'][$this_plug] == $plug['conf'][$this_plug]['plug_version'] ) {
-          $ct['dev']['plugin_allow_resets'][$this_plug] = array();
+          // We just cache PLUGIN version number in high security mode
+          if ( $ct['admin_area_sec_level'] == 'high' ) {
+          $ct['cache']->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $plug['conf'][$this_plug]['plug_version']);
           }
-          // OTHERWISE, RUN PLUGIN DATABASE UPGRADES, IF VERSION IS DIFFERENT
-          elseif ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
+          // OTHERWISE, RUN PLUGIN DATABASE UPGRADES IF VERSION IS DIFFERENT,
+          // OR USER INITIATED A MANUAL UPGRADE CHECK
+          elseif (
+          $ct['cached_plug_version'][$this_plug] != $plug['conf'][$this_plug]['plug_version'] && !$ct['reset_config']
+          || $ct['app_upgrade_check'] && !$ct['reset_config']
+          ) {
                
-          $ct['app_upgrade_check'] = true;
+          $ct['app_upgrade_check'] = true; // IF not set yet (first condition)
      
-          // Developer-only configs
-          $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
-          require($ct['base_dir'] . '/developer-config.php');
+          // Process any developer-added DB RESETS (for RELIABLE DB upgrading)
+          // PLUGINS INCLUDE THEIR RESET DATA IN THEIR CONFIG FILE (FOR DEV UX), SO WE JUST NEED TO PROCESS IT
+          require($ct['base_dir'] . '/app-lib/php/inline/config/plugins-reset-config.php');
           
           }
 

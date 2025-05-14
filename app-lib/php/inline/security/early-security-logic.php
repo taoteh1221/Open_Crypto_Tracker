@@ -340,7 +340,7 @@ if ( !$is_fast_runtime ) {
         		
         		$newest_cached_telegram_user_data = 1;
         		
-        		$cached_telegram_user_data = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
+        		$cached_telegram_user_data = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , true);
         			
         			
         			// "null" in quotes as the actual value is returned sometimes

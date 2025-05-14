@@ -41,30 +41,16 @@
 	
 	$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat', $upgrade_check_latest_version);
 	
-	
-	// Parse latest version
-	$latest_version_array = explode(".", $upgrade_check_latest_version);
-	
-	$latest_major_minor = $ct['var']->num_to_str($latest_version_array[0] . '.' . $latest_version_array[1]);
-	
-	$latest_bug_fixes = $latest_version_array[2];
-	
-	
-	// Parse currently installed version
-	$app_version_array = explode(".", $ct['app_version']);
-	
-	$app_major_minor = $ct['var']->num_to_str($app_version_array[0] . '.' . $app_version_array[1]);
-	
-	$app_bug_fixes = $app_version_array[2];
-	
+	// Minimize calls
+	$upgrade_version_compare = $ct['gen']->version_compare($ct['app_version'], $upgrade_check_latest_version);
 	
 		
-		// If the latest release is a newer version then what we are running
-		if ( $latest_major_minor > $app_major_minor || $latest_major_minor == $app_major_minor && $latest_bug_fixes > $app_bug_fixes ) {
+		// If we are running an OLDER version than the latest release
+		if ( $upgrade_version_compare['base_diff'] < 0 ) {
 		
 		
 			// Is this a bug fix release?
-			if ( $latest_bug_fixes > 0 ) {
+			if ( $upgrade_version_compare['new_bug_fixes'] > 0 ) {
 			$is_upgrade_bug_fix = 1;
 			$bug_fix_subject_extension = ' (bug fix release)';
 			$bug_fix_msg_extension = ' This latest version is a bug fix release.';

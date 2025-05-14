@@ -1143,13 +1143,18 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>11)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] *ABOVE* YOUR PLUGIN CONFIG SETTINGS.
+<span class='blue'>11)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
 <br /><br />
 
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
 // FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
-$ct['dev']['plugin_allow_resets'][$this_plug] = array('plugin-setting-key-1', 'plugin-setting-key-2');
+$ct['dev']['plugin_allow_resets'][$this_plug] = array(
+                                                      // key id, and plugin version number of when the reset was added
+                                                      // NO DUPLICATE KEYS, REPLACE ANY KEY'S VALUE WITH LATEST VERSION!
+                                                      'plugin-setting-key-1' => '0.90.00',
+                                                      'plugin-setting-key-2' => '1.23.45',
+                                                      );
 
 </code></pre>
 <br /><br />

@@ -18,6 +18,69 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function version_compare($base_version, $compared_version) {
+        
+   global $ct;
+   
+   $results = array();
+   
+   // Defaults
+   $results['base_diff'] = 0;
+   $results['new_bug_fixes'] = 0;
+   
+        
+        // If BASE version is blank (not cached yet, etc)
+        if ( $base_version == '' ) {
+        return $results;
+        }
+        // If COMPARED version is blank (not cached yet, etc)
+        elseif ( $compared_version == '' ) {
+        $results['base_diff'] = 1;
+        return $results;
+        }
+        
+	
+   // Parse BASE version
+   $base_version_array = explode(".", $base_version);
+	
+   $base_major_minor = $ct['var']->num_to_str($base_version_array[0] . '.' . $base_version_array[1]);
+	
+   $base_bug_fixes = $base_version_array[2];
+   
+   // Parse COMPARED version
+   $compared_version_array = explode(".", $compared_version);
+	
+   $compared_major_minor = $ct['var']->num_to_str($compared_version_array[0] . '.' . $compared_version_array[1]);
+	
+   $compared_bug_fixes = $compared_version_array[2];
+	
+	
+        // If the BASE release is an OLDER version than COMPARED release
+        if (
+        $base_major_minor < $compared_major_minor
+        || $base_major_minor == $compared_major_minor && $base_bug_fixes < $compared_bug_fixes
+        ) {
+        $results['base_diff'] = -1;
+        $results['new_bug_fixes'] = $compared_bug_fixes;
+        }
+        // If the BASE release is a NEWER version than COMPARED release
+        elseif (
+        $base_major_minor > $compared_major_minor
+        || $base_major_minor == $compared_major_minor && $base_bug_fixes > $compared_bug_fixes
+        ) {
+        $results['base_diff'] = 1;
+        }
+   
+   
+   return $results;
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function usort_length($a, $b) {
    return strlen($b)-strlen($a); // Descending sort
    }

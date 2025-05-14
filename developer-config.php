@@ -297,18 +297,6 @@ $ct['dev']['config_deny_removals'] = array(
                                            'text_gateways', // Subarray setting (mobile text gateways)
                                            'assets', // Main category (portfolio assets)
                                           );
-
-
-// PLUGIN setting keys to ALLOW cached config RESETS on (during cached config upgrades)
-// (can manipulate later on, based on app version number / user input / etc)
-$ct['dev']['plugin_allow_resets'] = array(
-                                          
-                                          // Format example (dynamically add at top of plugin's plug-conf.php file)
-                                          'my-plugin-name' => array(
-                                                                    'plugin-setting-key',
-                                                                   ),
-                                                                   
-                                         );
      
      
 // Exchange APIs that have NO TRADE VOLUME DATA (for UX on trade volume data in interface)
@@ -421,20 +409,26 @@ $ct['dev']['skip_injection_scanner'] = array(
 
 
 // ***************************************************************
-// Runs in /app-lib/php/inline/init/config-init.php, within the logic that runs during upgrade checks
+// Runs in /app-lib/php/inline/init/config-init.php, within the logic that ONLY runs during upgrade checks
 // ***************************************************************
 elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 
 
-     // v6.00.30:
-     // RESET the 'assets' and 'tracked_markets' cached config values
-     // (bittrex is going out of business GLOBALLY on 2023/12/4, AND WE HAVE TONS OF BITTREX MARKETS IN OUR PREVIOUS DEMO DATA WE NEED TO PURGE)
-     if ( $ct['app_version'] == '6.00.30' ) {
-     $ct['dev']['config_allow_resets'][] = 'tracked_markets'; // Subarray setting (asset charts / price alerts)
-     $ct['dev']['config_allow_resets'][] = 'assets'; // Main category (portfolio assets)
-     }
-     
-                                     
+// v6.00.31
+// RESET the 'assets' and 'tracked_markets' cached config values
+// (bittrex is going out of business, AND WE HAVE TONS OF BITTREX MARKETS IN OUR PREVIOUS DEMO DATA WE NEED TO PURGE)
+
+                    
+$ct['dev']['config_allow_resets'] = array(
+                                          // key id, and app version number of when the reset was added
+                                          // NO DUPLICATE KEYS, REPLACE ANY KEY'S VALUE WITH LATEST VERSION!
+                                          // 'setting-key-1' => '0.90.00',
+                                          // 'setting-key-2' => '1.23.45',
+                                          'tracked_markets' => '6.00.31',
+                                          'assets' => '6.00.31',
+                                          );
+
+
 }
 // ***************************************************************
 // ***************************************************************
