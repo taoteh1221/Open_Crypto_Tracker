@@ -12,7 +12,26 @@
 <div class='full_width_wrapper'>
 			
 	
-	<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct['gen']->start_page_html('charts')?></p>		
+	<p style='margin-top: 0.5em; margin-bottom: 2em;'>
+	
+	
+	         <?=$ct['gen']->start_page_html('charts')?>
+			
+			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 reload_time = this.value;
+			 auto_reload();
+			 '>
+				<option value='0'> Manually </option>
+				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
+				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> 10 Minutes </option>
+				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> 15 Minutes </option>
+				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
+			</select> 
+			
+			&nbsp; <span id='reload_notice' class='red'></span>		
+		
+		
+	   </p>		
 			
 	  
 	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show notices about how charts run within this app.'><b>Charts Notices / Information</b></a></p>
@@ -81,7 +100,7 @@
 	<b>Default Chart Time Period:</b> <select class='custom-select' id='pref_chart_time_period' name='pref_chart_time_period' onchange="
 	
 	if ( !get_cookie('pref_chart_time_period') ) {
-	time_period_cookie = confirm('This feature requires using cookie data.');
+	time_period_cookie = confirm('This feature REQUIRES using cookie data.');
 	}
 	else {
 	time_period_cookie = true;

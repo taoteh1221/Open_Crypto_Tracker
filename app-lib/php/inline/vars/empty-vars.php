@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$ct['db_upgrade_resets_state'] = array();
+
 $ct['cached_plug_version'] = array();
 
 $ct['registered_pairs'] = array();
@@ -126,10 +128,10 @@ $ct['check_2fa_error'] = null;
 
 $ct['telegram_user_data_path'] = null;
 
-$ct['usort_alpha'] = null;
-
 
 // Initial zero-set / false strings
+
+$ct['sort_alpha_assoc_multidem'] = false;
 
 $ct['is_subsection_config'] = false;
 

@@ -151,7 +151,7 @@ var $ct_array = array();
   
   $file_save_path = $ct['base_dir'] . '/cache/events/access_stats/' . $safe_name . '.dat';
   
-  $access_stats_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
+  $access_stats_check = json_decode( trim( file_get_contents($file_save_path) ) , true);
   
   
      // If there is ALREADY valid data cached, import it into the $ct['log_access_stats'] array
@@ -281,7 +281,7 @@ var $ct_array = array();
                       // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
                       if (
                       !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
-                      || is_array($ct['dev']['plugin_allow_resets'][$this_plug]) && in_array($plug_setting_key, $ct['dev']['plugin_allow_resets'][$this_plug])
+                      || is_array($ct['dev']['plugin_allow_resets'][$this_plug]) && array_key_exists($plug_setting_key, $ct['dev']['plugin_allow_resets'][$this_plug])
                       ) {
                            
                            
@@ -630,7 +630,7 @@ var $ct_array = array();
   
   $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $safe_name . '.dat';
   
-  $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
+  $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , true);
   
   
      // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $ct['api_throttle_count'] array
@@ -935,7 +935,7 @@ var $ct_array = array();
       // Bundle / organize ALL the stats into an array (for rendering AFTER)
       foreach( $access_stats_files as $ip_access_file ) {
       
-      $access_stats_check = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/events/access_stats/' . $ip_access_file) ) , TRUE);
+      $access_stats_check = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/events/access_stats/' . $ip_access_file) ) , true);
       
       
           // Check for valid data
@@ -1177,7 +1177,7 @@ var $ct_array = array();
            continue;
            }   
            // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-           else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !$ct['plugins_checked_registered'] ) {
+           else if ( !isset($conf[$cat_key]) || array_key_exists($cat_key, $ct['dev']['config_allow_resets']) && !$ct['plugins_checked_registered'] ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
                 $desc = 'NEW';
@@ -1210,9 +1210,9 @@ var $ct_array = array();
                
                // If subarray setting (NOT queued to be RESET), AND ARRAY KEY TYPE MATCHES
                if (
-               is_array($conf[$cat_key][$conf_key]) && !in_array($conf_key, $ct['dev']['config_allow_resets'])
+               is_array($conf[$cat_key][$conf_key]) && !array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
                && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
-               || is_array($conf[$cat_key][$conf_key]) && !in_array($conf_key, $ct['dev']['config_allow_resets'])
+               || is_array($conf[$cat_key][$conf_key]) && !array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
                && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
            
@@ -1233,7 +1233,7 @@ var $ct_array = array();
                // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && in_array($conf_key, $ct['dev']['config_allow_resets'])
+               || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
                // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
                || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                // If we DOWNGRADED from using integer-based / auto-index array keys (downgrading to an OLDER version of the app etc...and it's not the SECOND upgrade check for active registered plugins)
@@ -1422,7 +1422,7 @@ var $ct_array = array();
         		
 	          $ct['cached_conf_path'] = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         			
-        		$cached_ct_conf = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
+        		$cached_ct_conf = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , true);
         			
         			
         		    // "null" in quotes as the actual value is returned sometimes
@@ -1447,7 +1447,8 @@ var $ct_array = array();
         			         // WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME) !!!!!!!!!
 						    
 						    
-						    // We don't need to run this twice (flagging a UI alert / caching app version)
+						    // We don't need to run this twice (flagging a UI alert / caching app version),
+						    // so run it during last upgrade checks loop (run separately for PLUGIN upgrades)
 						    if ( $ct['plugins_checked_registered'] ) {
 						         
                                   // Flag for UI alerts
@@ -1529,7 +1530,7 @@ var $ct_array = array();
         
 	     // If no reset ct_conf flag, try loading last working config (if it exists, before falling back on default ct_conf)
 	     if ( !$reset_flagged && file_exists($ct['restore_conf_path']) ) {
-          $passed_config = json_decode( trim( file_get_contents($ct['restore_conf_path']) ) , TRUE);
+          $passed_config = json_decode( trim( file_get_contents($ct['restore_conf_path']) ) , true);
 	     }
 				
              
@@ -1602,7 +1603,7 @@ var $ct_array = array();
     	
               // Attempt to restore last-known good config (if it exists)	
               if ( file_exists($ct['restore_conf_path']) ) {
-    		    $cached_restore_conf = json_decode( trim( file_get_contents($ct['restore_conf_path']) ) , TRUE);
+    		    $cached_restore_conf = json_decode( trim( file_get_contents($ct['restore_conf_path']) ) , true);
     		    }
     		
     		

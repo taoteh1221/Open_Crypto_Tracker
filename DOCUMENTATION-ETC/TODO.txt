@@ -184,12 +184,33 @@ Add clicksend.com mobile text messaging support
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-NOTES FOR BLACKHATS:
+NOTES TO HELP AVOID ALL-NIGHTERS (as much as possible):
 
-P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴̻͆ ̵̙̕b̶͓͝ř̵̗u̵̼̔t̷͖͐e̴̢͑ ̵̦͊f̸̱̃ö̶̦́r̷͉͌c̴̍͜ê̸͈ ̶̬̍l̴̙̾ō̸̗g̵̫̿ḯ̴̱ṅ̸̖ ̴̘́/̴̣̅ ̸̳̈d̶̡̃ẹ̶̈c̸̲͂r̶̰̋ỹ̵̨p̶̥͂t̷͍̎i̶̮̕o̸̝̎n̸̟͑ ̴͎͑/̶̹̑ ̶͉̎O̵̦̿T̵̜̄H̶̗̓Ę̶͗R̸̪̋ ̸̦̾ȃ̷̰t̸̪̂ṯ̸̐ä̶͈́c̸̫̈k̶͈̍s̴̳̀ ̸͇̎w̸̢͝i̶͕̍l̵̦͗l̵̗̽ ̷̱̀Ň̴͍Ō̶͓T̶̙́ ̸̺̆w̶̖̓o̸̠͝r̴̪̃k̵̞͠ ̴̪̎o̴͎̽n̸͎͘ ̸̗͘m̴̖͗ẽ̸̠,̴̨̆ ̴͙̇G̵̬̿Ĭ̴͍V̶͉̇E̸̳̐ ̴̯̾U̸̺͂P̶̩̀ ̴̨͌A̵͋͜L̴̤̎R̷̖͘Ē̸͕Â̸͍D̸̨̒Ÿ̶͜!̶͖͛
+Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER the next app release, AND should broken up into milestones as much as possible. Maybe even setup a testing environment separate from this app, if it's a new concept with a learning curve for you (so you can easily take breaks at anytime, without worrying about messing up the codebase in this app). THIS TAKES DISCIPLINE, BUT allows you to still code heavily, even when you're old enough to be your coworker's parent! ;)
 
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Obfucate logs data from showing values during database upgrades.
+
+
+Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
+
+
+Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).
+
+
+Pass the posted asset filter tags to the ticker address mapping function, but only for the ASSET instances using it (NOT the pairings).
+
+
+Research whether the "verified" Jupiter API filter tag assures us a case-sensitive match to a SINGLE contract address, with accuracy (no duplicate tickers on different coins).
+
+
+Double check all new Jupiter exchange market logic.
+
+
+Double check all new db upgrade / downgrade logic.
 
 
 Document new 'plug_version' setting for plugins.
@@ -198,22 +219,13 @@ Document new 'plug_version' setting for plugins.
 Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
 
 
-Pass the posted asset filter tags to the ticker address mapping function, but only for the ASSET instances using it (NOT the pairings).
-
-
-Double check all new Jupiter exchange market logic.
-
-
-Test out the balance tracker plugin, with only a coingecko TERMINAL Solana market (and no Jupiter markets at all), for SPL token tracking (automatically adding that solana-based coin to the interface).
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+Add support for Jupiter's "freeze authority" meta data, in asset search results. Maybe even show the tag meta data?
+
+
 Move all remaining relevent APIs over to the new per-second / per-minute throttling system.
-
-
-Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings to make sure they are only relevant to the assets parent section it's in.
 
 
 If "strict" 2FA mode has been enabled, make sure the 2FA field is easily visible on the submission form page, OR add it near the "save" button in the sidebar (and have it auto fill the 2FA field on the submission form page with that).

@@ -342,7 +342,7 @@ nav_menu('.user-nav');
 	
     // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
     // (does NOT affect a standard javascript ELEMENT.submit() call)
-    $("form").submit(function(event) { 
+    $("form").submit(function(event) {
 
     // Force scrolling to top of page on submit (for better UX)    
     scroll(0,0);
@@ -430,12 +430,22 @@ nav_menu('.user-nav');
 
 
      // Dynamically style balloon tooltips AFTER THEY OPEN (AFTER the dynamically-created elements are created)
-     $('.tooltip_style_control').hover(function(){
+     $('.tooltip_style_control').mouseover(function(){
              
              // Wait 0.1 seconds
              setTimeout(function(){
+                  
              interface_font_percent( (set_font_size * adjusted_font_size_percent), false, '.balloon-tooltips', 'reg' );
+          
+             // Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
+             // (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
+             // !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
+             convert_numbers('.balloon-tooltips .coin_info', pref_number_format);
+
      	   }, 100);
+     	   
+
+             //console.log( $(this).attr("id") );
            
      });
 	
@@ -1262,9 +1272,6 @@ nav_menu('.user-nav');
          // Wait 2 seconds before Initiating
          // (otherwise everything is NOT always registered yet for DOM manipulations)
          setTimeout(function(){
-              
-	    // Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
-         privacy_mode(); 
           
          // Sort the portfolio AFTER checking for privacy mode
          sorting_portfolio_table();
@@ -1274,8 +1281,33 @@ nav_menu('.user-nav');
          paged_tablesort_sizechange();
          
          resize_password_notes();
+         
+         insert_before_text_fields();
+         
+         // Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
+         // (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
+         // !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
+         convert_numbers('#portfolio .data .app_sort_filter', pref_number_format);
+         convert_numbers('#portfolio .data .crypto_worth', pref_number_format);
+         convert_numbers('#portfolio .portfolio_summary .private_data', pref_number_format);
+         
+         
+             // If we are in the user section, AND gains / losses have been calculated,
+             // then put the gain / loss summary in the page title
+             if (
+             !is_iframe && !is_admin && !is_login_form
+             && $('#gain_loss_data').text().length && $('#gain_loss_data').text() != ''
+             ) {
+             doc_title_stats = $('#gain_loss_data').text();
+             }
+         
+              
+	    // Check if privacy mode for assets held is enabled
+	    // (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS, and after doc_title_stats set above)
+         privacy_mode(); 
 
          init_range_sliders();
+         
          
               $('textarea[data-autoresize]').each(function(){
                 autosize(this);

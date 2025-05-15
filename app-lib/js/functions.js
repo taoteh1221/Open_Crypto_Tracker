@@ -5,6 +5,159 @@
 /////////////////////////////////////////////////////////////
 
 
+function insert_before_text_fields() {
+
+// Selects all form elements WITHOUT class "numeric_format_safe"
+var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'); 
+     
+     target_elements.forEach(function(sub_target) {
+     
+     var text_inputs = sub_target.querySelectorAll('input[type="text"]');
+          
+         // IF any TEXT inputs exist, render the alert element
+         if ( text_inputs.length > 0 ) {
+              
+          var newElement = document.createElement('p');
+          newElement.classList.add("yellow");
+          newElement.classList.add("yellow_dotted");
+          newElement.textContent = 'Any NUMERIC values MUST be ENGLISH-formatted (1,234.56)!';
+                    
+          var parent = sub_target.parentNode;
+          
+          parent.insertBefore(newElement, sub_target);
+         
+         }
+          
+     });
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+/*
+Usage:
+convert_numbers('selected_css'); // Automatically uses browser's locale
+convert_numbers('selected_css', 'de-DE'); // Manually set a locale
+*/
+
+function convert_numbers(css_selector, locale=false) {
+
+var selected_css = document.querySelectorAll(css_selector);
+
+var numbers_wrapped = wrap_numbers(selected_css); // Add 'num_conv' CSS class
+
+
+     if ( numbers_wrapped ) {
+
+     //console.log('All numbers have been wrapped...');
+     
+     var target_elements = document.querySelectorAll(css_selector + ' .num_conv'); // Selects all elements with class "my-class"
+     
+          target_elements.forEach(function(sub_target) {
+               
+               if ( typeof sub_target.value != 'undefined' ) {
+               //sub_target.value = num_to_locale(sub_target.value, locale);
+               }
+               else {
+               sub_target.innerHTML = num_to_locale(sub_target.innerHTML, locale);
+               }
+          
+          });
+          
+     }
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function wrap_numbers(selected_css) {
+     
+// Create a space between non-numeric-related and numeric-related characters that are directly next to each other,
+// so our numeric parsing further below can properly detect numeric instances
+var regex_compatibility = /([^0-9,.])([0-9])/g;
+
+// Fix above compatibility regex, when it moves a period one space to the right of a letter
+var regex_fix = /([a-zA-Z]) \./g;
+
+// Regex search for numeric instances, with commas / periods as optional number formatting
+var regex_numeric = /(?:^|\s)(\d*\.?\d+|\d{1,3}(?:,\d{3})*(?:\.\d+)?)(?!\S)/g;
+
+
+    selected_css.forEach(function(sub_target) {
+         
+         if ( typeof sub_target.value != 'undefined' ) {
+         //sub_target.classList.add("num_conv");
+         }
+         else {
+         
+         sub_target.innerHTML = sub_target.innerHTML.replace(regex_compatibility, '$1 $2');
+         
+         //sub_target.innerHTML = sub_target.innerHTML.replace(regex_fix, '$1.');
+         
+         sub_target.innerHTML = sub_target.innerHTML.replace(regex_numeric, '<span class="num_conv">$1</span>');
+         
+         }
+    
+    });
+    
+    
+return true;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+/*
+Usage:
+num_to_locale('355,999.3333'); // Automatically uses browser's locale
+num_to_locale('355,999.3333', 'de-DE'); // Manually set a locale
+*/
+
+function num_to_locale(num, locale=false) {
+     
+var parse = num.trim(); // Trim whitespace
+parse = parse.replace(/,/g, ''); // Remove commas
+
+// convert to number
+parse = Number(parse);
+
+     
+     // Convert number to locale formatting,
+     // IF locale is set (UNLESS set to 'automatic')
+     if ( locale && locale != 'automatic' ) {
+          
+     var result = new Intl.NumberFormat(locale, {
+         minimumFractionDigits: 0,
+         maximumFractionDigits: 25,
+         }).format(parse);
+         
+     }
+     else {
+     
+     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
+     var result = new Intl.NumberFormat(undefined, {
+         minimumFractionDigits: 0,
+         maximumFractionDigits: 25,
+         }).format(parse);
+         
+     }
+
+
+return result;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function balloon_css(text_align="left", z_index="32767", min_width="500px") {
 
 return {
@@ -3461,13 +3614,13 @@ function auto_reload() {
                     	if ( int_time >= 60 ) {
                               
                     
-                   	     $("span.countdown_notice").html("<b>(auto-reload: " + round_min + ":" + sec + ")</b>"); // Main pages
-                   	     $("span.countdown_notice_modal").html("<b>(auto-reload: " + round_min + ":" + sec + ")</b>"); // Modal pages
+                   	     $("span.countdown_notice").html("<b>(reload: " + round_min + ":" + sec + ")</b>"); // Main pages
+                   	     $("span.countdown_notice_modal").html("<b>(reload: " + round_min + ":" + sec + ")</b>"); // Modal pages
                       
                     	}
                     	else {
-                    	$("span.countdown_notice").html("<b>(auto-reload: 00:" + sec + ")</b>"); // Main pages
-                    	$("span.countdown_notice_modal").html("<b>(auto-reload: 00:" + sec + ")</b>"); // Modal pages
+                    	$("span.countdown_notice").html("<b>(reload: 00:" + sec + ")</b>"); // Main pages
+                    	$("span.countdown_notice_modal").html("<b>(reload: 00:" + sec + ")</b>"); // Modal pages
                     	}
             				
             				if ( int_time == 0 ) {

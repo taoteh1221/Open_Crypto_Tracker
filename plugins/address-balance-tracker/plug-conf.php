@@ -18,7 +18,11 @@ $plug['conf'][$this_plug]['plug_version'] = '1.01.00'; // VERSION BUMP DATE: 202
 // so the app's built-in malware injection scanner doesn't flag a FALSE POSITIVE
 // (safe, since we only render inside a text input field)
 $ct['dev']['plugin_allow_resets'][$this_plug] = array(
-                                                      'tracking',
+                                                      // key id, and plugin version number of when the reset was added
+                                                      // NO DUPLICATE KEYS, REPLACE ANY KEY'S VALUE WITH LATEST VERSION!
+                                                      // 'plugin-setting-key-1' => '0.90.00',
+                                                      // 'plugin-setting-key-2' => '1.23.45',
+                                                      'tracking' => '1.01.00',
                                                      );
 
 

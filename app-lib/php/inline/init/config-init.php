@@ -32,7 +32,7 @@ $ct['upgraded_install']
 ||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
 ) {
 
-     // We just flag as upgraded / cache version number in high security mode
+     // We just flag as upgraded / cache APP version number in high security mode
      if ( $ct['admin_area_sec_level'] == 'high' ) {
      
      // Flag for UI alerts
@@ -51,7 +51,12 @@ $ct['upgraded_install']
      
      // Developer-only configs
      $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
+     
+     // RESET configs
      require('developer-config.php');
+     
+     // Process any developer-added DB RESETS (for RELIABLE DB upgrading)
+     require($ct['base_dir'] . '/app-lib/php/inline/config/reset-config.php');
      
      }
      
@@ -411,7 +416,7 @@ $set_tiny_font_line_height = round( ($set_tiny_font_size * $ct['dev']['global_li
 
 // Alphabetically sort news feeds
 if ( is_array($ct['conf']['news']['feeds']) ) { 
-$ct['usort_alpha'] = 'title';
+$ct['sort_alpha_assoc_multidem'] = 'title';
 $usort_feeds_results = usort($ct['conf']['news']['feeds'], array($ct['gen'], 'usort_alpha') );
 }
    	

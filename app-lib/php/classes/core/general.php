@@ -18,6 +18,84 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function version_compare($base_version, $compared_version) {
+        
+   global $ct;
+   
+   $results = array();
+   
+   // Defaults
+   $results['base_diff'] = 0;
+   $results['new_bug_fixes'] = 0;
+	
+   // Parse BASE version
+   $base_version_array = explode(".", $base_version);
+	
+   $base_major_minor = $ct['var']->num_to_str($base_version_array[0] . '.' . $base_version_array[1]);
+	
+   $base_bug_fixes = $ct['var']->num_to_str($base_version_array[2]);
+   
+     
+        // In bug fix versioning, remove any leading zeros if more than one character
+        if ( substr($base_bug_fixes, 0, 1) == '0' && strlen($base_bug_fixes) > 1 ) {
+        $base_bug_fixes = substr($base_bug_fixes, 1);
+        }
+
+   
+   // Parse COMPARED version
+   $compared_version_array = explode(".", $compared_version);
+	
+   $compared_major_minor = $ct['var']->num_to_str($compared_version_array[0] . '.' . $compared_version_array[1]);
+	
+   $compared_bug_fixes = $ct['var']->num_to_str($compared_version_array[2]);
+   
+     
+        // In bug fix versioning, remove any leading zeros if more than one character
+        if ( substr($compared_bug_fixes, 0, 1) == '0' && strlen($compared_bug_fixes) > 1 ) {
+        $compared_bug_fixes = substr($compared_bug_fixes, 1);
+        }
+
+   
+        // If the BASE release is an OLDER version than COMPARED release
+        // If BASE version is blank (not cached yet, etc),
+        // we presume an upgrade IS available
+        if (
+        !is_numeric($base_major_minor)
+        || $base_major_minor < $compared_major_minor
+        || $base_major_minor == $compared_major_minor && $base_bug_fixes < $compared_bug_fixes
+        ) {
+        $results['base_diff'] = -1;
+        $results['new_bug_fixes'] = $compared_bug_fixes;
+        }
+        // If the BASE release is a NEWER version than COMPARED release
+        // If COMPARED version is blank (not cached yet, etc),
+        // we presume an upgrade is NOT available
+        elseif (
+        !is_numeric($compared_major_minor)
+        || $base_major_minor > $compared_major_minor
+        || $base_major_minor == $compared_major_minor && $base_bug_fixes > $compared_bug_fixes
+        ) {
+        $results['base_diff'] = 1;
+        }
+        
+
+   $debugging = array(
+                      'base_version' => $base_version,
+                      'compared_version' => $compared_version,
+                      'base_diff' => $results['base_diff'],
+                     );
+                     
+   //var_dump($debugging);
+   
+   return $results;
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function usort_length($a, $b) {
    return strlen($b)-strlen($a); // Descending sort
    }
@@ -103,7 +181,16 @@ var $ct_array = array();
    
    global $ct;
    
-   return strcmp( strtolower($a[ $ct['usort_alpha'] ]) , strtolower($b[ $ct['usort_alpha'] ]) ); // Case-insensitive equivelent comparision via strtolower()
+       // Case-insensitive equivalent comparison via strtolower()
+       
+       // Sort by specific subkey value
+       if ( $ct['sort_alpha_assoc_multidem'] ) {
+       return strcmp( strtolower($a[ $ct['sort_alpha_assoc_multidem'] ]) , strtolower($b[ $ct['sort_alpha_assoc_multidem'] ]) ); 
+       }
+       // Sort by value
+       else {
+       return strcmp( strtolower($a) , strtolower($b) ); 
+       }
    
    }
 
@@ -2540,14 +2627,14 @@ var $ct_array = array();
    function start_page_html($page) {
       
       if ( isset($_GET['start_page']) && $_GET['start_page'] != '' ) {
-      $border_highlight = '_red';
+      $border_highlight = '_blue';
       $text_class = 'red';
       }
       
    ?>
    <span class='start_page_menu<?=$border_highlight?>'> 
       
-      <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
+      <span class='blue' style='font-weight: bold;'>Start Page:</span> <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
       
          if ( this.value == "index.php?start_page=<?=$page?>" ) {
          var anchor = "#<?=$page?>";
@@ -2563,32 +2650,21 @@ var $ct_array = array();
       $("#coin_amnts").submit();
       
       '>
-         <option value='index.php#<?=$page?>'> Show First: Last-Visited </option>
+         <option value='index.php#<?=$page?>'> Last-Visited </option>
          <?php
          if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;
          ?>
-         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show First: <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> </option>
+         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> </option>
          <?php
          }
          ?>
-         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show First: <?=ucwords( preg_replace("/_/i", " ", $page) )?> </option>
+         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > <?=ucwords( preg_replace("/_/i", " ", $page) )?> </option>
       </select> 
       
    </span>
    
-      <?php
-      if ( $another_set == 1 ) {
-      ?>
-      <b class='red'>&nbsp;(other shows first)</b>
-      <?php
-      }
-      elseif ( $_GET['start_page'] == $page ) {
-      ?>
-      <b class='red'>&nbsp;(current shows first)</b>
-      <?php
-      }
-      
+   <?php
    }
    
    
