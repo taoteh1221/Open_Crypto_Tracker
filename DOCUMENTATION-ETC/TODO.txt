@@ -222,6 +222,9 @@ Create documentation for exposing plugin settings into it's admin interface (to 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
+
+
 Add support for Jupiter's "freeze authority" meta data, in asset search results. Maybe even show the tag meta data?
 
 
