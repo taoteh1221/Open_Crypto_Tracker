@@ -134,7 +134,7 @@ parse = Number(parse);
      if ( locale && locale != 'automatic' ) {
           
      var result = new Intl.NumberFormat(locale, {
-         minimumFractionDigits: 2,
+         minimumFractionDigits: 0,
          maximumFractionDigits: 25,
          }).format(parse);
          
@@ -143,7 +143,7 @@ parse = Number(parse);
      
      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
      var result = new Intl.NumberFormat(undefined, {
-         minimumFractionDigits: 2,
+         minimumFractionDigits: 0,
          maximumFractionDigits: 25,
          }).format(parse);
          

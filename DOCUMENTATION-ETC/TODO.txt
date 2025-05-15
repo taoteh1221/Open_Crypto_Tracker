@@ -210,6 +210,9 @@ Research whether the "verified" Jupiter API filter tag assures us a case-sensiti
 Double check all new Jupiter exchange market logic.
 
 
+Double check all new db upgrade / downgrade logic.
+
+
 Document new 'plug_version' setting for plugins.
 
 
