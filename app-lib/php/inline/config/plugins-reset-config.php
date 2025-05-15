@@ -16,34 +16,50 @@ $ct['db_upgrade_resets_state']['plug'][$this_plug] = json_decode( trim( file_get
 
 
 foreach ( $ct['dev']['plugin_allow_resets'][$this_plug] as $reset_key => $reset_val ) {
+     
+// Minimize calls
+$plug_current_compare = $ct['gen']->version_compare($plug['conf'][$this_plug]['plug_version'], $reset_val);
+
+$plug_cache_compare = $ct['gen']->version_compare($ct['cached_plug_version'][$this_plug], $reset_val);
 
 
      // RESETS (if the reset has not run ever yet)
-     if ( !isset($ct['db_upgrade_resets_state']['plug'][$this_plug][$reset_key][$reset_val]) ) {
      
-     // Minimize calls
-     $plug_current_compare = $ct['gen']->version_compare($plug['conf'][$this_plug]['plug_version'], $reset_val);
-
-     $plug_cache_compare = $ct['gen']->version_compare($ct['cached_plug_version'][$this_plug], $reset_val);
-
-
-           if (
-           // UPGRADES, if NEW version is equal to or greater than $reset_val, and OLD version is less than $reset_val
-           $plug_current_compare['base_diff'] >= 0 && $plug_cache_compare['base_diff'] < 0
-           // DOWNGRADES, if NEW version is less than $reset_val, and OLD version is equal to or greater than $reset_val
-           || $plug_current_compare['base_diff'] < 0 && $plug_cache_compare['base_diff'] >= 0
-           ) {
+     // UPGRADES, if NEW version is equal to or greater than $reset_val, and OLD version is less than $reset_val
+     if (
+     !isset($ct['db_upgrade_resets_state']['plug']['upgrade'][$this_plug][$reset_key][$reset_val])
+     || $plug_current_compare['base_diff'] >= 0 && $plug_cache_compare['base_diff'] < 0
+     ) {
            
-           // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
-           $ct['db_upgrade_resets_state']['plug'][$this_plug][$reset_key][$reset_val] = true;
+     // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
+     $ct['db_upgrade_resets_state']['plug']['upgrade'][$this_plug][$reset_key][$reset_val] = true;
            
-           }
-           // Otherwise, disable resetting this key
-           else {
-           unset($ct['dev']['plugin_allow_resets'][$this_plug][$reset_key]);
-           }
+     // We can safely remove any saved DOWNGRADE state info, since we UPGRADED
+     unset($ct['db_upgrade_resets_state']['plug']['downgrade'][$this_plug][$reset_key]);
+     
+     }
+     // Otherwise, disable resetting this key
+     else {
+     unset($ct['dev']['plugin_allow_resets'][$this_plug][$reset_key]);
+     }
      
      
+     // DOWNGRADES, if NEW version is less than $reset_val, and OLD version is equal to or greater than $reset_val
+     if (
+     !isset($ct['db_upgrade_resets_state']['plug']['downgrade'][$this_plug][$reset_key][$reset_val])
+     || $plug_current_compare['base_diff'] < 0 && $plug_cache_compare['base_diff'] >= 0
+     ) {
+           
+     // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
+     $ct['db_upgrade_resets_state']['plug']['downgrade'][$this_plug][$reset_key][$reset_val] = true;
+           
+     // We can safely remove any saved UPGRADE state info, since we DOWNGRADED
+     unset($ct['db_upgrade_resets_state']['plug']['upgrade'][$this_plug][$reset_key]);
+     
+     }
+     // Otherwise, disable resetting this key
+     else {
+     unset($ct['dev']['plugin_allow_resets'][$this_plug][$reset_key]);
      }
 
 
