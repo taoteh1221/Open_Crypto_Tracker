@@ -192,13 +192,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Add the same hard-coded-config check we do for the app config, to plugin configs.
-
-
-Double check all new db upgrade / downgrade logic ON PLUGINS (we already fully tested the main app upgrading / downgrading).
-
-
-Document new 'plug_version' setting for plugins.
+Double check all new db upgrade / downgrade logic ON APP and PLUGINS.
 
 
 Obfucate logs data from showing values during database upgrades.
@@ -223,6 +217,9 @@ Create documentation for exposing plugin settings into it's admin interface (to 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add the same hard-coded-config check we do for the app config, to plugin configs.
 
 
 Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).

@@ -26,12 +26,22 @@ $plug_current_compare = $ct['gen']->version_compare($ct['plug_version'][$this_pl
 
 $plug_cache_compare = $ct['gen']->version_compare($ct['cached_plug_version'][$this_plug], $reset_val);
 
+     
+     // IF UPGRADING AFTER plugin versioning was introduced, we have no previous plugin version cache,
+     // BUT we can safely mark it as 'lesser than' version number, thereby activating upgrade checks
+     if ( isset($ct['cached_app_version']) && !$plug_cache_compare['base_diff'] ) {
+     $plug_cache_compare['base_diff'] = -1;
+     }
+
 
      // RESETS (if the reset has not run ever yet)
      
      // UPGRADES, if CURRENT version is equal to or greater than $reset_val, and OLD version is less than $reset_val
+     // (WE NEED TO CHECK THE CURRENT VERSION TOO, AS WE NEED TO SUPPORT ALL FUTURE VERSIONS [NOT JUST ONE])
+     // ($plug_cache_compare['base_diff'] is FALSE, IF NON-numeric version variable [presumably from no cached value])
      if (
-     !isset($ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade'][$reset_key][$reset_val])
+     $plug_cache_compare['base_diff']
+     && !isset($ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade'][$reset_key][$reset_val])
      && $plug_current_compare['base_diff'] >= 0 && $plug_cache_compare['base_diff'] < 0
      ) {
            
@@ -42,10 +52,14 @@ $plug_cache_compare = $ct['gen']->version_compare($ct['cached_plug_version'][$th
      unset($ct['db_upgrade_resets_state']['plug'][$this_plug]['downgrade'][$reset_key]);
      
      }
-     // DOWNGRADES, if CURRENT version is less than $reset_val, and OLD version is equal to or greater than $reset_val
+     // DOWNGRADES, if OLD version is equal to or greater than $reset_val
+     // (CHECKS ON CURRENT VERSION WON'T MATTER, AS IT WILL NEVER BE LESS THAN $reset_val,
+     // AS $reset_val IS ALWAYS SET IN THE CURRENT VERSION)
+     // ($plug_cache_compare['base_diff'] is FALSE, IF NON-numeric version variable [presumably from no cached value])
      elseif (
-     !isset($ct['db_upgrade_resets_state']['plug'][$this_plug]['downgrade'][$reset_key][$reset_val])
-     && $plug_current_compare['base_diff'] < 0 && $plug_cache_compare['base_diff'] >= 0
+     $plug_cache_compare['base_diff']
+     && !isset($ct['db_upgrade_resets_state']['plug'][$this_plug]['downgrade'][$reset_key][$reset_val])
+     && $plug_cache_compare['base_diff'] >= 0
      ) {
            
      // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)

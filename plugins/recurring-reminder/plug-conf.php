@@ -22,7 +22,7 @@ $ct['dev']['plugin_allow_resets'][$this_plug] = array(
                                                      );
 
 
-// All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE "$plug['conf'][$this_plug]" ARRAY (sub-arrays are allowed)
+// All PLUGIN CONFIG settings MUST BE INSIDE THE "$plug['conf'][$this_plug]" ARRAY (sub-arrays are allowed)
 
 // EXAMPLES...
 

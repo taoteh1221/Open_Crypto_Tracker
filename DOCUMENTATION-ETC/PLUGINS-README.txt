@@ -95,15 +95,24 @@ If $plug['class'][$this_plug]->admin_input_validation() returns false / null / '
 
 
 
-6) Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
+6) Create a blank PLUGIN CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
 
 Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 
-NOTES: plug-conf.php MUST only contain STATIC VALUES (dynamic values are NOT allowed), as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat That said, you CAN create a "placeholder" (empty) configuration value / array in plug-conf.php (for clean / reviewable code), and then dynamically populate it AT THE TOP OF your plug-init.php logic (BEFORE your plugin needs to use that config setting).
+NOTES: plug-conf.php MUST only contain STATIC VALUES (dynamic values are NOT allowed), as all plugin configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat That said, you CAN create a "placeholder" (empty) configuration value / array in plug-conf.php (for clean / reviewable code), and then dynamically populate it AT THE TOP OF your plug-init.php logic (BEFORE your plugin needs to use that config setting).
 
 
 
-7) All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug['conf'][$this_plug]" (sub-arrays are allowed).
+7) The PLUGIN VERSION is MANDATORY (to properly handle upgrades / downgrades), and MUST be included in the PLUGIN CONFIG file you just created.
+
+Example:
+
+// Version number of this plugin (MANDATORY)
+$ct['plug_version'][$this_plug] = '1.01.00';
+
+
+
+8) All PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug['conf'][$this_plug]" (sub-arrays are allowed).
 
 Example: $plug['conf'][$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
 
@@ -111,7 +120,7 @@ Example: $plug['conf'][$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'm
 
 
 
-8) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
+9) The PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 
 Example: $plug['conf'][$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
 
@@ -125,21 +134,21 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-9) The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
+10) The PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
 
 Example: $plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'
 
 
 
-10) The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
+11) The PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
 
 Example: $plug['conf'][$this_plug]['ui_name'] = 'My Plugin Name';
 
 
 
-11) ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
+12) ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
 
-Example:
+Example: 
 
 // FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
 $ct['dev']['plugin_allow_resets'][$this_plug] = array(
@@ -153,7 +162,7 @@ This will COMPLETELY RESET these plugin settings (ONLY IF THE PLUGIN VERSION HAS
 
 
 
-12) OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
+13) OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
 
 Example: "/plugins/my-app-plugin/plug-assets/" (must be lowercase)
 
@@ -161,31 +170,31 @@ THIS IS #REQUIRED TO BYPASS THE USUAL SECURITY# OF OTHER-NAMED DIRECTORIES, SO I
 
 
 
-13) OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-templates".
+14) OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-templates".
 
 Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
 
 
 
-14) OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #13, with the name "plug-admin.php".
+15) OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #14, with the name "plug-admin.php".
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
 
-IMPORTANT NOTES: Since 'plug_version' / 'runtime_mode' / 'ui_location' / 'ui_name' (mentioned further up in steps 8, 9, and 10) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this admin interface template.
+IMPORTANT NOTES: Since 'plug_version' / 'runtime_mode' / 'ui_location' / 'ui_name' (mentioned further up in steps 9, 10, and 11) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this admin interface template.
 
 
 
-15) OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #13, with the name "plug-docs.php".
+16) OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #14, with the name "plug-docs.php".
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercase)
 
 
 
-16) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
+17) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
 
 
 
-17) To add / activate your new plugin IN CONFIG.PHP (only required in high security admin mode), add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+18) To add / activate your new plugin IN CONFIG.PHP (only required in high security admin mode), add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 
 Example: 'my-app-plugin' => 'on',
 

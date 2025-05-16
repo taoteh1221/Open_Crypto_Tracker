@@ -56,23 +56,22 @@ var $ct_array = array();
         }
 
    
+        // If BASE or COMPARED version is blank (not cached yet, etc),
+        // we flag it (and add any needed edge-case logic external to this function)
+        if ( !is_numeric($base_major_minor) || !is_numeric($compared_major_minor) ) {
+        $results['base_diff'] = false;
+        }
         // If the BASE release is an OLDER version than COMPARED release
-        // If BASE version is blank (not cached yet, etc),
-        // we presume an upgrade IS available
-        if (
-        !is_numeric($base_major_minor)
-        || $base_major_minor < $compared_major_minor
+        elseif (
+        $base_major_minor < $compared_major_minor
         || $base_major_minor == $compared_major_minor && $base_bug_fixes < $compared_bug_fixes
         ) {
         $results['base_diff'] = -1;
         $results['new_bug_fixes'] = $compared_bug_fixes;
         }
         // If the BASE release is a NEWER version than COMPARED release
-        // If COMPARED version is blank (not cached yet, etc),
-        // we presume an upgrade is NOT available
         elseif (
-        !is_numeric($compared_major_minor)
-        || $base_major_minor > $compared_major_minor
+        $base_major_minor > $compared_major_minor
         || $base_major_minor == $compared_major_minor && $base_bug_fixes > $compared_bug_fixes
         ) {
         $results['base_diff'] = 1;

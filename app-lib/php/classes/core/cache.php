@@ -305,7 +305,7 @@ var $ct_array = array();
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                             			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) . ')'
                              			);
                       
                       }
@@ -364,7 +364,7 @@ var $ct_array = array();
                    
               $ct['gen']->log(
                         		'notify_error',
-                        		'NEW app config, *STRING INDEXED* SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        		'NEW app config, *STRING INDEXED* SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) . ')'
                         		);
               
               }
@@ -1261,10 +1261,10 @@ var $ct_array = array();
                $ct['conf_upgraded'] = true;
                
                // Uses === / !== for PHPv7.4 support
-               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] !== null || $default_ct_conf[$cat_key][$conf_key] !== false || $default_ct_conf[$cat_key][$conf_key] === 0 ? $default_ct_conf[$cat_key][$conf_key] : '[null / false / zero]' );
+               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] !== null && $default_ct_conf[$cat_key][$conf_key] !== false && $default_ct_conf[$cat_key][$conf_key] !== 0 ? $ct['var']->obfusc_str($default_ct_conf[$cat_key][$conf_key]) : '[null / false / zero]' );
                
                // If we're resetting a subarray setting
-               $log_val_descr = ( is_array($default_ct_conf[$cat_key][$conf_key]) ? 'default array size: ' . sizeof($default_ct_conf[$cat_key][$conf_key]) : 'default value: ' . $log_val_descr );
+               $log_val_descr = ( is_array($default_ct_conf[$cat_key][$conf_key]) ? 'default array size: ' . sizeof($default_ct_conf[$cat_key][$conf_key]) : 'default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) );
                   
                $ct['gen']->log(
                   			'notify_error',

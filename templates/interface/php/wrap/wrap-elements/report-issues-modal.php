@@ -1081,18 +1081,31 @@ If <pre class='rounded' style='position: relative; top: 0.65em; display: inline-
 
 
 
-<span class='blue'>6)</span> Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
+<span class='blue'>6)</span> Create a blank PLUGIN CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 <br /><br />
 
-<span class='bitcoin'>NOTES:</span> plug-conf.php MUST only contain STATIC VALUES (dynamic values are NOT allowed), as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat That said, you CAN create a "placeholder" (empty) configuration value / array in plug-conf.php (for clean / reviewable code), and then dynamically populate it AT THE TOP OF your plug-init.php logic (BEFORE your plugin needs to use that config setting).
+<span class='bitcoin'>NOTES:</span> plug-conf.php MUST only contain STATIC VALUES (dynamic values are NOT allowed), as all plugin configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat That said, you CAN create a "placeholder" (empty) configuration value / array in plug-conf.php (for clean / reviewable code), and then dynamically populate it AT THE TOP OF your plug-init.php logic (BEFORE your plugin needs to use that config setting).
 <br /><br /><br />
 
 
 
-<span class='blue'>7)</span> All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug['conf'][$this_plug]" (sub-arrays are allowed).
+<span class='blue'>7)</span> The PLUGIN VERSION is MANDATORY (to properly handle upgrades / downgrades), and MUST be included in the PLUGIN CONFIG file you just created.
+<br /><br />
+
+<pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
+// Version number of this plugin (MANDATORY)
+$ct['plug_version'][$this_plug] = '1.01.00';
+
+</code></pre>
+
+<br /><br /><br />
+
+
+
+<span class='blue'>8)</span> All PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug['conf'][$this_plug]" (sub-arrays are allowed).
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
@@ -1107,7 +1120,7 @@ $plug['conf'][$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2
 
 
 
-<span class='blue'>8)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
+<span class='blue'>9)</span> The PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 <br /><br />
 
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'</code></pre>
@@ -1127,7 +1140,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>9)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
+<span class='blue'>10)</span> The PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
 <br /><br />
 
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'</code></pre>
@@ -1135,7 +1148,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
+<span class='blue'>11)</span> The PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
 <br /><br />
 
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['ui_name'] = 'My Plugin Name';</code></pre>
@@ -1143,7 +1156,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>11)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
+<span class='blue'>12)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
 <br /><br />
 
 
@@ -1164,7 +1177,7 @@ This will COMPLETELY RESET these plugin settings (ONLY IF THE PLUGIN VERSION HAS
 
 
 
-<span class='blue'>12)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
+<span class='blue'>13)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-assets/" (must be lowercase)
@@ -1175,7 +1188,7 @@ THIS IS #REQUIRED TO BYPASS THE USUAL SECURITY# OF OTHER-NAMED DIRECTORIES, SO I
 
 
 
-<span class='blue'>13)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-templates".
+<span class='blue'>14)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-templates".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
@@ -1183,18 +1196,18 @@ Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
 
 
 
-<span class='blue'>14)</span> OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #13, with the name "plug-admin.php".
+<span class='blue'>15)</span> OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #14, with the name "plug-admin.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
 <br /><br />
 
-<span class='bitcoin'>IMPORTANT NOTES:</span> Since <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'plug_version'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'runtime_mode'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_location'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_name'</code></pre> (mentioned further up in steps 8, 9, and 10) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this admin interface template.
+<span class='bitcoin'>IMPORTANT NOTES:</span> Since <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'plug_version'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'runtime_mode'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_location'</code></pre> / <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>'ui_name'</code></pre> (mentioned further up in steps 9, 10, and 11) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this admin interface template.
 <br /><br /><br />
 
 
 
-<span class='blue'>15)</span> OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #13, with the name "plug-docs.php".
+<span class='blue'>16)</span> OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #14, with the name "plug-docs.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercase)
@@ -1202,11 +1215,11 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercas
 
 
 
-<span class='blue'>16)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
+<span class='blue'>17)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
 <br /><br /><br />
 
 
-<span class='blue'>17)</span> To add / activate your new plugin IN CONFIG.PHP (only required in high security admin mode), add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+<span class='blue'>18)</span> To add / activate your new plugin IN CONFIG.PHP (only required in high security admin mode), add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 <br /><br />
 
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>
