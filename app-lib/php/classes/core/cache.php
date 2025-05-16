@@ -315,7 +315,7 @@ var $ct_array = array();
                       
                       
               // Now that we've upgraded the plugin, save any NEW plugin version to the state cache
-              $this->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $plug['conf'][$this_plug]['plug_version']);   
+              $this->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $ct['plug_version'][$this_plug]);   
               
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
@@ -407,7 +407,7 @@ var $ct_array = array();
                       
                       
               // Now that we've upgraded the plugin, save any NEW plugin version to the state cache
-              $this->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $plug['conf'][$this_plug]['plug_version']);     
+              $this->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $ct['plug_version'][$this_plug]);     
               
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...

@@ -10,7 +10,7 @@
 
 
 // Version number of this plugin (MANDATORY)
-$plug['conf'][$this_plug]['plug_version'] = '1.01.00'; // VERSION BUMP DATE: 2025/May/7TH
+$ct['plug_version'][$this_plug] = '1.01.00'; // VERSION BUMP DATE: 2025/May/7TH
 
 
 // FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed

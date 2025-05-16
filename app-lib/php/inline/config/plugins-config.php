@@ -41,12 +41,12 @@ $this_plug = trim($key);
 	
           // We just cache PLUGIN version number in high security mode
           if ( $ct['admin_area_sec_level'] == 'high' ) {
-          $ct['cache']->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $plug['conf'][$this_plug]['plug_version']);
+          $ct['cache']->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $ct['plug_version'][$this_plug]);
           }
           // OTHERWISE, RUN PLUGIN DATABASE UPGRADES IF VERSION IS DIFFERENT,
           // OR USER INITIATED A MANUAL UPGRADE CHECK
           elseif (
-          $ct['cached_plug_version'][$this_plug] != $plug['conf'][$this_plug]['plug_version'] && !$ct['reset_config']
+          $ct['cached_plug_version'][$this_plug] != $ct['plug_version'][$this_plug] && !$ct['reset_config']
           || $ct['app_upgrade_check'] && !$ct['reset_config']
           ) {
                

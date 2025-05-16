@@ -22,7 +22,7 @@ $ct['db_upgrade_resets_state']['plug'][$this_plug]['placeholder'] = true;
 foreach ( $ct['dev']['plugin_allow_resets'][$this_plug] as $reset_key => $reset_val ) {
      
 // Minimize calls
-$plug_current_compare = $ct['gen']->version_compare($plug['conf'][$this_plug]['plug_version'], $reset_val);
+$plug_current_compare = $ct['gen']->version_compare($ct['plug_version'][$this_plug], $reset_val);
 
 $plug_cache_compare = $ct['gen']->version_compare($ct['cached_plug_version'][$this_plug], $reset_val);
 

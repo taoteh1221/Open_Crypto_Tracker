@@ -40,7 +40,7 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         ?>
         
      	   <p>
-     	   <b class='yellow'>Plugin Version:</b> <?=$plug['conf'][$this_plug]['plug_version']?>
+     	   <b class='yellow'>Plugin Version:</b> <?=$ct['plug_version'][$this_plug]?>
      	   </p>
         
         <?php

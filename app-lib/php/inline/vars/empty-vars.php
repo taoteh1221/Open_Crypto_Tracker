@@ -9,6 +9,8 @@
 
 $ct['db_upgrade_resets_state'] = array();
 
+$ct['plug_version'] = array();
+
 $ct['cached_plug_version'] = array();
 
 $ct['registered_pairs'] = array();
