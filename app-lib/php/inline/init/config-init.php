@@ -32,7 +32,9 @@ $ct['upgraded_install']
 ||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
 ) {
 
-     // We just flag as upgraded / cache APP version number in high security mode
+     // We just flag as upgraded / cache NEW app version number in high security mode
+     // We NEVER want to run a cached config upgrade in high security mode
+     // (as we ALWAYS mirror PHP config file changes to the cached config)
      if ( $ct['admin_area_sec_level'] == 'high' ) {
      
      // Flag for UI alerts
@@ -43,8 +45,6 @@ $ct['upgraded_install']
      $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
      
      }
-     // We NEVER want to run a cached config upgrade in high security mode
-     // (as we ALWAYS mirror PHP config file changes to the cached config)
      else {
           
      $ct['app_upgrade_check'] = true;

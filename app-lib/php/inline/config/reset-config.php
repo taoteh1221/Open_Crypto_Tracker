@@ -19,12 +19,18 @@ $ct['db_upgrade_resets_state']['app']['placeholder'] = true;
 }
 
 
+// If we're upgrading, these could change as the runtime progresses, so set the ORIGINAL vals
+$orig_app_version = $ct['app_version'];
+
+$orig_cached_app_version = $ct['cached_app_version'];
+
+
 foreach ( $ct['dev']['config_allow_resets'] as $reset_key => $reset_val ) {
      
 // Minimize calls
-$config_current_compare = $ct['gen']->version_compare($ct['app_version'], $reset_val);
+$config_current_compare = $ct['gen']->version_compare($orig_app_version, $reset_val);
 
-$config_cache_compare = $ct['gen']->version_compare($ct['cached_app_version'], $reset_val);
+$config_cache_compare = $ct['gen']->version_compare($orig_cached_app_version, $reset_val);
 
 
      // RESETS (if the reset has not run ever yet)
@@ -33,10 +39,12 @@ $config_cache_compare = $ct['gen']->version_compare($ct['cached_app_version'], $
      // (WE NEED TO CHECK THE CURRENT VERSION TOO, AS WE NEED TO SUPPORT ALL FUTURE VERSIONS [NOT JUST ONE])
      // ($config_cache_compare['base_diff'] is FALSE, IF NON-numeric version variable [presumably from no cached value])
      if (
-     $config_cache_compare['base_diff']
+     is_bool($config_cache_compare['base_diff']) !== true
      && !isset($ct['db_upgrade_resets_state']['app']['upgrade'][$reset_key][$reset_val])
      && $config_current_compare['base_diff'] >= 0 && $config_cache_compare['base_diff'] < 0
      ) {
+     
+     $ct['db_upgrade_desc'] = 'UPGRADE';
 
      // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
      $ct['db_upgrade_resets_state']['app']['upgrade'][$reset_key][$reset_val] = true;
@@ -50,10 +58,12 @@ $config_cache_compare = $ct['gen']->version_compare($ct['cached_app_version'], $
      // AS $reset_val IS ALWAYS SET IN THE CURRENT VERSION)
      // ($config_cache_compare['base_diff'] is FALSE, IF NON-numeric version variable [presumably from no cached value])
      elseif (
-     $config_cache_compare['base_diff']
+     is_bool($config_cache_compare['base_diff']) !== true
      && !isset($ct['db_upgrade_resets_state']['app']['downgrade'][$reset_key][$reset_val])
-     && $config_cache_compare['base_diff'] >= 0
+     && $config_cache_compare['base_diff'] > 0
      ) {
+     
+     $ct['db_upgrade_desc'] = 'DOWNGRADE';
 
      // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
      $ct['db_upgrade_resets_state']['app']['downgrade'][$reset_key][$reset_val] = true;
@@ -68,7 +78,15 @@ $config_cache_compare = $ct['gen']->version_compare($ct['cached_app_version'], $
      }
 
 
+$debugging_array = array(
+                         'config_current_compare[base_diff]' => $config_current_compare['base_diff'],
+                         'config_cache_compare[base_diff]' => $config_cache_compare['base_diff'],
+                        );
+                        
+//var_dump($debugging_array); // DEBUGGING
+
 }
+
 
 
 //var_dump($ct['dev']['config_allow_resets']); // DEBUGGING

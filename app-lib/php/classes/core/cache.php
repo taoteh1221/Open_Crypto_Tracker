@@ -312,10 +312,7 @@ var $ct_array = array();
                       
                    
                    }
-                      
-                      
-              // Now that we've upgraded the plugin, save any NEW plugin version to the state cache
-              $this->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $ct['plug_version'][$this_plug]);   
+                     
               
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
@@ -404,10 +401,7 @@ var $ct_array = array();
                       }
                    
                    }
-                      
-                      
-              // Now that we've upgraded the plugin, save any NEW plugin version to the state cache
-              $this->save_file( $ct['plug']->state_cache('plug_version.dat', $this_plug) , $ct['plug_version'][$this_plug]);     
+              
               
               }
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
@@ -463,7 +457,7 @@ var $ct_array = array();
                              		'NON-EXISTANT app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] removed (new array size: ' . $new_array_size . ' ['.$array_size_change.'])'
                              		);
         }
-
+        
       
    return $conf;
       
@@ -1164,7 +1158,7 @@ var $ct_array = array();
       
       }
       else {
-      $ct['gen']->log('notify_error', 'CACHED config ' . ( $ct['plugins_checked_registered'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrade check flagged, checking now');
+      $ct['gen']->log('notify_error', 'CACHED config ' . ( $ct['plugins_checked_registered'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' '.$ct['db_upgrade_desc'].' check flagged, checking now');
       }
                    	 
          
@@ -1358,7 +1352,7 @@ var $ct_array = array();
       return $conf;
       }
       else {
-    	 $ct['gen']->log('notify_error', 'no CACHED config ' . ( $ct['plugins_checked_registered'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' upgrades needed');
+    	 $ct['gen']->log('notify_error', 'no CACHED config ' . ( $ct['plugins_checked_registered'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' '.$ct['db_upgrade_desc'].'S needed');
     	 return false;
       }
       

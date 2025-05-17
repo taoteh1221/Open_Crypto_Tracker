@@ -151,6 +151,8 @@ $ct['app_upgrade_check'] = false;
 
 $ct['upgraded_install'] = false;
 
+$ct['upgraded_plugin'] = false;
+
 $ct['conf_upgraded'] = false;
 
 $ct['is_login_form'] = false;
@@ -168,6 +170,8 @@ $ct['count_2fa_fields'] = 0;
 $ct['jupiter_ag_search_results'] = 0;
 
 $ct['activate_proxies'] = 'off';
+
+$ct['db_upgrade_desc'] = 'UPGRADE';
 
 
 // INITIALLY defined
