@@ -192,6 +192,12 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Update the coingecko API limit on-the-fly, IF we detect a CONFIRMED error (since it's a global variable). They HALVE the limits when they are under heavy load...see their docs for the specifics, but I believe it's normally 30 calls per minute, reduced to 15 calls per minute under heavy load.
+
+
+The "upgrade" / "downgrade" descriptions in the DB upgrader should be PER-SETTING FOR THE APP AND PLUGINS, as we can have different versions for different settings. To accomplish this simple / easy, just turn the description variable into an array, with the root keys "app" / "plug", and make both multidimensional sub arrays, with ["app"]["setting_key"], and ["plug"][$this_plug]["setting_key"]. This way we can easily map the descriptor directly into each log message, by setting keys.
+
+
 Double check all new db upgrade / downgrade logic ON APP and PLUGINS (seems debugged great, BUT was heavily refactored!).
 
 
@@ -211,6 +217,9 @@ Double check all new Jupiter exchange market logic.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Implement 'plugin_deny_additions' / 'plugin_deny_removals' (with same format that we already implemented in the array structure of 'plugin_allow_resets'). Also include documentation on this in plugins documentation. 
 
 
 Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
@@ -288,7 +297,7 @@ https://www.google.com/search?q=button+click+animation
 Look into adding the architecture for "chrome push alerts".
 
 
-Buildout the top navigation, for responsive templating on small mobile screens.
+Buildout the top navigation, for responsive templating on small mobile screens. On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
 
 
 Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
@@ -344,6 +353,9 @@ Add a third option in the 'remove asset markets' wizard, that scans ALL markets,
 
 
 Add a "search for" feature, in the app logs interface. Should only show logs that match the search query when used.
+
+
+Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files). Whenever we get around to building the app upgrade features, add a setting to enable automatic updates, and have users alerted by their comms methods whenever an auto-update occurs. Additionally, we can also make a configuration backup before upgrading (to save settings in case of any resets).
 
 
 https://api.coingecko.com/api/v3/simple/supported_vs_currencies
@@ -542,9 +554,6 @@ Breakup numerous function call parameters for calls like ui_asset_row() into a p
 Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
 
 
-Add more checks / auto-corrects to config-auto-adjust.php (we've added alot more config settings since it's creation)
-
-
 Overhaul / optimize config checks.
 
 
@@ -570,15 +579,6 @@ FEATURES / NEW ARCHITECTURE (*NOT* PRIORITIZED)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Implement 'plugin_deny_additions' / 'plugin_deny_removals' (with same format that we already implemented in the array structure of 'plugin_allow_resets'). Also include documentation on this in plugins documentation. 
-
-
-Implement a 'plugin version' system, based off the main app's system (if CACHED plugin version is a mismatch to the CURRENT plugin version, trigger a cached config upgrade for non-high security modes).
-
-
-Add ability to set what decimal and thousands seperators to use, AUTOMATICALLY BASED OF JAVASCRIPT LOCALE like we do for the ticker app (by wrapping all numbers in a class, and converting on document load). Additionally, we can set what locale is used like so: toLocaleString('en')
-
-
 Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
 
 
@@ -597,16 +597,10 @@ The 3 sections in each portfolio data row (asset, market, holdings) should each 
 On the portfolio page, have a drop-down html select menu, with options 'compact' (for current portfolio layout), and 'responsive' (for a mobile / tablet friendly layout). Have 'responsive' be auto-selected on smaller screens. Also consider doing the same for the 'update portfolio' page.
 
 
-On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
-
-
 Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
 
 
 Create "Export your feeds" link on ADMIN NEW FEEDS CONFIG page, to XML / JSON format file download (that can import into news readers).
-
-
-Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
 
 
 Build a plugin (for the tools page, defaults to activated already), that lets you quickly calculate unlimited nft values (using text field form library used for debt interest tracker) in btc , sol or eth value from any currency (including sol or eth, like miscassets market field), with option to populate btcnfts / ethnfts / solnfts portfolio fields on update page, and save updates to them.
