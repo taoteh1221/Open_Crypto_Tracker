@@ -180,7 +180,7 @@ Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
 
 Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
 
-IMPORTANT NOTES: Since 'plug_version' / 'runtime_mode' / 'ui_location' / 'ui_name' (mentioned further up in steps 9, 10, and 11) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this admin interface template.
+IMPORTANT NOTES: Since 'plug_version' / 'runtime_mode' / 'ui_location' / 'ui_name' (mentioned further up in steps 9, 10, and 11) are DEVELOPER settings, THEY ARE *AUTOMATICALLY* HIDDEN IN THIS ADMIN INTERFACE YOU CREATE (they are rendered as HIDDEN fields in the admin page's form data). See the bundled plugins for examples on choosing different HTML form field types to render your specific settings. All form field types are available to AUTOMATICALLY RENDER your settings for end-user updating, via this automated admin interface template system.
 
 
 
