@@ -421,7 +421,7 @@ elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
                     
 $ct['dev']['config_allow_resets'] = array(
                                           // key id, and app version number of when the reset was added
-                                          // NO DUPLICATE KEYS, REPLACE ANY KEY'S VALUE WITH LATEST VERSION!
+                                          // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                           // 'setting-key-1' => '0.90.00',
                                           // 'setting-key-2' => '1.23.45',
                                           'tracked_markets' => '6.00.31',

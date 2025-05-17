@@ -192,6 +192,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Double check all new db upgrade / downgrade logic ON APP and PLUGINS.
+
+
 Obfucate logs data from showing values during database upgrades.
 
 
@@ -210,16 +213,16 @@ Research whether the "verified" Jupiter API filter tag assures us a case-sensiti
 Double check all new Jupiter exchange market logic.
 
 
-Double check all new db upgrade / downgrade logic.
-
-
-Document new 'plug_version' setting for plugins.
-
-
 Create documentation for exposing plugin settings into it's admin interface (to add to step 14 in the plugin development documentation).
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add the same hard-coded-config check we do for the app config, to plugin configs.
+
+
+Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
 
 
 Add support for Jupiter's "freeze authority" meta data, in asset search results. Maybe even show the tag meta data?

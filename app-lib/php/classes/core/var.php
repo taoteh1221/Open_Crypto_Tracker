@@ -166,8 +166,16 @@ var $ct_array = array();
    
    
    function obfusc_str($str, $show=1) {
+        
       
-   $len = strlen($str);
+      // If an array, just return it, as it will only print the word 'Array' anyways,
+      // AND it will throw a fatal error in this function, since it's NOT a string  
+      if ( is_array($str) ) {
+      return $str;
+      }
+      else {
+      $len = strlen($str);
+      }
    
    
       // If string is too short for the passed $show var on each end of string, 
