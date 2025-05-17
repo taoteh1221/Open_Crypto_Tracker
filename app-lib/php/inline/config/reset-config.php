@@ -60,7 +60,7 @@ $config_cache_compare = $ct['gen']->version_compare($orig_cached_app_version, $r
      elseif (
      is_bool($config_cache_compare['base_diff']) !== true
      && !isset($ct['db_upgrade_resets_state']['app']['downgrade'][$reset_key][$reset_val])
-     && $config_cache_compare['base_diff'] > 0
+     && $config_cache_compare['base_diff'] >= 0
      ) {
      
      $ct['db_upgrade_desc'] = 'DOWNGRADE';
