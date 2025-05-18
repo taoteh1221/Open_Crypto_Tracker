@@ -192,12 +192,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-Update the coingecko API limit on-the-fly, IF we detect a CONFIRMED error (since it's a global variable). They HALVE the limits when they are under heavy load...see their docs for the specifics, but I believe it's normally 30 calls per minute, reduced to 15 calls per minute under heavy load.
-
-
-The "upgrade" / "downgrade" descriptions in the DB upgrader should be PER-SETTING FOR THE APP AND PLUGINS, as we can have different versions for different settings. To accomplish this simple / easy, just turn the description variable into an array, with the root keys "app" / "plug", and make both multidimensional sub arrays, with ["app"]["setting_key"], and ["plug"][$this_plug]["setting_key"]. This way we can easily map the descriptor directly into each log message, by setting keys.
-
-
 Double check all new db upgrade / downgrade logic ON APP and PLUGINS (seems debugged great, BUT was heavily refactored!).
 
 
@@ -217,6 +211,9 @@ Double check all new Jupiter exchange market logic.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+We need to store the app / plugin versions INSIDE THE CACHED CONFIG (as keys "db_app_version" / "db_plug_version"), ONLY TO VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A SAVED CONFIG FILE (WE STILL NEED THE FLAT FILE CACHED VERSIONS FOR A MORE RELIABLE UPGRADE / DOWNGRADE EXPERIENCE). We need to update these stored versions WHEN WE UPDATE THE FLAT FILE CACHE OF THE VERSIONS. If the current version does not match the database version during config file restore sessions, WE WARN USERS VIA LOGGING THAT WE ARE RESETTING THE APP OR SPECIFIC PLUGIN'S CONFIG.
 
 
 Implement 'plugin_deny_additions' / 'plugin_deny_removals' (with same format that we already implemented in the array structure of 'plugin_allow_resets'). Also include documentation on this in plugins documentation. 

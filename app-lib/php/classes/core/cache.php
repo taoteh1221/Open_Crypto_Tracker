@@ -269,7 +269,7 @@ var $ct_array = array();
         
               
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)...Uses === for PHPv7.4 support
-              if ( $ct['plugins_checked_registered'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              if ( $ct['plugin_upgrade_check'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
                            
@@ -302,10 +302,13 @@ var $ct_array = array();
                          
                       // Uses === / !== for PHPv7.4 support
                       $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== false || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] === 0 ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null / false / zero]' );
+                      
+                      // If we're resetting a subarray setting
+                      $log_val_descr = ( is_array($default_ct_conf['plug_conf'][$this_plug][$plug_setting_key]) ? 'default array size: ' . sizeof($default_ct_conf['plug_conf'][$this_plug][$plug_setting_key]) : 'default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) );
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) . ')'
+                             			$desc . ' plugin config ' . $ct['db_upgrade_desc']["plug"][$this_plug][$plug_setting_key] . ', SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (' . $log_val_descr . ')'
                              			);
                       
                       }
@@ -320,7 +323,7 @@ var $ct_array = array();
               // If DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***, AND ACTIVE / DEFAULT ARRAYS DON'T MATCH,
               // then import and check for duplicates after (for efficiency)
               else if (
-              !$ct['plugins_checked_registered']
+              !$ct['plugin_upgrade_check']
               && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && md5(serialize($conf[$cat_key][$conf_key])) != md5(serialize($default_ct_conf[$cat_key][$conf_key]))
               ) {
@@ -344,7 +347,7 @@ var $ct_array = array();
               // (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY)
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
               else if (
-              !$ct['plugins_checked_registered']
+              !$ct['plugin_upgrade_check']
               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($conf[$cat_key][$conf_key][$setting_key])
               ) {
@@ -380,7 +383,7 @@ var $ct_array = array();
         
               
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              if ( $ct['plugins_checked_registered'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              if ( $ct['plugin_upgrade_check'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
                    
@@ -407,7 +410,7 @@ var $ct_array = array();
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
               // (ONLY ALLOW REMOVAL OF STRING-BASED ARRAY KEYS [WE'RE BLIND FOR NOW ON NUMERIC / AUTO-INDEXING KEYS, UNLESS LOGIC IS BUILT TO SAFELY CHECK THAT])
               else if (
-              !$ct['plugins_checked_registered']
+              !$ct['plugin_upgrade_check']
               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key])
               ) {
@@ -1158,7 +1161,7 @@ var $ct_array = array();
       
       }
       else {
-      $ct['gen']->log('notify_error', 'CACHED config ' . ( $ct['plugins_checked_registered'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' '.$ct['db_upgrade_desc'].' check flagged, checking now');
+      $ct['gen']->log('notify_error', ( $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS UPDATE' : 'MAIN CONFIG ' . $ct['db_upgrade_desc']['app'] ) . ' check flagged, checking now');
       }
                    	 
          
@@ -1171,7 +1174,7 @@ var $ct_array = array();
            continue;
            }   
            // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-           else if ( !isset($conf[$cat_key]) || array_key_exists($cat_key, $ct['dev']['config_allow_resets']) && !$ct['plugins_checked_registered'] ) {
+           else if ( !isset($conf[$cat_key]) || array_key_exists($cat_key, $ct['dev']['config_allow_resets']) && !$ct['plugin_upgrade_check'] ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
                 $desc = 'NEW';
@@ -1214,7 +1217,7 @@ var $ct_array = array();
                     // If not in 'config_deny_additions'
                     !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
                     // If plugin status (we handle whitelisting for this in subarray_cached_ct_conf_upgrade())
-                    // (WE CHECK $ct['plugins_checked_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
+                    // (WE CHECK $ct['plugin_upgrade_check'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
@@ -1227,11 +1230,11 @@ var $ct_array = array();
                // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
                !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
+               || !$ct['plugin_upgrade_check'] && is_array($conf[$cat_key][$conf_key]) && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
                // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               || !$ct['plugin_upgrade_check'] && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                // If we DOWNGRADED from using integer-based / auto-index array keys (downgrading to an OLDER version of the app etc...and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['plugins_checked_registered'] && is_array($conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               || !$ct['plugin_upgrade_check'] && is_array($conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
                     
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
@@ -1310,7 +1313,7 @@ var $ct_array = array();
                     if (
                     !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
                     // Uses === for PHPv7.4 support
-                    // (WE CHECK $ct['plugins_checked_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
+                    // (WE CHECK $ct['plugin_upgrade_check'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
@@ -1352,7 +1355,7 @@ var $ct_array = array();
       return $conf;
       }
       else {
-    	 $ct['gen']->log('notify_error', 'no CACHED config ' . ( $ct['plugins_checked_registered'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' '.$ct['db_upgrade_desc'].'S needed');
+    	 $ct['gen']->log('notify_error', 'no ' . ( $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS UPDATES' : 'MAIN CONFIG ' . $ct['db_upgrade_desc']['app'] . 'S' ) . ' needed');
     	 return false;
       }
       
@@ -1427,33 +1430,38 @@ var $ct_array = array();
         			$ct['conf'] = $cached_ct_conf; 
 
 
-                        // RUN UPGRADE CHECK MODE IF FLAGGED (AND *IS* UI OR CRON RUNTIME)
-                        // (RUNING IT EARLY HERE HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG, THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
+                        // RUN UPGRADE CHECK MODES IF FLAGGED (AND *IS* UI OR CRON RUNTIME)
+                        // (RUNNING IT EARLY HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG, THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
         			    if ( $ct['app_upgrade_check'] ) {
         			         
         			         
+        			         // Avoid running during any AJAX runtimes etc
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
         			         
         			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
-        			         
-        			         // !!!!!!!!! DO NOT RESET $ct['app_upgrade_check'] EVER, AS WE WANT TO CHECK REGISTERED ACTIVE PLUGINS
-        			         // SEPERATELY LATER IN THE RUNTIME, AND WE ALSO WANT TO SEND THE FLAG INTO queue_config_update(),
-        			         // WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME) !!!!!!!!!
-						    
-						    
-						    // We don't need to run this twice (flagging a UI alert / caching app version),
-						    // so run it during last upgrade checks loop (run separately for PLUGIN upgrades)
-						    if ( $ct['plugins_checked_registered'] ) {
-						         
-                                  // Flag for UI alerts
-                                  $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
-                                  $this->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+						     
+                             // Flag for UI alerts
+                             $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
+                             $this->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
                                    
-                                  // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
-                                  $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
-                                  
-						    }
-        			              
+                             // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
+                             $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
+                             
+                             $ct['app_upgrade_check'] = false; // RESET, as we've now upgraded the app config 
+        			         
+        			         }
+
+        			    
+        			    }        			    
+        			    elseif ( $ct['plugin_upgrade_check'] ) {
+        			         
+        			         
+        			         // Avoid running during any AJAX runtimes etc
+        			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
+        			         
+        			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
+						     
+                             $ct['plugin_upgrade_check'] = false; // RESET, as we've now upgraded the app config
         			         
         			         }
 
@@ -1463,14 +1471,26 @@ var $ct_array = array();
         			
         			}
         			elseif ( !$ct['gen']->config_state_synced() ) {
+        			
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+
         			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), RESETTING from DEFAULT ct_conf');
+
         			$ct['reset_config'] = true;
+
+                    $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+
         			}
         			elseif ( $cached_ct_conf != true ) {
+        			     
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+        			
         			$ct['gen']->log('conf_error', 'CACHED ct_conf appears corrupt, resetting from DEFAULT ct_conf');
+
         			$ct['reset_config'] = true;
+                    
+                    $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+
         			}
         			
         			
@@ -1486,15 +1506,19 @@ var $ct_array = array();
         if ( !isset($newest_cached_ct_conf) ) {
         $ct['gen']->log('conf_error', 'CACHED ct_conf not found, resetting from DEFAULT ct_conf');
         $ct['reset_config'] = true;
+        $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
         }
         
         
         // We need to reset the cached config here, FOR TWO REASONS:
         // 1) load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE
-        // 2) A corrupt / non-existant CACHED config should ALWAYS be REPLACED IMMEADIATELY (so runtime won't hang / freeze)
+        // 2) A corrupt / non-existent CACHED config should ALWAYS be REPLACED IMMEDIATELY (so runtime won't hang / freeze)
         if ( $ct['reset_config'] ) {
-        $ct['conf'] = $this->update_cached_config(false, false, true); // Reset flag
-        $ct['reset_config'] = false; // Reset the reset flag (lol) IMMEADIATELY, as it's a global var
+             
+        $ct['conf'] = $this->update_cached_config(false, false, true); // Reset config
+
+        $ct['reset_config'] = false; // Reset the reset flag (lol) IMMEDIATELY, as it's a global var
+
         }
         
         
@@ -1622,7 +1646,7 @@ var $ct_array = array();
             		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
             		$ct['gen']->log('conf_error', 'ct_conf data could not be restored from last-known working config');
             		}
-            		// If restoring last-known working config was successfull
+            		// If restoring last-known working config was successful
             		else {
             		    
             		$ct['gen']->log('conf_error', 'ct_conf CACHE restore from last-known working config triggered, updated successfully'); 
@@ -3392,6 +3416,21 @@ var $ct_array = array();
             || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             ) {
                  
+                 
+                 // IMMEADIATELY adjust API throttling for coingecko, as under loads they decrease API limits up to 66%!
+                 // https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
+                 if ( $endpoint_tld_or_ip == 'coingecko.com' && $ct['throttled_api_per_minute_limit']['coingecko.com'] > 5 ) {
+                      
+                      // INCREMENTALLY, DOWN TO 5 CALLS PER MINUTE
+                      if ( $ct['throttled_api_per_minute_limit']['coingecko.com'] >= 15 ) {
+                      $ct['throttled_api_per_minute_limit']['coingecko.com'] = 10;
+                      }
+                      elseif ( $ct['throttled_api_per_minute_limit']['coingecko.com'] >= 10 ) {
+                      $ct['throttled_api_per_minute_limit']['coingecko.com'] = 5;
+                      }
+                     
+                 }
+                 
             
             // Reset $data var with any cached value (null / false result is OK), as we don't want to cache a KNOWN error response
             // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
@@ -3414,8 +3453,8 @@ var $ct_array = array();
                  
                 // FREE alphavantage API tier limit hit ERROR LOGGING
                 if ( 
-                $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $endpoint_tld_or_ip == 'alphavantage.co' && preg_match("/api rate limit/i", $data)
-                || $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $endpoint_tld_or_ip == 'alphavantage.co' && $data == ''
+                $endpoint_tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && preg_match("/api rate limit/i", $data)
+                || $endpoint_tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $data == ''
                 ) {
                      
                           

@@ -98,12 +98,38 @@ if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat')
 $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') );
 
      // Check version number against cached value
-     if ( trim($ct['cached_app_version']) != trim($ct['app_version']) ) {
-     $ct['upgraded_install'] = true;
+     if ( $ct['cached_app_version'] != $ct['app_version'] ) {
+
+     $config_version_compare = $ct['gen']->version_compare($ct['app_version'], $ct['cached_app_version']);
+          
+          
+          // IF we are DOWNGRADING, warn user WE MUST RESET THE APP CONFIG FOR COMPATIBILITY!
+          if ( $config_version_compare['base_diff'] < 0 ) {
+               
+          $ct['reset_config'] = true;
+
+          $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+          
+          $ct['gen']->log(
+               			'notify_error',
+               			'app DOWNGRADE detected, RESETTING the ENTIRE app configuration TO ASSURE COMPATIBILITY'
+                  			);
+          
+          // RESETS don't auto-update CACHED version, so save it now
+          $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
+          
+          }
+          // Otherwise, flag upgrading
+          else {
+          $ct['upgraded_install'] = true;
+          }
+
+
      }
      
 }
-// Otherwise cache the app version for new installations
+// Otherwise cache the app version for FIRST RUN ON NEW INSTALLATIONS
+// (do NOT set $ct['cached_app_version'] here, as we have FIRST RUN logic seeing if the CACHED version is set!)
 else {
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
 }

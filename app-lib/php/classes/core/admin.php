@@ -286,17 +286,10 @@ var $ct_array = array();
    
    // Check for VALIDATED / SECURE config updates IN PROGRESS
    $field_array_base = $this->valid_secure_config_update_request();
-      
-      
-        if ( $ct['app_upgrade_check'] ) {
-        $update_config_halt = 'The app is busy UPGRADING it\'s cached config, please wait a minute and try again.';
-        }
-        else if ( $ct['reset_config'] ) {
-        $update_config_halt = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
-        }
         
         
-        if ( $field_array_base && !$update_config_halt ) {
+        // IF we're cleared to run a user's config update request
+        if ( $field_array_base && !$ct['user_update_config_halt'] ) {
    
       
               if ( preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
@@ -357,13 +350,14 @@ var $ct_array = array();
                
         }
         // General error messages to display at top of page for UX
+        // (IF NOT cleared to run a user's config update request)
         elseif ( isset($_POST['conf_id']) && isset($_POST['interface_id']) ) {
           
               if ( $ct['check_2fa_error'] ) {
               $ct['update_config_error'] =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $ct['check_2fa_error'] . '.';
               }
-              else if ( $update_config_halt ) {
-              $ct['update_config_error'] =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $update_config_halt;
+              else if ( $ct['user_update_config_halt'] ) {
+              $ct['update_config_error'] =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $ct['user_update_config_halt'];
               }
           
         }

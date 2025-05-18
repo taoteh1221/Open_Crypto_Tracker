@@ -10,8 +10,8 @@
 
 
 // Get any saved DB upgrade state
-if ( file_exists( $ct['plug']->state_cache('plug_upgrade_resets.dat') ) ) {
-$ct['db_upgrade_resets_state']['plug'][$this_plug] = json_decode( trim( file_get_contents( $ct['plug']->state_cache('plug_upgrade_resets.dat') ) ) , true);
+if ( file_exists( $ct['plug']->state_cache('plug_setting_resets.dat') ) ) {
+$ct['db_upgrade_resets_state']['plug'][$this_plug] = json_decode( trim( file_get_contents( $ct['plug']->state_cache('plug_setting_resets.dat') ) ) , true);
 }
 // Or set a placeholder, to avoid caching nothing after processing
 else {
@@ -55,37 +55,24 @@ $plug_cache_compare = $ct['gen']->version_compare($orig_cached_plug_version, $re
      && $plug_current_compare['base_diff'] >= 0 && $plug_cache_compare['base_diff'] < 0
      ) {
      
-     $ct['db_upgrade_desc'] = 'UPGRADE';
+     $ct['db_upgrade_desc']["plug"][$this_plug][$reset_key] = 'UPGRADE';
            
      // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
      $ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade'][$reset_key][$reset_val] = true;
-           
-     // We can safely remove any saved DOWNGRADE state info, since we UPGRADED
-     unset($ct['db_upgrade_resets_state']['plug'][$this_plug]['downgrade'][$reset_key]);
-     
-     }
-     // DOWNGRADES, if OLD version is equal to or greater than $reset_val
-     // (CHECKS ON CURRENT VERSION WON'T MATTER, AS IT WILL NEVER BE LESS THAN $reset_val,
-     // AS $reset_val IS ALWAYS SET IN THE CURRENT VERSION)
-     // ($plug_cache_compare['base_diff'] is FALSE, IF NON-numeric version variable [presumably from no cached value])
-     elseif (
-     is_bool($plug_cache_compare['base_diff']) !== true
-     && !isset($ct['db_upgrade_resets_state']['plug'][$this_plug]['downgrade'][$reset_key][$reset_val])
-     && $plug_cache_compare['base_diff'] >= 0
-     ) {
-     
-     $ct['db_upgrade_desc'] = 'DOWNGRADE';
-           
-     // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
-     $ct['db_upgrade_resets_state']['plug'][$this_plug]['downgrade'][$reset_key][$reset_val] = true;
-           
-     // We can safely remove any saved UPGRADE state info, since we DOWNGRADED
-     unset($ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade'][$reset_key]);
      
      }
      // Otherwise, disable resetting this key
+     // (setting reset DOWNGRADES are NOT feasible [we reset ENTIRE plugin for reliability])
      else {
+          
      unset($ct['dev']['plugin_allow_resets'][$this_plug][$reset_key]);
+           
+          // We MUST remove any saved UPGRADE state info, IF we DOWNGRADED
+          // (so we can upgrade again later, if we want to)
+          if ( $plug_cache_compare['base_diff'] > 0 ) {
+          unset($ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade'][$reset_key]);
+          }
+
      }
 
 
@@ -105,7 +92,7 @@ $debugging_array = array(
 // Save $ct['db_upgrade_resets_state']['plug'][$this_plug] to cache in json format
 $saved_state = json_encode($ct['db_upgrade_resets_state']['plug'][$this_plug], JSON_PRETTY_PRINT);
      
-$ct['cache']->save_file( $ct['plug']->state_cache('plug_upgrade_resets.dat') , $saved_state);
+$ct['cache']->save_file( $ct['plug']->state_cache('plug_setting_resets.dat') , $saved_state);
 
 //////////////////////////////////////////////////////////////////
 // END PLUGINS RESET CONFIG 

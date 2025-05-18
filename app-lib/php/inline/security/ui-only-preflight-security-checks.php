@@ -167,7 +167,7 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
 // Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
 // (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
 // WE FORCE A SECURITY CHECK HERE, SINCE WE ARE CACHING THE BASE URL DATA, BUT WE ABORT THE BASE URL CACHING IF WE ARE IN THE PROCESS OF MODIFYING THE CACHED CONFIG
-if ( $ct['cache']->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true && !$ct['reset_config'] && !$ct['update_config'] && !$ct['app_upgrade_check'] ) {
+if ( $ct['cache']->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true && !$ct['reset_config'] && !$ct['update_config'] && !$ct['app_upgrade_check'] && !$ct['plugin_upgrade_check'] ) {
 	    
 $base_url_check = $ct['gen']->base_url(true); 
 	

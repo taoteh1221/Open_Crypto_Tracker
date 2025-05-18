@@ -655,6 +655,12 @@ color: #F7931A !important;
 }
 
 
+.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .yellow_dotted, .start_page_menu_red, .start_page_menu_blue, .start_page_menu_green, #watch_only, #charts_error, #system_charts_error {
+border-radius: 0.7em !important;
+margin: 1em !important;
+}
+
+
 .bitcoin_dotted {
 padding: 1.1em;
 border: 0.4em dotted #F7931A !important;
@@ -1582,13 +1588,6 @@ display: none;
 /* ---------------------------------------------------
     *fit-content* CAN FLIP OUT COLOR-CODING IN EDITORS
 ----------------------------------------------------- */
-
-
-.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .yellow_dotted, .start_page_menu_red, .start_page_menu_blue, .start_page_menu_green, #watch_only, #charts_error, #system_charts_error {
-border-radius: 0.7em !important;
-width: fit-content !important;
-margin: 1em !important;
-}
 
 
 fieldset {
