@@ -1460,6 +1460,9 @@ var $ct_array = array();
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
         			         
         			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
+        			         
+        			         // WE UPDATE THE CACHED PLUGIN VERSION IN /inline/config/plugins-config.php,
+        			         // AS IT'S MUCH EASIER (BUT STILL SAFE), USING EACH PLUGIN'S $this_plug variable
 						     
                              $ct['plugin_upgrade_check'] = false; // RESET, as we've now upgraded the app config
         			         

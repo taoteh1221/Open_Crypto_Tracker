@@ -5,9 +5,17 @@
 /////////////////////////////////////////////////////////////
 
 
-// https://learnbyexample.github.io/learn_js_regexp/escaping-metacharacters.html
-function escape_reg_exp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+// https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
+function remove_tags(str) {
+	if ((str === null) || (str === ''))
+		return false;
+	else
+		str = str.toString();
+
+	// Regular expression to identify HTML tags in
+	// the input string. Replacing the identified
+	// HTML tag with a null string.
+	return str.replace(/(<([^>]+)>)/ig, '');
 }
 
 
@@ -3200,8 +3208,8 @@ range_inputs = document.querySelectorAll('.range-wrap');
      // INITIAL: Process some different meta data values (if they exist)
      uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
      
-     // escaping meta-characters, for security
-     uiValue = escape_reg_exp(uiValue);
+     // Strip HTML tags, for security
+     uiValue = remove_tags(uiValue);
      
      rangeValue.innerHTML = `${uiValue}`;
      
@@ -3271,6 +3279,9 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
          // Process some different meta data values (if they exist)
          uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
+     
+         // Strip HTML tags, for security
+         uiValue = remove_tags(uiValue);
               
          rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
        
