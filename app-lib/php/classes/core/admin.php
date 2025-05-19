@@ -289,7 +289,7 @@ var $ct_array = array();
         
         
         // IF we're cleared to run a user's config update request
-        if ( $field_array_base && !$ct['user_update_config_halt'] ) {
+        if ( $field_array_base && !$ct['update_config_halt'] ) {
    
       
               if ( preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
@@ -356,8 +356,8 @@ var $ct_array = array();
               if ( $ct['check_2fa_error'] ) {
               $ct['update_config_error'] =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $ct['check_2fa_error'] . '.';
               }
-              else if ( $ct['user_update_config_halt'] ) {
-              $ct['update_config_error'] =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $ct['user_update_config_halt'];
+              else if ( $ct['update_config_halt'] ) {
+              $ct['update_config_error'] =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $ct['update_config_halt'];
               }
           
         }

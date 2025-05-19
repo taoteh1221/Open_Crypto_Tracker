@@ -294,23 +294,23 @@ var $ct_array = array();
 
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
-                  			
-                  	  // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+                       			
+                      // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
                       $conf['plug_conf'][$this_plug] = $ct['gen']->assoc_array_order( $conf['plug_conf'][$this_plug], $ct['gen']->assoc_array_order_map($default_ct_conf['plug_conf'][$this_plug]) );
-                   
+                        
                       $ct['conf_upgraded'] = true;
-                         
+                              
                       // Uses === / !== for PHPv7.4 support
                       $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== false || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] === 0 ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null / false / zero]' );
-                      
+                           
                       // If we're resetting a subarray setting
                       $log_val_descr = ( is_array($default_ct_conf['plug_conf'][$this_plug][$plug_setting_key]) ? 'default array size: ' . sizeof($default_ct_conf['plug_conf'][$this_plug][$plug_setting_key]) : 'default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) );
-                   
+                        
                       $ct['gen']->log(
-                             			'notify_error',
-                             			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (' . $log_val_descr . ')'
-                             			);
-                      
+                                  			'notify_error',
+                                  			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (' . $log_val_descr . ')'
+                                  			);
+                           
                       }
                       
                    
@@ -1161,7 +1161,7 @@ var $ct_array = array();
       
       }
       else {
-      $ct['gen']->log('notify_error', ( $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS UPDATE' : 'MAIN CONFIG ' . $ct['db_upgrade_desc']['app'] ) . ' check flagged, checking now');
+      $ct['gen']->log('notify_error', ( $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS UPDATE check flagged, checking ALL plugins now' : 'MAIN CONFIG ' . $ct['db_upgrade_desc']['app'] . ' check flagged, checking now' ) );
       }
                    	 
          
@@ -1430,46 +1430,36 @@ var $ct_array = array();
         			$ct['conf'] = $cached_ct_conf; 
 
 
-                        // RUN UPGRADE CHECK MODES IF FLAGGED (AND *IS* UI OR CRON RUNTIME)
-                        // (RUNNING IT EARLY HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG, THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
-        			    if ( $ct['app_upgrade_check'] ) {
+        			    // Avoid running during any AJAX runtimes etc
+        			    if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
         			         
-        			         
-        			         // Avoid running during any AJAX runtimes etc
-        			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
-        			         
-        			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
+             			         
+                             // RUN UPGRADE CHECK MODES IF FLAGGED
+                             
+                             // (RUNNING APP CHECK EARLY HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG,
+                             // THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
+        			         if ( $ct['app_upgrade_check'] ) {
 						     
                              // Flag for UI alerts
                              $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
                              $this->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
-                                   
-                             // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
-                             $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
+        			         
+        			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
                              
                              $ct['app_upgrade_check'] = false; // RESET, as we've now upgraded the app config 
         			         
         			         }
-
-        			    
-        			    }        			    
-        			    elseif ( $ct['plugin_upgrade_check'] ) {
-        			         
-        			         
-        			         // Avoid running during any AJAX runtimes etc
-        			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
-        			         
-        			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
-        			         
-        			         // WE UPDATE THE CACHED PLUGIN VERSION IN /inline/config/plugins-config.php,
-        			         // AS IT'S MUCH EASIER (BUT STILL SAFE), USING EACH PLUGIN'S $this_plug variable
-						     
+        			         // PLUGIN UPGRADE CHECK
+             			    elseif ( $ct['plugin_upgrade_check'] ) {
+             			    
+             			    $ct['conf'] = $this->update_cached_config($ct['conf'], true);
+     						     
                              $ct['plugin_upgrade_check'] = false; // RESET, as we've now upgraded the app config
-        			         
-        			         }
+             			    
+             			    }
 
         			    
-        			    }
+        			    }    
 
         			
         			}
@@ -1481,7 +1471,7 @@ var $ct_array = array();
 
         			$ct['reset_config'] = true;
 
-                    $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+                    $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
 
         			}
         			elseif ( $cached_ct_conf != true ) {
@@ -1492,7 +1482,7 @@ var $ct_array = array();
 
         			$ct['reset_config'] = true;
                     
-                    $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+                    $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
 
         			}
         			
@@ -1509,7 +1499,7 @@ var $ct_array = array();
         if ( !isset($newest_cached_ct_conf) ) {
         $ct['gen']->log('conf_error', 'CACHED ct_conf not found, resetting from DEFAULT ct_conf');
         $ct['reset_config'] = true;
-        $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+        $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
         }
         
         

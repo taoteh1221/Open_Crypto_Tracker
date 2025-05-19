@@ -155,11 +155,9 @@ $ct['app_upgrade_check'] = false;
 
 $ct['plugin_upgrade_check'] = false;
 
-$ct['user_update_config_halt'] = false;
+$ct['update_config_halt'] = false;
 
 $ct['upgraded_install'] = false;
-
-$ct['upgraded_plugin'] = false;
 
 $ct['conf_upgraded'] = false;
 
