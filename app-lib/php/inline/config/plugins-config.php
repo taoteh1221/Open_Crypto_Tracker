@@ -48,6 +48,7 @@ $this_plug = trim($key);
                
           $ct['cached_plug_version'][$this_plug] = trim( file_get_contents($cached_plug_version_file) );
           
+          
                // Check version number against cached value
                if ( $ct['cached_plug_version'][$this_plug] != $ct['plug_version'][$this_plug] ) {
 
@@ -72,11 +73,22 @@ $this_plug = trim($key);
                     }
                     // Otherwise, flag upgrading
                     else {
+
                     $ct['upgraded_plugin'] = true;
+
+                    $ct['gen']->log(
+                         			'notify_error',
+                         			'"' . $this_plug . '" plugin UPGRADE detected, checking for database upgrades'
+                            			);
+                            			
                     }
 
 
                }
+               else {
+               // Any NOT changed version notifications
+               }
+
                
           }
           // Otherwise save cached plugin version for NEW installs,

@@ -43,9 +43,7 @@ $config_cache_compare = $ct['gen']->version_compare($orig_cached_app_version, $r
      && !isset($ct['db_upgrade_resets_state']['app']['upgrade'][$reset_key][$reset_val])
      && $config_current_compare['base_diff'] >= 0 && $config_cache_compare['base_diff'] < 0
      ) {
-     
-     $ct['db_upgrade_desc']['app'] = 'UPGRADE';
-
+          
      // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
      $ct['db_upgrade_resets_state']['app']['upgrade'][$reset_key][$reset_val] = true;
            
@@ -53,8 +51,6 @@ $config_cache_compare = $ct['gen']->version_compare($orig_cached_app_version, $r
      // Otherwise, disable resetting this key
      // (setting reset DOWNGRADES are NOT feasible [we reset ENTIRE app for reliability])
      else {
-     
-     $ct['db_upgrade_desc']['app'] = 'UPDATE'; // For clean logging (app only [not plugins])
 
      unset($ct['dev']['config_allow_resets'][$reset_key]);
            

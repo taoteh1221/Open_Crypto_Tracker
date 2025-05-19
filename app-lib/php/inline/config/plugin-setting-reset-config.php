@@ -55,8 +55,6 @@ $plug_cache_compare = $ct['gen']->version_compare($orig_cached_plug_version, $re
      && $plug_current_compare['base_diff'] >= 0 && $plug_cache_compare['base_diff'] < 0
      ) {
      
-     $ct['db_upgrade_desc']["plug"][$this_plug][$reset_key] = 'UPGRADE';
-           
      // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
      $ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade'][$reset_key][$reset_val] = true;
      

@@ -308,7 +308,7 @@ var $ct_array = array();
                    
                       $ct['gen']->log(
                              			'notify_error',
-                             			$desc . ' plugin config ' . $ct['db_upgrade_desc']["plug"][$this_plug][$plug_setting_key] . ', SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (' . $log_val_descr . ')'
+                             			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (' . $log_val_descr . ')'
                              			);
                       
                       }

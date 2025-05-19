@@ -97,6 +97,7 @@ if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat')
      
 $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') );
 
+
      // Check version number against cached value
      if ( $ct['cached_app_version'] != $ct['app_version'] ) {
 
@@ -107,6 +108,8 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
           if ( $config_version_compare['base_diff'] < 0 ) {
                
           $ct['reset_config'] = true;
+          
+          $ct['db_upgrade_desc']['app'] = 'DOWNGRADE';
 
           $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
           
@@ -121,11 +124,19 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
           }
           // Otherwise, flag upgrading
           else {
+
           $ct['upgraded_install'] = true;
+
+          $ct['db_upgrade_desc']['app'] = 'UPGRADE';
+          
           }
 
 
      }
+     else {
+     $ct['db_upgrade_desc']['app'] = 'UPDATE'; // For clean logging (app only [not plugins])
+     }
+     
      
 }
 // Otherwise cache the app version for FIRST RUN ON NEW INSTALLATIONS
