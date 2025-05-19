@@ -6861,17 +6861,19 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Added API throttling PER-SECOND capability, on top of the already-existing PER-MINUTE throttling capability, AND added MANY exchanges / other APIs to it, for a smoother user experience (with fewer rejected data requests)
 
--Added versioning to the plugins system (to support solo plugin upgrading [without a full app upgrade required to trigger checks])
+-Added versioning to the plugins system (to support solo PLUGIN upgrading / downgrading [without a full APP upgrade required to trigger checks])
 
--Upgraded to the new jupiter aggregator token search / info / price API endpoints (so Jupiter markets work again now)
+-Separated PLUGIN upgrade / downgrade checks from the APP upgrade / downgrade system (now that we have PLUGIN versioning)
+
+-Upgraded to the NEW Jupiter Aggregator token search / info / price API endpoints (so Jupiter markets work again now)
 
 -More reliable cached database upgrades, when upgrading / downgrading an EXISTING installation
 
 -Added number formatting (by chosen locale) to the "My Portfolio" section
 
--Revised DEMO config / resources pages
-
 -Minor polished interface styling / UX
+
+-Revised DEMO config / resources pages
 
 -------------------------------------------------------------------
 
