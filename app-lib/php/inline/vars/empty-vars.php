@@ -9,9 +9,13 @@
 
 $ct['db_upgrade_resets_state'] = array();
 
+$ct['db_upgrade_desc'] = array();
+
 $ct['plug_version'] = array();
 
 $ct['cached_plug_version'] = array();
+
+$ct['reset_plugin'] = array();
 
 $ct['registered_pairs'] = array();
 
@@ -139,7 +143,7 @@ $ct['is_subsection_config'] = false;
 
 $ct['verified_update_request'] = false;
 
-$ct['plugins_checked_registered'] = false;
+$ct['active_plugins_registered'] = false;
 
 $ct['reset_config'] = false;
 
@@ -148,6 +152,10 @@ $ct['update_config'] = false;
 $ct['possible_input_injection'] = false;
 
 $ct['app_upgrade_check'] = false;
+
+$ct['plugin_upgrade_check'] = false;
+
+$ct['user_update_config_halt'] = false;
 
 $ct['upgraded_install'] = false;
 
@@ -170,8 +178,6 @@ $ct['count_2fa_fields'] = 0;
 $ct['jupiter_ag_search_results'] = 0;
 
 $ct['activate_proxies'] = 'off';
-
-$ct['db_upgrade_desc'] = 'UPGRADE';
 
 
 // INITIALLY defined

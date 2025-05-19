@@ -48,6 +48,9 @@ $ct['upgraded_install']
      else {
           
      $ct['app_upgrade_check'] = true;
+                             
+     // User updates halted message (avoid any conflicts, as we are busy finishing the upgrade above)
+     $ct['user_update_config_halt'] = 'The app is busy UPGRADING it\'s cached config, please wait a minute and try again.';   
      
      // Developer-only configs
      $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
@@ -56,7 +59,7 @@ $ct['upgraded_install']
      require('developer-config.php');
      
      // Process any developer-added DB RESETS (for RELIABLE DB upgrading)
-     require($ct['base_dir'] . '/app-lib/php/inline/config/reset-config.php');
+     require($ct['base_dir'] . '/app-lib/php/inline/config/setting-reset-config.php');
      
      }
      
@@ -72,8 +75,13 @@ if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_no
      $admin_reset_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try resetting again.';
      }
      else {
+
      $ct['reset_config'] = true;
+
+     $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+
      $admin_reset_success = 'The app configuration was reset successfully.';
+     
      }
 
 }	
@@ -88,6 +96,7 @@ if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_
      // so trigger a config reset to accomplish that
      if ( $_POST['opt_admin_sec'] == 'high' ) {
      $ct['reset_config'] = true;
+     $ct['user_update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
      }
      
 $ct['admin_area_sec_level'] = $_POST['opt_admin_sec'];

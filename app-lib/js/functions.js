@@ -5,6 +5,23 @@
 /////////////////////////////////////////////////////////////
 
 
+// https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
+function remove_tags(str) {
+	if ((str === null) || (str === ''))
+		return false;
+	else
+		str = str.toString();
+
+	// Regular expression to identify HTML tags in
+	// the input string. Replacing the identified
+	// HTML tag with a null string.
+	return str.replace(/(<([^>]+)>)/ig, '');
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function insert_before_text_fields() {
 
 // Selects all form elements WITHOUT class "numeric_format_safe"
@@ -20,7 +37,7 @@ var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'
           var newElement = document.createElement('p');
           newElement.classList.add("yellow");
           newElement.classList.add("yellow_dotted");
-          newElement.textContent = 'Any NUMERIC values MUST be ENGLISH-formatted (1,234.56)!';
+          newElement.textContent = 'Any NUMERIC formatting MUST be ENGLISH (you CAN skip commas).';
                     
           var parent = sub_target.parentNode;
           
@@ -3191,6 +3208,9 @@ range_inputs = document.querySelectorAll('.range-wrap');
      // INITIAL: Process some different meta data values (if they exist)
      uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
      
+     // Strip HTML tags, for security
+     uiValue = remove_tags(uiValue);
+     
      rangeValue.innerHTML = `${uiValue}`;
      
      
@@ -3259,6 +3279,9 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
          // Process some different meta data values (if they exist)
          uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
+     
+         // Strip HTML tags, for security
+         uiValue = remove_tags(uiValue);
               
          rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
        

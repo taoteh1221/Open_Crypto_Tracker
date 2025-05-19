@@ -76,7 +76,7 @@ function <?=$reload_function_name?>() {
     
     
    // Flag as config NOT updated if it was halted (so we skip refreshing any other admin sections)
-   if ( !$ct['app_upgrade_check'] && !$ct['reset_config'] && !$ct['update_config'] ) {
+   if ( !$ct['app_upgrade_check'] && !$ct['plugin_upgrade_check'] && !$ct['reset_config'] && !$ct['update_config'] ) {
    
   if ( $ct['check_2fa_error'] != null || $ct['update_config_error'] != null || $admin_general_error != null || $admin_reset_error != null ) {
   $halt_iframe_refreshing = true;
