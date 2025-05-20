@@ -36,13 +36,9 @@ $orig_cached_app_version = $ct['cached_app_version'];
           // ($config_cache_compare['base_diff'] is FALSE, IF NON-numeric version variable [presumably from no cached value])
           if (
           is_bool($config_cache_compare['base_diff']) !== true
-          && !isset($ct['db_upgrade_resets_state']['app']['upgrade'][$reset_key][$reset_val])
           && $config_current_compare['base_diff'] >= 0 && $config_cache_compare['base_diff'] < 0
           ) {
-               
-          // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
-          $ct['db_upgrade_resets_state']['app']['upgrade'][$reset_key][$reset_val] = true;
-                
+          // DO NOTHING (LEAVE THE SETTING RESET IN PLACE, TO BE USED DURING THE UPGRADE)
           }
           // Otherwise, disable resetting this key
           // (setting reset DOWNGRADES are NOT feasible [we reset ENTIRE app for reliability])
@@ -66,11 +62,6 @@ $orig_cached_app_version = $ct['cached_app_version'];
 
 
 //var_dump($ct['dev']['config_allow_resets']); // DEBUGGING
-
-// Save $ct['db_upgrade_resets_state']['app'] to cache in json format
-$saved_state = json_encode($ct['db_upgrade_resets_state']['app'], JSON_PRETTY_PRINT);
-     
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_setting_resets.dat', $saved_state);
 
 //////////////////////////////////////////////////////////////////
 // END RESET CONFIG 

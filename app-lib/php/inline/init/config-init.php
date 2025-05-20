@@ -50,7 +50,7 @@ $ct['upgraded_install']
      $ct['app_upgrade_check'] = true;
                              
      // User updates halted message (avoid any conflicts, as we are busy finishing the upgrade above)
-     $ct['update_config_halt'] = 'The app is busy UPGRADING it\'s cached config, please wait a minute and try again.'; 
+     $ct['update_config_halt'] = 'The app was busy UPGRADING it\'s cached config, please wait a minute and try again.'; 
      
      }
      
@@ -69,7 +69,7 @@ if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_no
 
      $ct['reset_config'] = true;
 
-     $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+     $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
 
      $admin_reset_success = 'The app configuration was reset successfully.';
      
@@ -87,7 +87,7 @@ if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_
      // so trigger a config reset to accomplish that
      if ( $_POST['opt_admin_sec'] == 'high' ) {
      $ct['reset_config'] = true;
-     $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+     $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
      }
      
 $ct['admin_area_sec_level'] = $_POST['opt_admin_sec'];

@@ -103,17 +103,15 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
      $ct['cached_app_version'] != $ct['app_version'] && $ct['runtime_mode'] == 'ui'
      || $ct['cached_app_version'] != $ct['app_version'] && $ct['runtime_mode'] == 'cron'
      ) {
-
-
-          // Get any saved DB upgrade state
-          if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_setting_resets.dat') ) {
-          $ct['db_upgrade_resets_state']['app'] = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_setting_resets.dat') ) , true);
-          }
-          // Or set a placeholder, to avoid caching nothing after processing
-          else {
-          $ct['db_upgrade_resets_state']['app']['placeholder'] = true;
-          }
-                                   
+          
+     // Developer-only configs
+     $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
+          
+     // setting RESET configs
+     require('developer-config.php');
+          
+     // Process any developer-added APP DB SETTING RESETS (for RELIABLE DB upgrading)
+     require($ct['base_dir'] . '/app-lib/php/inline/config/setting-reset-config.php');
                                    
      // Refresh current app version to flat file
      // (for auto-install/upgrade scripts to easily determine the currently-installed version)
@@ -124,15 +122,12 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
           
           // IF we are DOWNGRADING, warn user WE MUST RESET THE APP CONFIG FOR COMPATIBILITY!
           if ( $config_version_compare['base_diff'] < 0 ) {
-          
-          // Remove ALL existing UPGRADE states
-          unset($ct['db_upgrade_resets_state']['app']['upgrade']);
                
           $ct['reset_config'] = true;
           
           $ct['db_upgrade_desc']['app'] = 'DOWNGRADE';
 
-          $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+          $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
           
           $ct['gen']->log(
                			'notify_error',
@@ -152,15 +147,6 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
           
           }
 
-          
-     // Developer-only configs
-     $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
-          
-     // setting RESET configs
-     require('developer-config.php');
-          
-     // Process any developer-added APP DB SETTING RESETS (for RELIABLE DB upgrading)
-     require($ct['base_dir'] . '/app-lib/php/inline/config/setting-reset-config.php');
 
      }
      

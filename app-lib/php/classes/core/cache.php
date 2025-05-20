@@ -1471,7 +1471,7 @@ var $ct_array = array();
 
         			$ct['reset_config'] = true;
 
-                    $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+                    $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
 
         			}
         			elseif ( $cached_ct_conf != true ) {
@@ -1482,7 +1482,7 @@ var $ct_array = array();
 
         			$ct['reset_config'] = true;
                     
-                    $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+                    $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
 
         			}
         			
@@ -1499,7 +1499,7 @@ var $ct_array = array();
         if ( !isset($newest_cached_ct_conf) ) {
         $ct['gen']->log('conf_error', 'CACHED ct_conf not found, resetting from DEFAULT ct_conf');
         $ct['reset_config'] = true;
-        $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
+        $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
         }
         
         

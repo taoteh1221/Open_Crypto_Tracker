@@ -49,7 +49,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
          <th class='border_lt border_rt align_left' colspan="11">
     
 			
-			 &nbsp; <span class='blue' style='font-weight: bold;'>View:</span> <select title='Select which portfolio view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange='
+			 &nbsp; <span class='blue' style='font-weight: bold;'>Layout:</span> <select title='Select which portfolio view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange='
 			 
 			 if ( this.value = "tall" ) {
 			 alert("Comin Soon&trade;");
@@ -62,7 +62,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 			</select> 
 			
          
-         &nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>Numbers:</span> <select class='browser-default custom-select narrow_dropdown' id='pref_number_format' name='pref_number_format' onchange="
+         &nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>Number Format:</span> <select class='browser-default custom-select narrow_dropdown' id='pref_number_format' name='pref_number_format' onchange="
 	
 	if ( !get_cookie('pref_number_format') ) {
 	number_format_cookie = confirm('This feature REQUIRES using cookie data. This ONLY changes the number format of your portfolio summaries. To change the currency, see the \'User Settings => Primary Currency Market\' setting.');
@@ -116,18 +116,18 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 				}
 				elseif ( $ct['sel_opt']['alert_percent'][2] == 'loss' ) {
 				$alert_filter = '<span>-</span>';
-				$alert_filter_css = 'orange';
+				$alert_filter_css = 'red';
 				}
 				elseif ( $ct['sel_opt']['alert_percent'][2] == 'both' ) {
 				$alert_filter = '<img src="templates/interface/media/images/plus-minus.png" height="13" alt="" style="position: relative; vertical-align:middle; bottom: 2px;" />';
-				$alert_filter_css = 'blue';
+				$alert_filter_css = 'light_sea_green';
 				}
 				
 				
 			?>
 			
 			
-			&nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts: (<?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$ct['sel_opt']['alert_percent'][1]?>%)</span>
+			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts: <span class='<?=$alert_filter_css?>' style='font-weight: bold;'>(<?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$ct['sel_opt']['alert_percent'][1]?>%)</span>
 			
 			<?php
 			}
