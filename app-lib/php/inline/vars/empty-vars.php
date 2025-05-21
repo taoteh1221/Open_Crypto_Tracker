@@ -7,13 +7,13 @@
 
 // Initial BLANK arrays
 
-$ct['db_upgrade_resets_state'] = array();
-
 $ct['db_upgrade_desc'] = array();
 
 $ct['plug_version'] = array();
 
 $ct['cached_plug_version'] = array();
+
+$ct['plugin_setting_resets'] = array();
 
 $ct['reset_plugin'] = array();
 
@@ -156,8 +156,6 @@ $ct['app_upgrade_check'] = false;
 $ct['plugin_upgrade_check'] = false;
 
 $ct['update_config_halt'] = false;
-
-$ct['upgraded_install'] = false;
 
 $ct['conf_upgraded'] = false;
 

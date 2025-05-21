@@ -36,39 +36,6 @@ else {
 	 <?php
 	 }
 	 ?>
-	 
-
-	<!-- UPGRADE ct_conf key START -->
-
-	<div style='margin: 25px;'>
-	
-	<form id='upgrade_ct_conf' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_general')?>&section=general&refresh=all' method='post'>
-	
-	<input type='hidden' name='admin_nonce' value='<?=$ct['gen']->admin_nonce('upgrade_ct_conf')?>' />
-	
-	<input type='hidden' name='upgrade_ct_conf' value='1' />
-	
-	</form>
-	
-	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
-	<button id='upgrade_ct_conf_button' class='force_button_style' onclick='
-	
-	var ct_conf_reset = confirm("Scans your CACHED configuration for upgrades. This happens automatically after upgrading / downgrading, but you can double-check with this if you are having issues.\n\nIf things act weird after upgrades, its more likely from OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files needing to be cleared. IF NEITHER SOLUTION WORKS, TRY RESETTING THE ENTIRE CONFIG ON THE RESET PAGE.");
-	
-		if ( ct_conf_reset ) {
-		document.getElementById("upgrade_ct_conf_button").disable = true;
-		$("#upgrade_ct_conf").submit(); // Triggers "app reloading" sequence
-		document.getElementById("upgrade_ct_conf_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
-		}
-	
-	'>Scan For Database Upgrades</button>
-	
-	</div>
-				
-	<!-- UPGRADE ct_conf key END -->
-
-	
-	<?=$ct['gen']->input_2fa('strict')?>
 	
 
 <?php

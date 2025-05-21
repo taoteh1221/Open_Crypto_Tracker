@@ -9,16 +9,6 @@
 ////////////////////////////////////////////////////////////////// 
 
 
-// Get any saved DB upgrade state
-if ( file_exists( $ct['plug']->state_cache('plug_setting_resets.dat') ) ) {
-$ct['db_upgrade_resets_state']['plug'][$this_plug] = json_decode( trim( file_get_contents( $ct['plug']->state_cache('plug_setting_resets.dat') ) ) , true);
-}
-// Or set a placeholder, to avoid caching nothing after processing
-else {
-$ct['db_upgrade_resets_state']['plug'][$this_plug]['placeholder'] = true;
-}
-
-
 // IF setting resets exist for this plugin
 if (
 is_array($ct['dev']['plugin_allow_resets'][$this_plug])
@@ -57,17 +47,13 @@ $orig_cached_plug_version = $ct['cached_plug_version'][$this_plug];
           // ($plug_cache_compare['base_diff'] is FALSE, IF NON-numeric version variable [presumably from no cached value])
           if (
           is_bool($plug_cache_compare['base_diff']) !== true
-          && !isset($ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade'][$reset_key][$reset_val])
           && $plug_current_compare['base_diff'] >= 0 && $plug_cache_compare['base_diff'] < 0
           ) {
-          
-          // Version specific, FOR STATE TRACKING (to avoid RE-resetting, we save this state to the cache)
-          $ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade'][$reset_key][$reset_val] = true;
-          
+          // DO NOTHING (LEAVE THE SETTING RESET IN PLACE, TO BE USED DURING THE UPGRADE)
           }
           // Otherwise, disable resetting this key
           // (setting reset DOWNGRADES are NOT feasible [we reset ENTIRE plugin for reliability])
-          // (WE ALREADY REMOVE ALL UPGRADE STATES IN PLUGINS-CONFIG.PHP)
+          // (WE ALREADY REMOVE ALL UPGRADE STATES IN PLUGINS-INIT.PHP)
           else {
           unset($ct['dev']['plugin_allow_resets'][$this_plug][$reset_key]);
           }

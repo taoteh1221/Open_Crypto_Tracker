@@ -816,7 +816,7 @@ var $ct_array = array();
                         foreach( $render_params[$passed_key]['is_radio']['is_assoc'] as $assoc_val ) {
                         ?>
                         
-                        <input type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
+                        <input data-track-id='id_<?=md5($field_array_base . $passed_key . $radio_val)?>' type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
                         
                         <?php
                         }
@@ -826,8 +826,27 @@ var $ct_array = array();
                    else {
                    ?>
                    
-                   <input type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$radio_val?>' <?=( $passed_val == $radio_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($radio_val)?> &nbsp;
+                   <input data-track-id='id_<?=md5($field_array_base . $passed_key . $radio_val)?>' type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$radio_val?>' <?=( $passed_val == $radio_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($radio_val)?> &nbsp;
                    
+                   <?php
+                   }
+        
+             
+                   if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+                       
+                   $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+                  
+                   ?>
+                   <script>
+                   select_confirm("id_<?=md5($field_array_base . $passed_key . $radio_val)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
+                   </script>
+                   <?php
+                   }
+                   elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
+                   ?>
+                   <script>
+                   select_confirm("id_<?=md5($field_array_base . $passed_key . $radio_val)?>", "<?=$render_params[$passed_key]['is_confirm']?>");
+                   </script>
                    <?php
                    }
               
@@ -867,16 +886,34 @@ var $ct_array = array();
              foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_radio'] as $setting_val ) {
              ?>
                  
-                 <input data-track-index='<?=$subarray_key?>' type='radio' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=$setting_val?>' <?=( isset($passed_val[$subarray_key]) && $passed_val[$subarray_key] == $setting_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($setting_val)?> &nbsp; 
+                 <input data-track-id='id_<?=md5($field_array_base . $passed_key . $subarray_key . $setting_val)?>' data-track-index='<?=$subarray_key?>' type='radio' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=$setting_val?>' <?=( isset($passed_val[$subarray_key]) && $passed_val[$subarray_key] == $setting_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($setting_val)?> &nbsp; 
                   
                <?php
                if ( isset($render_params[$passed_key]['is_repeatable']['is_radio']) ) {
                $ct['repeatable_fields_tracking'][$passed_key]['is_radio'] = $ct['repeatable_fields_tracking'][$passed_key]['is_radio'] + 1;
                echo '123PLACEHOLDER_RIGHT123';
                }
-               ?>
+        
+             
+                   if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+                       
+                   $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+                  
+                   ?>
+                   <script>
+                   select_confirm("id_<?=md5($field_array_base . $passed_key . $subarray_key . $setting_val)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
+                   </script>
+                   <?php
+                   }
+                   elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
+                   ?>
+                   <script>
+                   select_confirm("id_<?=md5($field_array_base . $passed_key . $subarray_key . $setting_val)?>", "<?=$render_params[$passed_key]['is_confirm']?>");
+                   </script>
+                   <?php
+                   }
                  
-             <?php
+             
              }
              ?>
                  
@@ -973,6 +1010,12 @@ var $ct_array = array();
 	?>
 	
 	<p class='save_notice red red_dotted'>Click "Save Admin Changes" in the NAVIGATION MENU, to SAVE the changes you have made in this section (when you are finished).</p>
+	
+	<!-- 
+	SECOND 2FA FIELD OUTSIDE THE FORM AT TOP (FOR UX), AS WE ALREADY HAVE ANOTHER INSIDE THE FORM NEAR THE BOTTOM
+	(WE HAVE JAVASCRIPT AUTOMATICALLY DUPLICATE USER'S INPUTS INTO ALL 2FA FIELDS ON THE PAGE)
+	-->
+	<?=$ct['gen']->input_2fa('strict')?> 
 	
 	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=$cat_key?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
      
@@ -1625,7 +1668,17 @@ var $ct_array = array();
         </select>
         
              <?php
-             if ( isset($render_params[$passed_key]['is_confirm']) ) {
+             if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+                  
+             $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+             
+             ?>
+             <script>
+             select_confirm("id_<?=md5($field_array_base . $passed_key)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
+             </script>
+             <?php
+             }
+             elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
              ?>
              <script>
              select_confirm("id_<?=md5($field_array_base . $passed_key)?>", "<?=$render_params[$passed_key]['is_confirm']?>");

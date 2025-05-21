@@ -37,109 +37,81 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         //// P L U G I N   A D M I N   #S T A R T#
         /////////////////////////////////////////////////////////////////////////////////////////////////
         
-        ?>
         
-     	   <p>
-     	   <b class='yellow'>Plugin Version:</b> <?=$ct['plug_version'][$this_plug]?>
-     	   </p>
-        
-        <?php
-        if ( !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
-        ?>
-	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Plugin Usage / Documentation</a></p>
-        <?php
-        }
+             if ( $ct['admin_area_sec_level'] != 'high' ) {
+             ?>
+             
+          	   <p>
+          	   <b class='yellow'>Plugin Version:</b> <?=$ct['plug_version'][$this_plug]?>
+          	   </p>
+             
+             <?php
+             }
+             
+             
+             if ( $ct['admin_area_sec_level'] != 'high' && !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
+             ?>
+     	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Plugin Usage / Documentation</a></p>
+             <?php
+             }
 
         
-        // Docs (can always show, as it's only documentation [no settings])
-        if ( isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
-        require("plugins/" . $this_plug . "/plug-templates/plug-docs.php");
-        }
-        // Admin high security notice
-        elseif ( $ct['admin_area_sec_level'] == 'high' ) {
-        ?>
-        	
-        	<p class='bitcoin bitcoin_dotted'>
-        	
-        	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing plugin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file plug-conf.php (in this plugin's directory: <?=$ct['base_dir']?>/plugins/<?=$this_plug?>) with a text editor. You can change the security level in the "Security" section.
-        	
-        	</p>
-        
-        <?php
-        }
-        // Admin (normal / medium security mode)
-        elseif ( $ct['admin_area_sec_level'] != 'high' && !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-admin.php") ) {
-
-        $ct['admin_render_settings'] = array();
-
-        require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
-        
-        ?>
-        
-
-     	 <?php
-     	 if ( $admin_general_error != null ) {
-     	 ?>
-     	 <div class='red red_dotted' style='font-weight: bold;'><?=$admin_general_error?></div>
-     	 <div style='min-height: 1em;'></div>
-     	 <?php
-     	 }
-     	 elseif ( $admin_general_success != null ) {
-     	 ?>
-     	 <div class='green green_dotted' style='font-weight: bold;'><?=$admin_general_success?></div>
-     	 <div style='min-height: 1em;'></div>
-     	 <?php
-     	 }
-     	 ?>
-     	 
-
-          	<!-- UPGRADE ct_conf key START -->
-          
-          	<div style='margin-top: 25px;'>
-          	
-          	<form id='upgrade_ct_conf' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>' method='post'>
-          	
-          	<input type='hidden' name='admin_nonce' value='<?=$ct['gen']->admin_nonce('upgrade_ct_conf')?>' />
-          	
-          	<input type='hidden' name='upgrade_ct_conf' value='1' />
-          	
-          	</form>
-          	
-          	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
-          	<button id='upgrade_ct_conf_button' class='force_button_style' onclick='
-          	
-          	var ct_conf_reset = confirm("Scans your CACHED configuration for upgrades. This happens automatically after upgrading / downgrading, but you can double-check with this if you are having issues.\n\nIf things act weird after upgrades, its more likely from OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files needing to be cleared. IF NEITHER SOLUTION WORKS, TRY RESETTING THE ENTIRE CONFIG ON THE RESET PAGE.");
-          	
-          		if ( ct_conf_reset ) {
-          		document.getElementById("upgrade_ct_conf_button").disable = true;
-          		$("#upgrade_ct_conf").submit(); // Triggers "app reloading" sequence
-          		document.getElementById("upgrade_ct_conf_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
-          		}
-          	
-          	'>Scan For Database Upgrades</button>
-          	
-          	</div>
-          				
-          	<!-- UPGRADE ct_conf key END -->
-          
-          	
-          	<?=$ct['gen']->input_2fa('strict')?>
-        
-        
-        <?php
-        
-        // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-        $ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $ct['admin_render_settings']);
-        
-        }
-        else {
-        ?>
-        	
-        	<p> No admin interface available for this plugin. </p>
-        	
-        <?php
-        }
-        ?>	
+             // Docs (can always show, as it's only documentation [no settings])
+             if ( $ct['admin_area_sec_level'] != 'high' && isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
+             require("plugins/" . $this_plug . "/plug-templates/plug-docs.php");
+             }
+             // Admin high security notice
+             elseif ( $ct['admin_area_sec_level'] == 'high' ) {
+             ?>
+             	
+             	<p class='bitcoin bitcoin_dotted'>
+             	
+             	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing plugin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file plug-conf.php (in this plugin's directory: <?=$ct['base_dir']?>/plugins/<?=$this_plug?>) with a text editor. You can change the security level in the "Security" section.
+             	
+             	</p>
+             
+             <?php
+             }
+             // Admin (normal / medium security mode)
+             elseif ( $ct['admin_area_sec_level'] != 'high' && !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-admin.php") ) {
+     
+             $ct['admin_render_settings'] = array();
+     
+             require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
+             
+             ?>
+             
+     
+          	 <?php
+          	 if ( $admin_general_error != null ) {
+          	 ?>
+          	 <div class='red red_dotted' style='font-weight: bold;'><?=$admin_general_error?></div>
+          	 <div style='min-height: 1em;'></div>
+          	 <?php
+          	 }
+          	 elseif ( $admin_general_success != null ) {
+          	 ?>
+          	 <div class='green green_dotted' style='font-weight: bold;'><?=$admin_general_success?></div>
+          	 <div style='min-height: 1em;'></div>
+          	 <?php
+          	 }
+          	 ?>
+          	 
+             
+             <?php
+             
+             // $ct['admin']->admin_config_interface($conf_id, $interface_id)
+             $ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $ct['admin_render_settings']);
+             
+             }
+             else {
+             ?>
+             	
+             	<p> No admin interface available for this plugin. </p>
+             	
+             <?php
+             }
+             ?>	
         
         				
         <?php

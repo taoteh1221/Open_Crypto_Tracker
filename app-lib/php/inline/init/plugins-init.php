@@ -5,7 +5,7 @@
 
 
 //////////////////////////////////////////////////////////////////
-// PLUGINS CONFIG
+// PLUGINS INIT
 //////////////////////////////////////////////////////////////////
 
 
@@ -29,6 +29,10 @@ $this_plug = trim($key);
 	
 	if ( $val == 'on' ) {
 	
+	// IF any plugin upgrades get triggered, we need to run any setting resets for each plugin
+	// (FOR RUNTIME OPTIMIZATION, WE ONLY RUN THIS MUCH FURTHER BELOW, *ONLY IF* UPGRADE CHECKS WERE TRIGGERED)
+	$ct['plugin_setting_resets'][] = $this_plug;
+	
 	$plug_conf_file = $ct['base_dir'] . '/plugins/' . $this_plug . '/plug-conf.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
 
      // SET SIMPLIFIED / MINIMIZED PLUG_CONF ONLY FOR USE *INSIDE* PLUGIN LOGIC / PLUGIN INIT LOOPS
@@ -38,13 +42,6 @@ $this_plug = trim($key);
      		
      $default_ct_conf['plug_conf'][$this_plug] = $plug['conf'][$this_plug]; // Add each plugin's HARD-CODED config into the DEFAULT app config
                
-     // Configure any developer-added plugin DB SETTING RESETS (for RELIABLE DB upgrading)
-     // PLUGINS INCLUDE THEIR RESET DATA IN THEIR CONFIG FILE (FOR DEV UX), SO WE JUST NEED TO PARSE / CONFIG IT
-     // (OPTIMIZED TO RUN FAST IN THIS LOW-CONDITIONALS PART OF THIS PLUGINS LOOP, AS WE NEED ALL
-     // SETTING RESET CONFIGS, TO INCLUDE ALL PLUGINS IN CASE A PLUGIN'S DB UPGRADE CHECK IS FLAGGED [WE ONLY *SAVE* SETTING RESET
-     // STATES OUT OF THE PLUGINS LOOP WAY FURTHER DOW, IF A DB UPGRADE CHECK IS FLAGGED])
-     require($ct['base_dir'] . '/app-lib/php/inline/config/plugin-setting-reset-config.php');
-
      // Minimize calls
      $cached_plug_version_file = $ct['plug']->state_cache('plug_version.dat');
 
@@ -65,52 +62,64 @@ $this_plug = trim($key);
                // Update the CACHED plugin version
                // (for auto-install/upgrade scripts to easily determine the currently-installed version)
                $ct['cache']->save_file($cached_plug_version_file, $ct['plug_version'][$this_plug]);
-
-               $plug_version_compare = $ct['gen']->version_compare($ct['plug_version'][$this_plug], $ct['cached_plug_version'][$this_plug]);
-                    
-                    
-                    // IF we are DOWNGRADING, warn user WE MUST RESET THE PLUGIN CONFIG FOR COMPATIBILITY!
-                    if ( $plug_version_compare['base_diff'] < 0 ) {
-                         
-                    // Remove ALL existing UPGRADE states
-                    unset($ct['db_upgrade_resets_state']['plug'][$this_plug]['upgrade']);
-                    
-                    // Flag, so we save setting reset states to cache file
-                    // (way further down, OUT of the plugins loop)
-                    $plugin_downgrade = true;
-                    
-                    // Triggers resetting (by forcing re-activation) this plugin's config to default,
-                    // AND writing the new config to disk (see plugin activation further below)
-                    unset($ct['conf']['plug_conf'][$this_plug]);
-                    
-                    $ct['gen']->log(
-                         			'notify_error',
-                         			'"' . $this_plug . '" plugin DOWNGRADE detected, RESETTING this ENTIRE plugin TO ASSURE COMPATIBILITY'
-                            			);
-                    
-                    // RESETS don't auto-update CACHED version, so save it now
-                    $ct['cache']->save_file($cached_plug_version_file, $ct['plug_version'][$this_plug]);
+     
+               // Flag for UI alerts that we UPGRADED / DOWNGRADED
+               // (general message about cached CSS / JS [WITHOUT VERSION NUMBERS], so shown even when NOT logged in)
+               $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
                
-                    }
-                    // Otherwise, flag upgrading
-                    else {
+               $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+               
+
+                    // We ALWAYS MIRROR THE ENTIRE HARD-CODED CONFIG (FULL RESET, INCLUDING PLUGINS) ON THE 
+                    // SLIGHTEST CHANGE IN HIGH SECURITY MODE, SO NO ADDITIONAL UPGRADE / RESET NEEDED
+                    if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
+                    
+     
+                    $plug_version_compare = $ct['gen']->version_compare($ct['plug_version'][$this_plug], $ct['cached_plug_version'][$this_plug]);
                          
-                    $ct['plugin_upgrade_check'] = true; // Flag plugin upgrade check
-
-                    $ct['gen']->log(
-                         			'notify_error',
-                         			'"' . $this_plug . '" plugin UPGRADE detected, checking for database upgrades'
-                            			);
-                            			
+                         
+                         // IF we are DOWNGRADING, warn user WE MUST RESET THE PLUGIN CONFIG FOR COMPATIBILITY!
+                         if ( $plug_version_compare['base_diff'] < 0 ) {
+                         
+                         // Flag, so we save setting reset states to cache file
+                         // (way further down, OUT of the plugins loop)
+                         $plugin_downgrade = true;
+                         
+                         // Triggers resetting (by forcing re-activation) this plugin's config to default,
+                         // AND writing the new config to disk (see plugin activation further below)
+                         unset($ct['conf']['plug_conf'][$this_plug]);
+                         
+                         $ct['gen']->log(
+                              			'notify_error',
+                              			'"' . $this_plug . '" plugin DOWNGRADE detected, RESETTING this ENTIRE plugin TO ASSURE COMPATIBILITY'
+                                 			);
+                         
+                         // RESETS don't auto-update CACHED version, so save it now
+                         $ct['cache']->save_file($cached_plug_version_file, $ct['plug_version'][$this_plug]);
+                    
+                         }
+                         // Otherwise, flag upgrading
+                         else {
+                              
+                         $ct['plugin_upgrade_check'] = true; // Flag plugin upgrade check
+     
+                         $ct['gen']->log(
+                              			'notify_error',
+                              			'"' . $this_plug . '" plugin UPGRADE detected, checking for database upgrades'
+                                 			);
+                                 			
+                         }
+     
+                    
                     }
-
-
+               
+               
                }
 
                
           }
           // Otherwise save cached plugin version for NEW installs,
-          // OR flag any DB upgrading (ONLY for POST-PLUGIN-VERSIONING compatibility)
+          // OR flag any DB upgrading (ONLY for FIRST RUN OF POST-PLUGIN-VERSIONING compatibility on EXISTING [NOT new] installs)
           else {
           
           // Do NOT set $ct['cached_plug_version'][$this_plug] here,
@@ -118,10 +127,17 @@ $this_plug = trim($key);
           $ct['cache']->save_file($cached_plug_version_file, $ct['plug_version'][$this_plug]);
 
 
-               // POST-PLUGIN-VERSIONING compatibility, ONLY ON EXISTING (NOT NEW) INSTALLATIONS!
+               // FIRST RUN OF POST-PLUGIN-VERSIONING compatibility, ONLY ON EXISTING (NOT NEW) INSTALLATIONS!
                // (if APP's cached version is registered as a var, AND plugin is ALREADY active)
                if ( isset($ct['cached_app_version']) && isset($ct['conf']['plug_conf'][$this_plug]) ) {
+                    
                $ct['plugin_upgrade_check'] = true; // Flag plugin upgrade check
+
+               $ct['gen']->log(
+                         			'notify_error',
+                         			'"' . $this_plug . '" plugin VERSIONING added, checking for database upgrades'
+                            			);
+                            			
                }
                
                
@@ -301,39 +317,30 @@ unset($this_plug);  // Reset
 }
 
 
-// Setup any flags / configs / etc for plugin upgrade checks / downgrade resets
-// (OUT OF THE ABOVE PLUGINS LOOP, FOR RELIABILITY)
-if ( $ct['plugin_upgrade_check'] || $plugin_downgrade ) {
+// IF plugin upgrade checks were flagged
+if ( $ct['plugin_upgrade_check'] ) {
 
 
-     // User update config halted message (avoid any conflicts, as we are busy finishing the upgrades flagged above)
-     // (CONFLICTS WITH $plugin_downgrade, BUT WE ALREADY OVERWROTE $ct['conf']['plug_conf'][$this_plug]
-     // WITH RESET DATA above, SO WE CAN JUST SET $ct['update_config'] TO FALSE [AS THE UPGRADING OF THE
-     // CONFIG WILL NOW ALREADY CONTAIN THE PLUGIN'S NEWLY RESET DATA])
-     if ( $ct['plugin_upgrade_check'] ) {
-     $ct['update_config_halt'] = 'The plugins are busy UPGRADING their cached config, please wait a minute and try again.';
+     // Configure any developer-added plugin DB SETTING RESETS (for RELIABLE DB upgrading)
+     // PLUGINS INCLUDE THEIR RESET DATA IN THEIR CONFIG FILE (FOR DEV UX), SO WE JUST NEED TO PARSE / CONFIG IT
+     foreach( $ct['plugin_setting_resets'] as $this_plug ) {
+     require($ct['base_dir'] . '/app-lib/php/inline/config/plugin-setting-reset-config.php');
+     }
+     
+     
+unset($this_plug);  // Reset
+
+
+     // IF WE ARE RUNNING PLUGIN UPGRADES *AND* CONFIG UPDATES, set a config error message, AND set $ct['update_config'] to FALSE
+     // (UPGRADES CONFLICT WITH PLUGIN DOWNGRADE / USER-INITIATED CONFIG UPDATES LOGIC, BUT WE ALREADY OVERWROTE
+     // $ct['conf']['plug_conf'][$this_plug] WITH FULL RESET DATA above, SO WE CAN SAFELY CANCEL THE CONFIG UPDATE
+     // [AS THE UPGRADING OF THE CONFIG WILL NOW ALREADY CONTAIN THE PLUGIN'S NEW FULLY RESET DATA])
+     if ( $ct['update_config'] ) {
+     $ct['update_config_error'] = 'The plugins were busy UPGRADING their cached config, please wait a minute and try again.';
      $ct['update_config'] = false;
      }
-               
-
-     // We NEED to do this out of the plugins loop above, to reliably save all plugin setting reset STATES
-     if (
-     is_array($ct['db_upgrade_resets_state']['plug'])
-     && sizeof($ct['db_upgrade_resets_state']['plug']) > 0
-     ) {
-               
-          foreach( $ct['db_upgrade_resets_state']['plug'] as $reset_file_key => $unused ) {
-                    
-          // Save $ct['db_upgrade_resets_state']['plug'][$reset_file_key] to cache in json format
-          $saved_state = json_encode($ct['db_upgrade_resets_state']['plug'][$reset_file_key], JSON_PRETTY_PRINT);
-                         
-          $ct['cache']->save_file( $ct['plug']->state_cache('plug_setting_resets.dat', $reset_file_key) , $saved_state);
-                    
-          }
-               
-     }
-          
-          
+     
+     
 }
           
 
@@ -342,7 +349,7 @@ $ct['active_plugins_registered'] = true;
 
 
 //////////////////////////////////////////////////////////////////
-// END PLUGINS CONFIG
+// END PLUGINS INIT
 //////////////////////////////////////////////////////////////////
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

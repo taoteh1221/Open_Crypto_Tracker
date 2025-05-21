@@ -103,65 +103,68 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
      $ct['cached_app_version'] != $ct['app_version'] && $ct['runtime_mode'] == 'ui'
      || $ct['cached_app_version'] != $ct['app_version'] && $ct['runtime_mode'] == 'cron'
      ) {
-
-
-          // Get any saved DB upgrade state
-          if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_setting_resets.dat') ) {
-          $ct['db_upgrade_resets_state']['app'] = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_setting_resets.dat') ) , true);
-          }
-          // Or set a placeholder, to avoid caching nothing after processing
-          else {
-          $ct['db_upgrade_resets_state']['app']['placeholder'] = true;
-          }
-                                   
                                    
      // Refresh current app version to flat file
      // (for auto-install/upgrade scripts to easily determine the currently-installed version)
      $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
-
-     $config_version_compare = $ct['gen']->version_compare($ct['app_version'], $ct['cached_app_version']);
-          
-          
-          // IF we are DOWNGRADING, warn user WE MUST RESET THE APP CONFIG FOR COMPATIBILITY!
-          if ( $config_version_compare['base_diff'] < 0 ) {
-          
-          // Remove ALL existing UPGRADE states
-          unset($ct['db_upgrade_resets_state']['app']['upgrade']);
+     
+     // Flag for UI alerts that we UPGRADED / DOWNGRADED
+     // (general message about cached CSS / JS [WITHOUT VERSION NUMBERS], so shown even when NOT logged in)
+     $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
+     
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+     
+     
+          // We ALWAYS MIRROR THE ENTIRE HARD-CODED CONFIG (FULL RESET, INCLUDING PLUGINS) ON THE 
+          // SLIGHTEST CHANGE IN HIGH SECURITY MODE, SO NO ADDITIONAL UPGRADE / RESET NEEDED
+          if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
                
-          $ct['reset_config'] = true;
-          
-          $ct['db_upgrade_desc']['app'] = 'DOWNGRADE';
-
-          $ct['update_config_halt'] = 'The app is busy RESETTING it\'s cached config, please wait a minute and try again.';
-          
-          $ct['gen']->log(
-               			'notify_error',
-               			'app DOWNGRADE detected, RESETTING the ENTIRE app configuration TO ASSURE COMPATIBILITY'
-                  			);
-          
-          // RESETS don't auto-update CACHED version, so save it now
-          $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
-          
+          // Developer-only configs
+          $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
+               
+          // setting RESET configs
+          require('developer-config.php');
+               
+          // Process any developer-added APP DB SETTING RESETS (for RELIABLE DB upgrading)
+          require($ct['base_dir'] . '/app-lib/php/inline/config/setting-reset-config.php');
+     
+          $config_version_compare = $ct['gen']->version_compare($ct['app_version'], $ct['cached_app_version']);
+               
+               
+               // IF we are DOWNGRADING, warn user WE MUST RESET THE APP CONFIG FOR COMPATIBILITY!
+               if ( $config_version_compare['base_diff'] < 0 ) {
+                    
+               $ct['reset_config'] = true;
+               
+               $ct['db_upgrade_desc']['app'] = 'DOWNGRADE';
+     
+               $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
+               
+               $ct['gen']->log(
+                    			'notify_error',
+                    			'app DOWNGRADE detected, RESETTING the ENTIRE app configuration TO ASSURE COMPATIBILITY'
+                       			);
+               
+               // RESETS don't auto-update CACHED version, so save it now
+               $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
+               
+               }
+               // Otherwise, flag upgrading
+               else {
+                    
+               $ct['app_upgrade_check'] = true;
+                                       
+               // User updates halted message (avoid any conflicts, as we are busy finishing the upgrade above)
+               $ct['update_config_halt'] = 'The app was busy UPGRADING it\'s cached config, please wait a minute and try again.'; 
+     
+               $ct['db_upgrade_desc']['app'] = 'UPGRADE';
+                    
+               }
+     
+     
           }
-          // Otherwise, flag upgrading
-          else {
-
-          $ct['upgraded_install'] = true;
-
-          $ct['db_upgrade_desc']['app'] = 'UPGRADE';
-          
-          }
-
-          
-     // Developer-only configs
-     $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
-          
-     // setting RESET configs
-     require('developer-config.php');
-          
-     // Process any developer-added APP DB SETTING RESETS (for RELIABLE DB upgrading)
-     require($ct['base_dir'] . '/app-lib/php/inline/config/setting-reset-config.php');
-
+     
+     
      }
      
      
