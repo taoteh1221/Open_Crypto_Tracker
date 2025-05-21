@@ -5,6 +5,14 @@
 /////////////////////////////////////////////////////////////
 
 
+function escapeRegExp(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 // https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
 function remove_tags(str) {
 	if ((str === null) || (str === ''))
@@ -832,28 +840,87 @@ function feeds_loading_check() {
 
 
 function select_confirm(id, message, alert_if_specific_unselected=false) {
+     
+var element = $('input[data-track-id=' + id + ']').length ? $('input[data-track-id=' + id + ']') : $('#' + id);
+     
+var input_type = element.attr("type");
 
-     var $sel = $('#'+id).on('change', function(){
-         
-         // If OPTIONAL param NOT set, OR is set and it's same as the CURRENT value
-         if ( !alert_if_specific_unselected || alert_if_specific_unselected == $sel.data('currVal') ) {
-         var confirmed_change = confirm(message);
-         }
+     // SELECT inputs presumed
+     if ( typeof input_type == 'undefined' ) {
+     
+          var $sel = element.on('change', function(){
+              
+              // If OPTIONAL param NOT set, OR is set and it's same as the CURRENT value
+              if ( !alert_if_specific_unselected || alert_if_specific_unselected == $sel.data('currVal') ) {
+              var confirmed_change = confirm(message);
+              }
+               
+              if (
+              confirmed_change
+              || alert_if_specific_unselected && alert_if_specific_unselected != $sel.data('currVal')
+              ) {
+                  // store new value        
+                  $sel.trigger('update');
+              } else {
+                   // reset
+                   $sel.val( $sel.data('currVal') );        
+              }
+              
+          }).on('update', function(){
+              $(this).data('currVal', $(this).val());
+          }).trigger('update');
+     
+     }
+     // Radio inputs
+     else if ( input_type == 'radio' ) {
+     
+     var cssSelector = 'input:radio[name=' + escapeRegExp( element.attr("name") ) + ']';
+     
           
-         if (
-         confirmed_change
-         || alert_if_specific_unselected && alert_if_specific_unselected != $sel.data('currVal')
-         ) {
-             // store new value        
-             $sel.trigger('update');
-         } else {
-              // reset
-              $sel.val( $sel.data('currVal') );        
-         }
+          // IF at least 2 radio inputs of same 'name' attribute exists, AND 1 is checked off
+          if ( $(cssSelector).length > 1 && $(cssSelector + ':checked').length ) {
+
+          var checkedValue = $(cssSelector + ':checked').val();
+     
+     
+              $(cssSelector).on('change', function() {
+              
+              console.log('checkedValue = ' + checkedValue);
+                   
+              var currentValue = $(this).val();
+                   
+                   
+                   // If OPTIONAL param NOT set, OR is set and it's same as the CURRENT value
+                   if ( !alert_if_specific_unselected || alert_if_specific_unselected != currentValue ) {
+                   var confirmed_change = confirm(message);
+                   }
+                    
+                   if (
+                   confirmed_change
+                   || alert_if_specific_unselected && alert_if_specific_unselected == currentValue
+                   ) {
+                   // Update 'checked value'
+                   checkedValue = currentValue;
+                   }
+                   // Revert to previous selection
+                   // (as we conditionally confirmed above, one was already checked off beforehand)
+                   else {
+                   
+                   $(cssSelector + '[value="' + checkedValue + '"]').prop('checked', true); 
+                   
+                   return false; // Prevent further execution
+     
+                   }         
+              
+     
+              });
          
-     }).on('update', function(){
-         $(this).data('currVal', $(this).val());
-     }).trigger('update');
+          
+          }
+     
+     
+     }
+     
 
 }
 

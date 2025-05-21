@@ -53,7 +53,7 @@ $orig_cached_plug_version = $ct['cached_plug_version'][$this_plug];
           }
           // Otherwise, disable resetting this key
           // (setting reset DOWNGRADES are NOT feasible [we reset ENTIRE plugin for reliability])
-          // (WE ALREADY REMOVE ALL UPGRADE STATES IN PLUGINS-CONFIG.PHP)
+          // (WE ALREADY REMOVE ALL UPGRADE STATES IN PLUGINS-INIT.PHP)
           else {
           unset($ct['dev']['plugin_allow_resets'][$this_plug][$reset_key]);
           }

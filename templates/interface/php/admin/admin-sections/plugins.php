@@ -19,48 +19,63 @@
 
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Plugin Settings</strong> </legend>
     
-	<?php
-	
-	$currently_activated_plugins = array();
-	
-	foreach ( $plug['activated']['ui'] as $plugin_key => $unused ) {
-	$currently_activated_plugins[$plugin_key] = true;
-	}
-	
-	foreach ( $plug['activated']['cron'] as $plugin_key => $unused ) {
-	$currently_activated_plugins[$plugin_key] = true;
-	}
-	
-	foreach ( $plug['activated']['webhook'] as $plugin_key => $unused ) {
-	$currently_activated_plugins[$plugin_key] = true;
-	}
-	
-	if ( sizeof($currently_activated_plugins) < 1 ) {
-	echo '<span class="bitcoin">No plugins activated yet.</span>';
-	}
-	else {
-	     
-	ksort($currently_activated_plugins);
-	
-	?>
-	   
-    <ul>  
-    
-	     <?php
-		foreach ( $currently_activated_plugins as $plugin_key => $unused ) {
-    	     ?>
-    	     
-        <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug['conf'][$plugin_key]['ui_name']?></a></li>
-        
-    	     <?php
-    	     }
-    	     ?>
-    	     
-	</ul>
+    <?php
+    if ( $ct['admin_area_sec_level'] == 'high' ) {
+    ?>
     	
-    	<?php
-	}
-	?>
+    	<p class='bitcoin bitcoin_dotted'>
+    	
+    	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor. You can change the security level in the "Security" section.
+    	
+    	</p>
+    
+    <?php
+    }
+    else {
+         
+    $currently_activated_plugins = array();
+	
+     	foreach ( $plug['activated']['ui'] as $plugin_key => $unused ) {
+     	$currently_activated_plugins[$plugin_key] = true;
+     	}
+     	
+     	foreach ( $plug['activated']['cron'] as $plugin_key => $unused ) {
+     	$currently_activated_plugins[$plugin_key] = true;
+     	}
+     	
+     	foreach ( $plug['activated']['webhook'] as $plugin_key => $unused ) {
+     	$currently_activated_plugins[$plugin_key] = true;
+     	}
+	
+     	if ( sizeof($currently_activated_plugins) < 1 ) {
+     	echo '<span class="bitcoin">No plugins activated yet.</span>';
+     	}
+     	else {
+     	     
+     	ksort($currently_activated_plugins);
+     	
+     	?>
+     	   
+         <ul>  
+         
+     	     <?php
+     		foreach ( $currently_activated_plugins as $plugin_key => $unused ) {
+         	     ?>
+         	     
+             <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug['conf'][$plugin_key]['ui_name']?></a></li>
+             
+         	     <?php
+         	     }
+         	     ?>
+         	     
+     	</ul>
+         	
+         	<?php
+     	}
+	
+    
+    }
+    ?>
 	
 	</fieldset>
 
@@ -86,6 +101,8 @@
 
 
      ////////////////////////////////////////////////////////////////////////////////////////////////
+     
+     $ct['admin_render_settings']['plugin_status']['is_confirm']['specific_unselected'] = 'on||DISABLING a plugin will DELETE ANY CUSTOM SETTINGS you added in NORMAL / MEDIUM Security Mode. Do you want to proceed?';
      
      
          foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {

@@ -920,6 +920,7 @@ nav_menu('.user-nav');
          
      
              $( "input.2fa_code_input" ).on( "input", function() {
+             $('input:text[name=2fa_code]').val( $(this).val() ); // Automatically copy it to any other 2FA fields on the page
              $('input.2fa_code_target').val( $(this).val() );
              $('input.2fa_code_id_target').val( $(this).attr('id') );
              });

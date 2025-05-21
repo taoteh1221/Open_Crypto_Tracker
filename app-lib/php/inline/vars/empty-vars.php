@@ -157,8 +157,6 @@ $ct['plugin_upgrade_check'] = false;
 
 $ct['update_config_halt'] = false;
 
-$ct['upgraded_install'] = false;
-
 $ct['conf_upgraded'] = false;
 
 $ct['is_login_form'] = false;

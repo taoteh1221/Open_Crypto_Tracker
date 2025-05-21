@@ -1157,7 +1157,7 @@ var $ct_array = array();
        if ( $force_show || !$alt_mode && $ct['admin_area_2fa'] != 'off' || $alt_mode && $ct['admin_area_2fa'] == $alt_mode ) {
 	  ?>
 	  
-	  <div style='margin-top: 2em; margin-bottom: 2em;'>
+	  <div class='bitcoin_dotted' style='margin-top: 2em; margin-bottom: 2em;'>
 	  
 	  <p id='notice_2fa_code_<?=$ct['count_2fa_fields']?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$ct['check_2fa_error']?>.</p>
 	  

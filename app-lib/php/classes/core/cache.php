@@ -1344,12 +1344,6 @@ var $ct_array = array();
    //$this->app_log(); // DEBUGGING
       
            
-      // UI message for manual upgrade check
-      if ( isset($_POST['upgrade_ct_conf']) ) {
-      $admin_general_success = 'The CACHED app configuration was checked for upgrades. Please view the alerts section (siren icon near top of sidebar), to see if anything was upgraded.';
-      }
-             
-   
       if ( $ct['conf_upgraded'] ) {
       $ct['conf_upgraded'] = false; // Reset, because we run main config / active plugins upgrades SEPERATELY
       return $conf;
@@ -1439,10 +1433,6 @@ var $ct_array = array();
                              // (RUNNING APP CHECK EARLY HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG,
                              // THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
         			         if ( $ct['app_upgrade_check'] ) {
-						     
-                             // Flag for UI alerts
-                             $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
-                             $this->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
         			         
         			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
                              
@@ -1454,7 +1444,7 @@ var $ct_array = array();
              			    
              			    $ct['conf'] = $this->update_cached_config($ct['conf'], true);
      						     
-                             $ct['plugin_upgrade_check'] = false; // RESET, as we've now upgraded the app config
+                             $ct['plugin_upgrade_check'] = false; // RESET, as we've now upgraded the plugin configs
              			    
              			    }
 

@@ -24,7 +24,7 @@ require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); /
 
 
 // Refresh available plugins / register active plugins 
-require($ct['base_dir'] . '/app-lib/php/inline/config/plugins-config.php');
+require($ct['base_dir'] . '/app-lib/php/inline/init/plugins-init.php');
 
 
 // If no comparison digest of the default config yet, save it now to the cache (MUST be done AFTER registering active plugins)

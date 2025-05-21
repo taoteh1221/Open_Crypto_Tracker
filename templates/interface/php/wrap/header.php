@@ -158,7 +158,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
            				</button>
          			  	<div>
          			  	
-         			  	It appears you recently upgraded Open Crypto Tracker. <?=( $ct['app_container'] == 'phpdesktop' || $ct['app_container'] == 'phpbrowserbox' ? 'Please RESTART this app (shut down / start back up), if you have not done this already since the upgrade' : 'You MAY need to refresh / reload this page (with the recycle arrow button at the top of your browser), OR clear your browser temporary files cache within it\'s settings area' )?>, so any UPGRADED Javascript / CSS files can properly reload and run this app's interface. Otherwise, you MAY encounter visual styling / app functionality errors (until your browser cache refreshes on it's own).
+         			  	Open Crypto Tracker OR one or more of it's plugins was recently upgraded / downgraded. <?=( $ct['app_container'] == 'phpdesktop' || $ct['app_container'] == 'phpbrowserbox' ? 'Please RESTART this app (shut down / start back up), if you have not done this already since the upgrade' : 'You MAY need to refresh / reload this page (with the recycle arrow button at the top of your browser), OR clear your browser temporary files cache within it\'s settings area' )?>, so any UPGRADED Javascript / CSS files can properly reload and run this app's interface. Otherwise, you MAY encounter visual styling / app functionality errors (until your browser cache refreshes on it's own).
          			  	
          			  	</div>
          			</div>
