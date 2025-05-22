@@ -113,6 +113,25 @@ WINDOWS 10 / 11 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR TH
 
 
 See "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts", for how to setup a cron job / scheduled task for additional features. 
+
+	    
+=========================================================================================================================================
+
+  Upgrading / Downgrading Existing Installations ('ALL Editions')
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+You can upgrade / downgrade ANY (Desktop or Server) Edition, by overwriting / replacing the app files and folders with the version you prefer to run. Just download the SERVER EDITION for the version you want (EVEN IF YOU ARE RUNNING A DESKTOP EDITION), and use these files / folders within the download archive to replace the files / folders in your EXISTING INSTALLATION.
+
+
+If you are running the DESKTOP EDITION, the app files / folders are located in the subdirectory named "INSTALL_CRYPTO_TRACKER_HERE". If you are running the SERVER EDITION, AND you installed it with auto-installation script, JUST RUN THE AUTO-INSTALLER AGAIN to automatically upgrade TO THE LATEST VERSION. 
+
+
+IF you are running in HIGH SECURITY MODE, make sure you backup your app / plugin configs (the auto-installer will automatically do this for you), BEFORE DOING THE UPGRADE / DOWNGRADE. AFTER UPGRADING / DOWNGRADING, MANUALLY RE-ADD each of your custom settings, TO ASSURE PROPER CONFIG FORMATTING FOR THE NEW VERSION YOU ARE NOW RUNNING. IF you are NOT running in high security mode, you do NOT need to worry about ANY of this (as these files are merely DEFAULTS in normal / medium security modes [if you ever want to RESET the app, on the Admin "Reset / Backup & Restore" page]).
+
+
+For additional safety, IF you are running in NORMAL / MEDIUM SECURITY MODE, don't forget to BACKUP YOUR CUSTOMIZED SETTINGS before performing any upgrading / downgrading, on the Admin "Reset / Backup & Restore" page. This is ESPECIALLY TRUE IF YOU ARE DOWNGRADING, as it requires a TOTAL RESET of the app (to assure it still runs properly). Even some UPGRADES may need to reset some INDIVIDUAL settings, although this is rare, AND affects only the setting(s) that need advanced upgrades (NOT the entire app / plugin configuration). IF app / plugin UPGRADING did NOT preserve any of your pre-existing customized settings, open your backup config IN A TEXT EDITOR, and find what you need to re-add (by using the Admin interface). IN THE FUTURE (coming soon™), you should eventually be able to SAFELY "Restore" your backup config, on the Admin "Reset / Backup & Restore" page. For now though, it's UNSAFE to BLINDLY use and OLD config backup FROM A DIFFERENT VERSION OF THE APP.
 	        
 	  
 =========================================================================================================================================

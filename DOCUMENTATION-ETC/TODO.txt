@@ -192,12 +192,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-DOUBLE check all new db upgrade / downgrade logic ON APP and PLUGINS (seems debugged great, BUT was heavily refactored last release!), INCLUDING turning plugins on / off, deleting plugin state caches, AND under different admin security levels.
-
-
-Do upgrade / downgrade documentation.
-
-
 Pass the jupiter posted asset filter tags to the ticker address mapping function, but only for the ASSET instances using it (NOT the pairings), so we assure a result based off search filter tags that were used to find an ASSET. WE STILL WANT TO KEEP THE BASE PAIRS 'VERIFIED' ONLY, FOR SAFETY.
 
 

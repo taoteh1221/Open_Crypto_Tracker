@@ -293,6 +293,43 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
 	  
 	  
 	  
+	
+	
+	<?php
+	$accord_var = 'upgrade_downgrade';
+	?>
+  
+	  <div class="accordion-item">
+         <h2 class="accordion-header" id="heading_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+             
+            Upgrading / Downgrading Existing Installations &nbsp; <span class='bitcoin'>('ALL Editions')</span>
+            
+           </button>
+         </h2>
+         <div id="collapse_<?=$accord_var?>" class="accordion-collapse collapse" aria-labelledby="heading_<?=$accord_var?>" data-bs-parent="#accordionHelp">
+           <div class="accordion-body">
+           
+           
+          <span class='bitcoin'>You can upgrade / downgrade ANY (Desktop or Server) Edition</span>, by overwriting / replacing the app files and folders with the version you prefer to run. Just download the SERVER EDITION for the version you want (EVEN IF YOU ARE RUNNING A DESKTOP EDITION), and use these files / folders within the download archive to replace the files / folders in your EXISTING INSTALLATION.
+	    <br /><br />
+          
+          
+          <span class='bitcoin'>If you are running the DESKTOP EDITION</span>, the app files / folders are located in the subdirectory named "INSTALL_CRYPTO_TRACKER_HERE". <span class='bitcoin'>If you are running the SERVER EDITION</span>, AND you installed it with auto-installation script, JUST RUN THE AUTO-INSTALLER AGAIN to automatically upgrade TO THE LATEST VERSION. 
+	    <br /><br />
+          
+          
+          <span class='bitcoin'>IF you are running in HIGH SECURITY MODE</span>, make sure you backup your app / plugin configs (the auto-installer will automatically do this for you), BEFORE DOING THE UPGRADE / DOWNGRADE. AFTER UPGRADING / DOWNGRADING, MANUALLY RE-ADD each of your custom settings, TO ASSURE PROPER CONFIG FORMATTING FOR THE NEW VERSION YOU ARE NOW RUNNING. <span class='bitcoin'>IF you are NOT running in high security mode</span>, you do NOT need to worry about ANY of this (as these files are merely DEFAULTS in normal / medium security modes [if you ever want to RESET the app, on the Admin "Reset / Backup & Restore" page]).
+	    <br /><br />
+          
+          
+          For additional safety, <span class='bitcoin'>IF you are running in NORMAL / MEDIUM SECURITY MODE</span>, don't forget to BACKUP YOUR CUSTOMIZED SETTINGS before performing any upgrading / downgrading, on the Admin "Reset / Backup & Restore" page. This is ESPECIALLY TRUE IF YOU ARE DOWNGRADING, as it requires a TOTAL RESET of the app (to assure it still runs properly). Even some UPGRADES may need to reset some INDIVIDUAL settings, although this is rare, AND affects only the setting(s) that need advanced upgrades (NOT the entire app / plugin configuration). <span class='bitcoin'>IF app / plugin UPGRADING did NOT preserve any of your pre-existing customized settings</span>, open your backup config IN A TEXT EDITOR, and find what you need to re-add (by using the Admin interface). IN THE FUTURE (coming soon™), you should eventually be able to SAFELY "Restore" your backup config, on the Admin "Reset / Backup & Restore" page. For now though, it's UNSAFE to BLINDLY use and OLD config backup FROM A DIFFERENT VERSION OF THE APP.
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
+	  
 	  
 	
 	

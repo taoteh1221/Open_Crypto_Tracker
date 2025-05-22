@@ -6863,11 +6863,11 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Added versioning to the plugins system (to support solo PLUGIN upgrading / downgrading [without a full APP upgrade required to trigger checks])
 
+-More reliable cached database upgrades, when upgrading / downgrading an EXISTING installation (see NEW documentation in README.txt)
+
 -Separated PLUGIN upgrade / downgrade checks from the APP upgrade / downgrade system (now that we have PLUGIN versioning)
 
 -Upgraded to the NEW Jupiter Aggregator token search / info / price API endpoints (so Jupiter markets work again now)
-
--More reliable cached database upgrades, when upgrading / downgrading an EXISTING installation
 
 -Added number formatting (by chosen locale) to the "My Portfolio" section
 
