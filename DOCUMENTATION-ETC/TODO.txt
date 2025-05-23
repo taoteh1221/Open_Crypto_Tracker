@@ -201,9 +201,6 @@ TRIPLE check all new Jupiter exchange market logic.
 TRIPLE check all new db upgrade / downgrade logic ON APP and PLUGINS (seems debugged great, BUT was heavily refactored last release!), INCLUDING turning plugins on / off, deleting plugin state caches, AND under different admin security levels.
 
 
-Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
-
-
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
@@ -213,6 +210,9 @@ Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in ev
           	                     'ETHNFTS',
           	                     'SOLNFTS',
           	                     'ALTNFTS',
+
+
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password'], AS THATS ONLY FOR ADMIN USE!).
