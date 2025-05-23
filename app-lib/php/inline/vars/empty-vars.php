@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$ct['jup_address'] = array();
+
 $ct['db_upgrade_desc'] = array();
 
 $ct['plug_version'] = array();

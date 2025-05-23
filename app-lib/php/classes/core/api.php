@@ -233,14 +233,6 @@ var $exchange_apis = array(
                                                   ),
 
 
-                           'graviex' => array(
-                                                   'markets_endpoint' => 'https://graviex.net//api/v2/tickers.json',
-                                                   'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
-                                                  ),
-
-
                            'hitbtc' => array(
                                                    'markets_endpoint' => 'https://api.hitbtc.com/api/2/public/ticker',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
@@ -386,37 +378,88 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
 
-   function token_address($ticker, $api='jupiter', $safety_filter=true) {
+   function jup_address($ticker, $verified_only=true) {
         
    global $ct;
    
+   // Trim whitespace
+   $ticker = trim($ticker);
    
-      if ( $api == 'jupiter' ) {
+   
+           // RUNTIME CACHE (TO SPEED THINGS UP)
+           if ( isset($ct['jup_address'][$ticker]) ) {
+           return $ct['jup_address'][$ticker];
+           }
+
+   
+   $results = array();
            
-           if ( $safety_filter == true ) {
+           
+           // Filters
+           if ( $verified_only ) {
            $tags = 'verified';
            }
+           // WE ALLOW FILTERING BY TAG, FOR SAFETY
+           // https://dev.jup.ag/docs/api/token-api/tagged
+           elseif ( isset($_POST['jupiter_tags']) && trim($_POST['jupiter_tags']) != '' ) {
+
+                 if ( trim($_POST['jupiter_tags']) == 'all_tags_without_unknown' ) {
+                 $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
+                 }
+                 else {
+                 $tags = trim($_POST['jupiter_tags']);
+                 }
+          
+           }
+           // Otherwise, allow ALL tokens EXCEPT unknown
            else {
-           $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump,unknown';
+           $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
            }
       
-      // 1 day cache (1440 minutes)
-      $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/tagged/' . $tags, 1440);
+      
+      // 3 hour cache for VERIFIED token search, 1 hour for everything else
+      $cache_time = ( $verified_only ? 180 : 60 );
+      
+      $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/tagged/' . $tags, $cache_time);
       
       gc_collect_cycles(); // Clean memory cache
    
       $data = json_decode($response, true);
       
-          foreach ( $data as $val ) {
+           
+           foreach ( $data as $val ) {
           
                if ( isset($val['symbol']) && $val['symbol'] == $ticker ) {
-               return $val['address'];
+               $results[] = $val['address'];
                }
 
-          }
+           }
+          
+          
+           if ( $verified_only && sizeof($results) > 1 ) {
+          
+          $ct['gen']->log(
+          				'market_error',
+          				'address search for VERIFIED asset "' . $ticker . '" returned MORE THAN 1 RESULT'
+          				);
+          				          
+           }
+           elseif ( sizeof($results) < 1 ) {
+          
+           $ct['gen']->log(
+          				'market_error',
+          				'jupiter ag. address search for asset "' . $ticker . '" returned NO RESULT (filters: ' . $tags . ')'
+          				);
+          				          
+           }
+          
    
-      }
-      
+   $jup_address = ( isset($results[0]) ? $results[0] : false );
+   
+   // RUNTIME CACHE (TO SPEED THINGS UP)
+   $ct['jup_address'][$ticker] = $jup_address;
+   
+   return $jup_address;
  
    }
 
@@ -1163,79 +1206,106 @@ var $exchange_apis = array(
                
           // Convert to token addresses for jupiter's price API
           $ticker_check_array = explode('/', $ticker_check);
-               
-          $ticker_check = $this->token_address($ticker_check_array[0]) . '/' . $this->token_address($ticker_check_array[1]);
-
-          }
-
-               
-       // Minimize calls
-       $check_market_data = $this->market($ticker_only, $exchange_check, $ticker_check);
+          
+          $jup_asset_check = $this->jup_address($ticker_check_array[0], false);
+          
+          $jup_pair_check = $this->jup_address($ticker_check_array[1]);
                
                
-          if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
-               
-               
-               if ( $specific_exchange == 'coingecko' ) {
-                    
-               // Reformat, so the results structure is consistent
-               $parse_results = $this->coingecko_search($ticker_search, $ticker_only, $included_pairing);
-                        
-                        foreach ( $parse_results as $search_results ) {
-                        $results[ $specific_exchange . '_' . $search_results['pairing'] ][] = $search_results;
-                        }
-               
+               // Make sure we successfully got token addresses
+               if ( $jup_asset_check && $jup_pair_check ) {
+               $ticker_check = $jup_asset_check . '/' . $jup_pair_check;
                }
                else {
-                           
-                           
-                    // Get / set coingecko terminal asset / pair tickers
-                    if ( isset($check_market_data['coingecko_terminal_asset']) ) {
-                    $set_asset = $check_market_data['coingecko_terminal_asset'];
-                    $set_pairing = 'usd';
-                    }
-                    elseif ( isset($check_market_data['alphavantage_asset']) ) {
-                    $set_asset = $check_market_data['alphavantage_asset'];
-                    $set_pairing = false;
+               $logged_market_id = $jup_asset_check . '/' . $jup_pair_check;
+               $ticker_check = false;
+               }
+          
+
+          }
+               
+          
+          // Make sure $ticker_check is still set (therefore presumed VALID)
+          if ( $ticker_check ) {
+
+          // Minimize calls
+          $check_market_data = $this->market($ticker_only, $exchange_check, $ticker_check);
+               
+          
+               if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
+                    
+                    
+                    if ( $specific_exchange == 'coingecko' ) {
+                         
+                    // Reformat, so the results structure is consistent
+                    $parse_results = $this->coingecko_search($ticker_search, $ticker_only, $included_pairing);
+                             
+                             foreach ( $parse_results as $search_results ) {
+                             $results[ $specific_exchange . '_' . $search_results['pairing'] ][] = $search_results;
+                             }
+                    
                     }
                     else {
-                    $set_asset = false;
-                    $set_pairing = false;
-                    }
-                    
-                    
-                    // IF jupiter ag, get name / mcap slug
-                    if ( $specific_exchange == 'jupiter_ag' ) {
+                                
+                                
+                         // Get / set coingecko terminal asset / pair tickers
+                         if ( isset($check_market_data['coingecko_terminal_asset']) ) {
+                         $set_asset = $check_market_data['coingecko_terminal_asset'];
+                         $set_pairing = 'usd';
+                         }
+                         elseif ( isset($check_market_data['alphavantage_asset']) ) {
+                         $set_asset = $check_market_data['alphavantage_asset'];
+                         $set_pairing = false;
+                         }
+                         else {
+                         $set_asset = false;
+                         $set_pairing = false;
+                         }
                          
-              		// https://dev.jup.ag/docs/token-api#get-token-information
-                    $jup_response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/token/' . $this->token_address($ticker_check_array[0]), 45); // 45 minute cache
-                      
-                    $jup_data = json_decode($jup_response, true);
-                    
+                         
+                         // IF jupiter ag, get name / mcap slug
+                         if ( $specific_exchange == 'jupiter_ag' ) {
+                              
+                   		// https://dev.jup.ag/docs/token-api#get-token-information
+                         $jup_response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/token/' . $this->jup_address($ticker_check_array[0], false) , 45); // 45 minute cache
+                           
+                         $jup_data = json_decode($jup_response, true);
+                         
+                         
+                         }
+                         
+                         
+                  // Minimize calls
+                    $market_tickers_parse = $ct['asset']->market_tickers_parse($specific_exchange, $ticker_parsing, $set_pairing, $set_asset);
+                                   
+                    $results[$specific_exchange][] = array(
+                                                       'name' => ( isset($jup_data['name']) && $jup_data['name'] != '' ? $jup_data['name'] : strtoupper($market_tickers_parse['asset']) ),
+                                                       'mcap_slug' => ( isset($jup_data['extensions']['coingeckoId']) && $jup_data['extensions']['coingeckoId'] != '' ? $jup_data['extensions']['coingeckoId'] : '' ),
+                                                       'id' => $ticker_check,
+                                                       'asset' => $market_tickers_parse['asset'],
+                                                       'pairing' => $market_tickers_parse['pairing'],
+                                                       'orig_pairing' => $market_tickers_parse['orig_pairing'],
+                                                       'flagged_market' => $market_tickers_parse['flagged_market'],
+                                                       'data' => $check_market_data,
+                                                       );
                     
                     }
-                    
-                    
-             // Minimize calls
-               $market_tickers_parse = $ct['asset']->market_tickers_parse($specific_exchange, $ticker_parsing, $set_pairing, $set_asset);
-                              
-               $results[$specific_exchange][] = array(
-                                                  'name' => ( isset($jup_data['name']) && $jup_data['name'] != '' ? $jup_data['name'] : strtoupper($market_tickers_parse['asset']) ),
-                                                  'mcap_slug' => ( isset($jup_data['extensions']['coingeckoId']) && $jup_data['extensions']['coingeckoId'] != '' ? $jup_data['extensions']['coingeckoId'] : '' ),
-                                                  'id' => $ticker_check,
-                                                  'asset' => $market_tickers_parse['asset'],
-                                                  'pairing' => $market_tickers_parse['pairing'],
-                                                  'orig_pairing' => $market_tickers_parse['orig_pairing'],
-                                                  'flagged_market' => $market_tickers_parse['flagged_market'],
-                                                  'data' => $check_market_data,
-                                                  );
+            
+            
+               gc_collect_cycles(); // Clean memory cache
+                 
+               return $results;
                
                }
-       
-       
-          gc_collect_cycles(); // Clean memory cache
-            
-          return $results;
+          
+          
+          }
+          else {
+          
+          $ct['gen']->log(
+                          'market_error',
+                          'SPECIFIC exchange MARKET ID SEARCH (at: ' . $specific_exchange . ') CANCELLED, for INVALID MARKET ID "' . $logged_market_id . '"'
+                          );
           
           }
           
@@ -1612,7 +1682,7 @@ var $exchange_apis = array(
                                                                                       'asset_check' => $asset_check,
                                                                                       'asset_address' => $val['address'],
                                                                                       'pairing_check' => $pairing_check,
-                                                                                      'pairing_address' => $this->token_address($pairing_check),
+                                                                                      'pairing_address' => $this->jup_address($pairing_check),
                                                                                       );
                                    
                          $ct['jupiter_ag_search_results'] = $ct['jupiter_ag_search_results'] + 1;
@@ -1643,45 +1713,61 @@ var $exchange_apis = array(
                      // so this optimizes speed fairly well, for this one exchange's search results)
                      $check_market_data = $this->fetch_exchange_data($exchange_key, $current['asset_address'] . '/' . $current['pairing_address'], false, true);
                      
-                     //$ct['gen']->array_debugging($check_market_data, false); // DEBUGGING
-                     
-                     //$ct['gen']->array_debugging($pairing_data, false); // DEBUGGING
-                     
                           
-                          foreach( $pairing_data as $market_key => $market_data ) {
+                          // Make sure a PAIRING address was set, before checking for market data
+                          if ( $current['pairing_address'] ) {
+     
+                          //$ct['gen']->array_debugging($check_market_data, false); // DEBUGGING
+                          
+                          //$ct['gen']->array_debugging($pairing_data, false); // DEBUGGING
+                          
                                
-                          $this_market_data = $check_market_data[ $current['asset_address'] ];
-                          
-                          //$ct['gen']->array_debugging($this_market_data, false); // DEBUGGING
-                          
-                          $parsed_market_data = array(        
-                                             'jup_ag_address' => $this_market_data['id'],
-                                             'last_trade' => number_format( $this_market_data['price'], $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
-                                             '24hr_usd_vol' => $ct['var']->num_to_str($market_data['data']['daily_volume']),
-                                   	      );
-                         	      
-                         	        
-                               if ( isset($parsed_market_data['last_trade']) && $parsed_market_data['last_trade'] > 0 ) {
+                               foreach( $pairing_data as $market_key => $market_data ) {
                                     
-                               // Minimize calls
-                               $market_tickers_parse = $ct['asset']->market_tickers_parse($exchange_key, $market_key . '/' . $pairing_key, $pairing_key, $market_key);
+                               $this_market_data = $check_market_data[ $current['asset_address'] ];
                                
-                               // IF they included coingecko app-id meta data, populate the mcap slug too
-                               $possible_market_ids[] = array(
-                                                               'name' => $market_data['data']['name'],
-                                                               'mcap_slug' => ( isset($market_data['data']['extensions']['coingeckoId']) && $market_data['data']['extensions']['coingeckoId'] != '' ? $market_data['data']['extensions']['coingeckoId'] : '' ),
-                                                               'id' => $current['asset_address'] . '/' . $current['pairing_address'],
-                                                               'contract_address' => $current['asset_address'],
-                                                               'asset' => $market_tickers_parse['asset'],
-                                                               'pairing' => $market_tickers_parse['pairing'],
-                                                               'orig_pairing' => $market_tickers_parse['orig_pairing'],
-                                                               'flagged_market' => $market_tickers_parse['flagged_market'],
-                                                               'data' => $parsed_market_data,
-                                                                );
-                                                                
+                               //$ct['gen']->array_debugging($this_market_data, false); // DEBUGGING
+                               
+                               $parsed_market_data = array(        
+                                                  'jup_ag_address' => $this_market_data['id'],
+                                                  'last_trade' => number_format( $this_market_data['price'], $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
+                                                  '24hr_usd_vol' => $ct['var']->num_to_str($market_data['data']['daily_volume']),
+                                        	      );
+                              	      
+                              	        
+                                    if ( isset($parsed_market_data['last_trade']) && $parsed_market_data['last_trade'] > 0 ) {
+                                         
+                                    // Minimize calls
+                                    $market_tickers_parse = $ct['asset']->market_tickers_parse($exchange_key, $market_key . '/' . $pairing_key, $pairing_key, $market_key);
+                                    
+                                    // IF they included coingecko app-id meta data, populate the mcap slug too
+                                    $possible_market_ids[] = array(
+                                                                    'name' => $market_data['data']['name'],
+                                                                    'mcap_slug' => ( isset($market_data['data']['extensions']['coingeckoId']) && $market_data['data']['extensions']['coingeckoId'] != '' ? $market_data['data']['extensions']['coingeckoId'] : '' ),
+                                                                    'id' => $current['asset_address'] . '/' . $current['pairing_address'],
+                                                                    'contract_address' => $current['asset_address'],
+                                                                    'asset' => $market_tickers_parse['asset'],
+                                                                    'pairing' => $market_tickers_parse['pairing'],
+                                                                    'orig_pairing' => $market_tickers_parse['orig_pairing'],
+                                                                    'flagged_market' => $market_tickers_parse['flagged_market'],
+                                                                    'data' => $parsed_market_data,
+                                                                     );
+                                                                     
+                                    }
+                                    
+                                    
                                }
                                
-                               
+     
+                          }
+                          // Otherwise, log this search error
+                          else {
+
+                          $ct['gen']->log(
+                         				'market_error',
+                         				'no token address set for PAIRING "' . $pairing_key . '" (for SEARCH at: ' . $exchange_key . '), so market data check was cancelled'
+                         				);
+                          
                           }
                      
                      
@@ -3244,22 +3330,6 @@ var $exchange_apis = array(
      
      
      ////////////////////////////////////////////////////////////////////////////////////////////////
-      
-      
-      
-      elseif ( $sel_exchange == 'graviex' ) {
-      
-      $result = array(
-                              'last_trade' => $data['ticker']['last'],
-                              '24hr_asset_vol' => $data['ticker']['vol'],
-                              '24hr_pair_vol' => null // Weird pair volume always in BTC according to array keyname, skipping
-                     	      );
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
     
     
     
@@ -3731,7 +3801,7 @@ var $exchange_apis = array(
          $pair_btc_val = $ct['asset']->pair_btc_val($mrkt_id);
      		      
      		      
-          	if ( $pair_btc_val == null ) {
+            if ( $pair_btc_val == null ) {
           				          	
           	$ct['gen']->log(
           				'market_error',

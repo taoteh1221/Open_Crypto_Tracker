@@ -5,10 +5,6 @@
 
      	     
 $update_config_error_seperator = '<br /> ';
-        
-$light_chart_day_intervals = array_map( "trim", explode(',', $_POST['charts_alerts']['light_chart_day_intervals']) );
-		
-$light_chart_all_rebuild_min_max = array_map('trim', explode(',', $_POST['charts_alerts']['light_chart_all_rebuild_min_max']) );
 		
 $asset_performance_chart_defaults = array_map('trim', explode('||', $_POST['charts_alerts']['asset_performance_chart_defaults']) );
 		
@@ -93,23 +89,6 @@ $ct['update_config_error'] .= $update_config_error_seperator . 'Whale Alert Thre
 }
   
   
-// Make sure light chart day intervals is set
-if ( isset($_POST['charts_alerts']['light_chart_day_intervals']) && trim($_POST['charts_alerts']['light_chart_day_intervals']) == '' ) {
-$ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be filled in';
-}
-else {
-
-     foreach ( $light_chart_day_intervals as $days ) {
-     
-         if ( $days == 0 || !$ct['var']->whole_int($days) ) {
-         $ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart Day Intervals" MUST be whole numbers greater than zero ("'.$days.'" is invalid)';
-         }
-     
-     }
-     
-}
-  
-  
 // Make sure asset performance chart config is set
 if ( isset($_POST['charts_alerts']['asset_performance_chart_defaults']) && trim($_POST['charts_alerts']['asset_performance_chart_defaults']) == '' ) {
 $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Performance Chart Defaults" MUST be filled in';
@@ -133,19 +112,6 @@ else if (
 || !$ct['var']->whole_int($asset_marketcap_chart_defaults[0] / 100)
 ) {
 $ct['update_config_error'] .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
-}
-
-
-// Make sure min / max 'all' light chart rebuild time is set properly
-if ( isset($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) && trim($_POST['charts_alerts']['light_chart_all_rebuild_min_max']) == '' ) {
-$ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" MUST be filled in';
-}
-else if (
-!isset($light_chart_all_rebuild_min_max[0]) || !$ct['var']->whole_int($light_chart_all_rebuild_min_max[0]) || $light_chart_all_rebuild_min_max[0] < 3 || $light_chart_all_rebuild_min_max[0] > 12 
-|| !isset($light_chart_all_rebuild_min_max[1]) || !$ct['var']->whole_int($light_chart_all_rebuild_min_max[1]) || $light_chart_all_rebuild_min_max[1] < 3 || $light_chart_all_rebuild_min_max[1] > 12
-|| $light_chart_all_rebuild_min_max[0] > $light_chart_all_rebuild_min_max[1]
-) {
-$ct['update_config_error'] .= $update_config_error_seperator . '"Light Chart All Rebuild Min Max" values MUST be between 3 and 12 (LARGER number last)';
 }
         
         

@@ -168,8 +168,9 @@ $ct['curl_cacert_path'] = false;
 }
 
 
-// Global alert that a ticker search is running
+// Global alert that a ticker search is running, AND trim whitespace in the search
 if ( isset($_POST['add_markets_search']) && $ct['gen']->admin_logged_in() && $ct['gen']->pass_sec_check($_GET['gen_nonce'], 'general_csrf_security') ) {
+$_POST['add_markets_search'] = trim($_POST['add_markets_search']);
 $ct['ticker_markets_search'] = true;
 }
 
@@ -318,7 +319,7 @@ $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/php_timeou
 }
 
 // Light chart config tracking / updating (checking for changes to light chart app config, to trigger light chart rebuilds)
-$conf_light_chart_struct = md5( serialize($ct['light_chart_day_intervals']) . $ct['conf']['charts_alerts']['light_chart_data_points_maximum'] );
+$conf_light_chart_struct = md5( serialize($ct['light_chart_day_intervals']) . $ct['conf']['power']['light_chart_data_points_maximum'] );
 
 if ( !file_exists($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat') ) {
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat', $conf_light_chart_struct);

@@ -192,25 +192,10 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-DOUBLE check all new db upgrade / downgrade logic ON APP and PLUGINS (seems debugged great, BUT was heavily refactored last release!), INCLUDING turning plugins on / off, deleting plugin state caches, AND under different admin security levels.
+Assure we are properly catching jupiter token address retrieval FALIURES in market_tickers_parse(), SO WE HAVE NO FUNKY ASSET SEARCH RESULTS.
 
 
-Move system stats chart scale settings from asset charts section, back to power user section. Review other chart settings in there, to make sure they are only relevant to the 'Asset Tracking' parent section it's in.
-
-
-Pass the jupiter posted asset filter tags to the ticker address mapping function, but only for the ASSET instances using it (NOT the pairings), so we assure a result based off search filter tags that were used to find an ASSET. WE STILL WANT TO KEEP THE BASE PAIRS 'VERIFIED' ONLY, FOR SAFETY.
-
-
-Research whether the "verified" Jupiter API filter tag assures us a case-sensitive match to a SINGLE contract address, with accuracy (no duplicate tickers on different coins).
-
-
-Do upgrade / downgrade documentation.
-
-
-Double check all new Jupiter exchange market logic.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TRIPLE check all new Jupiter exchange market logic.
 
 
 TRIPLE check all new db upgrade / downgrade logic ON APP and PLUGINS (seems debugged great, BUT was heavily refactored last release!), INCLUDING turning plugins on / off, deleting plugin state caches, AND under different admin security levels.

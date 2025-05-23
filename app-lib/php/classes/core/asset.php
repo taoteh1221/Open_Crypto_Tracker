@@ -1296,7 +1296,7 @@ var $ct_array = array();
         // already been added to this app for jupiter markets
         if ( $exchange_key == 'jupiter_ag' ) {
         $jup_parse_tickers = explode('/', $market_id);
-        $orig_market_id = $ct['api']->token_address($jup_parse_tickers[0]) . '/' . $ct['api']->token_address($jup_parse_tickers[1]);
+        $orig_market_id = $ct['api']->jup_address($jup_parse_tickers[0], false) . '/' . $ct['api']->jup_address($jup_parse_tickers[1]);
         }
         else {
         $orig_market_id = $market_id;

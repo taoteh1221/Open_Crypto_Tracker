@@ -1976,7 +1976,7 @@ var $ct_array = array();
     // Hash of light path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
     if ( $days_span == 'all' ) {
     $light_path_hash = md5($light_path);
-    $thres_range = array_map( "trim", explode(',', $ct['conf']['charts_alerts']['light_chart_all_rebuild_min_max']) );
+    $thres_range = array_map( "trim", explode(',', $ct['conf']['power']['light_chart_all_rebuild_min_max']) );
     $all_chart_rebuild_thres = rand($thres_range[0], $thres_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
     }
    
@@ -2067,10 +2067,10 @@ var $ct_array = array();
    
     // Minimum time interval between data points in light chart
     if ( $days_span == 'all' ) {
-    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct['conf']['charts_alerts']['light_chart_data_points_maximum'] ); // Dynamic
+    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct['conf']['power']['light_chart_data_points_maximum'] ); // Dynamic
     }
     else {
-    $min_data_interval = round( ($days_span * 86400) / $ct['conf']['charts_alerts']['light_chart_data_points_maximum'] ); // Fixed X days (86400 seconds per day)
+    $min_data_interval = round( ($days_span * 86400) / $ct['conf']['power']['light_chart_data_points_maximum'] ); // Fixed X days (86400 seconds per day)
     }
   
   
@@ -2161,11 +2161,11 @@ var $ct_array = array();
       // [less cores == lower hard limit == NOT OVERLOADING SLOW DEVICES]
       // [more cores == higher hard limit == FASTER ON FAST DEVICES]
       if ( isset($ct['system_info']['cpu_threads']) && $ct['system_info']['cpu_threads'] > 1 ) {
-      $scaled_first_build_hard_limit = ($ct['conf']['charts_alerts']['light_chart_first_build_hard_limit'] * $ct['system_info']['cpu_threads']);
+      $scaled_first_build_hard_limit = ($ct['conf']['power']['light_chart_first_build_hard_limit'] * $ct['system_info']['cpu_threads']);
       }
       // Doubles as failsafe (if number of threads not detected on this system, eg: windows devices)
       else {
-      $scaled_first_build_hard_limit = $ct['conf']['charts_alerts']['light_chart_first_build_hard_limit'];
+      $scaled_first_build_hard_limit = $ct['conf']['power']['light_chart_first_build_hard_limit'];
       }
       
       
@@ -2198,7 +2198,7 @@ var $ct_array = array();
       $loop = 0;
       $data_points = 0;
       // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-      while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['charts_alerts']['light_chart_data_points_maximum'] ) {
+      while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['power']['light_chart_data_points_maximum'] ) {
        
       $data_point_array = explode("||", $arch_data[$loop]);
       $data_point_array[0] = $ct['var']->num_to_str($data_point_array[0]);
