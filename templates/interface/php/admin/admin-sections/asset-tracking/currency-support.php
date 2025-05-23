@@ -180,7 +180,7 @@ $ct['admin_render_settings']['token_presales_usd']['is_subarray'][0]['text_field
 }
 
 
-$ct['admin_render_settings']['token_presales_usd']['is_notes'] = 'Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)<br />This format MUST be used:<br />
+$ct['admin_render_settings']['token_presales_usd']['is_notes'] = 'Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings), that show as search results, when ADDING A NEW ASSET<br />This format MUST be used:<br />
 TICKER = 1.23<br /><span class="red">RAW NUMBERS ONLY (NO THOUSANDTHS FORMATTING)</span>';
 
 

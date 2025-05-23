@@ -57,6 +57,12 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	<span class='bitcoin'>(example[s]: bnb,busd,zbtc)</span>
           	
           	</li>
+	     
+          	<li class='blue'>
+          	
+          	<b>For TOKEN PRESALES, you must first add them in "Asset Tracking => Currency Support => Token Presales USD". </b>
+          	
+          	</li>
      	
      	</ul>
 	
