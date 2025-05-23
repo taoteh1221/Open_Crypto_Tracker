@@ -351,7 +351,7 @@ $ct['conf_parse_error'] = array(); // Blank it out for any other config checks
 
 
 // Email backup archives configs
-if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['charts_alerts']['charts_backup_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
+if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['power']['backup_archive_frequency'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
 					
    // Config error check(s)
    if ( !$ct['email_activated'] ) {

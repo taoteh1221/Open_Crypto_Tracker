@@ -39,14 +39,14 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 	     
           	<li class='blue'>
           	
-          	<b>Search a SPECIFIC EXCHANGE, for a SPECIFIC MARKET ID <span class='red'>(MARKET ID MUST BE AN **EXACT** MATCH)</span>.</b><br />
-          	<span class='bitcoin'>(example[s]: XBTUSD at Bitmex, tBTCUSD at Bitfinex, ETHDAI at Binance, SOL-USD at Coinbase)</span>
+          	<b>Search a SPECIFIC EXCHANGE, for a SPECIFIC MARKET ID <span class='red'>(MARKET ID MUST BE AN **EXACT** MATCH [CASE SENSITIVE!])</span>.</b><br />
+          	<span class='bitcoin'>(example[s]: XBTUSD for Bitmex, tBTCUSD for Bitfinex, ETHDAI for Binance, SOL-USD for Coinbase, Bonk/zBTC for Jupiter Ag. <span class='red'>[see what cases to use at: <a class='red' href='https://jup.ag/swap/' target='_BLANK'>jup.ag/swap</a>]</span>)</span>
           	
           	</li>
 	     
           	<li class='blue'>
           	
-          	<b>Search "CoinGecko.com Terminal" for a DeFi Pool.</b><br />
+          	<b>Search "CoinGecko.com Terminal" Exchange (with a SPECIFIC EXCHANGE SEARCH), for a DeFi Pool.</b><br />
           	<span class='bitcoin'>(example[s]: eth||0xb7ecb2aa52aa64a717180e030241bc75cd946726, sol||FgTCR1ufcaTZMwZZYhNRhJm2K3HgMA8V8kXtdqyttm19 <span class='red'>[pool addresses ARE CASE-SENSITIVE!]</span>)</span>
           	
           	</li>
@@ -55,23 +55,6 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	
           	<b>Adding NEW PAIRINGS in "Asset Tracking => Currency Support => Additional Pairings Search", allows more pairings to be DETECTED during market searches.</b><br />
           	<span class='bitcoin'>(example[s]: bnb,busd,zbtc)</span>
-          	
-          	</li>
-	     
-          	<li class='blue'>
-          	
-          	<b><span class='blue'>Jupiter Aggregator "ALL Exchanges" searches:</span><br /><span class='bitcoin'>Any BASE PAIRINGS [asset/base_pairing] included in your search MUST BE CASE-SENSITIVE! You can SKIP including a base pairing, to get a list of popular ones to choose from.</span></b><br />
-
-          	<span class='bitcoin'>(example[s]: asset/base_PAIRING,bonk/zBTC,asset_only,bonk <span class='red'>[see what cases to use at: <a class='red' href='https://jup.ag/swap/' target='_BLANK'>jup.ag/swap</a>]</span>)</span>
-          	
-          	
-          	</li>
-	     
-          	<li class='blue'>
-          	
-          	<b><span class='blue'>Jupiter Aggregator SPECIFIC EXCHANGE searches:</span><br /><span class='bitcoin'>ASSETS *AND* BASE PAIRINGS are BOTH REQUIRED, AND *BOTH* MUST BE CASE-SENSITIVE!</span></b><br />
-          	<span class='bitcoin'>(example[s]: Asset/base_PAIRING,Bonk/zBTC <span class='red'>[see what cases to use at: <a class='red' href='https://jup.ag/swap/' target='_BLANK'>jup.ag/swap</a>]</span>)</span>
-          	
           	
           	</li>
      	

@@ -10,7 +10,7 @@
 
 
 // Set light charts config array
-$ct['light_chart_day_intervals'] = array_map( "trim", explode(',', $ct['conf']['charts_alerts']['light_chart_day_intervals']) );
+$ct['light_chart_day_intervals'] = array_map( "trim", explode(',', $ct['conf']['power']['light_chart_day_intervals']) );
 
 // Numericly sort light chart intervals (in case end user didn't do them in order)
 // DO BEFORE ADDING 'all' BELOW
@@ -658,7 +658,7 @@ uasort($ct['conf']['assets'], array($ct['gen'], 'usort_alpha') );
 
 
 // Better decimal support for these vars...
-$ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale']); 
+$ct['conf']['power']['system_stats_first_chart_maximum_scale'] = $ct['var']->num_to_str($ct['conf']['power']['system_stats_first_chart_maximum_scale']); 
 $ct['conf']['charts_alerts']['price_alert_threshold'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['price_alert_threshold']); 
 
 

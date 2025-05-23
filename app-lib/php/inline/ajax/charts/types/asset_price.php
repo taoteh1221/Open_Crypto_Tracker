@@ -135,10 +135,10 @@ gui: {
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) );  
-		$x_coord = $x_coord + ( $difference * $ct['conf']['charts_alerts']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['charts_alerts']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -357,10 +357,10 @@ graphset:[
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct['conf']['charts_alerts']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['charts_alerts']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>

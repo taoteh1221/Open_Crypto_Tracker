@@ -216,6 +216,8 @@ FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEAR
 }
 ?>
 
+IF YOU DON'T SEE THE JUPITER AGGREGATOR ASSET / PAIRING YOU WANT, WAIT 1 HOUR FOR THE APP'S ASSET CACHE TO REFRESH (OR 3 HOURS FOR THE PAIRING CACHE).<br /><br />
+
 WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> <span class='yellow'>(ADJUSTABLE IN: <span class='light_sea_green'>"APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE"</span>, <?=$all_results_count['jupiter_ag']?> results below [including any marked as skipped] are from Jupiter Aggregator)</span>, TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS / LONG SEARCH TIMES ON SLOWER DEVICES. <span class='red'>IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.</span>
 
 </p>

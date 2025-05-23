@@ -455,7 +455,9 @@ $ct['conf']['currency']['price_rounding_fixed_decimals'] = 'on'; // 'off', 'on'
 // CoinGecko market pairings searched for, when adding new assets / coins (comma-separated)
 $ct['conf']['currency']['coingecko_pairings_search'] = 'usd,gbp,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd,cny,ils'; 
 ////
-// Jupiter aggregator market pairings searched for, when adding new assets / coins (comma-separated, CASE-SENSITIVE)
+// Jupiter aggregator market pairings searched for, when adding new assets / coins (comma-separated, CASE-SENSITIVE!)
+// We have a HARD CAP OF 100 asset search results maximum PER-PAIRING (to avoid search timeouts [taking too long]),
+// AND each pairing MUST be a VERIFIED token (for your SAFETY!)
 $ct['conf']['currency']['jupiter_ag_pairings_search'] = 'SOL,USDC,ETH,WBTC,zBTC,USDT'; 
 ////
 // Upbit market pairings searched for, when adding new assets / coins (comma-separated)
@@ -660,10 +662,6 @@ $ct['conf']['charts_alerts']['enable_price_charts'] = 'on'; // 'on' / 'off'
 $ct['conf']['charts_alerts']['chart_crypto_volume_decimals'] = 4;  // (default = 4) 
 
 
-// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
-$ct['conf']['charts_alerts']['charts_backup_frequency'] = 1; 
-
-
 // PRICE CHARTS colors (https://www.w3schools.com/colors/colors_picker.asp)
 ////
 // Charts border color
@@ -699,42 +697,6 @@ $ct['conf']['charts_alerts']['asset_performance_chart_defaults'] = '800||10'; //
 // Default settings for Marketcap Comparison chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
 $ct['conf']['charts_alerts']['asset_marketcap_chart_defaults'] = '600||10'; // 'chart_height||menu_size' (default = '600||10')
-
-
-// Highest allowed sensor value to scale vertical axis for, in the FIRST system information chart  (out of two)
-// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
-$ct['conf']['charts_alerts']['system_stats_first_chart_maximum_scale'] = 3.25; // (default = 3.25) 
-////
-// Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
-// (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
-$ct['conf']['charts_alerts']['system_stats_second_chart_maximum_scale'] = 325; // (default = 325) 
-
-
-// (Light) time period charts (load just as quickly for any time period, 7 day / 30 day / 365 day / etc)
-// Structure of light charts #IN DAYS# (X days time period charts)
-// Interface will auto-detect and display days IN THE INTERFACE as: 365 = 1Y, 180 = 6M, 30 = 1M, 7 = 1W, etc
-// (JUST MAKE SURE YOU USE 365 / 30 / 7 *MULTIPLIED BY THE NUMBER OF* YEARS / MONTHS / WEEKS FOR PROPER AUTO-DETECTION/CONVERSION)
-// (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$ct['conf']['charts_alerts']['light_chart_day_intervals'] = '14,30,90,180,365,730,1460';
-// (default = '14,30,90,180,365,730,1460')
-////
-// The maximum number of data points allowed in each light chart 
-// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 1000 OR LESS#)
-$ct['conf']['charts_alerts']['light_chart_data_points_maximum'] = 875; // (default = 875), ADJUST WITH CARE!!!
-////
-// The space between light chart links inside the chart interface
-$ct['conf']['charts_alerts']['light_chart_link_spacing'] = 50; // (default = 50), ADJUST WITH CARE!!!
-////
-// The GUESSED offset (width) for light chart link fonts inside the chart interface (NOT MONOSPACE, SO WE GUESS AN AVERAGE)
-$ct['conf']['charts_alerts']['light_chart_link_font_offset'] = 4; // (default = 4), ADJUST WITH CARE!!!
-////
-// Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
-// (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
-$ct['conf']['charts_alerts']['light_chart_first_build_hard_limit'] = 15; // (default = 15), ADJUST WITH CARE!!!
-////
-// Randomly rebuild the 'ALL' light chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
-// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTENT CRON JOB RUNTIME SPEED!!
-$ct['conf']['charts_alerts']['light_chart_all_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4,8'), ADJUST WITH CARE!!!
 
 
 // Markets you want charts or asset price change alerts for (see the COMMUNICATIONS section for price alerts threshold settings) 
@@ -1056,12 +1018,52 @@ $ct['conf']['power']['marketcap_ranks_max'] = 300; // (default = 300)
 $ct['conf']['power']['margin_leverage_maximum'] = 150; 
 
 
+// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$ct['conf']['power']['backup_archive_frequency'] = 1; 
+
+
 // Days TO WAIT UNTIL DELETING OLD backup archives (chart data archives, etc)
 $ct['conf']['power']['backup_archive_delete_old'] = 15; 
 
 
 // Keep logs X DAYS before purging (fully deletes logs every X days). Start low (especially when using proxies)
 $ct['conf']['power']['logs_purge'] = 5; // (default = 5)
+
+
+// Highest allowed sensor value to scale vertical axis for, in the FIRST system information chart  (out of two)
+// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
+$ct['conf']['power']['system_stats_first_chart_maximum_scale'] = 3.25; // (default = 3.25) 
+////
+// Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
+// (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
+$ct['conf']['power']['system_stats_second_chart_maximum_scale'] = 325; // (default = 325) 
+
+
+// (Light) time period charts (load just as quickly for any time period, 7 day / 30 day / 365 day / etc)
+// Structure of light charts #IN DAYS# (X days time period charts)
+// Interface will auto-detect and display days IN THE INTERFACE as: 365 = 1Y, 180 = 6M, 30 = 1M, 7 = 1W, etc
+// (JUST MAKE SURE YOU USE 365 / 30 / 7 *MULTIPLIED BY THE NUMBER OF* YEARS / MONTHS / WEEKS FOR PROPER AUTO-DETECTION/CONVERSION)
+// (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
+$ct['conf']['power']['light_chart_day_intervals'] = '14,30,90,180,365,730,1460';
+// (default = '14,30,90,180,365,730,1460')
+////
+// The maximum number of data points allowed in each light chart 
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 1000 OR LESS#)
+$ct['conf']['power']['light_chart_data_points_maximum'] = 875; // (default = 875), ADJUST WITH CARE!!!
+////
+// The space between light chart links inside the chart interface
+$ct['conf']['power']['light_chart_link_spacing'] = 50; // (default = 50), ADJUST WITH CARE!!!
+////
+// The GUESSED offset (width) for light chart link fonts inside the chart interface (NOT MONOSPACE, SO WE GUESS AN AVERAGE)
+$ct['conf']['power']['light_chart_link_font_offset'] = 4; // (default = 4), ADJUST WITH CARE!!!
+////
+// Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
+// (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
+$ct['conf']['power']['light_chart_first_build_hard_limit'] = 15; // (default = 15), ADJUST WITH CARE!!!
+////
+// Randomly rebuild the 'ALL' light chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
+// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTENT CRON JOB RUNTIME SPEED!!
+$ct['conf']['power']['light_chart_all_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4,8'), ADJUST WITH CARE!!!
 			
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)

@@ -129,7 +129,7 @@ $ct['admin_render_settings']['jupiter_ag_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['jupiter_ag_pairings_search']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['jupiter_ag_pairings_search']['is_notes'] = 'Jupiter Aggregator market pairing tokens searched for, when adding new assets / coins (comma-separated, CASE-SENSITIVE)<br /><span class="red">NOTES: We have a HARD CAP OF 100 asset search results maximum PER-PAIRING (to avoid search timeouts [taking too long]), AND each pairing token MUST be VERIFIED (for your SAFETY!).</span>';
+$ct['admin_render_settings']['jupiter_ag_pairings_search']['is_notes'] = 'Jupiter Aggregator market pairing tokens searched for, when adding new assets / coins (comma-separated, CASE-SENSITIVE)<br /><span class="red">NOTES: We have a HARD CAP OF 100 asset search results maximum PER-PAIRING (to avoid search timeouts [taking too long]), AND each pairing MUST be a VERIFIED token (for your SAFETY!).</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
