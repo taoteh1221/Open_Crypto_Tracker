@@ -19,8 +19,8 @@ if ( $ct['admin_area_sec_level'] == 'high' ) {
 <?php
 }
 else {
-
 ?>
+
 
 	<p class='blue blue_dotted'>
 	
@@ -28,12 +28,8 @@ else {
 	
 	</p>
 	
-	
-	<div style='min-height: 1em;'></div>
-	
 
 <?php
-
 
 // Render config settings for this section...
 
@@ -104,9 +100,9 @@ $ct['admin']->admin_config_interface('int_api', 'webhook_int_api', $ct['admin_re
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-}
 ?>
+	
+	<div style='min-height: 1em;'></div>
 
 	<p>
 	
@@ -663,6 +659,9 @@ var_dump($api_data_array);
 	        
 	        
 	    </fieldset>
-				
-			    
-	        
+	
+
+<?php
+}
+?>
+

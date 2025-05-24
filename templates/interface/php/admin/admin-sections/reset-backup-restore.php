@@ -7,6 +7,21 @@
 ?>
 
 
+<?php
+if ( $ct['admin_area_sec_level'] == 'high' ) {
+?>
+	
+	<p class='bitcoin bitcoin_dotted'>
+	
+	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Accessing this page IN HIGH SECURITY ADMIN MODE is forbidden. You can change the security level in the "Security" section.
+	
+	</p>
+
+<?php
+}
+else {
+?>
+
 	 <?php
 	 if ( $admin_reset_error != null ) {
 	 ?>
@@ -314,6 +329,11 @@ $backup_count_max = ( sizeof($backup_links['charts-data']) > sizeof($backup_link
 
 	
 </fieldset>
+
+
+<?php
+}
+?>
 
 
 <!-- backup / restore END -->
