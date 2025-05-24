@@ -225,7 +225,7 @@ Option to use new zip file encryption password feature to encrypt portfolio spre
 
 We need to store the app / plugin versions INSIDE THE CACHED CONFIG (as keys "db_app_version" / "db_plug_version"), TO SAFELY VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A OLDER SAVED CONFIG FILE (to make sure what settings within OLD backups can be SAFELY imported). We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EVEN for high security mode cached config updating [RESETS], as a user could change security modes later in the future, AND we still backup the cached config for app backups even in high security mode).
 
-DURING IN THE RESTORE IMPORT, SHOW AN "IMPORT SUMMARY", showing admin sections with checkbox (with NOTHING CHECKED OFF BY DEFAULT) / expand detials UI, and what settings are DIFFERENT FROM CURRENT DEFAULTS / WHAT SETTINGS CANNOT BE SAFELY IMPORTED?
+DURING THE RESTORE IMPORT, SHOW AN "IMPORT SUMMARY", showing admin sections with checkbox (with NOTHING CHECKED OFF BY DEFAULT) / expand detials UI, and what settings are DIFFERENT FROM CURRENT DEFAULTS / WHAT SETTINGS CANNOT BE SAFELY IMPORTED?
 
 For the "db_app_version" / "db_plug_version" values we add to the CACHED config, we need to somehow add them without screwing up high security mode's "auto cache updating" MD5 CHECKS. This can be done by stripping out ALL the keys named "db_app_version" / "db_plug_version" from the CACHED config BEFORE RUNNING HIGH SECURITY MODE "auto cache updating" MD5 CHECKS.
 
