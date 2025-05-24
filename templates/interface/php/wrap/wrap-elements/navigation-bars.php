@@ -437,18 +437,25 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         
                         // Plugin link(s)
                         $navbar_plugins = array();
+                        
+                        
+                        // Active plugins subnav, IF NOT high security mode
+                        if ( $ct['admin_area_sec_level'] != 'high' ) {
 
-                        foreach ( $plug['activated']['ui'] as $plugin_key => $unused ) {
-                        $navbar_plugins[$plugin_key] = 1;
+                             foreach ( $plug['activated']['ui'] as $plugin_key => $unused ) {
+                             $navbar_plugins[$plugin_key] = 1;
+                             }
+     
+                             foreach ( $plug['activated']['cron'] as $plugin_key => $unused ) {
+                             $navbar_plugins[$plugin_key] = 1;
+                             }
+     
+                             foreach ( $plug['activated']['webhook'] as $plugin_key => $unused ) {
+                             $navbar_plugins[$plugin_key] = 1;
+                             }
+                        
                         }
-
-                        foreach ( $plug['activated']['cron'] as $plugin_key => $unused ) {
-                        $navbar_plugins[$plugin_key] = 1;
-                        }
-
-                        foreach ( $plug['activated']['webhook'] as $plugin_key => $unused ) {
-                        $navbar_plugins[$plugin_key] = 1;
-                        }
+                        
                         
                         if ( sizeof($navbar_plugins) > 0 ) {
                         ksort($navbar_plugins); // Alphabetical order (for admin UI)

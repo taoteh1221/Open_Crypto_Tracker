@@ -551,7 +551,8 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		
+   
+   // https://solana.com/docs/rpc/http
    function solana_rpc($method, $params=false, $cache_time=0, $rpc_test=false) {
 		 
    global $ct;
@@ -581,7 +582,6 @@ var $exchange_apis = array(
         }
 
      
-   // https://solana.com/docs/core/clusters#mainnet-beta-rate-limits
    $response = @$ct['cache']->ext_data('params', $request_params, $cache_time, $rpc_server, 3, null, $headers);
 			 
    return json_decode($response, true);
