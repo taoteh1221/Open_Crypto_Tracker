@@ -46,7 +46,7 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
      $ct['api']->bitcoin('getdifficulty');
     
      // Ethereum
-     $ct['api']->etherscan('gasLimit');
+     //$ct['api']->etherscan('gasLimit');
     
      // Chain data END
    

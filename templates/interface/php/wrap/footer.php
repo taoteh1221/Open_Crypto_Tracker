@@ -209,23 +209,28 @@ echo nl2br($ui_upgrade_alert['message']);
 
 <script>
 
+// FOOTER NOTICES ARE ORDERED AS YOU WANT THEM TO APPEAR!
+// (IF ONE IS SHOWING ALREADY, THE REST WILL BE SUPPRESSED, UNTIL NOTHING IS ALREADY SHOWING [ON INITIAL PAGE LOAD])
+
 
 // Creates Cookie notice footer banner
 footer_banner(cookies_notice_storage, 'This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.');
 
 
-// Donations reminder (if has ALREADY ACKNOWLEDGED the cookies banner)
-if ( localStorage.getItem(cookies_notice_storage) == "understood" ) {
-
+// Donations reminder
 footer_banner(donations_notice_storage, 'You can <a style="font-weight: bold; color: red !important;" href="https://github.com/taoteh1221/Open_Crypto_Tracker/issues" target="_BLANK">report issues</a> (YES, I actually fix the REAL ones, if you submit a DETAILED report).<br />Please show your appreciation for my apps IF you enjoy using them. Buying me a coffee / beer means WAY MORE to me than large donations. It\'s about <a href="https://taoteh1221.github.io/#donations" target="_BLANK">letting me know</a> you find them useful, NOT about making money. Think of it as a PRIVATE app usage survey anon! :) Crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...<br /><a href="https://taoteh1221.github.io/#donations" target="_BLANK"><img height="175" src="templates/interface/media/images/donate-banner.png" alt="" class="image_border" style="margin: 0.3em;" /></a>');
 
+
+// LINUX Desktop Edition SUCKS HARD (as of 2025/5/25, beyond our control [as we use SEVERELY OUTDATED 3rd party container PHPdesktop])
+if ( app_platform == 'linux' && app_container == 'phpdesktop' ) {
+
+footer_banner(linux_phpdesktop_notice_storage, 'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of May 25th 2025, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.');
+
 }
+// Creates Safari notice footer banner (Safari on OLDER Macs SUCKS HARD)
+else if ( is_safari ) {
 
-
-// Otherwise, creates Safari notice footer banner (if using safari / has ALREADY ACKNOWLEDGED the cookies / donations banners)
-if ( is_safari && localStorage.getItem(cookies_notice_storage) == "understood" && localStorage.getItem(donations_notice_storage) == "understood" ) {
-
-footer_banner(safari_notice_storage, 'This web app MAY NOT WORK PROPERLY on the Apple Safari web browser. FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are highly recommended for the best user experience.');
+footer_banner(safari_notice_storage, 'This web app MAY NOT WORK PROPERLY on the Apple Safari web browser. IF YOU ENCOUNTER ISSUES, FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are highly recommended for the best user experience.');
 
 }
 

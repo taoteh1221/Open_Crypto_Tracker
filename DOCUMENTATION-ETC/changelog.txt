@@ -6861,6 +6861,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Added API throttling PER-SECOND capability, on top of the already-existing PER-MINUTE throttling capability, AND added MANY exchanges / other APIs to it, for a smoother user experience (with fewer rejected data requests)
 
+-HIGH SECURITY MODE now also FULLY hides the "Plugins", "Reset / Backup & Restore", and "APIs => Internal API / Webhook" ADMIN pages (ONLY "System Monitoring" pages are shown now in high security mode).
+
 -Added versioning to the plugins system (to support solo PLUGIN upgrading / downgrading [without a full APP upgrade required to trigger checks])
 
 -More reliable cached database upgrades, when upgrading / downgrading an EXISTING installation (see NEW documentation in README.txt)

@@ -14,41 +14,18 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
-                   'timestamp' => strtotime('2024-11-28'),
-                   
-                   'very_important' => false,
-
-                   // HIGHEST VERSION AFFECTED
-                   'affected_version' => '6.00.40',
-
-                   // DOES THIS AFFECT EARLIER VERSIONS
-                   'affected_earlier' => false,
-                   
-                   // DESCRIPTION
-                   'affected_desc' => 'You can now download your price chart and app config backups, on the "Reset / Backup & Restore" ADMIN page. In an UPCOMING (unknown when) release, you will be able to RESTORE these backups on the same admin page.',
-
-                   );
-
-
-///////////////////////////////////////////////////////////////////
-
-
-// NEW ENTRY
-$dev_status[] = array(
-
-                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
-                   'timestamp' => strtotime('2024-12-21'),
+                   'timestamp' => strtotime('2025-5-26'),
                    
                    'very_important' => true,
 
                    // HIGHEST VERSION AFFECTED
-                   'affected_version' => '6.00.39',
+                   'affected_version' => '6.00.41',
 
                    // DOES THIS AFFECT EARLIER VERSIONS
-                   'affected_earlier' => false,
+                   'affected_earlier' => true,
                    
                    // DESCRIPTION
-                   'affected_desc' => 'I\'m now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. 😩 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release.',
+                   'affected_desc' => 'The @JupiterExchange PRICE API has been upgraded to v2, in the v6.01.0 release that was made public today. This brings Jupiter market support BACK ONLINE (as they disabled the v1 PRICE API awhile ago).',
 
                    );
 
@@ -72,6 +49,29 @@ $dev_status[] = array(
                    
                    // DESCRIPTION
                    'affected_desc' => 'There is an UPSTREAM bug in Embedded Chromium (for Windows), causing JavaScript dialogue boxes to be suppressed in the DESKTOP EDITION of this app, FOR WINDOWS 11 USERS. v6.00.41 has been released today, with a fix for this issue.',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2024-11-28'),
+                   
+                   'very_important' => false,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.00.40',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => false,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'You can now download your price chart and app config backups, on the "Reset / Backup & Restore" ADMIN page. In an UPCOMING (unknown when) release, you will be able to RESTORE these backups on the same admin page.',
 
                    );
 

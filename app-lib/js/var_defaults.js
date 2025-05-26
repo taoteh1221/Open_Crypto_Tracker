@@ -120,6 +120,8 @@ var cookies_notice_storage;
 
 var safari_notice_storage;
 
+var linux_phpdesktop_notice_storage;
+
 var desktop_windows_notice_storage;
 
 var donations_notice_storage;
@@ -155,6 +157,12 @@ var iframe_font_val;
 var min_fiat_val_test;
 	
 var min_crypto_val_test;
+	
+var currency_decimals_max;
+	
+var crypto_decimals_max;
+	
+var showing_footer_notice;
 	
 var feeds_num;
 	

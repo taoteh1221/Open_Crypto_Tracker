@@ -349,10 +349,6 @@
 	        
 	        <li class='links_list'><a href='https://linktr.ee/jitosol' target='_blank'>Jito Labs</a>   <span class='yellow'>(Solana)</span></li>
 	        
-	        <li class='links_list'><a href='https://www.solanaverify.in/' target='_blank'>Solana Verified</a>   <span class='yellow'>(verified smart contracts on Solana)</span></li>
-	        
-	        
-	        
 	        
 	    </ul>
 	    </fieldset>
@@ -457,8 +453,6 @@
 	        
 	        <li class='links_list'><a href='https://solanamobile.com/' target='_blank'>Solana Mobile</a></li>
 	        
-	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> <span class='yellow'>(Blockchain Transaction Visualizer)</span></li>
-	        
 	        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a> <span class='yellow'>(cryptocurrency transaction alerts)</span></li>
 	        
 	        
@@ -483,15 +477,11 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCavTvSwEoRABvnPtLg0e6LQ/featured' target='_blank'>Crypto Tips</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/epicenterbtc/featured' target='_blank'>Epicenter</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCNOfzGXD_C9YMYmnefmPH0g/featured' target='_blank'>Ethereum Foundation</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UC87A7vsRlyZ68gtu-z1Q3ow/featured' target='_blank'>Kripto Emre (turkish)</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
 	        
