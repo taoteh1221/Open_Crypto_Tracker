@@ -183,9 +183,11 @@ if ( is_array($ct['conf']['currency']['conversion_currency_symbols']) ) {
      // Convert stored format (that's easily editable in user interfacing) 
      // to an optimized format for using in programming logic
      $ct['opt_conf']['conversion_currency_symbols'] = array();
-     foreach ( $ct['conf']['currency']['conversion_currency_symbols'] as $val ) {
+     foreach ( $ct['conf']['currency']['conversion_currency_symbols'] as $key => $val ) {
      $conversion_array = explode('=', $val);
      $conversion_array = array_map("trim", $conversion_array);
+     // Auto-correct config values
+     $ct['conf']['currency']['conversion_currency_symbols'][$key] = strtolower($conversion_array[0]) . ' = ' . $conversion_array[1];
      // Auto-formatting
      $ct['opt_conf']['conversion_currency_symbols'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
      }

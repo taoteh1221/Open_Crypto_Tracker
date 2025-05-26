@@ -8,7 +8,7 @@ $runtime_mode = 'download';
 
 
 // Flag as CSV export BEFORE config.php (to run minimized logic from init.php)
-if ( $_GET['csv_export'] == 1 ) {
+if ( isset($_GET['csv_export']) && $_GET['csv_export'] == 1 ) {
 $is_csv_export = true;
 }
 
