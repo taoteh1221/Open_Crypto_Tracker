@@ -192,6 +192,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+"App Logs" page title (including the top nav title) is just "Logs".
+
+
 Make ajax "wizard steps" logging show in the alerts interface, and consider having any "market" errors be shown only in debugging mode. Maybe only under the condition that an asset search is in-progress, which we already set the global flag $ct['ticker_markets_search'] to know when this is happening. Usually though (IF no asset search is in-progress), we prefer market errors to show in the interface.
 
 
