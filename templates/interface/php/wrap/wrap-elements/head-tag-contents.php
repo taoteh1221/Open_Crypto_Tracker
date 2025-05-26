@@ -81,6 +81,10 @@
 	
 	tiny_font_size_css_percent = Number(<?=$ct['dev']['tiny_font_size_css_percent']?>);
 	
+	currency_decimals_max = Number(<?=$ct['conf']['currency']['currency_decimals_max']?>);
+	
+	crypto_decimals_max = Number(<?=$ct['conf']['currency']['crypto_decimals_max']?>);
+	
 	min_fiat_val_test = '<?=$min_fiat_val_test?>';
 	
 	min_crypto_val_test = '<?=$min_crypto_val_test?>';
@@ -132,6 +136,8 @@
 	cookies_notice_storage = storage_app_id("cookies_notice");
 	
 	safari_notice_storage = storage_app_id("safari_notice");
+	
+	linux_phpdesktop_notice_storage = storage_app_id("linux_phpdesktop_notice");
 	
 	desktop_windows_notice_storage = storage_app_id("desktop_windows_notice");
 	

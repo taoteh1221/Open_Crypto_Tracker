@@ -6,18 +6,11 @@
         "dummy_entry": true
     },
     {
-        "timestamp": 1732752000,
-        "very_important": false,
-        "affected_version": "6.00.40",
-        "affected_earlier": false,
-        "affected_desc": "You can now download your price chart and app config backups, on the \"Reset \/ Backup & Restore\" ADMIN page. In an UPCOMING (unknown when) release, you will be able to RESTORE these backups on the same admin page."
-    },
-    {
-        "timestamp": 1734739200,
+        "timestamp": 1748217600,
         "very_important": true,
-        "affected_version": "6.00.39",
-        "affected_earlier": false,
-        "affected_desc": "I'm now aware of @JupiterExchange COMPLETELY SCRAPPING their V1 PRICE API, right after my HEAVY integration of their SEARCH API in v6.00.39 of Open #Crypto Tracker. \ud83d\ude29 I will be upgrading to their V2 PRICE API, in the upcoming v6.01.0 release."
+        "affected_version": "6.00.41",
+        "affected_earlier": true,
+        "affected_desc": "The @JupiterExchange PRICE API has been upgraded to v2, in the v6.01.0 release that was made public today. This brings Jupiter market support BACK ONLINE (as they disabled the v1 PRICE API awhile ago)."
     },
     {
         "timestamp": 1738627200,
@@ -25,5 +18,12 @@
         "affected_version": "6.00.40",
         "affected_earlier": false,
         "affected_desc": "There is an UPSTREAM bug in Embedded Chromium (for Windows), causing JavaScript dialogue boxes to be suppressed in the DESKTOP EDITION of this app, FOR WINDOWS 11 USERS. v6.00.41 has been released today, with a fix for this issue."
+    },
+    {
+        "timestamp": 1732752000,
+        "very_important": false,
+        "affected_version": "6.00.40",
+        "affected_earlier": false,
+        "affected_desc": "You can now download your price chart and app config backups, on the \"Reset \/ Backup & Restore\" ADMIN page. In an UPCOMING (unknown when) release, you will be able to RESTORE these backups on the same admin page."
     }
 ]

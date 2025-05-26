@@ -160,7 +160,7 @@ parse = Number(parse);
           
      var result = new Intl.NumberFormat(locale, {
          minimumFractionDigits: 0,
-         maximumFractionDigits: 25,
+         maximumFractionDigits: crypto_decimals_max,
          }).format(parse);
          
      }
@@ -169,7 +169,7 @@ parse = Number(parse);
      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
      var result = new Intl.NumberFormat(undefined, {
          minimumFractionDigits: 0,
-         maximumFractionDigits: 25,
+         maximumFractionDigits: crypto_decimals_max,
          }).format(parse);
          
      }
@@ -356,7 +356,7 @@ $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
           $('#' + tree_id).on('redraw.jstree', function () {
           
           // Delete button
-          $('.jstree_remove_selected').show(250, 'linear'); // 0.25 seconds
+          $('.jstree_remove_selected').show(750, 'linear'); // 0.75 seconds
           
                    admin_iframe_dom.forEach(function(iframe) {
                    iframe_size_adjust(iframe);
@@ -383,6 +383,17 @@ $('#' + tree_id).show(250, 'linear'); // 0.25 seconds
      
      }
 
+     
+     // Make sure admin iframes are re-adjusted for height, after 0.75 seconds
+     // (to avoid needing scroolbars) 
+     setTimeout(function() {
+                    
+          admin_iframe_dom.forEach(function(iframe) {
+          iframe_size_adjust(iframe);
+          });
+                   
+     }, 750);
+                                                    
 
 }
 
@@ -931,18 +942,28 @@ var input_type = element.attr("type");
 // https://jsfiddle.net/TheAL/ednxgwrj/ 
 function footer_banner(js_storage, notice_html) {
      
-document.write('<div class="footer_banner">' + notice_html + '<button class="footer_banner_button">I Understand</button></div>');
+var stored_state = localStorage.getItem(js_storage);
 
-var footer_notice = $('.footer_banner');
 
-     if ( localStorage.getItem(js_storage) != "understood" ) {
+     if ( !showing_footer_notice && stored_state != 'understood' ) {
+     
+     showing_footer_notice = true;
+     
+     document.write('<div class="footer_banner">' + notice_html + '<button class="footer_banner_button">I Understand</button></div>');
+
+     var footer_notice = $('.footer_banner');
+     
      footer_notice.slideDown(500);
+     
+     
+          $('.footer_banner .footer_banner_button').click(function () {
+          footer_notice.slideUp(500);
+          localStorage.setItem(js_storage, "understood");
+          });
+
+
      }
      
-     $('.footer_banner .footer_banner_button').click(function () {
-     footer_notice.slideUp(500);
-     localStorage.setItem(js_storage, "understood");
-     });
 
 }
 
@@ -2234,15 +2255,15 @@ target_total_prim_currency = ( (to_trade_amnt * num_total) * btc_prim_currency_v
 
 
 	document.getElementById("target_prim_currency").innerHTML = target_prim_currency.toLocaleString(undefined, {
-    minimumFractionDigits: 8,
-    maximumFractionDigits: 8
+    minimumFractionDigits: 0,
+    maximumFractionDigits: crypto_decimals_max
 	});
 
 document.getElementById("target_btc").innerHTML = num_total;
 
 	document.getElementById("target_total_prim_currency").innerHTML = target_total_prim_currency.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    minimumFractionDigits: 0,
+    maximumFractionDigits: currency_decimals_max
 	});
 
 document.getElementById("target_total_btc").innerHTML = (to_trade_amnt * num_total).toFixed(8);
