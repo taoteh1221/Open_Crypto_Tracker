@@ -2256,7 +2256,7 @@ target_total_prim_currency = ( (to_trade_amnt * num_total) * btc_prim_currency_v
 
 	document.getElementById("target_prim_currency").innerHTML = target_prim_currency.toLocaleString(undefined, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: crypto_decimals_max
+    maximumFractionDigits: currency_decimals_max
 	});
 
 document.getElementById("target_btc").innerHTML = num_total;
