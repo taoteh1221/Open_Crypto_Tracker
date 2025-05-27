@@ -192,6 +192,12 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+Hook the plugin webhook API system into the API limiter for the internal API. Use the same system, as we want to securely throttle request response per ip address, across ALL internal API endpoints.
+
+
+Move chosen news feeds / price charts logic into LOCAL STORAGE (instead of the cookie storage used now), to free up cookie data limits for other data like portfolio tracking.
+
+
 "App Logs" page title (including the top nav title) is just "Logs".
 
 
@@ -303,9 +309,6 @@ Fix EVERYTHING in ALL documentation, where we moved settings over to different s
 
 
 Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.
-
-
-HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
 
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
