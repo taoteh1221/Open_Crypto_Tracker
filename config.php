@@ -960,7 +960,6 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 ////////////////////////////////////////////////////////////////////////////////////////////
 // UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE INTERFACE RUNTIMES
 // PHP MAX EXECUTION TIME *SHOULD* AUTO-SET TO 1320 SECONDS (22 MINUTES) IN *ANY* DEBUG MODE (EXCEPT 'off')
-// IF YOU GET AN ERROR 500, TRY RUNNING ONE DEBUG MODE AT A TIME, TO AVOID GOING OVER THE PHP EXECUTION TIME LIMIT
 // DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/app_log.log AND /cache/logs/debug/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES!
 $ct['conf']['power']['debug_mode'] = 'off'; 
