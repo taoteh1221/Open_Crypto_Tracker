@@ -5,13 +5,6 @@ TO-DO NOTES
 ############################################################################################################################
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GENERAL REMINDERS
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !   D O N T   F O R G E T   T O   S Q U A S H   T H E   B U G S !   !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -83,6 +76,13 @@ GENERAL REMINDERS
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+GENERAL REMINDERS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 Always set bluefish to "5 spaces" as a tab indentation (AND enable "insert spaces instead of tabs"), and enable indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!! PLEASE DO *NOT* USE REGULAR TAB INDENTATION (PLEASE ALWAYS USE MULTIPLE SPACES)! USE THE UBUNTU VERSION OF BLUEFISH (*NOT* the un-polished windows version)! THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, JUST SO YOU KNOW WHY THE NESTED INDENTS MAY NOT LOOK GOOD ON YOUR SETUP.
 
 
@@ -118,78 +118,32 @@ If you need MORE debug backtracing in any error / debug logging, use the fairly 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-API INTEGRATION
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-Coingecko NFT API: https://www.coingecko.com/en/api/nft
-
-
-Magic eden API:
-https://docs.magiceden.io/reference/solana-api-keys
-
-
-Helius NFT API:
-https://docs.helius.dev/compression-and-das-api/digital-asset-standard-das-api/get-assets-by-group
-
-
-Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
-
-
-For transaction on-chain-stats plugin (the solana data):
-https://public-api.solscan.io/transaction/last
-
-
-https://docs.solana.com/cluster/rpc-endpoints
-https://docs.solana.com/developing/clients/jsonrpc-api#getbalance
-
-
-Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading
-
-
-Look into adding https://1inch.exchange/#/ to DeFi APIs.
-
-
-Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
-
-
-Add bithumb API
-
-
-Check out cryptocompare.com API.
-
-
-Add localcryptos API support whenever their API is out of private testing.
-
-
-Add clicksend.com mobile text messaging support
-
-
-// https://core.telegram.org/bots/api
-
-// https://core.telegram.org/bots/api#making-requests
-
-// https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
-
-// https://api.telegram.org/bot{my_bot_token}/deleteWebhook
-
-// https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 *PRIORITIZED* FOR NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR ARCHITECTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 NOTES TO HELP AVOID ALL-NIGHTERS (as much as possible):
 
 Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER the next app release, AND should broken up into milestones as much as possible. Maybe even setup a testing environment separate from this app, if it's a new concept with a learning curve for you (so you can easily take breaks at anytime, without worrying about messing up the codebase in this app). THIS TAKES DISCIPLINE, BUT allows you to still code heavily, even when you're old enough to be your coworker's parent! ;)
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++
+
+For price charts OR price alerts, IF the market data request does NOT return a valid numeric value for the price, we +1 A COUNT within a cache file under the following conditions:
+
+1) X (below, as a power user setting) is greater than zero (zero disables the feature)
+
+2) It's been AT LEAST 24 hours since any previous price error happened for this EXACT market (check cache file modified timestamp)
+
+3) It's been LESS THAN X+1 days since the last price error happened for this EXACT market (check cache file modified timestamp)
+
+IF THE ABOVE CONDITIONS ARE *NOT* MET, we RESET THE COUNT TO 1 (ONLY IF X IS GREATER THAN ZERO [MEANING THE FEATURE IS ENABLED]).
+
+IF X is ever greater than zero (feature is enabled), AND THE CACHED COUNT is ever greater than or equal to X, we send a comms alert "Market Y/Z at Exchange A had a daily market retrieval error for X days in a row", AND RESET THE COUNT TO 1 AFTER QUEUEING THE ALERT.
+
++++++++++
 
 
 Hook the plugin webhook API system into the API limiter for the internal API. Use the same system, as we want to securely throttle request response per ip address, across ALL internal API endpoints.
@@ -660,6 +614,67 @@ In debug mode, maybe add our new 'used ram' stat instead (that doesn't include b
 
 
 Look into X day moving average overlay for price charts.
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+API INTEGRATION
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Coingecko NFT API: https://www.coingecko.com/en/api/nft
+
+
+Magic eden API:
+https://docs.magiceden.io/reference/solana-api-keys
+
+
+Helius NFT API:
+https://docs.helius.dev/compression-and-das-api/digital-asset-standard-das-api/get-assets-by-group
+
+
+Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
+
+
+For transaction on-chain-stats plugin (the solana data):
+https://public-api.solscan.io/transaction/last
+
+
+https://docs.solana.com/cluster/rpc-endpoints
+https://docs.solana.com/developing/clients/jsonrpc-api#getbalance
+
+
+Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading
+
+
+Look into adding https://1inch.exchange/#/ to DeFi APIs.
+
+
+Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
+
+
+Add bithumb API
+
+
+Check out cryptocompare.com API.
+
+
+Add localcryptos API support whenever their API is out of private testing.
+
+
+Add clicksend.com mobile text messaging support
+
+
+// https://core.telegram.org/bots/api
+
+// https://core.telegram.org/bots/api#making-requests
+
+// https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
+
+// https://api.telegram.org/bot{my_bot_token}/deleteWebhook
+
+// https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
 
 
 ############################################################################################################################
