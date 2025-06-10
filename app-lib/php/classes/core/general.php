@@ -131,7 +131,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function safe_name($var) {
+   function safe_file_name($var) {
    // Replace ALL symbols with an underscore (for ipv6 / windows compatibility, as filenames etc)
    return preg_replace('/[^\p{L}\p{N}\s]/u', "_", $var); 
    }
@@ -1904,7 +1904,7 @@ var $ct_array = array();
    // (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS OVER 1, #AND MIN 2 DECIMALS# UNDER, FOR INTERFACE UX)
    function thres_dec($num, $mode, $type=false) {
        
-   global $ct, $min_fiat_val_test, $min_crypto_val_test;
+   global $ct;
    
    $result = array();
    
@@ -1916,7 +1916,7 @@ var $ct_array = array();
           
       $result['max_dec'] = $this->dyn_max_decimals($num, $type);
       
-      $min_val = ( $type == 'fiat' ? $min_fiat_val_test : $min_crypto_val_test );
+      $min_val = ( $type == 'fiat' ? $ct['min_fiat_val_test'] : $ct['min_crypto_val_test'] );
    
           if ( $num < $min_val ) {
           $result['min_dec'] = 0;
@@ -2990,7 +2990,7 @@ var $ct_array = array();
    
    function valid_csv_import_row($csv_row) {
       
-   global $ct, $min_crypto_val_test;
+   global $ct;
    
    // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
    
@@ -3035,7 +3035,7 @@ var $ct_array = array();
       
       
       // Return false if there is no valid held amount
-      if ( $csv_row[1] >= $min_crypto_val_test )  {
+      if ( $csv_row[1] >= $ct['min_crypto_val_test'] )  {
       return $csv_row;
       }
       else {
@@ -3052,7 +3052,7 @@ var $ct_array = array();
 
    function dyn_max_decimals($price_raw, $type) {
        
-   global $ct, $min_fiat_val_test, $min_crypto_val_test;
+   global $ct;
    
    $price_raw = abs($price_raw); // Assure no negative number used
    
@@ -3076,7 +3076,7 @@ var $ct_array = array();
     
         if ( $type == 'fiat' ) {
              
-        $track_target = preg_replace("/1/", "5", $min_fiat_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        $track_target = preg_replace("/1/", "5", $ct['min_fiat_val_test']); // Set to 0.XXXXX5 instead of 0.XXXXX1
         
         
              $loop = 0;
@@ -3115,7 +3115,7 @@ var $ct_array = array();
         }
         else if ( $type == 'crypto' ) {
              
-        $track_target = preg_replace("/1/", "5", $min_crypto_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        $track_target = preg_replace("/1/", "5", $ct['min_crypto_val_test']); // Set to 0.XXXXX5 instead of 0.XXXXX1
         
         
              $loop = 0;

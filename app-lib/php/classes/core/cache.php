@@ -147,7 +147,7 @@ var $ct_array = array();
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   
-  $safe_name = $ct['gen']->safe_name($ct['remote_ip']);
+  $safe_name = $ct['gen']->safe_file_name($ct['remote_ip']);
   
   $file_save_path = $ct['base_dir'] . '/cache/events/access_stats/' . $safe_name . '.dat';
   
@@ -623,7 +623,7 @@ var $ct_array = array();
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   
-  $safe_name = $ct['gen']->safe_name($tld_or_ip);
+  $safe_name = $ct['gen']->safe_file_name($tld_or_ip);
   
   $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $safe_name . '.dat';
   
@@ -942,7 +942,7 @@ var $ct_array = array();
           $url_visit_count = array();
           $user_agent_visit_count = array();
                
-          $safe_name = $ct['gen']->safe_name($access_stats_check['ip']);
+          $safe_name = $ct['gen']->safe_file_name($access_stats_check['ip']);
           
           $ct['show_access_stats'][$safe_name]['ip'] = $access_stats_check['ip'];
           
@@ -1005,7 +1005,7 @@ var $ct_array = array();
       // Render the stats
       foreach ( $ct['show_access_stats'] as $key => $val ) {
       
-      $safe_name = $ct['gen']->safe_name($val['ip']);
+      $safe_name = $ct['gen']->safe_file_name($val['ip']);
            
       ?>
 
@@ -2812,7 +2812,7 @@ var $ct_array = array();
 
   
   // IPV6 friendly filename (no illegal filename characters)
-  $safe_name = $ct['gen']->safe_name($endpoint_tld_or_ip);
+  $safe_name = $ct['gen']->safe_file_name($endpoint_tld_or_ip);
   
   $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
   

@@ -6886,6 +6886,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: TBD
 
+-New PER-market error reporting feature, to send comms alerts on X CONSECUTIVE DAYS of market data errors, for any particular market data being requested by the app (can be disabled if desired, in the comms admin section)
+
 -------------------------------------------------------------------
 
 

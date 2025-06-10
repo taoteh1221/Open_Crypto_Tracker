@@ -3886,6 +3886,97 @@ var $exchange_apis = array(
         
       
       }
+      
+      
+      // Track market data failure
+      if ( $ct['conf']['comms']['market_error_alert_channels'] != 'off' ) {
+      
+      
+           if (
+           !isset($result['last_trade'])
+           || isset($result['last_trade']) && !is_numeric($result['last_trade'])
+           || isset($result['last_trade']) && $result['last_trade'] < $ct['min_crypto_val_test']
+           ) {
+                
+           // Safe filename characters
+           $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->safe_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id . '.dat');
+           
+           // 1 day
+           $min_time_interval = 1440; 
+           
+           // X + 1 days
+           $max_time_interval = ($ct['conf']['comms']['market_error_threshold'] + 1) * 1440;
+               
+               
+               // Get any existing count, OR set to zero
+               if ( file_exists($market_error_cache_path) ) {
+               $market_error_count = trim( file_get_contents($market_error_cache_path) );
+               }
+               else {
+               $market_error_count = 0;
+               }
+           
+               
+               // ONLY UP COUNTS if it's been at least 24 hours since the last error,
+               // AND it has NOT been $ct['conf']['comms']['market_error_threshold'] + 1 days
+               // since the last error
+               if (
+               $ct['cache']->update_cache($market_error_cache_path, $min_time_interval) == true
+               && $ct['cache']->update_cache($market_error_cache_path, $max_time_interval) != true
+               ) {
+               $market_error_count = $market_error_count + 1;
+               }
+               // Otherwise, RESET count to 1 (to only count this error)
+               else {
+               $market_error_count = 1;
+               }
+               
+               
+               // IF we have reached the threshold to send an alert for this market
+               if ( $market_error_count >= $ct['conf']['comms']['market_error_threshold'] ) {
+                    
+               $market_error_msg = 'There have been ' . $ct['conf']['comms']['market_error_threshold'] . ' days of DAILY market errors for the following market:' . "\n" . $asset_symb . ' @ ' . $ct['gen']->key_to_name($sel_exchange) . ' (market ID: '.$mrkt_id.')' . "\n\n" .  '(you have per-market error alerts triggered every '.$ct['conf']['comms']['market_error_threshold'].' days, in the communication settings)';
+			
+			$notifyme_msg = $market_error_msg . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
+			
+               $market_error_txt = $ct['conf']['comms']['market_error_threshold'] . ' days of DAILY market errors for: ' . $asset_symb . ' @ ' . $ct['gen']->key_to_name($sel_exchange) . ' (market ID: '.$mrkt_id.')';
+	
+        	     // Minimize function calls
+        	     $text_alert = $ct['gen']->detect_unicode($market_error_txt); 
+			
+        	     $market_error_send_params = array(
+                                    			'notifyme' => $notifyme_msg,
+                                    			'telegram' => $market_error_msg,
+                                    			'text' => array(
+                                    			               'message' => $text_alert['content'],
+                                    			               'charset' => $text_alert['charset']
+                                    			               ),
+                                    			'email' => array(
+                                                    			'subject' => 'Market Error Alert',
+                                                    			'message' => $market_error_msg
+                                                    			)
+                                    			);
+				
+		    
+		     // Only send to comm channels the user prefers, based off the config setting $ct['conf']['comms']['market_error_alert_channels']
+		     $preferred_comms = $ct['gen']->preferred_comms($ct['conf']['comms']['market_error_alert_channels'], $market_error_send_params);
+			
+			// Queue notifications
+			@$ct['cache']->queue_notify($preferred_comms);
+			
+			// RESET count to zero, since we just sent alerts
+			$market_error_count = 0;
+
+               }
+           
+                     
+           // Update the market error tracking count
+           $ct['cache']->save_file($market_error_cache_path, $market_error_count);
+          
+           }
+
+           
+      }
    
    
    gc_collect_cycles(); // Clean memory cache

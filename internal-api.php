@@ -25,7 +25,7 @@ header('Access-Control-Allow-Credentials: true');
 
 
 // Ip address information
-$safe_name = $ct['gen']->safe_name($ct['remote_ip']); 
+$safe_name = $ct['gen']->safe_file_name($ct['remote_ip']); 
 $ip_access = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat') );
 
 

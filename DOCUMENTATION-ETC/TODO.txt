@@ -129,23 +129,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-+++++++++
-
-For price charts OR price alerts, IF the market data request does NOT return a valid numeric value for the price, we +1 A COUNT within a cache file under the following conditions:
-
-1) X (below, as a power user setting) is greater than zero (zero disables the feature)
-
-2) It's been AT LEAST 24 hours since any previous price error happened for this EXACT market (check cache file modified timestamp)
-
-3) It's been LESS THAN X+1 days since the last price error happened for this EXACT market (check cache file modified timestamp)
-
-IF THE ABOVE CONDITIONS ARE *NOT* MET, we RESET THE COUNT TO 1 (ONLY IF X IS GREATER THAN ZERO [MEANING THE FEATURE IS ENABLED]).
-
-IF X is ever greater than zero (feature is enabled), AND THE CACHED COUNT is ever greater than or equal to X, we send a comms alert "Market Y/Z at Exchange A had a daily market retrieval error for X days in a row", AND RESET THE COUNT TO 1 AFTER QUEUEING THE ALERT.
-
-+++++++++
-
-
 Hook the plugin webhook API system into the API limiter for the internal API. Use the same system, as we want to securely throttle request response per ip address, across ALL internal API endpoints.
 
 

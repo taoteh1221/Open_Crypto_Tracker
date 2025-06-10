@@ -397,26 +397,26 @@ $ct['gen']->log('other_error', 'RSS feeds failed to sort alphabetically');
 
 // Set minimum CURRENCY value used in the app
 $loop = 0;
-$min_fiat_val_test = "0.";
+$ct['min_fiat_val_test'] = "0.";
 while ( $loop < $ct['conf']['currency']['currency_decimals_max'] ) {
 $loop = $loop + 1;
-$min_fiat_val_test .= ( $loop < $ct['conf']['currency']['currency_decimals_max'] ? '0' : '1' );
+$ct['min_fiat_val_test'] .= ( $loop < $ct['conf']['currency']['currency_decimals_max'] ? '0' : '1' );
 }
 unset($loop);
       
 
 // Set minimum CRYPTO value used in the app (important for currency conversions on very low-value coins, like BONK etc)
 $loop = 0;
-$min_crypto_val_test = "0.";
+$ct['min_crypto_val_test'] = "0.";
 while ( $loop < $ct['conf']['currency']['crypto_decimals_max'] ) {
 $loop = $loop + 1;
-$min_crypto_val_test .= ( $loop < $ct['conf']['currency']['crypto_decimals_max'] ? '0' : '1' );
+$ct['min_crypto_val_test'] .= ( $loop < $ct['conf']['currency']['crypto_decimals_max'] ? '0' : '1' );
 }
 unset($loop);
 
 
 // Set "watch only" flag amount (sets portfolio amount one decimal MORE than allowed min value)
-$watch_only_flag_val = preg_replace("/1/", "01", $min_crypto_val_test); // Set to 0.XXXXX01 instead of 0.XXXXX1
+$watch_only_flag_val = preg_replace("/1/", "01", $ct['min_crypto_val_test']); // Set to 0.XXXXX01 instead of 0.XXXXX1
         
 
 // Primary Bitcoin markets (MUST RUN AT END of config-init [AFTER config auto-adjust])

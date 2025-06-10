@@ -48,6 +48,7 @@ $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/upgrading/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/logging/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/first_run/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/market_error_tracking/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/internal_api/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/external_data/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/cron/') != true

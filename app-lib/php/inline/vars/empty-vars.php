@@ -175,6 +175,10 @@ $ct['count_2fa_fields'] = 0;
 
 $ct['jupiter_ag_search_results'] = 0;
 
+$ct['min_fiat_val_test'] = 0;
+
+$ct['min_crypto_val_test'] = 0;
+
 $ct['activate_proxies'] = 'off';
 
 

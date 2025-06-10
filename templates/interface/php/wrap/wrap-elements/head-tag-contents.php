@@ -85,9 +85,9 @@
 	
 	crypto_decimals_max = Number(<?=$ct['conf']['currency']['crypto_decimals_max']?>);
 	
-	min_fiat_val_test = '<?=$min_fiat_val_test?>';
+	min_fiat_val_test = '<?=$ct['min_fiat_val_test']?>';
 	
-	min_crypto_val_test = '<?=$min_crypto_val_test?>';
+	min_crypto_val_test = '<?=$ct['min_crypto_val_test']?>';
 	
 	watch_only_flag_val = '<?=$watch_only_flag_val?>';
 	
