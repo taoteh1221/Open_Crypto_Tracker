@@ -3901,12 +3901,6 @@ var $exchange_apis = array(
            // Safe filename characters
            $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->safe_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id . '.dat');
            
-           // 1 day
-           $min_time_interval = 1440; 
-           
-           // X + 1 days
-           $max_time_interval = ($ct['conf']['comms']['market_error_threshold'] + 1) * 1440;
-               
                
                // Get any existing count, OR set to zero
                if ( file_exists($market_error_cache_path) ) {
@@ -3917,12 +3911,12 @@ var $exchange_apis = array(
                }
            
                
-               // ONLY UP COUNTS if it's been at least 24 hours since the last error,
-               // AND it has NOT been $ct['conf']['comms']['market_error_threshold'] + 1 days
-               // since the last error
+               // ONLY UP COUNTS if it's been at least 1 day since the last error,
+               // BUT less than 2 days since the last error (IN MINUTES)
+               // (WE ONLY WANT TO TRACK WHEN CONSECUTIVE DAILY ERRORS HAPPEN!)
                if (
-               $ct['cache']->update_cache($market_error_cache_path, $min_time_interval) == true
-               && $ct['cache']->update_cache($market_error_cache_path, $max_time_interval) != true
+               $ct['cache']->update_cache($market_error_cache_path, 1440) == true
+               && $ct['cache']->update_cache($market_error_cache_path, 2880) != true
                ) {
                $market_error_count = $market_error_count + 1;
                }
