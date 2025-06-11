@@ -122,7 +122,7 @@
 	        
 	        <span class='bitcoin'>Twitter:</span> <a href='https://twitter.com/taoteh1221' target='_blank'>https://twitter.com/taoteh1221</a><br /><br />
 	        
-	        <span class='bitcoin'>Private Contact:</span> <a href='https://dragonfrugal.com/contact' target='_blank'>https://dragonfrugal.com/contact</a>
+	        <span class='bitcoin'>Private Contact:</span> <a href='https://dragonfrugal.org/contact' target='_blank'>https://dragonfrugal.org/contact</a>
 												
 <br /><br />
 

@@ -31,6 +31,8 @@
 	        
 	        <b>Extra Spacing:</b> <input type='checkbox' id='app_log_space' value='1' onchange="system_logs('app_log');" />
 	        
+	        &nbsp; <b>Search:</b> <input type='text' id='app_log_search' value='' maxlength="20" size="10" />
+	        
 	        &nbsp; <b>Last lines:</b> <input type='text' id='app_log_lines' value='100' maxlength="5" size="4" />
 	        
 	        &nbsp; <button class='force_button_style' onclick="copy_text('app_log', 'app_log_alert');">Copy To Clipboard</button> 
@@ -58,6 +60,8 @@
 	        <p>
 	        
 	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_error_space' value='1' onchange="system_logs('smtp_error');" />
+	        
+	        &nbsp; <b>Search:</b> <input type='text' id='smtp_error_search' value='' maxlength="20" size="10" />
 	        
 	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_error_lines' value='100' maxlength="5" size="4" />
 	        

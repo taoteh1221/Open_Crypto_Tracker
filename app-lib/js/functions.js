@@ -2904,9 +2904,15 @@ var log_area = $('#' + elm_id); // Needs to be set as a global var, for the init
 // Blank out existing logs that are showing
 log_area.text('');
     
-log_file = elm_id + '.log';
+var log_file = elm_id + '.log';
         	
-log_lines = $('#' + elm_id + '_lines').val();
+var log_lines = $('#' + elm_id + '_lines').val();
+        	
+var log_search = $('#' + elm_id + '_search').val();
+
+log_search = log_search.trim(); // TRIM WHITESPACE
+
+var search_pattern = new RegExp( escapeRegExp(log_search) , 'i');
 
 not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 
@@ -2926,38 +2932,44 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    	data_length = data.length;
    	
    	loop = 0;
+   	
 		$.each( data, function(key, val) {
+		     
+		     
+		     // IF a search is being used, AND no results are on this line, skip it
+		     if ( log_search != '' && val.match(search_pattern) == null ) {
+		     return true; // Equivalent of continue in a jquery .each loop
+		     }
+		     
 			
-   		if ( $('#' + elm_id + '_space').is(":checked") ) {
-      	log_area.append(val + "\n"); // For UX / readability, add an extra space between log lines
-   		}
-   		else {
-      	log_area.append(val); // For raw log format
-   		}
-   		
-      
-      loop = loop + 1;
-      
-      	// Finished looping
-    		if (loop == data_length) {
-   		
-   			     // Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
-				setTimeout(function(){
-				     
-				     if ( typeof log_area[0] !== 'undefined' ) {
-				     log_area.scrollTop(log_area[0].scrollHeight);
-				     }
-
-                         if ( typeof elm_id !== 'undefined' ) {
-                         load_highlightjs(elm_id);
-				     $('#' + elm_id + '_alert').text('');
-                         }
-
-				}, 4000);
-	
-    		}
+        		if ( $('#' + elm_id + '_space').is(":checked") ) {
+           	log_area.append(val + "\n"); // For UX / readability, add an extra space between log lines
+        		}
+        		else {
+           	log_area.append(val); // For raw log format
+        		}
+        		
+           
+          loop = loop + 1;
     		
-      });
+          });
+        			     
+        			     
+          // Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
+     	setTimeout(function(){
+     				     
+     		if ( typeof log_area[0] !== 'undefined' ) {
+     		log_area.scrollTop(log_area[0].scrollHeight);
+     		}
+     
+               if ( typeof elm_id !== 'undefined' ) {
+               load_highlightjs(elm_id);
+               }
+     				
+     	$('#' + elm_id + '_alert').text('');
+     
+     	}, 4000);
+     	
               
 	});
 	

@@ -6888,6 +6888,10 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -New PER-market error reporting feature, to send comms alerts on X CONSECUTIVE DAYS of market data errors, for any particular market data being requested by the app (can be disabled if desired, in the comms admin section)
 
+-Search feature for the "System Monitoring => App Logs" interface (to only show log lines matching the search query)
+
+-UX improvements
+
 -------------------------------------------------------------------
 
 

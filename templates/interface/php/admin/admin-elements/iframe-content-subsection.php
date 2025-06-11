@@ -28,7 +28,7 @@ $ct['is_subsection_config'] = true;
     elseif ( $_GET['subsection'] == 'access_stats' ) {
     require("templates/interface/php/admin/admin-sections/system-monitoring/access-stats.php");
     }
-    elseif ( $_GET['subsection'] == 'logs' ) {
+    elseif ( $_GET['subsection'] == 'app_logs' ) {
     require("templates/interface/php/admin/admin-sections/system-monitoring/app-logs.php");
     }
     elseif ( $_GET['subsection'] == 'ext_apis' ) {
