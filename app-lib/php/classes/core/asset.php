@@ -558,7 +558,7 @@ var $ct_array = array();
    
    function market_conv_int_api($mrkt_conversion, $all_mrkts_data_array) {
    
-   global $ct, $min_crypto_val_test;
+   global $ct;
    
    $result = array();
    
@@ -691,7 +691,7 @@ var $ct_array = array();
                        // FAILSAFE: If the exchange market is DOES NOT RETURN a value, 
                        // move the internal array pointer one forward, until we've tried all exchanges for this btc pair
                        $switch_exchange = true;
-                       while ( !isset($mrkt_conv_btc_val) && $switch_exchange != false || $ct['var']->num_to_str($mrkt_conv_btc_val) < $min_crypto_val_test && $switch_exchange != false ) {
+                       while ( !isset($mrkt_conv_btc_val) && $switch_exchange != false || $ct['var']->num_to_str($mrkt_conv_btc_val) < $ct['min_crypto_val_test'] && $switch_exchange != false ) {
                          
                        $switch_exchange = next($ct['conf']['assets']['BTC']['pair'][$mrkt_conversion]);
                        
@@ -867,7 +867,7 @@ var $ct_array = array();
    
    function pair_btc_val($pair) {
    
-   global $ct, $min_crypto_val_test;
+   global $ct;
    
    $pair = strtolower($pair);
    
@@ -929,8 +929,8 @@ var $ct_array = array();
 		          $ct['btc_pair_mrkts'][$pair.'_btc'] = $ct['var']->num_to_str( $ct['api']->market(strtoupper($pair), $mrkt_key, $mrkt_val)['last_trade'] );
 		          
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
-			            // FUTURE-PROOF FIAT ROUNDING WITH $min_crypto_val_test, IN CASE BITCOIN MOONS HARD
-			            if ( stristr($mrkt_key, 'bitmex_') == false && $ct['btc_pair_mrkts'][$pair.'_btc'] >= $min_crypto_val_test ) {
+			            // FUTURE-PROOF FIAT ROUNDING WITH $ct['min_crypto_val_test'], IN CASE BITCOIN MOONS HARD
+			            if ( stristr($mrkt_key, 'bitmex_') == false && $ct['btc_pair_mrkts'][$pair.'_btc'] >= $ct['min_crypto_val_test'] ) {
 				       return $ct['btc_pair_mrkts'][$pair.'_btc'];
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
@@ -1022,8 +1022,8 @@ var $ct_array = array();
 		                
 		                
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
-			            // FUTURE-PROOF FIAT ROUNDING WITH $min_crypto_val_test, IN CASE BITCOIN MOONS HARD
-			            if ( stristr($mrkt_key, 'bitmex_') == false && $ct['btc_pair_mrkts'][$pair.'_btc'] >= $min_crypto_val_test ) {
+			            // FUTURE-PROOF FIAT ROUNDING WITH $ct['min_crypto_val_test'], IN CASE BITCOIN MOONS HARD
+			            if ( stristr($mrkt_key, 'bitmex_') == false && $ct['btc_pair_mrkts'][$pair.'_btc'] >= $ct['min_crypto_val_test'] ) {
 			            return $ct['btc_pair_mrkts'][$pair.'_btc'];
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
@@ -1082,7 +1082,7 @@ var $ct_array = array();
    function ui_asset_row($asset_name, $asset_symb, $asset_amnt, $all_pair_mrkts, $sel_pair, $sel_exchange, $purchase_price=null, $lvrg_level, $sel_mrgntyp) {
    
    // Globals
-   global $ct, $min_fiat_val_test, $min_crypto_val_test, $watch_only_flag_val;
+   global $ct, $watch_only_flag_val;
    
      
       // If asset is no longer configured in app config, return false for UX / runtime speed
@@ -1204,7 +1204,7 @@ var $ct_array = array();
      
      
       // Calculate gain / loss if purchase price was populated, AND asset held is populated
-      if ( $purchase_price >= $min_fiat_val_test && $asset_amnt >= $min_crypto_val_test ) {
+      if ( $purchase_price >= $ct['min_fiat_val_test'] && $asset_amnt >= $ct['min_crypto_val_test'] ) {
        
       //echo ' ' . $asset_symb . ': ' . $purchase_price . ' => ' . $asset_amnt . ' || ';
        
@@ -1678,7 +1678,7 @@ var $ct_array = array();
    function charts_price_alerts($asset_data, $exchange, $pair, $mode) {
    
    // Globals
-   global $ct, $min_fiat_val_test, $min_crypto_val_test;
+   global $ct;
       
    $pair = strtolower($pair);
    
@@ -1703,10 +1703,10 @@ var $ct_array = array();
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
       if ( array_key_exists($pair, $ct['conf']['assets']['BTC']['pair']) && !array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
       $has_btc_pairing = true;
-      $min_vol_val_test = $min_fiat_val_test;
+      $min_vol_val_test = $ct['min_fiat_val_test'];
       }
       else {
-      $min_vol_val_test = $min_crypto_val_test;
+      $min_vol_val_test = $ct['min_crypto_val_test'];
       }
       
       
@@ -1737,7 +1737,7 @@ var $ct_array = array();
       
       
       // Return false if we have no minimum bitcoin primary currency value
-      if ( isset($ct['default_bitcoin_primary_currency_val']) && $ct['default_bitcoin_primary_currency_val'] >= $min_crypto_val_test ) {
+      if ( isset($ct['default_bitcoin_primary_currency_val']) && $ct['default_bitcoin_primary_currency_val'] >= $ct['min_crypto_val_test'] ) {
       // Continue
       }
       else {
@@ -1781,7 +1781,7 @@ var $ct_array = array();
       
       
       // Cleanup the asset value 
-      if ( $asset_prim_currency_val_raw >= $min_fiat_val_test ) {
+      if ( $asset_prim_currency_val_raw >= $ct['min_fiat_val_test'] ) {
       // Continue
       // Round PRIMARY CURRENCY CONFIG asset price to only keep $ct['conf']['currency']['currency_decimals_max'] decimals maximum 
       $asset_prim_currency_val_raw = round($asset_prim_currency_val_raw, $ct['conf']['currency']['currency_decimals_max']);
@@ -1844,10 +1844,10 @@ var $ct_array = array();
    $vol_prim_currency_raw = $ct['var']->num_to_str($vol_prim_currency_raw);
    
       
-      if ( $has_btc_pairing && $asset_mrkt_data['last_trade'] >= $min_fiat_val_test ) {
+      if ( $has_btc_pairing && $asset_mrkt_data['last_trade'] >= $ct['min_fiat_val_test'] ) {
       $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['currency']['currency_decimals_max'], '.', '');
       }
-      elseif ( $asset_mrkt_data['last_trade'] >= $min_crypto_val_test ) {
+      elseif ( $asset_mrkt_data['last_trade'] >= $ct['min_crypto_val_test'] ) {
       $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct['conf']['currency']['crypto_decimals_max'], '.', '');
       }
       // Return false if we have no minimum asset value
@@ -1921,8 +1921,8 @@ var $ct_array = array();
       // Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
       // If the charts page is enabled in Admin Config, save latest chart data for assets with price alerts configured on them
       if (
-      !$halt_chart_storage && $mode == 'both' && $asset_prim_currency_val_raw >= $min_fiat_val_test && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
-      || !$halt_chart_storage && $mode == 'chart' && $asset_prim_currency_val_raw >= $min_fiat_val_test && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
+      !$halt_chart_storage && $mode == 'both' && $asset_prim_currency_val_raw >= $ct['min_fiat_val_test'] && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
+      || !$halt_chart_storage && $mode == 'chart' && $asset_prim_currency_val_raw >= $ct['min_fiat_val_test'] && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
       ) {
       
       // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
@@ -2013,7 +2013,7 @@ var $ct_array = array();
         
           // Price checks (done early for including with price alert reset logic)
           // If a percent change can be determined
-          if ( $cached_asset_prim_currency_val >= $min_fiat_val_test && $asset_prim_currency_val_raw >= $min_fiat_val_test ) {
+          if ( $cached_asset_prim_currency_val >= $ct['min_fiat_val_test'] && $asset_prim_currency_val_raw >= $ct['min_fiat_val_test'] ) {
           
           // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
           $percent_change = abs( ($asset_prim_currency_val_raw - $cached_asset_prim_currency_val) / abs($cached_asset_prim_currency_val) * 100 );
@@ -2276,7 +2276,7 @@ var $ct_array = array();
           
           }
           // If run alerts not triggered, BUT asset price exists, we run any required additional logic
-          elseif ( $asset_prim_currency_val_raw >= $min_fiat_val_test ) {
+          elseif ( $asset_prim_currency_val_raw >= $ct['min_fiat_val_test'] ) {
        
        
              	 // Not already run at least once (alert cache file not created yet)

@@ -209,8 +209,8 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
                 if ( preg_match("/_paid/i", $key) ) {
                         
                     if (
-                    $ct['var']->rem_num_format($_POST[$key]) >= $min_fiat_val_test
-                    && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
+                    $ct['var']->rem_num_format($_POST[$key]) >= $ct['min_fiat_val_test']
+                    && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $ct['min_crypto_val_test']
                     ) {
                     $set_paid_vals .= $key.'-'. $ct['var']->rem_num_format($_POST[$key]) . '#';
                     }
@@ -221,8 +221,8 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
                            
                if ( preg_match("/_lvrg/i", $key) ) {
                                 
-                     if ( $ct['var']->rem_num_format($_POST[$asset_symb . '_paid']) >= $min_fiat_val_test
-                     && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
+                     if ( $ct['var']->rem_num_format($_POST[$asset_symb . '_paid']) >= $ct['min_fiat_val_test']
+                     && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $ct['min_crypto_val_test']
                      ) {
                      $set_lvrg_vals .= $key.'-'. $_POST[$key] . '#';
                      }
@@ -232,8 +232,8 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
                             
                if ( preg_match("/_mrgntyp/i", $key) ) {
                                 
-                     if ( $ct['var']->rem_num_format($_POST[$asset_symb . '_paid']) >= $min_fiat_val_test
-                     && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
+                     if ( $ct['var']->rem_num_format($_POST[$asset_symb . '_paid']) >= $ct['min_fiat_val_test']
+                     && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $ct['min_crypto_val_test']
                      ) {
                      // COMPRESS to save on cookie storage space
                      $set_mrgntyp_vals .= $key.'-'. ( $_POST[$key] == 'short' ? 'shrt' : 'lng' ) . '#';
@@ -269,8 +269,8 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
           	     
                         		  // If purchased amount (not just watched), AND cost basis
                         	       if (
-                        	       $ct['var']->rem_num_format($val[2]) >= $min_fiat_val_test
-                        	       && $ct['var']->rem_num_format($val[1]) >= $min_crypto_val_test
+                        	       $ct['var']->rem_num_format($val[2]) >= $ct['min_fiat_val_test']
+                        	       && $ct['var']->rem_num_format($val[1]) >= $ct['min_crypto_val_test']
                         	       ) {
                         	       $set_paid_vals .= $compat_key . '_paid-' . $ct['var']->rem_num_format($val[2]) . '#';
                         	       $set_lvrg_vals .= $compat_key . '_lvrg-' . $val[3] . '#';

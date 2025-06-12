@@ -466,8 +466,8 @@
                 					   
     			            // If purchased amount (not just watched), AND cost basis
                     		if (
-                    		$purchase_price_temp >= $min_fiat_val_test
-                    		&& $asset_amnt_val >= $min_crypto_val_test
+                    		$purchase_price_temp >= $ct['min_fiat_val_test']
+                    		&& $asset_amnt_val >= $ct['min_crypto_val_test']
                     		) {
                 			$asset_paid_val = $purchase_price_temp;
                     		$asset_lvrg_val = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
@@ -507,7 +507,7 @@
 	    
 	    
     	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
-    	    if ( $ct['var']->rem_num_format($asset_amnt_val) < $min_crypto_val_test ) {
+    	    if ( $ct['var']->rem_num_format($asset_amnt_val) < $ct['min_crypto_val_test'] ) {
     	    $asset_paid_val = 0;
     	    $asset_lvrg_val = 0;
     	    $asset_mrgntyp_val = 'long';
@@ -677,12 +677,12 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct['var']->rem_num_format($asset_paid_val) < $min_fiat_val_test ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct['var']->rem_num_format($asset_paid_val) < $ct['min_fiat_val_test'] ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $lvrg_count = 2;
 	     while ( $ct['conf']['power']['margin_leverage_maximum'] > 1 && $lvrg_count <= $ct['conf']['power']['margin_leverage_maximum'] ) {
 	     ?>	     
-	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct['var']->rem_num_format($asset_paid_val) >= $min_fiat_val_test ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
+	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct['var']->rem_num_format($asset_paid_val) >= $ct['min_fiat_val_test'] ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
 	     <?php
 	     $lvrg_count = $lvrg_count + 1;
 	     }

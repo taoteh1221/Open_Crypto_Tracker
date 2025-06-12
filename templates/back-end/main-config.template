@@ -79,10 +79,19 @@ $ct['conf']['comms']['allow_comms'] = 'on'; // 'on' / 'off' (Default = 'on' [com
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
-$ct['conf']['comms']['upgrade_alert_channels'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+// 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+$ct['conf']['comms']['upgrade_alert_channels'] = 'all';
 ////
 // Wait X days between upgrade reminders
 $ct['conf']['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
+
+
+// Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
+// 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+$ct['conf']['comms']['market_error_alert_channels'] = 'all';
+////
+// ALERTS for market data failures, AFTER X CONSECUTIVE DAYS of errors
+$ct['conf']['comms']['market_error_threshold'] = 7; // (default = 7, MIN = 5, MAX = 15)
 
 
 // Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
@@ -960,7 +969,6 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 ////////////////////////////////////////////////////////////////////////////////////////////
 // UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE INTERFACE RUNTIMES
 // PHP MAX EXECUTION TIME *SHOULD* AUTO-SET TO 1320 SECONDS (22 MINUTES) IN *ANY* DEBUG MODE (EXCEPT 'off')
-// IF YOU GET AN ERROR 500, TRY RUNNING ONE DEBUG MODE AT A TIME, TO AVOID GOING OVER THE PHP EXECUTION TIME LIMIT
 // DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/app_log.log AND /cache/logs/debug/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES!
 $ct['conf']['power']['debug_mode'] = 'off'; 

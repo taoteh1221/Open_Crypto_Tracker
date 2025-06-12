@@ -73,7 +73,7 @@
 			$upgrade_check_msg = $another_reminder . 'An upgrade for Open Crypto Tracker to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $ct['app_version'] . '.' . $bug_fix_msg_extension;
 			
 			
-			$email_notifyme_msg = $upgrade_check_msg . ' (you have upgrade reminders triggered every '.$ct['conf']['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
+			$email_notifyme_msg = $upgrade_check_msg . ' (you have upgrade reminders triggered every '.$ct['conf']['comms']['upgrade_alert_reminder'].' days in the communication settings)';
 			
 			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\nUpgrade Description:\n\n" . $upgrade_description . "\n\n" . 'Quick / easy upgrading for the SERVER EDITION can be done by copying / pasting / running this command, using the "Terminal" app in your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian system menu (Windows 10 requires manual upgrading), or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://tinyurl.com/install-crypto-tracker;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash' . "\n\nSee 'Upgrading / Downgrading Existing Installations' in README.txt, for full details on MANUAL upgrading AND downgrading.\n\nIF ANYTHING STOPS WORKING AFTER UPGRADING / DOWNGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly. Otherwise, you MAY encounter visual styling / app functionality errors (until your browser cache refreshes on it's own).\n\n";
 			
@@ -90,8 +90,6 @@
 			
         	$upgrade_check_send_params = array(
                                     			'notifyme' => $email_notifyme_msg,
-                                    			// We don't want to go over telegram's 4096 character limit,
-                                    			// so we don't include anymore than the basics for content
                                     			'telegram' => $email_only_with_upgrade_command . $download_link . $changelog_link,
                                     			'text' => array(
                                     			               'message' => $text_alert['content'],

@@ -475,7 +475,7 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
 		}
 		else {
 		    
-		     if ( $this->pair_btc_val($ct['sel_opt']['show_secondary_trade_val']) > $min_crypto_val_test ) {
+		     if ( $this->pair_btc_val($ct['sel_opt']['show_secondary_trade_val']) > $ct['min_crypto_val_test'] ) {
 		     $secondary_trade_val_result = $ct['var']->num_to_str( $btc_trade_eqiv_raw / $this->pair_btc_val($ct['sel_opt']['show_secondary_trade_val']) );
 		     }
 		     else {
@@ -493,7 +493,7 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
 
 		}
 		
-		if ( $secondary_trade_val_result >= $min_crypto_val_test ) {
+		if ( $secondary_trade_val_result >= $ct['min_crypto_val_test'] ) {
   		echo '<div class="crypto_worth">(' . $ct['var']->num_pretty($secondary_trade_val_result, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . ' '.strtoupper($ct['sel_opt']['show_secondary_trade_val']).')</div>';
 		}
   
@@ -688,7 +688,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 
 		}
 		
-		if ( $secondary_holdings_val_result >= $min_crypto_val_test ) {
+		if ( $secondary_holdings_val_result >= $ct['min_crypto_val_test'] ) {
   		echo '<div class="crypto_worth private_data">(' . $ct['var']->num_pretty($secondary_holdings_val_result, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . ' '.strtoupper($ct['sel_opt']['show_secondary_trade_val']).')</div>';
   		}
   		
@@ -709,9 +709,9 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 <?php
 
 $thres_dec = $ct['gen']->thres_dec($asset_prim_currency_worth_raw, 'u', 'fiat'); // Units mode
-echo '<span class="private_data ' . ( $purchase_price >= $min_fiat_val_test && $lvrg_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct['var']->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
+echo '<span class="private_data ' . ( $purchase_price >= $ct['min_fiat_val_test'] && $lvrg_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct['var']->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
 
-  if ( $purchase_price >= $min_fiat_val_test && $lvrg_level >= 2 ) {
+  if ( $purchase_price >= $ct['min_fiat_val_test'] && $lvrg_level >= 2 ) {
 
   $asset_worth_inc_lvrg = $asset_prim_currency_worth_raw + $only_lvrg_gain_loss;
   

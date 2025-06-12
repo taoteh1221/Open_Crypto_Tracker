@@ -6881,6 +6881,23 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.01.01
+
+-BUG FIX: TBD
+
+-New PER-market error reporting feature, to send comms alerts on X CONSECUTIVE DAYS of market data errors, for any particular market data being requested by the app (can be disabled if desired, in the comms admin section)
+
+-Search feature for the "System Monitoring => App Logs" interface (to only show log lines matching the search query)
+
+-DAILY limit advanced API throttling (for APIs like AlphaVantage FREE tier), for more reliable market data requests
+
+-UX improvements
+
+-------------------------------------------------------------------
+
+
+
 
 
 

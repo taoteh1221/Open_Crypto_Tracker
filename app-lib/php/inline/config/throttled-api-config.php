@@ -14,46 +14,39 @@
 
 // THROTTLE ALPHAVANTAGE - START
 
-// If we have an AlphaVantage UNLIMITED daily requests plan
-// https://www.alphavantage.co/premium/
-if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] > 5 ) {
-$alphavantage_per_day_limit = 0; // Unlimited
-}
-else {
-$alphavantage_per_day_limit = $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'];
-}
 
-
-// IF we do NOT have a PREMIUM PLAN (ALL premium plans are UNLIMITED daily requests)
-// (zero is the flag for UNLIMITED daily requests, auto-adjusted in config-init.php)
-if ( $alphavantage_per_day_limit > 0 ) {
+// IF we do NOT have a PREMIUM PLAN
+if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
 
 $ct['alphavantage_pairs'] = 0; // RESET, since we reload this logic on config resets / user updates
+
 
      // Figure out what our throttled cache time has to be for alphavantage stock asset API calls
      foreach ( $ct['conf']['assets'] as $markets ) {
                    
          foreach ( $markets['pair'] as $exchange_pairs ) {
-              	            
-            if ( isset($exchange_pairs['alphavantage_stock']) && $exchange_pairs['alphavantage_stock'] != '' ) { // In case user messes up Admin Config, this helps
-            $ct['alphavantage_pairs'] = $ct['alphavantage_pairs'] + 1;
-            }
+             
+             // In case user messes up Admin Config, this CONDITION CHECK helps
+             if ( isset($exchange_pairs['alphavantage_stock']) && $exchange_pairs['alphavantage_stock'] != '' ) { 
+             $ct['alphavantage_pairs'] = $ct['alphavantage_pairs'] + 1;
+             }
               	            
          }
                      
      }
 
 
-     if ( $alphavantage_per_day_limit >= 1 ) {
-     $alphavantage_cache_time_per_asset =  floor( ( (24 / $alphavantage_per_day_limit) * 60 ) * $ct['alphavantage_pairs']);
-     }
-     else {
-     $alphavantage_cache_time_per_asset = 99999999999999999999; // Simple / effective "never runs" cache time
-     }
-
+$alphavantage_cache_time_per_asset =  floor( ( (24 / $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit']) * 60 ) * $ct['alphavantage_pairs']);
 
 // Throttled based on how many times a day each asset can get LIVE data, AND STILL NOT GO OVER THE DAILY LIMIT
-$ct['throttled_api_min_cache_time']['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct['conf']['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct['conf']['power']['last_trade_cache_time'] );
+$ct['throttled_api_min_cache_time']['alphavantage.co'] = ( $alphavantage_cache_time_per_asset > $ct['conf']['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct['conf']['power']['last_trade_cache_time'] );
+
+// Alphavantage DAILY limit FOR FREE tier (all premium tiers have NO daily limit)
+$ct['throttled_api_per_day_limit']['alphavantage.co'] = $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'];
+
+// Add 1 request per-second throttling for the FREE tier,
+// AS THE ALPHAVANTAGE FREE API CAN BE A LITTLE WONKY TO BEGIN WITH
+$ct['throttled_api_per_second_limit']['alphavantage.co'] = 1;
 
 }
 // Otherwise, if we have an UNLIMITED daily requests plan, just use the same 'last_trade_cache_time' as everything else does
@@ -61,15 +54,9 @@ else {
 $ct['throttled_api_min_cache_time']['alphavantage.co'] = $ct['conf']['power']['last_trade_cache_time'];
 }
 
+
 // We still do per minute too, because Alphavantage has a per-minute restriction (EVEN FOR PREMIUM SERVICES)
 $ct['throttled_api_per_minute_limit']['alphavantage.co'] = $ct['conf']['ext_apis']['alphavantage_per_minute_limit'];
-
-
-// Add 1 request per-second throttling for the FREE tier,
-// AS THE ALPHAVANTAGE FREE API CAN BE A LITTLE WONKY TO BEGIN WITH
-if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
-$ct['throttled_api_per_second_limit']['alphavantage.co'] = 1;
-}
 
 
 // THROTTLE ALPHAVANTAGE - END

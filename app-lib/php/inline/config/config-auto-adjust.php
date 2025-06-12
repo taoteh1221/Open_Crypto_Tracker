@@ -414,6 +414,15 @@ $ct['conf']['currency']['crypto_decimals_max'] = 10;
 }
 
 
+// Idiot-proof maximum RANGE of $ct['conf']['comms']['market_error_threshold']
+if ( $ct['conf']['comms']['market_error_threshold'] > 15 ) {
+$ct['conf']['comms']['market_error_threshold'] = 15;
+}
+elseif ( $ct['conf']['comms']['market_error_threshold'] < 5 ) {
+$ct['conf']['comms']['market_error_threshold'] = 5;
+}
+
+
 // Idiot-proof maximum of +-35 on captcha text contrast
 if ( abs($ct['conf']['sec']['captcha_text_contrast']) > 35 ) {
 $ct['conf']['sec']['captcha_text_contrast'] = 35;

@@ -83,6 +83,41 @@ $ct['admin_render_settings']['upgrade_alert_reminder']['range_ui_suffix'] = ' Da
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['market_error_alert_channels']['is_select'] = array(
+                                                               'off',
+                                                               'email',
+                                                               'text',
+                                                               'notifyme',
+                                                               'telegram',
+                                                               'all',
+                                                             );
+
+
+$ct['admin_render_settings']['market_error_alert_channels']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
+                                                         
+                                                         
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$ct['admin_render_settings']['market_error_threshold']['is_range'] = true;
+
+$ct['admin_render_settings']['market_error_threshold']['range_min'] = 5;
+
+$ct['admin_render_settings']['market_error_threshold']['range_max'] = 15;
+
+$ct['admin_render_settings']['market_error_threshold']['range_step'] = 1;
+
+$ct['admin_render_settings']['market_error_threshold']['range_ui_prefix'] = 'After ';
+
+$ct['admin_render_settings']['market_error_threshold']['range_ui_suffix'] = ' Days';
+
+
+$ct['admin_render_settings']['market_error_threshold']['is_notes'] = 'ALERTS for market data failures, AFTER X CONSECUTIVE DAYS of errors';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 $ct['admin_render_settings']['smtp_login']['is_text'] = true;
 
 $ct['admin_render_settings']['smtp_login']['is_password'] = true;

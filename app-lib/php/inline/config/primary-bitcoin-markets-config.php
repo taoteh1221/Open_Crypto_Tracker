@@ -231,7 +231,7 @@ $ct['conf']['assets']['ALTNFTS']['name'] = 'Alternate NFTs (' . strtoupper($ct['
     
     
 // Log an error if we have no minimum bitcoin primary currency value
-if ( isset($ct['sel_opt']['sel_btc_prim_currency_val']) && $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) >= $min_crypto_val_test ) {
+if ( isset($ct['sel_opt']['sel_btc_prim_currency_val']) && $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) >= $ct['min_crypto_val_test'] ) {
 // Continue
 }
 else {

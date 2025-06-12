@@ -16,7 +16,7 @@
         
         <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_access_stats')?>&parent=system_monitoring&subsection=access_stats'>Access Stats</a></li>
         
-        <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_logs')?>&parent=system_monitoring&subsection=logs'>App Logs</a></li>
+        <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_app_logs')?>&parent=system_monitoring&subsection=app_logs'>App Logs</a></li>
         
 	</ul>
     	

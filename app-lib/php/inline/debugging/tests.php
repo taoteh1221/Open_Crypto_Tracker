@@ -27,8 +27,8 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 		$charts_test_data = $ct['api']->market($check_asset, $check_asset_params[1], $check_market_id, $check_asset_params[2]);
 		
 		
-			if ( isset($charts_test_data['last_trade']) && $ct['var']->num_to_str($charts_test_data['last_trade']) >= $min_crypto_val_test ) {
-			// DO NOTHING (IS SET / AT LEAST $min_crypto_val_test IN VALUE)
+			if ( isset($charts_test_data['last_trade']) && $ct['var']->num_to_str($charts_test_data['last_trade']) >= $ct['min_crypto_val_test'] ) {
+			// DO NOTHING (IS SET / AT LEAST $ct['min_crypto_val_test'] IN VALUE)
 			}
 			// TEST FAILURE
 			else {
@@ -108,8 +108,8 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 					$mrkts_test_data = $ct['api']->market( strtoupper($asset_key) , $key, $val, $pair_key);
 				
 				
-     				     if ( isset($mrkts_test_data['last_trade']) && $ct['var']->num_to_str($mrkts_test_data['last_trade']) >= $min_crypto_val_test ) {
-                 			// DO NOTHING (IS SET / AT LEAST $min_crypto_val_test IN VALUE)
+     				     if ( isset($mrkts_test_data['last_trade']) && $ct['var']->num_to_str($mrkts_test_data['last_trade']) >= $ct['min_crypto_val_test'] ) {
+                 			// DO NOTHING (IS SET / AT LEAST $ct['min_crypto_val_test'] IN VALUE)
                  			}
                  			// TEST FAILURE
                  			else {

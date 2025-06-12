@@ -84,7 +84,7 @@ $csv_download_array[] = array(
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( isset($asset_array_key) && trim($asset_array_key) != '' && $ct['var']->rem_num_format($asset_amnt_val) >= $min_crypto_val_test ) {
+	      if ( isset($asset_array_key) && trim($asset_array_key) != '' && $ct['var']->rem_num_format($asset_amnt_val) >= $ct['min_crypto_val_test'] ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($asset_array_key),

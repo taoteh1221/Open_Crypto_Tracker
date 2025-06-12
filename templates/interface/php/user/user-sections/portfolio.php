@@ -197,12 +197,12 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
                	
                	
                	
-               		if ( $held_amnt >= $min_crypto_val_test ) {
+               		if ( $held_amnt >= $ct['min_crypto_val_test'] ) {
                			
                		$assets_added = 1;
                		
                		
-               			if ( $purchase_price >= $min_fiat_val_test ) {
+               			if ( $purchase_price >= $ct['min_fiat_val_test'] ) {
                			$purchase_price_added = 1;
                			}
                			
@@ -289,12 +289,12 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 	        			
 	        			
 	        			
-	        				if ( $held_amnt >= $min_crypto_val_test ) {
+	        				if ( $held_amnt >= $ct['min_crypto_val_test'] ) {
 	        					
 	        				$assets_added = 1;
 	        				
 	        				
-	        					if ( $purchase_price >= $min_fiat_val_test ) {
+	        					if ( $purchase_price >= $ct['min_fiat_val_test'] ) {
 	        					$purchase_price_added = 1;
 	        					}
 	        					
@@ -359,7 +359,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
     			// If purchased amount (not just watched), AND cost basis
         		if (
         		$purchase_price_temp >= 0.00000001
-        		&& $held_amnt >= $min_crypto_val_test
+        		&& $held_amnt >= $ct['min_crypto_val_test']
         		) {
     			$purchase_price = $purchase_price_temp;
         		$lvrg_level = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
@@ -388,7 +388,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
     					
     					
     						
-    		if ( $held_amnt >= $min_crypto_val_test ) {
+    		if ( $held_amnt >= $ct['min_crypto_val_test'] ) {
     							
     		$assets_added = 1;
     						
@@ -487,7 +487,7 @@ $total_prim_currency_worth = $ct['asset']->coin_stats_data('coin_worth_total');
     }
 
 
-$altcoin_dominance = ( $total_btc_worth_raw >= $min_crypto_val_test ? $ct['var']->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $btcnfts_dominance - $ethnfts_dominance - $solnfts_dominance - $altnfts_dominance - $stocks_dominance ) : 0.00 );
+$altcoin_dominance = ( $total_btc_worth_raw >= $ct['min_crypto_val_test'] ? $ct['var']->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $btcnfts_dominance - $ethnfts_dominance - $solnfts_dominance - $altnfts_dominance - $stocks_dominance ) : 0.00 );
 
 
 // Remove any slight decimal over 100 (100.01 etc)
@@ -735,7 +735,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 						}
 						
 					
-						if ( $ct['var']->num_to_str($val['coin_paid']) >= $min_fiat_val_test ) {
+						if ( $ct['var']->num_to_str($val['coin_paid']) >= $ct['min_fiat_val_test'] ) {
 							
                               $thres_dec_1 = $ct['gen']->thres_dec($val['gain_loss_total'], 'u', 'fiat'); // Units mode
                               
@@ -1894,6 +1894,8 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	        
 	        <b>Extra Spacing:</b> <input type='checkbox' id='app_log_space' value='1' onchange="system_logs('app_log');" />
 	        
+	        &nbsp; <b>Search:</b> <input type='text' id='app_log_search' value='' maxlength="20" size="10" />
+	        
 	        &nbsp; <b>Last lines:</b> <input type='text' id='app_log_lines' value='100' maxlength="5" size="4" />
 	        
 	        &nbsp; <button class='force_button_style' onclick="copy_text('app_log', 'app_log_alert');">Copy To Clipboard</button> 
@@ -1921,6 +1923,8 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	        <p>
 	        
 	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_error_space' value='1' onchange="system_logs('smtp_error');" />
+	        
+	        &nbsp; <b>Search:</b> <input type='text' id='smtp_error_search' value='' maxlength="20" size="10" />
 	        
 	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_error_lines' value='100' maxlength="5" size="4" />
 	        
