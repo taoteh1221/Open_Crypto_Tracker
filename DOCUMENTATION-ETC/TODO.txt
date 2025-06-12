@@ -132,6 +132,19 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
++++++++++
+
+For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
+https://www.alphavantage.co/query?function=OVERVIEW&symbol=TICKER_HERE&apikey=API_KEY_HERE
+
+There are also endpoints available for income statement / balance sheet / cash flow / earnings / etc here:
+https://www.alphavantage.co/documentation/#fundamentals
+
+Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
+
++++++++++
+
+
 Add the ability to allow a BLANK single array item admin user input for domains arrays IN THE INTERFACE (strict servers, etc), in the corrisponding admin user input validation files in: /app-lib/php/classes/includes/admin/. Use the same logic we already do this for in other admin input arrays. TEST ALL THESE OUT BY DELETING ALL ITEMS VIA INTERFACE, INCLUDING ALL THE OTHER ONES WE ALREADY SETUP.
 
 
@@ -221,15 +234,6 @@ Add support for Jupiter's "freeze authority" meta data, in asset search results.
 
 
 Move all remaining relevent APIs over to the new per-second / per-minute throttling system.
-
-
-For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
-https://www.alphavantage.co/query?function=OVERVIEW&symbol=TICKER_HERE&apikey=API_KEY_HERE
-
-There are also endpoints available for income statement / balance sheet / cash flow / earnings / etc here:
-https://www.alphavantage.co/documentation/#fundamentals
-
-Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
 
 
 Add full redhat support for auto-installer.

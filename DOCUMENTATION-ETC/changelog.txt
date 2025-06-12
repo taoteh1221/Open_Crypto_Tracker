@@ -6890,6 +6890,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Search feature for the "System Monitoring => App Logs" interface (to only show log lines matching the search query)
 
+-DAILY limit advanced API throttling (for APIs like AlphaVantage FREE tier), for more reliable market data requests
+
 -UX improvements
 
 -------------------------------------------------------------------

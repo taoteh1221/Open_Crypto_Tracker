@@ -609,7 +609,7 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function api_throttling($tld_or_ip, $cached_path=false) {
+  function api_throttling($tld_or_ip) {
   
   global $ct;
   
@@ -623,116 +623,89 @@ var $ct_array = array();
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   
-  $safe_name = $ct['gen']->safe_file_name($tld_or_ip);
-  
-  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $safe_name . '.dat';
+  // SAFE filename
+  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_file_name($tld_or_ip) . '.dat';
   
   $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , true);
   
   
      // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $ct['api_throttle_count'] array
-     if ( !isset($ct['api_throttle_flag']['init'][$safe_name]) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
-     $ct['api_throttle_count'][$safe_name] = $api_throttle_count_check;
+     if ( !isset($ct['api_throttle_flag']['init'][$tld_or_ip]) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
+     $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
      }
      
      
-     $ct['api_throttle_flag']['init'][$safe_name] = true; // Flag as initiated this runtime (AFTER above logic)
+     $ct['api_throttle_flag']['init'][$tld_or_ip] = true; // Flag as initiated this runtime (AFTER above logic)
+
+     
+     // Set OR reset DAY start time / counts, if needed
+     // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
+     if (
+     isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start'])
+     || isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] <= ( time() - 60 )
+     ) {
+     $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] = time();
+     $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] = 0;
+     }
 
      
      // Set OR reset MINUTE start time / counts, if needed
      // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
      if (
-     !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name]) && !isset($ct['api_throttle_count'][$safe_name]['minute_count']['start'])
-     || isset($ct['api_throttle_count'][$safe_name]['minute_count']['start']) && $ct['api_throttle_count'][$safe_name]['minute_count']['start'] <= ( time() - 60 )
+     isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'])
+     || isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'] <= ( time() - 60 )
      ) {
-     $ct['api_throttle_count'][$safe_name]['minute_count']['start'] = time();
-     $ct['api_throttle_count'][$safe_name]['minute_count']['count'] = 0;
+     $ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'] = time();
+     $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = 0;
      }
      
      
      // Thresholds for API servers (we throttle-limit, to have reliable LIVE data EVERY HOUR OF THE DAY) 
-     // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $ct['api_throttle_flag'][$safe_name] *AND* THE FUNCTION CALL)
+     // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $ct['api_throttle_flag'][$tld_or_ip] *AND* THE FUNCTION CALL)
      
      
-     // CACHE GLOBAL LIMIT TIME BASED (NEVER LESS THAN MINUTES!)
-     if ( $cached_path && isset($ct['throttled_api_min_cache_time'][$safe_name]) && $this->update_cache($cached_path, $ct['throttled_api_min_cache_time'][$safe_name]) == false ) {
-     
-     
-          // DEV DEBUGGING MODE
-          if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
-     
-          $how_old = round( ( time() - filemtime($cached_path) ) / 60 );
-          
-          $cache_file_name = preg_replace("/(.*)external_data\//", "", $cached_path);     
-          
-          // Log for each cache file's throttle
-          $ct['gen']->log(
-                       'notify_debug',
-                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct['var']->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $how_old . ', minimum_cache_global=' . $ct['throttled_api_min_cache_time'][$safe_name] . ')'
-               	  );
-          	  
-          }
-          
-     
-     // NO NEED TO UPDATE JSON STORAGE, AS WE ARE NOT UPDATING ANYTHING (JUST RETURN TRUE)
-     return true;
-     
-     }
-     // API REQUEST COUNTING BASED
-     // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
-     elseif (
-     !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name]) && $ct['api_throttle_count'][$safe_name]['minute_count']['count'] >= $ct['throttled_api_per_minute_limit'][$safe_name]
+     // Limits met, return TRUE
+     if (
+     isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['throttled_api_per_minute_limit'][$tld_or_ip]
+     || isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] >= $ct['throttled_api_per_day_limit'][$tld_or_ip]
      ) {
-          
-       $interval_count = $ct['api_throttle_count'][$safe_name]['minute_count']['count'];
-     
-          
-          if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
-          
-          // Only log once, as it's the minute thresholds met
-          $ct['gen']->log(
-                       'notify_debug',
-                       'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests=' . $interval_count . ')',
-               	   false,
-               	   md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
-               	  );
-          
-          }
-     
-     
-     // NO NEED TO UPDATE JSON STORAGE, AS WE ARE NOT UPDATING ANYTHING (JUST RETURN TRUE)
      return true;
-     
      }
+     // Limits NOT met, up counts, return FALSE
      elseif (
-     !$cached_path && isset($ct['throttled_api_per_second_limit'][$safe_name])
-     || !$cached_path && isset($ct['throttled_api_per_minute_limit'][$safe_name])
+     isset($ct['throttled_api_per_second_limit'][$tld_or_ip])
+     || isset($ct['throttled_api_per_minute_limit'][$tld_or_ip])
+     || isset($ct['throttled_api_per_day_limit'][$tld_or_ip])
      ) {
          
          
-         // PER-MINUTE MUST BE CHECKED FIRST!
-         if ( isset($ct['throttled_api_per_minute_limit'][$safe_name]) ) {
-              
-         $ct['api_throttle_count'][$safe_name]['minute_count']['count'] = $ct['api_throttle_count'][$safe_name]['minute_count']['count'] + 1;
-         
-         // We only store to cached file, if there is a per-minute limit set
-         $store_api_throttle_count = json_encode($ct['api_throttle_count'][$safe_name], JSON_PRETTY_PRINT);
-         $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
-
+         // PER-DAY count
+         if ( isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) ) {
+         $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] + 1;
+         $save_limit_counts = true;         
          }
+         
+         
+         // PER-MINUTE count
+         if ( isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) ) {
+         $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] + 1;
+         $save_limit_counts = true; 
+         }
+         
+         
          // FOR VALID PER-SECOND LIMITS, WE CAN JUST USE USLEEP DURING THIS RUNTIME,
          // TO PREFORM THE REQUIRED THROTTLING FOR THIS SERVER (NO NEED TO TALLY A REQUEST COUNTER)
-         elseif (
-         isset($ct['throttled_api_per_second_limit'][$safe_name])
-         && $ct['throttled_api_per_second_limit'][$safe_name] >= 1
+         if (
+         isset($ct['throttled_api_per_second_limit'][$tld_or_ip])
+         && $ct['throttled_api_per_second_limit'][$tld_or_ip] >= 1
          ) {
               
               // Cap per-second throttle to 1 million, to support our usleep auto-calculation logic
-              if ( $ct['throttled_api_per_second_limit'][$safe_name] > 1000000 ) {
-              $ct['throttled_api_per_second_limit'][$safe_name] = 1000000;
+              if ( $ct['throttled_api_per_second_limit'][$tld_or_ip] > 1000000 ) {
+              $ct['throttled_api_per_second_limit'][$tld_or_ip] = 1000000;
               }
          
-         $sleep_microseconds = (1 / $ct['throttled_api_per_second_limit'][$safe_name]) * 1000000;
+         $sleep_microseconds = (1 / $ct['throttled_api_per_second_limit'][$tld_or_ip]) * 1000000;
          
          // Assure any large number is NON-scientific format (and NO DECIMALS!)
          $sleep_microseconds = $ct['var']->num_to_str( round($sleep_microseconds, 0) );
@@ -742,6 +715,13 @@ var $ct_array = array();
 
          }
  
+         
+         // We only store to cached file, if there is a limit count updated
+         if ( $save_limit_counts ) {
+         $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
+         $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
+         }
+
      
      return false;
      
@@ -2775,6 +2755,10 @@ var $ct_array = array();
   // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
   $hash_check = ( $mode == 'params' ? md5( serialize($request_params) ) : md5($request_params) );
   
+  // Cache path, for checks etc
+  $cached_path = $ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat';
+       
+  
     // We should be able to make sure there is no whitespace safely on API Server
     if ( $api_server != null ) {
     $api_server = trim($api_server);
@@ -2851,7 +2835,7 @@ var $ct_array = array();
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     if ( $ttl < 0 ) {
-    unlink($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
+    unlink($cached_path);
     }
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
@@ -2928,7 +2912,7 @@ var $ct_array = array();
     // Live data retrieval (if no RUNTIME cache exists yet, OR ttl set to zero [explicit request to NOT use cached data])
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    elseif ( !isset($ct['api_runtime_cache'][$hash_check]) && $this->update_cache($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
+    elseif ( !isset($ct['api_runtime_cache'][$hash_check]) && $this->update_cache($cached_path, $ttl) == true || $ttl == 0 ) {
     
     // Track the request response time
     $api_time = microtime();
@@ -2943,7 +2927,7 @@ var $ct_array = array();
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
       // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
-      $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
+      $data = trim( file_get_contents($cached_path) );
       
       // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
       $ct['api_runtime_cache'][$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
@@ -2963,7 +2947,7 @@ var $ct_array = array();
           
           unset($ct['api_runtime_cache'][$hash_check]);
           
-          unlink($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
+          unlink($cached_path);
           
           return false;
           
@@ -3243,7 +3227,7 @@ var $ct_array = array();
       // FALLBACK TO FILE CACHE DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
       // (NO LOGIC NEEDED TO CHECK RUNTIME CACHE, AS WE ONLY ARE HERE IF THERE IS NONE)
        
-      $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
+      $data = trim( file_get_contents($cached_path) );
         
         
         // IF CACHE DATA EXISTS, flag cache fallback as succeeded, and IMMEADIATELY add data set to runtime cache / update the file cache timestamp
@@ -3252,7 +3236,7 @@ var $ct_array = array();
         $fallback_cache_data = true;
         // IMMEADIATELY RUN THIS LOGIC NOW, EVEN THOUGH IT RUNS AT END OF STATEMENT TOO, SINCE WE HAD A LIVE REQUEST FAILURE
         $ct['api_runtime_cache'][$hash_check] = $data;
-        touch($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat'); // Update cache file time
+        touch($cached_path); // Update cache file time
         }
         
         
@@ -3417,7 +3401,7 @@ var $ct_array = array();
             
             // Reset $data var with any cached value (null / false result is OK), as we don't want to cache a KNOWN error response
             // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
-            $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
+            $data = trim( file_get_contents($cached_path) );
              
                 
                 // Flag if cache fallback succeeded
@@ -3530,10 +3514,10 @@ var $ct_array = array();
       
         // Fallback just needs 'modified time' updated with touch()
         if ( isset($fallback_cache_data) ) {
-        $store_file_contents = touch($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
+        $store_file_contents = touch($cached_path);
         }
         else {
-        $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $ct['api_runtime_cache'][$hash_check]);
+        $store_file_contents = $this->save_file($cached_path, $ct['api_runtime_cache'][$hash_check]);
         }
         
        
@@ -3600,7 +3584,7 @@ var $ct_array = array();
       }
       else {
         
-      $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
+      $data = trim( file_get_contents($cached_path) );
       
         if ( isset($data) && $data != '' && $data != 'none' ) {
         $ct['api_runtime_cache'][$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
@@ -3610,22 +3594,28 @@ var $ct_array = array();
       }
     
     
-      // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API CACHED TIME******, due to limited-allowed daily requests
-      if ( isset($ct['dev']['throttle_limited_servers'][$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip, $ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
-      
+      // Servers requiring 'throttled_api_min_cache_time' THROTTLE-LIMITING ******BASED OFF API CACHED TIME******,
+      // due to limited-allowed daily requests
+      if (
+      isset($ct['throttled_api_min_cache_time'][$endpoint_tld_or_ip])
+      && $this->update_cache($cached_path, $ct['throttled_api_min_cache_time'][$endpoint_tld_or_ip]) == false
+      ) {
+          
+          
           // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
           //  FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
           if ( !isset($fallback_cache_data) ) {
                
-          $ct['gen']->log('ext_data_error', 'cached fallback FAILED during (CACHE) throttling of API for: ' . $endpoint_tld_or_ip);
+          $ct['gen']->log('ext_data_error', 'cached fallback FAILED during "throttled_api_min_cache_time" throttling of API for: ' . $endpoint_tld_or_ip);
           
           unset($ct['api_runtime_cache'][$hash_check]);
           
-          unlink($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
+          unlink($cached_path);
           
           return false;
           
           }
+          
                 
       }
     
