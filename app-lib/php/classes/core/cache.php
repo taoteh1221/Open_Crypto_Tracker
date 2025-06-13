@@ -642,7 +642,7 @@ var $ct_array = array();
      // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
      if (
      isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start'])
-     || isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] <= ( time() - 60 )
+     || isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] <= ( time() - 1440 )
      ) {
      $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] = time();
      $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] = 0;
