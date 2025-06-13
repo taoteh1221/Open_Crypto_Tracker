@@ -71,9 +71,9 @@ else {
 
 <p class="coin_info"><span class="bitcoin">MarketCap:</span> <?=$ct['var']->num_pretty($stock_overview['MarketCapitalization'], 0)?> (<?=$stock_overview['Currency']?>)</p>
 
-<p class="coin_info"><span class="bitcoin">52 Week High:</span> <?=$stock_overview['52WeekHigh']?> (<?=$stock_overview['Currency']?>)</p>
+<p class="coin_info"><span class="bitcoin">52 Week High:</span> <?=$ct['var']->num_pretty($stock_overview['52WeekHigh'], 2)?> (<?=$stock_overview['Currency']?>)</p>
 
-<p class="coin_info"><span class="bitcoin">52 Week Low:</span> <?=$stock_overview['52WeekLow']?> (<?=$stock_overview['Currency']?>)</p>
+<p class="coin_info"><span class="bitcoin">52 Week Low:</span> <?=$ct['var']->num_pretty($stock_overview['52WeekLow'], 2)?> (<?=$stock_overview['Currency']?>)</p>
 
 <p class="coin_info"><span class="bitcoin">Description:</span> <br /><?=$stock_overview['Description']?></p>
 
