@@ -5,453 +5,16 @@
 /////////////////////////////////////////////////////////////
 
 
-function escapeRegExp(text) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
-function remove_tags(str) {
-	if ((str === null) || (str === ''))
-		return false;
-	else
-		str = str.toString();
-
-	// Regular expression to identify HTML tags in
-	// the input string. Replacing the identified
-	// HTML tag with a null string.
-	return str.replace(/(<([^>]+)>)/ig, '');
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function insert_before_text_fields() {
-
-// Selects all form elements WITHOUT class "numeric_format_safe"
-var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'); 
-     
-     target_elements.forEach(function(sub_target) {
-     
-     var text_inputs = sub_target.querySelectorAll('input[type="text"]');
-          
-         // IF any TEXT inputs exist, render the alert element
-         if ( text_inputs.length > 0 ) {
-              
-          var newElement = document.createElement('p');
-          newElement.classList.add("yellow");
-          newElement.classList.add("yellow_dotted");
-          newElement.textContent = 'Any NUMERIC formatting MUST be ENGLISH (you CAN skip commas).';
-                    
-          var parent = sub_target.parentNode;
-          
-          parent.insertBefore(newElement, sub_target);
-         
-         }
-          
-     });
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-/*
-Usage:
-convert_numbers('selected_css'); // Automatically uses browser's locale
-convert_numbers('selected_css', 'de-DE'); // Manually set a locale
-*/
-
-function convert_numbers(css_selector, locale=false) {
-
-var selected_css = document.querySelectorAll(css_selector);
-
-var numbers_wrapped = wrap_numbers(selected_css); // Add 'num_conv' CSS class
-
-
-     if ( numbers_wrapped ) {
-
-     //console.log('All numbers have been wrapped...');
-     
-     var target_elements = document.querySelectorAll(css_selector + ' .num_conv'); // Selects all elements with class "my-class"
-     
-          target_elements.forEach(function(sub_target) {
-               
-               if ( typeof sub_target.value != 'undefined' ) {
-               //sub_target.value = num_to_locale(sub_target.value, locale);
-               }
-               else {
-               sub_target.innerHTML = num_to_locale(sub_target.innerHTML, locale);
-               }
-          
-          });
-          
-     }
-
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function wrap_numbers(selected_css) {
-     
-// Create a space between non-numeric-related and numeric-related characters that are directly next to each other,
-// so our numeric parsing further below can properly detect numeric instances
-var regex_compatibility = /([^0-9,.])([0-9])/g;
-
-// Fix above compatibility regex, when it moves a period one space to the right of a letter
-var regex_fix = /([a-zA-Z]) \./g;
-
-// Regex search for numeric instances, with commas / periods as optional number formatting
-var regex_numeric = /(?:^|\s)(\d*\.?\d+|\d{1,3}(?:,\d{3})*(?:\.\d+)?)(?!\S)/g;
-
-
-    selected_css.forEach(function(sub_target) {
-         
-         if ( typeof sub_target.value != 'undefined' ) {
-         //sub_target.classList.add("num_conv");
-         }
-         else {
-         
-         sub_target.innerHTML = sub_target.innerHTML.replace(regex_compatibility, '$1 $2');
-         
-         //sub_target.innerHTML = sub_target.innerHTML.replace(regex_fix, '$1.');
-         
-         sub_target.innerHTML = sub_target.innerHTML.replace(regex_numeric, '<span class="num_conv">$1</span>');
-         
-         }
-    
-    });
-    
-    
-return true;
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-/*
-Usage:
-num_to_locale('355,999.3333'); // Automatically uses browser's locale
-num_to_locale('355,999.3333', 'de-DE'); // Manually set a locale
-*/
-
-function num_to_locale(num, locale=false) {
-     
-var parse = num.trim(); // Trim whitespace
-parse = parse.replace(/,/g, ''); // Remove commas
-
-// convert to number
-parse = Number(parse);
-
-     
-     // Convert number to locale formatting,
-     // IF locale is set (UNLESS set to 'automatic')
-     if ( locale && locale != 'automatic' ) {
-          
-     var result = new Intl.NumberFormat(locale, {
-         minimumFractionDigits: 0,
-         maximumFractionDigits: crypto_decimals_max,
-         }).format(parse);
-         
-     }
-     else {
-     
-     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
-     var result = new Intl.NumberFormat(undefined, {
-         minimumFractionDigits: 0,
-         maximumFractionDigits: crypto_decimals_max,
-         }).format(parse);
-         
-     }
-
-
-return result;
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function balloon_css(text_align="left", z_index="32767", min_width="500px") {
-
-return {
-					fontSize: set_font_size + "em",
-					minWidth: min_width,
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: z_index,
-					textAlign: text_align,
-					}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// Javascript OBJECTS are different from javascript ARRAYS (lol),
-// so we need a custom function to get the length
-function getObjectLength (o) {
-  var length = 0;
-
-  for (var i in o) {
-    if (Object.prototype.hasOwnProperty.call(o, i)){
-      length++;
-    }
-  }
-  return length;
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function same_name_checkboxes_to_radio() {
-
-
-    $("input[type='checkbox']").each(function(index, value){
-         
-    var batched_by_name = $('input[name="'+this.name+'"]');
-         
-        if ( batched_by_name.length > 1 ) {
-
-        var checkboxes = document.getElementsByName(this.name);
-        
-           for (i = 0; i < checkboxes.length; i++) {
-             checkboxes[i].type = 'radio';
-           }
-
-        console.log('checkbox to radio for name = ' + this.name);
-        
-        }
-    
-       
-    });
-    
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function merge_objects(orig_object, overwriting_object) {
-
 return combinedSettings = { ...orig_object, ...overwriting_object };
-
 }
 
 
 /////////////////////////////////////////////////////////////
 
 
-function checkbox_subarrays_to_ajax(input_name_root) {
-
-var results = {};
-
-var name_override = {};
-
-
-     $('input[name^="' + input_name_root + '"]').each(function() {
-          
-          
-          if ( this.checked == true ) {
-               
-          results[this.name] = this.value;
-               
-          console.log(this.name + ' => ' + this.value);
-          
-          var selection_name = this.name;
-     
-          var dataset_id = this.getAttribute("dataset-id");
-          
-               
-               // Get / include the corresponding hidden fields with 'name' / 'mcap_slug' attributes
-               $('input[name^="' + input_name_root + '"]').each(function() {
-                    
-                    
-                    if ( this.type == 'hidden' && this.getAttribute("dataset-id") == dataset_id ) {
-                         
-                         
-                         if (
-                         !name_override[this.name] && selection_name.search(/coingecko/i) >= 0 && this.name.match(/\[name\]/i) && this.value != ''
-                         || !name_override[this.name] && selection_name.search(/coingecko/i) >= 0 && this.name.match(/\[mcap_slug\]/i) && this.value != ''
-                         ) {
-                         name_override[this.name] = this.value;
-                         console.log('coingecko override (dataset_id = '+dataset_id+'): ' + this.name + ' => ' + this.value);
-                         }
-                         else if (
-                         !name_override[this.name] && selection_name.search(/jupiter/i) >= 0 && this.name.match(/\[name\]/i) && this.value != ''
-                         || !name_override[this.name] && selection_name.search(/jupiter/i) >= 0 && this.name.match(/\[mcap_slug\]/i) && this.value != ''
-                         ) {
-                         name_override[this.name] = this.value;
-                         console.log('jupiter ag override (dataset_id = '+dataset_id+'): ' + this.name + ' => ' + this.value);
-                         }
-                         // We still need EMPTY values for correct CONFIG data structure (like 'mcap_slug'),
-                         // BUT ONLY IF NOT ALREADY DEFINED IN THE 'name_override' ARRAY!
-                         else if ( !name_override[this.name] ) {
-                         results[this.name] = this.value;
-                         console.log(this.name + ' => ' + this.value);
-                         }
-                         
-                    
-                    }
-                    
-     
-               });
-
-
-          }
-
-     
-     });
-
-
-//console.log(results);
-
-return merge_objects(results, name_override);
-
-}
-
-/////////////////////////////////////////////////////////////
-
-
-function jstree_json_ajax(url_params, tree_id, csrf_sec_token=false) {
-     
-jstree_json_data = {}; // RESET GLOBAL VAR
-     
-$('#' + tree_id).show(250, 'linear'); // 0.25 seconds
-
-     
-     // IF secured with the general CSRF security token
-     if ( csrf_sec_token ) {
-     url_params = url_params + "&gen_nonce=" + Base64.decode(gen_csrf_sec_token);
-     }
-     
-     
-     if ( $('#' + tree_id).jstree(true) ) {
-     $('#' + tree_id).jstree(true).settings.core.data.url = "ajax.php?" + url_params;
-     $('#' + tree_id).jstree(true).refresh();
-     }
-     else {
-     
-     
-          // https://www.jstree.com/api/
-          $('#' + tree_id).on('redraw.jstree', function () {
-          
-          // Delete button
-          $('.jstree_remove_selected').show(750, 'linear'); // 0.75 seconds
-          
-                   admin_iframe_dom.forEach(function(iframe) {
-                   iframe_size_adjust(iframe);
-                   });
-                                             
-          
-          }).jstree({
-          		
-              'core' : {
-                        
-                        "check_callback" : true, // NEEDED TO DELETE SELECTED ITEMS!
-                        "multiple" : true,
-                        'data' : {
-          			"url" : "ajax.php?" + url_params,
-          			"dataType" : "json" // needed only if you do not supply JSON headers
-          			
-                       }
-                       
-              },
-              "plugins" : [ "themes", "html_data", "checkbox", "sort", "ui" ]
-              
-          });
-     
-     
-     }
-
-     
-     // Make sure admin iframes are re-adjusted for height, after 0.75 seconds
-     // (to avoid needing scroolbars) 
-     setTimeout(function() {
-                    
-          admin_iframe_dom.forEach(function(iframe) {
-          iframe_size_adjust(iframe);
-          });
-                   
-     }, 750);
-                                                    
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function jstree_remove(elm_id) {
-			
-			
-     if ( $('#' + elm_id).jstree(true) ) {
-     
-     var ref = $('#' + elm_id).jstree(true),
-     
-     all_options = ref.get_json('#', { "flat" : true }),
-    
-     selected_options = ref.get_selected(),
-
-     all_count = all_options.length,
-    
-     selected_count = selected_options.length;
-          
-          
-          if ( !selected_options.length ) {
-          alert('Please select a market to delete.');
-          return false;
-          }
-
-          
-          // We ALWAYS want to leave AT LEAST ONE ITEM 
-          // (as we do 'delete entire asset' in a separate mode)
-          if ( all_count > selected_count ) {
-          ref.delete_node(selected_options);
-          }
-          else {
-          alert('Please leave at least one market, WHEN USING MARKET DELETION MODE. If you which to delete the ENTIRE ASSET, you can go BACK to STEP 2, and choose: Remove ENTIRE ASSET');
-          }
-          
-     
-     // UPDATE GLOBAL VAR 
-     // https://www.jstree.com/api/#/?f=get_json([obj,%20options])
-     jstree_json_data = ref.get_json(
-          
-                                         '#',
-                                         
-                                            {  
-                                             no_data : true,
-                                             no_state : true,
-                                             no_id : true,
-                                             no_li_attr : true,
-                                             no_a_attr : true
-                                            }
-                                         
-                                   );
-                                         
-     }
-     
-
+function escape_regex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 }
 
 
@@ -850,120 +413,62 @@ function feeds_loading_check() {
 /////////////////////////////////////////////////////////////
 
 
-function select_confirm(id, message, alert_if_specific_unselected=false) {
-     
-var element = $('input[data-track-id=' + id + ']').length ? $('input[data-track-id=' + id + ']') : $('#' + id);
-     
-var input_type = element.attr("type");
+// https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
+function remove_tags(str) {
+	if ((str === null) || (str === ''))
+		return false;
+	else
+		str = str.toString();
 
-     // SELECT inputs presumed
-     if ( typeof input_type == 'undefined' ) {
-     
-          var $sel = element.on('change', function(){
-              
-              // If OPTIONAL param NOT set, OR is set and it's same as the CURRENT value
-              if ( !alert_if_specific_unselected || alert_if_specific_unselected == $sel.data('currVal') ) {
-              var confirmed_change = confirm(message);
-              }
-               
-              if (
-              confirmed_change
-              || alert_if_specific_unselected && alert_if_specific_unselected != $sel.data('currVal')
-              ) {
-                  // store new value        
-                  $sel.trigger('update');
-              } else {
-                   // reset
-                   $sel.val( $sel.data('currVal') );        
-              }
-              
-          }).on('update', function(){
-              $(this).data('currVal', $(this).val());
-          }).trigger('update');
-     
-     }
-     // Radio inputs
-     else if ( input_type == 'radio' ) {
-     
-     var cssSelector = 'input:radio[name=' + escapeRegExp( element.attr("name") ) + ']';
-     
-          
-          // IF at least 2 radio inputs of same 'name' attribute exists, AND 1 is checked off
-          if ( $(cssSelector).length > 1 && $(cssSelector + ':checked').length ) {
-
-          var checkedValue = $(cssSelector + ':checked').val();
-     
-     
-              $(cssSelector).on('change', function() {
-              
-              console.log('checkedValue = ' + checkedValue);
-                   
-              var currentValue = $(this).val();
-                   
-                   
-                   // If OPTIONAL param NOT set, OR is set and it's same as the CURRENT value
-                   if ( !alert_if_specific_unselected || alert_if_specific_unselected != currentValue ) {
-                   var confirmed_change = confirm(message);
-                   }
-                    
-                   if (
-                   confirmed_change
-                   || alert_if_specific_unselected && alert_if_specific_unselected == currentValue
-                   ) {
-                   // Update 'checked value'
-                   checkedValue = currentValue;
-                   }
-                   // Revert to previous selection
-                   // (as we conditionally confirmed above, one was already checked off beforehand)
-                   else {
-                   
-                   $(cssSelector + '[value="' + checkedValue + '"]').prop('checked', true); 
-                   
-                   return false; // Prevent further execution
-     
-                   }         
-              
-     
-              });
-         
-          
-          }
-     
-     
-     }
-     
-
+	// Regular expression to identify HTML tags in
+	// the input string. Replacing the identified
+	// HTML tag with a null string.
+	return str.replace(/(<([^>]+)>)/ig, '');
 }
 
 
 /////////////////////////////////////////////////////////////
 
 
-// https://jsfiddle.net/TheAL/ednxgwrj/ 
-function footer_banner(js_storage, notice_html) {
-     
-var stored_state = localStorage.getItem(js_storage);
+// Javascript OBJECTS are different from javascript ARRAYS (lol),
+// so we need a custom function to get the length
+function getObjectLength (o) {
+  var length = 0;
+
+  for (var i in o) {
+    if (Object.prototype.hasOwnProperty.call(o, i)){
+      length++;
+    }
+  }
+  return length;
+}
 
 
-     if ( !showing_footer_notice && stored_state != 'understood' ) {
-     
-     showing_footer_notice = true;
-     
-     document.write('<div class="footer_banner">' + notice_html + '<button class="footer_banner_button">I Understand</button></div>');
-
-     var footer_notice = $('.footer_banner');
-     
-     footer_notice.slideDown(500);
-     
-     
-          $('.footer_banner .footer_banner_button').click(function () {
-          footer_notice.slideUp(500);
-          localStorage.setItem(js_storage, "understood");
-          });
+/////////////////////////////////////////////////////////////
 
 
-     }
-     
+function same_name_checkboxes_to_radio() {
+
+
+    $("input[type='checkbox']").each(function(index, value){
+         
+    var batched_by_name = $('input[name="'+this.name+'"]');
+         
+        if ( batched_by_name.length > 1 ) {
+
+        var checkboxes = document.getElementsByName(this.name);
+        
+           for (i = 0; i < checkboxes.length; i++) {
+             checkboxes[i].type = 'radio';
+           }
+
+        console.log('checkbox to radio for name = ' + this.name);
+        
+        }
+    
+       
+    });
+    
 
 }
 
@@ -1061,53 +566,6 @@ var hash_check = $(location).attr('hash');
 }
 
 
-/////////////////////////////////////////////////////////////
-
-
-function red_save_button(mode=false) {
-
-
-     if ( is_admin && mode == 'iframe' ) {
-     
-     parent.unsaved_admin_config = true;
-          
-     $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
-          
-     $('#sidebar .admin_settings_save', window.parent.document).removeClass('blue');
-     $('#sidebar .admin_settings_save', window.parent.document).addClass('red_bright');
-     
-     $(".save_notice").show(250, 'linear'); // 0.25 seconds // SHOW SAVE NOTICE AT TOP / BOTTOM OF THIS ADMIN IFRAME PAGE
-     
-         admin_iframe_dom.forEach(function(iframe) {
-         iframe_size_adjust(iframe);
-         });                  
-     
-     }
-     else if ( is_admin ) {
-     
-     unsaved_admin_config = true;
-          
-     $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
-          
-     $('#sidebar .admin_settings_save').removeClass('blue');
-     $('#sidebar .admin_settings_save').addClass('red_bright');
-     
-     }
-     else if ( !is_admin && !mode ) {
-     
-     unsaved_user_config = true;
-          
-     $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
-          
-     $('#sidebar .user_settings_save').removeClass('blue');
-     $('#sidebar .user_settings_save').addClass('red_bright');
-     
-     }
-     
-
-}
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -1169,6 +627,99 @@ var hash_check = $(location).attr('hash');
 /////////////////////////////////////////////////////////////
 
 
+function balloon_css(text_align="left", z_index="32767", min_width="500px") {
+
+return {
+					fontSize: set_font_size + "em",
+					minWidth: min_width,
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: z_index,
+					textAlign: text_align,
+					}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// https://jsfiddle.net/TheAL/ednxgwrj/ 
+function footer_banner(js_storage, notice_html) {
+     
+var stored_state = localStorage.getItem(js_storage);
+
+
+     if ( !showing_footer_notice && stored_state != 'understood' ) {
+     
+     showing_footer_notice = true;
+     
+     document.write('<div class="footer_banner">' + notice_html + '<button class="footer_banner_button">I Understand</button></div>');
+
+     var footer_notice = $('.footer_banner');
+     
+     footer_notice.slideDown(500);
+     
+     
+          $('.footer_banner .footer_banner_button').click(function () {
+          footer_notice.slideUp(500);
+          localStorage.setItem(js_storage, "understood");
+          });
+
+
+     }
+     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+/*
+Usage:
+convert_numbers('selected_css'); // Automatically uses browser's locale
+convert_numbers('selected_css', 'de-DE'); // Manually set a locale
+*/
+
+function convert_numbers(css_selector, locale=false) {
+
+var selected_css = document.querySelectorAll(css_selector);
+
+var numbers_wrapped = wrap_numbers(selected_css); // Add 'num_conv' CSS class
+
+
+     if ( numbers_wrapped ) {
+
+     //console.log('All numbers have been wrapped...');
+     
+     var target_elements = document.querySelectorAll(css_selector + ' .num_conv'); // Selects all elements with class "my-class"
+     
+          target_elements.forEach(function(sub_target) {
+               
+               if ( typeof sub_target.value != 'undefined' ) {
+               //sub_target.value = num_to_locale(sub_target.value, locale);
+               }
+               else {
+               sub_target.innerHTML = num_to_locale(sub_target.innerHTML, locale);
+               }
+          
+          });
+          
+     }
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function compact_submenu(elm=false) {
      
 //console.log('closing COMPACT submenu');
@@ -1198,62 +749,34 @@ function compact_submenu(elm=false) {
               
 }
 
-	
+
 /////////////////////////////////////////////////////////////
 
 
-function app_reloading_check(form_submission=0, new_location=false) {
+function insert_before_text_fields() {
 
-        
-    // Disable form updating in privacy mode
-    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
-    alert('Submitting data is not allowed in privacy mode.');
-    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
-    }
-    // If this is an ADMIN submenu section, AND we are NOT in the admin area,
-    // AND no iframe URL has been set yet, don't reload / load new page yet (we want to show the submenu options first)
-    else if ( new_location && !is_admin && new_location.split('#')[1] == 'admin_plugins' && iframe_url(admin_iframe_url) == null ) {
-    return;
-    }
-    else {
+// Selects all form elements WITHOUT class "numeric_format_safe"
+var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'); 
+     
+     target_elements.forEach(function(sub_target) {
+     
+     var text_inputs = sub_target.querySelectorAll('input[type="text"]');
+          
+         // IF any TEXT inputs exist, render the alert element
+         if ( text_inputs.length > 0 ) {
+              
+          var newElement = document.createElement('p');
+          newElement.classList.add("yellow");
+          newElement.classList.add("yellow_dotted");
+          newElement.textContent = 'Any NUMERIC formatting MUST be ENGLISH (you CAN skip commas).';
+                    
+          var parent = sub_target.parentNode;
+          
+          parent.insertBefore(newElement, sub_target);
          
-         if ( unsaved_user_config && !form_submit_queued || parent.unsaved_admin_config && !form_submit_queued ) {
-         
-         var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
-                  
-               if ( !confirm_skip_saving_changes ) {
-               return false;         
-               }
-               else if ( unsaved_user_config ) {        
-               
-               unsaved_user_config = false;
-
-               $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-               $('#sidebar .user_settings_save').addClass('blue');
-               $('#sidebar .user_settings_save').removeClass('red_bright');
-               
-               app_reload(form_submission, new_location);
-               
-               }
-               else if ( unsaved_admin_config ) {        
-               
-               parent.unsaved_admin_config = false;
-
-               $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-               $('#sidebar .admin_settings_save', window.parent.document).addClass('blue');
-               $('#sidebar .admin_settings_save', window.parent.document).removeClass('red_bright');
-               
-               app_reload(form_submission, new_location);
-               
-               }
-               
          }
-         else {
-         app_reload(form_submission, new_location);
-         }
-
-         
-    }
+          
+     });
 
 }
 
@@ -1553,66 +1076,38 @@ function paged_tablesort_sizechange() {
 /////////////////////////////////////////////////////////////
 
 
-function set_admin_security(obj) {
+function wrap_numbers(selected_css) {
+     
+// Create a space between non-numeric-related and numeric-related characters that are directly next to each other,
+// so our numeric parsing further below can properly detect numeric instances
+var regex_compatibility = /([^0-9,.])([0-9])/g;
+
+// Fix above compatibility regex, when it moves a period one space to the right of a letter
+var regex_fix = /([a-zA-Z]) \./g;
+
+// Regex search for numeric instances, with commas / periods as optional number formatting
+var regex_numeric = /(?:^|\s)(\d*\.?\d+|\d{1,3}(?:,\d{3})*(?:\.\d+)?)(?!\S)/g;
 
 
-          if ( !is_iframe ) {
-          return false;
-          }
-
-          
-		if ( obj.value == "normal" || obj.value == "medium" ) {
-	     var admin_sec_level_set = confirm("In 'Normal' and 'Medium' admin security modes, editing from the PHP config files will be DISABLED.\n\nAll app configuration editing will need to be done within this admin interface.");
-		}
-		else {
-	     var admin_sec_level_set = confirm("High security admin mode requires you to update your app configuration from the PHP config files (config.php in app main directory / plug-conf.php for each plugin in the plugins subdirectory).\n\nWARNING: IF YOU SWITCH TO HIGH SECURITY MODE, ANY SETTING CHANGES YOU MADE IN A LOWER SECURITY MODE *WILL BE LOST*!");
-		}
-
-		
-		if ( admin_sec_level_set ) {
-		$("#toggle_admin_security").submit(); // Triggers iframe "reloading" sequence
-		}
-		else {
-		$('input[name=opt_admin_sec]:checked').prop('checked',false);
-		$('#opt_admin_sec_' + $("#sel_admin_sec").val() ).prop('checked',true);
-		}
-
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function set_admin_2fa(obj=false, submit=false) {
-
-
-		if ( obj && obj.value == "off" ) {
-	     var admin_2fa_set = confirm("Turning off 2FA security IS *NOT* RECOMMENDED. Doing so will GREATLY REDUCE PROTECTION FROM HACKERS.\n\nIF YOU LOSE YOUR AUTHENTICATOR APP ACCOUNT, YOU MUST *MANUALLY* DELETE THE FILE \"cache/vars/admin_area_2fa.dat\" TO FORCE DISABLING 2FA.");
-		}
-		else if ( obj && obj.value == "on" ) {
-	     var admin_2fa_set = confirm("2FA security requires the admin account to enter a SECONDARY \"time-based one-time password\" upon login, which is generated by Google Authenticator / Microsoft Authenticator / Authy / etc. This provides an additional layer of robust security to the admin area, further protecting against unauthorized access and changes.");
-		}
-		else if ( obj && obj.value == "strict" ) {
-	     var admin_2fa_set = confirm("'Strict' 2FA mode not only requires entering your 2FA code upon login, it ALSO requires entering your 2FA code for changing ANYTHING in the admin area.");
-		}
-		
-		
-		// Revert if cancelled
-		if ( obj && !admin_2fa_set ) {
-		$('input[name=opt_admin_2fa]:checked').prop('checked',false);
-		$("input[name=opt_admin_2fa][value=" + $("#sel_admin_2fa").val() + "]").prop('checked', true);
-		}
-		// If turning 2FA on, show next step IF IT'S CURRENTLY OFF
-		else if ( obj && admin_2fa_set && obj.value != "off" && Base64.decode(admin_area_2fa) == 'off' ) {
-		$("#sel_admin_2fa").val( $('input[name=opt_admin_2fa]:radio:checked').val() );
-          $(".show_2fa_verification").show(250, 'linear'); // 0.25 seconds
-		}
-		// We don't need to show 2FA setup if we are disabling 2FA, OR switching between 'on' / 'strict'
-		else if ( !obj && submit == true || obj && admin_2fa_set && obj.value == "off" || obj && admin_2fa_set && Base64.decode(admin_area_2fa) != 'off' ) {
-		$("#toggle_admin_2fa").submit(); // Triggers iframe "reloading" sequence
-		}
-
+    selected_css.forEach(function(sub_target) {
+         
+         if ( typeof sub_target.value != 'undefined' ) {
+         //sub_target.classList.add("num_conv");
+         }
+         else {
+         
+         sub_target.innerHTML = sub_target.innerHTML.replace(regex_compatibility, '$1 $2');
+         
+         //sub_target.innerHTML = sub_target.innerHTML.replace(regex_fix, '$1.');
+         
+         sub_target.innerHTML = sub_target.innerHTML.replace(regex_numeric, '<span class="num_conv">$1</span>');
+         
+         }
+    
+    });
+    
+    
+return true;
 
 }
 
@@ -1890,6 +1385,555 @@ function monitor_iframe_sizes() {
     iframe_height_adjuster.observe(this);
     });
     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+/*
+Usage:
+num_to_locale('355,999.3333'); // Automatically uses browser's locale
+num_to_locale('355,999.3333', 'de-DE'); // Manually set a locale
+*/
+
+function num_to_locale(num, locale=false) {
+     
+var parse = num.trim(); // Trim whitespace
+parse = parse.replace(/,/g, ''); // Remove commas
+
+// convert to number
+parse = Number(parse);
+
+     
+     // Convert number to locale formatting,
+     // IF locale is set (UNLESS set to 'automatic')
+     if ( locale && locale != 'automatic' ) {
+          
+     var result = new Intl.NumberFormat(locale, {
+         minimumFractionDigits: 0,
+         maximumFractionDigits: crypto_decimals_max,
+         }).format(parse);
+         
+     }
+     else {
+     
+     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
+     var result = new Intl.NumberFormat(undefined, {
+         minimumFractionDigits: 0,
+         maximumFractionDigits: crypto_decimals_max,
+         }).format(parse);
+         
+     }
+
+
+return result;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function checkbox_subarrays_to_ajax(input_name_root) {
+
+var results = {};
+
+var name_override = {};
+
+
+     $('input[name^="' + input_name_root + '"]').each(function() {
+          
+          
+          if ( this.checked == true ) {
+               
+          results[this.name] = this.value;
+               
+          console.log(this.name + ' => ' + this.value);
+          
+          var selection_name = this.name;
+     
+          var dataset_id = this.getAttribute("dataset-id");
+          
+               
+               // Get / include the corresponding hidden fields with 'name' / 'mcap_slug' attributes
+               $('input[name^="' + input_name_root + '"]').each(function() {
+                    
+                    
+                    if ( this.type == 'hidden' && this.getAttribute("dataset-id") == dataset_id ) {
+                         
+                         
+                         if (
+                         !name_override[this.name] && selection_name.search(/coingecko/i) >= 0 && this.name.match(/\[name\]/i) && this.value != ''
+                         || !name_override[this.name] && selection_name.search(/coingecko/i) >= 0 && this.name.match(/\[mcap_slug\]/i) && this.value != ''
+                         ) {
+                         name_override[this.name] = this.value;
+                         console.log('coingecko override (dataset_id = '+dataset_id+'): ' + this.name + ' => ' + this.value);
+                         }
+                         else if (
+                         !name_override[this.name] && selection_name.search(/jupiter/i) >= 0 && this.name.match(/\[name\]/i) && this.value != ''
+                         || !name_override[this.name] && selection_name.search(/jupiter/i) >= 0 && this.name.match(/\[mcap_slug\]/i) && this.value != ''
+                         ) {
+                         name_override[this.name] = this.value;
+                         console.log('jupiter ag override (dataset_id = '+dataset_id+'): ' + this.name + ' => ' + this.value);
+                         }
+                         // We still need EMPTY values for correct CONFIG data structure (like 'mcap_slug'),
+                         // BUT ONLY IF NOT ALREADY DEFINED IN THE 'name_override' ARRAY!
+                         else if ( !name_override[this.name] ) {
+                         results[this.name] = this.value;
+                         console.log(this.name + ' => ' + this.value);
+                         }
+                         
+                    
+                    }
+                    
+     
+               });
+
+
+          }
+
+     
+     });
+
+
+//console.log(results);
+
+return merge_objects(results, name_override);
+
+}
+
+/////////////////////////////////////////////////////////////
+
+
+function jstree_json_ajax(url_params, tree_id, csrf_sec_token=false) {
+     
+jstree_json_data = {}; // RESET GLOBAL VAR
+     
+$('#' + tree_id).show(250, 'linear'); // 0.25 seconds
+
+     
+     // IF secured with the general CSRF security token
+     if ( csrf_sec_token ) {
+     url_params = url_params + "&gen_nonce=" + Base64.decode(gen_csrf_sec_token);
+     }
+     
+     
+     if ( $('#' + tree_id).jstree(true) ) {
+     $('#' + tree_id).jstree(true).settings.core.data.url = "ajax.php?" + url_params;
+     $('#' + tree_id).jstree(true).refresh();
+     }
+     else {
+     
+     
+          // https://www.jstree.com/api/
+          $('#' + tree_id).on('redraw.jstree', function () {
+          
+          // Delete button
+          $('.jstree_remove_selected').show(750, 'linear'); // 0.75 seconds
+          
+                   admin_iframe_dom.forEach(function(iframe) {
+                   iframe_size_adjust(iframe);
+                   });
+                                             
+          
+          }).jstree({
+          		
+              'core' : {
+                        
+                        "check_callback" : true, // NEEDED TO DELETE SELECTED ITEMS!
+                        "multiple" : true,
+                        'data' : {
+          			"url" : "ajax.php?" + url_params,
+          			"dataType" : "json" // needed only if you do not supply JSON headers
+          			
+                       }
+                       
+              },
+              "plugins" : [ "themes", "html_data", "checkbox", "sort", "ui" ]
+              
+          });
+     
+     
+     }
+
+     
+     // Make sure admin iframes are re-adjusted for height, after 0.75 seconds
+     // (to avoid needing scroolbars) 
+     setTimeout(function() {
+                    
+          admin_iframe_dom.forEach(function(iframe) {
+          iframe_size_adjust(iframe);
+          });
+                   
+     }, 750);
+                                                    
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function jstree_remove(elm_id) {
+			
+			
+     if ( $('#' + elm_id).jstree(true) ) {
+     
+     var ref = $('#' + elm_id).jstree(true),
+     
+     all_options = ref.get_json('#', { "flat" : true }),
+    
+     selected_options = ref.get_selected(),
+
+     all_count = all_options.length,
+    
+     selected_count = selected_options.length;
+          
+          
+          if ( !selected_options.length ) {
+          alert('Please select a market to delete.');
+          return false;
+          }
+
+          
+          // We ALWAYS want to leave AT LEAST ONE ITEM 
+          // (as we do 'delete entire asset' in a separate mode)
+          if ( all_count > selected_count ) {
+          ref.delete_node(selected_options);
+          }
+          else {
+          alert('Please leave at least one market, WHEN USING MARKET DELETION MODE. If you which to delete the ENTIRE ASSET, you can go BACK to STEP 2, and choose: Remove ENTIRE ASSET');
+          }
+          
+     
+     // UPDATE GLOBAL VAR 
+     // https://www.jstree.com/api/#/?f=get_json([obj,%20options])
+     jstree_json_data = ref.get_json(
+          
+                                         '#',
+                                         
+                                            {  
+                                             no_data : true,
+                                             no_state : true,
+                                             no_id : true,
+                                             no_li_attr : true,
+                                             no_a_attr : true
+                                            }
+                                         
+                                   );
+                                         
+     }
+     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function select_confirm(id, message, alert_if_specific_unselected=false) {
+     
+var element = $('input[data-track-id=' + id + ']').length ? $('input[data-track-id=' + id + ']') : $('#' + id);
+     
+var input_type = element.attr("type");
+
+     // SELECT inputs presumed
+     if ( typeof input_type == 'undefined' ) {
+     
+          var $sel = element.on('change', function(){
+              
+              // If OPTIONAL param NOT set, OR is set and it's same as the CURRENT value
+              if ( !alert_if_specific_unselected || alert_if_specific_unselected == $sel.data('currVal') ) {
+              var confirmed_change = confirm(message);
+              }
+               
+              if (
+              confirmed_change
+              || alert_if_specific_unselected && alert_if_specific_unselected != $sel.data('currVal')
+              ) {
+                  // store new value        
+                  $sel.trigger('update');
+              } else {
+                   // reset
+                   $sel.val( $sel.data('currVal') );        
+              }
+              
+          }).on('update', function(){
+              $(this).data('currVal', $(this).val());
+          }).trigger('update');
+     
+     }
+     // Radio inputs
+     else if ( input_type == 'radio' ) {
+     
+     var cssSelector = 'input:radio[name=' + escape_regex( element.attr("name") ) + ']';
+     
+          
+          // IF at least 2 radio inputs of same 'name' attribute exists, AND 1 is checked off
+          if ( $(cssSelector).length > 1 && $(cssSelector + ':checked').length ) {
+
+          var checkedValue = $(cssSelector + ':checked').val();
+     
+     
+              $(cssSelector).on('change', function() {
+              
+              console.log('checkedValue = ' + checkedValue);
+                   
+              var currentValue = $(this).val();
+                   
+                   
+                   // If OPTIONAL param NOT set, OR is set and it's same as the CURRENT value
+                   if ( !alert_if_specific_unselected || alert_if_specific_unselected != currentValue ) {
+                   var confirmed_change = confirm(message);
+                   }
+                    
+                   if (
+                   confirmed_change
+                   || alert_if_specific_unselected && alert_if_specific_unselected == currentValue
+                   ) {
+                   // Update 'checked value'
+                   checkedValue = currentValue;
+                   }
+                   // Revert to previous selection
+                   // (as we conditionally confirmed above, one was already checked off beforehand)
+                   else {
+                   
+                   $(cssSelector + '[value="' + checkedValue + '"]').prop('checked', true); 
+                   
+                   return false; // Prevent further execution
+     
+                   }         
+              
+     
+              });
+         
+          
+          }
+     
+     
+     }
+     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function set_admin_security(obj) {
+
+
+          if ( !is_iframe ) {
+          return false;
+          }
+
+          
+		if ( obj.value == "normal" || obj.value == "medium" ) {
+	     var admin_sec_level_set = confirm("In 'Normal' and 'Medium' admin security modes, editing from the PHP config files will be DISABLED.\n\nAll app configuration editing will need to be done within this admin interface.");
+		}
+		else {
+	     var admin_sec_level_set = confirm("High security admin mode requires you to update your app configuration from the PHP config files (config.php in app main directory / plug-conf.php for each plugin in the plugins subdirectory).\n\nWARNING: IF YOU SWITCH TO HIGH SECURITY MODE, ANY SETTING CHANGES YOU MADE IN A LOWER SECURITY MODE *WILL BE LOST*!");
+		}
+
+		
+		if ( admin_sec_level_set ) {
+		$("#toggle_admin_security").submit(); // Triggers iframe "reloading" sequence
+		}
+		else {
+		$('input[name=opt_admin_sec]:checked').prop('checked',false);
+		$('#opt_admin_sec_' + $("#sel_admin_sec").val() ).prop('checked',true);
+		}
+
+
+}
+	
+	
+/////////////////////////////////////////////////////////////
+
+
+function render_names(name) {
+	
+render = name.charAt(0).toUpperCase() + name.slice(1);
+
+
+	Object.keys(secondary_mrkt_currencies).forEach(function(currency) {
+	re = new RegExp(currency,"gi");
+     render = render.replace(re, currency.toUpperCase() );
+	});
+		
+		
+render = render.replace(/btc/gi, "BTC");
+render = render.replace(/nft/gi, "NFT");
+render = render.replace(/coin/gi, "Coin");
+render = render.replace(/bitcoin/gi, "Bitcoin");
+render = render.replace(/exchange/gi, "Exchange");
+render = render.replace(/market/gi, "Market");
+render = render.replace(/forex/gi, "Forex");
+render = render.replace(/finex/gi, "Finex");
+render = render.replace(/stamp/gi, "Stamp");
+render = render.replace(/flyer/gi, "Flyer");
+render = render.replace(/panda/gi, "Panda");
+render = render.replace(/pay/gi, "Pay");
+render = render.replace(/swap/gi, "Swap");
+render = render.replace(/iearn/gi, "iEarn");
+render = render.replace(/pulse/gi, "Pulse");
+render = render.replace(/defi/gi, "DeFi");
+render = render.replace(/loopring/gi, "LoopRing");
+render = render.replace(/amm/gi, "AMM");
+render = render.replace(/ico/gi, "ICO");
+render = render.replace(/erc20/gi, "ERC-20");
+render = render.replace(/okex/gi, "OKex");
+render = render.replace(/mart/gi, "Mart");
+render = render.replace(/gateio/gi, "Gate.io");
+render = render.replace(/dex/gi, "DEX");
+render = render.replace(/coingecko/gi, "CoinGecko.com");
+render = render.replace(/alphavantage/gi, "AlphaVantage");
+
+return render;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function set_admin_2fa(obj=false, submit=false) {
+
+
+		if ( obj && obj.value == "off" ) {
+	     var admin_2fa_set = confirm("Turning off 2FA security IS *NOT* RECOMMENDED. Doing so will GREATLY REDUCE PROTECTION FROM HACKERS.\n\nIF YOU LOSE YOUR AUTHENTICATOR APP ACCOUNT, YOU MUST *MANUALLY* DELETE THE FILE \"cache/vars/admin_area_2fa.dat\" TO FORCE DISABLING 2FA.");
+		}
+		else if ( obj && obj.value == "on" ) {
+	     var admin_2fa_set = confirm("2FA security requires the admin account to enter a SECONDARY \"time-based one-time password\" upon login, which is generated by Google Authenticator / Microsoft Authenticator / Authy / etc. This provides an additional layer of robust security to the admin area, further protecting against unauthorized access and changes.");
+		}
+		else if ( obj && obj.value == "strict" ) {
+	     var admin_2fa_set = confirm("'Strict' 2FA mode not only requires entering your 2FA code upon login, it ALSO requires entering your 2FA code for changing ANYTHING in the admin area.");
+		}
+		
+		
+		// Revert if cancelled
+		if ( obj && !admin_2fa_set ) {
+		$('input[name=opt_admin_2fa]:checked').prop('checked',false);
+		$("input[name=opt_admin_2fa][value=" + $("#sel_admin_2fa").val() + "]").prop('checked', true);
+		}
+		// If turning 2FA on, show next step IF IT'S CURRENTLY OFF
+		else if ( obj && admin_2fa_set && obj.value != "off" && Base64.decode(admin_area_2fa) == 'off' ) {
+		$("#sel_admin_2fa").val( $('input[name=opt_admin_2fa]:radio:checked').val() );
+          $(".show_2fa_verification").show(250, 'linear'); // 0.25 seconds
+		}
+		// We don't need to show 2FA setup if we are disabling 2FA, OR switching between 'on' / 'strict'
+		else if ( !obj && submit == true || obj && admin_2fa_set && obj.value == "off" || obj && admin_2fa_set && Base64.decode(admin_area_2fa) != 'off' ) {
+		$("#toggle_admin_2fa").submit(); // Triggers iframe "reloading" sequence
+		}
+
+
+}
+
+	
+/////////////////////////////////////////////////////////////
+
+
+function app_reloading_check(form_submission=0, new_location=false) {
+
+        
+    // Disable form updating in privacy mode
+    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
+    alert('Submitting data is not allowed in privacy mode.');
+    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
+    }
+    // If this is an ADMIN submenu section, AND we are NOT in the admin area,
+    // AND no iframe URL has been set yet, don't reload / load new page yet (we want to show the submenu options first)
+    else if ( new_location && !is_admin && new_location.split('#')[1] == 'admin_plugins' && iframe_url(admin_iframe_url) == null ) {
+    return;
+    }
+    else {
+         
+         if ( unsaved_user_config && !form_submit_queued || parent.unsaved_admin_config && !form_submit_queued ) {
+         
+         var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
+                  
+               if ( !confirm_skip_saving_changes ) {
+               return false;         
+               }
+               else if ( unsaved_user_config ) {        
+               
+               unsaved_user_config = false;
+
+               $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+               $('#sidebar .user_settings_save').addClass('blue');
+               $('#sidebar .user_settings_save').removeClass('red_bright');
+               
+               app_reload(form_submission, new_location);
+               
+               }
+               else if ( unsaved_admin_config ) {        
+               
+               parent.unsaved_admin_config = false;
+
+               $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+               $('#sidebar .admin_settings_save', window.parent.document).addClass('blue');
+               $('#sidebar .admin_settings_save', window.parent.document).removeClass('red_bright');
+               
+               app_reload(form_submission, new_location);
+               
+               }
+               
+         }
+         else {
+         app_reload(form_submission, new_location);
+         }
+
+         
+    }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function red_save_button(mode=false) {
+
+
+     if ( is_admin && mode == 'iframe' ) {
+     
+     parent.unsaved_admin_config = true;
+          
+     $('#collapsed_sidebar .admin_settings_save img', window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
+          
+     $('#sidebar .admin_settings_save', window.parent.document).removeClass('blue');
+     $('#sidebar .admin_settings_save', window.parent.document).addClass('red_bright');
+     
+     $(".save_notice").show(250, 'linear'); // 0.25 seconds // SHOW SAVE NOTICE AT TOP / BOTTOM OF THIS ADMIN IFRAME PAGE
+     
+         admin_iframe_dom.forEach(function(iframe) {
+         iframe_size_adjust(iframe);
+         });                  
+     
+     }
+     else if ( is_admin ) {
+     
+     unsaved_admin_config = true;
+          
+     $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
+          
+     $('#sidebar .admin_settings_save').removeClass('blue');
+     $('#sidebar .admin_settings_save').addClass('red_bright');
+     
+     }
+     else if ( !is_admin && !mode ) {
+     
+     unsaved_user_config = true;
+          
+     $('#collapsed_sidebar .user_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-red.png");
+          
+     $('#sidebar .user_settings_save').removeClass('blue');
+     $('#sidebar .user_settings_save').addClass('red_bright');
+     
+     }
+     
 
 }
 
@@ -2177,52 +2221,6 @@ function app_reload(form_submission, new_location) {
     
     }
     
-
-}
-	
-	
-/////////////////////////////////////////////////////////////
-
-
-function render_names(name) {
-	
-render = name.charAt(0).toUpperCase() + name.slice(1);
-
-
-	Object.keys(secondary_mrkt_currencies).forEach(function(currency) {
-	re = new RegExp(currency,"gi");
-     render = render.replace(re, currency.toUpperCase() );
-	});
-		
-		
-render = render.replace(/btc/gi, "BTC");
-render = render.replace(/nft/gi, "NFT");
-render = render.replace(/coin/gi, "Coin");
-render = render.replace(/bitcoin/gi, "Bitcoin");
-render = render.replace(/exchange/gi, "Exchange");
-render = render.replace(/market/gi, "Market");
-render = render.replace(/forex/gi, "Forex");
-render = render.replace(/finex/gi, "Finex");
-render = render.replace(/stamp/gi, "Stamp");
-render = render.replace(/flyer/gi, "Flyer");
-render = render.replace(/panda/gi, "Panda");
-render = render.replace(/pay/gi, "Pay");
-render = render.replace(/swap/gi, "Swap");
-render = render.replace(/iearn/gi, "iEarn");
-render = render.replace(/pulse/gi, "Pulse");
-render = render.replace(/defi/gi, "DeFi");
-render = render.replace(/loopring/gi, "LoopRing");
-render = render.replace(/amm/gi, "AMM");
-render = render.replace(/ico/gi, "ICO");
-render = render.replace(/erc20/gi, "ERC-20");
-render = render.replace(/okex/gi, "OKex");
-render = render.replace(/mart/gi, "Mart");
-render = render.replace(/gateio/gi, "Gate.io");
-render = render.replace(/dex/gi, "DEX");
-render = render.replace(/coingecko/gi, "CoinGecko.com");
-render = render.replace(/alphavantage/gi, "AlphaVantage");
-
-return render;
 
 }
 
@@ -2912,7 +2910,7 @@ var log_search = $('#' + elm_id + '_search').val();
 
 log_search = log_search.trim(); // TRIM WHITESPACE
 
-var search_pattern = new RegExp( escapeRegExp(log_search) , 'i');
+var search_pattern = new RegExp( escape_regex(log_search) , 'i');
 
 not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 

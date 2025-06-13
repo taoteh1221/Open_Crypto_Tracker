@@ -9,8 +9,11 @@ $runtime_mode = 'ajax';
 
 // Running BEFORE calling config.php
 
+if ( !isset($_GET['type']) ) {
+exit;
+}
 // Log retrevial
-if ( $_GET['type'] == 'log' ) {
+elseif ( $_GET['type'] == 'log' ) {
 $is_logs = true;
 }
 // Chart retrieval
@@ -28,6 +31,9 @@ require('app-lib/php/init.php');
 // RSS feed retrieval
 if ( $_GET['type'] == 'rss' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/rss.php');
+}
+elseif ( $_GET['type'] == 'assets' ) {
+require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/assets.php');
 }
 elseif ( $_GET['type'] == 'access_stats' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/access-stats.php');

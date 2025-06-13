@@ -18,83 +18,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
-   function version_compare($base_version, $compared_version) {
-        
-   global $ct;
-   
-   $results = array();
-   
-   // Defaults
-   $results['base_diff'] = 0;
-   $results['new_bug_fixes'] = 0;
-	
-   // Parse BASE version
-   $base_version_array = explode(".", $base_version);
-	
-   $base_major_minor = $ct['var']->num_to_str($base_version_array[0] . '.' . $base_version_array[1]);
-	
-   $base_bug_fixes = $ct['var']->num_to_str($base_version_array[2]);
-   
-     
-        // In bug fix versioning, remove any leading zeros if more than one character
-        if ( substr($base_bug_fixes, 0, 1) == '0' && strlen($base_bug_fixes) > 1 ) {
-        $base_bug_fixes = substr($base_bug_fixes, 1);
-        }
-
-   
-   // Parse COMPARED version
-   $compared_version_array = explode(".", $compared_version);
-	
-   $compared_major_minor = $ct['var']->num_to_str($compared_version_array[0] . '.' . $compared_version_array[1]);
-	
-   $compared_bug_fixes = $ct['var']->num_to_str($compared_version_array[2]);
-   
-     
-        // In bug fix versioning, remove any leading zeros if more than one character
-        if ( substr($compared_bug_fixes, 0, 1) == '0' && strlen($compared_bug_fixes) > 1 ) {
-        $compared_bug_fixes = substr($compared_bug_fixes, 1);
-        }
-
-   
-        // If BASE or COMPARED version is blank (not cached yet, etc),
-        // we flag it (and add any needed edge-case logic external to this function)
-        if ( !is_numeric($base_major_minor) || !is_numeric($compared_major_minor) ) {
-        $results['base_diff'] = false;
-        }
-        // If the BASE release is an OLDER version than COMPARED release
-        elseif (
-        $base_major_minor < $compared_major_minor
-        || $base_major_minor == $compared_major_minor && $base_bug_fixes < $compared_bug_fixes
-        ) {
-        $results['base_diff'] = -1;
-        $results['new_bug_fixes'] = $compared_bug_fixes;
-        }
-        // If the BASE release is a NEWER version than COMPARED release
-        elseif (
-        $base_major_minor > $compared_major_minor
-        || $base_major_minor == $compared_major_minor && $base_bug_fixes > $compared_bug_fixes
-        ) {
-        $results['base_diff'] = 1;
-        }
-        
-
-   $debugging = array(
-                      'base_version' => $base_version,
-                      'compared_version' => $compared_version,
-                      'base_diff' => $results['base_diff'],
-                     );
-                     
-   //var_dump($debugging);
-   
-   return $results;
-   
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
    function usort_length($a, $b) {
    return strlen($b)-strlen($a); // Descending sort
    }
@@ -2980,6 +2903,83 @@ var $ct_array = array();
       
       }
    
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function version_compare($base_version, $compared_version) {
+        
+   global $ct;
+   
+   $results = array();
+   
+   // Defaults
+   $results['base_diff'] = 0;
+   $results['new_bug_fixes'] = 0;
+	
+   // Parse BASE version
+   $base_version_array = explode(".", $base_version);
+	
+   $base_major_minor = $ct['var']->num_to_str($base_version_array[0] . '.' . $base_version_array[1]);
+	
+   $base_bug_fixes = $ct['var']->num_to_str($base_version_array[2]);
+   
+     
+        // In bug fix versioning, remove any leading zeros if more than one character
+        if ( substr($base_bug_fixes, 0, 1) == '0' && strlen($base_bug_fixes) > 1 ) {
+        $base_bug_fixes = substr($base_bug_fixes, 1);
+        }
+
+   
+   // Parse COMPARED version
+   $compared_version_array = explode(".", $compared_version);
+	
+   $compared_major_minor = $ct['var']->num_to_str($compared_version_array[0] . '.' . $compared_version_array[1]);
+	
+   $compared_bug_fixes = $ct['var']->num_to_str($compared_version_array[2]);
+   
+     
+        // In bug fix versioning, remove any leading zeros if more than one character
+        if ( substr($compared_bug_fixes, 0, 1) == '0' && strlen($compared_bug_fixes) > 1 ) {
+        $compared_bug_fixes = substr($compared_bug_fixes, 1);
+        }
+
+   
+        // If BASE or COMPARED version is blank (not cached yet, etc),
+        // we flag it (and add any needed edge-case logic external to this function)
+        if ( !is_numeric($base_major_minor) || !is_numeric($compared_major_minor) ) {
+        $results['base_diff'] = false;
+        }
+        // If the BASE release is an OLDER version than COMPARED release
+        elseif (
+        $base_major_minor < $compared_major_minor
+        || $base_major_minor == $compared_major_minor && $base_bug_fixes < $compared_bug_fixes
+        ) {
+        $results['base_diff'] = -1;
+        $results['new_bug_fixes'] = $compared_bug_fixes;
+        }
+        // If the BASE release is a NEWER version than COMPARED release
+        elseif (
+        $base_major_minor > $compared_major_minor
+        || $base_major_minor == $compared_major_minor && $base_bug_fixes > $compared_bug_fixes
+        ) {
+        $results['base_diff'] = 1;
+        }
+        
+
+   $debugging = array(
+                      'base_version' => $base_version,
+                      'compared_version' => $compared_version,
+                      'base_diff' => $results['base_diff'],
+                     );
+                     
+   //var_dump($debugging);
+   
+   return $results;
    
    }
     

@@ -1888,14 +1888,14 @@ var $ct_array = array();
    
       // Skip storing price chart data, IF API limits have been reached ON APIs REGISTERED IN: $ct['dev']['throttle_limited_servers']
       // (to save on storage space / using same repetitive CACHED API price data)
-      // (ONLY IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS BEEN UPDATED WITHIN THE PAST $ct['throttled_api_cache_time'][$api_tld_or_ip] MINUTES,
+      // (ONLY IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS BEEN UPDATED WITHIN THE PAST $ct['throttled_api_min_cache_time'][$api_tld_or_ip] MINUTES,
       // OTHERWISE IT COULD BE NEW PRICE DATA CACHED FROM INTERFACE USAGE ETC ETC, SO WE STILL WANT TO UPDATE CHARTS IN THIS CASE)
       foreach ( $ct['dev']['throttle_limited_servers'] as $api_tld_or_ip => $api_exchange_id ) {
       
            // Keep initial match check quick, for runtime speed
            if ( $exchange == $api_exchange_id ) {
                 
-               if ( isset($ct['api_throttle_flag'][$api_tld_or_ip]) && $ct['api_throttle_flag'][$api_tld_or_ip] == true && isset($ct['throttled_api_cache_time'][$api_tld_or_ip]) && $ct['cache']->update_cache($prim_currency_chart_path, $ct['throttled_api_cache_time'][$api_tld_or_ip]) == false ) {
+               if ( isset($ct['api_throttle_flag'][$api_tld_or_ip]) && $ct['api_throttle_flag'][$api_tld_or_ip] == true && isset($ct['throttled_api_min_cache_time'][$api_tld_or_ip]) && $ct['cache']->update_cache($prim_currency_chart_path, $ct['throttled_api_min_cache_time'][$api_tld_or_ip]) == false ) {
                
                $halt_chart_storage = true;
            
@@ -1903,7 +1903,7 @@ var $ct_array = array();
                     
                      $ct['gen']->log(
                          	    'notify_debug',
-                         	    'skipping "' . $api_exchange_id . '" price chart storage (for ' . strtoupper($asset_data) . '), to avoid exceeding API limits (' . $ct['throttled_api_cache_time'][$api_tld_or_ip] . ' minute MINIMUM API cache OR archival chart time interval NOT met)'
+                         	    'skipping "' . $api_exchange_id . '" price chart storage (for ' . strtoupper($asset_data) . '), to avoid exceeding API limits (' . $ct['throttled_api_min_cache_time'][$api_tld_or_ip] . ' minute MINIMUM API cache OR archival chart time interval NOT met)'
                          	   );
                     	   
                     }

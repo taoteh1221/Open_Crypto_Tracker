@@ -77,7 +77,14 @@ $_SESSION['nonce'] = $ct['gen']->rand_hash(32); // 32 byte
 	
 // Flag this as a fast runtime if it is, to skip certain logic later in the runtime
 // (among other things, skips setting $ct['system_info'] / some secured cache vars, and skips doing system resource usage alerts)
-if ( $is_csv_export || $is_charts || $is_logs || $ct['runtime_mode'] == 'captcha' || $ct['runtime_mode'] == 'qr_code' ) {
+if (
+$is_csv_export
+|| $is_charts
+|| $is_logs 
+|| $ct['runtime_mode'] == 'captcha' 
+|| $ct['runtime_mode'] == 'qr_code' 
+|| isset($_GET['mode']) && $_GET['mode'] == 'stock_overview'
+) {
 $is_fast_runtime = true;
 }
 
