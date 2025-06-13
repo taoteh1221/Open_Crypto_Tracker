@@ -6892,6 +6892,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -DAILY limit advanced API throttling (for APIs like AlphaVantage FREE tier), for more reliable market data requests
 
+-Stock Overview information, when hovering over the info icon on the My Portfolio page (next to the asset name)
+
 -UX improvements
 
 -------------------------------------------------------------------

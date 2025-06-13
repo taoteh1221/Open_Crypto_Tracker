@@ -36,12 +36,7 @@ $ct['possible_http_users'] = array(
 // Check for cache directory path creation, create if needed...if it fails, flag a force exit and alert end-user
 
 if (
-$ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/archival/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/light/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/light_chart_rebuilds/') != true
+$ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/light_chart_rebuilds/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/system/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/throttling/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/access_stats/') != true
@@ -49,18 +44,24 @@ $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/logging/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/first_run/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/market_error_tracking/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/internal_api/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/external_data/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/cron/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/error/external_data/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/activation/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/other_data/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/backups/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/external_data/cookies') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/messages/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/vars/state-tracking/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/archival/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/light/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/external_data/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/cron/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/error/external_data/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/xml_error_parsing/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/market_id_parsing/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/assets/stocks/overviews/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/internal_api/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/vars/state-tracking/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/debugging/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/plugins/') != true
 ) {

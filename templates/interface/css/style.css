@@ -525,7 +525,7 @@ font-weight: normal;
 
 
 .coin_info {
-white-space: nowrap;
+  overflow-wrap: break-word; /* Or word-wrap: break-word; */
 }
 
 

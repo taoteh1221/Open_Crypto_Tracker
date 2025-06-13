@@ -79,38 +79,18 @@ echo '?';
 		if ( !$mcap_data['rank'] ) {
 			
 			if ( preg_match("/stock/i", $asset_symb) ) {
-			     
-			     
-                    // IF we do NOT have a PREMIUM PLAN (determined by the per-minute setting)
-			     if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
-			     
-			     
-     			     if ( $ct['throttled_api_cache_time']['alphavantage.co'] >= 1440 ) {
-     			     $stock_cached_unit = 'day';
-     			     $stock_cached_val = $ct['var']->num_pretty( ($ct['throttled_api_cache_time']['alphavantage.co'] / 1440) , 2);
-     			     }
-     			     elseif ( $ct['throttled_api_cache_time']['alphavantage.co'] >= 60 ) {
-     			     $stock_cached_unit = 'hour';
-     			     $stock_cached_val = $ct['var']->num_pretty( ($ct['throttled_api_cache_time']['alphavantage.co'] / 60) , 2);
-     			     }
-     			     else {
-     			     $stock_cached_unit = 'minute';
-     			     $stock_cached_val = $ct['var']->num_pretty($ct['throttled_api_cache_time']['alphavantage.co'], 2);
-     			     }
-     			     
-                    
-                    $stock_cached_notice = "*Current LIVE DATA THROTTLING (ONLY USED FOR *FREE TIER* Alpha Vantage STOCK DATA) retrieves the latest market data for " . $asset_symb . " every " . $stock_cached_val . " " . $stock_cached_unit . "(s) (determined by the number of STOCK assets you have added, to avoid going over your *FREE TIER* " . $ct['var']->num_pretty($ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'], 2) . " DAILY LIVE requests limit).";			     
-			     
-			     }
-
-
 			?>
 
-			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
-    
-               +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Stock market data is provided with <a href="https://www.alphavantage.co/" target="_blank">Alpha Vantage\'s API</a>.</span></p>'
-               
-               +'<p class="coin_info balloon_notation red"><?=$stock_cached_notice?></p>';
+
+			$('#<?=preg_replace("/\:/", "", $mkcap_render_data)?>').balloon({
+			html: true,
+			position: "right",
+  			classname: 'balloon-tooltips',
+			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
+  			url: 'ajax.php?type=assets&mode=stock_overview&ticker=<?=urlencode($asset_symb)?>&name=<?=urlencode($asset_name)?>',
+			css: balloon_css("left", "999")
+			});
+			
 	
 			<?php
 			}
@@ -155,7 +135,7 @@ echo '?';
         		
         ?> 
     
-        var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symb?>)</h5>'
+        var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?>.com Summary For: <?=$asset_name?> (<?=$asset_symb?>)</h5>'
         
         		<?php
             if ( isset($mcap_data['app_notice']) && $mcap_data['app_notice'] != '' ) {
@@ -244,6 +224,9 @@ echo '?';
         <?php
         
         }
+        
+        
+        if ( !preg_match("/stock/i", $asset_symb) ) {
         ?>
     
         $('#<?=preg_replace("/\:/", "", $mkcap_render_data)?>').balloon({
@@ -255,7 +238,8 @@ echo '?';
         });
     
     
-    <?php
+        <?php
+        }
     
     
         if ( is_array($ct['sel_opt']['alert_percent']) && sizeof($ct['sel_opt']['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)

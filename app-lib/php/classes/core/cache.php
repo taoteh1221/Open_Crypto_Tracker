@@ -14,47 +14,6 @@ var $ct_var3;
 
 var $ct_array = array();
 
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
-   function other_cached_data($mode, $file_path, $data_set=false, $json_storage=true, $file_save_mode=false, $file_lock=true) {
-
-   global $ct;                                   
-                         
-                                      
-      if ( $mode == 'save' && $data_set ) {
-          
-      // Check that the json encoding or other data format seems valid / not corrupt
-      $checked_data = ( $json_storage ? json_encode($data_set, JSON_PRETTY_PRINT) : $data_set );
-     
-     
-          if ( $checked_data != false || $checked_data != null || $checked_data != "null" ) {
-          $ct['cache']->save_file($file_path, $checked_data, $file_save_mode, $file_lock);
-          }
-          
-          
-      }  
-      elseif ( $mode == 'load' ) {
-
-      $data = trim( file_get_contents($file_path) );
-     		
-      $cached_data = ( $json_storage ? json_decode($data, TRUE) : $data );
-             			
-           // "null" in quotes as the actual value is returned sometimes
-           if ( $cached_data != false && $cached_data != null && $cached_data != "null" ) {
-           return $cached_data;
-           }
-           else {
-           return false;
-           }
-      
-      }
-      
-
-   }
-
   
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
@@ -134,6 +93,47 @@ var $ct_array = array();
   rmdir($dir);
   
   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function other_cached_data($mode, $file_path, $data_set=false, $json_storage=true, $file_save_mode=false, $file_lock=true) {
+
+   global $ct;                                   
+                         
+                                      
+      if ( $mode == 'save' && $data_set ) {
+          
+      // Check that the json encoding or other data format seems valid / not corrupt
+      $checked_data = ( $json_storage ? json_encode($data_set, JSON_PRETTY_PRINT) : $data_set );
+     
+     
+          if ( $checked_data != false || $checked_data != null || $checked_data != "null" ) {
+          $ct['cache']->save_file($file_path, $checked_data, $file_save_mode, $file_lock);
+          }
+          
+          
+      }  
+      elseif ( $mode == 'load' ) {
+
+      $data = trim( file_get_contents($file_path) );
+     		
+      $cached_data = ( $json_storage ? json_decode($data, TRUE) : $data );
+             			
+           // "null" in quotes as the actual value is returned sometimes
+           if ( $cached_data != false && $cached_data != null && $cached_data != "null" ) {
+           return $cached_data;
+           }
+           else {
+           return false;
+           }
+      
+      }
+      
+
+   }
   
   
   ////////////////////////////////////////////////////////
@@ -642,7 +642,7 @@ var $ct_array = array();
      // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
      if (
      isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start'])
-     || isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] <= ( time() - 60 )
+     || isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] <= ( time() - 1440 )
      ) {
      $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] = time();
      $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] = 0;

@@ -377,90 +377,17 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
-
-   function jup_address($ticker, $verified_only=true) {
-        
+   
+   function bitcoin($request) {
+    
    global $ct;
-   
-   // Trim whitespace
-   $ticker = trim($ticker);
-   
-   
-           // RUNTIME CACHE (TO SPEED THINGS UP)
-           if ( isset($ct['jup_address'][$ticker]) ) {
-           return $ct['jup_address'][$ticker];
-           }
-
-   
-   $results = array();
-           
-           
-           // Filters
-           if ( $verified_only ) {
-           $tags = 'verified';
-           }
-           // WE ALLOW FILTERING BY TAG, FOR SAFETY
-           // https://dev.jup.ag/docs/api/token-api/tagged
-           elseif ( isset($_POST['jupiter_tags']) && trim($_POST['jupiter_tags']) != '' ) {
-
-                 if ( trim($_POST['jupiter_tags']) == 'all_tags_without_unknown' ) {
-                 $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
-                 }
-                 else {
-                 $tags = trim($_POST['jupiter_tags']);
-                 }
-          
-           }
-           // Otherwise, allow ALL tokens EXCEPT unknown
-           else {
-           $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
-           }
-      
-      
-      // 3 hour cache for VERIFIED token search, 1 hour for everything else
-      $cache_time = ( $verified_only ? 180 : 60 );
-      
-      $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/tagged/' . $tags, $cache_time);
-      
-      gc_collect_cycles(); // Clean memory cache
-   
-      $data = json_decode($response, true);
-      
-           
-           foreach ( $data as $val ) {
-          
-               if ( isset($val['symbol']) && $val['symbol'] == $ticker ) {
-               $results[] = $val['address'];
-               }
-
-           }
-          
-          
-           if ( $verified_only && sizeof($results) > 1 ) {
-          
-          $ct['gen']->log(
-          				'market_error',
-          				'address search for VERIFIED asset "' . $ticker . '" returned MORE THAN 1 RESULT'
-          				);
-          				          
-           }
-           elseif ( sizeof($results) < 1 ) {
-          
-           $ct['gen']->log(
-          				'market_error',
-          				'jupiter ag. address search for asset "' . $ticker . '" returned NO RESULT (filters: ' . $tags . ')'
-          				);
-          				          
-           }
-          
-   
-   $jup_address = ( isset($results[0]) ? $results[0] : false );
-   
-   // RUNTIME CACHE (TO SPEED THINGS UP)
-   $ct['jup_address'][$ticker] = $jup_address;
-   
-   return $jup_address;
- 
+         
+   $url = 'https://blockchain.info/q/' . $request;
+         
+   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
+       
+   return (float)$response;
+     
    }
 
    
@@ -484,23 +411,6 @@ var $exchange_apis = array(
       else {
       return false;
       }
-     
-   }
-   
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function bitcoin($request) {
-    
-   global $ct;
-         
-   $url = 'https://blockchain.info/q/' . $request;
-         
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
-       
-   return (float)$response;
      
    }
    
@@ -545,6 +455,45 @@ var $exchange_apis = array(
       return false;
       }
    
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function stock_overview($ticker) {
+    
+   global $ct;
+   
+   $cache_file = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$ticker.'.dat';
+   
+   
+        if ( file_exists($cache_file) ) {
+        $data = json_decode( trim( file_get_contents($cache_file) ) , true);
+        }
+        else {
+         
+        $url = 'https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
+              
+        $response = @$ct['cache']->ext_data('url', $url, 1440);
+        
+        //var_dump($response);
+        
+        $data = json_decode($response, true);
+        
+            if ( !isset($data['Symbol']) ) {
+            $response = '{ "request_error": "no_data" }';
+            $data = json_decode($response, true);
+            }
+            
+        $ct['cache']->save_file($cache_file, $response);
+        
+        }
+        
+   
+   return $data;     
+     
    }
 		
 		
@@ -838,6 +787,96 @@ var $exchange_apis = array(
    
    return $result;
      
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+
+   function jup_address($ticker, $verified_only=true) {
+        
+   global $ct;
+   
+   // Trim whitespace
+   $ticker = trim($ticker);
+   
+   
+           // RUNTIME CACHE (TO SPEED THINGS UP)
+           if ( isset($ct['jup_address'][$ticker]) ) {
+           return $ct['jup_address'][$ticker];
+           }
+
+   
+   $results = array();
+           
+           
+           // Filters
+           if ( $verified_only ) {
+           $tags = 'verified';
+           }
+           // WE ALLOW FILTERING BY TAG, FOR SAFETY
+           // https://dev.jup.ag/docs/api/token-api/tagged
+           elseif ( isset($_POST['jupiter_tags']) && trim($_POST['jupiter_tags']) != '' ) {
+
+                 if ( trim($_POST['jupiter_tags']) == 'all_tags_without_unknown' ) {
+                 $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
+                 }
+                 else {
+                 $tags = trim($_POST['jupiter_tags']);
+                 }
+          
+           }
+           // Otherwise, allow ALL tokens EXCEPT unknown
+           else {
+           $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
+           }
+      
+      
+      // 3 hour cache for VERIFIED token search, 1 hour for everything else
+      $cache_time = ( $verified_only ? 180 : 60 );
+      
+      $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/tagged/' . $tags, $cache_time);
+      
+      gc_collect_cycles(); // Clean memory cache
+   
+      $data = json_decode($response, true);
+      
+           
+           foreach ( $data as $val ) {
+          
+               if ( isset($val['symbol']) && $val['symbol'] == $ticker ) {
+               $results[] = $val['address'];
+               }
+
+           }
+          
+          
+           if ( $verified_only && sizeof($results) > 1 ) {
+          
+          $ct['gen']->log(
+          				'market_error',
+          				'address search for VERIFIED asset "' . $ticker . '" returned MORE THAN 1 RESULT'
+          				);
+          				          
+           }
+           elseif ( sizeof($results) < 1 ) {
+          
+           $ct['gen']->log(
+          				'market_error',
+          				'jupiter ag. address search for asset "' . $ticker . '" returned NO RESULT (filters: ' . $tags . ')'
+          				);
+          				          
+           }
+          
+   
+   $jup_address = ( isset($results[0]) ? $results[0] : false );
+   
+   // RUNTIME CACHE (TO SPEED THINGS UP)
+   $ct['jup_address'][$ticker] = $jup_address;
+   
+   return $jup_address;
+ 
    }
    
 
