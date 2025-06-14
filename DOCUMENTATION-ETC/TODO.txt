@@ -132,6 +132,12 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
+Hook the plugin webhook API system into the API limiter for the internal API. Use the same system, as we want to securely throttle request response per ip address, across ALL internal API endpoints.
+
+
+Move chosen news feeds / price charts logic into LOCAL STORAGE (instead of the cookie storage used now), to free up cookie data limits for other data like portfolio tracking.
+
+
 Add the ability to allow a BLANK single array item admin user input for domains arrays IN THE INTERFACE (strict servers, etc), in the corrisponding admin user input validation files in: /app-lib/php/classes/includes/admin/. Use the same logic we already do this for in other admin input arrays. TEST ALL THESE OUT BY DELETING ALL ITEMS VIA INTERFACE, INCLUDING ALL THE OTHER ONES WE ALREADY SETUP.
 
 
@@ -151,12 +157,6 @@ Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, w
 
 
 Create "Export your feeds" link on ADMIN NEW FEEDS CONFIG page, to XML / JSON format file download (that can import into news readers).
-
-
-Hook the plugin webhook API system into the API limiter for the internal API. Use the same system, as we want to securely throttle request response per ip address, across ALL internal API endpoints.
-
-
-Move chosen news feeds / price charts logic into LOCAL STORAGE (instead of the cookie storage used now), to free up cookie data limits for other data like portfolio tracking.
 
 
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome ON SMALL LAPTOP SCREENS, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.

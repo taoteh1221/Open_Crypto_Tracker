@@ -642,7 +642,7 @@ var $ct_array = array();
      // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
      if (
      isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start'])
-     || isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] <= ( time() - 1440 )
+     || isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] <= ( time() - 86400 )
      ) {
      $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] = time();
      $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] = 0;
@@ -691,6 +691,13 @@ var $ct_array = array();
          $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] + 1;
          $save_limit_counts = true; 
          }
+ 
+         
+         // We only store to cached file, if there is a limit count updated
+         if ( $save_limit_counts ) {
+         $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
+         $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
+         }
          
          
          // FOR VALID PER-SECOND LIMITS, WE CAN JUST USE USLEEP DURING THIS RUNTIME,
@@ -714,12 +721,10 @@ var $ct_array = array();
          usleep($sleep_microseconds);
 
          }
- 
-         
-         // We only store to cached file, if there is a limit count updated
-         if ( $save_limit_counts ) {
-         $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
-         $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
+         // We ALWAYS want at least a small amount of sleep, IF WE UPDATED THE DAY / MINUTE COUNT CACHE FILE
+         // (since we may still have consecutive counts for this server, during this runtime)
+         elseif ( $save_limit_counts ) {
+         usleep(100000); // Wait 0.1 seconds, since we just re-saved the count cache file
          }
 
      
