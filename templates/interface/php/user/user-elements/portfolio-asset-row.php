@@ -140,7 +140,7 @@ echo '?';
         		<?php
             if ( isset($mcap_data['app_notice']) && $mcap_data['app_notice'] != '' ) {
         		?>
-        +'<p class="coin_info red">Notice: <?=$mcap_data['app_notice']?></p>'
+        +'<p class="coin_info red">Notice: <br /><?=$mcap_data['app_notice']?></p>'
         		<?php
             }
         		?>
@@ -214,7 +214,7 @@ echo '?';
             if ( isset($mcap_data['last_updated']) && $mcap_data['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="bitcoin">Data Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $mcap_data['last_updated'])?></p>'
-        +'<p class="coin_info"><span class="bitcoin">App Cache Time:</span> <?=$ct['conf']['power']['marketcap_cache_time']?> minute(s)</p>'
+        +'<p class="coin_info"><span class="bitcoin">Summary Cache Time:</span> <?=$ct['conf']['power']['marketcap_cache_time']?> minute(s)</p>'
         <?php
             }
             ?>
