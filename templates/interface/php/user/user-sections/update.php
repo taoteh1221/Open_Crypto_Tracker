@@ -751,8 +751,6 @@
 	
 	<input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?=( isset($_POST['use_alert_percent']) ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] )?>' />
 	
-	<input type='hidden' id='show_charts' name='show_charts' value='<?=( isset($_POST['show_charts']) ? $_POST['show_charts'] : $_COOKIE['show_charts'] )?>' />
-	
 	<input type='hidden' id='show_crypto_val' name='show_crypto_val' value='<?=( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] )?>' />
 	
 	<input type='hidden' id='show_secondary_trade_val' name='show_secondary_trade_val' value='<?=( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] )?>' />

@@ -762,6 +762,19 @@ padding: 0.3em;
 }
 
 
+.local_storage_saved_notice {
+display: inline;
+float: left;
+position: absolute; /* To set top / left below, AND backwards compatibility (if browser doesn't support 'sticky') */
+top: 0.3em;
+left: 13em;
+border-radius: 0.6em;
+padding: 1em;
+font-weight: bold !important;
+z-index: 9999999999999999 !important;
+}
+
+
 .countdown_notice_modal {
 display: inline;
 float: right;

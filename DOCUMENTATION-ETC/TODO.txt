@@ -129,6 +129,12 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Move SELECTED news feeds logic into LOCAL STORAGE (instead of the cookie storage used now), to free up cookie data limits for other data like portfolio tracking. USE THE SAME LOGIC WE JUST USED TO MIGRATE SELECTED PRICE CHARTS
+
+
+Make ajax "wizard steps" logging show in the alerts interface, and consider having any "market" errors be shown only in debugging mode. Maybe only under the condition that an asset search is in-progress, which we already set the global flag $ct['ticker_markets_search'] to know when this is happening. Usually though (IF no asset search is in-progress), we prefer market errors to show in the interface.
+
+
 Move all remaining relevent APIs over to the new per-second / per-minute throttling system.
 
 
@@ -136,12 +142,6 @@ Start looking at which exchange APIs have a 'search' API endpoint (for exchanges
 
 
 Hook the plugin webhook API system into the API limiter for the internal API. Use the same system, as we want to securely throttle request response per ip address, across ALL internal API endpoints.
-
-
-Move chosen news feeds / price charts logic into LOCAL STORAGE (instead of the cookie storage used now), to free up cookie data limits for other data like portfolio tracking.
-
-
-Make ajax "wizard steps" logging show in the alerts interface, and consider having any "market" errors be shown only in debugging mode. Maybe only under the condition that an asset search is in-progress, which we already set the global flag $ct['ticker_markets_search'] to know when this is happening. Usually though (IF no asset search is in-progress), we prefer market errors to show in the interface.
 
 
 Assure we are properly catching jupiter token address retrieval FALIURES in market_tickers_parse(), SO WE HAVE NO FUNKY ASSET SEARCH RESULTS.

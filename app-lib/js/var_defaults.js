@@ -120,6 +120,8 @@ var cookies_notice_storage;
 
 var safari_notice_storage;
 
+var show_charts_storage;
+
 var linux_phpdesktop_notice_storage;
 
 var desktop_windows_notice_storage;
@@ -222,5 +224,7 @@ var all_tasks_initial_load = true;
 var background_tasks_status = 'wait';
 
 var custom_3deep_menu_open = false;
+
+var news_feed_batched_maximum = 0;
 
 

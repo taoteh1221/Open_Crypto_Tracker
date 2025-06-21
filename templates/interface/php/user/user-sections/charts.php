@@ -181,16 +181,6 @@
 		 
 	    </p>
 	
-	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
-	
-	
-	<div> &nbsp; </div>
-	
-	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-	<p><button class='force_button_style' onclick='
-	$("#coin_amnts").submit();
-	'>Update Selected Charts</button></p>
-	
 	<div> &nbsp; </div>
 	
 	<p><input type='checkbox' onclick='
@@ -198,10 +188,10 @@
 		select_all(this, "activate_charts");
 		
 		if ( this.checked == false ) {
-		$("#show_charts").val("");
+		localStorage.setItem(show_charts_storage,  "");
 		}
 		
-	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts")</span></p>
+	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading charts" notice freezes, check / uncheck this box)</span></p>
 	
 	<div> &nbsp; </div>
 		
@@ -228,14 +218,26 @@
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 				
-				<input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $show_asset_params[2]."]", $ct['sel_opt']['show_charts']) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[2])?> @ <?=$ct['gen']->key_to_name($show_asset_params[1])?>
+				<input type='checkbox' id='<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>' value='<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>' onchange='chart_toggle(this);' /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[2])?> @ <?=$ct['gen']->key_to_name($show_asset_params[1])?>
+				
+				<script>
+				if ( str_search_count( localStorage.getItem(show_charts_storage) , '[<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>]') > 0 ) {
+				document.getElementById('<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>').checked = true;
+				}
+				</script>
 			
 				<?php
 				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
 				if ( $show_asset_params[2] != $ct['default_bitcoin_primary_currency_pair'] ) {
 				?>
 				
-				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>' onchange='chart_toggle(this);' <?=( in_array("[" . $show_asset_params[0] . '_' . $ct['default_bitcoin_primary_currency_pair']."]", $ct['sel_opt']['show_charts']) ? 'checked' : '' )?> /> <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value
+				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' id='<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>' value='<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>' onchange='chart_toggle(this);' /> <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value
+				
+				<script>
+				if ( str_search_count( localStorage.getItem(show_charts_storage) , '[<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>]') > 0 ) {
+				document.getElementById('<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>').checked = true;
+				}
+				</script>
 				
 				<?php
 				}
@@ -261,11 +263,6 @@
 	<div class='long_list_end list_end_black'> &nbsp; </div>
 	
 		</form>
-	
-		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-		<p><button class='force_button_style' onclick='
-		$("#coin_amnts").submit();
-		'>Update Selected Charts</button></p>
 		
 	</div>
 	
@@ -296,85 +293,93 @@
 	$chart_asset = ( stristr($alerts_mrkt_parse[0], "-") == false ? $alerts_mrkt_parse[0] : substr( $alerts_mrkt_parse[0], 0, mb_strpos($alerts_mrkt_parse[0], "-", 0, 'utf-8') ) );
 	$chart_asset = strtoupper($chart_asset);
 		
-	$charts_available = 1;
+	$charts_available = true;
 		
 		// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
 		if ( !isset($ct['conf']['assets'][strtoupper($chart_asset)]) ) {
           continue;
     	     }
 		
-		// Pairs chart
-		if ( in_array('[' . $alerts_mrkt_parse[0] . '_'.$alerts_mrkt_parse[2].']', $ct['sel_opt']['show_charts']) ) {
-		$charts_shown = 1;
 	?>
-	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$alerts_mrkt_parse[0]?>_<?=$alerts_mrkt_parse[2]?>_chart'>
-	
-	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for:<br /> &nbsp; <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?>...</span>
-	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
-		
-	</div>
 	
 	
 	<script>
 	
-	// Load AFTER page load, for quick interface loading
-	$(document).ready(function(){
-		
-	<?php
-	$chart_mode = 'pair';
-	include('templates/interface/php/user/user-elements/asset-charts.php');
-	?>
+	// Pairing
+	if ( str_search_count( localStorage.getItem(show_charts_storage) , '[<?=$alerts_mrkt_parse[0]?>_<?=$alerts_mrkt_parse[2]?>]') > 0 ) {
+     
+	document.write("<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$alerts_mrkt_parse[0]?>_<?=$alerts_mrkt_parse[2]?>_chart'>");
 	
-	});
+	document.write("<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for:<br /> &nbsp; <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[2])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[1])?>...</span>");
+	
+	document.write("<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src='templates/interface/media/images/auto-preloaded/loader.gif' height='17' alt='' style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>");
+		
+	document.write("</div>");
+	
+	
+     	// Load AFTER page load, for quick interface loading
+     	$(document).ready(function(){
+     		
+     	<?php
+     	$chart_mode = 'pair';
+     	include('templates/interface/php/user/user-elements/asset-charts.php');
+     	?>
+     	
+     	});
+	
+	
+	document.write("<br/><br/><br/>");	
+	
+	}
 
-	</script>
 	
+	// PRIMARY CURRENCY CONVERSION Pairing (IF also selected by the user, AND the pairing is DIFFERENT [from the market pairing])
+	if ( str_search_count( localStorage.getItem(show_charts_storage) , '[<?=$alerts_mrkt_parse[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>]') > 0 && '<?=$alerts_mrkt_parse[2]?>' != '<?=$ct['default_bitcoin_primary_currency_pair']?>' ) {
+     
+	document.write("<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$alerts_mrkt_parse[0]?>_<?=strtolower($ct['default_bitcoin_primary_currency_pair'])?>_chart'>");
 	
-	<br/><br/><br/>
+	document.write("<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for:<br /> &nbsp; <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?> (<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value)...</span>");
 	
-	<?php
-		}
+	document.write("<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src='templates/interface/media/images/auto-preloaded/loader.gif' height='17' alt='' style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>");
 		
-		// PRIMARY CURRENCY CONFIG chart
-		if ( $alerts_mrkt_parse[2] != $ct['default_bitcoin_primary_currency_pair'] && in_array('[' . $alerts_mrkt_parse[0] . '_'.$ct['default_bitcoin_primary_currency_pair'].']', $ct['sel_opt']['show_charts']) ) {
-		$charts_shown = 1;
-	?>
+	document.write("</div>");
 	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$alerts_mrkt_parse[0]?>_<?=strtolower($ct['default_bitcoin_primary_currency_pair'])?>_chart'>
-	
-	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for:<br /> &nbsp; <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?> (<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value)...</span>
-	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
-		
-	</div>
-	
-	
-	<script>
 	
 	<?php
 	$chart_mode = strtolower($ct['default_bitcoin_primary_currency_pair']);
 	include('templates/interface/php/user/user-elements/asset-charts.php');
 	?>
 	
+	
+	document.write("<br/><br/><br/>");
+	
+     }
+	
 	</script>
 	
-	
-	<br/><br/><br/>
-	
 	<?php
-		}
 		
 	}
 	
-	if ( $charts_available == 1 && $charts_shown != 1 ) {
-	?>
-	<div class='align_center' style='min-height: 100px;'>
 	
-		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the "Select Charts" button (top left) to add charts.</p>
-	</div>
+	if ( $charts_available ) {
+	?>
+	
+	<script>
+	
+	if ( charts_num < 1 ) {
+	
+	document.write("<div class='align_center' style='min-height: 100px;'>");
+	
+		document.write("<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>");
+		document.write("<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the \"Select Charts\" button (top left) to add charts.</p>");
+		
+	document.write("</div>");
+	
+	}
+	
+	</script>
+	
 	<?php
 	}
 	?>

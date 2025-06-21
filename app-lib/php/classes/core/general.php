@@ -1903,7 +1903,6 @@ var $ct_array = array();
      
    // Settings
    unset($_COOKIE['coin_reload']);
-   unset($_COOKIE['show_charts']);
    unset($_COOKIE['show_crypto_val']);
    unset($_COOKIE['show_secondary_trade_val']);
    unset($_COOKIE['show_feeds']);
@@ -1914,7 +1913,6 @@ var $ct_array = array();
    unset($_COOKIE['prim_currency_mrkt']);
    
    $this->store_cookie('coin_reload', '', time()-3600); // Delete
-   $this->store_cookie('show_charts', '', time()-3600); // Delete
    $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
    $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
    $this->store_cookie('show_feeds', '', time()-3600); // Delete
@@ -4363,14 +4361,6 @@ var $ct_array = array();
       // UI settings (not included in any portfolio data)
       if ( $_POST['submit_check'] == 1 ) {
                
-                  
-            if ( isset($_POST['show_charts']) ) {
-            $this->store_cookie("show_charts", $_POST['show_charts'], time()+31536000);
-            }
-            else {
-            unset($_COOKIE['show_charts']);
-            $this->store_cookie('show_charts', '', time()-3600); // Delete
-            }
                   
             if ( isset($_POST['show_crypto_val']) ) {
             $this->store_cookie("show_crypto_val", $_POST['show_crypto_val'], time()+31536000);

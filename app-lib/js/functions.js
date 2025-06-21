@@ -5,6 +5,46 @@
 /////////////////////////////////////////////////////////////
 
 
+function local_storage_saved_notice(desc) {
+
+$('.local_storage_saved_notice').text(desc + ' saved to local storage...');
+$('.local_storage_saved_notice').addClass('yellow_dotted');
+
+     // Wait 4 seconds to blank out
+     setTimeout(function(){
+     $('.local_storage_saved_notice').text('');
+     $('.local_storage_saved_notice').removeClass('yellow_dotted');
+     }, 4000);
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function str_search_count(str, search) {
+     
+var parse = str;
+
+// Escape regex special characters
+search_pattern = new RegExp( escape_regex(search) , 'gi');
+
+var result = parse.match(search_pattern);
+
+     if ( result !== null ) {
+     return result.length;
+     }
+     else {
+     return 0;
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function merge_objects(orig_object, overwriting_object) {
 return combinedSettings = { ...orig_object, ...overwriting_object };
 }
@@ -786,22 +826,22 @@ var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'
 
 function chart_toggle(obj_var) {
   
-show_charts = $("#show_charts").val();
+var show_charts = localStorage.getItem(show_charts_storage);
 	
 	if ( obj_var.checked == true ) {
-	$("#show_charts").val("[" + obj_var.value + "]" + "," + show_charts);
+	localStorage.setItem(show_charts_storage, "[" + obj_var.value + "]" + "," + show_charts);
 	}
 	else {
-	$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
+	localStorage.setItem(show_charts_storage, show_charts.replace("[" + obj_var.value + "],", "") );
 	}
-	
-  
-show_charts = $("#show_charts").val(); // Reset var with any new data
 
 // Error checking
-$("#show_charts").val( show_charts.replace(",,", ",") );
 
-red_save_button();
+show_charts = localStorage.getItem(show_charts_storage); // Reset var for error check
+
+localStorage.setItem(show_charts_storage,  show_charts.replace(",,", ",") );
+
+local_storage_saved_notice('Selected charts');
 	
 }
 
