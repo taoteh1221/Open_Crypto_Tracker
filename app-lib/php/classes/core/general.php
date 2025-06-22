@@ -1905,7 +1905,6 @@ var $ct_array = array();
    unset($_COOKIE['coin_reload']);
    unset($_COOKIE['show_crypto_val']);
    unset($_COOKIE['show_secondary_trade_val']);
-   unset($_COOKIE['show_feeds']);
    unset($_COOKIE['theme_selected']);
    unset($_COOKIE['sort_by']);
    unset($_COOKIE['alert_percent']);
@@ -1915,7 +1914,6 @@ var $ct_array = array();
    $this->store_cookie('coin_reload', '', time()-3600); // Delete
    $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
    $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
-   $this->store_cookie('show_feeds', '', time()-3600); // Delete
    $this->store_cookie('theme_selected', '', time()-3600); // Delete
    $this->store_cookie('sort_by', '', time()-3600); // Delete
    $this->store_cookie('alert_percent', '', time()-3600); // Delete
@@ -4376,14 +4374,6 @@ var $ct_array = array();
             else {
             unset($_COOKIE['show_secondary_trade_val']);
             $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
-            }
-                  
-            if ( isset($_POST['show_feeds']) ) {
-            $this->store_cookie("show_feeds", $_POST['show_feeds'], time()+31536000);
-            }
-            else {
-            unset($_COOKIE['show_feeds']);
-            $this->store_cookie('show_feeds', '', time()-3600); // Delete
             }
                  
             if ( isset($_POST['theme_selected']) ) {

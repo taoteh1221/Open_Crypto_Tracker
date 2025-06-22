@@ -755,8 +755,6 @@
 	
 	<input type='hidden' id='show_secondary_trade_val' name='show_secondary_trade_val' value='<?=( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] )?>' />
 	
-	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
-	
 	<input type='hidden' id='prim_currency_mrkt_standalone' name='prim_currency_mrkt_standalone' value='<?=( isset($_POST['prim_currency_mrkt_standalone']) ? $_POST['prim_currency_mrkt_standalone'] : $_COOKIE['prim_currency_mrkt_standalone'] )?>' />
 	
 	<input type='hidden' id='prim_currency_mrkt' name='prim_currency_mrkt' value='<?=( isset($_POST['prim_currency_mrkt']) ? $_POST['prim_currency_mrkt'] : $_COOKIE['prim_currency_mrkt'] )?>' />

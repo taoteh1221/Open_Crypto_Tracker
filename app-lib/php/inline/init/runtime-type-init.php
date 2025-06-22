@@ -22,8 +22,6 @@ $ct['sel_opt']['alert_percent'] = explode("|", ( isset($_POST['use_alert_percent
 $ct['sel_opt']['show_crypto_val'] = explode(',', rtrim( ( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
 
 $ct['sel_opt']['show_secondary_trade_val'] = ( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
-
-$ct['sel_opt']['show_feeds'] = explode(',', rtrim( ( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
     
 $sort_array = explode("|", ( isset($_POST['sort_by']) ? $_POST['sort_by'] : $_COOKIE['sort_by'] ) );
 ////
@@ -222,33 +220,6 @@ require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php'
      if( isset($_COOKIE['show_crypto_val']) ) {
      $ct['gen']->store_cookie("show_crypto_val", $implode_crypto_val, time()+31536000);
      }
-    
-    
-    ////////////////////////////////
-    
-    
-    	// Alphabetically order AND remove stale feeds
-    	// (since we already alphabetically ordered $ct['conf']['news']['feeds'] in config-auto-adjust.php BEFOREHAND)
-    	$temp_show_feeds = array();
-    	$scan_feeds = $ct['sel_opt']['show_feeds'];
-    	$scan_feeds = array_map( array($ct['var'], 'strip_brackets') , $scan_feeds); // Strip brackets
-    	foreach ($ct['conf']['news']['feeds'] as $feed) {
-    	$feed_id = $ct['gen']->digest($feed["title"], 5);
-     if ( in_array($feed_id, $scan_feeds) ) {
-     $temp_show_feeds[] = '[' . $feed_id . ']';
-     }
-    	}
-    	$ct['sel_opt']['show_feeds'] = $temp_show_feeds;
-    	$implode_feeds = implode(',', $ct['sel_opt']['show_feeds']) . ',';
-    	
-    	// Update POST and / or COOKIE data too
-    	if( isset($_POST['show_feeds']) ) {
-    	$_POST['show_feeds'] = $implode_feeds;
-    	}
-    	
-    	if( isset($_COOKIE['show_feeds']) ) {
-    	$ct['gen']->store_cookie("show_feeds", $implode_feeds, time()+31536000);
-    	}
     
     
     ////////////////////////////////

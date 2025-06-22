@@ -5,6 +5,24 @@
 /////////////////////////////////////////////////////////////
 
 
+function str_to_array(str, delimiter=",", strip_brackets=true) {
+
+     if ( str == null || typeof str == 'undefined' ) {
+     return false; 
+     }
+     
+     if ( strip_brackets ) {
+     str = str.replace(/[\[\]]/g, ""); 
+     }
+     
+return str.split(delimiter);
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function local_storage_saved_notice(desc) {
 
 $('.local_storage_saved_notice').text(desc + ' saved to local storage...');
@@ -824,31 +842,6 @@ var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'
 /////////////////////////////////////////////////////////////
 
 
-function chart_toggle(obj_var) {
-  
-var show_charts = localStorage.getItem(show_charts_storage);
-	
-	if ( obj_var.checked == true ) {
-	localStorage.setItem(show_charts_storage, "[" + obj_var.value + "]" + "," + show_charts);
-	}
-	else {
-	localStorage.setItem(show_charts_storage, show_charts.replace("[" + obj_var.value + "],", "") );
-	}
-
-// Error checking
-
-show_charts = localStorage.getItem(show_charts_storage); // Reset var for error check
-
-localStorage.setItem(show_charts_storage,  show_charts.replace(",,", ",") );
-
-local_storage_saved_notice('Selected charts');
-	
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function crypto_val_toggle(obj_var) {
   
 show_crypto_val = $("#show_crypto_val").val();
@@ -874,24 +867,49 @@ red_save_button();
 /////////////////////////////////////////////////////////////
 
 
-function feed_toggle(obj_var) {
+function chart_toggle(obj_var) {
   
-show_feeds = $("#show_feeds").val();
+var show_charts = localStorage.getItem(show_charts_storage);
 	
 	if ( obj_var.checked == true ) {
-	$("#show_feeds").val("[" + obj_var.value + "]" + "," + show_feeds);
+	localStorage.setItem(show_charts_storage, "[" + obj_var.value + "]" + "," + show_charts);
 	}
 	else {
-	$("#show_feeds").val( show_feeds.replace("[" + obj_var.value + "],", "") );
+	localStorage.setItem(show_charts_storage, show_charts.replace("[" + obj_var.value + "],", "") );
 	}
-	
-  
-show_feeds = $("#show_feeds").val(); // Reset var with any new data
 
 // Error checking
-$("#show_feeds").val( show_feeds.replace(",,", ",") );
 
-red_save_button();
+show_charts = localStorage.getItem(show_charts_storage); // Reset var for error check
+
+localStorage.setItem(show_charts_storage,  show_charts.replace(",,", ",") );
+
+local_storage_saved_notice('Selected charts');
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function feed_toggle(obj_var) {
+  
+var show_feeds = localStorage.getItem(show_feeds_storage);
+	
+	if ( obj_var.checked == true ) {
+	localStorage.setItem(show_feeds_storage, "[" + obj_var.value + "]" + "," + show_feeds);
+	}
+	else {
+	localStorage.setItem(show_feeds_storage, show_feeds.replace("[" + obj_var.value + "],", "") );
+	}
+
+// Error checking
+
+show_feeds = localStorage.getItem(show_feeds_storage); // Reset var for error check
+
+localStorage.setItem(show_feeds_storage,  show_feeds.replace(",,", ",") );
+
+local_storage_saved_notice('Selected news feeds');
 	
 }
 

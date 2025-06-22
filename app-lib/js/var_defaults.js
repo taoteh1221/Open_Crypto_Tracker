@@ -122,6 +122,8 @@ var safari_notice_storage;
 
 var show_charts_storage;
 
+var show_feeds_storage;
+
 var linux_phpdesktop_notice_storage;
 
 var desktop_windows_notice_storage;
@@ -226,5 +228,7 @@ var background_tasks_status = 'wait';
 var custom_3deep_menu_open = false;
 
 var news_feed_batched_maximum = 0;
+
+var batched_feeds_keys = ''; // blank, so NOT undefined
 
 

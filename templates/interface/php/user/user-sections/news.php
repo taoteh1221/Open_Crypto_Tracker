@@ -100,16 +100,6 @@
 		 
 	    </p>
 	
-	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your news feeds</i>, if you want them to stay activated between browser sessions.</p>
-	
-			
-	<div> &nbsp; </div>
-	
-	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-	<p><button class='force_button_style' onclick='
-	$("#coin_amnts").submit();
-	'>Update Selected News Feeds</button></p>
-	
 	<div> &nbsp; </div>
 	
 	<p><input type='checkbox' onclick='
@@ -117,10 +107,10 @@
 		select_all(this, "activate_feeds");
 		
 		if ( this.checked == false ) {
-		$("#show_feeds").val("");
+		localStorage.setItem(show_feeds_storage,  "");
 		}
 		
-	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading news feeds" notice freezes, check / uncheck this box, then click "Update Selected News Feeds")</span></p>
+	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading news feeds" notice freezes, check / uncheck this box)</span></p>
 		
 		<form id='activate_feeds' name='activate_feeds'>
 		
@@ -138,7 +128,13 @@
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 			
 				
-				<input type='checkbox' value='<?=$feed_id?>' onchange='feed_toggle(this);' <?=( in_array("[".$feed_id."]", $ct['sel_opt']['show_feeds']) ? 'checked' : '' )?> /> <?=$feed['title']?>
+				<input type='checkbox' id='<?=$feed_id?>' value='<?=$feed_id?>' onchange='feed_toggle(this);' /> <?=$feed['title']?>
+				
+				<script>
+				if ( str_search_count( localStorage.getItem(show_feeds_storage) , '[<?=$feed_id?>]') > 0 ) {
+				document.getElementById('<?=$feed_id?>').checked = true;
+				}
+				</script>
 	
 	
 			</div>
@@ -158,11 +154,6 @@
 	<div class='long_list_end list_end_black'> &nbsp; </div>
 	
 		</form>
-	
-		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-		<p><button class='force_button_style' onclick='
-		$("#coin_amnts").submit();
-		'>Update Selected News Feeds</button></p>
 		
 	</div>
 	
@@ -175,128 +166,118 @@
 	content_source: '#show_feed_settings'
 	});
   	
+	
+	if ( feeds_num > 0 ) {
+	     
+	var chosen_feeds = str_to_array( localStorage.getItem(show_feeds_storage) );
+	     
+	var batched_feeds_loops_max = Math.ceil(feeds_num / news_feed_batched_maximum);
+	
+	// Defaults before looping
+	var all_feeds_added = 0;
+	var batched_feeds_added = 0;
+	var batched_feeds_loops_added = 0;
+	var all_feeds_added = null;
+  	
+  	
+         	chosen_feeds.forEach(function(feed_key) {
+         	     
+         	     
+         		if ( batched_feeds_loops_added < batched_feeds_loops_max ) {
+     				
+     		batched_feeds_added = batched_feeds_added + 1;
+     			
+     		all_feeds_added = all_feeds_added + 1;
+     			
+     		batched_feeds_keys = batched_feeds_keys + feed_key + ',';
+     		
+     			
+     				if ( batched_feeds_added >= news_feed_batched_maximum || all_feeds_added >= feeds_num ) {
+     				     
+     				batched_feeds_keys = batched_feeds_keys.replace(/,+$/, ''); // Remove comma at end
+     		
+     					document.write("<div id='rss_feeds_" + batched_feeds_loops_added + "'>");
+     					
+     					
+     						document.write("<fieldset class='subsection_fieldset'>");
+     						
+     						document.write("<legend class='subsection_legend'> <strong>Batch-loading " + batched_feeds_added + " news feeds...</strong> </legend>");
+     							document.write("<img class='' src='templates/interface/media/images/auto-preloaded/loader.gif' height='<?=round($set_ajax_loading_size * 50)?>' alt='' style='vertical-align: middle;' />");
+     							
+     						document.write("</fieldset>");
+     					
+     					document.write("</div>");
+         	                 
+         	                 
+         	                 //console.log('batched_feeds_keys = ' + batched_feeds_keys);
+     								
+     				  var feeds_array = str_to_array(batched_feeds_keys, ',', false);
+     				  
+     				  
+     						$("#rss_feeds_" + batched_feeds_loops_added).load("ajax.php?type=rss&feeds=" + batched_feeds_keys + "&theme=" + theme_selected, function(responseTxt, statusTxt, xhr){
+     							
+     							if(statusTxt == "success") {
+     								
+     								feeds_array.forEach(function(feed_hash) {
+     								feeds_loaded.push(feed_hash);
+         	                                   //console.log('feed_hash = ' + feed_hash);
+     								});
+     								
+         	                              //console.log('feeds_array.length = ' + feeds_array.length);
+     								
+         	                              //console.log('feeds_loaded.length = ' + feeds_loaded.length);
+     							 
+     							feeds_loading_check();
+     							
+     							}
+     							else if(statusTxt == "error") {
+     								
+     							$("#rss_feeds_" + batched_feeds_loops_added).html("<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong class='bitcoin'>ERROR Batch-loading " + batched_feeds_added + " news feeds...</strong> </legend><span class='red'>" + xhr.status + ": " + xhr.statusText + "</span></fieldset>");
+     								
+     								feeds_array.forEach(function(feed_hash) {
+     								feeds_loaded.push(feed_hash);
+         	                                   //console.log('feed_hash = ' + feed_hash);
+     								});
+     								
+         	                              //console.log('feeds_array.length = ' + feeds_array.length);
+     								
+         	                              //console.log('feeds_loaded.length = ' + feeds_loaded.length);
+     							 
+     							feeds_loading_check();
+     							
+     							}
+     						
+     						});
+     						
+     		
+     				// Reset
+     				batched_feeds_added = 0;
+     				batched_feeds_loops_added = batched_feeds_loops_added + 1;
+     				batched_feeds_keys = '';
+     				}
+     
+     
+         		}
+         
+         
+         	});
+		
+		
+     }
+     else {
+	
+	document.write("<div class='align_center' style='min-height: 100px;'>");
+	
+		document.write("<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>");
+		document.write("<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the \"Select News Feeds\" button (top left) to add news feeds.</p>");
+		
+	document.write("</div>");
+	
+	}
+	
 	</script>
 	
 	
-	<?php
-	
-	if ( isset($ct['sel_opt']['show_feeds'][0]) && $ct['sel_opt']['show_feeds'][0] != '' ) {
-	 
-	 $chosen_feeds = array_map( array($ct['var'], 'strip_brackets') , $ct['sel_opt']['show_feeds']);
-	 
-	    if ( is_array($chosen_feeds) && sizeof($chosen_feeds) > 0 ) {
-	    $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $ct['conf']['news']['news_feed_batched_maximum'] );
-	    }
-	    else {
-	    $batched_feeds_loops_max = 0;
-	    }
-	 
-	 // Defaults before looping
-	 $all_feeds_added = 0;
-	 $batched_feeds_added = 0;
-	 $batched_feeds_loops_added = 0;
-	 $batched_feeds_keys = null;
-
-    
-    	// Already alphabetically sorted and pruned of stale entries in app init routines, so we just loop without filters
-    	foreach($chosen_feeds as $chosen_feed_hash) {
-    		
-    		if ( $batched_feeds_loops_added < $batched_feeds_loops_max ) {
-				
-			$batched_feeds_added = $batched_feeds_added + 1;
-			$batched_feeds_keys .= $chosen_feed_hash . ',';
-			$all_feeds_added = $all_feeds_added + 1;
-			
-				if ( $batched_feeds_added >= $ct['conf']['news']['news_feed_batched_maximum'] || $all_feeds_added >= sizeof($chosen_feeds) ) {
-				$batched_feeds_keys = rtrim($batched_feeds_keys,',');
-				?>
-		
-					<div id='rss_feeds_<?=$batched_feeds_loops_added?>'>
-					
-					
-						<fieldset class='subsection_fieldset'>
-						
-						<legend class='subsection_legend'> <strong>Batch-loading <?=$batched_feeds_added?> news feeds...</strong> </legend>
-							<img class='' src="templates/interface/media/images/auto-preloaded/loader.gif" height='<?=round($set_ajax_loading_size * 50)?>' alt="" style='vertical-align: middle;' />
-						</fieldset>
-					
-					</div>
-					
-					<script>
-	
-					// Load AFTER page load, for quick interface loading
-					$(document).ready(function(){
-						
-						$("#rss_feeds_<?=$batched_feeds_loops_added?>").load("ajax.php?type=rss&feeds=<?=$batched_feeds_keys?>&theme=<?=$ct['sel_opt']['theme_selected']?>", function(responseTxt, statusTxt, xhr){
-							
-							if(statusTxt == "success") {
-								
-								<?php
-								$feeds_array = explode(',', $batched_feeds_keys);
-								foreach ($feeds_array as $feed_hash) {
-								?>
-								feeds_loaded.push("<?=$feed_hash?>");
-								<?php
-								}
-								?>
-							 
-							feeds_loading_check();
-							
-							}
-							else if(statusTxt == "error") {
-								
-							$("#rss_feeds_<?=$batched_feeds_loops_added?>").html("<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong class='bitcoin'>ERROR Batch-loading <?=$batched_feeds_added?> news feeds...</strong> </legend><span class='red'>" + xhr.status + ": " + xhr.statusText + "</span></fieldset>");
-								
-								<?php
-								$feeds_array = explode(',', $batched_feeds_keys);
-								foreach ($feeds_array as $feed_hash) {
-								?>
-								feeds_loaded.push("<?=$feed_hash?>");
-								<?php
-								}
-								?>
-							 
-							feeds_loading_check();
-							
-							}
-						
-						});
-	
-					});
-						
-					</script>
-		
-		
-				<?php
-				// Reset
-				$batched_feeds_added = 0;
-				$batched_feeds_keys = null;
-				$batched_feeds_loops_added = $batched_feeds_loops_added + 1;
-				}
-
-
-    		}
-    
-    	}
-		
-		
-	?>
-	
-	<?php
-	}
-	else {
-	?>
-	
-	<div class='align_center' style='min-height: 100px;'>
-	
-		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the "Select News Feeds" button (top left) to add news feeds.</p>
-	</div>
-	
-	<?php
-	}
-	?>
-		    
 	
 </div> <!-- full_width_wrapper END -->
 
