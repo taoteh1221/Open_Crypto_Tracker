@@ -402,7 +402,7 @@ function charts_loading_check() {
 	return 'done';
 	}
 	else {
-	background_loading_notices("Loading Charts...");
+	background_loading_notices("Loading Price Charts...");
 	$("#background_loading").show(250); // 0.25 seconds
 	return 'active';
 	}
