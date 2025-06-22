@@ -46,6 +46,10 @@ var secondary_mrkt_currencies = new Array();
 
 var original_page_title = new Array();
 
+var mapping_all_news_feeds = new Array();
+
+var mapping_all_price_charts = new Array();
+
 // Objects
 
 var jstree_json_data = {};
@@ -120,6 +124,10 @@ var cookies_notice_storage;
 
 var safari_notice_storage;
 
+var show_charts_storage;
+
+var show_feeds_storage;
+
 var linux_phpdesktop_notice_storage;
 
 var desktop_windows_notice_storage;
@@ -184,6 +192,8 @@ var collapsed_sidebar_scroll_position;
 
 var doc_title_stats;
 
+var cookie_path;
+
 // With defaults
 	
 var gen_csrf_sec_token = Base64.encode('none');
@@ -222,5 +232,9 @@ var all_tasks_initial_load = true;
 var background_tasks_status = 'wait';
 
 var custom_3deep_menu_open = false;
+
+var news_feed_batched_maximum = 0;
+
+var batched_feeds_keys = ''; // blank, so NOT undefined
 
 

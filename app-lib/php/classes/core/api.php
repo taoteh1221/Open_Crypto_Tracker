@@ -468,20 +468,27 @@ var $exchange_apis = array(
    
    $cache_file = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$ticker.'.dat';
    
-   
-        if ( file_exists($cache_file) ) {
-        $data = json_decode( trim( file_get_contents($cache_file) ) , true);
+        
+        // IF we do NOT have a PREMIUM PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS
+        if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
+        $cache_time = rand(7, 14) * 1440; 
         }
         else {
+        $cache_time = 1440; 
+        }
+   
+   
+        // WE SAVE DATA OUTSIDE THE EXT_DATA DIRECTORY, AS WE MAY STORE IT FOR MANY WEEKS,
+        // IF WE A USING THE FREE API TIER
+        if ( $ct['cache']->update_cache($cache_file, $cache_time) == true ) {
          
         $url = 'https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
               
-        $response = @$ct['cache']->ext_data('url', $url, 1440);
-        
-        //var_dump($response);
+        $response = @$ct['cache']->ext_data('url', $url, $cache_time);
         
         $data = json_decode($response, true);
-        
+            
+            // Store error status, if no valid data detected
             if ( !isset($data['Symbol']) ) {
             $response = '{ "request_error": "no_data" }';
             $data = json_decode($response, true);
@@ -489,6 +496,9 @@ var $exchange_apis = array(
             
         $ct['cache']->save_file($cache_file, $response);
         
+        }
+        else {
+        $data = json_decode( trim( file_get_contents($cache_file) ) , true);
         }
         
    

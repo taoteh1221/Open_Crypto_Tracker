@@ -762,6 +762,20 @@ padding: 0.3em;
 }
 
 
+.local_storage_saved_notice {
+     display: none;
+    position: fixed;
+  text-align: center;
+    left: 1%;
+    top: 1%;
+    padding: 1.6em;
+    z-index: 999999999999 !important;
+    border-radius: 0.6em;
+font-weight: bold !important;
+opacity: 0.95;
+}
+
+
 .countdown_notice_modal {
 display: inline;
 float: right;

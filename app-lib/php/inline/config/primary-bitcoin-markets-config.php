@@ -80,18 +80,6 @@ $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume
      }
 
 
-	// Delete show_charts cookie data
-	if ( isset($_COOKIE['show_charts']) ) {
-	unset($_COOKIE['show_charts']);
-     $ct['gen']->store_cookie('show_charts', '', time()-3600); // Delete 
-	}
-
-	// Delete show_charts post data
-	if ( isset($_POST['show_charts']) ) {
-	$_POST['show_charts'] = null;  
-	}
-
-
 // Update cache var
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat', $ct['default_bitcoin_primary_currency_pair']);
 

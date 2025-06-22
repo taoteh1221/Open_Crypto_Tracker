@@ -22,8 +22,6 @@ $ct['sel_opt']['alert_percent'] = explode("|", ( isset($_POST['use_alert_percent
 $ct['sel_opt']['show_crypto_val'] = explode(',', rtrim( ( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
 
 $ct['sel_opt']['show_secondary_trade_val'] = ( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
-
-$ct['sel_opt']['show_feeds'] = explode(',', rtrim( ( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
     
 $sort_array = explode("|", ( isset($_POST['sort_by']) ? $_POST['sort_by'] : $_COOKIE['sort_by'] ) );
 ////
@@ -225,93 +223,6 @@ require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php'
     
     
     ////////////////////////////////
-    
-    
-    	// Alphabetically order AND remove stale feeds
-    	// (since we already alphabetically ordered $ct['conf']['news']['feeds'] in config-auto-adjust.php BEFOREHAND)
-    	$temp_show_feeds = array();
-    	$scan_feeds = $ct['sel_opt']['show_feeds'];
-    	$scan_feeds = array_map( array($ct['var'], 'strip_brackets') , $scan_feeds); // Strip brackets
-    	foreach ($ct['conf']['news']['feeds'] as $feed) {
-    	$feed_id = $ct['gen']->digest($feed["title"], 5);
-     if ( in_array($feed_id, $scan_feeds) ) {
-     $temp_show_feeds[] = '[' . $feed_id . ']';
-     }
-    	}
-    	$ct['sel_opt']['show_feeds'] = $temp_show_feeds;
-    	$implode_feeds = implode(',', $ct['sel_opt']['show_feeds']) . ',';
-    	
-    	// Update POST and / or COOKIE data too
-    	if( isset($_POST['show_feeds']) ) {
-    	$_POST['show_feeds'] = $implode_feeds;
-    	}
-    	
-    	if( isset($_COOKIE['show_feeds']) ) {
-    	$ct['gen']->store_cookie("show_feeds", $implode_feeds, time()+31536000);
-    	}
-    
-    
-    ////////////////////////////////
-    
-    
-    	// Only set from cookie / post values if charts are enabled
-    	if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
-     
-    	$ct['sel_opt']['show_charts'] = explode(',', rtrim( ( isset($_POST['show_charts']) ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
-     
-     // Remove stale charts
-     $temp_show_charts = array();
-     $scan_charts = $ct['sel_opt']['show_charts'];
-     $scan_charts = array_map( array($ct['var'], 'strip_brackets') , $scan_charts); // Strip brackets
-     $scan_charts = array_map( array($ct['var'], 'strip_underscore_and_after') , $scan_charts); // Strip underscore, and everything after
-     
-     
-          $loop = 0;
-          foreach ($scan_charts as $mrkt_key) {
-          
-          // WE NEED TO INCLUDE THE DELIMITER '||' IMMEADIATELY FOLLOWING THE KEY NAME, AS WE CAN HAVE MULTIPLE KEYS FOR THE SAME ASSET (asset,asset-1,asset-2,etc)
-          $string_in_array = $ct['var']->begins_with_in_array($ct['conf']['charts_alerts']['tracked_markets'], $mrkt_key . '||')['key'];
-          	
-          	// IF asset exists in charts app config (*ARRAY KEY* OF ZERO OR GREATER), AND $ct['sel_opt']['show_charts'] UI key format is latest iteration
-          	// (fiat conversion charts USED TO have no underscore)
-          	if ( $string_in_array >= 0 && stristr($ct['sel_opt']['show_charts'][$loop], '_') ) {
-          		
-          	$chart_params = explode('_', $ct['var']->strip_brackets($ct['sel_opt']['show_charts'][$loop]) );
-          	
-          	$chart_conf_check = array_map( "trim", explode('||', $ct['conf']['charts_alerts']['tracked_markets'][$string_in_array]) );
-          		
-          		// If pair properly matches OR it's a conversion chart, we're good to keep this $ct['sel_opt']['show_charts'] array value 
-          		if ( $chart_params[1] == $chart_conf_check[2] || $chart_params[1] == $ct['default_bitcoin_primary_currency_pair'] ) {
-          		$temp_show_charts[$loop] = $ct['sel_opt']['show_charts'][$loop];
-          		}
-          		
-          	}
-          	
-          $loop = $loop + 1;
-          
-          }
-          
-          
-     $ct['sel_opt']['show_charts'] = $temp_show_charts;
-     $implode_charts = implode(',', $ct['sel_opt']['show_charts']) . ',';
-    	
-    	
-          // Update POST and / or COOKIE data too
-          if( isset($_POST['show_charts']) ) {
-          $_POST['show_charts'] = $implode_charts;
-          }
-
-         	
-          if( isset($_COOKIE['show_charts']) ) {
-          $ct['gen']->store_cookie("show_charts", $implode_charts, time()+31536000);
-          }
-          
-    	
-    	}
-    	else {
-    	$ct['gen']->store_cookie("show_charts", "", time()-3600);  // Delete cookie -3600 seconds (expired)
-    	$ct['sel_opt']['show_charts'] = array();
-    	}
 	
 
 	// If CSV file import is in process, check it

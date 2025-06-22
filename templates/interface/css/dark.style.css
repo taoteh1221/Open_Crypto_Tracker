@@ -19,6 +19,11 @@ background-color: #dbd9d9;
 }
 
 
+.local_storage_saved_notice {
+    background-color: white !important;
+}
+
+
 .tablesorter-filter-row td {
 background-color: #343f49 !important;
 color: white !important;

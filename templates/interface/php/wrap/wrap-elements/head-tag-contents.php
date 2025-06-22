@@ -48,7 +48,11 @@
 	
 	app_platform = '<?=$ct['app_platform']?>';
 	
+	cookie_path = '<?=$ct['cookie_path']?>';
+	
 	theme_selected = '<?=$ct['sel_opt']['theme_selected']?>';
+	
+	news_feed_batched_maximum = Number("<?=$ct['conf']['news']['news_feed_batched_maximum']?>");
 	
      pref_number_format = get_cookie('pref_number_format') ? get_cookie('pref_number_format') : 'automatic';
          
@@ -101,10 +105,6 @@
 	
 	cookies_size_warning = "<?=( isset($ct['system_warnings']['portfolio_cookies_size']) && isset($ct['system_info']['portfolio_cookies']) ? "HIGH cookie usage (" . $ct['var']->num_pretty( ($ct['system_info']['portfolio_cookies'] / 1000) , 2) . "kb) risks CRASHING app! <img class='tooltip_style_control' id='cookies_size_warning_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: -5px;' />" : 'none' )?>";
 	
-	feeds_num = <?=( isset($ct['sel_opt']['show_feeds'][0]) && $ct['sel_opt']['show_feeds'][0] != '' ? sizeof($ct['sel_opt']['show_feeds']) : 0 )?>;
-	
-	charts_num = <?=( isset($ct['sel_opt']['show_charts'][0]) && $ct['sel_opt']['show_charts'][0] != '' ? sizeof($ct['sel_opt']['show_charts']) : 0 )?>;
-	
 	sorted_by_col = <?=( $ct['sel_opt']['sorted_by_col'] ? $ct['sel_opt']['sorted_by_col'] : 0 )?>;
 	
 	sorted_asc_desc = <?=( $ct['sel_opt']['sorted_asc_desc'] ? $ct['sel_opt']['sorted_asc_desc'] : 0 )?>;
@@ -148,6 +148,58 @@
 	issues_page_visit_time_storage = storage_app_id("issues_page_visit_time_storage");
 	
 	notes_storage = storage_app_id("notes");
+	
+	show_charts_storage = storage_app_id("show_charts");
+	
+	show_feeds_storage = storage_app_id("show_feeds");
+	
+	
+	    // v6.01.01 MIGRATIONS...
+	    
+	    // (user-selected charts moved from cookie to js local storage)
+	    if ( get_cookie('show_charts') ) {
+	         
+	    localStorage.setItem(show_charts_storage, decodeURIComponent( get_cookie('show_charts') ) );
+
+	    delete_cookie('show_charts');
+
+	    }
+	    
+	    
+	    // (user-selected news feeds moved from cookie to js local storage)
+	    if ( get_cookie('show_feeds') ) {
+	         
+	    localStorage.setItem(show_feeds_storage, decodeURIComponent( get_cookie('show_feeds') ) );
+
+	    delete_cookie('show_feeds');
+
+	    }
+	    
+	    
+	<?php
+	
+	// Javascript-based cookie deleting MAY not be reliable for installs BEFORE v6.01.01
+	//  (that have been upgraded etc)
+		
+	if ( isset($_COOKIE['show_charts']) ) {
+	$ct['gen']->store_cookie('show_charts', '', time()-3600);
+	}
+	
+	if ( isset($_COOKIE['show_feeds']) ) {
+	$ct['gen']->store_cookie('show_feeds', '', time()-3600);
+	}
+	
+	?>
+	    
+	
+	charts_num = Number( str_search_count( localStorage.getItem(show_charts_storage) , '[') );
+	
+	feeds_num = Number( str_search_count( localStorage.getItem(show_feeds_storage) , '[') );
+
+     console.log('charts_num = ' + charts_num);
+
+     console.log('feeds_num = ' + feeds_num);
+     
 	
 	    <?php
 	    if ( isset($ct['dev']['latest_important_dev_alerts_timestamp']) ) {

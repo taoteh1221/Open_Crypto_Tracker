@@ -5,6 +5,68 @@
 /////////////////////////////////////////////////////////////
 
 
+function str_to_array(str, delimiter=",", strip_brackets=true) {
+
+     if ( str == null || typeof str == 'undefined' ) {
+     return false; 
+     }
+     
+     if ( strip_brackets ) {
+     str = str.replace(/[\[\]]/g, ""); 
+     }
+     
+return str.split(delimiter);
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function local_storage_saved_notice(desc) {
+
+$('.local_storage_saved_notice').html(desc + ' updated<br />(in "localStorage")');
+$('.local_storage_saved_notice').addClass('bitcoin_dotted');
+$(".local_storage_saved_notice").show(250, 'linear'); // 0.25 seconds
+
+     // Wait 4 seconds to blank out
+     setTimeout(function(){
+     $(".local_storage_saved_notice").hide(250, 'linear'); // 0.25 seconds
+     }, 4000);
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function str_search_count(str, search) {
+     
+     if ( str == null || typeof str == 'undefined' ||  str == '' ) {
+     return 0;
+     }
+     
+var parse = str;
+
+// Escape regex special characters
+search_pattern = new RegExp( escape_regex(search) , 'gi');
+
+var result = parse.match(search_pattern);
+
+     if ( result != null && typeof result.length != 'undefined' ) {
+     return result.length;
+     }
+     else {
+     return 0;
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function merge_objects(orig_object, overwriting_object) {
 return combinedSettings = { ...orig_object, ...overwriting_object };
 }
@@ -46,7 +108,7 @@ return Base64.decode(ct_id) + "_" + var_name;
 
 
 function delete_cookie(name) {
-document.cookie = name + '=; SameSite=Strict; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+set_cookie(name, '', -1);
 }
 
 
@@ -197,13 +259,20 @@ function iframe_url(name, val=null, mode='get') {
 
 function set_cookie(cname, cvalue, exdays) {
      
-d = new Date();
-d.setTime(d.getTime() + (exdays*24*60*60*1000));
+     // DELETE cookie
+     if ( exdays < 0 ) {
+     var expires = 'expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+     }
+     // CREATE / MODIFY cookie
+     else {
+     d = new Date();
+     d.setTime(d.getTime() + (exdays*24*60*60*1000));
+     var expires = "expires=" + d.toUTCString();
+     }
 
 is_secure = app_edition == 'server' ? ' Secure' : '';
-expires = "expires="+d.toUTCString();
 
-document.cookie = cname + "=" + cvalue + "; " + expires + "; SameSite=Strict;" + is_secure;
+document.cookie = cname + "=" + cvalue + "; path=" + cookie_path + "; " + expires + "; SameSite=Strict;" + is_secure;
 
 }
 
@@ -344,7 +413,7 @@ function charts_loading_check() {
 	return 'done';
 	}
 	else {
-	background_loading_notices("Loading Charts...");
+	background_loading_notices("Loading Price Charts...");
 	$("#background_loading").show(250); // 0.25 seconds
 	return 'active';
 	}
@@ -784,31 +853,6 @@ var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'
 /////////////////////////////////////////////////////////////
 
 
-function chart_toggle(obj_var) {
-  
-show_charts = $("#show_charts").val();
-	
-	if ( obj_var.checked == true ) {
-	$("#show_charts").val("[" + obj_var.value + "]" + "," + show_charts);
-	}
-	else {
-	$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
-	}
-	
-  
-show_charts = $("#show_charts").val(); // Reset var with any new data
-
-// Error checking
-$("#show_charts").val( show_charts.replace(",,", ",") );
-
-red_save_button();
-	
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function crypto_val_toggle(obj_var) {
   
 show_crypto_val = $("#show_crypto_val").val();
@@ -834,24 +878,57 @@ red_save_button();
 /////////////////////////////////////////////////////////////
 
 
-function feed_toggle(obj_var) {
+function chart_toggle(obj_var) {
   
-show_feeds = $("#show_feeds").val();
+var show_charts = localStorage.getItem(show_charts_storage);
+
+     if ( show_charts == null ) {
+     show_charts = '';
+     }
 	
 	if ( obj_var.checked == true ) {
-	$("#show_feeds").val("[" + obj_var.value + "]" + "," + show_feeds);
+	localStorage.setItem(show_charts_storage, "[" + obj_var.value + "]" + "," + show_charts);
 	}
 	else {
-	$("#show_feeds").val( show_feeds.replace("[" + obj_var.value + "],", "") );
+	localStorage.setItem(show_charts_storage, show_charts.replace("[" + obj_var.value + "],", "") );
 	}
-	
-  
-show_feeds = $("#show_feeds").val(); // Reset var with any new data
 
 // Error checking
-$("#show_feeds").val( show_feeds.replace(",,", ",") );
 
-red_save_button();
+show_charts = localStorage.getItem(show_charts_storage); // Reset var for error check
+
+localStorage.setItem(show_charts_storage,  show_charts.replace(",,", ",") );
+
+local_storage_saved_notice('Selected Price Charts');
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function feed_toggle(obj_var) {
+  
+var show_feeds = localStorage.getItem(show_feeds_storage);
+
+     if ( show_feeds == null ) {
+     show_feeds = '';
+     }
+	
+	if ( obj_var.checked == true ) {
+	localStorage.setItem(show_feeds_storage, "[" + obj_var.value + "]" + "," + show_feeds);
+	}
+	else {
+	localStorage.setItem(show_feeds_storage, show_feeds.replace("[" + obj_var.value + "],", "") );
+	}
+
+// Error checking
+
+show_feeds = localStorage.getItem(show_feeds_storage); // Reset var for error check
+
+localStorage.setItem(show_feeds_storage,  show_feeds.replace(",,", ",") );
+
+local_storage_saved_notice('Selected News Feeds');
 	
 }
 

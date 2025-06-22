@@ -63,6 +63,9 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
     <div class='align_center' id='secondary_wrapper'>
 
     
+    <span class='bitcoin local_storage_saved_notice'></span>
+
+    
     <span class='red countdown_notice'></span>
 				
 

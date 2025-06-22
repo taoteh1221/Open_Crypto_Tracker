@@ -19,31 +19,31 @@ if ( $minutes < 60 ) {
 ?>
 <b>Average minutes until block found:</b> 
 <?php
-echo round($minutes, 2);
+echo $ct['var']->num_pretty($minutes, 2);
 }
 elseif ( $hours < 24 ) {
 ?>
 <b>Average hours until block found:</b> 
 <?php
-echo round($hours, 2);
+echo $ct['var']->num_pretty($hours, 2);
 }
 elseif ( $days < 30 ) {
 ?>
 <b>Average days until block found:</b> 
 <?php
-echo round($days, 2);
+echo $ct['var']->num_pretty($days, 2);
 }
 elseif ( $days < 365 ) {
 ?>
 <b>Average months until block found:</b> 
 <?php
-echo round($months, 2);
+echo $ct['var']->num_pretty($months, 2);
 }
 else {
 ?>
 <b>Average years until block found:</b> 
 <?php
-echo round($years, 2);
+echo $ct['var']->num_pretty($years, 2);
 }
 
 $thres_dec = $ct['gen']->thres_dec($days, 'u', 'fiat'); // Units mode
