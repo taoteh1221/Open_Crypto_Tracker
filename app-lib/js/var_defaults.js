@@ -46,6 +46,10 @@ var secondary_mrkt_currencies = new Array();
 
 var original_page_title = new Array();
 
+var mapping_all_news_feeds = new Array();
+
+var mapping_all_price_charts = new Array();
+
 // Objects
 
 var jstree_json_data = {};

@@ -221,9 +221,15 @@
 				<input type='checkbox' id='<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>' value='<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>' onchange='chart_toggle(this);' /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[2])?> @ <?=$ct['gen']->key_to_name($show_asset_params[1])?>
 				
 				<script>
+				
+				// For comparison-mapping USER-SELECTED charts
+				// (to order them alphabetically, AND ignore stale entries)
+				mapping_all_price_charts.push("<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>");
+				
 				if ( str_search_count( localStorage.getItem(show_charts_storage) , '[<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>]') > 0 ) {
 				document.getElementById('<?=$show_asset_params[0]?>_<?=$show_asset_params[2]?>').checked = true;
 				}
+				
 				</script>
 			
 				<?php
@@ -234,9 +240,15 @@
 				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' id='<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>' value='<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>' onchange='chart_toggle(this);' /> <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value
 				
 				<script>
+				
+				// For comparison-mapping USER-SELECTED charts
+				// (to order them alphabetically, AND ignore stale entries)
+				mapping_all_price_charts.push("<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>");
+				
 				if ( str_search_count( localStorage.getItem(show_charts_storage) , '[<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>]') > 0 ) {
 				document.getElementById('<?=$show_asset_params[0]?>_<?=$ct['default_bitcoin_primary_currency_pair']?>').checked = true;
 				}
+				
 				</script>
 				
 				<?php

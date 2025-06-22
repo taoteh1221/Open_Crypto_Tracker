@@ -25,13 +25,13 @@ return str.split(delimiter);
 
 function local_storage_saved_notice(desc) {
 
-$('.local_storage_saved_notice').text(desc + ' saved to local storage...');
-$('.local_storage_saved_notice').addClass('yellow_dotted');
+$('.local_storage_saved_notice').html(desc + ' updated<br />(in "localStorage")');
+$('.local_storage_saved_notice').addClass('bitcoin_dotted');
+$(".local_storage_saved_notice").show(250, 'linear'); // 0.25 seconds
 
      // Wait 4 seconds to blank out
      setTimeout(function(){
-     $('.local_storage_saved_notice').text('');
-     $('.local_storage_saved_notice').removeClass('yellow_dotted');
+     $(".local_storage_saved_notice").hide(250, 'linear'); // 0.25 seconds
      }, 4000);
 
 
@@ -884,7 +884,7 @@ show_charts = localStorage.getItem(show_charts_storage); // Reset var for error 
 
 localStorage.setItem(show_charts_storage,  show_charts.replace(",,", ",") );
 
-local_storage_saved_notice('Selected charts');
+local_storage_saved_notice('Selected Price Charts');
 	
 }
 
@@ -909,7 +909,7 @@ show_feeds = localStorage.getItem(show_feeds_storage); // Reset var for error ch
 
 localStorage.setItem(show_feeds_storage,  show_feeds.replace(",,", ",") );
 
-local_storage_saved_notice('Selected news feeds');
+local_storage_saved_notice('Selected News Feeds');
 	
 }
 

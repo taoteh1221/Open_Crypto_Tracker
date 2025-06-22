@@ -131,9 +131,15 @@
 				<input type='checkbox' id='<?=$feed_id?>' value='<?=$feed_id?>' onchange='feed_toggle(this);' /> <?=$feed['title']?>
 				
 				<script>
+				
+				// For comparison-mapping USER-SELECTED feeds
+				// (to order them alphabetically, AND ignore stale entries)
+				mapping_all_news_feeds.push("<?=$feed_id?>");
+				
 				if ( str_search_count( localStorage.getItem(show_feeds_storage) , '[<?=$feed_id?>]') > 0 ) {
 				document.getElementById('<?=$feed_id?>').checked = true;
 				}
+
 				</script>
 	
 	
@@ -170,6 +176,22 @@
 	if ( feeds_num > 0 ) {
 	     
 	var chosen_feeds = str_to_array( localStorage.getItem(show_feeds_storage) );
+	
+	var mapped_feeds = new Array();
+	
+	    
+	    // Sort alphabetically, AND ignore stale entries
+	    mapping_all_news_feeds.forEach(function(alpha_key_map) {
+	    
+	         if ( chosen_feeds.includes(alpha_key_map) ) {
+	         mapped_feeds.push(alpha_key_map);
+	         }
+	    
+	    });
+	    
+	
+	// Cleaned / ordered chosen feeds array
+     chosen_feeds = mapped_feeds;
 	     
 	var batched_feeds_loops_max = Math.ceil(feeds_num / news_feed_batched_maximum);
 	

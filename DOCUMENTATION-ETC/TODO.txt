@@ -129,9 +129,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Find an alternative for alphabetically-ordering news feeds users select in the interface, now that we moved storage to local storage. Maybe since we already alphabetically order it in the SERVER SIDE php array, run some type of comparision against the chosen feed's data keys in local storage in the end-user's browser.
-
-
 Make ajax "wizard steps" logging show in the alerts interface, and consider having any "market" errors be shown only in debugging mode. Maybe only under the condition that an asset search is in-progress, which we already set the global flag $ct['ticker_markets_search'] to know when this is happening. Usually though (IF no asset search is in-progress), we prefer market errors to show in the interface.
 
 

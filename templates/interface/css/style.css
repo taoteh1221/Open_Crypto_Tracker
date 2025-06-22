@@ -763,15 +763,16 @@ padding: 0.3em;
 
 
 .local_storage_saved_notice {
-display: inline;
-float: left;
-position: absolute; /* To set top / left below, AND backwards compatibility (if browser doesn't support 'sticky') */
-top: 0.3em;
-left: 13em;
-border-radius: 0.6em;
-padding: 1em;
+     display: none;
+    position: fixed;
+  text-align: center;
+    left: 1%;
+    top: 1%;
+    padding: 1.6em;
+    z-index: 999999999999 !important;
+    border-radius: 0.6em;
 font-weight: bold !important;
-z-index: 9999999999999999 !important;
+opacity: 0.95;
 }
 
 
