@@ -6886,6 +6886,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Moved USER-SELECTED price charts / news feeds PERSISTENT STORAGE from using cookies (only allowed when cookie usage is selected on the "Settings" page), over to using JavaScript Local Storage, to avoid POTENTIALLY CRASHING App Servers with an excessive header size (helps app servers running other web apps on same web domain / server, OR when tracking MANY assets on the "My Portfolio" page WITH COOKIES ENABLED). This also allows data storage WHILE MAINTAINING PRIVACY (no data sent to the app server), AND immediate auto-save when you change your selected price charts / news feeds (NO NEED TO CLICK AN "UPDATE / SAVE" BUTTON).
 
+-BUG FIX: Javascript-based cookie DELETION now works properly
+
 -New PER-market error reporting feature, to send comms alerts on X CONSECUTIVE DAYS of market data errors, for any particular market data being requested by the app (can be disabled if desired, in the comms admin section)
 
 -Search feature for the "System Monitoring => App Logs" interface (to only show log lines matching the search query)

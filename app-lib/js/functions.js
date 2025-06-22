@@ -43,6 +43,10 @@ $(".local_storage_saved_notice").show(250, 'linear'); // 0.25 seconds
 
 function str_search_count(str, search) {
      
+     if ( str == null || typeof str == 'undefined' ||  str == '' ) {
+     return 0;
+     }
+     
 var parse = str;
 
 // Escape regex special characters
@@ -50,7 +54,7 @@ search_pattern = new RegExp( escape_regex(search) , 'gi');
 
 var result = parse.match(search_pattern);
 
-     if ( result !== null ) {
+     if ( result != null && typeof result.length != 'undefined' ) {
      return result.length;
      }
      else {
@@ -104,7 +108,7 @@ return Base64.decode(ct_id) + "_" + var_name;
 
 
 function delete_cookie(name) {
-document.cookie = name + '=; SameSite=Strict; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+set_cookie(name, '', -1);
 }
 
 
@@ -255,13 +259,20 @@ function iframe_url(name, val=null, mode='get') {
 
 function set_cookie(cname, cvalue, exdays) {
      
-d = new Date();
-d.setTime(d.getTime() + (exdays*24*60*60*1000));
+     // DELETE cookie
+     if ( exdays < 0 ) {
+     var expires = 'expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+     }
+     // CREATE / MODIFY cookie
+     else {
+     d = new Date();
+     d.setTime(d.getTime() + (exdays*24*60*60*1000));
+     var expires = "expires=" + d.toUTCString();
+     }
 
 is_secure = app_edition == 'server' ? ' Secure' : '';
-expires = "expires="+d.toUTCString();
 
-document.cookie = cname + "=" + cvalue + "; " + expires + "; SameSite=Strict;" + is_secure;
+document.cookie = cname + "=" + cvalue + "; path=" + cookie_path + "; " + expires + "; SameSite=Strict;" + is_secure;
 
 }
 
@@ -870,6 +881,10 @@ red_save_button();
 function chart_toggle(obj_var) {
   
 var show_charts = localStorage.getItem(show_charts_storage);
+
+     if ( show_charts == null ) {
+     show_charts = '';
+     }
 	
 	if ( obj_var.checked == true ) {
 	localStorage.setItem(show_charts_storage, "[" + obj_var.value + "]" + "," + show_charts);
@@ -895,6 +910,10 @@ local_storage_saved_notice('Selected Price Charts');
 function feed_toggle(obj_var) {
   
 var show_feeds = localStorage.getItem(show_feeds_storage);
+
+     if ( show_feeds == null ) {
+     show_feeds = '';
+     }
 	
 	if ( obj_var.checked == true ) {
 	localStorage.setItem(show_feeds_storage, "[" + obj_var.value + "]" + "," + show_feeds);

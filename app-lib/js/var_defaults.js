@@ -192,6 +192,8 @@ var collapsed_sidebar_scroll_position;
 
 var doc_title_stats;
 
+var cookie_path;
+
 // With defaults
 	
 var gen_csrf_sec_token = Base64.encode('none');

@@ -48,6 +48,8 @@
 	
 	app_platform = '<?=$ct['app_platform']?>';
 	
+	cookie_path = '<?=$ct['cookie_path']?>';
+	
 	theme_selected = '<?=$ct['sel_opt']['theme_selected']?>';
 	
 	news_feed_batched_maximum = Number("<?=$ct['conf']['news']['news_feed_batched_maximum']?>");
@@ -172,6 +174,22 @@
 	    delete_cookie('show_feeds');
 
 	    }
+	    
+	    
+	<?php
+	
+	// Javascript-based cookie deleting MAY not be reliable for installs BEFORE v6.01.01
+	//  (that have been upgraded etc)
+		
+	if ( isset($_COOKIE['show_charts']) ) {
+	$ct['gen']->store_cookie('show_charts', '', time()-3600);
+	}
+	
+	if ( isset($_COOKIE['show_feeds']) ) {
+	$ct['gen']->store_cookie('show_feeds', '', time()-3600);
+	}
+	
+	?>
 	    
 	
 	charts_num = Number( str_search_count( localStorage.getItem(show_charts_storage) , '[') );
