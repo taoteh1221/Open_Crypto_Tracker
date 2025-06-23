@@ -1884,15 +1884,8 @@ var $ct_array = array();
    
    
    function delete_all_cookies() {
-     
-    // Portfolio
-   unset($_COOKIE['coin_amnts']);
-   unset($_COOKIE['coin_pairs']);
-   unset($_COOKIE['coin_mrkts']);
-   unset($_COOKIE['coin_paid']);
-   unset($_COOKIE['coin_lvrg']);
-   unset($_COOKIE['coin_mrgntyp']);
    
+    // Portfolio
    $this->store_cookie('coin_amnts', '', time()-3600); // Delete
    $this->store_cookie('coin_pairs', '', time()-3600); // Delete
    $this->store_cookie('coin_mrkts', '', time()-3600); // Delete
@@ -1900,17 +1893,14 @@ var $ct_array = array();
    $this->store_cookie('coin_lvrg', '', time()-3600); // Delete
    $this->store_cookie('coin_mrgntyp', '', time()-3600); // Delete
      
-     
-   // Settings
-   unset($_COOKIE['coin_reload']);
-   unset($_COOKIE['show_crypto_val']);
-   unset($_COOKIE['show_secondary_trade_val']);
-   unset($_COOKIE['theme_selected']);
-   unset($_COOKIE['sort_by']);
-   unset($_COOKIE['alert_percent']);
-   unset($_COOKIE['prim_currency_mrkt_standalone']);
-   unset($_COOKIE['prim_currency_mrkt']);
+   unset($_COOKIE['coin_amnts']);
+   unset($_COOKIE['coin_pairs']);
+   unset($_COOKIE['coin_mrkts']);
+   unset($_COOKIE['coin_paid']);
+   unset($_COOKIE['coin_lvrg']);
+   unset($_COOKIE['coin_mrgntyp']);
    
+   // Settings
    $this->store_cookie('coin_reload', '', time()-3600); // Delete
    $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
    $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
@@ -1919,6 +1909,15 @@ var $ct_array = array();
    $this->store_cookie('alert_percent', '', time()-3600); // Delete
    $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
    $this->store_cookie('prim_currency_mrkt', '', time()-3600); // Delete
+     
+   unset($_COOKIE['coin_reload']);
+   unset($_COOKIE['show_crypto_val']);
+   unset($_COOKIE['show_secondary_trade_val']);
+   unset($_COOKIE['theme_selected']);
+   unset($_COOKIE['sort_by']);
+   unset($_COOKIE['alert_percent']);
+   unset($_COOKIE['prim_currency_mrkt_standalone']);
+   unset($_COOKIE['prim_currency_mrkt']);
     
    }
 

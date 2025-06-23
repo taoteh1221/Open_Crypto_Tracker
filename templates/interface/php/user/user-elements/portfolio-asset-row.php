@@ -270,7 +270,7 @@ echo '?';
          
             setTimeout(function() {
                row_alert("<?=strtolower($asset_symb)?>_row", "<?=$percent_alert_type?>", "yellow", "<?=$ct['sel_opt']['theme_selected']?>");
-               console.log('<?=$asset_symb?> set to: yellow');
+               //console.log('<?=$asset_symb?> set to: yellow');
             }, 1000);
             
             <?php
@@ -280,7 +280,7 @@ echo '?';
             
             setTimeout(function() {
                row_alert("<?=strtolower($asset_symb)?>_row", "<?=$percent_alert_type?>", "green", "<?=$ct['sel_opt']['theme_selected']?>");
-               console.log('<?=$asset_symb?> set to: green');
+               //console.log('<?=$asset_symb?> set to: green');
             }, 1000);
             
             <?php

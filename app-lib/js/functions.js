@@ -25,7 +25,7 @@ return str.split(delimiter);
 
 function local_storage_saved_notice(desc) {
 
-$('.local_storage_saved_notice').html(desc + ' updated<br />(in "localStorage")');
+$('.local_storage_saved_notice').html(desc + ' updated (in [PRIVATE] "localStorage")<br /><br />The "Refresh Data" menu button loads these changes.');
 $('.local_storage_saved_notice').addClass('bitcoin_dotted');
 $(".local_storage_saved_notice").show(250, 'linear'); // 0.25 seconds
 

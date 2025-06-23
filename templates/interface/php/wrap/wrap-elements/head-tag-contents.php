@@ -155,50 +155,46 @@
 	
 	
 	    // v6.01.01 MIGRATIONS...
+	         
+	    //console.log('localStorage.getItem(show_charts_storage) = ' + localStorage.getItem(show_charts_storage) );
 	    
 	    // (user-selected charts moved from cookie to js local storage)
 	    if ( get_cookie('show_charts') ) {
 	         
-	    localStorage.setItem(show_charts_storage, decodeURIComponent( get_cookie('show_charts') ) );
+	         // ONLY migrate IF the var key has NOT been set yet!
+	         // https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
+	         if ( localStorage.getItem(show_charts_storage) === null ) {
+	         localStorage.setItem(show_charts_storage, decodeURIComponent( get_cookie('show_charts') ) );
+	         }
 
 	    delete_cookie('show_charts');
 
 	    }
 	    
+	         
+	    //console.log('localStorage.getItem(show_feeds_storage) = ' + localStorage.getItem(show_feeds_storage) );
 	    
 	    // (user-selected news feeds moved from cookie to js local storage)
 	    if ( get_cookie('show_feeds') ) {
 	         
-	    localStorage.setItem(show_feeds_storage, decodeURIComponent( get_cookie('show_feeds') ) );
+	         // ONLY migrate IF the var key has NOT been set yet!
+	         // https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
+	         if ( localStorage.getItem(show_feeds_storage) === null ) {
+	         localStorage.setItem(show_feeds_storage, decodeURIComponent( get_cookie('show_feeds') ) );
+	         }
 
 	    delete_cookie('show_feeds');
 
 	    }
-	    
-	    
-	<?php
-	
-	// Javascript-based cookie deleting MAY not be reliable for installs BEFORE v6.01.01
-	//  (that have been upgraded etc)
-		
-	if ( isset($_COOKIE['show_charts']) ) {
-	$ct['gen']->store_cookie('show_charts', '', time()-3600);
-	}
-	
-	if ( isset($_COOKIE['show_feeds']) ) {
-	$ct['gen']->store_cookie('show_feeds', '', time()-3600);
-	}
-	
-	?>
 	    
 	
 	charts_num = Number( str_search_count( localStorage.getItem(show_charts_storage) , '[') );
 	
 	feeds_num = Number( str_search_count( localStorage.getItem(show_feeds_storage) , '[') );
 
-     console.log('charts_num = ' + charts_num);
+     //console.log('charts_num = ' + charts_num);
 
-     console.log('feeds_num = ' + feeds_num);
+     //console.log('feeds_num = ' + feeds_num);
      
 	
 	    <?php
