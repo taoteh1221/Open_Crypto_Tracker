@@ -150,6 +150,9 @@ Assure we are properly catching jupiter token address retrieval FALIURES in mark
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+See what other cookies we can migrate to localStorage instead (to reduce the risk of header size crashing server [under edge cases]). WE NEED TO MAKE SURE NO ***SERVER-SIDE*** PROCESSING IS REQUIRED (to NOT use cookies)!
+
+
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
