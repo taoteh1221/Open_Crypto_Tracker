@@ -23,49 +23,89 @@ header('Access-Control-Allow-Origin: *');
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
 header('Access-Control-Allow-Credentials: true'); 
 
+// Ip address information
+$ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $ct['gen']->safe_file_name($ct['remote_ip']) . '.dat';
 
-// Webhook security check (hash must match our concatenated [service name + webhook key]'s hash, or we abort runtime)
-// Using the hash of the concatenated [service name + webhook key] keeps our webhook key a secret, that only we know (for security)!
-$webhook_key = preg_replace("/\/(.*)/", '', $_GET['webhook_params']); // Remove any (forwardslash-seperated) data after the webhook hash
+
+// Throttle ip addresses reconnecting before $ct['conf']['int_api']['api_rate_limit'] interval passes
+if ( $ct['cache']->update_cache($ip_access_tracking, ($ct['conf']['int_api']['api_rate_limit'] / 60) ) == false ) {
+
+$result = array('error' => "Rate limit (maximum of once every " . $ct['conf']['int_api']['api_rate_limit'] . " seconds) reached for ip address: " . $ct['remote_ip']);
+
+$ct['gen']->log(
+			'int_webhook_error',
+			'From ' . $ct['remote_ip'] . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
+			);
+
+// JSON-encode results
+echo json_encode($result, JSON_PRETTY_PRINT);
+
+// Log access event for this ip address (for throttling)
+$ct['cache']->save_file($ip_access_tracking, $ct['gen']->time_date_format(false, 'pretty_date_time') );
+
+// Access stats logging
+$ct['cache']->log_access_stats();
+
+// Log errors / debugging, send notifications
+$ct['cache']->app_log();
+$ct['cache']->send_notifications();
+
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
+
+exit;
+
+}
         
 
-if ( !isset($plug['activated']['webhook']) ) {
-$result = array('error' => "No service match for webhook: " . $webhook_key);
+if ( isset($plug['activated']['webhook']) ) {
+     
+     
+     foreach ( $plug['activated']['webhook'] as $plugin_key => $plugin_init ) {
+             		
+     $this_plug = $plugin_key;
+
+     // Webhook security check (hash must match our concatenated [service name + webhook key]'s hash, or we abort runtime)
+     // Using the hash of the concatenated [service name + webhook key] keeps our webhook key a secret, that only we know (for security)!
+     $plug['webhook'][$this_plug]['key'] = preg_replace("/\/(.*)/", '', $_GET['webhook_params']); // Remove any (forwardslash-seperated) data after the webhook hash
+
+             	
+         if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$this_plug]) && trim($ct['int_webhooks'][$this_plug]) != '' && $plug['webhook'][$this_plug]['key'] == $ct['gen']->nonce_digest($this_plug, $ct['int_webhooks'][$this_plug] . $webhook_master_key) ) {
+              
+         $webhook_key_exists = true; // Flag webhook service as found
+         
+         $plug['webhook'][$this_plug]['params'] = explode("/", $_GET['webhook_params']);
+         unset($plug['webhook'][$this_plug]['params'][0]); // Remove webhook key
+         $plug['webhook'][$this_plug]['params'] = array_values($plug['webhook'][$this_plug]['params']); // 'reindex' array
+         
+         // This plugin's plug-init.php file (runs the plugin)
+         include($plugin_init);
+             	
+         }
+             	
+     // Reset $this_plug at end of loop
+     unset($this_plug); 
+             
+     }
+
+}
+else {
+$result = array('error' => "No registered webhooks");
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
-        
-foreach ( $plug['activated']['webhook'] as $plugin_key => $plugin_init ) {
-        		
-$this_plug = $plugin_key;
-        	
-    if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$this_plug]) && trim($ct['int_webhooks'][$this_plug]) != '' && $webhook_key == $ct['gen']->nonce_digest($this_plug, $ct['int_webhooks'][$this_plug] . $webhook_master_key) ) {
-         
-    $webhook_exists = true; // Flag webhook service as found
-    
-    $webhook_params = explode("/", $_GET['webhook_params']);
-    unset($webhook_params[0]); // Remove webhook key
-    $webhook_params = array_values($webhook_params); // 'reindex' array
-    
-    // This plugin's plug-init.php file (runs the plugin)
-    include($plugin_init);
-        	
-    }
-        	
-// Reset $this_plug at end of loop
-unset($this_plug); 
-        
-}
 
-
-// If no plugin webhook service was found
-if ( !$webhook_exists ) {
-$result = array('error' => "No service match for webhook: " . $webhook_key);
+// If webhooks exist, BUT no matching webhook KEY was found
+if ( isset($plug['activated']['webhook']) && !$webhook_key_exists ) {
+$result = array('error' => "Webhook key mismatch: " . $plug['webhook'][$this_plug]['key']);
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
 // Access stats logging
 $ct['cache']->log_access_stats();
+
+// Log access event for this ip address (for throttling)
+$ct['cache']->save_file($ip_access_tracking, $ct['gen']->time_date_format(false, 'pretty_date_time') );
 
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();

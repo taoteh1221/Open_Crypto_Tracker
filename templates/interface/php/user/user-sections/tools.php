@@ -17,9 +17,8 @@
 	
 	<?=$ct['gen']->start_page_html('tools')?>
 			
-			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
-			 reload_time = this.value;
-			 auto_reload();
+			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select select_auto_refresh' name='select_auto_refresh' onchange='
+			 auto_reload(this);
 			 '>
 				<option value='0'> Manually </option>
 				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
@@ -28,7 +27,7 @@
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
 			</select> 
 			
-			&nbsp; <span id='reload_notice' class='red'></span>		
+			&nbsp; <span class='reload_notice red'></span>		
 		
 		
 	   </p>	

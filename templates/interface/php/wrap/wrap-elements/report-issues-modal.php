@@ -1142,7 +1142,7 @@ $ct['plug_version'][$this_plug] = '1.01.00';
 
 
 
-<span class='blue'>8)</span> All PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug['conf'][$this_plug]" (sub-arrays are allowed).
+<span class='blue'>8)</span> All PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$plug['conf'][$this_plug]</code></pre> (sub-arrays are allowed).
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
@@ -1169,10 +1169,10 @@ When 'runtime_mode' is set to 'webhook', you can pass ADDITIONAL parameters (for
 https://mydomain.com/hook/WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC
 <br /><br />
 
-These parameters are then automatically put into a PHP array named: $webhook_params
+These parameters are then automatically put into a PHP array named: <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$plug['webhook'][$this_plug]['params']</code></pre>
 <br /><br />
 
-The webhook key is also available, in the auto-created variable: $webhook_key
+The webhook key is also available, in the auto-created variable: <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$plug['webhook'][$this_plug]['key']</code></pre>
 <br /><br /><br />
 
 
@@ -1193,7 +1193,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>12)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named $ct['dev']['plugin_allow_resets'][$this_plug] WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
+<span class='blue'>12)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$ct['dev']['plugin_allow_resets'][$this_plug]</code></pre> WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
 <br /><br />
 
 

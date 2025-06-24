@@ -47,6 +47,14 @@ $_SESSION[$fetched_feeds] = false;
 	
 }
  
+	    
+// v6.01.01 MIGRATIONS...
+// Javascript-based cookie deleting MAY not be as reliable
+if ( isset($_COOKIE['show_feeds']) ) {
+$ct['gen']->store_cookie('show_feeds', '', time()-3600);
+unset($_COOKIE['show_feeds']);
+}
+	
 
 // Access stats logging
 $ct['cache']->log_access_stats();

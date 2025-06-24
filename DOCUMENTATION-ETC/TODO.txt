@@ -129,25 +129,22 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Make ajax "wizard steps" logging show in the alerts interface, and consider having any "market" errors be shown only in debugging mode. Maybe only under the condition that an asset search is in-progress, which we already set the global flag $ct['ticker_markets_search'] to know when this is happening. Usually though (IF no asset search is in-progress), we prefer market errors to show in the interface.
+In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
 
 
 Move all remaining relevent APIs over to the new per-second / per-minute throttling system.
 
 
-Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
-
-
-Hook the plugin webhook API system into the API limiter for the internal API. Use the same system, as we want to securely throttle request response per ip address, across ALL internal API endpoints.
-
-
 Assure we are properly catching jupiter token address retrieval FALIURES in market_tickers_parse(), SO WE HAVE NO FUNKY ASSET SEARCH RESULTS.
 
 
-TRIPLE check all new Jupiter exchange market logic.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-TRIPLE check all new db upgrade / downgrade logic ON APP and PLUGINS (seems debugged great, BUT was heavily refactored last release!), INCLUDING turning plugins on / off, deleting plugin state caches, AND under different admin security levels.
+See what other cookies we can migrate to localStorage instead (to reduce the risk of header size crashing server [under edge cases]). WE NEED TO MAKE SURE NO ***SERVER-SIDE*** PROCESSING IS REQUIRED (to NOT use cookies)!
+
+
+Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).

@@ -6888,6 +6888,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Javascript-based cookie DELETION now works properly
 
+-BUG FIX: Miscellaneous 
+
 -New PER-market error reporting feature, to send comms alerts on X CONSECUTIVE DAYS of market data errors, for any particular market data being requested by the app (can be disabled if desired, in the comms admin section)
 
 -Search feature for the "System Monitoring => App Logs" interface (to only show log lines matching the search query)
@@ -6895,6 +6897,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -DAILY limit advanced API throttling (for APIs like AlphaVantage FREE tier), for more reliable market data requests
 
 -Stock Overview information, when hovering over the info icon on the My Portfolio page (next to the asset name)
+
+-Throttling for internal webhook plugins (to control how often external API requests can retrieve data)
 
 -UX improvements
 

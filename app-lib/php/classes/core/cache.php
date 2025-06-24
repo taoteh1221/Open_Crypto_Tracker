@@ -507,9 +507,10 @@ var $ct_array = array();
       else {
       
       // WORKS IN LINUX ***AND WINDOWS TOO***
-      $htaccess_password = password_hash($htaccess_password, PASSWORD_DEFAULT);
+      // (temp var name, OR WE OVERWRITE THE GLOBAL VAR!!)
+      $htaccess_password_temp = password_hash($htaccess_password, PASSWORD_DEFAULT);
       
-      $password_set = $this->save_file($ct['base_dir'] . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
+      $password_set = $this->save_file($ct['base_dir'] . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password_temp);
       
        	if ( $password_set == true ) {
        
@@ -1745,6 +1746,8 @@ var $ct_array = array();
   
   $error_log .= strip_tags($ct['log_errors']['int_api_error']); // Remove any HTML formatting used in UI alerts
   
+  $error_log .= strip_tags($ct['log_errors']['int_webhook_error']); // Remove any HTML formatting used in UI alerts
+  
   $error_log .= strip_tags($ct['log_errors']['market_error']); // Remove any HTML formatting used in UI alerts
   
   $error_log .= strip_tags($ct['log_errors']['other_error']); // Remove any HTML formatting used in UI alerts
@@ -1785,11 +1788,8 @@ var $ct_array = array();
   // Sort error / debug logs (combined) by timestamp
   $app_log = $ct['gen']->sort_log($error_log . $debug_log);
       
-      
-      // Save a copy for interface alerts
-      if ( $ct['runtime_mode'] == 'ui') {
-      $ct['alerts_gui_logs'] = nl2br($app_log);
-      }
+  // Format / save to global var, for interface alerts
+  $ct['alerts_gui_logs'] = nl2br($app_log);
     
     
       // If it's time to email error logs...

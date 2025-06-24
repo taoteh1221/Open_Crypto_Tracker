@@ -268,7 +268,7 @@ $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 125; // 
 
 // Local / internal REST API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
-$ct['conf']['int_api']['int_api_rate_limit'] = 1; // (default = 1)
+$ct['conf']['int_api']['api_rate_limit'] = 1; // (default = 1)
 ////
 // Local / internal REST API market limit (maximum number of MARKETS requested per call)
 $ct['conf']['int_api']['int_api_markets_limit'] = 50; // (default = 50)

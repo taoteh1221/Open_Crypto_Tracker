@@ -210,6 +210,8 @@ var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
 var is_iframe = false;
 
+var running_setup_wizard = false;
+
 var is_admin = false;
 
 var admin_logged_in = false;

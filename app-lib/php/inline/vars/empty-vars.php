@@ -105,6 +105,8 @@ $plug['conf'] =  array();
 
 $plug['class'] = array();
 
+$plug['webhook'] = array();
+
 $plug['activated'] =  array();
 
 

@@ -5,61 +5,51 @@
 /////////////////////////////////////////////////////////////
 
 
-function str_to_array(str, delimiter=",", strip_brackets=true) {
-
-     if ( str == null || typeof str == 'undefined' ) {
-     return false; 
-     }
-     
-     if ( strip_brackets ) {
-     str = str.replace(/[\[\]]/g, ""); 
-     }
-     
-return str.split(delimiter);
-
-}
+function ui_log_alerts() {
 
 
-/////////////////////////////////////////////////////////////
+    // Mirror hidden errors output in the footer over to the alert bell area with javascript
+    // Run AFTER check to see if alerts are present
+    // NOT IFRAME
+    if ( !is_iframe ) {
+	
+        // See if any alerts are present
+        if ( $('#app_error_alert').html() == '' ) {
+        $('#app_error_alert').html('No new runtime alerts.');
+        }
+        else {
+        $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert').html() );
+    
+    }
+    // IS IFRAME
+    else {
+         
+         
+        if ( running_setup_wizard ) {
+        var error_logs_elm = $('#setup_wizard_error_alert');
+        }
+        else {
+        var error_logs_elm = $('#iframe_error_alert');
+        }
+        
+        
+        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && error_logs_elm.html() != '' ) {
+        $('#app_error_alert', window.parent.document).html( error_logs_elm.html() );
+        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        else if ( error_logs_elm.html() != '' ) {
+        $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + error_logs_elm.html() );
+        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+        
+    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert', window.parent.document).html() );
+        
+    }
 
-
-function local_storage_saved_notice(desc) {
-
-$('.local_storage_saved_notice').html(desc + ' updated<br />(in "localStorage")');
-$('.local_storage_saved_notice').addClass('bitcoin_dotted');
-$(".local_storage_saved_notice").show(250, 'linear'); // 0.25 seconds
-
-     // Wait 4 seconds to blank out
-     setTimeout(function(){
-     $(".local_storage_saved_notice").hide(250, 'linear'); // 0.25 seconds
-     }, 4000);
-
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function str_search_count(str, search) {
-     
-     if ( str == null || typeof str == 'undefined' ||  str == '' ) {
-     return 0;
-     }
-     
-var parse = str;
-
-// Escape regex special characters
-search_pattern = new RegExp( escape_regex(search) , 'gi');
-
-var result = parse.match(search_pattern);
-
-     if ( result != null && typeof result.length != 'undefined' ) {
-     return result.length;
-     }
-     else {
-     return 0;
-     }
 
 }
 
@@ -239,6 +229,24 @@ function responsive_menu_override() {
 /////////////////////////////////////////////////////////////
 
 
+function local_storage_saved_notice(desc) {
+
+$('.local_storage_saved_notice').html(desc + ' updated (in [PRIVATE] "localStorage")<br /><br />The "Refresh Data" menu button loads these changes.');
+$('.local_storage_saved_notice').addClass('bitcoin_dotted');
+$(".local_storage_saved_notice").show(250, 'linear'); // 0.25 seconds
+
+     // Wait 4 seconds to blank out
+     setTimeout(function(){
+     $(".local_storage_saved_notice").hide(250, 'linear'); // 0.25 seconds
+     }, 4000);
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function iframe_url(name, val=null, mode='get') {
 
      if ( mode == 'get' ) {
@@ -250,6 +258,24 @@ function iframe_url(name, val=null, mode='get') {
      else if ( mode == 'delete' ) {
      localStorage.removeItem(name);
      }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function str_to_array(str, delimiter=",", strip_brackets=true) {
+
+     if ( str == null || typeof str == 'undefined' ) {
+     return false; 
+     }
+     
+     if ( strip_brackets ) {
+     str = str.replace(/[\[\]]/g, ""); 
+     }
+     
+return str.split(delimiter);
 
 }
 
@@ -510,6 +536,32 @@ function getObjectLength (o) {
     }
   }
   return length;
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function str_search_count(str, search) {
+     
+     if ( str == null || typeof str == 'undefined' ||  str == '' ) {
+     return 0;
+     }
+     
+var parse = str;
+
+// Escape regex special characters
+search_pattern = new RegExp( escape_regex(search) , 'gi');
+
+var result = parse.match(search_pattern);
+
+     if ( result != null && typeof result.length != 'undefined' ) {
+     return result.length;
+     }
+     else {
+     return 0;
+     }
+
 }
 
 
@@ -3727,7 +3779,12 @@ var tiny_line_height = tiny_line_height.toFixed(3);
 /////////////////////////////////////////////////////////////
 
 
-function auto_reload() {
+function auto_reload(select_elm=false) {
+     
+     
+     if ( select_elm ) {
+     reload_time = select_elm.value;
+     }
 
 
 	if ( reload_time ) {
@@ -3762,15 +3819,15 @@ function auto_reload() {
 				
 				$("#use_cookies").val(1);
 				
-				document.getElementById("reload_notice").innerHTML = "(reloading app, please wait...)";
+				$(".reload_notice").html("(reloading app, please wait...)");
 				
 					setTimeout(function () {
 						$("#coin_amnts").submit();
 					}, 2000);
 				
 				}
-				else{
-				$("#select_auto_refresh").val('');
+				else if ( select_elm ) {
+				$(select_elm).val('0');
 				return false;
 				}
 			

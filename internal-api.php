@@ -23,22 +23,19 @@ header('Access-Control-Allow-Origin: *');
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
 header('Access-Control-Allow-Credentials: true'); 
 
-
 // Ip address information
-$safe_name = $ct['gen']->safe_file_name($ct['remote_ip']); 
-$ip_access = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat') );
+$ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $ct['gen']->safe_file_name($ct['remote_ip']) . '.dat';
 
 
+// Throttle ip addresses reconnecting before $ct['conf']['int_api']['api_rate_limit'] interval passes
+if ( $ct['cache']->update_cache($ip_access_tracking, ($ct['conf']['int_api']['api_rate_limit'] / 60) ) == false ) {
 
-// Throttle ip addresses reconnecting before $ct['conf']['int_api']['int_api_rate_limit'] interval passes
-if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat', ($ct['conf']['int_api']['int_api_rate_limit'] / 60) ) == false ) {
-
-$result = array('error' => "Rate limit (maximum of once every " . $ct['conf']['int_api']['int_api_rate_limit'] . " seconds) reached for ip address: " . $ct['remote_ip']);
+$result = array('error' => "Rate limit (maximum of once every " . $ct['conf']['int_api']['api_rate_limit'] . " seconds) reached for ip address: " . $ct['remote_ip']);
 
 $ct['gen']->log(
-							'int_api_error',
-							'From ' . $ct['remote_ip'] . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
-							);
+			'int_api_error',
+			'From ' . $ct['remote_ip'] . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
+			);
 
 // JSON-encode results
 $json_result = json_encode($result, JSON_PRETTY_PRINT);
@@ -85,9 +82,6 @@ $hash_check = md5($_GET['data_set']);
 	if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/internal_api/'.$hash_check.'.dat', $ct['conf']['int_api']['int_api_cache_time']) == false ) {
 		
 	$json_result = trim( file_get_contents($ct['base_dir'] . '/cache/internal_api/'.$hash_check.'.dat') );
-
-	// Log access event for this ip address (for throttling)
-	$ct['cache']->save_file($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
 	
 	}
 	// No cache / expired cache
@@ -156,9 +150,6 @@ $hash_check = md5($_GET['data_set']);
 	// Cache the result
 	$ct['cache']->save_file($ct['base_dir'] . '/cache/internal_api/'.$hash_check.'.dat', $json_result);
 
-	// Log access event for this ip address (for throttling)
-	$ct['cache']->save_file($ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $safe_name . '.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
-
 
 	}
 
@@ -167,6 +158,9 @@ $hash_check = md5($_GET['data_set']);
 
 // Echo result in json format
 echo $json_result;
+
+// Log access event for this ip address (for throttling)
+$ct['cache']->save_file($ip_access_tracking, $ct['gen']->time_date_format(false, 'pretty_date_time') );
 
 // Access stats logging
 $ct['cache']->log_access_stats();
