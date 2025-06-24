@@ -25,17 +25,6 @@ require($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/market
 }
 
 
-// Access stats logging
-$ct['cache']->log_access_stats();
- 
-// Log errors / debugging, send notifications
-$ct['cache']->app_log();
-$ct['cache']->send_notifications();
-
-flush(); // Clean memory output buffer for echo
-gc_collect_cycles(); // Clean memory cache
-
-
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>

@@ -17,7 +17,7 @@
 	
 	         <?=$ct['gen']->start_page_html('charts')?>
 			
-			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
+			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select select_auto_refresh' name='select_auto_refresh' onchange='
 			 reload_time = this.value;
 			 auto_reload();
 			 '>

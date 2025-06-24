@@ -704,9 +704,9 @@ When 'runtime_mode' is set to 'webhook', you can pass ADDITIONAL parameters (for
 
 https://mydomain.com/hook/WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC
 
-These parameters are then automatically put into a PHP array named: $webhook_params
+These parameters are then automatically put into a PHP array named: $plug['webhook'][$this_plug]['params']
 
-The webhook key is also available, in the auto-created variable: $webhook_key
+The webhook key is also available, in the auto-created variable: $plug['webhook'][$this_plug]['key']
 
 
 

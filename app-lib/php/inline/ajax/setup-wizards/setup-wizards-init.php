@@ -40,6 +40,8 @@ exit; // Exit for security!
 
 <script>
 
+running_setup_wizard = true;
+
 disable_nav_save_buttons = 'Disabled when using the setup wizard system.';
 
 console.log('disable_nav_save_buttons = ' + disable_nav_save_buttons);
@@ -68,6 +70,23 @@ if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {
 }
 
 
-// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+// Log errors / debugging, send notifications
+$ct['cache']->app_log();
+$ct['cache']->send_notifications();
+
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
 
 ?>
+
+<div id="setup_wizard_error_alert" style='display: none;'><?php echo $ct['alerts_gui_logs']; ?></div>
+
+<script>
+
+// UI alerts for error / notice logs
+ui_log_alerts();
+
+running_setup_wizard = false;
+
+</script>
+

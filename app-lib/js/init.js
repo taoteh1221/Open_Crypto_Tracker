@@ -157,6 +157,7 @@ nav_menu('.user-nav');
      /////////////////////////////////////////////////////////////////////////////////////////////////////
      
      
+     // Firefox compatibility
      if ( is_firefox ) {
      $("#sidebar label.pl_mn_lab").css('transform', 'scale(.75) translateY(0rem) translateX(0.25rem)', "important");
      $("#sidebar #quant_font_percent").css('padding-left', '0.35rem', "important");
@@ -770,42 +771,6 @@ nav_menu('.user-nav');
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    
-    // Mirror hidden errors output in the footer over to the alert bell area with javascript
-    // Run AFTER check to see if alerts are present
-    // NOT IFRAME
-    if ( !is_iframe ) {
-	
-        // See if any alerts are present
-        if ( $('#app_error_alert').html() == '' ) {
-        $('#app_error_alert').html('No new runtime alerts.');
-        }
-        else {
-        $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        
-    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert').html() );
-    
-    }
-    // IS IFRAME
-    else {
-        
-        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && $('#iframe_error_alert').html() != '' ) {
-        $('#app_error_alert', window.parent.document).html( $('#iframe_error_alert').html() );
-        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        else if ( $('#iframe_error_alert').html() != '' ) {
-        $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + $('#iframe_error_alert').html() );
-        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        
-    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert', window.parent.document).html() );
-        
-    }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
     // Admin hashed nonce inserted in admin iframe forms
@@ -1273,6 +1238,9 @@ nav_menu('.user-nav');
          // Wait 2 seconds before Initiating
          // (otherwise everything is NOT always registered yet for DOM manipulations)
          setTimeout(function(){
+              
+         // UI alerts for error / notice logs
+         ui_log_alerts();
           
          // Sort the portfolio AFTER checking for privacy mode
          sorting_portfolio_table();

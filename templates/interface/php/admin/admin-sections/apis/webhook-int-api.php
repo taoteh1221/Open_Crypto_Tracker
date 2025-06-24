@@ -37,21 +37,21 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$ct['admin_render_settings']['int_api_rate_limit']['is_range'] = true;
+$ct['admin_render_settings']['api_rate_limit']['is_range'] = true;
 
-$ct['admin_render_settings']['int_api_rate_limit']['range_ui_meta_data'] .= 'zero_is_unlimited;';
+$ct['admin_render_settings']['api_rate_limit']['range_ui_meta_data'] .= 'zero_is_unlimited;';
 
-$ct['admin_render_settings']['int_api_rate_limit']['range_min'] = 0;
+$ct['admin_render_settings']['api_rate_limit']['range_min'] = 0;
 
-$ct['admin_render_settings']['int_api_rate_limit']['range_max'] = 10;
+$ct['admin_render_settings']['api_rate_limit']['range_max'] = 10;
 
-$ct['admin_render_settings']['int_api_rate_limit']['range_step'] = 1;
+$ct['admin_render_settings']['api_rate_limit']['range_step'] = 1;
 
-$ct['admin_render_settings']['int_api_rate_limit']['range_ui_prefix'] = 'Every ';
+$ct['admin_render_settings']['api_rate_limit']['range_ui_prefix'] = 'Every ';
 
-$ct['admin_render_settings']['int_api_rate_limit']['range_ui_suffix'] = ' Seconds';
+$ct['admin_render_settings']['api_rate_limit']['range_ui_suffix'] = ' Seconds';
 
-$ct['admin_render_settings']['int_api_rate_limit']['is_notes'] = 'MAXIMUM allowed connection rate';
+$ct['admin_render_settings']['api_rate_limit']['is_notes'] = 'MAXIMUM allowed connection rate (for Internal API *and* WebHooks)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +83,7 @@ $ct['admin_render_settings']['int_api_cache_time']['range_step'] = 1;
 
 $ct['admin_render_settings']['int_api_cache_time']['range_ui_suffix'] = ' Minutes';
 
-$ct['admin_render_settings']['int_api_cache_time']['is_notes'] = 'Cache time (time to wait, before getting LIVE data again)';
+$ct['admin_render_settings']['int_api_cache_time']['is_notes'] = 'Cache time (time to wait, before getting LIVE data again [Internal API only, NOT used for WebHooks])';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,10 +119,10 @@ $ct['admin']->admin_config_interface('int_api', 'webhook_int_api', $ct['admin_re
 	<b class='bitcoin'><?=$ct['base_url']?><?=$ct['int_webhook_base_endpoint']?>WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC</b>
 	<br /><br />
 
-     These parameters are then automatically put into a PHP array named: <b class='bitcoin'>$webhook_params</b>
+     These parameters are then automatically put into a PHP array named: <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$plug['webhook'][$this_plug]['params']</code></pre>
      <br /><br />
      
-     The webhook key is also available, in the auto-created variable: <b class='bitcoin'>$webhook_key</b>
+     The webhook key is also available, in the auto-created variable: <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$plug['webhook'][$this_plug]['key']</code></pre>
      <br /><br />
      
      See the Plugins admin area, for additional settings / documentation related to each webhook plugin listed below.
@@ -258,10 +258,10 @@ api_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"
 <?php
 if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 ?>
-// Our API has a rate limit of once every <?=$ct['conf']['int_api']['int_api_rate_limit']?> seconds,
-// so we must wait to reconnect after the htaccess authentication (<?=$ct['conf']['int_api']['int_api_rate_limit']?> + 1 seconds)
+// Our API has a rate limit of once every <?=$ct['conf']['int_api']['api_rate_limit']?> seconds,
+// so we must wait to reconnect after the htaccess authentication (<?=$ct['conf']['int_api']['api_rate_limit']?> + 1 seconds)
 // ANY CONSECUTIVE CALLS #DON'T NEED# THE TIMEOUT (since htaccess is already logged in): api_request.send(params);
-setTimeout(function(){ api_request.send(params); }, <?=( ($ct['conf']['int_api']['int_api_rate_limit'] + 1) * 1000)?>);
+setTimeout(function(){ api_request.send(params); }, <?=( ($ct['conf']['int_api']['api_rate_limit'] + 1) * 1000)?>);
 <?php
 }
 else {

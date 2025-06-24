@@ -83,7 +83,7 @@ $debt_form_action = $ct['gen']->start_page($plug['conf'][$this_plug]['ui_locatio
                         			</div>
                     			
                             		<div class="extra_margins col-lg-2">
-                            		<label for="">&nbsp;</label><br>
+                            		<br>
                               		<input data-track-index='<?=$key?>' type="button" class="btn btn-danger span-2 delete" value="Remove" />
                             		</div>
                             		
@@ -179,7 +179,7 @@ $debt_form_action = $ct['gen']->start_page($plug['conf'][$this_plug]['ui_locatio
   			<input data-track-index='{?}' type="text" class="span2 form-control" name="accounts_labels[{?}][apr]" value="{apr}" id="apr_{?}">
 			</div>
 			<div class="extra_margins col-lg-2">
-			<label for="">&nbsp;</label><br>
+			<br>
   			<input data-track-index='{?}' type="button" class="btn btn-danger span-2 delete" value="Remove" />
 			</div>
   		</div>

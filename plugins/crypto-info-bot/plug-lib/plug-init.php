@@ -15,18 +15,18 @@
 $test_params = array('api_key' => $int_api_key);
 
 
-if ( !isset($webhook_params[0]) ) {
-$result = array('error' => "No comms channel specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (telegram / discord / etc) like so: /" . $ct['int_webhook_base_endpoint'] . $webhook_key . "/telegram/PARAM2/PARAM3/ETC");
+if ( !isset($plug['webhook'][$this_plug]['params'][0]) ) {
+$result = array('error' => "No comms channel specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (telegram / discord / etc) like so: /" . $ct['int_webhook_base_endpoint'] . $plug['webhook'][$this_plug]['key'] . "/telegram/PARAM2/PARAM3/ETC");
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
-elseif ( $webhook_params[0] == 'discord' ) {
+elseif ( $plug['webhook'][$this_plug]['params'][0] == 'discord' ) {
 echo $plug['class'][$this_plug]->discord_data($test_params);
 }
-elseif ( $webhook_params[0] == 'telegram' ) {
+elseif ( $plug['webhook'][$this_plug]['params'][0] == 'telegram' ) {
 echo $plug['class'][$this_plug]->telegram_data($test_params);
 }
 else {
-$result = array('error' => "No comms channel match for: " . $webhook_params[0]);
+$result = array('error' => "No comms channel match for: " . $plug['webhook'][$this_plug]['params'][0]);
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
