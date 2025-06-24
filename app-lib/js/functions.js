@@ -3779,7 +3779,12 @@ var tiny_line_height = tiny_line_height.toFixed(3);
 /////////////////////////////////////////////////////////////
 
 
-function auto_reload() {
+function auto_reload(select_elm=false) {
+     
+     
+     if ( select_elm ) {
+     reload_time = select_elm.value;
+     }
 
 
 	if ( reload_time ) {
@@ -3814,15 +3819,15 @@ function auto_reload() {
 				
 				$("#use_cookies").val(1);
 				
-				document.getElementById("reload_notice").innerHTML = "(reloading app, please wait...)";
+				$(".reload_notice").html("(reloading app, please wait...)");
 				
 					setTimeout(function () {
 						$("#coin_amnts").submit();
 					}, 2000);
 				
 				}
-				else{
-				$(".select_auto_refresh").val('0');
+				else if ( select_elm ) {
+				$(select_elm).val('0');
 				return false;
 				}
 			
