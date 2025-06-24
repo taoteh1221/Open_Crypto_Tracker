@@ -129,7 +129,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
+See what other cookies we can migrate to localStorage instead (to reduce the risk of header size crashing server [under edge cases]). WE NEED TO MAKE SURE NO ***SERVER-SIDE*** PROCESSING IS REQUIRED (to NOT use cookies)!
 
 
 Move all remaining relevent APIs over to the new per-second / per-minute throttling system.
@@ -141,7 +141,7 @@ Assure we are properly catching jupiter token address retrieval FALIURES in mark
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-See what other cookies we can migrate to localStorage instead (to reduce the risk of header size crashing server [under edge cases]). WE NEED TO MAKE SURE NO ***SERVER-SIDE*** PROCESSING IS REQUIRED (to NOT use cookies)!
+In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
