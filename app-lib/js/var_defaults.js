@@ -142,6 +142,16 @@ var scroll_position_storage;
 
 var notes_storage;
 
+var auto_reload_storage;
+
+var folio_sorting_storage;
+
+var number_format_storage;
+
+var priv_toggle_storage;
+
+var priv_sec_storage;
+
 var reload_time;
 
 var latest_important_dev_alerts_timestamp;

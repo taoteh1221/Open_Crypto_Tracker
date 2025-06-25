@@ -192,9 +192,9 @@ CLASSES
 
 /* https://talk.tiddlywiki.org/t/how-to-limit-the-width-of-select-widget-if-the-text-in-the-dropdown-in-lengthy/10406 */
 .narrow_dropdown {
-max-width:13em !important;
-overflow:hidden !important;
-text-overflow:ellipsis !important;
+max-width: 22em !important;
+overflow: hidden !important;
+text-overflow: ellipsis !important;
 }
 
 

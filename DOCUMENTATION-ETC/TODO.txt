@@ -129,10 +129,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-See what other cookies we can migrate to localStorage instead (to reduce the risk of header size crashing server [under edge cases]). WE NEED TO MAKE SURE NO ***SERVER-SIDE*** PROCESSING IS REQUIRED (to NOT use cookies)!
-
-
-Move all remaining relevent APIs over to the new per-second / per-minute throttling system.
+Move all remaining relevent APIs over to the new per-second / per-minute / per-day throttling system.
 
 
 Assure we are properly catching jupiter token address retrieval FALIURES in market_tickers_parse(), SO WE HAVE NO FUNKY ASSET SEARCH RESULTS.

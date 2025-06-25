@@ -20,11 +20,13 @@ $(document).ready(function(){
 // (for UX of loading back to same page AFTER form submission)
 $("#coin_amnts").attr('action', window.location);
     
-	
-// Render interface after loading (with transition effects)
+    
+// Render interface after loading (with transition effects), ONLY IF PRIVACY MODE IS OFF!
+if ( localStorage.getItem(priv_toggle_storage) != 'on' ) {
 $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
+}
 
   
 // Charts background / border
@@ -97,7 +99,7 @@ nav_menu('.user-nav');
 	
 
 	// Activate auto-reload
-	if ( get_cookie("coin_reload") && !is_admin ) {
+	if ( is_numeric( localStorage.getItem(auto_reload_storage) ) && !is_admin ) {
 	auto_reload();
 	}
 	
@@ -1235,9 +1237,11 @@ nav_menu('.user-nav');
 
          // #MUST# BE THE #LAST RUN LOGIC# IN INIT.JS!
             	     
-         // Wait 2 seconds before Initiating
+         // Wait 1.5 seconds before Initiating
          // (otherwise everything is NOT always registered yet for DOM manipulations)
          setTimeout(function(){
+
+         init_range_sliders();
               
          // UI alerts for error / notice logs
          ui_log_alerts();
@@ -1253,12 +1257,30 @@ nav_menu('.user-nav');
          
          insert_before_text_fields();
          
-         // Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
-         // (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
-         // !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
-         convert_numbers('#portfolio .data .app_sort_filter', pref_number_format);
-         convert_numbers('#portfolio .data .crypto_worth', pref_number_format);
-         convert_numbers('#portfolio .portfolio_summary .private_data', pref_number_format);
+         portfolio_number_format();
+         
+         
+              $('textarea[data-autoresize]').each(function(){
+                autosize(this);
+              }).on('autosize:resized', function(){
+              
+                   admin_iframe_dom.forEach(function(iframe) {
+                   iframe_size_adjust(iframe);
+                   });
+                                             
+              });
+              
+              
+              // Set the auto-reload UI selects, if needed
+              if ( !is_admin && is_numeric( localStorage.getItem(auto_reload_storage) ) ) {
+               
+              auto_refresh_dom = document.querySelectorAll('.select_auto_refresh');
+               
+                    auto_refresh_dom.forEach(function(select_elm) {
+                    $(select_elm).val( localStorage.getItem(auto_reload_storage) );
+                    });
+                                  
+              }    
          
          
              // If we are in the user section, AND gains / losses have been calculated,
@@ -1271,24 +1293,11 @@ nav_menu('.user-nav');
              }
          
               
-	    // Check if privacy mode for assets held is enabled
-	    // (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS, and after doc_title_stats set above)
+	    // Check if privacy mode is enabled (#MUST# RUN **LAST** IN INIT.JS!!!!!!!!)
          privacy_mode(); 
-
-         init_range_sliders();
-         
-         
-              $('textarea[data-autoresize]').each(function(){
-                autosize(this);
-              }).on('autosize:resized', function(){
               
-                   admin_iframe_dom.forEach(function(iframe) {
-                   iframe_size_adjust(iframe);
-                   });
-                                             
-              });
          
-         }, 2000);
+         }, 1500);
          
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
