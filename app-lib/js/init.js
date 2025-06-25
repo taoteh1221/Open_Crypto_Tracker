@@ -22,6 +22,7 @@ $("#coin_amnts").attr('action', window.location);
     
     
 // Render interface after loading (with transition effects), ONLY IF PRIVACY MODE IS OFF!
+// (AS WE RUN THIS ONLY AFTER HIDING PRIVATE DATA [IN THE FUNCTION ITSELF], IF WE ARE IN PRIVACY MODE)
 if ( localStorage.getItem(priv_toggle_storage) != 'on' ) {
 $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
