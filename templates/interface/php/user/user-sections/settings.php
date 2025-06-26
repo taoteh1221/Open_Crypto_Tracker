@@ -21,10 +21,10 @@
 			 auto_reload(this);
 			 '>
 				<option value='0'> Manually </option>
-				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
-				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> 10 Minutes </option>
-				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> 15 Minutes </option>
-				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
+				<option value='300'> 5 Minutes </option>
+				<option value='600'> 10 Minutes </option>
+				<option value='900'> 15 Minutes </option>
+				<option value='1800'> 30 Minutes </option>
 			</select> 
 			
 			&nbsp; <span class='reload_notice red'></span>		
@@ -133,28 +133,28 @@
 			    <b>Sort Portfolio Data By:</b> 
 			    
 			    <select class='browser-default custom-select' id='sorted_by_col' onchange='
-			    $("#sort_by").val( this.value + "|" + $("#sorted_asc_desc").val() );
-                   red_save_button();
+			    localStorage.setItem(folio_sorting_storage,  this.value + "|" + $("#sorted_asc_desc").val() );
+                   local_storage_saved_notice("Portfolio Sort Order");
 			    '>
-				<option value='0' <?=( $ct['sel_opt']['sorted_by_col'] == 0 ? ' selected ' : '' )?>> Rank </option>
-				<option value='1' <?=( $ct['sel_opt']['sorted_by_col'] == 1 ? ' selected ' : '' )?>> Asset Name </option>
-				<option value='2' <?=( $ct['sel_opt']['sorted_by_col'] == 2 ? ' selected ' : '' )?>> Unit Value </option>
-				<option value='3' <?=( $ct['sel_opt']['sorted_by_col'] == 3 ? ' selected ' : '' )?>> Trade Value </option>
-				<option value='4' <?=( $ct['sel_opt']['sorted_by_col'] == 4 ? ' selected ' : '' )?>> Market </option>
-				<option value='5' <?=( $ct['sel_opt']['sorted_by_col'] == 5 ? ' selected ' : '' )?>> Exchange </option>
-				<option value='6' <?=( $ct['sel_opt']['sorted_by_col'] == 6 ? ' selected ' : '' )?>> 24hr Volume </option>
-				<option value='7' <?=( $ct['sel_opt']['sorted_by_col'] == 7 ? ' selected ' : '' )?>> Holdings </option>
-				<option value='8' <?=( $ct['sel_opt']['sorted_by_col'] == 8 ? ' selected ' : '' )?>> Ticker </option>
-				<option value='9' <?=( $ct['sel_opt']['sorted_by_col'] == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $ct['sel_opt']['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) </option>
+				<option value='0'> Rank </option>
+				<option value='1'> Asset Name </option>
+				<option value='2'> Unit Value </option>
+				<option value='3'> Trade Value </option>
+				<option value='4'> Market </option>
+				<option value='5'> Exchange </option>
+				<option value='6'> 24hr Volume </option>
+				<option value='7'> Holdings </option>
+				<option value='8'> Ticker </option>
+				<option value='9'> Holdings Value </option>
+				<option value='10'> (in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) </option>
 			    </select> 
 			    
 			     <select class='browser-default custom-select' id='sorted_asc_desc' onchange='
-			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
-                   red_save_button();
+			    localStorage.setItem(folio_sorting_storage,  $("#sorted_by_col").val() + "|" + this.value );
+                   local_storage_saved_notice("Portfolio Sort Order");
 			    '>
-				<option value='0' <?=( $ct['sel_opt']['sorted_asc_desc'] == 0 ? ' selected ' : '' )?>> Ascending </option>
-				<option value='1' <?=( $ct['sel_opt']['sorted_asc_desc'] == 1 ? ' selected ' : '' )?>> Decending </option>
+				<option value='0'> Ascending </option>
+				<option value='1'> Decending </option>
 			    </select>
 			    
 			</p>
@@ -163,8 +163,12 @@
 			<div id='sorting_alert' class='bitcoin_dotted bitcoin'></div>
 				    
 		 <script>
+		 
+		 $('#sorted_by_col').val(sorted_by_col);
+		 $('#sorted_asc_desc').val(sorted_asc_desc);
+		 
 
-				    if ( get_cookie('priv_toggle') == 'on' ) {
+				    if ( localStorage.getItem(priv_toggle_storage) == 'on' ) {
 				    $("#sorting_alert").html("Sorting by the Holdings / Holdings Value / Subtotal columns is currently disabled, as Privacy Mode is turned ON.");
 				    $("#sorting_alert").show(250, "linear"); // 0.25 seconds
 				    }

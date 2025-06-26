@@ -22,10 +22,10 @@
 			 auto_reload(this);
 			 '>
 				<option value='0'> Manually </option>
-				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
-				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> 10 Minutes </option>
-				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> 15 Minutes </option>
-				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
+				<option value='300'> 5 Minutes </option>
+				<option value='600'> 10 Minutes </option>
+				<option value='900'> 15 Minutes </option>
+				<option value='1800'> 30 Minutes </option>
 			</select> 
 			
 			&nbsp; <span class='reload_notice red'></span>		
@@ -743,8 +743,6 @@
 	<input type='hidden' id='submit_check' name='submit_check' value='1' />
 	
 	<input type='hidden' id='theme_selected' name='theme_selected' value='<?=$ct['sel_opt']['theme_selected']?>' />
-	
-	<input type='hidden' id='sort_by' name='sort_by' value='<?=($ct['sel_opt']['sorted_by_col'])?>|<?=($ct['sel_opt']['sorted_asc_desc'])?>' />
 	
 	<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( isset($_COOKIE['coin_amnts']) ? '1' : ''); ?>' />
 	

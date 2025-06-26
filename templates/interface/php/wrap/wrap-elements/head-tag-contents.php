@@ -53,8 +53,6 @@
 	theme_selected = '<?=$ct['sel_opt']['theme_selected']?>';
 	
 	news_feed_batched_maximum = Number("<?=$ct['conf']['news']['news_feed_batched_maximum']?>");
-	
-     pref_number_format = get_cookie('pref_number_format') ? get_cookie('pref_number_format') : 'automatic';
          
 	// Opposite of app theme, for better contrast
      scrollbar_theme = theme_selected == 'dark' ? 'minimal' : 'minimal-dark';
@@ -105,10 +103,6 @@
 	
 	cookies_size_warning = "<?=( isset($ct['system_warnings']['portfolio_cookies_size']) && isset($ct['system_info']['portfolio_cookies']) ? "HIGH cookie usage (" . $ct['var']->num_pretty( ($ct['system_info']['portfolio_cookies'] / 1000) , 2) . "kb) risks CRASHING app! <img class='tooltip_style_control' id='cookies_size_warning_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: -5px;' />" : 'none' )?>";
 	
-	sorted_by_col = <?=( $ct['sel_opt']['sorted_by_col'] ? $ct['sel_opt']['sorted_by_col'] : 0 )?>;
-	
-	sorted_asc_desc = <?=( $ct['sel_opt']['sorted_asc_desc'] ? $ct['sel_opt']['sorted_asc_desc'] : 0 )?>;
-	
 	
 	<?php
      if ( isset($ct['app_container']) ) {
@@ -149,12 +143,93 @@
 	
 	notes_storage = storage_app_id("notes");
 	
+	auto_reload_storage = storage_app_id("auto_reload");
+	
+	folio_sorting_storage = storage_app_id("folio_sorting");
+	
+	number_format_storage = storage_app_id("number_format");
+	
+	priv_toggle_storage = storage_app_id("priv_toggle");
+	
+	priv_sec_storage = storage_app_id("priv_sec");
+	
 	show_charts_storage = storage_app_id("show_charts");
 	
 	show_feeds_storage = storage_app_id("show_feeds");
 	
 	
 	    // v6.01.01 MIGRATIONS...
+	    
+	    
+	    // (privacy TOGGLE to js local storage)
+	    if ( get_cookie('priv_sec') ) {
+	         
+	         // ONLY migrate IF the var key has NOT been set yet!
+	         // https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
+	         if ( localStorage.getItem(priv_sec_storage) === null ) {
+	         localStorage.setItem(priv_sec_storage, decodeURIComponent( get_cookie('priv_sec') ) );
+	         }
+
+	    delete_cookie('priv_sec');
+
+	    }
+	    
+	    
+	    // (privacy TOGGLE to js local storage)
+	    if ( get_cookie('priv_toggle') ) {
+	         
+	         // ONLY migrate IF the var key has NOT been set yet!
+	         // https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
+	         if ( localStorage.getItem(priv_toggle_storage) === null ) {
+	         localStorage.setItem(priv_toggle_storage, decodeURIComponent( get_cookie('priv_toggle') ) );
+	         }
+
+	    delete_cookie('priv_toggle');
+
+	    }
+	    
+	    
+	    // (portfolio sorting to js local storage)
+	    if ( get_cookie('pref_number_format') ) {
+	         
+	         // ONLY migrate IF the var key has NOT been set yet!
+	         // https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
+	         if ( localStorage.getItem(number_format_storage) === null ) {
+	         localStorage.setItem(number_format_storage, decodeURIComponent( get_cookie('pref_number_format') ) );
+	         }
+
+	    delete_cookie('pref_number_format');
+
+	    }
+	    
+	    
+	    // (portfolio sorting to js local storage)
+	    if ( get_cookie('sort_by') ) {
+	         
+	         // ONLY migrate IF the var key has NOT been set yet!
+	         // https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
+	         if ( localStorage.getItem(folio_sorting_storage) === null ) {
+	         localStorage.setItem(folio_sorting_storage, decodeURIComponent( get_cookie('sort_by') ) );
+	         }
+
+	    delete_cookie('sort_by');
+
+	    }
+	    
+	    
+	    // (auto-reload to js local storage)
+	    if ( get_cookie('coin_reload') ) {
+	         
+	         // ONLY migrate IF the var key has NOT been set yet!
+	         // https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
+	         if ( localStorage.getItem(auto_reload_storage) === null ) {
+	         localStorage.setItem(auto_reload_storage, Number( decodeURIComponent( get_cookie('coin_reload') ) ) );
+	         }
+
+	    delete_cookie('coin_reload');
+
+	    }
+	         
 	         
 	    //console.log('localStorage.getItem(show_charts_storage) = ' + localStorage.getItem(show_charts_storage) );
 	    
@@ -195,6 +270,14 @@
      //console.log('charts_num = ' + charts_num);
 
      //console.log('feeds_num = ' + feeds_num);
+     
+     var folio_sort_array = str_to_array( localStorage.getItem(folio_sorting_storage) , "|", false);
+	
+	sorted_by_col = folio_sort_array[0];
+	
+	sorted_asc_desc = folio_sort_array[1];
+	
+     pref_number_format = not_empty( localStorage.getItem(number_format_storage) ) ? localStorage.getItem(number_format_storage) : 'automatic';
      
 	
 	    <?php

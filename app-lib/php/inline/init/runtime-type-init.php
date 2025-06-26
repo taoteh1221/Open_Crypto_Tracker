@@ -22,11 +22,6 @@ $ct['sel_opt']['alert_percent'] = explode("|", ( isset($_POST['use_alert_percent
 $ct['sel_opt']['show_crypto_val'] = explode(',', rtrim( ( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
 
 $ct['sel_opt']['show_secondary_trade_val'] = ( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
-    
-$sort_array = explode("|", ( isset($_POST['sort_by']) ? $_POST['sort_by'] : $_COOKIE['sort_by'] ) );
-////
-$ct['sel_opt']['sorted_by_col'] = $sort_array[0];
-$ct['sel_opt']['sorted_asc_desc'] = $sort_array[1];
      
 
 if ( isset($_COOKIE['theme_selected']) ) {

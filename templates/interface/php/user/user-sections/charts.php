@@ -21,10 +21,10 @@
 			 auto_reload(this);
 			 '>
 				<option value='0'> Manually </option>
-				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
-				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> 10 Minutes </option>
-				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> 15 Minutes </option>
-				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
+				<option value='300'> 5 Minutes </option>
+				<option value='600'> 10 Minutes </option>
+				<option value='900'> 15 Minutes </option>
+				<option value='1800'> 30 Minutes </option>
 			</select> 
 			
 			&nbsp; <span class='reload_notice red'></span>		

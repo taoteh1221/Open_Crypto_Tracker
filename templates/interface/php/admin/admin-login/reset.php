@@ -160,7 +160,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 
 <script>
 
-if ( get_cookie('priv_toggle') == 'on' ) {
+if ( localStorage.getItem(priv_toggle_storage) == 'on' ) {
 
 document.write("<p class='red align_center' style='font-weight: bold;'>"
 

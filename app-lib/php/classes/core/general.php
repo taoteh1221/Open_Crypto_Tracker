@@ -1901,20 +1901,16 @@ var $ct_array = array();
    unset($_COOKIE['coin_mrgntyp']);
    
    // Settings
-   $this->store_cookie('coin_reload', '', time()-3600); // Delete
    $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
    $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
    $this->store_cookie('theme_selected', '', time()-3600); // Delete
-   $this->store_cookie('sort_by', '', time()-3600); // Delete
    $this->store_cookie('alert_percent', '', time()-3600); // Delete
    $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
    $this->store_cookie('prim_currency_mrkt', '', time()-3600); // Delete
      
-   unset($_COOKIE['coin_reload']);
    unset($_COOKIE['show_crypto_val']);
    unset($_COOKIE['show_secondary_trade_val']);
    unset($_COOKIE['theme_selected']);
-   unset($_COOKIE['sort_by']);
    unset($_COOKIE['alert_percent']);
    unset($_COOKIE['prim_currency_mrkt_standalone']);
    unset($_COOKIE['prim_currency_mrkt']);
@@ -4381,14 +4377,6 @@ var $ct_array = array();
             else {
             unset($_COOKIE['theme_selected']);
             $this->store_cookie('theme_selected', '', time()-3600); // Delete
-            }
-                  
-            if ( isset($_POST['sort_by']) ) {
-            $this->store_cookie("sort_by", $_POST['sort_by'], time()+31536000);
-            }
-            else {
-            unset($_COOKIE['sort_by']);
-            $this->store_cookie('sort_by', '', time()-3600); // Delete
             }
                  
             if ( isset($_POST['use_alert_percent']) ) {

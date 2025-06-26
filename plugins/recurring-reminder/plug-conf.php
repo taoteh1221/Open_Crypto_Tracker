@@ -66,7 +66,7 @@ $plug['conf'][$this_plug]['reminders'] = array(
 										// VITAMIN D / COVID-19 PREVENTION REMINDER
 										array(
 											 'days' => 4,
-											 'message' => "Take 2000 IU of Vitamin D and 500 MG of Vitamin C every 4 days with food, to help prevent Covid-19 and other viral infections." // Reminder message
+											 'message' => "Take 2000 IU of Vitamin D and 500 MG of Vitamin C every 4 days with food, to help prevent Covid-19 and other viral infections. Always consult your family doctor, before starting or stopping any supplement intake." // Reminder message
 											 ),
 																	
 																	

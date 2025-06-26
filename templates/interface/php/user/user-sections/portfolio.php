@@ -4,8 +4,6 @@
  */
 
 
-$pref_number_format = ( isset($_COOKIE['pref_number_format']) ? $_COOKIE['pref_number_format'] : 'automatic' );
-
 ?>
 
 	
@@ -24,10 +22,10 @@ $pref_number_format = ( isset($_COOKIE['pref_number_format']) ? $_COOKIE['pref_n
 			 auto_reload(this);
 			 '>
 				<option value='0'> Manually </option>
-				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> 5 Minutes </option>
-				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> 10 Minutes </option>
-				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> 15 Minutes </option>
-				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> 30 Minutes </option>
+				<option value='300'> 5 Minutes </option>
+				<option value='600'> 10 Minutes </option>
+				<option value='900'> 15 Minutes </option>
+				<option value='1800'> 30 Minutes </option>
 			</select> 
 			
 			&nbsp; <span class='reload_notice red'></span>		
@@ -63,21 +61,10 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
          
          &nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>Number Format:</span> <select class='browser-default custom-select narrow_dropdown' id='pref_number_format' name='pref_number_format' onchange="
 	
-	if ( !get_cookie('pref_number_format') ) {
-	number_format_cookie = confirm('This feature REQUIRES using cookie data. This ONLY changes the number format of your portfolio summaries. To change the currency, see the \'User Settings => Primary Currency Market\' setting.');
-	}
-	else {
-	number_format_cookie = true;
-	}
-			
-	if ( number_format_cookie == true ) {
-	set_cookie('pref_number_format', this.value, 365);
-	$('#coin_amnts').submit();
-	}
-	else {
-     $(this).val(pref_number_format);
-     return false;
-	}
+	localStorage.setItem(number_format_storage, this.value);
+	
+	// RELOAD STILL REQUIRED, as RE-manipulating the format MULTIPLE TIMES corrupts data!
+	app_reload(0, false);
 	
 	">
     <option value='automatic'> Automatic </option>	
@@ -85,7 +72,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 	<?php
 	foreach ( $ct['country_locales'] as $locale_key => $locale_val ) {
 	?>
-    <option value='<?=$locale_key?>' <?=( $pref_number_format == $locale_key ? 'selected' : '' )?> > <?=$locale_val?> </option>	
+    <option value='<?=$locale_key?>'> <?=$locale_val?> </option>	
      <?php
 	}
 	?>
@@ -917,7 +904,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 	<script>
 	// We want ONLY WATCHED ASSETS SHOWN for privacy mode, so nobody easily
 	// becomes interested in what we are NOT watching on the update page
-	if ( get_cookie('priv_toggle') == 'on' ) {
+	if ( localStorage.getItem(priv_toggle_storage) == 'on' ) {
 	zingchart_privacy = '&privacy=on';
 	}
 	else {
@@ -1556,7 +1543,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 		<button onclick='
 		
-		if ( get_cookie("priv_toggle") == "on" ) {
+		if ( localStorage.getItem(priv_toggle_storage) == "on" ) {
 		alert("Submitting data is not allowed in privacy mode.");
 		}
 		else {

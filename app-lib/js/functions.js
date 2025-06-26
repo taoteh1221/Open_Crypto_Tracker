@@ -5,58 +5,6 @@
 /////////////////////////////////////////////////////////////
 
 
-function ui_log_alerts() {
-
-
-    // Mirror hidden errors output in the footer over to the alert bell area with javascript
-    // Run AFTER check to see if alerts are present
-    // NOT IFRAME
-    if ( !is_iframe ) {
-	
-        // See if any alerts are present
-        if ( $('#app_error_alert').html() == '' ) {
-        $('#app_error_alert').html('No new runtime alerts.');
-        }
-        else {
-        $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        
-    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert').html() );
-    
-    }
-    // IS IFRAME
-    else {
-         
-         
-        if ( running_setup_wizard ) {
-        var error_logs_elm = $('#setup_wizard_error_alert');
-        }
-        else {
-        var error_logs_elm = $('#iframe_error_alert');
-        }
-        
-        
-        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && error_logs_elm.html() != '' ) {
-        $('#app_error_alert', window.parent.document).html( error_logs_elm.html() );
-        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        else if ( error_logs_elm.html() != '' ) {
-        $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + error_logs_elm.html() );
-        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        
-        
-    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert', window.parent.document).html() );
-        
-    }
-
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function merge_objects(orig_object, overwriting_object) {
 return combinedSettings = { ...orig_object, ...overwriting_object };
 }
@@ -206,6 +154,36 @@ sort_target = $(node).find(".app_sort_filter").text();
 
 // Remove any commas from number sorting
 return sort_target.replace(/,/g, '');
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function not_empty(val) {
+     
+     if ( val == null || typeof val == 'undefined' || val == '' ) {
+     return false; 
+     }
+     else if ( val != '' ) {
+     return true;
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function is_numeric(val) {
+     
+     if ( val == null || typeof val == 'undefined' || Number.isNaN(val) ) {
+     return false; 
+     }
+     else {
+     return true;
+     }
 
 }
 
@@ -405,6 +383,23 @@ x = document.forms[form_id][field].value;
   $("#" + form_id).submit();
   }
   
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function portfolio_number_format() {
+
+// Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
+// (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
+// !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
+convert_numbers('#portfolio .data .app_sort_filter', pref_number_format);
+convert_numbers('#portfolio .data .crypto_worth', pref_number_format);
+convert_numbers('#portfolio .portfolio_summary .private_data', pref_number_format);
+
+$('#pref_number_format').val(pref_number_format);
+
 }
 
 
@@ -1968,7 +1963,7 @@ function app_reloading_check(form_submission=0, new_location=false) {
 
         
     // Disable form updating in privacy mode
-    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
+    if ( localStorage.getItem(priv_toggle_storage) == 'on' && form_submission == 1 ) {
     alert('Submitting data is not allowed in privacy mode.');
     return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
     }
@@ -2741,6 +2736,58 @@ function fix_zingchart_watermarks() {
 /////////////////////////////////////////////////////////////
 
 
+function ui_log_alerts() {
+
+
+    // Mirror hidden errors output in the footer over to the alert bell area with javascript
+    // Run AFTER check to see if alerts are present
+    // NOT IFRAME
+    if ( !is_iframe ) {
+	
+        // See if any alerts are present
+        if ( $('#app_error_alert').html() == '' ) {
+        $('#app_error_alert').html('No new runtime alerts.');
+        }
+        else {
+        $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert').html() );
+    
+    }
+    // IS IFRAME
+    else {
+         
+         
+        if ( running_setup_wizard ) {
+        var error_logs_elm = $('#setup_wizard_error_alert');
+        }
+        else {
+        var error_logs_elm = $('#iframe_error_alert');
+        }
+        
+        
+        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && error_logs_elm.html() != '' ) {
+        $('#app_error_alert', window.parent.document).html( error_logs_elm.html() );
+        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        else if ( error_logs_elm.html() != '' ) {
+        $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + error_logs_elm.html() );
+        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+        
+    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert', window.parent.document).html() );
+        
+    }
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function sorting_portfolio_table() {
 
 	
@@ -2751,7 +2798,7 @@ function sorting_portfolio_table() {
 	console.log('adding table sorting to PORTFOLIO table (with "coins_table" id)');
 	        
 	// Set default sort, based on whether privacy mode is on        
-	var folio_sort_list = get_cookie('priv_toggle') == 'on' ? [0,0] : [sorted_by_col, sorted_asc_desc];
+	var folio_sort_list = localStorage.getItem(priv_toggle_storage) == 'on' ? [0,0] : [sorted_by_col, sorted_asc_desc];
 		
 		
     	$("#coins_table").tablesorter({
@@ -3790,8 +3837,8 @@ function auto_reload(select_elm=false) {
 	if ( reload_time ) {
 	time = reload_time;
 	}
-	else if ( get_cookie("coin_reload") ) {
-	time = get_cookie("coin_reload");
+	else if ( is_numeric( localStorage.getItem(auto_reload_storage) ) ) {
+	time = localStorage.getItem(auto_reload_storage);
 	}
 	else {
 	return;
@@ -3809,32 +3856,6 @@ function auto_reload(select_elm=false) {
 		if ( time >= 1 ) {
 			
 			
-			if ( document.getElementById("set_use_cookies").checked == false ) {
-				
-			use_cookies = confirm(' You must enable "Use cookies to save data" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookies to save data" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
-			
-				if ( use_cookies == true ) {
-					
-				set_cookie("coin_reload", time, 365);
-				
-				$("#use_cookies").val(1);
-				
-				$(".reload_notice").html("(reloading app, please wait...)");
-				
-					setTimeout(function () {
-						$("#coin_amnts").submit();
-					}, 2000);
-				
-				}
-				else if ( select_elm ) {
-				$(select_elm).val('0');
-				return false;
-				}
-			
-			}
-			else {
-				
-
                 // If subsections are still loading, wait until they are finished
                 if ( $("#background_loading").is(":visible") || charts_loaded.length < charts_num || feeds_loaded.length < feeds_num ) {
                 setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
@@ -3842,7 +3863,7 @@ function auto_reload(select_elm=false) {
                 }
                 else {
                    
-                set_cookie("coin_reload", time, 365);
+                localStorage.setItem(auto_reload_storage, Number(time) );
                	
     			 int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
     			
@@ -3889,14 +3910,11 @@ function auto_reload(select_elm=false) {
     	    
                    
                 }
-   
-   
-			}
 		
 		
 		}
 		else {
-		set_cookie("coin_reload", '', 365);
+		localStorage.setItem(auto_reload_storage, '');
 		$("span.countdown_notice").html(""); // Main pages
 		$("span.countdown_notice_modal").html(""); // Modal pages
 		}
@@ -4121,23 +4139,10 @@ function nav_menu($chosen_menu) {
 // https://stackoverflow.com/questions/14458819/simplest-way-to-obfuscate-and-deobfuscate-a-string-in-javascript
 function privacy_mode(click=false) {
     
-    
-    // Failsafe (if no PIN cookie, delete toggle cookie)
-    if ( get_cookie('priv_sec') == false ) {
-    delete_cookie('priv_toggle');
-    }
-    
-    
 private_data = document.getElementsByClassName('private_data');
 
 
-    if ( get_cookie('priv_toggle') == 'on' && click == true ) {
-        
-        
-        if ( get_cookie('priv_sec') == null ) {
-        delete_cookie('priv_toggle');
-        }
-        else {
+    if ( localStorage.getItem(priv_toggle_storage) == 'on' && click == true ) {
         
 
             pw_prompt({
@@ -4145,7 +4150,7 @@ private_data = document.getElementsByClassName('private_data');
                 callback: function(pin_check) {
                 
 
-                    if ( atob( get_cookie('priv_sec') ) == pin_check ) {
+                    if ( atob( localStorage.getItem(priv_sec_storage) ) == pin_check ) {
                         
                         
                     	// Put configged markets into a multi-dimensional array, calculate number of markets total
@@ -4182,7 +4187,7 @@ private_data = document.getElementsByClassName('private_data');
                 
                     //console.log('Privacy Mode: Off');
                     
-                    set_cookie('priv_toggle', 'off', 365); 
+                    localStorage.setItem(priv_toggle_storage, 'off');
 
 
                         // Any stats are added to document title
@@ -4260,10 +4265,9 @@ private_data = document.getElementsByClassName('private_data');
                 
                 
                 }
+            
+            
             });
-        
-        
-        }
     
     
     }
@@ -4284,12 +4288,12 @@ private_data = document.getElementsByClassName('private_data');
         }
         
         
-        if ( get_cookie('priv_sec') == false && click == true ) {
+        if ( localStorage.getItem(priv_sec_storage) == null && click == true ) {
     
 
             pw_prompt({
                 
-                lm:"Create 6-Digit PIN:<br /><span style='font-weight: bold;' class='bitcoin'>Requires using cookies</span><br /><span style='font-weight: bold;' class='bitcoin'>(encrypts RENDERING, *NOT* source)</span>", 
+                lm:"Create 6-Digit PIN:<br /><span style='font-weight: bold;' class='bitcoin'>(encrypts RENDERING, *NOT* source)</span>", 
                 callback: function(pin) {
                     
                     
@@ -4308,7 +4312,7 @@ private_data = document.getElementsByClassName('private_data');
                                 
         
                                 if ( pin == pin_check ) {
-                                set_cookie('priv_sec', btoa(pin), 365);
+                                localStorage.setItem(priv_sec_storage, btoa(pin) );
                                 privacy_mode(click);
                                 }
                                 else {
@@ -4332,10 +4336,10 @@ private_data = document.getElementsByClassName('private_data');
         }
         
         
-        // Check, now that 'priv_sec' cookie set
-        if ( get_cookie('priv_sec') != false && click == true || get_cookie('priv_sec') != false && click == false && get_cookie('priv_toggle') == 'on' ) {
+        // Check, now that 'priv_sec' is set
+        if ( not_empty( localStorage.getItem(priv_sec_storage) ) && click == true || not_empty( localStorage.getItem(priv_sec_storage) ) && click == false && localStorage.getItem(priv_toggle_storage) == 'on' ) {
                     
-        pin = atob( get_cookie('priv_sec') );
+        pin = atob( localStorage.getItem(priv_sec_storage) );
         
             
             // Put configged markets into a multi-dimensional array, calculate number of markets total
@@ -4367,8 +4371,13 @@ private_data = document.getElementsByClassName('private_data');
         
         //console.log('Privacy Mode: On');
         
-        set_cookie('priv_toggle', 'on', 365);
-        
+        localStorage.setItem(priv_toggle_storage, 'on');
+                  
+        // It's now safe to show the interface (as we've hidden private data)
+        $("#app_loading").hide(250, 'linear'); // 0.25 seconds
+        $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
+        $("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
+                  
         document.title = ''; // Blank out document title
             		
         safe_add_remove_class('bitcoin', 'pm_link', 'remove');
