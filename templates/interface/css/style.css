@@ -108,6 +108,30 @@ button, input[type=submit], input[type=button], .force_button_style {
   border-radius: 6px !important;
 }
 
+
+/* button / link animation: hover */
+button:hover,
+input[type=submit]:hover,
+input[type=button]:hover,
+.force_button_style:hover,
+#collapsed_sidebar img:hover,
+#sidebar img:hover {
+opacity: 0.70;
+}
+
+
+/* button / link animation: click */
+button:active,
+input[type=submit]:active,
+input[type=button]:active,
+.force_button_style:active,
+#collapsed_sidebar img:active,
+#sidebar a:active,
+#sidebar img:active {
+  transform: translateY(0.15em);
+}
+
+
 input[type=range] {
 display: inline;
   -webkit-appearance: none;

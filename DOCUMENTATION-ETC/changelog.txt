@@ -6902,6 +6902,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Throttling for internal webhook plugins (to control how often external API requests can retrieve data)
 
+-Navigation buttons / links are now animated on hover and click
+
 -UX improvements
 
 -------------------------------------------------------------------
