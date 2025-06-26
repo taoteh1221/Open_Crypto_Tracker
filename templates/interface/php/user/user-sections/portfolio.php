@@ -899,6 +899,14 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 	<br clear='all' />
 	
 	<br clear='all' />
+  
+  	<?php
+	if ( $ct['conf']['charts_alerts']['enable_price_charts'] != 'on' ) {
+	?>
+	<p class='yellow'>*Some stats are not available with price charts disabled.</p>
+  	<?php
+	}
+	?>
 	
 	
 	<script>
@@ -1407,18 +1415,6 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		    
 	
   <p> &nbsp; </p>
-  
-  
-  	<?php
-	if ( $ct['conf']['charts_alerts']['enable_price_charts'] != 'on' ) {
-	?>
-	<p class='yellow'>*Some stats are not available with price charts disabled.</p>
-	
-  <p> &nbsp; </p>
-  
-  	<?php
-	}
-	?>
 	
 	</div>
 	<!-- END MORE PORTFOLIO STATS MODAL -->

@@ -129,9 +129,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
 Assure we are properly catching jupiter token address retrieval FALIURES in market_tickers_parse(), SO WE HAVE NO FUNKY ASSET SEARCH RESULTS.
 
 
