@@ -866,7 +866,7 @@ var $exchange_apis = array(
           
           $ct['gen']->log(
           				'market_error',
-          				'address search for VERIFIED asset "' . $ticker . '" returned MORE THAN 1 RESULT'
+          				'address search for VERIFIED asset "' . $ticker . '" returned MORE THAN 1 RESULT (VERIFY address is correct, in "Market ID" field of exchange results)'
           				);
           				          
            }

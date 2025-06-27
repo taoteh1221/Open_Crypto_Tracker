@@ -56,12 +56,6 @@ $ct['cache']->send_notifications();
 // Iframe footer code
 if ( $is_iframe ) {
 
-
-     // Get exchange keys for info bubble
-     if ( $is_admin && $_GET['subsection'] == 'price_alerts_charts' ) {
-     require($ct['base_dir'] . '/app-lib/php/inline/debugging/exchange-and-pair-info.php');
-     }
-
      
      // IF WE HAVE A LOG WRITE ERROR FOR ANY LOGS, PRINT IT IN THE FOOTER HERE
      		
@@ -80,27 +74,6 @@ if ( $is_iframe ) {
 
 	
 <script>
-		
-		
-			var exchange_keys_info = '<h5 class="align_center red tooltip_title">Using "Exchange Keys" For Price Alerts / Charts</h5>'
-			
-			
-			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; ">"Under the hood", this app identifies what exchange to use with "exchange keys". Here is the FULL list of all ACTIVE exchange keys (exchanges with configured markets, in the current portfolio assets config):</p>'
-			
-			+'<p class="coin_info extra_margins red" style="white-space: normal; "><?=strtolower($all_exchanges_list)?></p>'
-			
-			
-			+'<p> </p>';
-
-	
-			$('#exchange_keys_info').balloon({
-			html: true,
-			position: "bottom",
-  			classname: 'balloon-tooltips',
-			contents: exchange_keys_info,
-			css: balloon_css()
-			});
-		
 		
 
 // Wait until the DOM has loaded before running DOM-related scripting

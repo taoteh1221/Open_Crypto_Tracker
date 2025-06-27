@@ -1295,8 +1295,29 @@ var $ct_array = array();
         // so we can determine at the end of this function if the exact market has
         // already been added to this app for jupiter markets
         if ( $exchange_key == 'jupiter_ag' ) {
+             
         $jup_parse_tickers = explode('/', $market_id);
         $orig_market_id = $ct['api']->jup_address($jup_parse_tickers[0], false) . '/' . $ct['api']->jup_address($jup_parse_tickers[1]);
+        
+        $jup_validity_check = explode('/', $orig_market_id);
+        
+        
+             // Make sure jupiter token addresses are populated (NOT blank),
+             // otherwise log the error / return false
+             if (
+             !isset($jup_validity_check[0])
+             || !isset($jup_validity_check[1])
+             || $jup_validity_check[0] == ''
+             || $jup_validity_check[1] == ''
+             ) {
+            
+             $ct['gen']->log( 'market_error', 'jupiter_ag token address parsing FAILED for market id "'.$market_id.'", during asset market search: "' . $_POST['add_markets_search'] . '"');
+                  
+             return false;
+            
+             }
+        
+
         }
         else {
         $orig_market_id = $market_id;
