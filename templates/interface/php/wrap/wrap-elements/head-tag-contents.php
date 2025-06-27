@@ -263,7 +263,19 @@
 	    }
 	    
 	
+	<?php
+	if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
+	?>
 	charts_num = Number( str_search_count( localStorage.getItem(show_charts_storage) , '[') );
+	<?php
+	}
+	// IF charts are NOT enabled, set to zero
+	else {
+	?>
+	charts_num = Number(0);
+	<?php
+	}
+	?>
 	
 	feeds_num = Number( str_search_count( localStorage.getItem(show_feeds_storage) , '[') );
 

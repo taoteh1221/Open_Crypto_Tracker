@@ -3323,7 +3323,8 @@ var $ct_array = array();
             // MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
             // If response seems to contain an error message ('error' only found once, no words containing 'error')
             // DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
-            if ( $ct['var']->substri_count($data, 'error') > 0 && !preg_match("/terror/i", $data) ) {
+            // ALSO, SKIP THIS 'POSSIBLE ERROR' IF WE ARE JUST DOING AN ASSET SEARCH!!
+            if ( !$ct['ticker_markets_search'] && $ct['var']->substri_count($data, 'error') > 0 && !preg_match("/terror/i", $data) ) {
              
             // Log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
             $error_response_log = '/cache/logs/error/external_data/error-response-' . $safe_name . '-hash-'.$hash_check.'-timestamp-'.time().'.log';
