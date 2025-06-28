@@ -247,7 +247,7 @@ $saved_search = $_POST['saved_search'];
      	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) exchanges.<br />Please wait, this may take a few minutes";
+     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) search-compatible exchanges.<br />Please wait, this may take a few minutes";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();
@@ -262,7 +262,7 @@ $saved_search = $_POST['saved_search'];
      	                          "jupiter_tags": $("#jupiter_tags").val(),
      	                          };
      	
-     	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "results from " + search_desc, add_markets_search, true); // Secured
+     	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "search results from " + search_desc, add_markets_search, true); // Secured
      	
      	'> Search For Markets To Add </button>
 

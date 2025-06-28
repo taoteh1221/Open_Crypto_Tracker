@@ -204,23 +204,36 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
 <h3 class='green input_margins'>STEP #3: Select Asset Markets Found For (<?=( $_POST['strict_search'] == 'yes' ? 'Exact' : 'Similar' )?> Match) Search "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</h3>
 
+
+<?php
+// 'all exchanges' search results notices
+if ( !$specific_exchange ) {
+?>
+
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
+    
+    <?php
+    // Search recommedation, IF pairing NOT included
+    if ( !stristr($search_desc, '/') ) {
+    $ui_example = strtolower( trim($search_desc) );
+    ?>
+    
+    FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEARCH PARAMETERS (example: <?=htmlspecialchars($ui_example, ENT_QUOTES)?>/<?=( stristr($search_desc, 'btc') ? 'usd' : 'btc' )?>).<br /><br />
+    
+    <?php
+    }
+    ?>
 
-
-<?php
-if ( !stristr($search_desc, '/') ) {
-$ui_example = strtolower( trim($search_desc) );
-?>
-FOR QUICKER / MORE SPECIFIC SEARCH RESULTS, TRY INCLUDING A PAIRING IN YOUR SEARCH PARAMETERS (example: <?=htmlspecialchars($ui_example, ENT_QUOTES)?>/<?=( stristr($search_desc, 'btc') ? 'usd' : 'btc' )?>).<br /><br />
-<?php
-}
-?>
-
+<!-- jupiter notices -->
 IF YOU DON'T SEE THE JUPITER AGGREGATOR ASSET / PAIRING YOU WANT, WAIT 1 HOUR FOR THE APP'S ASSET CACHE TO REFRESH (OR 3 HOURS FOR THE PAIRING CACHE).<br /><br />
 
 WE LIMIT JUPITER AGGREGATOR SEARCH RESULTS TO <?=($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])?> <span class='yellow'>(ADJUSTABLE IN: <span class='light_sea_green'>"APIS => EXTERNAL APIS => JUPITER AGGREGATOR SEARCH RESULTS MAXIMUM PER CPU CORE"</span>, <?=$all_results_count['jupiter_ag']?> results below [including any marked as skipped] are from Jupiter Aggregator)</span>, TO HELP AVOID 504 "GATEWAY TIMEOUT" ERRORS / LONG SEARCH TIMES ON SLOWER DEVICES. <span class='red'>IF YOU SEE A 504 "GATEWAY TIMEOUT" ERROR, ADJUST THIS LIMIT LOWER.</span>
 
 </p>
+
+<?php
+}
+?>
 
 
      <?php

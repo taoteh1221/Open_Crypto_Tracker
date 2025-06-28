@@ -129,6 +129,26 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Test in firefox and gnome web browser.
+
+
+Endpoint no longer exists:
+
+[2025-06-28 18:07:38.740] ajax => ext_data (error): SERVER connection failed (0 bytes received) for endpoint at (https)api-sandbox.idex.io/v4/tickers (cache fallback FAILED);  
+
+
+On Linux, search for h2.page_title getting updated (having trouble searching on windows). When we submit POST data in a SUBSECTION, the page title / highlighted nav link are incorrectly RESET to the subsection's INDEX page title / nav link highlight. ODDLY ENOUGH, this is NOT an issue for the plugins subsection. See whats up.
+
+
+Mobile text gateway seems INVALID: "box.is" (no mail server records found for domain 'b****s' [obfuscated])
+
+
+'Settings => Sort Portfolio Data By' SHOWS BLANK AS SELECTED, on NEW / FRESH installs.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
