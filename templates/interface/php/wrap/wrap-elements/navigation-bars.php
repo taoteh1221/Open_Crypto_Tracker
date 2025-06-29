@@ -545,7 +545,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_access_stats" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_access_stats')?>&parent=system_monitoring&subsection=access_stats") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View user access stats, to track IP addresses / Browser versions / page views of who has been accessing this app.'>Access Stats</a>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_logs" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_logs')?>&parent=system_monitoring&subsection=logs") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure charts and price alerts.'>App Logs</a>
+                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_logs" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_app_logs')?>&parent=system_monitoring&subsection=app_logs") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View logs for this app.'>App Logs</a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->

@@ -34,7 +34,7 @@ foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 $ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
 }
 
-$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE AVAILABLE ON THE CHOSEN "Bitcoin Primary Currency Exchange" BELOW.';
+$ct['admin_render_settings']['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE AVAILABLE ON THE CHOSEN "<b>Bitcoin Primary Currency Exchange</b>" (directly BELOW this setting)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,14 +46,16 @@ foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 	foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 		// Detects better with side space included
-		if ( stristr($supported_btc_exchange_scan, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
+		if ( stristr($active_btc_exchange_scan, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
           $ct['admin_render_settings']['bitcoin_primary_currency_exchange']['is_select'][] = $exchange_key;
-		$supported_btc_exchange_scan .= ' ' . $exchange_key . ' /';
+		$active_btc_exchange_scan .= ' ' . $exchange_key . ' /';
 		}
 				
 	}
 	
 sort($ct['admin_render_settings']['bitcoin_primary_currency_exchange']['is_select']);
+
+$ct['admin_render_settings']['bitcoin_primary_currency_exchange']['is_notes'] = 'Exchange used to determine the BITCOIN VALUE, for "<b>Bitcoin Primary Currency Pair</b>" (directly ABOVE this setting)';
 				
 }
 

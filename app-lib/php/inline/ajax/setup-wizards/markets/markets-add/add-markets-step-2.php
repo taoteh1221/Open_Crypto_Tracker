@@ -198,15 +198,15 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	}
      	
 
-$all_exchanges_count = 0;
-$all_exchanges_search_count = 0;
+$search_all_exchanges_count = 0;
+$search_all_exchanges_search_count = 0;
 
 foreach ( $ct['api']->exchange_apis as $check_exchange ) {
      
-$all_exchanges_count = $all_exchanges_count + 1;
+$search_all_exchanges_count = $search_all_exchanges_count + 1;
 
      if ( $check_exchange['all_markets_support'] || $check_exchange['search_endpoint'] ) {
-     $all_exchanges_search_count = $all_exchanges_search_count + 1;
+     $search_all_exchanges_search_count = $search_all_exchanges_search_count + 1;
      }
 
 }
@@ -230,11 +230,11 @@ $saved_search = $_POST['saved_search'];
      	
      	    if ( $("#skip_alphavantage_search").length && $("#skip_alphavantage_search").is(":checked") ) {
      	    var skip_alphavantage_search = "yes";
-     	    var exchange_count = ( Number("<?=$all_exchanges_search_count?>") - 1 );
+     	    var exchange_count = ( Number("<?=$search_all_exchanges_search_count?>") - 1 );
      	    }
      	    else {
      	    var skip_alphavantage_search = "no";
-     	    var exchange_count = Number("<?=$all_exchanges_search_count?>");
+     	    var exchange_count = Number("<?=$search_all_exchanges_search_count?>");
      	    }
      	    
      	
@@ -247,7 +247,7 @@ $saved_search = $_POST['saved_search'];
      	    
      	    
      	    if ( $("#add_markets_search_exchange").val() == "all_exchanges" ) {
-     	    var search_desc = exchange_count + " (of <?=$all_exchanges_count?>) search-compatible exchanges.<br />Please wait, this may take a few minutes";
+     	    var search_desc = exchange_count + " search-compatible exchanges (of <?=$search_all_exchanges_count?> total).<br />Please wait, this may take a few minutes";
      	    }
      	    else {
      	    var search_desc = $("#add_markets_search_exchange").val();

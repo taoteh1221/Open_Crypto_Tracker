@@ -196,7 +196,7 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
 
      
      if ( isset($_POST['add_markets_search']) ) {
-     echo '<p class="align_center '.( $search_runtime > 90 ? 'red' : 'green' ).'"> '.$results_count.' total results <span class="'.( sizeof($skipped_results) > 0 ? 'red' : '' ).'">('.sizeof($skipped_results).' skipped)</span> in '.$search_runtime.' seconds.</p>';
+     echo '<p class="align_center ' . ( $search_runtime > 90 ? 'red' : 'green' ) . '"> ' . $ct['var']->num_pretty($results_count, 0) . ' total results <span class="' . ( sizeof($skipped_results) > 0 ? 'red' : '' ) . '">(' . $ct['var']->num_pretty( sizeof($skipped_results) , 0) . ' skipped)</span> in ' . $search_runtime . ' seconds.</p>';
      }
 
 ?>

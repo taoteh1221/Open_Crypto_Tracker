@@ -249,8 +249,8 @@ var $exchange_apis = array(
                                                   ),
 
 
-                           'idex' => array(
-                                                   'markets_endpoint' => 'https://api-sandbox.idex.io/v4/tickers',
+                           'kuma' => array(
+                                                   'markets_endpoint' => 'https://api.kuma.bid/v1/tickers',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
                                                    'all_markets_support' => 'market', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
@@ -3416,7 +3416,7 @@ var $exchange_apis = array(
     
     
     
-      elseif ( $sel_exchange == 'idex' ) {
+      elseif ( $sel_exchange == 'kuma' ) {
       
       $result = array(
                               'last_trade' => $data["close"],

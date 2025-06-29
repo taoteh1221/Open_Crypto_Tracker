@@ -174,7 +174,7 @@ $ct['dev']['hyphen_delimited_markets'] = array(
                                                  'kucoin',
                                                  'okcoin',
                                                  'loopring',
-                                                 'idex',
+                                                 'kuma',
                                                  'zebpay',
                                                  'aevo',
                                                 );
