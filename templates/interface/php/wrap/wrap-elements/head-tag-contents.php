@@ -263,6 +263,10 @@
 	    }
 	    
 	
+	// Logic based on vars in localStorage...
+	
+     pref_number_format = not_empty( localStorage.getItem(number_format_storage) ) ? localStorage.getItem(number_format_storage) : 'automatic';
+	
 	<?php
 	if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
 	?>
@@ -278,18 +282,13 @@
 	?>
 	
 	feeds_num = Number( str_search_count( localStorage.getItem(show_feeds_storage) , '[') );
-
-     //console.log('charts_num = ' + charts_num);
-
-     //console.log('feeds_num = ' + feeds_num);
      
+     // Portfolio sorting
      var folio_sort_array = str_to_array( localStorage.getItem(folio_sorting_storage) , "|", false);
 	
-	sorted_by_col = folio_sort_array[0];
+	sorted_by_col = not_empty( localStorage.getItem(folio_sorting_storage) ) ? folio_sort_array[0] : 0;
 	
-	sorted_asc_desc = folio_sort_array[1];
-	
-     pref_number_format = not_empty( localStorage.getItem(number_format_storage) ) ? localStorage.getItem(number_format_storage) : 'automatic';
+	sorted_asc_desc = not_empty( localStorage.getItem(folio_sorting_storage) ) ? folio_sort_array[1] : 0;
      
 	
 	    <?php

@@ -6904,6 +6904,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Navigation buttons / links are now animated on hover and click
 
+-Revised DEMO config
+
 -UX improvements
 
 -------------------------------------------------------------------

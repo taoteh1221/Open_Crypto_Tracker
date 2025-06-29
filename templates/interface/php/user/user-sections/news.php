@@ -78,7 +78,7 @@
 			var news_raspi_crash = '<h5 class="align_center red tooltip_title">Low Memory Devices Crashing</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">If your low memory device (Raspberry PI / Pine64 / etc) crashes when you select too many news feeds OR charts, you may need to restart your device, and then delete all cookies in your browser related to the web domain you run the app from (before using the app again).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">If your low memory device (Raspberry PI / Pine64 / etc) crashes when you select too many news feeds OR price charts, you may need to restart your device, un-select ALL news feeds / price charts, and then select FEWER news feeds / price charts.</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">For the more technically-inclined, try decreasing "MaxRequestWorkers" in Apache\'s prefork configuration file (10 maximum is the best for low memory devices, AND "MaxSpareServers" above it MUST BE SET EXACTLY THE SAME #OR YOUR SYSTEM MAY STILL CRASH#), to help stop the app server from crashing under heavier loads. <span class="red">ALWAYS BACKUP THE CURRENT SETTINGS FIRST, IN CASE IT DOESN\'T WORK.</span></p>'
 			
@@ -109,7 +109,7 @@
 		localStorage.setItem(show_feeds_storage,  "");
 		}
 		
-	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading news feeds" notice freezes, check / uncheck this box)</span></p>
+	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading news feeds" notice freezes, check / uncheck this box, and choose FEWER news feeds)</span></p>
 		
 		<form id='activate_feeds' name='activate_feeds'>
 		

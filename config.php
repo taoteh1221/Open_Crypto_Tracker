@@ -406,9 +406,9 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 
 // Default BITCOIN market currencies (40+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bdt / brl / cad / chf / clp / czk / dkk / eth / eur / gbp / gel 
-// hkd / huf / idr / inr / jpy / krw / kwd / lkr / mxn / myr / ngn / nis / nok / nzd / php 
-// pkr / pln / rmb / rub / sar / sek / sgd / sol / thb / try / twd / uah / usd / usdc / usdt / vnd / zar
+// aed / ars / aud / bdt / brl / cad / chf / clp / czk / dkk / eth / eur / gbp / gel / hkd / huf / idr / inr / jpy / krw
+// kwd / lkr / mxn / myr / ngn / nis / nok / nzd / php / pkr / pln / rmb / rub / sar / sek / sgd / sol / thb / try / twd
+// uah / usd / usdc / usdt / vnd / zar
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct['conf']['currency']['bitcoin_primary_currency_exchange'] directly below)
 $ct['conf']['currency']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
@@ -416,15 +416,13 @@ $ct['conf']['currency']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE 
 
 // Default BITCOIN market exchanges (60+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitso / bitstamp
-// btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_aed / coingecko_ars 
-// coingecko_bdt / coingecko_clp / coingecko_czk / coingecko_dkk / coingecko_gel / coingecko_hkd 
-// coingecko_huf / coingecko_idr / coingecko_inr / coingecko_kwd / coingecko_lkr / coingecko_myr 
-// coingecko_ngn / coingecko_nis / coingecko_nok / coingecko_nzd / coingecko_php / coingecko_pkr 
-// coingecko_pln / coingecko_rmb / coingecko_rub / coingecko_sar / coingecko_sek / coingecko_sgd 
-// coingecko_thb / coingecko_twd / coingecko_uah / coingecko_usd / coingecko_vnd / coinspot 
-// gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / loopring_amm / luno 
-// okcoin / okex / unocoin / upbit / wazirx
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitso / bitstamp / btcmarkets / btcturk
+// buyucoin / cex / coinbase / coindcx / coingecko_aed / coingecko_ars / coingecko_bdt / coingecko_clp / coingecko_czk
+// coingecko_dkk / coingecko_gel / coingecko_hkd / coingecko_huf / coingecko_idr / coingecko_inr / coingecko_kwd
+// coingecko_lkr / coingecko_myr / coingecko_ngn / coingecko_nis / coingecko_nok / coingecko_nzd / coingecko_php
+// coingecko_pkr / coingecko_pln / coingecko_rmb / coingecko_rub / coingecko_sar / coingecko_sek / coingecko_sgd
+// coingecko_thb / coingecko_twd / coingecko_uah / coingecko_usd / coingecko_vnd / coinspot / gemini / hitbtc
+// huobi / jupiter_ag / korbit / kraken / loopring_amm / luno / okcoin / okex / unocoin / upbit / wazirx
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct['conf']['currency']['bitcoin_primary_currency_pair'] directly above)
 $ct['conf']['currency']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
@@ -788,7 +786,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// MANA
 					'mana-2||binance||btc||both',
-					'mana-3||kucoin||btc||none',
 					'mana-4||bitfinex||usd||none',
 					'mana-5||binance||eth||none',
 					
@@ -1498,7 +1495,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'china_mobile||139.com',            // China
                         'ice||sms.ice.cr',                  // Costa Rica
                         'tmobile_hr||sms.t-mobile.hr',      // Croatia
-                        'digicel||digitextdm.com',          // Dominica
                         'tellus_talk||esms.nu',             // Europe
                         'guyana_tt||sms.cellinkgy.com',     // Guyana
                         'csl||mgw.mmsc1.hkcsl.com',         // Hong Kong
@@ -1560,7 +1556,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         
                         // [ICELAND]
                         'vodafone_is||sms.is',
-                        'box_is||box.is',
                         
                         
                         // [INDIA]
@@ -2146,7 +2141,7 @@ $ct['conf']['assets'] = array(
                                           'bitmex_u20' => 'ETHUSDU20',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
-                                          'idex' => 'ETH-USD',
+                                          'kuma' => 'ETH-USD',
                                           'presale_usd_value' => 'eth',
                                                     ),
 
@@ -2419,7 +2414,6 @@ $ct['conf']['assets'] = array(
                         
                                     'btc' => array(
                                           'binance' => 'MANABTC',
-                                          'kucoin' => 'MANA-BTC',
                                           'upbit' => 'BTC-MANA',
                                           'poloniex' => 'MANA_BTC',
                                                     ),
