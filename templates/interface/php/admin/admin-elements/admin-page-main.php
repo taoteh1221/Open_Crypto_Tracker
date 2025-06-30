@@ -247,10 +247,8 @@
                 	
                 	// IF a specific subsection page was flagged to show, show it instead of the index
                 	if ( iframe_url(admin_iframe_url) != null ) {
-                	     
-                	var section_id = window.location.href.split('#')[1];
                 	
-                	var iframe_section_id = $("#" + section_id + " iframe").attr('id');
+                	var iframe_section_id = $("#" + window.location.href.split('#')[1] + " iframe").attr('id');
                 	
                 	console.log('iframe ID = ' + iframe_section_id);
      

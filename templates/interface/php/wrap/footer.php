@@ -203,7 +203,7 @@ footer_banner(linux_phpdesktop_notice_storage, 'This web app MAY NOT WORK PROPER
 // Creates Safari notice footer banner (Safari on OLDER Macs SUCKS HARD)
 else if ( is_safari ) {
 
-footer_banner(safari_notice_storage, 'This web app MAY NOT WORK PROPERLY on the Apple Safari web browser. IF YOU ENCOUNTER ISSUES, FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are highly recommended for the best user experience.');
+footer_banner(safari_notice_storage, 'This web app MAY NOT FULLY FUNCTION / DISPLAY PROPERLY, on some WebKit or Apple Safari web browsers. IF YOU ENCOUNTER ISSUES, FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are HIGHLY RECOMMENDED for the best user experience.');
 
 }
 

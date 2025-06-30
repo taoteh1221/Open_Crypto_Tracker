@@ -92,7 +92,7 @@ ALWAYS TEST UPGRADING *AND* RE-DOWNGRADING the 'normal' security mode CACHED con
 Use the app "Meld" to compare json config files from a fresh reset vs after many user customizations vs after upgrades added / removed, to assure ordering / structure is not corrupted.
 
 
-Try to prioritize building out the admin interface / responsive templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
+Try to prioritize building out the responsive templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
 
 
 Occasionally re-run the debug mode that prints out all the btc / crypto exchanges and base pairs, and update the docs (project page / README / config file / etc).
@@ -129,13 +129,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Test in firefox and gnome web browser.
-
-
-On Linux, search for h2.page_title getting updated (having trouble searching on windows). When we submit POST data in a SUBSECTION, the page title / highlighted nav link are incorrectly RESET to the subsection's INDEX page title / nav link highlight. ODDLY ENOUGH, this is NOT an issue for the plugins subsection. See whats up.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Work on price chart light chart LINKS not having enough SPACE, when chart titles to the right ARE LONG.
 
 
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).

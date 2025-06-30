@@ -29,9 +29,9 @@ if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
      }
      
                     
-$stock_cached_notice = "*Current LIVE DATA THROTTLING (ONLY USED FOR *FREE TIER* Alpha Vantage STOCK DATA) retrieves the latest market data for " . $parse_ticker . " every " . $stock_cached_val . " " . $stock_cached_unit . "(s) (determined by the number of STOCK assets you have added, to avoid going over your *FREE TIER* " . $ct['var']->num_pretty($ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'], 2) . " DAILY LIVE requests limit).";			     
+$stock_cached_notice = "*Current (AlphaVantage *FREE TIER*) THROTTLING retrieves LIVE market data every " . $stock_cached_val . " " . $stock_cached_unit . "(s), for " . $parse_ticker . " (determined by number of STOCKS added, to avoid going over your *FREE TIER* " . $ct['var']->num_pretty($ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'], 2) . " DAILY LIVE requests limit).";			     
 
-$app_cache_time = '1 to 2 Weeks (to minimize FREE Tier DAILY data limit impacts)';
+$app_cache_time = '1 to 2 Weeks (minimizes FREE Tier DAILY limit impacts)';
 			     
 }
 else {
@@ -69,6 +69,11 @@ $tried_usa_equiv = true;
 
 
 if ( isset($stock_overview['request_error']) ) {
+
+     if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
+     $stock_cached_notice .= '<br /><br /> You MAY have gone over your AlphaVantage DAILY LIMITS. IF SO, after the "Summary Cache Time" ABOVE has passed, the Stock Overview should show here (IF available for ' . $parse_ticker . ').';     
+     }
+     
 ?>
 
 <p class="coin_info"><span class="bitcoin">No Stock Overview data found for:</span> <?=$parse_ticker?></p>

@@ -6888,6 +6888,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed Privacy Mode to never allow the interface to render (show), UNTIL AFTER PRIVATE DATA HAS BEEN HIDDEN
 
+-BUG FIX: Fixed "Primary Currency" being improperly set in the user interface, under certain conditions (sorry!)
+
 -BUG FIX: Javascript-based cookie DELETION now works properly
 
 -BUG FIX: Miscellaneous 
