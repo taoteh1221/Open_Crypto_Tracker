@@ -6,6 +6,13 @@
         "dummy_entry": true
     },
     {
+        "timestamp": 1751328000,
+        "very_important": true,
+        "affected_version": "6.01.00",
+        "affected_earlier": true,
+        "affected_desc": "v6.01.01 was released today, with significant BUG FIXES. This includes migration of user-selected Price Charts \/ News Feeds to JS localStorage (fixes app crashes when tracking MANY assets \/ running on same app server domain WITH OTHER APPS), Privacy Mode PROPERLY hiding the interface until everything sensitive is hidden, and other fixed issues \/ user experience improvements (see changelog.txt, for more details)."
+    },
+    {
         "timestamp": 1748217600,
         "very_important": true,
         "affected_version": "6.00.41",
