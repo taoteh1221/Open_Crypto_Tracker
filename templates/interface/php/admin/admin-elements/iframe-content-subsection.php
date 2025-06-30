@@ -45,19 +45,21 @@ $ct['is_subsection_config'] = true;
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function() {
 
-
-var section_id = window.parent.location.href.split('#')[1];
-
-// Change page titles etc
-
-$('#' + section_id + ' h2.page_title', window.parent.document).html("<?=$ct['gen']->key_to_name($_GET['subsection'])?>");
+section_ids['<?=$_GET['parent']?>'] = window.parent.location.href.split('#')[1];
 
 
-    // Highlight corresponding sidebar menu entry AFTER 3 SECONDS (for any core DOM manipulation to complete first)
-    setTimeout(function(){
-    $('a[submenu-id="' + section_id + '_<?=$_GET['subsection']?>"]', window.parent.document).addClass("secondary-select");
-    }, 3000);
+     // Change page titles etc
+     if ( 'admin_<?=$_GET['parent']?>' == section_ids['<?=$_GET['parent']?>'] ) {
      
+     $('#' + section_ids['<?=$_GET['parent']?>'] + ' h2.page_title', window.parent.document).html("<?=$ct['gen']->key_to_name($_GET['subsection'])?>");
+     
+         // Highlight corresponding sidebar menu entry AFTER 3 SECONDS (for any core DOM manipulation to complete first)
+         setTimeout(function(){
+         $('a[submenu-id="' + section_ids['<?=$_GET['parent']?>'] + '_<?=$_GET['subsection']?>"]', window.parent.document).addClass("secondary-select");
+         }, 3000);
+     
+     }
+
      
 });
 

@@ -101,7 +101,7 @@ FEATURES
 -Secure HTTPS / SSL web pages (for Server Edition), username / password protection, and privacy mode in the portfolio interface, for privacy and security.
 
 
--Support for over 40 exchanges (including DeFi), and over 20 market pairs (country fiat currency or secondary crypto).
+-Support for over 50 exchanges (including DeFi), and over 40 market pairings (country fiat currency or secondary crypto).
 
 
 -Price change alerts by email / text / Alexa / Telegram (configurable alert parameters available).
@@ -368,14 +368,14 @@ Below is an example for editing your assets / markets in the file config.php (lo
 Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairs without the "T" in the symbol name, and bybit can prepend "1000" to low-unit-value coin's market IDs).
 
 
-Support for over 50 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
+Support for over 40 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 
-AED / ARS / AUD / BDT / BRL / BTC / CAD / CHF / CLP / CZK / DAI / DKK / ETH / EUR / GBP / GEL / HKD / HUF / IDR / INR / JPY / JUP / KRW / KWD / LKR / MKR / MXN / MYR / NGN / NIS / NOK / NZD / PHP / PKR / PLN / RMB / RUB / SAR / SEK / SGD / SOL / THB / TRY / TWD / UAH / UNI / USD / USDC / USDT / VND / ZAR
+AED / ARS / AUD / BDT / BRL / BTC / CAD / CHF / CLP / CZK / DKK / ETH / EUR / GBP / GEL / HKD / HUF / IDR / INR / JPY / JUP / KRW / KWD / LKR / MXN / MYR / NGN / NIS / NOK / NZD / PHP / PKR / PLN / RMB / RUB / SAR / SEK / SGD / SOL / THB / TRY / TWD / UAH / USD / USDC / USDT / VND / ZAR
 
 
-Support for over 70 exchanges (contact me to request more): 
+Support for over 50 exchanges (contact me to request more): 
 
-aevo_futures / alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_aed / coingecko_ars / coingecko_bdt / coingecko_btc / coingecko_clp / coingecko_czk / coingecko_dkk / coingecko_eth / coingecko_gel / coingecko_hkd / coingecko_huf / coingecko_idr / coingecko_inr / coingecko_kwd / coingecko_lkr / coingecko_myr / coingecko_ngn / coingecko_nis / coingecko_nok / coingecko_nzd / coingecko_php / coingecko_pkr / coingecko_pln / coingecko_rmb / coingecko_rub / coingecko_sar / coingecko_sek / coingecko_sgd / coingecko_terminal / coingecko_thb / coingecko_twd / coingecko_uah / coingecko_usd / coingecko_vnd / coinspot / crypto.com / gateio / gemini / hitbtc / huobi / idex / jupiter_ag / korbit / kraken / kucoin / loopring_amm / luno / okcoin / okex / poloniex / presale_usd_value / unocoin / upbit / wazirx / zebpay
+aevo / alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_aud / coingecko_btc / coingecko_cad / coingecko_chf / coingecko_cny / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_hkd / coingecko_ils / coingecko_inr / coingecko_jpy / coingecko_rub / coingecko_sgd / coingecko_terminal / coingecko_try / coingecko_twd / coingecko_usd / coinspot / crypto.com / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / kuma / loopring / luno / okcoin / okex / poloniex / tradeogre / unocoin / upbit / wazirx / zebpay
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).

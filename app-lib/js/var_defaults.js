@@ -50,6 +50,8 @@ var mapping_all_news_feeds = new Array();
 
 var mapping_all_price_charts = new Array();
 
+var section_ids = new Array();
+
 // Objects
 
 var jstree_json_data = {};

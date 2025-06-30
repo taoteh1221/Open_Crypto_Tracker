@@ -536,7 +536,15 @@
 				    
 				    $("#<?=$field_var_mrkt?>").val( $("#" + this.value + "<?=$asset_array_key?>_pairs option:selected").val() );
 				    
-				    //$("#prim_currency_mrkt").val( this.value + "|" + $("#<?=$field_var_mrkt?>").val() );
+                        <?php
+                        // 
+                        if ( $asset_array_key == 'BTC' && !is_array($ct['sel_opt']['prim_currency_mrkt_standalone']) ) {
+                        ?>
+				    $("#prim_currency_mrkt").val( this.value + "|" + $("#<?=$field_var_mrkt?>").val() );
+                        <?php
+                        }
+                        ?>
+    
 				    
 				    ' id='<?=$field_var_pair?>' name='<?=$field_var_pair?>'>
 					<?php
@@ -606,7 +614,14 @@
 				    
 				    $("#<?=$field_var_mrkt?>").val( this.value );
 				    
-				    //$("#prim_currency_mrkt").val( $("#<?=$field_var_pair?>").val() + "|" + this.value );
+                        <?php
+                        // 
+                        if ( $asset_array_key == 'BTC' && !is_array($ct['sel_opt']['prim_currency_mrkt_standalone']) ) {
+                        ?>
+                        $("#prim_currency_mrkt").val( $("#<?=$field_var_pair?>").val() + "|" + this.value );
+                        <?php
+                        }
+                        ?>
 				    
 				    ' id='<?=$key.$asset_array_key?>_pairs' style='display: <?=( $sel_pair == $key ? 'inline' : 'none' )?>;'><?=$html_mrkt_list[$key]?>
 				    

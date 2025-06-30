@@ -129,18 +129,21 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function() {
 
-
-var section_id = window.parent.location.href.split('#')[1];
-
-// Change page title
-
-$('#' + section_id + ' h2.page_title', window.parent.document).html("<?=$ct['gen']->key_to_name($_GET['plugin'])?>");
+section_ids['plugins'] = window.parent.location.href.split('#')[1];
 
 
-    // Highlight corresponding sidebar menu entry AFTER 3 SECONDS (for any core DOM manipulation to complete first)
-    setTimeout(function(){
-    $('a[submenu-id="' + section_id + '_<?=$this_plug?>"]', window.parent.document).addClass("secondary-select");
-    }, 3000);
+     // Change page title
+     if ( 'admin_plugins' == section_ids['plugins'] ) {
+     
+     $('#' + section_ids['plugins'] + ' h2.page_title', window.parent.document).html("<?=$ct['gen']->key_to_name($_GET['plugin'])?>");
+     
+     
+         // Highlight corresponding sidebar menu entry AFTER 3 SECONDS (for any core DOM manipulation to complete first)
+         setTimeout(function(){
+         $('a[submenu-id="' + section_ids['plugins'] + '_<?=$this_plug?>"]', window.parent.document).addClass("secondary-select");
+         }, 3000);
+     
+     }
      
      
 });

@@ -496,7 +496,16 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
     <select class='browser-default custom-select' name='change_<?=strtolower($asset_symb)?>_pair' title='Choose which market you want.' onchange='
     $("#<?=strtolower($asset_symb)?>_pair").val(this.value); 
     $("#<?=strtolower($asset_symb)?>_mrkt").val(1); // Just reset to first listed market for this pair
+    
+    <?php
+    // 
+    if ( $asset_symb == 'BTC' && !is_array($ct['sel_opt']['prim_currency_mrkt_standalone']) ) {
+    ?>
     $("#prim_currency_mrkt").val( this.value + "|1" ); // Just reset to first listed market for this pair
+    <?php
+    }
+    ?>
+    
     $("#coin_amnts").submit();
     '>
     
@@ -533,7 +542,16 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
  
     <select class='browser-default custom-select' name='change_<?=strtolower($asset_symb)?>_mrkt' title='Choose which exchange or defi pool you want.' onchange='
     $("#<?=strtolower($asset_symb)?>_mrkt").val(this.value);
+    
+    <?php
+    // 
+    if ( $asset_symb == 'BTC' && !is_array($ct['sel_opt']['prim_currency_mrkt_standalone']) ) {
+    ?>
     $("#prim_currency_mrkt").val( $("#<?=strtolower($asset_symb)?>_pair").val() + "|" + this.value );
+    <?php
+    }
+    ?>
+    
     $("#coin_amnts").submit();
     '>
         <?php

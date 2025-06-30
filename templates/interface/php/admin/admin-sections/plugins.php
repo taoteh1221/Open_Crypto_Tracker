@@ -140,12 +140,11 @@ else {
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function() {
 
-
-var section_id = window.parent.location.href.split('#')[1];
+section_ids['<?=$_GET['section']?>'] = window.parent.location.href.split('#')[1];
 
 // Change page title
 
-$('#' + section_id + ' h2.page_title', window.parent.document).html(parent.original_page_title[section_id]); // Restore previous page title
+$('#' + section_ids['<?=$_GET['section']?>'] + ' h2.page_title', window.parent.document).html(parent.original_page_title[ section_ids['<?=$_GET['section']?>'] ]); // Restore previous page title
      
 });
 

@@ -6888,6 +6888,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed Privacy Mode to never allow the interface to render (show), UNTIL AFTER PRIVATE DATA HAS BEEN HIDDEN
 
+-BUG FIX: Fixed "Primary Currency" being improperly set in the user interface, under certain conditions (sorry!)
+
 -BUG FIX: Javascript-based cookie DELETION now works properly
 
 -BUG FIX: Miscellaneous 
@@ -6903,6 +6905,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -Throttling for internal webhook plugins (to control how often external API requests can retrieve data)
 
 -Navigation buttons / links are now animated on hover and click
+
+-Revised DEMO config
 
 -UX improvements
 

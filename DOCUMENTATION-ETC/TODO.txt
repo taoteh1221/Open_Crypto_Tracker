@@ -92,7 +92,7 @@ ALWAYS TEST UPGRADING *AND* RE-DOWNGRADING the 'normal' security mode CACHED con
 Use the app "Meld" to compare json config files from a fresh reset vs after many user customizations vs after upgrades added / removed, to assure ordering / structure is not corrupted.
 
 
-Try to prioritize building out the admin interface / responsive templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
+Try to prioritize building out the responsive templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
 
 
 Occasionally re-run the debug mode that prints out all the btc / crypto exchanges and base pairs, and update the docs (project page / README / config file / etc).
@@ -129,16 +129,45 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
+Work on price chart light chart LINKS not having enough SPACE, when chart titles to the right ARE LONG.
 
 
-In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+
+
+Buildout the top navigation, for responsive templating on small mobile screens. On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
+
+
+The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny screen sizes.
+
+
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables. DO THIS AFTER MOBILE COMPATIBILITY work listed above (so we can decide if we want pagination for mobile too [which I think we DO]).
+
+
+Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Move all remaining relevent APIs over to the new per-second / per-minute / per-day throttling system.
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
+
+
++++++++++
+
+We need to store the app / plugin versions INSIDE THE CACHED CONFIG (as keys "db_app_version" / "db_plug_version"), TO SAFELY VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A OLDER SAVED CONFIG FILE (to make sure what settings within OLD backups can be SAFELY imported). We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EVEN for high security mode cached config updating [RESETS], as a user could change security modes later in the future, AND we still backup the cached config for app backups even in high security mode).
+
+DURING THE RESTORE IMPORT, SHOW AN "IMPORT SUMMARY", showing admin sections with checkbox (with NOTHING CHECKED OFF BY DEFAULT) / expand detials UI, and what settings are DIFFERENT FROM CURRENT DEFAULTS / WHAT SETTINGS CANNOT BE SAFELY IMPORTED?
+
+For the "db_app_version" / "db_plug_version" values we add to the CACHED config, we need to somehow add them without screwing up high security mode's "auto cache updating" MD5 CHECKS. This can be done by stripping out ALL the keys named "db_app_version" / "db_plug_version" from the CACHED config BEFORE RUNNING HIGH SECURITY MODE "auto cache updating" MD5 CHECKS.
+
++++++++++
+
+
+Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
 
 
 Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
@@ -149,35 +178,10 @@ Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in ev
           	                     'ALTNFTS',
 
 
-Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
-
-
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
-
-
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password'], AS THATS ONLY FOR ADMIN USE!).
-
-
-Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Buildout the top navigation, for responsive templating on small mobile screens. On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
-
-
-The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny screen sizes.
-
-
-Look into adding the architecture for "chrome push alerts": https://web.dev/explore/notifications
+Add the same hard-coded-config check we do for the app config, to plugin configs.
 
 
 Add full redhat support for auto-installer.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 
 All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
@@ -190,6 +194,21 @@ https://javascript.info/class
 
 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
+
+
+Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
+
+
+In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
+
+
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password'], AS THATS ONLY FOR ADMIN USE!).
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Look into adding the architecture for "chrome push alerts": https://web.dev/explore/notifications
 
 
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
@@ -207,27 +226,10 @@ Create "Export your feeds" link on ADMIN NEW FEEDS CONFIG page, to XML / JSON fo
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome ON SMALL LAPTOP SCREENS, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
 
 
-+++++++++
-
-We need to store the app / plugin versions INSIDE THE CACHED CONFIG (as keys "db_app_version" / "db_plug_version"), TO SAFELY VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A OLDER SAVED CONFIG FILE (to make sure what settings within OLD backups can be SAFELY imported). We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EVEN for high security mode cached config updating [RESETS], as a user could change security modes later in the future, AND we still backup the cached config for app backups even in high security mode).
-
-DURING THE RESTORE IMPORT, SHOW AN "IMPORT SUMMARY", showing admin sections with checkbox (with NOTHING CHECKED OFF BY DEFAULT) / expand detials UI, and what settings are DIFFERENT FROM CURRENT DEFAULTS / WHAT SETTINGS CANNOT BE SAFELY IMPORTED?
-
-For the "db_app_version" / "db_plug_version" values we add to the CACHED config, we need to somehow add them without screwing up high security mode's "auto cache updating" MD5 CHECKS. This can be done by stripping out ALL the keys named "db_app_version" / "db_plug_version" from the CACHED config BEFORE RUNNING HIGH SECURITY MODE "auto cache updating" MD5 CHECKS.
-
-+++++++++
-
-
 Implement 'plugin_deny_additions' / 'plugin_deny_removals' (with same format that we already implemented in the array structure of 'plugin_allow_resets'). Also include documentation on this in plugins documentation. 
 
 
 Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
-
-
-Add the same hard-coded-config check we do for the app config, to plugin configs.
-
-
-Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
 
 
 Add support for Jupiter's "freeze authority" meta data, in asset search results. Maybe even show the tag meta data?
