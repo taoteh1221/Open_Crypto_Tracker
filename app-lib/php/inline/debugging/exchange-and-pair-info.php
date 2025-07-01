@@ -16,6 +16,7 @@ $active_currency_count = 0;
 	// Summarize all market configurations
 	if (
 	$ct['conf']['power']['debug_mode'] == 'markets_conf'
+	|| isset($_GET['subsection']) && $_GET['subsection'] == 'currency_support'
 	|| isset($_GET['subsection']) && $_GET['subsection'] == 'price_alerts_charts'
 	) {
 		

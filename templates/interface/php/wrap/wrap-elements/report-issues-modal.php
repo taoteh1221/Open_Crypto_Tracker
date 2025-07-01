@@ -34,11 +34,13 @@
 	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json</a></li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>ALL Github.com code (update) commits are SIGNED (to prove authenticity) with this GPG Key:<br />
-	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/taoteh1221-gpg-pub-key.asc' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/taoteh1221-gpg-pub-key.asc</a></li>	
+	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/taoteh1221-gpg-pub-key.asc' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/taoteh1221-gpg-pub-key.asc</a></li>
+	
+	<li class='bitcoin' style='font-weight: bold;'>ALL Development Status entry fields below are SANITIZED (so XSS [Cross Site Scripting] attacks are NOT possible, IF the GitHub Repository is ever HACKED [which is **EXTERMELY** UNLIKELY, as it's protected with secure 2FA / GitHub "Vigilant Mode"]).</li>		
 	
 	<li class='bitcoin' style='font-weight: bold;'>For security reasons, you MUST login to check YOUR app version number (found in your app install, at: "Admin Area => System Monitoring => System Stats").</li>	
 	
-	<li class='bitcoin' style='font-weight: bold;'>The "Issues Help & Status" sidebar button will be highlighted, whenever the is a new IMPORTANT notification (in red), that you have NOT seen yet.</li>	
+	<li class='bitcoin' style='font-weight: bold;'>The "Issues Help & Status" sidebar button will be highlighted, whenever the is a new IMPORTANT notification, that you have NOT seen yet.</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>RED coloring indicates IMPORTANT notification(s).</li>	
 	

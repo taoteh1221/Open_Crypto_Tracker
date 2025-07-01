@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2025-7-1'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.00',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => true,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'v6.01.01 was released today, with significant BUG FIXES. This includes migration of user-selected Price Charts / News Feeds to JS localStorage (fixes app crashes when tracking MANY assets / running on same app server domain WITH OTHER APPS), Privacy Mode PROPERLY hiding the interface until everything sensitive is hidden, and other fixed issues / user experience improvements (see changelog.txt, for more details).',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2025-5-26'),
                    
                    'very_important' => true,
