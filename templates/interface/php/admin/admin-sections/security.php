@@ -180,7 +180,7 @@ if ( $ct['app_container'] == 'phpdesktop' ) {
 // We use hidden, so we don't accidentally delete the empty value from the cached config
 $ct['admin_render_settings']['interface_login']['is_hidden'] = true;
 
-$ct['admin_render_settings']['interface_login']['is_notes'] = '<span class="red">NOTICE: The "Interface Login" setting is unavailable in PHPdesktop (used for Desktop Editions)</span>';
+$ct['admin_render_settings']['interface_login']['is_notes'] = '<span class="bitcoin">NOTICE: The "Interface Login" setting is unavailable in PHPdesktop (used for Desktop Editions)</span>';
 
 }
 else {

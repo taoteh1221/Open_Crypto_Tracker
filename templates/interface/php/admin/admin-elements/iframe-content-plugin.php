@@ -38,7 +38,7 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
         /////////////////////////////////////////////////////////////////////////////////////////////////
         
         
-             if ( $ct['admin_area_sec_level'] != 'high' ) {
+             if ( $ct['admin_area_sec_level'] != 'high' && !isset($_GET['plugin_docs']) ) {
              ?>
              
           	   <p>

@@ -609,10 +609,12 @@ var $ct_array = array();
          <input type='hidden' data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' />
               
          <?php
+         // IF WE NEED AN ALERT FOR THIS HIDDEN FIELD, WE FILLIN THE 'is_notes' PARAM,
+         // AND SHOW AS AN ALERT INTERFACE FORMAT (rather than the usual notes interface format)
          if ( isset($render_params[$passed_key]['is_notes']) ) {
          ?>
           
-         <p><span class='settings_notes red red_dotted'><?=$render_params[$passed_key]['is_notes']?></span></p>
+         <p><span class='settings_notes bitcoin bitcoin_dotted'><?=$render_params[$passed_key]['is_notes']?></span></p>
               
          <?php
          }
