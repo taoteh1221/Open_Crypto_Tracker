@@ -132,6 +132,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 REDO all screenshots, used on the project page.
 
 
+Add full redhat support for auto-installer.
+
+
 Balloon info windows that load via ajax first (balance chart / stock overviews) require a SECOND visit to reformat numbers. Fix this, and check the marketcap info balloon windows too.
 
 
@@ -147,13 +150,7 @@ Work on price chart light chart LINKS not having enough SPACE, when chart titles
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
-Buildout the top navigation, for responsive templating on small mobile screens. On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
-
-
-The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny screen sizes.
-
-
-Add pagination to the "my portfolio" section, like we already do for other sorted data tables. DO THIS AFTER MOBILE COMPATIBILITY work listed above (so we can decide if we want pagination for mobile too [which I think we DO]).
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
 
 
 Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
@@ -163,6 +160,12 @@ Move all remaining relevent APIs over to the new per-second / per-minute / per-d
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
+
+
+Buildout the top navigation, for responsive templating on small mobile screens. On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
+
+
+The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny screen sizes. SAME FOR UPDATE PORTFOLIO PAGE.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -191,9 +194,6 @@ Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in ev
 
 
 Add the same hard-coded-config check we do for the app config, to plugin configs.
-
-
-Add full redhat support for auto-installer.
 
 
 All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
