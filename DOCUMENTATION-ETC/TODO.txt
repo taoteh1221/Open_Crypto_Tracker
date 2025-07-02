@@ -129,6 +129,12 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+REDO all screenshots, used on the project page.
+
+
+Balloon info windows that load via ajax first (balance chart / stock overviews) require a SECOND visit to reformat numbers. Fix this, and check the marketcap info balloon windows too.
+
+
 Assure we are forcing ALL plugins to have a version number registered, BEFORE we allow them to be activated.
 
 
