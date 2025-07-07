@@ -857,7 +857,11 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=chart&mode=asset_balance&lvrg_added=<?=$lvrg_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
-			css: balloon_css("left", "999", "750px")
+			css: balloon_css("left", "999", "750px"),
+			ajaxComplete: function(var1, var2) {
+			                                   // var var3 = this.id;
+			                                   convert_numbers('.balloon-tooltips .coin_info', pref_number_format);
+			                                   }
 			});
 	
 		 </script>

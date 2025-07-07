@@ -139,7 +139,7 @@
 	
 	refresh_cache_upgrade_notice_storage = storage_app_id("refresh_cache_upgrade_notice_storage");
 	
-	issues_page_visit_time_storage = storage_app_id("issues_page_visit_time_storage");
+	issues_page_visit_tracking_storage = storage_app_id("issues_page_visit_tracking_storage");
 	
 	notes_storage = storage_app_id("notes");
 	

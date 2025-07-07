@@ -76,7 +76,7 @@
 	else {
 	?>
 	
-	NO DATA AVAILABLE
+	<div class='red red_dotted' style='font-weight: bold;'>NO DEV STATUS DATA AVAILABLE</div>
 	
 	<?php
 	}

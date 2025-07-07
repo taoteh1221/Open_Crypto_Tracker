@@ -112,49 +112,6 @@ nav_menu('.user-nav');
 	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
      $("#notes").val( localStorage.getItem(notes_storage) );
 	}
-    
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-     // If all cookie data is above threshold trigger, warn end-user in UI
-     if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
-          
-     var header_size_warning_top_margin = is_admin ? 0 : 1.4;
-     $("#header_size_warning").css("margin-top", header_size_warning_top_margin + "em");
-          
-     $("#header_size_warning").html(cookies_size_warning);
-     
-     $("#header_size_warning").css("display", "block");
-     
-     var cookies_size_warning_info = '<h5 class="red tooltip_title">Avoiding App Crashes From Excessive Cookie Size</h5>'
-            
-            			+'<p class="coin_info red" style=" white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using.</p>'
-            
-            			+'<p class="coin_info red" style=" white-space: normal;"><span class="red">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
-            
-            
-            			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>'
-            
-            			+'<p class="coin_info red" style=" white-space: normal;"><span class="red">In FUTURE versions of this app, selected price charts and news feeds will be moved to "local storage" in your web browser. Until then, please try to MINIMIZE how many price charts and news feeds you select for viewing. Selecting fewer coins in "watch only" mode will also cut down on cookie storage too.</span></p>';
-
-	
-
-           // Wait 1.5 seconds before Initiating
-           setTimeout(function(){
-                                       
-			$('#cookies_size_warning_info').balloon({
-			html: true,
-			position: "left",
-  			classname: 'balloon-tooltips',
-			contents: cookies_size_warning_info,
-			css: balloon_css()
-			});
-		
-                                  
-           }, 1500);
-     
-     }
      
 
      /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,34 +154,6 @@ nav_menu('.user-nav');
          ct_ajax_load('type=access_stats', '#access_stats_data', 'latest access stats', false, true, true); // Secured / tablesorter
          }
      });
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-     
-     // Viewing "Issues Help & Status" sidebar link(s), 
-     // sets js timestamp of WHEN LAST VIEWED (to js storage)
-     $('.show_report_issues').on({
-        "click":function(e){
-         localStorage.setItem(issues_page_visit_time_storage, Date.now() );
-         }
-     });
-
-
-     // Make sure local storage data is parsed as an integer (for javascript to run math on it)
-     var issues_page_last_visit = parseInt( localStorage.getItem(issues_page_visit_time_storage) , 10);
-     
-     //console.log('latest_important_dev_alerts_timestamp = ' + latest_important_dev_alerts_timestamp);
-     //console.log('issues_page_last_visit = ' + issues_page_last_visit);
-                     
-     // Determine if we should highlight "Issues / Status" sidebar link(s),
-     // if an "important" status update has been added AFTER last page view
-     if ( isNaN(issues_page_last_visit) || latest_important_dev_alerts_timestamp >= issues_page_last_visit ) {
-     $(".show_report_issues").css({ "border": '4px dotted red'});
-     $(".show_report_issues").css({ "border-radius": '1em'});
-     $(".show_report_issues .nav-image").css({ "border-radius": '0.3em'});
-     $(".show_report_issues .nav-image").css({ "background-color": 'red'});
-     }
                      
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -434,9 +363,9 @@ nav_menu('.user-nav');
 
 
      // Dynamically style balloon tooltips AFTER THEY OPEN (AFTER the dynamically-created elements are created)
-     $('.tooltip_style_control').mouseover(function(){
+     $('.tooltip_style_control').on( "mouseover", function() {
              
-             // Wait 0.1 seconds
+             // Wait 0.2 seconds
              setTimeout(function(){
                   
              interface_font_percent( (set_font_size * adjusted_font_size_percent), false, '.balloon-tooltips', 'reg' );
@@ -444,14 +373,94 @@ nav_menu('.user-nav');
              // Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
              // (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
              // !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
-             convert_numbers('.balloon-tooltips .coin_info', pref_number_format);
+             convert_numbers('.balloon-tooltips p.coin_info', pref_number_format);
 
-     	   }, 100);
+     	   }, 200);
      	   
 
              //console.log( $(this).attr("id") );
            
      });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// If an important dev alert was found, use that timestamp 
+	if ( latest_important_dev_alerts_timestamp > 1000 ) {
+	var set_tracking_timestamp = latest_important_dev_alerts_timestamp;
+	}
+	else {
+	var set_tracking_timestamp = Date.now();
+	}
+	
+     
+     // Viewing "Issues Help & Status" sidebar link(s), 
+     // sets js timestamp of WHEN LAST VIEWED (to js storage)
+     $('.show_report_issues').on({
+        "click":function(e){
+         localStorage.setItem(issues_page_visit_tracking_storage, set_tracking_timestamp);
+         }
+     });
+
+
+     // Make sure local storage data is parsed as an integer (for javascript to run math on it)
+     var issues_page_track_visit = parseInt( localStorage.getItem(issues_page_visit_tracking_storage) , 10);
+     
+     //console.log('latest_important_dev_alerts_timestamp = ' + latest_important_dev_alerts_timestamp);
+     //console.log('issues_page_track_visit = ' + issues_page_track_visit);
+                     
+     // Determine if we should highlight "Issues / Status" sidebar link(s),
+     // if an "important" status update has been added AFTER last page view
+     if ( isNaN(issues_page_track_visit) || latest_important_dev_alerts_timestamp > issues_page_track_visit ) {
+     $(".show_report_issues").css({ "border": '4px dotted red'});
+     $(".show_report_issues").css({ "border-radius": '1em'});
+     $(".show_report_issues .nav-image").css({ "border-radius": '0.3em'});
+     $(".show_report_issues .nav-image").css({ "background-color": 'red'});
+     }
+    
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+     // If all cookie data is above threshold trigger, warn end-user in UI
+     if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
+          
+     var header_size_warning_top_margin = is_admin ? 0 : 1.4;
+     $("#header_size_warning").css("margin-top", header_size_warning_top_margin + "em");
+          
+     $("#header_size_warning").html(cookies_size_warning);
+     
+     $("#header_size_warning").css("display", "block");
+     
+     var cookies_size_warning_info = '<h5 class="red tooltip_title">Avoiding App Crashes From Excessive Cookie Size</h5>'
+            
+            			+'<p class="coin_info red" style=" white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using.</p>'
+            
+            			+'<p class="coin_info red" style=" white-space: normal;"><span class="red">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
+            
+            
+            			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>'
+            
+            			+'<p class="coin_info red" style=" white-space: normal;"><span class="red">In FUTURE versions of this app, selected price charts and news feeds will be moved to "local storage" in your web browser. Until then, please try to MINIMIZE how many price charts and news feeds you select for viewing. Selecting fewer coins in "watch only" mode will also cut down on cookie storage too.</span></p>';
+
+	
+
+           // Wait 1.5 seconds before Initiating
+           setTimeout(function(){
+                                       
+			$('#cookies_size_warning_info').balloon({
+			html: true,
+			position: "left",
+  			classname: 'balloon-tooltips',
+			contents: cookies_size_warning_info,
+			css: balloon_css()
+			});
+		
+                                  
+           }, 1500);
+     
+     }
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

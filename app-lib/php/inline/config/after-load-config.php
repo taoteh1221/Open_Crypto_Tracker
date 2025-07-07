@@ -50,12 +50,12 @@ $ct['dev']['status_data_found'] = true; // Flag as data was found (for loading i
 	// Timestamp, of latest important status alert
 	foreach ( $ct['dev']['status'] as $dev_alert ) {
 	
-	if ( $dev_alert['dummy_entry'] ) {
-	continue;
-	}
-	elseif ( $dev_alert['very_important'] && !isset($ct['dev']['latest_important_dev_alerts_timestamp']) ) {
-	$ct['dev']['latest_important_dev_alerts_timestamp'] = $dev_alert['timestamp'];
-	}
+     	if ( $dev_alert['dummy_entry'] ) {
+     	continue;
+     	}
+     	elseif ( $dev_alert['very_important'] && !isset($ct['dev']['latest_important_dev_alerts_timestamp']) ) {
+     	$ct['dev']['latest_important_dev_alerts_timestamp'] = $dev_alert['timestamp'];
+     	}
 	
 	}
 

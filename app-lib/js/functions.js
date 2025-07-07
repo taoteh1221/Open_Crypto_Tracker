@@ -5,6 +5,35 @@
 /////////////////////////////////////////////////////////////
 
 
+function process_element(element) {
+     
+var was_processed = element.getAttribute('data-was-processed');
+     
+  if ( typeof was_processed !== 'undefined' && was_processed == 1 ) { // Check if element already processed
+    //console.log("Element already processed:", element);
+    return false;
+  }
+
+// Perform processing on the element
+//console.log("Processing element:", element);
+element.setAttribute('data-was-processed', '1');
+return true;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function is_hidden(el) {
+    var style = window.getComputedStyle(el);
+    return ((style.display === 'none') || (style.visibility === 'hidden'))
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function merge_objects(orig_object, overwriting_object) {
 return combinedSettings = { ...orig_object, ...overwriting_object };
 }
@@ -818,7 +847,10 @@ var numbers_wrapped = wrap_numbers(selected_css); // Add 'num_conv' CSS class
      
           target_elements.forEach(function(sub_target) {
                
-               if ( typeof sub_target.value != 'undefined' ) {
+               if ( is_hidden(sub_target) || !process_element(sub_target) ) {
+               // Do nothing, IF hidden, OR already processed
+               }
+               else if ( typeof sub_target.value != 'undefined' ) {
                //sub_target.value = num_to_locale(sub_target.value, locale);
                }
                else {
@@ -1527,6 +1559,22 @@ function num_to_locale(num, locale=false) {
 var parse = num.trim(); // Trim whitespace
 parse = parse.replace(/,/g, ''); // Remove commas
 
+     // Temporarily remove any non-number at FRONT
+     if ( isNaN( parse.charAt(0) ) ) {
+     var num_prefix = parse.charAt(0);
+     parse = parse.slice(1);
+     parse = parse.trim(); // Trim whitespace
+     }
+
+     // Temporarily remove any non-number at END
+     if ( isNaN( parse.slice(-1) ) ) {
+     var num_suffix = parse.slice(-1);
+     parse = parse.slice(0, -1);
+     parse = parse.trim(); // Trim whitespace
+     }
+
+//console.log('parse = "' + parse + '"');
+     
 // convert to number
 parse = Number(parse);
 
@@ -1552,6 +1600,15 @@ parse = Number(parse);
      }
 
 
+     if ( typeof num_prefix != 'undefined' ) {
+     result = num_prefix + result;
+     }
+     
+     if ( typeof num_suffix != 'undefined' ) {
+     result = result + num_suffix;
+     }
+     
+     
 return result;
 
 }
