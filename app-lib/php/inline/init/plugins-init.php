@@ -301,6 +301,16 @@ $this_plug = trim($key);
      		
 
 	     }
+	     // Otherwise RESET the initial activation we did (BEFORE failing the plugin VERSION validity check)
+	     else {
+	     
+     	     if ( ( $temp_key = array_search($this_plug, $ct['plugin_setting_resets']) ) !== false ) {
+               unset($ct['plugin_setting_resets'][$temp_key]);
+               }
+	
+	     unset($plug['conf'][$this_plug]); 
+	     
+	     }
      		
 	
 	// Reset
