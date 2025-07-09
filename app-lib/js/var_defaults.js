@@ -18,6 +18,10 @@
 **************************************************************************************************************************************
 *************************************************************************************************************************************/
 
+// Objects
+
+var example_only = new Set();
+
 // Arrays
 
 var modal_windows = new Array(); // Set the modal windows array (to dynamically populate)
@@ -138,7 +142,7 @@ var donations_notice_storage;
 
 var refresh_cache_upgrade_notice_storage;
 
-var issues_page_visit_time_storage;
+var issues_page_visit_tracking_storage;
 
 var scroll_position_storage;
 
@@ -155,8 +159,6 @@ var priv_toggle_storage;
 var priv_sec_storage;
 
 var reload_time;
-
-var latest_important_dev_alerts_timestamp;
 
 var reload_countdown;
 	
@@ -248,6 +250,8 @@ var background_tasks_status = 'wait';
 var custom_3deep_menu_open = false;
 
 var news_feed_batched_maximum = 0;
+
+var latest_important_dev_alerts_timestamp = 1000; // Milliseconds (1 second UNIX TIME, as default)
 
 var batched_feeds_keys = ''; // blank, so NOT undefined
 

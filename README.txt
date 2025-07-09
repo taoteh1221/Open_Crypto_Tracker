@@ -19,7 +19,7 @@ Anybody can FULLY audit the security of this app's codebase (or hire someone to 
 Please review the possible solutions below for any issues you may have, before contacting the developers for support. If you are still having issues after trying everything relevant in this document (AND IN THE *SEPERATE* FILE TROUBLESHOOTING.txt), please reach out to the developers for help in the comm channels listed below. Any feedback is GREATLY appreciated, as it helps make this app better for everyone! :)
 
 
-Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.
+Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Teams / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
 
 NOTES FOR BLACKHATS:

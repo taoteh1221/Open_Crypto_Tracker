@@ -88,7 +88,11 @@ echo '?';
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=assets&mode=stock_overview&ticker=<?=urlencode($asset_symb)?>&name=<?=urlencode($asset_name)?>',
-			css: balloon_css("left", "999")
+			css: balloon_css("left", "999"),
+			ajaxComplete: function(var1, var2) {
+			                                   // var var3 = this.id;
+			                                   convert_numbers('.balloon-tooltips p.coin_info', pref_number_format);
+			                                   }
 			});
 			
 	
@@ -175,40 +179,40 @@ echo '?';
         <?php
             if ( $mcap_data['percent_change_1h'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="bitcoin">1 Hour Change:</span> <?=( stristr($mcap_data['percent_change_1h'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1h'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">1 Hour Change:</span> <?=( stristr($mcap_data['percent_change_1h'], '-') != false ? '<span class="num_conv red">'.$mcap_data['percent_change_1h'].'%</span>' : '<span class="num_conv green">+'.$mcap_data['percent_change_1h'].'%</span>' )?></p>'
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="bitcoin">24 Hour Change:</span> <?=( stristr($mcap_data['percent_change_24h'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_24h'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_24h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">24 Hour Change:</span> <?=( stristr($mcap_data['percent_change_24h'], '-') != false ? '<span class="num_conv red">'.$mcap_data['percent_change_24h'].'%</span>' : '<span class="num_conv green">+'.$mcap_data['percent_change_24h'].'%</span>' )?></p>'
         <?php
             if ( $mcap_data['percent_change_7d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="bitcoin">7 Day Change:</span> <?=( stristr($mcap_data['percent_change_7d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_7d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_7d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">7 Day Change:</span> <?=( stristr($mcap_data['percent_change_7d'], '-') != false ? '<span class="num_conv red">'.$mcap_data['percent_change_7d'].'%</span>' : '<span class="num_conv green">+'.$mcap_data['percent_change_7d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_14d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="bitcoin">14 Day Change:</span> <?=( stristr($mcap_data['percent_change_14d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_14d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_14d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">14 Day Change:</span> <?=( stristr($mcap_data['percent_change_14d'], '-') != false ? '<span class="num_conv red">'.$mcap_data['percent_change_14d'].'%</span>' : '<span class="num_conv green">+'.$mcap_data['percent_change_14d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_30d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="bitcoin">30 Day Change:</span> <?=( stristr($mcap_data['percent_change_30d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_30d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_30d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">30 Day Change:</span> <?=( stristr($mcap_data['percent_change_30d'], '-') != false ? '<span class="num_conv red">'.$mcap_data['percent_change_30d'].'%</span>' : '<span class="num_conv green">+'.$mcap_data['percent_change_30d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_90d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="bitcoin">90 Day Change:</span> <?=( stristr($mcap_data['percent_change_90d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_90d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_90d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">90 Day Change:</span> <?=( stristr($mcap_data['percent_change_90d'], '-') != false ? '<span class="num_conv red">'.$mcap_data['percent_change_90d'].'%</span>' : '<span class="num_conv green">+'.$mcap_data['percent_change_90d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_200d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="bitcoin">200 Day Change:</span> <?=( stristr($mcap_data['percent_change_200d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_200d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_200d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">200 Day Change:</span> <?=( stristr($mcap_data['percent_change_200d'], '-') != false ? '<span class="num_conv red">'.$mcap_data['percent_change_200d'].'%</span>' : '<span class="num_conv green">+'.$mcap_data['percent_change_200d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_1y'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="bitcoin">1 Year Change:</span> <?=( stristr($mcap_data['percent_change_1y'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1y'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1y'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">1 Year Change:</span> <?=( stristr($mcap_data['percent_change_1y'], '-') != false ? '<span class="num_conv red">'.$mcap_data['percent_change_1y'].'%</span>' : '<span class="num_conv green">+'.$mcap_data['percent_change_1y'].'%</span>' )?></p>'
         <?php
             }
             if ( isset($mcap_data['last_updated']) && $mcap_data['last_updated'] != '' ) {

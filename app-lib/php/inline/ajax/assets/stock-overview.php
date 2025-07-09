@@ -31,7 +31,7 @@ if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
                     
 $stock_cached_notice = "*Current (AlphaVantage *FREE TIER*) THROTTLING retrieves LIVE market data every " . $stock_cached_val . " " . $stock_cached_unit . "(s), for " . $parse_ticker . " (determined by number of STOCKS added, to avoid going over your *FREE TIER* " . $ct['var']->num_pretty($ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'], 2) . " DAILY LIVE requests limit).";			     
 
-$app_cache_time = '1 to 2 Weeks (minimizes FREE Tier DAILY limit impacts)';
+$app_cache_time = '1 to 2 Weeks (minimizes FREE Tier issues [last cache: {LAST_CACHE_TIME}])';
 			     
 }
 else {
@@ -52,7 +52,7 @@ $stock_overview = $ct['api']->stock_overview($market_id);
 <h5 class="yellow align_center tooltip_title">AlphaVantage.co Summary For: <?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
  
 <?php
-if ( isset($stock_overview['request_error']) && preg_match("/\./i", $market_id) ) {
+if ( isset($stock_overview['data']['request_error']) && preg_match("/\./i", $market_id) ) {
      
 $orig_market_id = $market_id;
 
@@ -68,7 +68,11 @@ $tried_usa_equiv = true;
 }
 
 
-if ( isset($stock_overview['request_error']) ) {
+// UX for FREE TIER cache time
+$app_cache_time = preg_replace('/\{LAST_CACHE_TIME\}/i', date('Y-M-d', $stock_overview['cache_timestamp']), $app_cache_time);
+
+
+if ( isset($stock_overview['data']['request_error']) ) {
 
      if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
      $stock_cached_notice .= '<br /><br /> You MAY have gone over your AlphaVantage DAILY LIMITS. IF SO, after the "Summary Cache Time" ABOVE has passed, the Stock Overview should show here (IF available for ' . $parse_ticker . ').';     
@@ -85,29 +89,29 @@ else {
      if ( $tried_usa_equiv ) {
      ?>
 
-     <p class="coin_info red">Notice: <br />Market ID "<?=$orig_market_id?>" returned NO STOCK OVERVIEW RESULTS, BUT "<?=$market_id?>" data WAS FOUND on the <?=$stock_overview['Exchange']?> (USA-based) exchange.</p>
+     <p class="coin_info red">Notice: <br />Market ID "<?=$orig_market_id?>" returned NO STOCK OVERVIEW RESULTS, BUT "<?=$market_id?>" data WAS FOUND on the <?=$stock_overview['data']['Exchange']?> (USA-based) exchange.</p>
 
      <?php
      }
      ?>
 
-<p class="coin_info"><span class="bitcoin">Name:</span> <?=$stock_overview['Name']?></p>
+<p class="coin_info"><span class="bitcoin">Name:</span> <?=$stock_overview['data']['Name']?></p>
 
-<p class="coin_info"><span class="bitcoin">Asset Type:</span> <?=$stock_overview['AssetType']?></p>
+<p class="coin_info"><span class="bitcoin">Asset Type:</span> <?=$stock_overview['data']['AssetType']?></p>
 
-<p class="coin_info"><span class="bitcoin">Exchange:</span> <?=$stock_overview['Exchange']?></p>
+<p class="coin_info"><span class="bitcoin">Exchange:</span> <?=$stock_overview['data']['Exchange']?></p>
 
-<p class="coin_info"><span class="bitcoin">Sector:</span> <?=$stock_overview['Sector']?></p>
+<p class="coin_info"><span class="bitcoin">Sector:</span> <?=$stock_overview['data']['Sector']?></p>
 
-<p class="coin_info"><span class="bitcoin">Industry:</span> <?=$stock_overview['Industry']?></p>
+<p class="coin_info"><span class="bitcoin">Industry:</span> <?=$stock_overview['data']['Industry']?></p>
 
-<p class="coin_info"><span class="bitcoin">MarketCap:</span> <?=$ct['var']->num_pretty($stock_overview['MarketCapitalization'], 0)?> (<?=$stock_overview['Currency']?>)</p>
+<p class="coin_info"><span class="bitcoin">MarketCap:</span> <?=$ct['var']->num_pretty($stock_overview['data']['MarketCapitalization'], 0)?> (<?=$stock_overview['data']['Currency']?>)</p>
 
-<p class="coin_info"><span class="bitcoin">52 Week High:</span> <?=$ct['var']->num_pretty($stock_overview['52WeekHigh'], 2)?> (<?=$stock_overview['Currency']?>)</p>
+<p class="coin_info"><span class="bitcoin">52 Week High:</span> <?=$ct['var']->num_pretty($stock_overview['data']['52WeekHigh'], 2)?> (<?=$stock_overview['data']['Currency']?>)</p>
 
-<p class="coin_info"><span class="bitcoin">52 Week Low:</span> <?=$ct['var']->num_pretty($stock_overview['52WeekLow'], 2)?> (<?=$stock_overview['Currency']?>)</p>
+<p class="coin_info"><span class="bitcoin">52 Week Low:</span> <?=$ct['var']->num_pretty($stock_overview['data']['52WeekLow'], 2)?> (<?=$stock_overview['data']['Currency']?>)</p>
 
-<p class="coin_info"><span class="bitcoin">Description:</span> <br /><?=$stock_overview['Description']?></p>
+<p class="coin_info"><span class="bitcoin">Description:</span> <br /><?=$stock_overview['data']['Description']?></p>
 
 <?php
 }

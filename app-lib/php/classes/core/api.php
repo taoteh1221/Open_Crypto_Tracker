@@ -466,6 +466,8 @@ var $exchange_apis = array(
     
    global $ct;
    
+   $results = array();
+   
    $cache_file = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$ticker.'.dat';
    
         
@@ -502,7 +504,11 @@ var $exchange_apis = array(
         }
         
    
-   return $data;     
+   $results['cache_timestamp'] = filemtime($cache_file);
+   
+   $results['data'] = $data;
+   
+   return $results;     
      
    }
 		
