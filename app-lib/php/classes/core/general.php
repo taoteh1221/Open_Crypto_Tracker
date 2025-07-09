@@ -3851,12 +3851,12 @@ var $ct_array = array();
                             
        // Build the different messages, configure comm methods, and send messages
                             
-       $email_msg = 'New admin login from: ' . $ct['remote_ip'] . $system_info_summary;
+       $email_msg = 'New admin login from ' . $ct['remote_ip'] . ', using browser agent: ' . "\n\n" . $ct['user_agent'] . $system_info_summary;
                             
        // Were're just adding a human-readable timestamp to smart home (audio) alerts
        $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
                             
-       $text_msg = $email_msg;
+       $text_msg = $email_msg = 'Admin login from ' . $ct['remote_ip'] . ', using browser: ' . "\n\n" . $ct['user_agent'] . $system_info_summary;
                         
        // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                   
