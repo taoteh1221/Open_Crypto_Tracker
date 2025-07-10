@@ -6919,6 +6919,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous (minor)
 
+-Minor polished interface styling / UX
+
 -------------------------------------------------------------------
 
 
