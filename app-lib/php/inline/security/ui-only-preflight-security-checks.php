@@ -182,7 +182,7 @@ $base_url_check = $ct['gen']->base_url(true);
              
            
          if ( isset($ct['system_info']['distro_name']) ) {
-         $system_info_summary = "\n\nApp Server System Info: " . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
+         $system_info_summary = "\n\nApp Server System Info:\n\n" . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
          }
              
                      

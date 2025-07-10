@@ -2596,7 +2596,7 @@ var $ct_array = array();
       $this->log('system_error', $ct['system_warnings'][$type]);
       
           if ( isset($ct['system_info']['distro_name']) ) {
-          $system_info_summary = "\n\nApp Server System Info: " . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
+          $system_info_summary = "\n\nApp Server System Info:\n\n" . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
           }
       
       $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $ct['system_warnings'][$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info_summary;
@@ -3845,7 +3845,7 @@ var $ct_array = array();
 
       
             if ( isset($ct['system_info']['distro_name']) ) {
-            $system_info_summary = "\n\nApp Server System Info: " . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
+            $system_info_summary = "\n\nApp Server System Info:\n\n" . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
             }
               
                             
