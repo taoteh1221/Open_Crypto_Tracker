@@ -41,6 +41,24 @@ var $ct_array = array();
    return substr($str, 0, strpos($str, "_"));
    }
 
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function length_usort($a, $b) {
+   return strlen($b)-strlen($a); // Descending sort
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function integer_usort_ascending($a, $b) {
+   return strcmp($a['timestamp'], $b['timestamp']); 
+   }
+
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -97,6 +115,51 @@ var $ct_array = array();
    $rand = array_rand($array);
    
    return $array[$rand];
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   // Support for < PHP 7.3 (WE SUPPORT >= PHP 7.2)
+   function array_key_first($arr) {
+       foreach($arr as $key => $unused) {
+       return $key;
+       }
+   return null;
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function str_replace_last($search, $replace, $str) {
+        
+      if( ( $pos = strrpos($str, $search) ) !== false ) {
+      $search_length = strlen($search);
+      $str = substr_replace($str, $replace, $pos, $search_length);
+      }
+   
+   return $str;
+    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function assoc_array_order_map($sorting_array) {
+   
+   $new_array = array();
+   
+      foreach ($sorting_array as $key => $unused) {
+      $new_array[] = $key;
+      }
+   
+   return $new_array;
    
    }
    
@@ -159,40 +222,67 @@ var $ct_array = array();
    return $result;
    
    }
-   
-   
+
+
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function obfusc_str($str, $show=1) {
+   function replace_key($array, $old_key, $new_key) {
+   
+   $keys = array_keys($array);
+       
+       if ( false === $index = array_search($old_key, $keys, true) ) {
+        throw new Exception(sprintf('Key "%s" does not exist', $old_key));
+       }
+       
+   $keys[$index] = $new_key;
+   
+   return array_combine($keys, array_values($array));
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function assoc_array_order($target_array, $sorting_array) {
+   
+   $new_array = array();
+   
+      // We want to preserve DEPRECIATED array keys, to remove AND LOG THE REMOVAL EVENT WITH DETAILS after this
+      // ($target_array will only contain DEPRECIATED keys after unsetting EXISTING values)
+      foreach ($sorting_array as $key) {
+      $new_array[$key] = $target_array[$key];
+      unset($target_array[$key]);
+      }
+      
+   $arrays_merged = array_merge($new_array, $target_array);
+   
+   return $arrays_merged;
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   function has_string_keys($array) {
+   
+   $result = false;
         
-      
-      // If an array, just return it, as it will only print the word 'Array' anyways,
-      // AND it will throw a fatal error in this function, since it's NOT a string  
-      if ( is_array($str) ) {
-      return $str;
-      }
-      else {
-      $len = strlen($str);
-      }
-   
-   
-      // If string is too short for the passed $show var on each end of string, 
-      // make $show roughly 20% of string length (1/5 rounded)
-      if ( $len <= ($show * 2) ) {
-      $show = round($len / 5);
-      }
-   
-   
-      if ( $show == 0 ) {
-      return str_repeat('*', $len);
-      }
-      else {
-      return substr($str, 0, $show) . str_repeat('*', $len - (2*$show) ) . substr($str, $len - $show, $show);
-      }
-      
-      
+        if ( !is_array($array) ) {
+        return $result;
+        }
+        
+        // https://stackoverflow.com/a/69351814/6190099
+        foreach ( $array as $key => $unused ) {
+        $result = ( ctype_digit( (string) $key ) ? false : true );
+        }
+        
+   return $result;
+        
    }
    
    
@@ -222,6 +312,28 @@ var $ct_array = array();
        
    }
    
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function alpha_usort($a, $b) {
+   
+   global $ct;
+   
+       // Case-insensitive equivalent comparison via strtolower()
+       
+       // Sort by specific subkey value
+       if ( $ct['sort_alpha_assoc_multidem'] ) {
+       return strcmp( strtolower($a[ $ct['sort_alpha_assoc_multidem'] ]) , strtolower($b[ $ct['sort_alpha_assoc_multidem'] ]) ); 
+       }
+       // Sort by value
+       else {
+       return strcmp( strtolower($a) , strtolower($b) ); 
+       }
+   
+   }
+   
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -243,60 +355,33 @@ var $ct_array = array();
    return $str;
    
    }
-
+   
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function possible_base64_encoding($str) {
-        
-      if ( $str == '' ) {
-      return false;
-      }
-   
-   // Decode the string in strict mode, TO CHECK FOR *POSSIBLE* BASE64 ENCODING
-   // (checking for illegal base64 characters)
-   $possible_base64 = base64_decode($str, true); 
+   function integer_usort_decending($a, $b) {
       
-      // TECHNICALLY, we CANNOT tell if ANY VALID base64 string is base64-encoded, but if it validates WELL
-      // as a base64 string, we flag as possible encoding (to decode / scan for attack signatures)
-      if (
-      $possible_base64
-      && preg_match("/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/", $str)
-      ) {
-      return true;
+      if ( isset($a->pubDate) && $a->pubDate != '' ) {
+      $result_a = strtotime($a->pubDate);
+      $result_b = strtotime($b->pubDate);
       }
-      else {
-      return false;
+      elseif ( isset($a->published) && $a->published != '' ) {
+      $result_a = strtotime($a->published);
+      $result_b = strtotime($b->published);
       }
-   
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function possible_hex_encoding($str) {
-        
-      if ( $str == '' ) {
-      return false;
+      elseif ( isset($a->updated) && $a->updated != '' ) {
+      $result_a = strtotime($a->updated);
+      $result_b = strtotime($b->updated);
+      }
+      elseif ( isset($a['timestamp']) && $a['timestamp'] != '' ) {
+      $result_a = $a['timestamp'];
+      $result_b = $b['timestamp'];
       }
    
-   // Decode the string, TO CHECK FOR *POSSIBLE* HEX ENCODING
-   // (checking for illegal hex characters)
-   $possible_hex = hex2bin($str);   
+   return $result_b - $result_a;
       
-      // TECHNICALLY, we CANNOT tell if ANY VALID hex string is hex-encoded, but if it validates WELL
-      // as a hex string, we flag as possible encoding (to decode / scan for attack signatures)
-      if ( $possible_hex && ctype_xdigit($str) && preg_match('/^(?:0x)?[a-f0-9]{1,}$/i', $str) ) {
-      return true;
-      }
-      else {
-      return false;
-      }
-   
    }
 
    

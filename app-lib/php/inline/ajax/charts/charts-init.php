@@ -46,7 +46,7 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/charts/types/system.php
 // v6.01.01 MIGRATIONS...
 // Javascript-based cookie deleting MAY not be as reliable
 if ( isset($_COOKIE['show_charts']) ) {
-$ct['gen']->store_cookie('show_charts', '', time()-3600);
+$ct['sec']->store_cookie('show_charts', '', time()-3600);
 unset($_COOKIE['show_charts']);
 }
  

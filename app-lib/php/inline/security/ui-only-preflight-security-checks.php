@@ -101,16 +101,16 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
          
      if (
      $ct['gen']->valid_username( trim($_POST['set_username']) ) == 'valid' 
-     && $ct['gen']->pass_strength($_POST['set_password'], 12, 40) == 'valid' 
+     && $ct['sec']->pass_strength($_POST['set_password'], 12, 40) == 'valid' 
      && $_POST['set_password'] == $_POST['set_password2'] 
      && trim($_POST['captcha_code']) != ''
      && strtolower( trim($_POST['captcha_code']) ) == strtolower($_SESSION['captcha_code'])
-     && $ct['gen']->valid_2fa()
+     && $ct['sec']->valid_2fa()
      ) {
      	
      	
-     $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-     $secure_password_hash = $ct['gen']->pepper_hashed_pass($_POST['set_password']); // Peppered password hash
+     $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+     $secure_password_hash = $ct['sec']->pepper_hashed_pass($_POST['set_password']); // Peppered password hash
      	
      	
      	// (random hash) Halt the process if an issue is detected safely creating a random hash
@@ -135,7 +135,7 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
      		
      		
      	// If the admin login update was a success, delete old data file / login / redirect
-     	if ( $ct['gen']->id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
+     	if ( $ct['sec']->id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
      		
      		// Delete any previous active admin login data file
      		if ( $active_admin_login_path ) {
@@ -148,7 +148,7 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
      		}
      			
      		
-     	$ct['gen']->do_admin_login();
+     	$ct['sec']->do_admin_login();
      		
      	}
      	else {
@@ -169,7 +169,7 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
 // WE FORCE A SECURITY CHECK HERE, SINCE WE ARE CACHING THE BASE URL DATA, BUT WE ABORT THE BASE URL CACHING IF WE ARE IN THE PROCESS OF MODIFYING THE CACHED CONFIG
 if ( $ct['cache']->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true && !$ct['reset_config'] && !$ct['update_config'] && !$ct['app_upgrade_check'] && !$ct['plugin_upgrade_check'] ) {
 	    
-$base_url_check = $ct['gen']->base_url(true); 
+$base_url_check = $ct['sec']->base_url(true); 
 	
 	
      // If security check passes OK
@@ -182,7 +182,7 @@ $base_url_check = $ct['gen']->base_url(true);
              
            
          if ( isset($ct['system_info']['distro_name']) ) {
-         $system_info_summary = "\n\nApp Server System Info: " . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
+         $system_info_summary = "\n\nApp Server System Info:\n\n" . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
          }
              
                      

@@ -105,7 +105,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 
                      // If we are queued to run a UI alert that an upgrade is available, IF ADMIN LOGGED IN
                      // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
-                     if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat') && $ct['gen']->admin_logged_in() ) {
+                     if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat') && $ct['sec']->admin_logged_in() ) {
                      $ui_upgrade_alert = json_decode( file_get_contents($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat') , true);
                      }         
                      

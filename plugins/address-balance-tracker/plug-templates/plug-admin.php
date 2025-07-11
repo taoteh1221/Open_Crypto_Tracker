@@ -146,7 +146,7 @@ $ct['admin_render_settings']['tracking']['is_repeatable']['text_field_size'] = 5
 if ( sizeof($ct['conf']['plug_conf'][$this_plug]['tracking']) > 0 ) {
 
 $ct['sort_alpha_assoc_multidem'] = 'label';
-$usort_tracking_results = usort($ct['conf']['plug_conf'][$this_plug]['tracking'], array($ct['gen'], 'usort_alpha') );
+$usort_tracking_results = usort($ct['conf']['plug_conf'][$this_plug]['tracking'], array($ct['var'], 'alpha_usort') );
 
 
      if ( !$usort_tracking_results ) {

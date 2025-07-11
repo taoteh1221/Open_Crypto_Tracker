@@ -6,7 +6,7 @@
  */
 
 
-// Forbid direct INTERNET access to this file
+// FOR HIGHER SECURITY, we forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
 exit;
@@ -238,17 +238,15 @@ $ct['conf']['ext_apis']['etherscan_api_key'] = '';
 // (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
 $ct['conf']['ext_apis']['alphavantage_api_key'] = '';
 ////
-// The below setting will automatically limit your API requests to NEVER go over your Alpha Vantage API requests limit
-// (WE AUTO-ADJUST THE *DAILY* LIMIT, BASED ON YOUR PER-MINUTE SETTING BELOW [*ALL* PREMIUM PLANS ARE UNLIMITED *DAILY* REQUESTS])
-// The requests-per-*MINUTE* limit on your Alpha Vantage API key (varies depending on your free / paid member level)
-// Default = 5 [FOR FREE SERVICE], and 30,75,150,300,600,1200 [FOR PREMIUM PLANS]:
+// The requests-per-*MINUTE* limit on your Alpha Vantage API key (varies depending on your member level)
+// Default = 5 [FOR FREE SERVICE], and 30,75,150,300,600,1200 [FOR THE VARIOUS PREMIUM PLANS]:
 // https://www.alphavantage.co/premium/
 $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] = 5;
 ////
 // The DEFAULT (FREE PLAN) requests-per-DAY limit on the Alpha Vantage API key
 // WE AUTO-ADJUST TO UNLIMITED FOR PREMIUM PLANS:
 // https://www.alphavantage.co/premium/
-// (they have been known to change this amount occassionally for the free plan, so we have this setting)
+// (they have been known to change this amount occasionally for the free plan, so we have this setting)
 $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 
 
@@ -1057,7 +1055,7 @@ $ct['conf']['power']['light_chart_day_intervals'] = '14,30,90,180,365,730,1460';
 $ct['conf']['power']['light_chart_data_points_maximum'] = 875; // (default = 875), ADJUST WITH CARE!!!
 ////
 // The space between light chart links inside the chart interface
-$ct['conf']['power']['light_chart_link_spacing'] = 50; // (default = 50), ADJUST WITH CARE!!!
+$ct['conf']['power']['light_chart_link_spacing'] = 32; // (default = 32), ADJUST WITH CARE!!!
 ////
 // The GUESSED offset (width) for light chart link fonts inside the chart interface (NOT MONOSPACE, SO WE GUESS AN AVERAGE)
 $ct['conf']['power']['light_chart_link_font_offset'] = 4; // (default = 4), ADJUST WITH CARE!!!

@@ -35,7 +35,7 @@ if ( $run_cron == true ) {
 
     if ( $ct['conf']['power']['debug_mode'] == 'cron_telemetry' ) {
 
-    $cron_runtime_id = $ct['gen']->rand_hash(8);         
+    $cron_runtime_id = $ct['sec']->rand_hash(8);         
          
     // WITH newline (UNLOCKED file write)
     $ct['cache']->save_file($ct['base_dir'] . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'STARTED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct['gen']->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n ........running........ \n", "append", false);     

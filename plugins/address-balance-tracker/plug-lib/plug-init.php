@@ -191,7 +191,7 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
             
           $sol_btc_val = $ct['asset']->pair_btc_val('sol');
             
-          $exchange_key = $ct['gen']->array_key_first($ct['conf']['assets'][strtoupper($asset)]['pair']['sol']);
+          $exchange_key = $ct['var']->array_key_first($ct['conf']['assets'][strtoupper($asset)]['pair']['sol']);
             
           $market_id = $ct['conf']['assets'][strtoupper($asset)]['pair']['sol'][$exchange_key];
             

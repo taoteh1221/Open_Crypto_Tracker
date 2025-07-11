@@ -5,7 +5,7 @@
 
 
 // MUST run BEFORE printing out header (for UX on 2FA alerts)
-$passed_medium_security_check = $ct['gen']->passed_medium_security_check();
+$passed_medium_security_check = $ct['sec']->passed_medium_security_check();
  
 
 // Even if a 2FA error originated on the FULL page while displayed,

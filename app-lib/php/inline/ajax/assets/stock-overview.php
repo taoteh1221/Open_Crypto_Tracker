@@ -39,7 +39,7 @@ $app_cache_time = '1 Day';
 }
 
 
-$market_pair = $ct['gen']->array_key_first($ct['conf']['assets'][ $_GET['ticker'] ]['pair']);
+$market_pair = $ct['var']->array_key_first($ct['conf']['assets'][ $_GET['ticker'] ]['pair']);
 
 $market_id = $ct['conf']['assets'][ $_GET['ticker'] ]['pair'][$market_pair]['alphavantage_stock'];
 

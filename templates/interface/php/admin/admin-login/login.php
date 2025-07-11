@@ -19,7 +19,7 @@ if ( $_POST['admin_submit_login'] ) {
 	}
 		
 		
-	if ( !$ct['gen']->valid_2fa() ) {
+	if ( !$ct['sec']->valid_2fa() ) {
      $login_result['error'][] = $ct['check_2fa_error'] . '.';
      }
 	
@@ -31,9 +31,9 @@ if ( $_POST['admin_submit_login'] ) {
 		if (
 		trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
 		&& $_POST['admin_username'] == $stored_admin_login[0]
-		&& $ct['gen']->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true
+		&& $ct['sec']->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true
 		) {
-          $ct['gen']->do_admin_login();
+          $ct['sec']->do_admin_login();
 		}
 		else {
 		$login_result['error'][] = "Wrong username / password.";

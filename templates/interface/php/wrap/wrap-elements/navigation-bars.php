@@ -45,7 +45,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    <div class="smallnav_spacer"></div>
    
    <?php
-   if ( $ct['gen']->admin_logged_in() && $is_admin ) {
+   if ( $ct['sec']->admin_logged_in() && $is_admin ) {
    ?>
    
    <div class="align_center"><a href='javascript:' class='admin_settings_save settings_save bitcoin' style='font-weight: bold;' title='Save settings for this admin section.'><img src='templates/interface/media/images/auto-preloaded/icons8-save-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
@@ -75,11 +75,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    
         
    <?php
-   if ( $ct['gen']->admin_logged_in() ) {
+   if ( $ct['sec']->admin_logged_in() ) {
    ?>
 
    
-   <div class="align_center"><a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$ct['sel_opt']['theme_selected']?>.png' class='admin_logout nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
+   <div class="align_center"><a href="?logout=1&admin_nonce=<?=$ct['sec']->admin_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$ct['sel_opt']['theme_selected']?>.png' class='admin_logout nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
    
    <div class="smallnav_spacer"></div>
    
@@ -97,7 +97,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
         
                     <?php
-                    if ( $ct['gen']->admin_logged_in() ) {
+                    if ( $ct['sec']->admin_logged_in() ) {
                     ?>
 
 
@@ -311,7 +311,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
             </li>
    
             <?php
-            if ( $ct['gen']->admin_logged_in() && $is_admin ) {
+            if ( $ct['sec']->admin_logged_in() && $is_admin ) {
             ?>
         
             <li class='sidebar-item'>
@@ -336,11 +336,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
             </li>
         
             <?php
-            if ( $ct['gen']->admin_logged_in() ) {
+            if ( $ct['sec']->admin_logged_in() ) {
             ?>
    
             <li class='sidebar-item'>
-                <a href="?logout=1&admin_nonce=<?=$ct['gen']->admin_nonce('logout')?>" class="admin_logout bitcoin" title='Logout from the admin area.'>Admin Logout</a>
+                <a href="?logout=1&admin_nonce=<?=$ct['sec']->admin_nonce('logout')?>" class="admin_logout bitcoin" title='Logout from the admin area.'>Admin Logout</a>
             </li>
             
             <?php
@@ -356,7 +356,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                 
         
                     <?php
-                    if ( $ct['gen']->admin_logged_in() ) {
+                    if ( $ct['sec']->admin_logged_in() ) {
                     ?>
 
 
@@ -376,13 +376,13 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         <li>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_currency_support" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_currency_support')?>&parent=asset_tracking&subsection=currency_support") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Admin area for adding / removing currencies.'>Currency Support</a>
+                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_currency_support" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_currency_support')?>&parent=asset_tracking&subsection=currency_support") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Admin area for adding / removing currencies.'>Currency Support</a>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_portfolio_assets" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_portfolio_assets')?>&parent=asset_tracking&subsection=portfolio_assets") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
+                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_portfolio_assets" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_portfolio_assets')?>&parent=asset_tracking&subsection=portfolio_assets") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_price_alerts_charts" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_price_alerts_charts')?>&parent=asset_tracking&subsection=price_alerts_charts") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure charts and price alerts.'>Price Alerts / Charts</a>
+                        <a class="dropdown-item" href="admin.php#admin_asset_tracking" submenu-id="admin_asset_tracking_price_alerts_charts" onclick='javascript: setTimeout(function(){ load_iframe("iframe_asset_tracking", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_price_alerts_charts')?>&parent=asset_tracking&subsection=price_alerts_charts") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure charts and price alerts.'>Price Alerts / Charts</a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->
@@ -419,10 +419,10 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         <li>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_apis" submenu-id="admin_apis_ext_apis" onclick='javascript: setTimeout(function(){ load_iframe("iframe_apis", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_ext_apis')?>&parent=apis&subsection=ext_apis") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure options for external third party APIs.'>External APIs</a>
+                        <a class="dropdown-item" href="admin.php#admin_apis" submenu-id="admin_apis_ext_apis" onclick='javascript: setTimeout(function(){ load_iframe("iframe_apis", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_ext_apis')?>&parent=apis&subsection=ext_apis") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Configure options for external third party APIs.'>External APIs</a>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_apis" submenu-id="admin_apis_webhook_int_api" onclick='javascript: setTimeout(function(){ load_iframe("iframe_apis", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_webhook_int_api')?>&parent=apis&subsection=webhook_int_api") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
+                        <a class="dropdown-item" href="admin.php#admin_apis" submenu-id="admin_apis_webhook_int_api" onclick='javascript: setTimeout(function(){ load_iframe("iframe_apis", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_webhook_int_api')?>&parent=apis&subsection=webhook_int_api") }, <?=( $is_admin ? '1000' : '0' )?>);' title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API / Webhook</a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->
@@ -477,7 +477,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         <li>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript: setTimeout(function(){ load_iframe("iframe_plugins", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>") }, <?=( $is_admin ? '1000' : '0' )?>);' title='<?=$plug['conf'][$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug['conf'][$plugin_key]['ui_name']?></a>
+                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript: setTimeout(function(){ load_iframe("iframe_plugins", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>") }, <?=( $is_admin ? '1000' : '0' )?>);' title='<?=$plug['conf'][$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug['conf'][$plugin_key]['ui_name']?></a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->
@@ -539,13 +539,13 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         <li>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_system_stats" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_system_stats')?>&parent=system_monitoring&subsection=system_stats") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View system stats, to keep track of your app server system health.'>System Stats</a>
+                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_system_stats" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_system_stats')?>&parent=system_monitoring&subsection=system_stats") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View system stats, to keep track of your app server system health.'>System Stats</a>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_access_stats" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_access_stats')?>&parent=system_monitoring&subsection=access_stats") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View user access stats, to track IP addresses / Browser versions / page views of who has been accessing this app.'>Access Stats</a>
+                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_access_stats" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_access_stats')?>&parent=system_monitoring&subsection=access_stats") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View user access stats, to track IP addresses / Browser versions / page views of who has been accessing this app.'>Access Stats</a>
                         
                         <!-- WE ONLY NEED A 1000 MILLISECOND DELAY IF WE ARE IN THE ADMIN AREA (FOR UNSAVED SETTING CHANGES CHECKING) -->
-                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_logs" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_app_logs')?>&parent=system_monitoring&subsection=app_logs") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View logs for this app.'>App Logs</a>
+                        <a class="dropdown-item" href="admin.php#admin_system_monitoring" submenu-id="admin_system_monitoring_logs" onclick='javascript: setTimeout(function(){ load_iframe("iframe_system_monitoring", "admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_app_logs')?>&parent=system_monitoring&subsection=app_logs") }, <?=( $is_admin ? '1000' : '0' )?>);' title='View logs for this app.'>App Logs</a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->

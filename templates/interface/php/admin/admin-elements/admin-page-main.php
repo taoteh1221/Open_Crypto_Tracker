@@ -27,7 +27,7 @@
                 	
                    <div id='iframe_general_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_general" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_general')?>&section=general" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_general" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_general')?>&section=general" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -46,7 +46,7 @@
 
                    <div id='iframe_asset_tracking_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_asset_tracking" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_asset_tracking')?>&section=asset_tracking" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_asset_tracking" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_asset_tracking')?>&section=asset_tracking" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -65,7 +65,7 @@
                 	
                    <div id='iframe_reset_backup_restore_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_reset_backup_restore" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_reset_backup_restore" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -84,7 +84,7 @@
 
                    <div id='iframe_security_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_security" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_security')?>&section=security" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_security" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_security')?>&section=security" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -103,7 +103,7 @@
 
                    <div id='iframe_comms_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_comms" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_comms')?>&section=comms" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_comms" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_comms')?>&section=comms" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -122,7 +122,7 @@
                 	
                    <div id='iframe_apis_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_apis" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_apis')?>&section=apis" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_apis" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_apis')?>&section=apis" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -141,7 +141,7 @@
                 	
                    <div id='iframe_plugins_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_plugins" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_plugins')?>&section=plugins" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_plugins" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_plugins')?>&section=plugins" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -160,7 +160,7 @@
                 	
                    <div id='iframe_news_feeds_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_news_feeds" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_news_feeds')?>&section=news_feeds" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_news_feeds" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_news_feeds')?>&section=news_feeds" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -179,7 +179,7 @@
                 	
                    <div id='iframe_power_user_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_power_user" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_power_user')?>&section=power_user" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_power_user" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_power_user')?>&section=power_user" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -198,7 +198,7 @@
                 	
                    <div id='iframe_text_gateways_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_text_gateways" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_text_gateways')?>&section=text_gateways" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_text_gateways" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_text_gateways')?>&section=text_gateways" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -217,7 +217,7 @@
                 	
                    <div id='iframe_proxy_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_proxy" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_proxy')?>&section=proxy" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_proxy" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_proxy')?>&section=proxy" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -236,7 +236,7 @@
                 	
                    <div id='iframe_system_monitoring_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_system_monitoring" src="admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_system_monitoring')?>&section=system_monitoring" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_system_monitoring" src="admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_system_monitoring')?>&section=system_monitoring" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  

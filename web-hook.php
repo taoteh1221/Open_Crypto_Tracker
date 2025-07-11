@@ -24,7 +24,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Credentials: true'); 
 
 // Ip address information
-$ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $ct['gen']->safe_file_name($ct['remote_ip']) . '.dat';
+$ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $ct['gen']->compat_file_name($ct['remote_ip']) . '.dat';
 
 
 // Throttle ip addresses reconnecting before $ct['conf']['int_api']['api_rate_limit'] interval passes
@@ -70,7 +70,7 @@ if ( isset($plug['activated']['webhook']) ) {
      $plug['webhook'][$this_plug]['key'] = preg_replace("/\/(.*)/", '', $_GET['webhook_params']); // Remove any (forwardslash-seperated) data after the webhook hash
 
              	
-         if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$this_plug]) && trim($ct['int_webhooks'][$this_plug]) != '' && $plug['webhook'][$this_plug]['key'] == $ct['gen']->nonce_digest($this_plug, $ct['int_webhooks'][$this_plug] . $webhook_master_key) ) {
+         if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$this_plug]) && trim($ct['int_webhooks'][$this_plug]) != '' && $plug['webhook'][$this_plug]['key'] == $ct['sec']->nonce_digest($this_plug, $ct['int_webhooks'][$this_plug] . $webhook_master_key) ) {
               
          $webhook_key_exists = true; // Flag webhook service as found
          

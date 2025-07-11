@@ -12,11 +12,11 @@
 	   
     <ul>  
     
-        <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_currency_support')?>&parent=asset_tracking&subsection=currency_support'>Currency Support</a></li>
+        <li><a href='admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_currency_support')?>&parent=asset_tracking&subsection=currency_support'>Currency Support</a></li>
         
-        <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_portfolio_assets')?>&parent=asset_tracking&subsection=portfolio_assets'>Portfolio Assets</a></li>
+        <li><a href='admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_portfolio_assets')?>&parent=asset_tracking&subsection=portfolio_assets'>Portfolio Assets</a></li>
         
-        <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_price_alerts_charts')?>&parent=asset_tracking&subsection=price_alerts_charts'>Price Alerts / Charts</a></li>
+        <li><a href='admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_price_alerts_charts')?>&parent=asset_tracking&subsection=price_alerts_charts'>Price Alerts / Charts</a></li>
         
 	</ul>
     	

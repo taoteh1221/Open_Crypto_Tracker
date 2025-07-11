@@ -292,7 +292,7 @@ $ct['admin_render_settings']['alphavantage_per_minute_limit']['range_min'] = $ct
 
 $ct['admin_render_settings']['alphavantage_per_minute_limit']['range_max'] = $ct['admin_render_settings']['alphavantage_per_minute_limit']['is_custom_steps'][ sizeof($ct['admin_render_settings']['alphavantage_per_minute_limit']['is_custom_steps']) - 1 ];
 
-$ct['admin_render_settings']['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET TO "5" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s PREMUIM Plans</a>, to increase your limits.';
+$ct['admin_render_settings']['alphavantage_per_minute_limit']['is_notes'] = 'The requests-per-*MINUTE* limit on your Alpha Vantage API key (varies depending on your member level).<br />LEAVE SET TO "5" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s PREMUIM Plans</a>, to increase your limits.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

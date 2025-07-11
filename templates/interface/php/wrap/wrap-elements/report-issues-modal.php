@@ -61,11 +61,11 @@
 	          
 	?>
 	
-	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-M-d', $ct['gen']->sanitize_string($dev_alert['timestamp']) )?></strong> </legend>
+	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-M-d', $ct['sec']->sanitize_string($dev_alert['timestamp']) )?></strong> </legend>
 	
-	<b><u><i>Affected Version(s):</i></u> &nbsp; v<?=$ct['gen']->sanitize_string($dev_alert['affected_version'])?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?></b><br /><br />
+	<b><u><i>Affected Version(s):</i></u> &nbsp; v<?=$ct['sec']->sanitize_string($dev_alert['affected_version'])?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?></b><br /><br />
 	
-	<?=$ct['gen']->sanitize_string($dev_alert['affected_desc'])?>
+	<?=$ct['sec']->sanitize_string($dev_alert['affected_desc'])?>
 	
 	</fieldset>
 	

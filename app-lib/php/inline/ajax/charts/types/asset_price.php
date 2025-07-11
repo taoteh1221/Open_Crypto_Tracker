@@ -15,7 +15,7 @@
 	}
 	
 	
-$x_coord = 55; // Start position (absolute) for light chart links
+$y_coord = 45; // Start position for light chart links
 	
 
 	foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
@@ -107,9 +107,9 @@ gui: {
   	  fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
-  	  align: 'right',
-  	  offsetX: -18,
-  	  offsetY: 4
+  	  align: 'left',
+  	  offsetX: 55,
+  	  offsetY: -2
   	},
    series: [{
      values: []
@@ -120,8 +120,8 @@ gui: {
 	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
-	    x: <?=$x_coord?>,
-	    y: 11,
+	    x: 6,
+	    y: <?=$y_coord?>,
 	    id: '<?=$light_chart_days?>',
 	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct['conf']['charts_alerts']['charts_text'] : $ct['conf']['charts_alerts']['charts_link'] )?>",
 	    fontSize: "22",
@@ -131,15 +131,12 @@ gui: {
 	  	},
 	<?php
 	
-		// Account for more / less digits with absolute positioning
-		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
-		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) );  
-		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+		// Account for more / less digits
+		if ( isset($light_chart_text) ) {
+		$y_coord = $y_coord + ( strlen($light_chart_text) * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+	     $y_coord = $y_coord + $ct['conf']['power']['light_chart_link_spacing'];
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
-	$last_light_chart_text = $light_chart_text;
 	}
 	?>
 	]
@@ -260,16 +257,16 @@ graphset:[
     fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,
-    align: 'right',
-    offsetX: -18,
-    offsetY: 4
+    align: 'left',
+    offsetX: 55,
+    offsetY: -2
   },
   source: {
-    text: "Select area to zoom in chart, or use zoom grab bars in preview area (only horizontal axis zooming supported).",
+    text: "Select area to zoom, or use (X axis) zoom grab bars in preview.",
     fontColor:"<?=$ct['conf']['charts_alerts']['charts_text']?>",
     fontSize: "13",
     fontFamily: "Open Sans",
-    offsetX: 110,
+    offsetX: 160,
     offsetY: -48,
     align: 'left'
   },
@@ -277,7 +274,7 @@ graphset:[
     shared: true
   },
   plotarea: {
-    margin: "60 65 55 115"
+    margin: "60 65 55 165"
   },
   plot: {
     marker:{
@@ -342,8 +339,8 @@ graphset:[
 	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
-	    x: <?=$x_coord?>,
-	    y: 11,
+	    x: 6,
+	    y: <?=$y_coord?>,
 	    id: '<?=$light_chart_days?>',
 	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct['conf']['charts_alerts']['charts_text'] : $ct['conf']['charts_alerts']['charts_link'] )?>",
 	    fontSize: "22",
@@ -353,15 +350,12 @@ graphset:[
 	  	},
 	<?php
 	
-		// Account for more / less digits with absolute positioning
-		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
-		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+		// Account for more / less digits
+		if ( isset($light_chart_text) ) {
+		$y_coord = $y_coord + ( strlen($light_chart_text) * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+	     $y_coord = $y_coord + $ct['conf']['power']['light_chart_link_spacing'];
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
-	$last_light_chart_text = $light_chart_text;
 	}
 	?>
 	]
@@ -376,7 +370,7 @@ graphset:[
   y: 400,
   backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_background']?>",
   plotarea: {
-    margin: "11 63 20 112"
+    margin: "11 65 20 165"
   },
   plot: {
   	barSpace: "0px",

@@ -126,7 +126,7 @@ else {
               
               &nbsp;&nbsp; || &nbsp;&nbsp; 
               
-              <a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($ct['app_edition'])?> Edition<?=( $ct['gen']->admin_logged_in() ? ' v' . $ct['app_version'] : '' )?></a>
+              <a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($ct['app_edition'])?> Edition<?=( $ct['sec']->admin_logged_in() ? ' v' . $ct['app_version'] : '' )?></a>
               
               </p>
                       	

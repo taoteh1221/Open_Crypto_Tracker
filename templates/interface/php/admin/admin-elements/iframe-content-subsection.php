@@ -8,7 +8,7 @@ $ct['is_subsection_config'] = true;
 
 ?>
         
-        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin custom-unstyle-dropdown-item' id='parent_url' href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $_GET['parent'])?>&section=<?=$_GET['parent']?>'><?=$ct['gen']->key_to_name($_GET['parent'])?></a>: <?=$ct['gen']->key_to_name($_GET['subsection'])?></h3>
+        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin custom-unstyle-dropdown-item' id='parent_url' href='admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_' . $_GET['parent'])?>&section=<?=$_GET['parent']?>'><?=$ct['gen']->key_to_name($_GET['parent'])?></a>: <?=$ct['gen']->key_to_name($_GET['subsection'])?></h3>
 
 
 <?php

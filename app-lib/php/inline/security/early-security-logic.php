@@ -130,10 +130,10 @@ if ( !$is_fast_runtime && $ct['runtime_mode'] == 'cron' || !$is_fast_runtime && 
 
 // Sanitize any user inputs VERY EARLY (for security / compatibility)
 foreach ( $_GET as $scan_get_key => $unused ) {
-$_GET[$scan_get_key] = $ct['gen']->malware_scan_requests('get', $scan_get_key, $_GET[$scan_get_key]);
+$_GET[$scan_get_key] = $ct['sec']->malware_scan_requests('get', $scan_get_key, $_GET[$scan_get_key]);
 }
 foreach ( $_POST as $scan_post_key => $unused ) {
-$_POST[$scan_post_key] = $ct['gen']->malware_scan_requests('post', $scan_post_key, $_POST[$scan_post_key]);
+$_POST[$scan_post_key] = $ct['sec']->malware_scan_requests('post', $scan_post_key, $_POST[$scan_post_key]);
 }
 
 
@@ -141,14 +141,14 @@ $_POST[$scan_post_key] = $ct['gen']->malware_scan_requests('post', $scan_post_ke
 
 
 // If user is logging out (run immediately after setting PRIMARY vars, for quick runtime)
-if ( $_GET['logout'] == 1 && $ct['gen']->pass_sec_check($_GET['admin_nonce'], 'logout') ) {
+if ( $_GET['logout'] == 1 && $ct['sec']->pass_sec_check($_GET['admin_nonce'], 'logout') ) {
 	
 // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
-$ct['gen']->hardy_sess_clear(); 
+$ct['sec']->session_clear(); 
 
 // Delete admin login cookie
-unset($_COOKIE['admin_auth_' . $ct['gen']->id()]);
-$ct['gen']->store_cookie('admin_auth_' . $ct['gen']->id(), '', time()-3600); // Delete
+unset($_COOKIE['admin_auth_' . $ct['sec']->id()]);
+$ct['sec']->store_cookie('admin_auth_' . $ct['sec']->id(), '', time()-3600); // Delete
 
 header("Location: index.php");
 exit;
@@ -160,7 +160,7 @@ exit;
 
 
 // CSRF attack protection for downloads EXCEPT backup downloads (which are secured by having a nonce in the filename instead)
-if ( $ct['runtime_mode'] == 'download' && !isset($_GET['backup']) && $_GET['download_nonce'] != $ct['gen']->nonce_digest('download') ) {
+if ( $ct['runtime_mode'] == 'download' && !isset($_GET['backup']) && $_GET['download_nonce'] != $ct['sec']->nonce_digest('download') ) {
 $ct['gen']->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
 $ct['cache']->app_log();
 echo "Aborted, security token mis-match/stale, try reloading the app.";
@@ -368,14 +368,14 @@ if ( !$is_fast_runtime ) {
      // If no secret var
      if ( !$auth_secret || $migrate_to_auth_secret ) {
      
-     $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+     $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
      
      
           if ( $migrate_to_auth_secret ) {
           $secure_256bit_hash = $migrate_to_auth_secret;
           }
           else {
-          $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+          $secure_256bit_hash = $ct['sec']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
           }
      	
      	

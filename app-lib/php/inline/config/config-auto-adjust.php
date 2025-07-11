@@ -663,7 +663,7 @@ sort($ct['conf']['charts_alerts']['tracked_markets']);
 // Alphabetically sort assets by 'name'
 // We need to use uasort, instead of usort, to maintain the associative array structure
 $ct['sort_alpha_assoc_multidem'] = 'name';
-uasort($ct['conf']['assets'], array($ct['gen'], 'usort_alpha') );
+uasort($ct['conf']['assets'], array($ct['var'], 'alpha_usort') );
 
 //$ct['gen']->array_debugging($ct['conf']['assets'], true); // DEBUGGING ONLY
 

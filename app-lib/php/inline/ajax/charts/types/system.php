@@ -5,7 +5,7 @@
 
 
 	// Have this script not load any code if system stats are not turned on, or key GET request corrupt
-	if ( !$ct['gen']->admin_logged_in() || !is_numeric($_GET['key']) ) {
+	if ( !$ct['sec']->admin_logged_in() || !is_numeric($_GET['key']) ) {
 	exit;
 	}
 
@@ -56,7 +56,7 @@ gui: {
          text: "No data exists for this '<?=$ct['gen']->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
       	  fontColor: "#e8e8e8",
          backgroundColor: "#808080",
-         fontSize: 20,
+         fontSize: 16,
          textAlpha: .9,
          alpha: .6,
          bold: true
@@ -69,10 +69,10 @@ gui: {
         adjustLayout: true,
     	  align: 'right',
     	  offsetX: -20,
-    	  offsetY: 9
+    	  offsetY: -2
       },  
   		source: {
-  		   text: "Select area to zoom in chart, or use zoom grab bars in preview area (vertical / horizontal axis zooming supported).",
+  		   text: "Select area to zoom, or use (X / Y axis) zoom grab bars in preview.",
     		fontColor:"black",
 	      fontSize: "13",
     		fontFamily: "Open Sans",
@@ -91,7 +91,7 @@ gui: {
     		 offsetX: -8,
     	    offsetY: -20,
       	 fontColor: "blue",
-	 		 fontSize: "20",
+	 		 fontSize: "16",
       	 fontFamily: "Open Sans",
         },
         item: {
@@ -110,7 +110,7 @@ gui: {
       		visible: false
     		},
     		tooltip: {
-    			fontSize: 20
+    			fontSize: 16
     		}
       },
       plotarea: {
@@ -152,7 +152,7 @@ gui: {
         plotLabel: {
       	 backgroundColor: "white",
       	 fontColor: "black",
-	 		 fontSize: "20",
+	 		 fontSize: "16",
       	 fontFamily: "Open Sans",
           borderRadius: '2px',
           borderWidth: '2px',
@@ -161,7 +161,7 @@ gui: {
     	  scaleLabel:{
    	  	 alpha: 1.0,
     	    fontColor: "black",
-      	 fontSize: 20,
+      	 fontSize: 16,
       	 fontFamily: "Open Sans",
       	 backgroundColor: "white",
    	  }
@@ -194,25 +194,22 @@ gui: {
 	?>
 		{
 	    x: <?=$x_coord?>,
-	    y: 12,
+	    y: 7,
 	    id: '<?=$light_chart_days?>',
 	    fontColor: "<?=($_GET['days'] == $light_chart_days ? 'black' : '#9b9b9b' )?>",
-	    fontSize: "22",
+	    fontSize: "16",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "<?=$light_chart_text?>"
 	  	},
 	<?php
 	
-		// Account for more / less digits with absolute positioning
-		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
-		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+		// Account for more / less digits
+		if ( isset($light_chart_text) ) {
+		$x_coord = $x_coord + ( strlen($light_chart_text) * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+	     $x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'] - 7;
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
-	$last_light_chart_text = $light_chart_text;
 	}
 	?>
 	]
@@ -298,7 +295,7 @@ if ( $key == 1 ) {
 				 },
 			  legendItem: {
 				  fontColor: 'white',
-			   fontSize: 20,
+			   fontSize: 16,
 			   fontFamily: 'Open Sans',
 				backgroundColor: '".$rand_color."',
 				borderRadius: '2px'
@@ -342,7 +339,7 @@ elseif ( $key == 2 ) {
 				 },
 			  legendItem: {
 				  fontColor: 'white',
-			   fontSize: 20,
+			   fontSize: 16,
 			   fontFamily: 'Open Sans',
 				backgroundColor: '".$rand_color."',
 				borderRadius: '2px'
@@ -411,10 +408,10 @@ gui: {
         adjustLayout: true,
     	  align: 'right',
     	  offsetX: -20,
-    	  offsetY: 9
+    	  offsetY: -2
       },  
   		source: {
-  		   text: "Select area to zoom in chart, or use zoom grab bars in preview area (vertical / horizontal axis zooming supported).",
+  		   text: "Select area to zoom, or use (X / Y axis) zoom grab bars in preview.",
     		fontColor:"black",
 	      fontSize: "13",
     		fontFamily: "Open Sans",
@@ -433,7 +430,7 @@ gui: {
     		 offsetX: -8,
     	    offsetY: -20,
       	 fontColor: "blue",
-	 		 fontSize: "20",
+	 		 fontSize: "16",
       	 fontFamily: "Open Sans",
         },
         item: {
@@ -452,7 +449,7 @@ gui: {
       		visible: false
     		},
     		tooltip: {
-    			fontSize: 20
+    			fontSize: 16
     		}
       },
       plotarea: {
@@ -494,7 +491,7 @@ gui: {
         plotLabel: {
       	 backgroundColor: "white",
       	 fontColor: "black",
-	 		 fontSize: "20",
+	 		 fontSize: "16",
       	 fontFamily: "Open Sans",
           borderRadius: '2px',
           borderWidth: '2px',
@@ -503,7 +500,7 @@ gui: {
     	  scaleLabel:{
    	  	 alpha: 1.0,
     	    fontColor: "black",
-      	 fontSize: 20,
+      	 fontSize: 16,
       	 fontFamily: "Open Sans",
       	 backgroundColor: "white",
    	  }
@@ -536,25 +533,22 @@ gui: {
 	?>
 		{
 	    x: <?=$x_coord?>,
-	    y: 12,
+	    y: 7,
 	    id: '<?=$light_chart_days?>',
 	    fontColor: "<?=($_GET['days'] == $light_chart_days ? 'black' : '#9b9b9b' )?>",
-	    fontSize: "22",
+	    fontSize: "16",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "<?=$light_chart_text?>"
 	  	},
 	<?php
 	
-		// Account for more / less digits with absolute positioning
-		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
-		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+		// Account for more / less digits
+		if ( isset($light_chart_text) ) {
+		$x_coord = $x_coord + ( strlen($light_chart_text) * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+	     $x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'] - 7;
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
-	$last_light_chart_text = $light_chart_text;
 	}
 	?>
 	]
@@ -606,7 +600,7 @@ gui: {
          text: "No data exists for this '<?=$ct['gen']->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
       	  fontColor: "#e8e8e8",
          backgroundColor: "#808080",
-         fontSize: 20,
+         fontSize: 16,
          textAlpha: .9,
          alpha: .6,
          bold: true
@@ -619,10 +613,10 @@ gui: {
         adjustLayout: true,
     	  align: 'right',
     	  offsetX: -20,
-    	  offsetY: 9
+    	  offsetY: -2
       },  
   		source: {
-  		   text: "Select area to zoom in chart, or use zoom grab bars in preview area (vertical / horizontal axis zooming supported).",
+          text: "Select area to zoom, or use zoom grab bars in preview (for X axis).",
     		fontColor:"black",
 	      fontSize: "13",
     		fontFamily: "Open Sans",
@@ -641,7 +635,7 @@ gui: {
     		 offsetX: -8,
     	    offsetY: -20,
       	 fontColor: "blue",
-	 		 fontSize: "20",
+	 		 fontSize: "16",
       	 fontFamily: "Open Sans",
         },
         item: {
@@ -660,7 +654,7 @@ gui: {
       		visible: false
     		},
     		tooltip: {
-    			fontSize: 20
+    			fontSize: 16
     		}
       },
       plotarea: {
@@ -702,7 +696,7 @@ gui: {
         plotLabel: {
       	 backgroundColor: "white",
       	 fontColor: "black",
-	 		 fontSize: "20",
+	 		 fontSize: "16",
       	 fontFamily: "Open Sans",
           borderRadius: '2px',
           borderWidth: '2px',
@@ -711,7 +705,7 @@ gui: {
     	  scaleLabel:{
    	  	 alpha: 1.0,
     	    fontColor: "black",
-      	 fontSize: 20,
+      	 fontSize: 16,
       	 fontFamily: "Open Sans",
       	 backgroundColor: "white",
    	  }
@@ -744,25 +738,22 @@ gui: {
 	?>
 		{
 	    x: <?=$x_coord?>,
-	    y: 12,
+	    y: 7,
 	    id: '<?=$light_chart_days?>',
 	    fontColor: "<?=($_GET['days'] == $light_chart_days ? 'black' : '#9b9b9b' )?>",
-	    fontSize: "22",
+	    fontSize: "16",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "<?=$light_chart_text?>"
 	  	},
 	<?php
 	
-		// Account for more / less digits with absolute positioning
-		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
-		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+		// Account for more / less digits
+		if ( isset($light_chart_text) ) {
+		$x_coord = $x_coord + ( strlen($light_chart_text) * $ct['conf']['power']['light_chart_link_font_offset'] ); 
+	     $x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'] - 7;
 		}
 	
-	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
-	$last_light_chart_text = $light_chart_text;
 	}
 	?>
 	]

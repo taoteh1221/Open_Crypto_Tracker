@@ -120,7 +120,7 @@
 	foreach ( $ct['conf']['news']['feeds'] as $feed ) {
 	
 	// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-	$feed_id = $ct['gen']->digest($feed['title'], 5);
+	$feed_id = $ct['sec']->digest($feed['title'], 5);
 				
 	?>
 	

@@ -12,9 +12,9 @@
 	   
     <ul>  
     
-        <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_ext_apis')?>&parent=apis&subsection=ext_apis'>External APIs</a></li>
+        <li><a href='admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_ext_apis')?>&parent=apis&subsection=ext_apis'>External APIs</a></li>
         
-        <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_webhook_int_api')?>&parent=apis&subsection=webhook_int_api'>Internal API / Webhook</a></li>
+        <li><a href='admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_webhook_int_api')?>&parent=apis&subsection=webhook_int_api'>Internal API / Webhook</a></li>
         
 	</ul>
     	

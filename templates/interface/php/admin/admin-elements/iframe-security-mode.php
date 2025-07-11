@@ -28,7 +28,7 @@ $loop_count = $loop_count + 1;
 	
 	<form name='medium_security_check' id='medium_security_check' action='admin.php<?=$uri_params?>' method='post'>
 	
-	<input type='hidden' name='medium_security_nonce' value='<?=$ct['gen']->admin_nonce('medium_security_mode')?>' />
+	<input type='hidden' name='medium_security_nonce' value='<?=$ct['sec']->admin_nonce('medium_security_mode')?>' />
 	
 	<?=$ct['gen']->input_2fa('strict')?>
 	

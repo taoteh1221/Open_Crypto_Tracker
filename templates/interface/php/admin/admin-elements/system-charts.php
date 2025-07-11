@@ -5,7 +5,7 @@
 
 
 // Don't load any data if admin isn't logged in
-if ( $ct['gen']->admin_logged_in() ) {
+if ( $ct['sec']->admin_logged_in() ) {
 
 
 

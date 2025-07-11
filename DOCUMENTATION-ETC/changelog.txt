@@ -6917,7 +6917,13 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.02
 
+-BUG FIX: Fixed price chart titles covering time period links, on smaller screens
+
 -BUG FIX: Miscellaneous (minor)
+
+-Minor polished interface styling / UX
+
+-Code refactoring / cleanup
 
 -------------------------------------------------------------------
 

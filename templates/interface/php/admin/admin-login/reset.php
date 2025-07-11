@@ -51,7 +51,7 @@ if ( $_POST['admin_submit_reset'] && !$no_password_reset ) {
 	}
 		
 		
-	if ( !$ct['gen']->valid_2fa() ) {
+	if ( !$ct['sec']->valid_2fa() ) {
      $reset_result['error'][] = $ct['check_2fa_error'] . '.';
      }
 	
@@ -63,7 +63,7 @@ if ( $_POST['admin_submit_reset'] && !$no_password_reset ) {
 	&& trim($_POST['reset_username']) == $stored_admin_login[0]
 	) {
 
-	$new_reset_key = $ct['gen']->rand_hash(32);
+	$new_reset_key = $ct['sec']->rand_hash(32);
 	
 	$msg = "
 
@@ -91,7 +91,7 @@ If you did NOT request this password reset (originating from ip address ".$ct['r
      // Send notifications
      @$ct['cache']->queue_notify($send_params);
           	
-	$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/activation/password_reset_' . $ct['gen']->rand_hash(16) . '.dat', $new_reset_key); // Store password reset activation code, to confirm via clicked email link later
+	$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/activation/password_reset_' . $ct['sec']->rand_hash(16) . '.dat', $new_reset_key); // Store password reset activation code, to confirm via clicked email link later
 	
 	}
 
