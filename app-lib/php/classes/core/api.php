@@ -1517,7 +1517,7 @@ var $exchange_apis = array(
             // Sort results by asset name
             foreach ( $results as $sort_key => $unused ) {
             $ct['sort_alpha_assoc_multidem'] = 'name';
-            usort($results[$sort_key], array($ct['gen'], 'usort_alpha') );
+            usort($results[$sort_key], array($ct['var'], 'alpha_usort') );
             }     
 
      
@@ -2642,7 +2642,7 @@ var $exchange_apis = array(
 		      }
 		               
                 if ( is_array($sortable_feed) ) { 
-		      $usort_results = usort($sortable_feed,  array($ct['gen'], 'timestamps_usort_newest') );
+		      $usort_results = usort($sortable_feed,  array($ct['var'], 'integer_usort_decending') );
 		      }
 		               
 		      if ( !$usort_results ) {
@@ -2751,7 +2751,7 @@ var $exchange_apis = array(
 	          }
 	               
                if ( is_array($sortable_feed) ) { 
-	          $usort_results = usort($sortable_feed, array($ct['gen'], 'timestamps_usort_newest') );
+	          $usort_results = usort($sortable_feed, array($ct['var'], 'integer_usort_decending') );
 	          }
 	               
 	          if ( !$usort_results ) {
@@ -3954,7 +3954,7 @@ var $exchange_apis = array(
            ) {
                 
            // Safe filename characters
-           $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->safe_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id . '.dat');
+           $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->compat_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id . '.dat');
            
                
                // Get any existing count, OR set to zero

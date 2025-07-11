@@ -148,7 +148,7 @@ $webhook_plug = $plugin_key;
      
      <b class='blue'>Webhook endpoint for "<?=$plug['conf'][$webhook_plug]['ui_name']?>" plugin:</b> <br /><br />
      
-     <b class='bitcoin'><?=$ct['base_url']?><?=$ct['int_webhook_base_endpoint']?><?=$ct['gen']->nonce_digest($webhook_plug, $ct['int_webhooks'][$webhook_plug] . $webhook_master_key)?></b>
+     <b class='bitcoin'><?=$ct['base_url']?><?=$ct['int_webhook_base_endpoint']?><?=$ct['sec']->nonce_digest($webhook_plug, $ct['int_webhooks'][$webhook_plug] . $webhook_master_key)?></b>
      
      </p>
      <br /> &nbsp; <br />

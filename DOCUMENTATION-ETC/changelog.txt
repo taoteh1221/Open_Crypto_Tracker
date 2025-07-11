@@ -6923,6 +6923,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Minor polished interface styling / UX
 
+-Code refactoring / cleanup
+
 -------------------------------------------------------------------
 
 

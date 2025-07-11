@@ -61,9 +61,9 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/other/cache-setup.php');
 
 // Set $ct['app_id'] as a global (MUST BE SET AFTER system-config.php)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $ct['app_id'] OR $ct['gen']->id() RELIABLY / EFFICIENTLY ANYWHERE
-// $ct['gen']->id() can then be used in functions WITHOUT NEEDING ANY $ct['app_id'] GLOBAL DECLARED.
-$ct['app_id'] = $ct['gen']->id();
+// AFTER THIS IS SET, WE CAN USE EITHER $ct['app_id'] OR $ct['sec']->id() RELIABLY / EFFICIENTLY ANYWHERE
+// $ct['sec']->id() can then be used in functions WITHOUT NEEDING ANY $ct['app_id'] GLOBAL DECLARED.
+$ct['app_id'] = $ct['sec']->id();
 
 // Sessions config (MUST RUN AFTER setting $ct['app_id'])
 require_once($ct['base_dir'] . '/app-lib/php/inline/init/session-init.php');
@@ -71,7 +71,7 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/init/session-init.php');
 
 // Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
 if ( $ct['runtime_mode'] != 'cron' && !isset( $_SESSION['nonce'] ) ) {
-$_SESSION['nonce'] = $ct['gen']->rand_hash(32); // 32 byte
+$_SESSION['nonce'] = $ct['sec']->rand_hash(32); // 32 byte
 }
 	
 	

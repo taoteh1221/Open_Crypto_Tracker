@@ -1505,7 +1505,7 @@ var $ct_array = array();
                        rsort($temp_array);
                        
                        // Now sort by length, so we are checking for LONGER pairings first (to assure SAFEST parsed results)
-                       usort($temp_array, array($ct['gen'], 'usort_length') );
+                       usort($temp_array, array($ct['var'], 'length_usort') );
                        
                        $ct['registered_pairs'] = $temp_array; // Set global now, since we finished building / sorting
           

@@ -1349,7 +1349,7 @@ function select_all(toggle, form_name) {
             feed_toggle(checkbox);
             }
             
-            else if ( form_name == 'coin_amnts' && checkbox.checked != toggle.checked ) {
+            else if ( form_name == 'user_area_settings' && checkbox.checked != toggle.checked ) {
         	  checkbox.checked = toggle.checked;
             watch_toggle(checkbox);
             }
@@ -4134,7 +4134,7 @@ function nav_menu($chosen_menu) {
                                     if ( get_url_param('start_page') == null ) {
                                     
                                     // MAIN submit form (also stores and updates chosen charts / news feeds / etc)
-                                    $("#coin_amnts").attr('action', $area_file + $curr_content_id);
+                                    $("#user_area_settings").attr('action', $area_file + $curr_content_id);
                                     
                                     // Page URL
                                     window.location = $area_file + $curr_content_id; 

@@ -66,7 +66,7 @@ else {
      		foreach ( $currently_activated_plugins as $plugin_key => $unused ) {
          	     ?>
          	     
-             <li><a href='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug['conf'][$plugin_key]['ui_name']?></a></li>
+             <li><a href='admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug['conf'][$plugin_key]['ui_name']?></a></li>
              
          	     <?php
          	     }

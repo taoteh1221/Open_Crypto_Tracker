@@ -22,6 +22,9 @@ $ct['asset'] = new ct_asset();
 require_once("app-lib/php/classes/core/admin.php");
 $ct['admin'] = new ct_admin();
 
+require_once("app-lib/php/classes/core/security.php");
+$ct['sec'] = new ct_sec();
+
 require_once("app-lib/php/classes/core/plugin.php");
 $ct['plug'] = new ct_plug();
  

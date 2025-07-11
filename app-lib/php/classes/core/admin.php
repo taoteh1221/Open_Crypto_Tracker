@@ -56,43 +56,39 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function valid_secure_config_update_request() {
+   function hidden_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
    global $ct;
-   
-      
-        if ( isset($_POST['conf_id']) && preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
-             
-        $parse_plugin_name = explode('|', $_POST['conf_id']);
-
-        $field_array_base = $_POST[ $parse_plugin_name[1] ];
-
-        }
-        elseif ( isset($_POST['conf_id']) ) {
-        $field_array_base = $_POST[ $_POST['conf_id'] ];
-        }
-        else {
-        return false;
-        }
-      
-        
-        // Make sure ALL security checks pass / data structure seems valid, for updating the admin config
-        // (INCLUDES 'STRICT' 2FA MODE CHECK [returns true if 'strict' 2fa is turned off, OR 'strict' 2fa checked out as valid])
-        if (
-        isset($_POST['conf_id'])
-        && isset($_POST['interface_id'])
-        && is_array($field_array_base)
-        && $ct['gen']->pass_sec_check($_POST['admin_nonce'], $_POST['interface_id'])
-        && $ct['gen']->valid_2fa('strict')
-        ) {
-        return $field_array_base;
-        }
-        else {
-        $ct['gen']->log('security_error', 'FAILED CHECK in valid_secure_config_update_request() (from '.$ct['remote_ip'].'), for "conf_id": ' . $_POST['conf_id']);
-        return false;
-        }
-        
-   
+              
+              
+         if ( isset($render_params[$passed_key]['is_trim']) ) {
+         $passed_val = trim($passed_val);
+         }
+         ?>
+          
+         <input type='hidden' data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' />
+              
+         <?php
+         // IF WE NEED AN ALERT FOR THIS HIDDEN FIELD, WE FILLIN THE 'is_notes' PARAM,
+         // AND SHOW AS AN ALERT INTERFACE FORMAT (rather than the usual notes interface format)
+         if ( isset($render_params[$passed_key]['is_notes']) ) {
+         ?>
+          
+         <p><span class='settings_notes bitcoin bitcoin_dotted'><?=$render_params[$passed_key]['is_notes']?></span></p>
+              
+         <?php
+         }
+              
+              
+         if ( isset($render_params[$passed_key]['is_script']) ) {
+              ?>
+              <script>
+              <?=$render_params[$passed_key]['is_script']?>
+              </script>
+              <?php
+         }
+              
+                
    }
 
    
@@ -285,7 +281,7 @@ var $ct_array = array();
    global $ct;
    
    // Check for VALIDATED / SECURE config updates IN PROGRESS
-   $field_array_base = $this->valid_secure_config_update_request();
+   $field_array_base = $ct['sec']->valid_secure_config_update_request();
         
         
         // IF we're cleared to run a user's config update request
@@ -317,13 +313,13 @@ var $ct_array = array();
                        
                        if (
                        $_POST['markets_update'] === 'add'
-                       && $ct['gen']->pass_sec_check($_POST['markets_nonce'], $_POST['markets_update'])
+                       && $ct['sec']->pass_sec_check($_POST['markets_nonce'], $_POST['markets_update'])
                        ) {
                        $this->add_markets($field_array_base);
                        }
                        elseif (
                        $_POST['markets_update'] === 'remove'
-                       && $ct['gen']->pass_sec_check($_POST['markets_nonce'], $_POST['markets_update'])
+                       && $ct['sec']->pass_sec_check($_POST['markets_nonce'], $_POST['markets_update'])
                        ) {
                        $this->remove_markets($field_array_base);
                        }
@@ -415,7 +411,7 @@ var $ct_array = array();
          elseif ( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_color']) ) {
                       
               // If string keyed array, show description from key value
-              if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
+              if ( $ct['var']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
               $desc = '<b class="blue">' . $ct['gen']->key_to_name($subarray_key) . ':</b> &nbsp; ';
               }
               
@@ -442,7 +438,7 @@ var $ct_array = array();
                       
              // If string keyed array, show description from key value
              // (do scanning BEFORE any loops, for speed)
-             if ( $ct['gen']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_color']) ) {
+             if ( $ct['var']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_color']) ) {
              $is_string_keys = true;
              }
               
@@ -528,7 +524,7 @@ var $ct_array = array();
          elseif ( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_textarea']) ) {
                       
               // If string keyed array, show description from key value
-              if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
+              if ( $ct['var']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
               $desc = '<b class="blue">' . $ct['gen']->key_to_name($subarray_key) . ':</b> &nbsp; ';
               }
               
@@ -555,7 +551,7 @@ var $ct_array = array();
                       
              // If string keyed array, show description from key value
              // (do scanning BEFORE any loops, for speed)
-             if ( $ct['gen']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_textarea']) ) {
+             if ( $ct['var']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_textarea']) ) {
              $is_string_keys = true;
              }
               
@@ -589,46 +585,6 @@ var $ct_array = array();
          }
         
         
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function hidden_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
-        
-   global $ct;
-              
-              
-         if ( isset($render_params[$passed_key]['is_trim']) ) {
-         $passed_val = trim($passed_val);
-         }
-         ?>
-          
-         <input type='hidden' data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' />
-              
-         <?php
-         // IF WE NEED AN ALERT FOR THIS HIDDEN FIELD, WE FILLIN THE 'is_notes' PARAM,
-         // AND SHOW AS AN ALERT INTERFACE FORMAT (rather than the usual notes interface format)
-         if ( isset($render_params[$passed_key]['is_notes']) ) {
-         ?>
-          
-         <p><span class='settings_notes bitcoin bitcoin_dotted'><?=$render_params[$passed_key]['is_notes']?></span></p>
-              
-         <?php
-         }
-              
-              
-         if ( isset($render_params[$passed_key]['is_script']) ) {
-              ?>
-              <script>
-              <?=$render_params[$passed_key]['is_script']?>
-              </script>
-              <?php
-         }
-              
-                
    }
 
    
@@ -722,7 +678,7 @@ var $ct_array = array();
          elseif ( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_text']) ) {
                       
               // If string keyed array, show description from key value
-              if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
+              if ( $ct['var']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
               $desc = '<b class="blue">' . $ct['gen']->key_to_name($subarray_key) . ':</b> &nbsp; ';
               }
               
@@ -749,7 +705,7 @@ var $ct_array = array();
                       
              // If string keyed array, show description from key value
              // (do scanning BEFORE any loops, for speed)
-             if ( $ct['gen']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_text']) ) {
+             if ( $ct['var']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_text']) ) {
              $is_string_keys = true;
              }
               
@@ -1019,7 +975,7 @@ var $ct_array = array();
 	-->
 	<?=$ct['gen']->input_2fa('strict')?> 
 	
-	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['gen']->admin_nonce('iframe_' . $interface_id)?>&<?=$cat_key?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
+	<form name='update_config' id='update_config' action='admin.php?iframe_nonce=<?=$ct['sec']->admin_nonce('iframe_' . $interface_id)?>&<?=$cat_key?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
      
      <?php
      
@@ -1205,7 +1161,7 @@ var $ct_array = array();
 	                
 	                
 	              if ( $field_count > 1 ) {
-	              $rendered_form_fields = $ct['gen']->str_replace_last('</p>', "</p>\n\n" . $repeatable_seperator . "\n\n", $rendered_form_fields);
+	              $rendered_form_fields = $ct['var']->str_replace_last('</p>', "</p>\n\n" . $repeatable_seperator . "\n\n", $rendered_form_fields);
 	              $rendered_form_fields = preg_replace("/123PLACEHOLDER_BOTTOM123/i", $remove_button, $rendered_form_fields);
 	              $rendered_form_fields = preg_replace("/123PLACEHOLDER_RIGHT123/i", "", $rendered_form_fields);
 	              }
@@ -1264,7 +1220,7 @@ var $ct_array = array();
 	                
 	                
 	                if ( $field_count > 1 ) {
-	                $repeatable_template = $ct['gen']->str_replace_last('</p>', "</p>\n\n" . $repeatable_seperator . "\n\n", $repeatable_template);
+	                $repeatable_template = $ct['var']->str_replace_last('</p>', "</p>\n\n" . $repeatable_seperator . "\n\n", $repeatable_template);
 	                $repeatable_template = preg_replace("/123PLACEHOLDER_BOTTOM123/i", $remove_button, $repeatable_template);
 	                $repeatable_template = preg_replace("/123PLACEHOLDER_RIGHT123/i", "", $repeatable_template);
 	                }
@@ -1360,7 +1316,7 @@ var $ct_array = array();
      
 	<input type='hidden' name='interface_id' id='interface_id' value='<?=$interface_id?>' />
 	
-	<input type='hidden' name='admin_nonce' value='<?=$ct['gen']->admin_nonce($interface_id)?>' />
+	<input type='hidden' name='admin_nonce' value='<?=$ct['sec']->admin_nonce($interface_id)?>' />
 	
 	<?=$ct['gen']->input_2fa('strict')?>
 	
@@ -1472,7 +1428,7 @@ var $ct_array = array();
          elseif ( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_range']) ) {
                       
               // If string keyed array, show description from key value
-              if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
+              if ( $ct['var']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
               $desc = '<div class="range-title blue setting_title">' . $ct['gen']->key_to_name($subarray_key) . ':</div>';
               }
               
@@ -1538,7 +1494,7 @@ var $ct_array = array();
                       
              // If string keyed array, show description from key value
              // (do scanning BEFORE any loops, for speed)
-             if ( $ct['gen']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_range']) ) {
+             if ( $ct['var']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_range']) ) {
              $is_string_keys = true;
              }
               
@@ -1952,7 +1908,7 @@ var $ct_array = array();
                       
                        // If string keyed array, show description from key value
                        // (do scanning BEFORE loop, for speed)
-                       if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
+                       if ( $ct['var']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
                        $is_string_keys = true;
                        }
                            
@@ -1993,7 +1949,7 @@ var $ct_array = array();
                       
                        // If string keyed array, show description from key value
                        // (do scanning BEFORE loop, for speed)
-                       if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_color']) ) {
+                       if ( $ct['var']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_color']) ) {
                        $is_string_keys = true;
                        }
                            
@@ -2037,7 +1993,7 @@ var $ct_array = array();
                       
                       // If string keyed array, show description from key value
                       // (do scanning BEFORE loop, for speed)
-                      if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_text']) ) {
+                      if ( $ct['var']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_text']) ) {
                       $is_string_keys = true;
                       }
      
@@ -2101,7 +2057,7 @@ var $ct_array = array();
                       
                       // If string keyed array, show description from key value
                       // (do scanning BEFORE loop, for speed)
-                      if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_range']) ) {
+                      if ( $ct['var']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_range']) ) {
                       $is_string_keys = true;
                       }
      

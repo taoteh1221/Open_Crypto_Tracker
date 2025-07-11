@@ -28,7 +28,7 @@ $check_default_ct_conf = null;
 // If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
 // (!!MUST RUN *AFTER* $ct['app_upgrade_check'], AN *BEFORE* load-config-by-security-level.php)
 // (STRICT 2FA MODE ONLY)
-if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_ct_conf') && $ct['gen']->valid_2fa('strict') ) {
+if ( $_POST['reset_ct_conf'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_ct_conf') && $ct['sec']->valid_2fa('strict') ) {
 
      if ( $ct['app_upgrade_check'] ) {
      $admin_reset_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try resetting again.';
@@ -49,7 +49,7 @@ if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_no
 // Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
 // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
 // (CHECK 2FA UNDER ANY 2FA MODE)
-if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'toggle_admin_security') && $ct['gen']->valid_2fa() ) {
+if ( isset($_POST['opt_admin_sec']) && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'toggle_admin_security') && $ct['sec']->valid_2fa() ) {
      
      // We want to load configs from the hard-coded config files if we just switched to 'high' security mode,
      // so trigger a config reset to accomplish that
@@ -70,11 +70,11 @@ $setup_admin_sec_success = 'Admin Security Level changed to "'.$ct['admin_area_s
 // Toggle 2FA SETUP off / on / scrict, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
 // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
 // *FORCE* CHECK 2FA, SINCE WE ARE RUNNING 2FA SETUP HERE
-if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'toggle_admin_2fa') ) {
+if ( isset($_POST['opt_admin_2fa']) && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'toggle_admin_2fa') ) {
      
      
      // If valid 2FA code
-     if ( $ct['gen']->valid_2fa('setup', 'force_check') ) {
+     if ( $ct['sec']->valid_2fa('setup', 'force_check') ) {
      
      $ct['admin_area_2fa'] = $_POST['opt_admin_2fa'];
           
@@ -169,7 +169,7 @@ $ct['curl_cacert_path'] = false;
 
 
 // Global alert that a ticker search is running, AND trim whitespace in the search
-if ( isset($_POST['add_markets_search']) && $ct['gen']->admin_logged_in() && $ct['gen']->pass_sec_check($_GET['gen_nonce'], 'general_csrf_security') ) {
+if ( isset($_POST['add_markets_search']) && $ct['sec']->admin_logged_in() && $ct['sec']->pass_sec_check($_GET['gen_nonce'], 'general_csrf_security') ) {
 $_POST['add_markets_search'] = trim($_POST['add_markets_search']);
 $ct['ticker_markets_search'] = true;
 }
@@ -229,10 +229,10 @@ set_time_limit($max_exec_time); // Doc suggest this may be more reliable than in
      			
 // If no master webhook (AND not a fast runtime), or a webhook secret key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$is_fast_runtime && !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_webhook_master_key') && $ct['gen']->valid_2fa('strict') ) {
+if ( !$is_fast_runtime && !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_webhook_master_key') && $ct['sec']->valid_2fa('strict') ) {
      	
-$secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-$secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+$secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+$secure_256bit_hash = $ct['sec']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
      	
      	
      // Halt the process if an issue is detected safely creating a random hash
@@ -259,10 +259,10 @@ $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash conve
 
 // If no internal API key (AND not a fast runtime), OR an internal API key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$is_fast_runtime && !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_int_api_key') && $ct['gen']->valid_2fa('strict') ) {
+if ( !$is_fast_runtime && !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_int_api_key') && $ct['sec']->valid_2fa('strict') ) {
      				
-$secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-$secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+$secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+$secure_256bit_hash = $ct['sec']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
      	
      	
      // Halt the process if an issue is detected safely creating a random hash
@@ -334,7 +334,7 @@ $cached_light_chart_struct = trim( file_get_contents($ct['base_dir'] . '/cache/v
 // OR a user-requested light chart reset
 if (
 $conf_light_chart_struct != $cached_light_chart_struct
-|| $_POST['reset_light_charts'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_nonce'], 'reset_light_charts') && $ct['gen']->valid_2fa('strict')
+|| $_POST['reset_light_charts'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_light_charts') && $ct['sec']->valid_2fa('strict')
 ) {
 
 // Delete ALL light charts (this will automatically trigger a re-build)
@@ -386,7 +386,7 @@ $set_tiny_font_line_height = round( ($set_tiny_font_size * $ct['dev']['global_li
 // Alphabetically sort news feeds
 if ( is_array($ct['conf']['news']['feeds']) ) { 
 $ct['sort_alpha_assoc_multidem'] = 'title';
-$usort_feeds_results = usort($ct['conf']['news']['feeds'], array($ct['gen'], 'usort_alpha') );
+$usort_feeds_results = usort($ct['conf']['news']['feeds'], array($ct['var'], 'alpha_usort') );
 }
    	
    	

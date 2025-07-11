@@ -133,11 +133,11 @@ is_array($updated_assets_structure['assets']) && sizeof($updated_assets_structur
 
      	                  // Use the PARENT ID, if there are interface subsections (since we are using the parent IFRAME)
      	                  "interface_id": "asset_tracking",
-     	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
+     	                  "admin_nonce": "<?=$ct['sec']->admin_nonce('asset_tracking')?>",
 
      	                  // Secured flag, for mode (add or remove)
      	                  "markets_update": "remove",
-     	                  "markets_nonce": "<?=$ct['gen']->admin_nonce('remove')?>",
+     	                  "markets_nonce": "<?=$ct['sec']->admin_nonce('remove')?>",
 
      	                  "refresh": "all",
      	                  
@@ -244,11 +244,11 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
 
      	                  // Use the PARENT ID, if there are interface subsections (since we are using the parent IFRAME)
      	                  "interface_id": "asset_tracking",
-     	                  "admin_nonce": "<?=$ct['gen']->admin_nonce('asset_tracking')?>",
+     	                  "admin_nonce": "<?=$ct['sec']->admin_nonce('asset_tracking')?>",
 
      	                  // Secured flag, for mode (add or remove)
      	                  "markets_update": "remove",
-     	                  "markets_nonce": "<?=$ct['gen']->admin_nonce('remove')?>",
+     	                  "markets_nonce": "<?=$ct['sec']->admin_nonce('remove')?>",
 
      	                  "refresh": "all",
      	                  

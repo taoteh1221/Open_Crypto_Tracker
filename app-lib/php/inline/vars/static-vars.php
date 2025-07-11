@@ -203,7 +203,7 @@ $ct['country_locales'] = array(
 
 $ct['sort_alpha_assoc_multidem'] = false; // NOT sorting by subkey value
 // uasort (instead of usort) maintains the associations of the (NON-numeric) ROOT keys
-uasort($ct['country_locales'], array($ct['gen'], 'usort_alpha') );
+uasort($ct['country_locales'], array($ct['var'], 'alpha_usort') );
 
 
 ////////////////////////////////////////////////////////////

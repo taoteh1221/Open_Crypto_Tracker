@@ -47,7 +47,7 @@ elseif ( $ct['runtime_mode'] == 'ui' ) {
 // Skip security check with base_url(false) flag, until later in runtime when the full app config is processed
 // (WE CAN'T CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS UNTIL AFTER config-auto-adjust.php [in ui-preflight-security-checks.php])
 // (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
-$ct['base_url'] = $ct['gen']->base_url(false); 
+$ct['base_url'] = $ct['sec']->base_url(false); 
 }
 
 

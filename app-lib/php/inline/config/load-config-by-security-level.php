@@ -10,7 +10,7 @@
 
 
 // Checks on VALIDATED / SECURE config updates IN PROGRESS
-$ct['verified_update_request'] = $ct['admin']->valid_secure_config_update_request();
+$ct['verified_update_request'] = $ct['sec']->valid_secure_config_update_request();
 
 
 // load_cached_config() LOADS *BEFORE* PLUGIN CONFIGS IN *MEDIUM / NORMAL* ADMIN SECURITY MODES

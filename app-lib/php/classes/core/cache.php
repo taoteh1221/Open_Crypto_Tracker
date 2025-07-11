@@ -147,7 +147,7 @@ var $ct_array = array();
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   
-  $safe_name = $ct['gen']->safe_file_name($ct['remote_ip']);
+  $safe_name = $ct['gen']->compat_file_name($ct['remote_ip']);
   
   $file_save_path = $ct['base_dir'] . '/cache/events/access_stats/' . $safe_name . '.dat';
   
@@ -296,7 +296,7 @@ var $ct_array = array();
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
                        			
                       // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-                      $conf['plug_conf'][$this_plug] = $ct['gen']->assoc_array_order( $conf['plug_conf'][$this_plug], $ct['gen']->assoc_array_order_map($default_ct_conf['plug_conf'][$this_plug]) );
+                      $conf['plug_conf'][$this_plug] = $ct['var']->assoc_array_order( $conf['plug_conf'][$this_plug], $ct['var']->assoc_array_order_map($default_ct_conf['plug_conf'][$this_plug]) );
                         
                       $ct['conf_upgraded'] = true;
                               
@@ -304,7 +304,7 @@ var $ct_array = array();
                       $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== false || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] === 0 ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null / false / zero]' );
                            
                       // If we're resetting a subarray setting
-                      $log_val_descr = ( is_array($default_ct_conf['plug_conf'][$this_plug][$plug_setting_key]) ? 'default array size: ' . sizeof($default_ct_conf['plug_conf'][$this_plug][$plug_setting_key]) : 'default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) );
+                      $log_val_descr = ( is_array($default_ct_conf['plug_conf'][$this_plug][$plug_setting_key]) ? 'default array size: ' . sizeof($default_ct_conf['plug_conf'][$this_plug][$plug_setting_key]) : 'default value: ' . $ct['sec']->obfusc_str($log_val_descr, 4) );
                         
                       $ct['gen']->log(
                                   			'notify_error',
@@ -324,7 +324,7 @@ var $ct_array = array();
               // then import and check for duplicates after (for efficiency)
               else if (
               !$ct['plugin_upgrade_check']
-              && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
+              && !$ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && md5(serialize($conf[$cat_key][$conf_key])) != md5(serialize($default_ct_conf[$cat_key][$conf_key]))
               ) {
                    
@@ -348,14 +348,14 @@ var $ct_array = array();
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
               else if (
               !$ct['plugin_upgrade_check']
-              && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
+              && $ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($conf[$cat_key][$conf_key][$setting_key])
               ) {
               			
               $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
               // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-              $conf[$cat_key][$conf_key] = $ct['gen']->assoc_array_order( $conf[$cat_key][$conf_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key][$conf_key]) );
+              $conf[$cat_key][$conf_key] = $ct['var']->assoc_array_order( $conf[$cat_key][$conf_key], $ct['var']->assoc_array_order_map($default_ct_conf[$cat_key][$conf_key]) );
                    
               $ct['conf_upgraded'] = true;
                          
@@ -364,7 +364,7 @@ var $ct_array = array();
                    
               $ct['gen']->log(
                         		'notify_error',
-                        		'NEW app config, *STRING INDEXED* SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) . ')'
+                        		'NEW app config, *STRING INDEXED* SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $ct['sec']->obfusc_str($log_val_descr, 4) . ')'
                         		);
               
               }
@@ -411,7 +411,7 @@ var $ct_array = array();
               // (ONLY ALLOW REMOVAL OF STRING-BASED ARRAY KEYS [WE'RE BLIND FOR NOW ON NUMERIC / AUTO-INDEXING KEYS, UNLESS LOGIC IS BUILT TO SAFELY CHECK THAT])
               else if (
               !$ct['plugin_upgrade_check']
-              && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
+              && $ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key])
               ) {
               			
@@ -478,7 +478,7 @@ var $ct_array = array();
   $valid_username = $ct['gen']->valid_username($htaccess_username);
   
   // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
-  $password_strength = $ct['gen']->pass_strength($htaccess_password, 8, 8); 
+  $password_strength = $ct['sec']->pass_strength($htaccess_password, 8, 8); 
   
   
       if ( $htaccess_username == '' || $htaccess_password == '' ) {
@@ -625,7 +625,7 @@ var $ct_array = array();
   // to assure we get anything written recently by other runtimes
   
   // SAFE filename
-  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_file_name($tld_or_ip) . '.dat';
+  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->compat_file_name($tld_or_ip) . '.dat';
   
   $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , true);
   
@@ -749,7 +749,7 @@ var $ct_array = array();
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
       if ( $this->update_cache($ct['base_dir'] . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
      
-      $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+      $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
       
       
           // We only want to store backup files with suffixes that can't be guessed, 
@@ -838,25 +838,25 @@ var $ct_array = array();
    
      // Notifyme
      if ( isset($send_params['notifyme']) && $send_params['notifyme'] != '' && $ct['notifyme_activated'] ) {
-   	 $this->save_file($ct['base_dir'] . '/cache/secured/messages/notifyme-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['notifyme']);
+   	 $this->save_file($ct['base_dir'] . '/cache/secured/messages/notifyme-' . $ct['sec']->rand_hash(8) . '.queue', $send_params['notifyme']);
      }
 
    
      // Telegram
      if ( isset($send_params['telegram']) && $send_params['telegram'] != '' && $ct['telegram_activated'] ) {
-     $this->save_file($ct['base_dir'] . '/cache/secured/messages/telegram-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['telegram']);
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/telegram-' . $ct['sec']->rand_hash(8) . '.queue', $send_params['telegram']);
      }
     
     
      // SMS service
      if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'twilio' ) { 
-     $this->save_file($ct['base_dir'] . '/cache/secured/messages/twilio-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/twilio-' . $ct['sec']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
      elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'textbelt' ) { 
-     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textbelt-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textbelt-' . $ct['sec']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
      elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'textlocal' ) { 
-     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textlocal-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textlocal-' . $ct['sec']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
      elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct['sms_service'] == 'email_gateway' && $ct['email_activated'] ) { 
      
@@ -873,7 +873,7 @@ var $ct_array = array();
       
       	}
      
-     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textemail-' . $ct['gen']->rand_hash(8) . '.queue', json_encode($textemail_array) );
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textemail-' . $ct['sec']->rand_hash(8) . '.queue', json_encode($textemail_array) );
    
      }
      
@@ -892,7 +892,7 @@ var $ct_array = array();
       
       	}
      
-   	 $this->save_file($ct['base_dir'] . '/cache/secured/messages/normalemail-' . $ct['gen']->rand_hash(8) . '.queue', json_encode($email_array) );
+   	 $this->save_file($ct['base_dir'] . '/cache/secured/messages/normalemail-' . $ct['sec']->rand_hash(8) . '.queue', json_encode($email_array) );
    
      }
     
@@ -908,7 +908,7 @@ var $ct_array = array();
   
   global $ct;
   
-      if ( $ct['gen']->admin_logged_in() == false ) {
+      if ( $ct['sec']->admin_logged_in() == false ) {
       return false;
       }
   
@@ -928,7 +928,7 @@ var $ct_array = array();
           $url_visit_count = array();
           $user_agent_visit_count = array();
                
-          $safe_name = $ct['gen']->safe_file_name($access_stats_check['ip']);
+          $safe_name = $ct['gen']->compat_file_name($access_stats_check['ip']);
           
           $ct['show_access_stats'][$safe_name]['ip'] = $access_stats_check['ip'];
           
@@ -991,7 +991,7 @@ var $ct_array = array();
       // Render the stats
       foreach ( $ct['show_access_stats'] as $key => $val ) {
       
-      $safe_name = $ct['gen']->safe_file_name($val['ip']);
+      $safe_name = $ct['gen']->compat_file_name($val['ip']);
            
       ?>
 
@@ -1172,7 +1172,7 @@ var $ct_array = array();
            $conf[$cat_key] = $default_ct_conf[$cat_key];
                   			
            // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-           $conf = $ct['gen']->assoc_array_order( $conf, $ct['gen']->assoc_array_order_map($default_ct_conf) );
+           $conf = $ct['var']->assoc_array_order( $conf, $ct['var']->assoc_array_order_map($default_ct_conf) );
                   						
            $ct['conf_upgraded'] = true;
                   
@@ -1194,9 +1194,9 @@ var $ct_array = array();
                // If subarray setting (NOT queued to be RESET), AND ARRAY KEY TYPE MATCHES
                if (
                is_array($conf[$cat_key][$conf_key]) && !array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
-               && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               && $ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['var']->has_string_keys($conf[$cat_key][$conf_key])
                || is_array($conf[$cat_key][$conf_key]) && !array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
-               && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               && !$ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
            
                     if (
@@ -1218,18 +1218,18 @@ var $ct_array = array();
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
                || !$ct['plugin_upgrade_check'] && is_array($conf[$cat_key][$conf_key]) && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
                // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['plugin_upgrade_check'] && is_array($conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               || !$ct['plugin_upgrade_check'] && is_array($conf[$cat_key][$conf_key]) && !$ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['var']->has_string_keys($conf[$cat_key][$conf_key])
                // If we DOWNGRADED from using integer-based / auto-index array keys (downgrading to an OLDER version of the app etc...and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['plugin_upgrade_check'] && is_array($conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key])
+               || !$ct['plugin_upgrade_check'] && is_array($conf[$cat_key][$conf_key]) && $ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
                     
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
                     $desc = 'NEW';
                     }
-                    elseif ( !$ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['gen']->has_string_keys($conf[$cat_key][$conf_key]) ) {
+                    elseif ( !$ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && $ct['var']->has_string_keys($conf[$cat_key][$conf_key]) ) {
                     $desc = 'CONVERTED (UPGRADE)';
                     }
-                    elseif ( $ct['gen']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['gen']->has_string_keys($conf[$cat_key][$conf_key]) ) {
+                    elseif ( $ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key]) && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key]) ) {
                     $desc = 'CONVERTED (DOWNGRADE)';
                     }
                     else {
@@ -1239,15 +1239,15 @@ var $ct_array = array();
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                   			
                // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-               $conf[$cat_key] = $ct['gen']->assoc_array_order( $conf[$cat_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key]) );
+               $conf[$cat_key] = $ct['var']->assoc_array_order( $conf[$cat_key], $ct['var']->assoc_array_order_map($default_ct_conf[$cat_key]) );
                   						
                $ct['conf_upgraded'] = true;
                
                // Uses === / !== for PHPv7.4 support
-               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] !== null && $default_ct_conf[$cat_key][$conf_key] !== false && $default_ct_conf[$cat_key][$conf_key] !== 0 ? $ct['var']->obfusc_str($default_ct_conf[$cat_key][$conf_key]) : '[null / false / zero]' );
+               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] !== null && $default_ct_conf[$cat_key][$conf_key] !== false && $default_ct_conf[$cat_key][$conf_key] !== 0 ? $ct['sec']->obfusc_str($default_ct_conf[$cat_key][$conf_key]) : '[null / false / zero]' );
                
                // If we're resetting a subarray setting
-               $log_val_descr = ( is_array($default_ct_conf[$cat_key][$conf_key]) ? 'default array size: ' . sizeof($default_ct_conf[$cat_key][$conf_key]) : 'default value: ' . $ct['var']->obfusc_str($log_val_descr, 4) );
+               $log_val_descr = ( is_array($default_ct_conf[$cat_key][$conf_key]) ? 'default array size: ' . sizeof($default_ct_conf[$cat_key][$conf_key]) : 'default value: ' . $ct['sec']->obfusc_str($log_val_descr, 4) );
                   
                $ct['gen']->log(
                   			'notify_error',
@@ -1541,7 +1541,7 @@ var $ct_array = array();
      }
    
     	
-   $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+   $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
     	
     	
     	// Halt the process if an issue is detected safely creating a random hash
@@ -1862,7 +1862,7 @@ var $ct_array = array();
      
     $ct['gen']->log(
     			'system_error',
-    			'No bytes of data received to write to file "' . $ct['gen']->obfusc_path_data($file) . '" (aborting useless file write)'
+    			'No bytes of data received to write to file "' . $ct['sec']->obfusc_path_data($file) . '" (aborting useless file write)'
     			);
     
      // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
@@ -1871,7 +1871,7 @@ var $ct_array = array();
      $ct['gen']->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['gen']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['sec']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
      								
      			'remote_api_timeout: '.$ct['conf']['ext_apis']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
      			);
@@ -1893,7 +1893,7 @@ var $ct_array = array();
          // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
          // In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
          if ( file_exists($file) == true ) {
-         $ct['gen']->ct_chmod($file, $chmod_setting);
+         $ct['sec']->ct_chmod($file, $chmod_setting);
          }
     
     }
@@ -1920,7 +1920,7 @@ var $ct_array = array();
     	
     $ct['gen']->log(
     				'system_error',
-    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct['gen']->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['gen']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['var']->obfusc_str($path_parts['basename'], 5) . '")'
+    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct['sec']->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['sec']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['sec']->obfusc_str($path_parts['basename'], 5) . '")'
     				);
     
     }
@@ -1935,7 +1935,7 @@ var $ct_array = array();
     $chmod_setting = octdec($ct['dev']['chmod_cache_file']);
     }
    
-    $ct['gen']->ct_chmod($file, $chmod_setting);
+    $ct['sec']->ct_chmod($file, $chmod_setting);
    
   return $result;
   
@@ -2801,7 +2801,7 @@ var $ct_array = array();
 
   
   // IPV6 friendly filename (no illegal filename characters)
-  $safe_name = $ct['gen']->safe_file_name($endpoint_tld_or_ip);
+  $safe_name = $ct['gen']->compat_file_name($endpoint_tld_or_ip);
   
   $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
   
@@ -2877,7 +2877,7 @@ var $ct_array = array();
       							
       			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2903,7 +2903,7 @@ var $ct_array = array();
       							
       			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -3101,7 +3101,7 @@ var $ct_array = array();
        
     // Secure random hash to nullify any preg_match() below, if $regex_base_url FAILS to set a value above,
     // as we may be submitting out htaccess user/pass (if setup)
-    $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct['gen']->rand_hash(8) );
+    $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct['sec']->rand_hash(8) );
       
       
       // If we are making a request to our own base URL (self-security-checks / calls to internal API endpoints / etc)
@@ -3216,7 +3216,7 @@ var $ct_array = array();
         								
         			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
         								
-        			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+        			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';'
         			);
         
       // Log this as the latest response from this data request
@@ -3260,7 +3260,7 @@ var $ct_array = array();
       							
       			$ip_description . ' connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
-      			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+      			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';'
       			
       			);
       			
@@ -3336,7 +3336,7 @@ var $ct_array = array();
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
              							
-             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['currency']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['currency']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['currency']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['currency']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';'
              			
              			);
             
@@ -3472,7 +3472,7 @@ var $ct_array = array();
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
             							
-            			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['currency']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['currency']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['currency']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['currency']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';'
             			
             			);
              
@@ -3655,7 +3655,7 @@ var $ct_array = array();
       							
       			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
       							
-      			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			
@@ -3687,7 +3687,7 @@ var $ct_array = array();
       							
       			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
       							
-      			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			

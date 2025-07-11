@@ -42,7 +42,7 @@
 	
 	// Javascript var inits / configs
 	
-	ct_id = '<?=base64_encode( $ct['gen']->id() )?>';
+	ct_id = '<?=base64_encode( $ct['sec']->id() )?>';
 	
 	app_edition = '<?=$ct['app_edition']?>';
 	
@@ -325,7 +325,7 @@
           
      	admin_area_sec_level = '<?=base64_encode($ct['admin_area_sec_level'])?>';
           
-     	medium_sec_token = "<?=base64_encode( $ct['gen']->admin_nonce('medium_security_mode') )?>";
+     	medium_sec_token = "<?=base64_encode( $ct['sec']->admin_nonce('medium_security_mode') )?>";
           
           <?php
           }
@@ -336,14 +336,14 @@
 	
 	
 	// Include any admin-logged-in stuff in ANY area
-	if ( $ct['gen']->admin_logged_in() == true ) {
+	if ( $ct['sec']->admin_logged_in() == true ) {
 	?>
 	
 	admin_logged_in = true;
 	
-	gen_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_nonce('general_csrf_security') )?>';
+	gen_csrf_sec_token = '<?=base64_encode( $ct['sec']->admin_nonce('general_csrf_security') )?>';
 	
-	logs_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_nonce('logs_csrf_security') )?>';
+	logs_csrf_sec_token = '<?=base64_encode( $ct['sec']->admin_nonce('logs_csrf_security') )?>';
 	
 	admin_iframe_url = storage_app_id("admin_iframe_url");
 	

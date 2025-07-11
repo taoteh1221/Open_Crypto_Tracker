@@ -325,13 +325,13 @@
 		
 		<button style='margin-left: 40px;' class='force_button_style' onclick='
 		// HELP THWART CSRF ATTACKS VIA POST METHOD (IN COMBINATION WITH THE TOKEN HASH), DATA IS SENSITIVE!
-		set_target_action("coin_amnts", "_blank", "download.php?download_nonce=<?=$ct['gen']->nonce_digest('download')?>&csv_export=1");
-		document.coin_amnts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
-		set_target_action("coin_amnts", "_self", "<?=$ct['gen']->start_page($_GET['start_page'])?>");
+		set_target_action("user_area_settings", "_blank", "download.php?download_nonce=<?=$ct['sec']->nonce_digest('download')?>&csv_export=1");
+		document.user_area_settings.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
+		set_target_action("user_area_settings", "_self", "<?=$ct['gen']->start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
 		
 		
-		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?download_nonce=<?=$ct['gen']->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
+		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?download_nonce=<?=$ct['sec']->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
 	     
 		<img class='tooltip_style_control' id='spreadsheet_import_export' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 		
@@ -358,7 +358,7 @@
 	
 		<div class='align_center' style='font-weight: bold;'>Watch Only</div>
 	
-		<div style='margin-left: 6px;'><input type='checkbox' onclick='select_all(this, "coin_amnts");' /> <b>Select / Unselect All <i><u>Unheld</u> Assets</i></b>	</div>
+		<div style='margin-left: 6px;'><input type='checkbox' onclick='select_all(this, "user_area_settings");' /> <b>Select / Unselect All <i><u>Unheld</u> Assets</i></b>	</div>
 		
 	
 	</div>
@@ -379,7 +379,7 @@
 	
 	
 	
-	<form id='coin_amnts' name='coin_amnts' action='<?=$ct['gen']->start_page($_GET['start_page'])?>' method='post'>
+	<form id='user_area_settings' name='user_area_settings' action='<?=$ct['gen']->start_page($_GET['start_page'])?>' method='post'>
 	
 		
 	<div class='long_list_start list_start_black'> &nbsp; </div>

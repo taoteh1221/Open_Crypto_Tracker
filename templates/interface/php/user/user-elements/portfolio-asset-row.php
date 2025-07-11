@@ -510,7 +510,7 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
     }
     ?>
     
-    $("#coin_amnts").submit();
+    $("#user_area_settings").submit();
     '>
     
     
@@ -556,7 +556,7 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
     }
     ?>
     
-    $("#coin_amnts").submit();
+    $("#user_area_settings").submit();
     '>
         <?php
         $loop = 0;

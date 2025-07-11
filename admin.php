@@ -39,7 +39,7 @@ $security_error_ui = 'Possible code injection attack stopped, please DO NOT atte
 echo '<style>html,body,a{color:red;}</style>' . $security_error_ui;
 
 // Log errors before exiting
-// WE ALREADY QUEUED THE ERROR LOG ENTRY FOR THIS ISSUE IN: $ct['gen']->malware_scan_string()
+// WE ALREADY QUEUED THE ERROR LOG ENTRY FOR THIS ISSUE IN: $ct['sec']->malware_scan_string()
 $ct['cache']->app_log();
 
 exit;
@@ -51,7 +51,7 @@ require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }
 // If NOT logged in
-elseif ( $ct['gen']->admin_logged_in() == false ) {
+elseif ( $ct['sec']->admin_logged_in() == false ) {
 require("templates/interface/php/admin/admin-login/login.php");
 exit;
 }
@@ -64,9 +64,9 @@ require("templates/interface/php/wrap/footer.php");
 }
 // Iframe admin pages
 elseif (
-isset($_GET['section']) && trim($_GET['section']) != '' && $ct['gen']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['section'])
-|| isset($_GET['subsection']) && trim($_GET['subsection']) != '' && $ct['gen']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['subsection'])
-|| isset($_GET['plugin']) && trim($_GET['plugin']) != '' && $ct['gen']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['plugin'])
+isset($_GET['section']) && trim($_GET['section']) != '' && $ct['sec']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['section'])
+|| isset($_GET['subsection']) && trim($_GET['subsection']) != '' && $ct['sec']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['subsection'])
+|| isset($_GET['plugin']) && trim($_GET['plugin']) != '' && $ct['sec']->pass_sec_check($_GET['iframe_nonce'], 'iframe_' . $_GET['plugin'])
 ) {
 require("templates/interface/php/admin/admin-elements/admin-page-iframe.php");
 }

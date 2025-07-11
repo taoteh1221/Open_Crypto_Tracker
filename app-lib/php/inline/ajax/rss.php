@@ -27,7 +27,7 @@ $all_feeds_array = array();
     
     
 foreach($ct['conf']['news']['feeds'] as $feed) {
-$feed_id = $ct['gen']->digest($feed["title"], 5); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+$feed_id = $ct['sec']->digest($feed["title"], 5); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
 $all_feeds_array[$feed_id] = $feed;
 }
 
@@ -51,7 +51,7 @@ $_SESSION[$fetched_feeds] = false;
 // v6.01.01 MIGRATIONS...
 // Javascript-based cookie deleting MAY not be as reliable
 if ( isset($_COOKIE['show_feeds']) ) {
-$ct['gen']->store_cookie('show_feeds', '', time()-3600);
+$ct['sec']->store_cookie('show_feeds', '', time()-3600);
 unset($_COOKIE['show_feeds']);
 }
 	

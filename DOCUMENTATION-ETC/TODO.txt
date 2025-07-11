@@ -129,13 +129,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Pretty up the light theme CSS text / link coloring, as it's missing decent CONTRAST here and there.
-
-
-Change semantic naming of 'coin_amnts' form id ON USER AREA 'UPDATE PORTFOLIO' PAGE (AND WHEREVER IT'S CALLED BY THAT ID IN THE APP), as it now also handles charts / news feeds / etc.
-
-
-Move all admin-related functions into the new 'ct_admin' PHP class.
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
 Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
@@ -144,12 +138,6 @@ Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in ev
           	                     'ETHNFTS',
           	                     'SOLNFTS',
           	                     'ALTNFTS',
-
-
-Add bitcoin as a 'primary currency' option (like we can do for eth / sol).
-
-
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
 
 
 Add pagination to the "my portfolio" section, like we already do for other sorted data tables.

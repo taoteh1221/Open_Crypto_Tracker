@@ -186,7 +186,7 @@ require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php'
     	unset($ct['sel_opt']['show_secondary_trade_val']);
     	unset($_POST['show_secondary_trade_val']);  
     	unset($_COOKIE['show_secondary_trade_val']);  
-    	$ct['gen']->store_cookie("show_secondary_trade_val", "", time()-3600);  // Delete cookie -3600 seconds (expired)
+    	$ct['sec']->store_cookie("show_secondary_trade_val", "", time()-3600);  // Delete cookie -3600 seconds (expired)
     	}
     
     
@@ -213,7 +213,7 @@ require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php'
      }
     	
      if( isset($_COOKIE['show_crypto_val']) ) {
-     $ct['gen']->store_cookie("show_crypto_val", $implode_crypto_val, time()+31536000);
+     $ct['sec']->store_cookie("show_crypto_val", $implode_crypto_val, time()+31536000);
      }
     
     

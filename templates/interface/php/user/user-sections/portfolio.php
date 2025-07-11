@@ -1460,7 +1460,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
-    		if ( $ct['gen']->admin_logged_in() ) {
+    		if ( $ct['sec']->admin_logged_in() ) {
     ?>
 	
 		<fieldset><legend> <strong class="bitcoin">System Monitoring</strong> </legend>
@@ -1567,7 +1567,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
    
 	<?php
 		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
-    	if ( $ct['gen']->admin_logged_in() ) {
+    	if ( $ct['sec']->admin_logged_in() ) {
     ?>
 	
 	<div class='' id="show_system_stats">

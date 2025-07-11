@@ -5,7 +5,7 @@
 
 
 	// Have this script not load any code if system stats are not turned on, or key GET request corrupt
-	if ( !$ct['gen']->admin_logged_in() || !is_numeric($_GET['key']) ) {
+	if ( !$ct['sec']->admin_logged_in() || !is_numeric($_GET['key']) ) {
 	exit;
 	}
 

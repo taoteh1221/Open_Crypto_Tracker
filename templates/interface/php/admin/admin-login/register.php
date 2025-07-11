@@ -51,8 +51,8 @@ if ( $_POST['admin_submit_register'] ) {
 	////////////////
 	
 	
-	if ( $ct['gen']->pass_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
-	$register_result['error'][] = $ct['gen']->pass_strength($_POST['set_password'], 12, 40);
+	if ( $ct['sec']->pass_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
+	$register_result['error'][] = $ct['sec']->pass_strength($_POST['set_password'], 12, 40);
 	$password_field_color = '#ff4747';
 	}
 	
@@ -75,7 +75,7 @@ if ( $_POST['admin_submit_register'] ) {
 	}
 		
 		
-	if ( !$ct['gen']->valid_2fa() ) {
+	if ( !$ct['sec']->valid_2fa() ) {
      $register_result['error'][] = $ct['check_2fa_error'] . '.';
      }
 	

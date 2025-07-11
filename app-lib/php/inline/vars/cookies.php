@@ -154,7 +154,7 @@ $all_asset_amnts_cookie_array = explode("#", $_COOKIE['coin_amnts']);
 // If cookies are enabled or not, update accordingly
 if ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] != 1 || $reset_all_cookies ) {
     
-$ct['gen']->delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled / reset
+$ct['sec']->delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled / reset
 
     // Reset cookies / populated form data cleanly, with a redirect back to the app after 1 second
     if ( $reset_all_cookies ) {
@@ -304,7 +304,7 @@ $cookie_params = array(
 				  );
 
 
-$ct['gen']->update_all_cookies($cookie_params);
+$ct['sec']->update_all_cookies($cookie_params);
 
 header("Location: " . $ct['gen']->start_page($_GET['start_page'])); // Preserve any start page data
 exit;

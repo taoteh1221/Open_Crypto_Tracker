@@ -48,7 +48,7 @@ foreach( $font_files as $ttf_file ) {
 }
 
 
-$captcha_str = $ct['gen']->captcha_str($ct['dev']['captcha_permitted_chars'], $ct['dev']['captcha_chars_length']);
+$captcha_str = $ct['sec']->captcha_str($ct['dev']['captcha_permitted_chars'], $ct['dev']['captcha_chars_length']);
  
 $_SESSION['captcha_code'] = strtolower($captcha_str);
  

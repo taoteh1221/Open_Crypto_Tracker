@@ -62,7 +62,7 @@ $ct['telegram_connect'] = new Telegram\Receiver($telegram_bot);
         
             if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
             
-            $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+            $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
              	
              	
              	  // Halt the process if an issue is detected safely creating a random hash
