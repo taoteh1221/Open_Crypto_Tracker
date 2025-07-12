@@ -523,7 +523,7 @@ KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel
 
      if [ "$IS_ARM" != "" ] && [ "$KERNEL_BOOTED_UPDATES" != "" ]; then
      
-     echo "${red}Your ARM-based device is CURRENTLY setup to UPDATE the grub bootloader to boot from THE LATEST KERNEL. THIS IS LIKELY THE BEST OPTION FOR YOU DEVICE, BUT you can FREEZE using NEWER kernels added during system upgrades, IF YOU THINK YOUR SPECIFIC DEVICE REQUIRES IT (when using CUSTOM kernels / modules / etc).${reset}"
+     echo "${red}Your ARM-based device is CURRENTLY setup to UPDATE the grub bootloader to boot from THE LATEST KERNEL. THIS IS LIKELY THE BEST OPTION FOR YOUR DEVICE, BUT you can FREEZE using NEWER kernels added during system upgrades, IF YOU THINK YOUR SPECIFIC DEVICE REQUIRES IT (when using CUSTOM kernels / modules / etc).${reset}"
      
      echo "${yellow} "
      read -n1 -s -r -p $"PRESS F to freeze updating the used kernel (disable grub auto-selecting NEW kernels), OR any other key to skip fixing..." key
