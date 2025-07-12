@@ -6921,6 +6921,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous (minor)
 
+-Upgraded to Jupiter Aggregator PRICE API v3 (UPGRADE THIS APP BY AUGUST 1ST 2025, TO KEEP GETTING JUPITER PRICE DATA)
+
 -Minor polished interface styling / UX
 
 -Code refactoring / cleanup
