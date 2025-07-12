@@ -6,6 +6,13 @@
         "dummy_entry": true
     },
     {
+        "timestamp": 1752624000,
+        "very_important": true,
+        "affected_version": "6.01.01",
+        "affected_earlier": true,
+        "affected_desc": "The @JupiterExchange PRICE API has been upgraded to v3, as they will be DEPRECIATING the v2 PRICE API on August 1st, 2025. Please upgrade to v6.01.02 of Open Crypto Tracker by this date, to avoid disruption of your tracked Jupiter markets."
+    },
+    {
         "timestamp": 1751328000,
         "very_important": true,
         "affected_version": "6.01.00",
