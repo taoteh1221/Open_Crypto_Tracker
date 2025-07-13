@@ -129,16 +129,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-See if zingchart supports different locales, for number formatting.
-
-
 Security page should show any version upgrade alerts (if available).
-
-
-WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API (server / linux desktop editions do NOT have any issues, so it MAY just be a powershell issue)...
-PS C:\Users\taote> Remove-item alias:curl
-PS C:\Users\taote> curl -d "api_key=9f1eaf5e8af9bf5c1a4c7c0f2866b23078ff7b1aaae168438e2ed20a6fc33965" -X POST http://127.0.0.1:38393/internal-api.php?data_set=market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
-curl: (8) Header without colon
 
 
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
@@ -153,6 +144,21 @@ Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in ev
 
 
 Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
+
+
+REDO all screenshots, used on the project page.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API (server / linux desktop editions do NOT have any issues, so it MAY just be a powershell issue)...
+PS C:\Users\taote> Remove-item alias:curl
+PS C:\Users\taote> curl -d "api_key=9f1eaf5e8af9bf5c1a4c7c0f2866b23078ff7b1aaae168438e2ed20a6fc33965" -X POST http://127.0.0.1:38393/internal-api.php?data_set=market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
+curl: (8) Header without colon
+
+
+When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 
 
 
 Move all remaining relevent APIs over to the new per-second / per-minute / per-day throttling system.
@@ -174,15 +180,6 @@ Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/19112016606
 
 
 For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
-
-
-REDO all screenshots, used on the project page.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 
 
 
 Add full redhat support for auto-installer.

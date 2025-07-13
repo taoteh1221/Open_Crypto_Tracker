@@ -66,10 +66,10 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
         },
         "value-box": {
           "text": "%t (%npv%)",
-          decimals: 2,
       	 'font-size':14,
       	 'font-weight': "normal",
-      	 placement: "out"
+      	 placement: "out",
+           decimals: 2
         },
         "border-width": 1,
         "border-color": "#cccccc",

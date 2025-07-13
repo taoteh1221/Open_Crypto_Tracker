@@ -2244,6 +2244,17 @@ var $exchange_apis = array(
          $emulate_jup_pairing_price = explode("&vsToken=" , $url);
          
          $url = $emulate_jup_pairing_price[0] . ',' . $emulate_jup_pairing_price[1];
+         
+         $jup_assets_count = substr_count($url, ',') + 1;
+         
+              if ( $jup_assets_count > 50 ) {
+              
+              $ct['gen']->log(
+               		     'market_error',
+               			'jupiter aggregator\'s price API has a MAXIMUM of 50 assets PER-REQUEST ('.$jup_assets_count.' assets detected)'
+               			);
+          				        
+              }
 
          }
          elseif ( $exchange_key == 'loopring' ) {
