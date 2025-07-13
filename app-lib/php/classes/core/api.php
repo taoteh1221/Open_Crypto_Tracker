@@ -258,10 +258,12 @@ var $exchange_apis = array(
 
                            
                            'jupiter_ag' => array(
-                                            'markets_endpoint' => 'https://lite-api.jup.ag/price/v2?ids=[JUP_AG_ASSETS]&vsToken=[JUP_AG_PAIRING]',
-                                            'markets_nested_path' => 'data', // Delimit multiple depths with >
-                                            'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
-                                            'search_endpoint' => 'https://lite-api.jup.ag/tokens/v1/tagged/[JUP_AG_TAGS]', // false|[API endpoint with all market pairings]
+                                                  // EVEN THOUGH V3 DOES ***NOT*** SUPPORT THE 'vsToken' PARAM, 
+                                                  // WE ***EMULATE IT*** IN OUR LOGIC (FOR PAIRING UX), AND STRIP 'vsToken' BEFORE THE DATA REQUEST
+                                                  'markets_endpoint' => 'https://lite-api.jup.ag/price/v3?ids=[JUP_AG_ASSETS]&vsToken=[JUP_AG_PAIRING]',
+                                                  'markets_nested_path' => false, // Delimit multiple depths with >
+                                                  'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
+                                                  'search_endpoint' => 'https://lite-api.jup.ag/tokens/v1/tagged/[JUP_AG_TAGS]', // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -432,7 +434,16 @@ var $exchange_apis = array(
    
       // IF exchange API exists
       if ( isset($this->exchange_apis[$selected_exchange]) ) {
-      return $this->fetch_exchange_data($selected_exchange, $market_id, $ticker_search_mode);
+           
+           if ( $selected_exchange == 'jupiter_ag' ) {
+           $return_all_results = true;
+           }
+           else {
+           $return_all_results = false;
+           }
+
+      return $this->fetch_exchange_data($selected_exchange, $market_id, $ticker_search_mode, $return_all_results);
+      
       }
       // IF exchange API doesn't exist, check to see if we are using our prefix delimiter, for a possible 'prefixed' exchange name
       // (for end-user descriptiveness / UX, BUT ONLY IF NOT A BLACKLISTED PREFIX!)
@@ -1783,12 +1794,30 @@ var $exchange_apis = array(
                                $this_market_data = $check_market_data[ $market_data['asset_address'] ];
                                     
                                //$ct['gen']->array_debugging($this_market_data, false); // DEBUGGING
+      
+                               // Migrate v2 price API (depreciating 2025/Aug/1st) to v3, WHILE CALCULATING PAIRING VAL IN-APP (for UX)
+                               $jup_asset_data = $check_market_data[ $market_data['asset_address'] ];
+                               
+                               $jup_pair_data = $check_market_data[ $market_data['pairing_address'] ];
                                     
-                               $parsed_market_data = array(        
-                                                       'jup_ag_address' => $this_market_data['id'],
-                                                       'last_trade' => number_format( $this_market_data['price'], $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
-                                                       '24hr_usd_vol' => $ct['var']->num_to_str($market_data['data']['daily_volume']),
+                                    
+                                     // DERIVE PAIRING PRICE
+                                     if (
+                                     isset($jup_asset_data['usdPrice'])
+                                     && $ct['var']->num_to_str($jup_asset_data['usdPrice']) > 0.000000000000000000000000000000000000000
+                                     && isset($jup_pair_data['usdPrice'])
+                                     && $ct['var']->num_to_str($jup_pair_data['usdPrice']) > 0.000000000000000000000000000000000000000
+                                     ) {
+                                         
+                                     $jup_asset_price = $ct['var']->num_to_str($jup_asset_data['usdPrice'] / $jup_pair_data['usdPrice']);
+                         
+                                     $parsed_market_data = array(        
+                                                       'jup_ag_address' => $market_data['asset_address'],
+                                                       'last_trade' => number_format($jup_asset_price, $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
+                                                       '24hr_usd_vol' => $ct['var']->num_to_str($market_data['data']['daily_volume'])
                                              	      );
+                                             	      
+                                     }
                                    	      
                                    	        
                                      if ( isset($parsed_market_data['last_trade']) && $parsed_market_data['last_trade'] > 0 ) {
@@ -2173,6 +2202,8 @@ var $exchange_apis = array(
          $search_pairing = false; // NOT used for parsing jupiter_ag responses
 
          $jup_market = explode('/', $dyn_id);
+         
+         $dyn_id = $jup_market[0]; // Reset for parsing results (result key is only the asset ID)
              
              
               if ( sizeof($jup_market) < 2 ) {
@@ -2209,7 +2240,21 @@ var $exchange_apis = array(
          
          $url = preg_replace("/\[JUP_AG_PAIRING\]/i", $jup_market[1], $url);
          
-         $dyn_id = $jup_market[0]; // Reset for parsing results (result key is only the asset ticker)
+         // Migrate v2 price API (depreciating 2025/Aug/1st) to v3, WHILE CALCULATING PAIRING VAL IN-APP (for UX)
+         $emulate_jup_pairing_price = explode("&vsToken=" , $url);
+         
+         $url = $emulate_jup_pairing_price[0] . ',' . $emulate_jup_pairing_price[1];
+         
+         $jup_assets_count = substr_count($url, ',') + 1;
+         
+              if ( $jup_assets_count > 50 ) {
+              
+              $ct['gen']->log(
+               		     'market_error',
+               			'jupiter aggregator\'s price API has a MAXIMUM of 50 assets PER-REQUEST ('.$jup_assets_count.' assets detected)'
+               			);
+          				        
+              }
 
          }
          elseif ( $exchange_key == 'loopring' ) {
@@ -3441,12 +3486,33 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'jupiter_ag' ) {
       
-      $result = array(        
-                              'jup_ag_address' => $data['id'],
-                              'last_trade' => number_format( $data['price'], $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
+      // Migrate v2 price API (depreciating 2025/Aug/1st) to v3, WHILE CALCULATING PAIRING VAL IN-APP (for UX)
+      $emulate_jup_pairing_price = explode('/', $mrkt_id);
+      
+      $asset_data = $data[ $emulate_jup_pairing_price[0] ];
+      
+      $pair_data = $data[ $emulate_jup_pairing_price[1] ];
+           
+           
+           // DERIVE PAIRING PRICE
+           if (
+           isset($asset_data['usdPrice'])
+           && $ct['var']->num_to_str($asset_data['usdPrice']) > 0.000000000000000000000000000000000000000
+           && isset($pair_data['usdPrice'])
+           && $ct['var']->num_to_str($pair_data['usdPrice']) > 0.000000000000000000000000000000000000000
+           ) {
+                
+           $asset_price = $ct['var']->num_to_str($asset_data['usdPrice'] / $pair_data['usdPrice']);
+
+           $result = array(        
+                              'jup_ag_address' => $emulate_jup_pairing_price[0],
+                              'last_trade' => number_format($asset_price, $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
                               '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' suppression
                               '24hr_pair_vol' => null // Unavailable, set null
                     	      );
+                    	      
+           }
+
         
       }
      

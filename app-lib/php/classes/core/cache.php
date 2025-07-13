@@ -1057,7 +1057,7 @@ var $ct_array = array();
                          $user_agent_desc = 'Chrome';
                          }
                          elseif ( stristr($user_agent_val, 'safari/') ) {
-                         $user_agent_desc = 'Safari';
+                         $user_agent_desc = 'WebKit/Safari';
                          }
                          elseif ( stristr($user_agent_val, 'curl/') ) {
                          $user_agent_desc = 'Curl';
