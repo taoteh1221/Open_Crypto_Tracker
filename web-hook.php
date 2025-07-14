@@ -30,6 +30,9 @@ $ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/local_api_inco
 // Throttle ip addresses reconnecting before $ct['conf']['int_api']['api_rate_limit'] interval passes
 if ( $ct['cache']->update_cache($ip_access_tracking, ($ct['conf']['int_api']['api_rate_limit'] / 60) ) == false ) {
 
+// Log access event for this ip address (for throttling...no file lock for better performance)
+$ct['cache']->save_file($ip_access_tracking, $ct['gen']->time_date_format(false, 'pretty_date_time'), false, false);
+
 $result = array('error' => "Rate limit (maximum of once every " . $ct['conf']['int_api']['api_rate_limit'] . " seconds) reached for ip address: " . $ct['remote_ip']);
 
 $ct['gen']->log(
@@ -39,9 +42,6 @@ $ct['gen']->log(
 
 // JSON-encode results
 echo json_encode($result, JSON_PRETTY_PRINT);
-
-// Log access event for this ip address (for throttling)
-$ct['cache']->save_file($ip_access_tracking, $ct['gen']->time_date_format(false, 'pretty_date_time') );
 
 // Access stats logging
 $ct['cache']->log_access_stats();
@@ -55,6 +55,10 @@ gc_collect_cycles(); // Clean memory cache
 
 exit;
 
+}
+else {
+// Just log access event for this ip address (for throttling...no file lock for better performance)
+$ct['cache']->save_file($ip_access_tracking, $ct['gen']->time_date_format(false, 'pretty_date_time'), false, false);
 }
         
 
@@ -103,9 +107,6 @@ echo json_encode($result, JSON_PRETTY_PRINT);
 
 // Access stats logging
 $ct['cache']->log_access_stats();
-
-// Log access event for this ip address (for throttling)
-$ct['cache']->save_file($ip_access_tracking, $ct['gen']->time_date_format(false, 'pretty_date_time') );
 
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();

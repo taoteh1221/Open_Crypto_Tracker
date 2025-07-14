@@ -132,12 +132,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 REDO all screenshots, used on the project page.
 
 
-WINDOWS DESKOP EDITION ERROR, FOR INTERNAL API (server / linux desktop editions do NOT have any issues, so it MAY just be a powershell issue)...
-PS C:\Users\taote> Remove-item alias:curl
-PS C:\Users\taote> curl -d "api_key=9f1eaf5e8af9bf5c1a4c7c0f2866b23078ff7b1aaae168438e2ed20a6fc33965" -X POST http://127.0.0.1:38393/internal-api.php?data_set=market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
-curl: (8) Header without colon
-
-
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 
 
 

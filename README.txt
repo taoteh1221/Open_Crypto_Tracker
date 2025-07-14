@@ -197,6 +197,10 @@ YOU NEED "7 ZIP" INSTALLED, TO OPEN AND EXTRACT THE DOWNLOAD ARCHIVE:
 
 https://www.geeksforgeeks.org/how-to-download-and-install-7-zip-on-windows
 
+IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED THE LATEST Microsoft Visual C++ LIBRARIES:
+
+https://aka.ms/vs/17/release/vc_redist.x64.exe
+
 
 IMPORTANT NOTES FOR LINUX USERS: 
 

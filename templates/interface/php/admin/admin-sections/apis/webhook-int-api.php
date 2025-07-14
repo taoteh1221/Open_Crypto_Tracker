@@ -51,7 +51,7 @@ $ct['admin_render_settings']['api_rate_limit']['range_ui_prefix'] = 'Every ';
 
 $ct['admin_render_settings']['api_rate_limit']['range_ui_suffix'] = ' Seconds';
 
-$ct['admin_render_settings']['api_rate_limit']['is_notes'] = 'MAXIMUM allowed connection rate (for Internal API *and* WebHooks)';
+$ct['admin_render_settings']['api_rate_limit']['is_notes'] = 'MAXIMUM allowed connection rate (for Internal API *and* WebHooks)<br /><span class="red">LOWER POWER SERVERS may MISS fully enforcing intervals UNDER ~3 SECONDS.</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,11 +206,43 @@ unset($webhook_plug);
 	    <p class='bitcoin'>Bash / CURL example:</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll bash' style='width: auto; height: auto;'># CURL command line example
+<?php
+
+// ALERT for WINDOWS SERVER EDITION
+if ( $ct['app_edition'] == 'server' ) {
+?>
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
-# WINDOWS USERS: REMOVE THE "Invoke-WebRequest" CURL ALIAS FIRST: Remove-item alias:curl
+<?php
+}
 
-curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
+
+// Proper curl name for WINDOWS (ANY edition)
+// https://stackoverflow.com/questions/69261782/why-does-the-same-curl-command-output-different-things-in-windows-and-linux
+if (
+isset($ct['system_info']['distro_name'])
+&& preg_match("/windows/i", $ct['system_info']['distro_name'])
+) {
+$curl_name = 'curl.exe';
+?>
+# WINDOWS (ANY Edition) USERS: ALWAYS USE "curl.exe", AS "curl" IS A DIFFERENT PROGRAM!
+<?php
+}
+else {
+$curl_name = 'curl';
+}
+
+
+// ALERT for WINDOWS DESKTOP EDITIONS
+if ( $ct['app_container'] == 'phpdesktop' && $ct['app_platform'] == 'windows' ) {
+?>
+# WINDOWS (DESKTOP Edition) USERS: <?=$curl_name?> COMMANDS MAY NOT WORK, because the
+# PHPdesktop (used by Desktop Editions) server config sends MALFORMED header responses!
+<?php
+}
+?>
+
+<?=$curl_name?><?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
 </code></pre>
 	        
 	        

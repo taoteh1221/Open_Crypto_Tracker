@@ -190,6 +190,11 @@ YOU NEED "7 ZIP" INSTALLED, TO OPEN AND EXTRACT THE DOWNLOAD ARCHIVE:
 <br />
 <a href='https://www.geeksforgeeks.org/how-to-download-and-install-7-zip-on-windows' target='_blank'>https://www.geeksforgeeks.org/how-to-download-and-install-7-zip-on-windows</a>
 
+	    <br /><br />
+IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED THE LATEST Microsoft Visual C++ LIBRARIES:
+<br />
+<a href='https://aka.ms/vs/17/release/vc_redist.x64.exe' target='_blank'>https://aka.ms/vs/17/release/vc_redist.x64.exe</a>
+
 	    
 	    <br /><br />
 <span class='bitcoin'>IMPORTANT NOTES FOR LINUX USERS:</span> 
@@ -894,6 +899,34 @@ Luckily EVEN ON SHARED HOSTING some web host companies allow you to set the PHP 
 	      </div>
 	    </div>
 	  </div>
+	  
+	
+	<?php
+	$accord_var = 'shared_library_issues_win11';
+	?>
+  
+	  <div class="accordion-item">
+         <h2 class="accordion-header" id="heading_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+             
+            WINDOWS Desktop Edition Error: "CGI program sent malformed or too big"
+            
+           </button>
+         </h2>
+         <div id="collapse_<?=$accord_var?>" class="accordion-collapse collapse" aria-labelledby="heading_<?=$accord_var?>" data-bs-parent="#accordionHelp">
+           <div class="accordion-body">
+           
+           
+             IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED THE LATEST Microsoft Visual C++ LIBRARIES:
+<br />
+<a href='https://aka.ms/vs/17/release/vc_redist.x64.exe' target='_blank'>https://aka.ms/vs/17/release/vc_redist.x64.exe</a>
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
+	
 	  
 	
 	<?php
