@@ -1652,13 +1652,6 @@ var name_override = {};
                          name_override[this.name] = this.value;
                          console.log('coingecko override (dataset_id = '+dataset_id+'): ' + this.name + ' => ' + this.value);
                          }
-                         else if (
-                         !name_override[this.name] && selection_name.search(/jupiter/i) >= 0 && this.name.match(/\[name\]/i) && this.value != ''
-                         || !name_override[this.name] && selection_name.search(/jupiter/i) >= 0 && this.name.match(/\[mcap_slug\]/i) && this.value != ''
-                         ) {
-                         name_override[this.name] = this.value;
-                         console.log('jupiter ag override (dataset_id = '+dataset_id+'): ' + this.name + ' => ' + this.value);
-                         }
                          // We still need EMPTY values for correct CONFIG data structure (like 'mcap_slug'),
                          // BUT ONLY IF NOT ALREADY DEFINED IN THE 'name_override' ARRAY!
                          else if ( !name_override[this.name] ) {
