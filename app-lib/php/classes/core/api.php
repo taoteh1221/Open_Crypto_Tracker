@@ -1340,7 +1340,6 @@ var $exchange_apis = array(
                                    
                     $results[$specific_exchange][] = array(
                                                        'name' => ( isset($jup_data['name']) && $jup_data['name'] != '' ? $jup_data['name'] : strtoupper($market_tickers_parse['asset']) ),
-                                                       'mcap_slug' => '',
                                                        'id' => $ticker_check,
                                                        'asset' => $market_tickers_parse['asset'],
                                                        'pairing' => $market_tickers_parse['pairing'],
@@ -1815,7 +1814,6 @@ var $exchange_apis = array(
                                      // IF they included coingecko app-id meta data, populate the mcap slug too
                                      $possible_market_ids[] = array(
                                                                          'name' => $market_data['data']['name'],
-                                                                         'mcap_slug' => ( isset($market_data['data']['extensions']['coingeckoId']) && $market_data['data']['extensions']['coingeckoId'] != '' ? $market_data['data']['extensions']['coingeckoId'] : '' ),
                                                                          'id' => $market_data['asset_address'] . '/' . $market_data['pairing_address'],
                                                                          'contract_address' => $market_data['asset_address'],
                                                                          'asset' => $market_tickers_parse['asset'],
