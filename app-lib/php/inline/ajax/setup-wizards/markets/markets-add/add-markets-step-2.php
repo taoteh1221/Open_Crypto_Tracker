@@ -238,7 +238,7 @@ $saved_search = $_POST['saved_search'];
      	    var search_desc = exchange_count + " search-compatible exchanges (of <?=$search_all_exchanges_count?> total).<br />Please wait, this may take a few minutes";
      	    }
      	    else {
-     	    var search_desc = $("#add_markets_search_exchange").val();
+     	    var search_desc = $("#add_markets_search_exchange option:selected").text();
      	    }
      	    
      	
