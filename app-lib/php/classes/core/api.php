@@ -1330,6 +1330,7 @@ var $exchange_apis = array(
                            
                          $jup_data = json_decode($jup_response, true);
                          
+                         $jup_data = $jup_data[0];
                          
                          }
                          
