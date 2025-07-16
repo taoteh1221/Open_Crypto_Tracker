@@ -7,7 +7,9 @@
 
 // Initial BLANK arrays
 
-$ct['jup_address'] = array();
+$ct['jup_ag_address_mapping'] = array();
+
+$ct['jup_ag_runtime_cache'] = array();
 
 $ct['db_upgrade_desc'] = array();
 
