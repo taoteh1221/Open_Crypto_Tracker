@@ -250,7 +250,8 @@ $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] = 5;
 $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 
 
-// We limit how many search results Jupiter Aggregator is allowed to process PER CPU CORE (when adding coin markets), to avoid 504 "gateway timeout" errors
+// We limit how many search results Jupiter Aggregator is allowed to process PER CPU CORE (when adding coin markets),
+// to avoid 504 "gateway timeout" errors
 $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 125; // 75 MINIMUM / 250 MAXIMUM / DEFAULT = 125
 
 
@@ -784,7 +785,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// MANA
 					'mana-2||binance||btc||both',
-					'mana-4||bitfinex||usd||none',
 					'mana-5||binance||eth||none',
 					
 					
@@ -1390,6 +1390,12 @@ $ct['conf']['news']['feeds'] = array(
     
     
         				array(
+            			      "title" => "Youtube - Accelerate with Mert",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCqh3mCIhY5gCI0uwuNQbm8g"
+        				     ),
+    
+    
+        				array(
             			      "title" => "Youtube - BTC Sessions",
             			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UChzLnWVsl3puKQwc5PoO6Zg"
         				     ),
@@ -1416,12 +1422,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Youtube - Solana Labs",
             			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
-        				     ),
-
-    					
-        				array(
-            			      "title" => "Youtube - Unlayered",
-            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCaWbgxQdyz5GtZM-OTxK6Bg"
         				     ),
     
     

@@ -7,6 +7,8 @@
 # https://github.com/php/php-src/tags
 # ALWAYS verify the version used here is secure (with NO vulnerabilities):
 # https://www.cvedetails.com/vulnerability-list/vendor_id-74/PHP.html
+# NOT USED ON REDHAT SYSTEMS, AS THE NEW COMPILER IN FEDORA 42 CAUSES ISSUES
+# (WE USE REDHAT PHP PACKAGES INSTEAD)
 PHP_GITHUB_RELEASE_TAG="php-8.3.8"
 
 
@@ -197,7 +199,7 @@ echo "${cyan}Your system has been detected as Debian-based, which is compatible 
 
 # USE 'apt-get' IN SCRIPTING!
 # https://askubuntu.com/questions/990823/apt-gives-unstable-cli-interface-warning
-PACKAGE_INSTALL="sudo apt-get install"
+PACKAGE_INSTALL="sudo apt-get install -y"
 PACKAGE_REMOVE="sudo apt-get --purge remove"
 
 echo " "
@@ -208,7 +210,7 @@ elif [ -f "/etc/redhat-release" ]; then
 
 echo "${cyan}Your system has been detected as Redhat-based, which is compatible with this automated script."
 
-PACKAGE_INSTALL="sudo yum install"
+PACKAGE_INSTALL="sudo yum install -y --skip-broken --skip-unavailable"
 PACKAGE_REMOVE="sudo yum remove"
 
 echo " "
@@ -232,6 +234,13 @@ echo "${reset} "
 
 fi
 
+if [ -f "/etc/redhat-release" ]; then
+
+echo "${red} "
+echo "Using RedHat's PHP packages, as Fedora 42+ uses a beta compiler, which causes compile errors."
+echo "${reset} "
+
+else
 
 echo "${cyan} "
 echo "Using PHP (Version) Github Release Tag: ${yellow}${PHP_GITHUB_RELEASE_TAG}"
@@ -242,6 +251,8 @@ echo " "
 echo "THEN CHANGE THIS VARIABLE AT THE TOP OF THIS SCRIPT:"
 echo "PHP_GITHUB_RELEASE_TAG"
 echo "${reset} "
+
+fi
      
 echo "${yellow} "
 read -n1 -s -r -p $"PRESS ANY KEY to continue..." key
@@ -338,7 +349,7 @@ app_path_result="${app_path_result#*$1:}"
      
      sleep 3
                
-     $PACKAGE_INSTALL $SYS_PACK -y > /dev/tty
+     $PACKAGE_INSTALL $SYS_PACK > /dev/tty
      
      
           # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
@@ -509,10 +520,27 @@ clean_system_update () {
           
           echo " "
      
-          echo "${cyan}APT sources list update complete.${reset}"
+          echo "${cyan}APT sources list refresh complete.${reset}"
+          
+          echo " "
+          
+          elif [ -f "/etc/redhat-release" ]; then
+
+          # Assure we are NOT stuck using any PREVIOUSLY-USED mirror with checksum mismatches,
+          # thereby causing ABORTION of the upgrade session (due to corrupt data being detected)
+          sudo dnf clean all
+          
+          sleep 3
+          
+          # Rebuild cache, needed for updates, since we CLEANED IT ABOVE
+          sudo dnf makecache
           
           echo " "
      
+          echo "${cyan}DNF cache refresh complete.${reset}"
+          
+          echo " "
+          
           fi
           
      
@@ -715,12 +743,12 @@ echo " "
 sleep 2
 
 # 32-bit GTK2 Debian support (for the 'RUN_CRYPTO_TRACKER' binary)
-$PACKAGE_INSTALL libgtk2.0-dev -y
+$PACKAGE_INSTALL libgtk2.0-dev
 
 sleep 2
 
 # libxss support
-$PACKAGE_INSTALL libxss-dev -y
+$PACKAGE_INSTALL libxss-dev
 				
 echo " "
 echo "${cyan}Proceeding with installation of PHP's required Debian libraries, please wait...${reset}"
@@ -730,28 +758,28 @@ sleep 2
 
 # Dev libs (including for the extensions we want to add)
 # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
-$PACKAGE_INSTALL libssl-dev -y
+$PACKAGE_INSTALL libssl-dev
 sleep 1
-$PACKAGE_INSTALL libcurl4-openssl-dev -y
+$PACKAGE_INSTALL libcurl4-openssl-dev
 sleep 1
-$PACKAGE_INSTALL libzip-dev -y
+$PACKAGE_INSTALL libzip-dev
 sleep 1
-$PACKAGE_INSTALL libbz2-dev -y
+$PACKAGE_INSTALL libbz2-dev
 sleep 1
-$PACKAGE_INSTALL libxml2-dev -y
+$PACKAGE_INSTALL libxml2-dev
 sleep 1
-$PACKAGE_INSTALL libsqlite3-dev -y
+$PACKAGE_INSTALL libsqlite3-dev
 sleep 1
-$PACKAGE_INSTALL libonig-dev -y
+$PACKAGE_INSTALL libonig-dev
 sleep 1
-$PACKAGE_INSTALL libpng-dev -y
+$PACKAGE_INSTALL libpng-dev
 sleep 1
-$PACKAGE_INSTALL libfreetype-dev -y
+$PACKAGE_INSTALL libfreetype-dev
 
 sleep 2
 
 # Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-$PACKAGE_INSTALL pkg-config build-essential autoconf bison re2c -y
+$PACKAGE_INSTALL pkg-config build-essential autoconf bison re2c
 
 
 elif [ -f "/etc/redhat-release" ]; then
@@ -765,13 +793,13 @@ echo " "
 sleep 2
 
 # 32-bit GTK2 RedHat support (for the 'RUN_CRYPTO_TRACKER' binary)
-$PACKAGE_INSTALL gtk2 -y
+$PACKAGE_INSTALL gtk2
 
 sleep 2
 
 # libxss support
 # CASE-SENSITIVE!
-$PACKAGE_INSTALL libXScrnSaver -y
+$PACKAGE_INSTALL libXScrnSaver
 				
 echo " "
 echo "${cyan}Proceeding with installation of PHP's required RedHat libraries, please wait...${reset}"
@@ -781,30 +809,36 @@ sleep 2
 
 # Dev libs (including for the extensions we want to add)
 # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
-$PACKAGE_INSTALL openssl-devel -y
+$PACKAGE_INSTALL openssl-devel
 sleep 1
-$PACKAGE_INSTALL libcurl-devel -y
+$PACKAGE_INSTALL libcurl-devel
 sleep 1
-$PACKAGE_INSTALL libzip libzip-devel -y
+$PACKAGE_INSTALL libzip libzip-devel
 sleep 1
-$PACKAGE_INSTALL bzip2-libs bzip2-devel -y
+$PACKAGE_INSTALL bzip2-libs bzip2-devel
 sleep 1
-$PACKAGE_INSTALL libxml2-devel -y
+$PACKAGE_INSTALL libxml2-devel
 sleep 1
-$PACKAGE_INSTALL sqlite-devel -y
+$PACKAGE_INSTALL sqlite-devel
 sleep 1
-$PACKAGE_INSTALL oniguruma-devel -y
+$PACKAGE_INSTALL oniguruma-devel
 sleep 1
-$PACKAGE_INSTALL libpng-devel -y
+$PACKAGE_INSTALL libpng-devel
 sleep 1
-$PACKAGE_INSTALL freetype-devel -y
+$PACKAGE_INSTALL freetype-devel
+sleep 1
+$PACKAGE_INSTALL php-cli php-zip php-gd
 
 sleep 2
+
+sed -i "s/php-cgi-custom/\/usr\/bin\/php-cgi/g" $APP_ROOT/settings.json
+
+REDHAT_PHP_PACKAGE="yes"
 
 sudo yum group install -y --skip-broken --skip-unavailable development-tools
 
 # Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-$PACKAGE_INSTALL autoconf bison re2c -y
+$PACKAGE_INSTALL autoconf bison re2c
 
 
 fi
@@ -819,6 +853,9 @@ echo " "
 
 ######################################
 
+
+# IF we are NOT using RedHat PHP packages, then download / compile PHP from scratch
+if [ -z "$REDHAT_PHP_PACKAGE" ]; then
 
 echo " "
 echo "${cyan}Getting PHP source code, please wait...${reset}"
@@ -874,9 +911,21 @@ echo " "
 make
 
 
+echo "${yellow} "
+read -n1 -s -r -p $"BINARY FILES HAVE BEEN BUILT, ****UNLESS YOU SEE ANY ERRORS ABOVE****. ${red}PLEASE ***SHUT DOWN THE DESKTOP EDITION*** BEFORE CONTINUING, ***OTHERWISE WE CANNOT AUTOMATICALLY UPDATE*** THE PHP LIBRARY! ${yellow}PRESS ANY KEY TO INSTALL THE PHP BINARY FILES..." key
 echo " "
-echo "${cyan}Installing the PHP binary files (to a UNIQUE location you can remove after processing), please wait...${reset}"
-echo " "
+echo "${reset} "
+
+    if [ "$key" = 'd' ] || [ "$key" != 'd' ]; then
+    
+     echo " "
+     echo "${cyan}Installing the PHP binary files (to a UNIQUE location you can remove after processing), please wait...${reset}"
+     echo " "
+    
+    fi
+
+
+sleep 3
 
 
 make install
@@ -889,9 +938,6 @@ echo "${cyan}UNLESS YOU SEE ANY ERRORS ABOVE, ${green}the old PHP-CGI binary '$A
 echo " "
 echo "${yellow}PLEASE REPORT ANY ISSUES HERE: $ISSUES_URL${reset}"
 echo " "
-
-
-######################################
 
 
 echo "${yellow} "
@@ -917,6 +963,26 @@ echo "${reset} "
     echo " "
     
     fi
+
+
+else
+
+
+echo "${yellow} "
+read -n1 -s -r -p $"The Linux Desktop Edition has been configured to use RedHat's PHP packages. You should now be able to run it, after exiting this script. Press ANY KEY to exit..." key
+echo " "
+echo "${reset} "
+
+    if [ "$key" = 'd' ] || [ "$key" != 'd' ]; then
+    
+    echo " "
+    echo "${cyan}Exiting, please wait...${reset}"
+    echo " "
+    
+    fi
+
+
+fi
 
 
 sleep 3
