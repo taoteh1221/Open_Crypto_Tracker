@@ -14,7 +14,7 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
-                   'timestamp' => strtotime('2025-7-16'),
+                   'timestamp' => strtotime('2025-7-19'),
                    
                    'very_important' => true,
 
@@ -25,7 +25,7 @@ $dev_status[] = array(
                    'affected_earlier' => true,
                    
                    // DESCRIPTION
-                   'affected_desc' => 'The @JupiterExchange PRICE API has been upgraded to v3, as they will be DEPRECIATING the v2 PRICE API on August 1st, 2025. Please upgrade to v6.01.02 of Open Crypto Tracker by this date, to avoid disruption of your tracked Jupiter markets.',
+                   'affected_desc' => 'v6.01.02 has been released. The @JupiterExchange PRICE API has been upgraded to v3, AND TOKEN API to v2. BOTH of the PREVIOUS versions of these APIs will be DEPRECIATED on August 1st, 2025. Upgrade now, if you want to avoid disruption of your Jupiter tracked markets / new asset search capabilities.',
 
                    );
 

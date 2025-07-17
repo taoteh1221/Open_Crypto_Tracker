@@ -65,7 +65,7 @@ monitor_iframe_sizes();
 
 
 // 'Loading X...' UI notices
-background_tasks_check();
+background_tasks_check('init');
 
 
 // Random tips on the update page 
@@ -580,7 +580,7 @@ nav_menu('.user-nav');
                             
                             alert('INCOMPLETE admin INTERFACING config detected for the "' + parent.admin_interface_check[hashed_id]['affected_section'] + '" ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '. The missing config(s) are HIGHLIGHTED IN RED below in this section. Please have your web developer add these required INTERFACING config parameters for this ' + parent.admin_interface_check[hashed_id]['interface_config_type'] + '.');
           
-                            event.preventDefault();
+                            e.preventDefault();
                             
                             return false;
           
@@ -709,7 +709,7 @@ nav_menu('.user-nav');
 	
 	
     // Before page unload
-    window.addEventListener('beforeunload', function (e) {
+    window.addEventListener('beforeunload', function (event) {
         
     // (suppress the 'loading' subsection for iframes from showing, when leaving the admin area)
     // (worse case is cancelled, and 'loading...' doesn't show for admin iframes again until parent page reload)
@@ -725,14 +725,14 @@ nav_menu('.user-nav');
             if ( form_submit_queued == true ) {
             form_submit_queued = false;
             }
-            
-        $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+                 
+        app_reloading_check();
         
         event.preventDefault();
         
         console.log('Default action stopped for: beforeunload');
         
-        e.returnValue = '';
+        event.returnValue = '';
         
         return false;
         

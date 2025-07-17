@@ -97,30 +97,18 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      	
      	<b class='yellow'>FILTER Any <i>Jupiter Aggregator</i> Results By:</b><br />
      	
-     	<select id='jupiter_tags' name='jupiter_tags'>
+     	<select id='jupiter_tag' name='jupiter_tag'>
      	
-     	<option value='verified' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified' ? 'selected' : '' )?> > VERIFIED Tokens </option>
+     	<option value='verified' <?=( isset($_POST['jupiter_tag']) && $_POST['jupiter_tag'] == 'verified' ? 'selected' : '' )?> > VERIFIED Tokens </option>
      	
-     	<option value='strict' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'strict' ? 'selected' : '' )?> > STRICT Tokens </option>
-     	
-     	<option value='community' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'community' ? 'selected' : '' )?> > COMMUNITY Tokens </option>
-     	
-     	<option value='lst' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'lst' ? 'selected' : '' )?> > SANCTUM Tokens </option>
-     	
-     	<option value='birdeye-trending' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'birdeye-trending' ? 'selected' : '' )?> > BirdEye Top 100 Trending Tokens </option>
-     	
-     	<option value='clone' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'verified' ? 'clone' : '' )?> > Clone Protocol Tokens </option>
-     	
-     	<option value='pump' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'pump' ? 'selected' : '' )?> > GRADUATED Pump.fun Tokens </option>
-     	
-     	<option value='all_tags_without_unknown' <?=( isset($_POST['jupiter_tags']) && $_POST['jupiter_tags'] == 'all_tags_without_unknown' ? 'selected' : '' )?> > ALL Tokens (EXCEPT Unknown) </option>
+     	<option value='lst' <?=( isset($_POST['jupiter_tag']) && $_POST['jupiter_tag'] == 'lst' ? 'selected' : '' )?> > Liquid Staking Tokens </option>
      	
      	</select><br />
      	
      	<span class='yellow'>(use "ALL Tokens" filter SPARINGLY, IF you get "timeout" errors)</span><br />
      	
      	<script>
-     	select_confirm("jupiter_tags", "NOT using the STRICT or VERIFIED filter MAY BE DANGEROUS (allowing UN-VETTED tokens risks getting search results that MAY include SCAM COINS)! Are you sure you want to continue?", "verified");
+     	select_confirm("jupiter_tag", "NOT using the VERIFIED filter MAY BE DANGEROUS (allowing UN-VETTED tokens risks getting search results that MAY include SCAM COINS)! Are you sure you want to continue?", "verified");
      	</script>
      	
      	</p>
@@ -250,7 +238,7 @@ $saved_search = $_POST['saved_search'];
      	    var search_desc = exchange_count + " search-compatible exchanges (of <?=$search_all_exchanges_count?> total).<br />Please wait, this may take a few minutes";
      	    }
      	    else {
-     	    var search_desc = $("#add_markets_search_exchange").val();
+     	    var search_desc = $("#add_markets_search_exchange option:selected").text();
      	    }
      	    
      	
@@ -259,7 +247,7 @@ $saved_search = $_POST['saved_search'];
      	                          "add_markets_search_exchange": $("#add_markets_search_exchange").val(),
      	                          "skip_alphavantage_search": skip_alphavantage_search,
      	                          "strict_search": strict_search,
-     	                          "jupiter_tags": $("#jupiter_tags").val(),
+     	                          "jupiter_tag": $("#jupiter_tag").val(),
      	                          };
      	
      	ct_ajax_load("type=add_markets&step=3", "#update_markets_ajax", "search results from " + search_desc, add_markets_search, true); // Secured

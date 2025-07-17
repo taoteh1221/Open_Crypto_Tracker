@@ -157,7 +157,7 @@ gui: {
 		
 		
 		     if ( !is_numeric($price_sample_oldest) || !is_numeric($price_sample_newest) ) {
-		     $price_sample_avg = 100; // Default (when install is new, and no data available yet)
+		     $price_sample_avg = 0.0000000000001; // Default (when install is new, and no data available yet)
 		     }
 		     else {
 		     $price_sample_avg = ($price_sample_oldest + $price_sample_newest) / 2;

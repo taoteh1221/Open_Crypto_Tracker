@@ -246,10 +246,18 @@ var cron_already_ran = true;
 var all_tasks_initial_load = true;
 	
 var background_tasks_status = 'wait';
+	
+var background_tasks_check_runtime_id = false;
+
+var update_ui_notice = true;
 
 var custom_3deep_menu_open = false;
 
 var news_feed_batched_maximum = 0;
+
+var background_tasks_start_time = Date.now();
+
+var background_tasks_elapsed_time = 0;
 
 var latest_important_dev_alerts_timestamp = 1000; // Milliseconds (1 second UNIX TIME, as default)
 

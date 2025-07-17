@@ -15,7 +15,7 @@ $js = array(
     'popper.min.js',
     'zingchart.min.js',
     'insQ.min.js',
-    'crypto-js.js',
+    'crypto-js-v4.2.0.min.js',
     'var_defaults.js',
     'functions.js',
     'highlight.min.js',

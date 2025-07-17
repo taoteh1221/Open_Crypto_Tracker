@@ -20,8 +20,10 @@ var $ct_array = array();
   
   
   function update_cache($cache_file, $minutes) {
-  
-    if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - ( 60 * $minutes ) )  ) {
+    
+    // We ROUND (60 * $minutes), to also support SECONDS if needed
+    // ($minutes is allowed to be DECIMALS, including BEING LESS THAN 1.00)
+    if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - round(60 * $minutes) )  ) {
     return false; 
     } 
     else {

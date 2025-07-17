@@ -263,7 +263,7 @@ var $exchange_apis = array(
                                                   'markets_endpoint' => 'https://lite-api.jup.ag/price/v3?ids=[JUP_AG_ASSETS]&vsToken=[JUP_AG_PAIRING]',
                                                   'markets_nested_path' => false, // Delimit multiple depths with >
                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
-                                                  'search_endpoint' => 'https://lite-api.jup.ag/tokens/v1/tagged/[JUP_AG_TAGS]', // false|[API endpoint with all market pairings]
+                                                  'search_endpoint' => 'https://lite-api.jup.ag/tokens/v2/tag?query=[JUP_AG_TAG]', // false|[API endpoint with all market pairings]
                                                   ),
 
 
@@ -830,8 +830,8 @@ var $exchange_apis = array(
    
    
            // RUNTIME CACHE (TO SPEED THINGS UP)
-           if ( isset($ct['jup_address'][$ticker]) ) {
-           return $ct['jup_address'][$ticker];
+           if ( isset($ct['jup_ag_runtime_cache'][$ticker]['id']) ) {
+           return $ct['jup_ag_runtime_cache'][$ticker]['id'];
            }
 
    
@@ -844,26 +844,19 @@ var $exchange_apis = array(
            }
            // WE ALLOW FILTERING BY TAG, FOR SAFETY
            // https://dev.jup.ag/docs/api/token-api/tagged
-           elseif ( isset($_POST['jupiter_tags']) && trim($_POST['jupiter_tags']) != '' ) {
-
-                 if ( trim($_POST['jupiter_tags']) == 'all_tags_without_unknown' ) {
-                 $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
-                 }
-                 else {
-                 $tags = trim($_POST['jupiter_tags']);
-                 }
-          
+           elseif ( isset($_POST['jupiter_tag']) && trim($_POST['jupiter_tag']) != '' ) {
+           $tags = trim($_POST['jupiter_tag']);
            }
-           // Otherwise, allow ALL tokens EXCEPT unknown
+           // Otherwise, allow verified tokens
            else {
-           $tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
+           $tags = 'verified';
            }
       
       
       // 3 hour cache for VERIFIED token search, 1 hour for everything else
       $cache_time = ( $verified_only ? 180 : 60 );
       
-      $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/tagged/' . $tags, $cache_time);
+      $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v2/tag?query=' . $tags, $cache_time);
       
       gc_collect_cycles(); // Clean memory cache
    
@@ -873,7 +866,7 @@ var $exchange_apis = array(
            foreach ( $data as $val ) {
           
                if ( isset($val['symbol']) && $val['symbol'] == $ticker ) {
-               $results[] = $val['address'];
+               $results[] = $val;
                }
 
            }
@@ -883,7 +876,7 @@ var $exchange_apis = array(
           
           $ct['gen']->log(
           				'market_error',
-          				'address search for VERIFIED asset "' . $ticker . '" returned MORE THAN 1 RESULT (VERIFY address is correct, in "Market ID" field of exchange results)'
+          				'address search for VERIFIED asset "' . $ticker . '" returned MORE THAN 1 RESULT (VERIFY address "'.$results[0]['id'].'" is correct [in "Market ID" field, of exchange results])'
           				);
           				          
            }
@@ -897,12 +890,21 @@ var $exchange_apis = array(
            }
           
    
-   $jup_address = ( isset($results[0]) ? $results[0] : false );
-   
-   // RUNTIME CACHE (TO SPEED THINGS UP)
-   $ct['jup_address'][$ticker] = $jup_address;
-   
-   return $jup_address;
+           if ( isset($results[0]) ) {
+                 
+           // RUNTIME CACHE (TO SPEED THINGS UP)
+           
+           $ct['jup_ag_runtime_cache'][$ticker] = $results[0];
+           
+           $ct['jup_ag_address_mapping'][ $ct['jup_ag_runtime_cache'][$ticker]['id'] ] = $ticker;
+            
+           return $ct['jup_ag_runtime_cache'][$ticker]['id'];
+     
+           }
+           else {
+           return false;
+           }
+ 
  
    }
    
@@ -1329,15 +1331,23 @@ var $exchange_apis = array(
                          }
                          
                          
-                         // IF jupiter ag, get name / mcap slug
-                         if ( $specific_exchange == 'jupiter_ag' ) {
+                         // IF jupiter ag, get name, IF NOT IN RUNTIME CACHE
+                         if ( $specific_exchange == 'jupiter_ag' && !isset($ct['jup_ag_runtime_cache'][ $ticker_check_array[0] ]['name']) ) {
                               
                    		// https://dev.jup.ag/docs/token-api#get-token-information
-                         $jup_response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/token/' . $this->jup_address($ticker_check_array[0], false) , 45); // 45 minute cache
+                         $jup_response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v2/search?query=' . $this->jup_address($ticker_check_array[0], false) , 45); // 45 minute cache
                            
                          $jup_data = json_decode($jup_response, true);
                          
+                         $jup_data = $jup_data[0];
                          
+                         $ct['jup_ag_runtime_cache'][ $ticker_check_array[0] ] = $jup_data;
+                         
+                         $ct['jup_ag_address_mapping'][ $ct['jup_ag_runtime_cache'][ $ticker_check_array[0] ]['id'] ] = $ticker_check_array[0];
+                         
+                         }
+                         elseif ( isset($ct['jup_ag_runtime_cache'][ $ticker_check_array[0] ]['name']) ) {
+                         $jup_data = $ct['jup_ag_runtime_cache'][ $ticker_check_array[0] ];
                          }
                          
                          
@@ -1346,7 +1356,6 @@ var $exchange_apis = array(
                                    
                     $results[$specific_exchange][] = array(
                                                        'name' => ( isset($jup_data['name']) && $jup_data['name'] != '' ? $jup_data['name'] : strtoupper($market_tickers_parse['asset']) ),
-                                                       'mcap_slug' => ( isset($jup_data['extensions']['coingeckoId']) && $jup_data['extensions']['coingeckoId'] != '' ? $jup_data['extensions']['coingeckoId'] : '' ),
                                                        'id' => $ticker_check,
                                                        'asset' => $market_tickers_parse['asset'],
                                                        'pairing' => $market_tickers_parse['pairing'],
@@ -1593,22 +1602,15 @@ var $exchange_apis = array(
        
        // WE ALLOW FILTERING BY TAG, FOR SAFETY
        // https://dev.jup.ag/docs/api/token-api/tagged
-       if ( isset($_POST['jupiter_tags']) && trim($_POST['jupiter_tags']) != '' ) {
-            
-            if ( trim($_POST['jupiter_tags']) == 'all_tags_without_unknown' ) {
-            $jupiter_ag_search_tags = 'verified,community,strict,lst,birdeye-trending,clone,pump';
-            }
-            else {
-            $jupiter_ag_search_tags = trim($_POST['jupiter_tags']);
-            }
-
+       if ( isset($_POST['jupiter_tag']) && trim($_POST['jupiter_tag']) != '' ) {
+       $jupiter_ag_search_tag = trim($_POST['jupiter_tag']);
        }
        else {
-       $jupiter_ag_search_tags = 'verified';
+       $jupiter_ag_search_tag = 'verified';
        }
        
    
-   $url = preg_replace("/\[JUP_AG_TAGS\]/i", $jupiter_ag_search_tags, $url); // Make dynamic in the future
+   $url = preg_replace("/\[JUP_AG_TAG\]/i", $jupiter_ag_search_tag, $url); // Make dynamic in the future
          
    $url = preg_replace("/\[ALPHAVANTAGE_KEY\]/i", $ct['conf']['ext_apis']['alphavantage_api_key'], $url);
    
@@ -1698,14 +1700,14 @@ var $exchange_apis = array(
 
                               
                               // Skip
-                              // JUPITER WON'T LET US GET MORE THAN 100 COINS W/ PRICE API ANYWAY (NO PAGINATION OPTION AS OF 2024/9/3),
+                              // JUPITER WON'T LET US GET MORE THAN [49 assets + 1 pairing] COINS W/ PRICE API ANYWAY,
                               // AND AS OF 2025/9/3, WE HAVE TO THROTTLE FREE TIER API CONNECTIONS TO 1 PER-SECOND,
-                              // SO (FEASIBLY) OUR HARD CAP IS ~100 RELEVANT COINS PER SEARCH (TO AVOID VERY LONG RUNTIMES)
+                              // SO (FEASIBLY) OUR HARD CAP IS ~49 RELEVANT COINS PER PAIRING SEARCH (TO AVOID VERY LONG RUNTIMES)
                               // IF relevant, max $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] results
                               // (to avoid gateway timeout on server, from too many results)
                               if (
                               $ct['gen']->search_mode($val['symbol'], $required_pairing)
-                              || $loop_count >= 100 
+                              || $loop_count >= 49 // 49 assets (+ 1 pairing PROCESSED LATER in logic [PRICE API HAS 50 MAXIMUM])
                               || $ct['jupiter_ag_search_results'] >= ($ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] * $ct['system_info']['cpu_threads'])
                               ) {
                               break;
@@ -1729,27 +1731,27 @@ var $exchange_apis = array(
                          $pairing_address = $this->jup_address($pairing_check);
                                            
                               
-                              // We need to keep MARKET VALIDATION CHECK requests to 100 or less, so we need to reset our pair array to empty,
-                              // since we loop up to 100 times              
+                              // We need to keep MARKET VALIDATION CHECK requests to 49 or less, so we need to reset our pair array to empty,
+                              // since we loop up to 49 times              
                               // (we use the ADDRESS here, as jupiter's v2 price API switched from tickers to token addresses)
                               if ( !isset($ct['jupiter_ag_pairs'][$pairing_address]) ) {
-                              $ct['jupiter_ag_pairs'][$pairing_address] = $val['address'];
+                              $ct['jupiter_ag_pairs'][$pairing_address] = $val['id'];
                               }
                               // IF APP ID wasn't bundled yet into the single call format we use for jupiter, add it now,
                               // to optimize this search loop INTO A SINGLE CALL (consecutive calls will automatically use the cache system)
                               // (THIS IS ***REQUIRED*** FOR MULTIPLE JUPITER SEARCH RESULTS, DUE TO IT'S 'BATCHED' DATA CALL STRUCTURE!!!)
                               elseif (
-                              substr($ct['jupiter_ag_pairs'][$pairing_address], 0, strlen($val['address']) ) != $val['address']
-                              && !strstr($ct['jupiter_ag_pairs'][$pairing_address], ',' . $val['address'])
+                              substr($ct['jupiter_ag_pairs'][$pairing_address], 0, strlen($val['id']) ) != $val['id']
+                              && !strstr($ct['jupiter_ag_pairs'][$pairing_address], ',' . $val['id'])
                               ) {
-                              $ct['jupiter_ag_pairs'][$pairing_address] = $ct['jupiter_ag_pairs'][$pairing_address] . ',' . $val['address'];
+                              $ct['jupiter_ag_pairs'][$pairing_address] = $ct['jupiter_ag_pairs'][$pairing_address] . ',' . $val['id'];
                               }
                          
                          
                          $temp_app_id_array[$pairing_check][ $val['symbol'] ] = array(
                                                                                       'data' => $val,
                                                                                       'asset_check' => $asset_check,
-                                                                                      'asset_address' => $val['address'],
+                                                                                      'asset_address' => $val['id'],
                                                                                       'pairing_check' => $pairing_check,
                                                                                       'pairing_address' => $this->jup_address($pairing_check),
                                                                                       );
@@ -1814,7 +1816,7 @@ var $exchange_apis = array(
                                      $parsed_market_data = array(        
                                                        'jup_ag_address' => $market_data['asset_address'],
                                                        'last_trade' => number_format($jup_asset_price, $ct['conf']['currency']['crypto_decimals_max'], '.', ''),
-                                                       '24hr_usd_vol' => $ct['var']->num_to_str($market_data['data']['daily_volume'])
+                                                       '24hr_usd_vol' => $ct['var']->num_to_str($market_data['data']['stats24h']['buyVolume'])
                                              	      );
                                              	      
                                      }
@@ -1828,7 +1830,6 @@ var $exchange_apis = array(
                                      // IF they included coingecko app-id meta data, populate the mcap slug too
                                      $possible_market_ids[] = array(
                                                                          'name' => $market_data['data']['name'],
-                                                                         'mcap_slug' => ( isset($market_data['data']['extensions']['coingeckoId']) && $market_data['data']['extensions']['coingeckoId'] != '' ? $market_data['data']['extensions']['coingeckoId'] : '' ),
                                                                          'id' => $market_data['asset_address'] . '/' . $market_data['pairing_address'],
                                                                          'contract_address' => $market_data['asset_address'],
                                                                          'asset' => $market_tickers_parse['asset'],
@@ -2924,7 +2925,34 @@ var $exchange_apis = array(
    
    $sel_exchange = strtolower($sel_exchange);
    
-   $data = $this->exchange_api_data($sel_exchange, $mrkt_id);
+   
+      // RUNTIME CACHING (to speed things up)
+      if ( $sel_exchange == 'jupiter_ag' ) {
+      
+      $jup_market_id = explode('/', $mrkt_id);
+
+          // IF we ALREADY runtime-cached price data for this jupiter asset AND pairing
+          if (
+          isset($ct['jup_ag_address_mapping'][ $jup_market_id[0] ])
+          && isset($ct['jup_ag_address_mapping'][ $jup_market_id[1] ])
+          ) {
+          
+          $data = array();
+          
+          $data[ $jup_market_id[0] ] = $ct['jup_ag_runtime_cache'][ $ct['jup_ag_address_mapping'][ $jup_market_id[0] ] ];
+          
+          $data[ $jup_market_id[1] ] = $ct['jup_ag_runtime_cache'][ $ct['jup_ag_address_mapping'][ $jup_market_id[1] ] ];
+          
+          }
+          
+      
+      }
+
+      
+      if ( !isset($data) ) {
+      $data = $this->exchange_api_data($sel_exchange, $mrkt_id);
+      }
+   
    
    gc_collect_cycles(); // Clean memory cache
    
@@ -3982,17 +4010,37 @@ var $exchange_apis = array(
     		
     		// JUP AG MUST BE FIRST CONDITION
     		if ( isset($result['jup_ag_address']) ) {
+    		     
+    		     
+    		     // RUNTIME CACHING
+    		     if ( isset($ct['jup_ag_address_mapping'][ $result['jup_ag_address'] ]) ) {
+    		     $data = $ct['jup_ag_runtime_cache'][ $ct['jup_ag_address_mapping'][ $result['jup_ag_address'] ] ];
+    		     }
+    		     else {
     		
-    		// As of 2025/5/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
-    		// https://dev.jup.ag/docs/token-api#get-token-information
-          $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v1/token/' . $result['jup_ag_address'], 45); // 45 minute cache
-            
-          $data = json_decode($response, true);
+         		// As of 2025/5/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
+         		// https://dev.jup.ag/docs/token-api#get-token-information
+               $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v2/search?query=' . $result['jup_ag_address'], 45); // 45 minute cache
+                 
+               $data = json_decode($response, true);
+               
+               $data = $data[0];
+               
+               $ct['jup_ag_runtime_cache'][ $data['symbol'] ] = $data;
+               
+               $ct['jup_ag_address_mapping'][ $result['jup_ag_address'] ] = $data['symbol'];
+    		     
+    		     }
+    		     
           
-               if ( $ct['var']->num_to_str($data['daily_volume']) > 0 ) {
-               $result['24hr_prim_currency_vol'] = $ct['var']->num_to_str( $ct['asset']->prim_currency_trade_vol($asset_symb, 'usd', $result['last_trade'], $data['daily_volume']) );
-               $result['24hr_usd_vol'] = $ct['var']->num_to_str($data['daily_volume']);
+          //var_dump($data);
+
+          
+               if ( $ct['var']->num_to_str($data['stats24h']['buyVolume']) > 0 ) {
+               $result['24hr_prim_currency_vol'] = $ct['var']->num_to_str( $ct['asset']->prim_currency_trade_vol($asset_symb, 'usd', $result['last_trade'], $data['stats24h']['buyVolume']) );
+               $result['24hr_usd_vol'] = $ct['var']->num_to_str($data['stats24h']['buyVolume']);
                }
+
     		
     		}
     		elseif ( isset($result['24hr_pair_vol']) && isset($pair) && $pair == $ct['conf']['currency']['bitcoin_primary_currency_pair'] ) {

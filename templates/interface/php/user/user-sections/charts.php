@@ -186,7 +186,7 @@
 		localStorage.setItem(show_charts_storage,  "");
 		}
 		
-	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading charts" notice freezes, check / uncheck this box, and choose FEWER price charts)</span></p>
+	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='red'>(if "loading..." notice freezes, check / uncheck this box, and re-select desired charts)</span></p>
 	
 	<div> &nbsp; </div>
 		
