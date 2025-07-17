@@ -5,24 +5,6 @@
 /////////////////////////////////////////////////////////////
 
 
-function custom_round(num, decimals=2) {
-num = Number(num);
-return num.toFixed(decimals);
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function is_hidden(el) {
-    var style = window.getComputedStyle(el);
-    return ((style.display === 'none') || (style.visibility === 'hidden'))
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function merge_objects(orig_object, overwriting_object) {
 return combinedSettings = { ...orig_object, ...overwriting_object };
 }
@@ -79,6 +61,32 @@ return new Blob([JSON.stringify(val)]).size;
 /////////////////////////////////////////////////////////////
 
 
+function background_loading_notices(message, color="#F7931A") {
+$("#background_loading_span").html(message).css("color", color, "important");
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function is_hidden(el) {
+    var style = window.getComputedStyle(el);
+    return ((style.display === 'none') || (style.visibility === 'hidden'))
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function custom_round(num, decimals=2) {
+num = Number(num);
+return num.toFixed(decimals);
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function set_target_action(obj_id, set_target, set_action) {
 document.getElementById(obj_id).target = set_target;
 document.getElementById(obj_id).action = set_action;
@@ -91,18 +99,6 @@ document.getElementById(obj_id).action = set_action;
 function to_timestamp(year,month,day,hour,minute,second) {
 var datum = new Date(Date.UTC(year,month-1,day,hour,minute,second));
 return datum.getTime()/1000;
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function background_loading_notices(message, color="#F7931A") {
-
-    if ( $("#background_loading_span").html() != 'Please wait, finishing background tasks...' ) {
-    $("#background_loading_span").html(message).css("color", color, "important");
-    }
-
 }
 
 
@@ -398,9 +394,15 @@ function cron_run_check() {
 	return 'done';
 	}
 	else {
-	background_loading_notices("Checking / Running Scheduled Tasks...");
+	     
+	     if ( update_ui_notice ) {
+	     background_loading_notices("Checking / Running Scheduled Tasks...");
+	     }
+	
 	$("#background_loading").show(250); // 0.25 seconds
+	
 	return 'active';
+	
 	}
 
 }
@@ -472,9 +474,15 @@ function charts_loading_check() {
 	return 'done';
 	}
 	else {
-	background_loading_notices("Loading Price Charts...");
+	     
+	     if ( update_ui_notice ) {
+	     background_loading_notices("Loading Price Charts...");
+	     }
+	
 	$("#background_loading").show(250); // 0.25 seconds
+	
 	return 'active';
+
 	}
 
 }
@@ -532,9 +540,15 @@ function feeds_loading_check() {
 	return 'done';
 	}
 	else {
-	background_loading_notices("Loading News Feeds...");
+	     
+	     if ( update_ui_notice ) {
+	     background_loading_notices("Loading News Feeds...");
+	     }
+	
 	$("#background_loading").show(250); // 0.25 seconds
+	
 	return 'active';
+
 	}
 
 }
@@ -2022,6 +2036,9 @@ function set_admin_2fa(obj=false, submit=false) {
 
 function app_reloading_check(form_submission=0, new_location=false) {
 
+// RESET the 'busy' ui alerts
+background_tasks_start_time = Date.now();
+background_tasks_elapsed_time = 0; 
         
     // Disable form updating in privacy mode
     if ( localStorage.getItem(priv_toggle_storage) == 'on' && form_submission == 1 ) {
@@ -2293,7 +2310,7 @@ function emulated_cron() {
     
 cron_already_ran = false;
 
-background_tasks_check(); 
+background_tasks_check('emulated_cron'); 
 
 
       $.ajax({
@@ -2325,13 +2342,13 @@ background_tasks_check();
             
             cron_already_ran = true;
             
-            background_tasks_check();  
+            background_tasks_check('emulated_cron2');  
             
             },
             error: function(response) {
             console.log( "\n\ncron emulation: *AJAX* (*NOT* PHP) ERROR response at " + human_time( new Date().getTime() ) + " (see below)...\n" + print_object(response) + "\n\n" );
             cron_already_ran = true;
-            background_tasks_check(); 
+            background_tasks_check('emulated_cron3'); 
             }
         });
     
@@ -2351,13 +2368,18 @@ function app_reload(form_submission, new_location) {
     // (emulated cron / charts / news feeds / etc)
     if ( background_tasks_status == 'wait' ) {
         
-    $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+        // Initial notice, BEFORE 'running long time' notices in background_tasks_check()
+        if ( background_tasks_elapsed_time <= 60 ) {
+        background_loading_notices('Please wait, finishing background tasks...', "#ff4747");
+        }
     
-    background_tasks_check();
+    update_ui_notice = false; // NO updating UI alerts
     
-    //console.log('background_tasks_status = ' + background_tasks_status);
+    background_tasks_check('app_reload');
+    
+    //console.log('background_tasks_elapsed_time = ' + background_tasks_elapsed_time);
             
-    reload_recheck = setTimeout(app_reload, 1500, form_submission);  // Re-check every 1.5 seconds (in milliseconds)
+    reload_recheck = setTimeout(app_reload, 1000, form_submission, new_location);  // Re-check every 1 second (in milliseconds)
     
     return;
     
@@ -2509,16 +2531,31 @@ badColor = "#ff4747";
 /////////////////////////////////////////////////////////////
 
 
-function background_tasks_check() {
+function background_tasks_check(runtime_id) {
 
 //console.log( 'cron_run_check() = ' + cron_run_check() );
 
 //console.log( 'feeds_loading_check() = ' + feeds_loading_check() );
 
 //console.log( 'charts_loading_check() = ' + charts_loading_check() );
-
-        
-     if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
+     
+     // Register the runtime ID, IF not running yet
+     if ( !background_tasks_check_runtime_id ) {
+     background_tasks_check_runtime_id = runtime_id;
+     }
+     
+//console.log('runtime_id = ' + runtime_id);
+//console.log('background_tasks_check_runtime_id = ' + background_tasks_check_runtime_id);
+     
+     // Skip. IF already running
+     if ( runtime_id != background_tasks_check_runtime_id ) {
+     return false;
+     }
+     else if (
+     cron_run_check() == 'done'
+     && feeds_loading_check() == 'done'
+     && charts_loading_check() == 'done'
+     ) {
           
      all_tasks_initial_load = false; // Unset initial bg tasks loading flag
 		    
@@ -2536,6 +2573,8 @@ function background_tasks_check() {
          	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
          	set_scroll_position(); 
          	}
+         	
+     return true;
 		
      }
 	else {
@@ -2546,11 +2585,23 @@ function background_tasks_check() {
      
           // UI notice, if background tasks have lasted over 4 minutes
           if ( background_tasks_elapsed_time > 240 ) {
-          background_loading_notices('Background tasks MAY be stuck (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="javascript:window.location.reload(true);">Reloading</a> AFTER Resetting Charts / News Feeds MAY help.', "#ff4747");
+          
+          update_ui_notice = false; // NO updating UI alerts
+          
+          background_loading_notices('Background tasks MAY be stuck (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading</a> AFTER Resetting Charts / News Feeds MAY help.', "#ff4747");
+          
+          //console.log('Background tasks MAY be stuck');
+
           }
           // UI notice, if background tasks have lasted over 1 minute
           else if ( background_tasks_elapsed_time > 60 ) {
+               
+          update_ui_notice = false; // NO updating UI alerts
+          
           background_loading_notices('Background tasks are STILL busy (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes)', "#ff4747");
+
+          //console.log('Background tasks are STILL busy');
+
           }
           
 	     // If ONLY emulated cron background task is running AFTER initial page load, flag as such
@@ -2558,15 +2609,16 @@ function background_tasks_check() {
 	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
 	     emulated_cron_task_only = true;
 	     }
-		    
-	background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
-	
-    	background_tasks_status = 'wait';
     
      }
 		
-    	
+	
+background_tasks_status = 'wait';
+
 //console.log('background_tasks_check: ' + background_tasks_status);
+
+// Re-check every 1 second (in milliseconds), AND SET runtime_id
+background_tasks_recheck = setTimeout(background_tasks_check, 1000, runtime_id); 
 
 }
 

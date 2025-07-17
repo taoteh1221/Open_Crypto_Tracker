@@ -246,6 +246,10 @@ var cron_already_ran = true;
 var all_tasks_initial_load = true;
 	
 var background_tasks_status = 'wait';
+	
+var background_tasks_check_runtime_id = false;
+
+var update_ui_notice = true;
 
 var custom_3deep_menu_open = false;
 
