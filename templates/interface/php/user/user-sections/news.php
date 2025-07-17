@@ -109,7 +109,7 @@
 		localStorage.setItem(show_feeds_storage,  "");
 		}
 		
-	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading news feeds" notice freezes, check / uncheck this box, and choose FEWER news feeds)</span></p>
+	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='red'>(if "loading..." notice freezes, check / uncheck this box, and re-select desired feeds)</span></p>
 		
 		<form id='activate_feeds' name='activate_feeds'>
 		
@@ -200,7 +200,8 @@
 	var batched_feeds_loops_added = 0;
 	var all_feeds_added = null;
   	
-  	
+  	     
+  	     // LOOP
          	chosen_feeds.forEach(function(feed_key) {
          	     
          	     
@@ -213,7 +214,7 @@
      		batched_feeds_keys = batched_feeds_keys + feed_key + ',';
      		
      			
-     				if ( batched_feeds_added >= news_feed_batched_maximum || all_feeds_added >= feeds_num ) {
+     				if ( batched_feeds_added == news_feed_batched_maximum || all_feeds_added >= feeds_num ) {
      				     
      				batched_feeds_keys = batched_feeds_keys.replace(/,+$/, ''); // Remove comma at end
      		

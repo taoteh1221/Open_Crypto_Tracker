@@ -6917,6 +6917,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.02
 
+-BUG FIX: LINUX Desktop Edition "FIX-LINUX-DESKTOP.bash" script refactored / fixed, to workaround Fedora 42 using a beta compiler (which causes fatal PHP build errors)
+
 -BUG FIX: Upgraded crypto-js to v4.2.0, to fix random number weakness vulnerability
 
 -BUG FIX: Fixed price chart titles covering time period links, on smaller screens

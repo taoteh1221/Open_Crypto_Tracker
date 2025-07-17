@@ -5,20 +5,9 @@
 /////////////////////////////////////////////////////////////
 
 
-function process_element(element) {
-     
-var was_processed = element.getAttribute('data-was-processed');
-     
-  if ( typeof was_processed !== 'undefined' && was_processed == 1 ) { // Check if element already processed
-    //console.log("Element already processed:", element);
-    return false;
-  }
-
-// Perform processing on the element
-//console.log("Processing element:", element);
-element.setAttribute('data-was-processed', '1');
-return true;
-
+function custom_round(num, decimals=2) {
+num = Number(num);
+return num.toFixed(decimals);
 }
 
 
@@ -108,10 +97,10 @@ return datum.getTime()/1000;
 /////////////////////////////////////////////////////////////
 
 
-function background_loading_notices(message) {
+function background_loading_notices(message, color="#F7931A") {
 
     if ( $("#background_loading_span").html() != 'Please wait, finishing background tasks...' ) {
-    $("#background_loading_span").html(message).css("color", "#F7931A", "important");
+    $("#background_loading_span").html(message).css("color", color, "important");
     }
 
 }
@@ -283,6 +272,26 @@ function str_to_array(str, delimiter=",", strip_brackets=true) {
      }
      
 return str.split(delimiter);
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function process_element(element) {
+     
+var was_processed = element.getAttribute('data-was-processed');
+     
+  if ( typeof was_processed !== 'undefined' && was_processed == 1 ) { // Check if element already processed
+    //console.log("Element already processed:", element);
+    return false;
+  }
+
+// Perform processing on the element
+//console.log("Processing element:", element);
+element.setAttribute('data-was-processed', '1');
+return true;
 
 }
 
@@ -513,8 +522,10 @@ $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
 
 
 function feeds_loading_check() {
-	
-//console.log('loaded feeds = ' + feeds_loaded.length + ', all feeds = ' + feeds_num);
+     
+//console.log('feeds_loaded.length = ' + feeds_loaded.length );
+     
+//console.log('feeds_num = ' + feeds_num );
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
 	if ( feeds_loaded.length >= feeds_num || is_admin == true ) {
@@ -2341,6 +2352,10 @@ function app_reload(form_submission, new_location) {
     if ( background_tasks_status == 'wait' ) {
         
     $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+    
+    background_tasks_check();
+    
+    //console.log('background_tasks_status = ' + background_tasks_status);
             
     reload_recheck = setTimeout(app_reload, 1500, form_submission);  // Re-check every 1.5 seconds (in milliseconds)
     
@@ -2495,7 +2510,13 @@ badColor = "#ff4747";
 
 
 function background_tasks_check() {
-        
+
+//console.log( 'cron_run_check() = ' + cron_run_check() );
+
+//console.log( 'feeds_loading_check() = ' + feeds_loading_check() );
+
+//console.log( 'charts_loading_check() = ' + charts_loading_check() );
+
         
      if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
           
@@ -2506,6 +2527,8 @@ function background_tasks_check() {
      clearTimeout(background_tasks_recheck);
     	
      background_tasks_status = 'done';
+          
+     console.log('Background tasks have completed.');
 		
          	// Run setting scroll position AGAIN if we are on the news / charts page,
          	// as we start out with no scroll height before the news feeds / price charts load
@@ -2516,7 +2539,20 @@ function background_tasks_check() {
 		
      }
 	else {
-	     
+	
+	background_tasks_elapsed_time = ( Date.now() - background_tasks_start_time ) / 1000; // in seconds
+          
+     //console.log('Background tasks have taken ' + custom_round(background_tasks_elapsed_time, 0) + ' seconds so far...');
+     
+          // UI notice, if background tasks have lasted over 4 minutes
+          if ( background_tasks_elapsed_time > 240 ) {
+          background_loading_notices('Background tasks MAY be stuck (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="javascript:window.location.reload(true);">Reloading</a> AFTER Resetting Charts / News Feeds MAY help.', "#ff4747");
+          }
+          // UI notice, if background tasks have lasted over 1 minute
+          else if ( background_tasks_elapsed_time > 60 ) {
+          background_loading_notices('Background tasks are STILL busy (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes)', "#ff4747");
+          }
+          
 	     // If ONLY emulated cron background task is running AFTER initial page load, flag as such
 	     // (so we DON'T reset the scroll position every minute)
 	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
