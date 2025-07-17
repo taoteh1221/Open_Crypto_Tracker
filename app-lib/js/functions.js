@@ -2528,7 +2528,7 @@ function background_tasks_check() {
     	
      background_tasks_status = 'done';
           
-     console.log('Background tasks have completed.');
+     //console.log('Background tasks have completed.');
 		
          	// Run setting scroll position AGAIN if we are on the news / charts page,
          	// as we start out with no scroll height before the news feeds / price charts load
