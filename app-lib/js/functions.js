@@ -308,7 +308,7 @@ function set_cookie(cname, cvalue, exdays) {
      var expires = "expires=" + d.toUTCString();
      }
 
-is_secure = app_edition == 'server' ? ' Secure' : '';
+is_secure = Base64.decode(app_edition) == 'server' ? ' Secure' : '';
 
 document.cookie = cname + "=" + cvalue + "; path=" + cookie_path + "; " + expires + "; SameSite=Strict;" + is_secure;
 
@@ -446,6 +446,40 @@ $('#pref_number_format').val(pref_number_format);
 /////////////////////////////////////////////////////////////
 
 
+// https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
+function remove_tags(str) {
+	if ((str === null) || (str === ''))
+		return false;
+	else
+		str = str.toString();
+
+	// Regular expression to identify HTML tags in
+	// the input string. Replacing the identified
+	// HTML tag with a null string.
+	return str.replace(/(<([^>]+)>)/ig, '');
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// Javascript OBJECTS are different from javascript ARRAYS (lol),
+// so we need a custom function to get the length
+function getObjectLength (o) {
+  var length = 0;
+
+  for (var i in o) {
+    if (Object.prototype.hasOwnProperty.call(o, i)){
+      length++;
+    }
+  }
+  return length;
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function load_highlightjs(id=false) {
 
      if ( id == false ) {
@@ -529,6 +563,73 @@ $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
 /////////////////////////////////////////////////////////////
 
 
+// JAVASCRIPT COOKIE ENCODING / DECODING IS #NOT# COMPATIBLE 
+// WITH PHP COOKIE AUTO ENCODING / DECODING!! 
+// ONLY USE THIS FOR CHECKS ON COOKIE VALS EXISTING ETC ETC!!
+function get_cookie(cname) {
+	
+name = cname + "=";
+ca = document.cookie.split(';');
+
+    for(i=0; i<ca.length; i++) {
+        c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    
+return false;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function safe_add_remove_class(class_name, element, mode) {
+    
+    if ( mode == 'add' ) {
+    
+        if ( document.getElementById(element) ) {
+        document.getElementById(element).classList.add(class_name); 
+        }
+        
+    }
+    else if ( mode == 'remove' ) {
+    
+        if ( document.getElementById(element) ) {
+        document.getElementById(element).classList.remove(class_name); 
+        }
+        
+    }
+
+    
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function human_time(timestamp) {
+    
+date = new Date(timestamp),
+
+datevalues = [
+             date.getFullYear(),
+             date.getMonth()+1,
+             date.getDate(),
+             date.getHours(),
+             date.getMinutes(),
+             date.getSeconds(),
+             ];
+
+return datevalues[0] + '/' + datevalues[1] + '/' + datevalues[2] + ' @ ' + datevalues[3] + ':' + datevalues[4] + ':' + datevalues[5];
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function feeds_loading_check() {
      
 //console.log('feeds_loaded.length = ' + feeds_loaded.length );
@@ -551,40 +652,6 @@ function feeds_loading_check() {
 
 	}
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
-function remove_tags(str) {
-	if ((str === null) || (str === ''))
-		return false;
-	else
-		str = str.toString();
-
-	// Regular expression to identify HTML tags in
-	// the input string. Replacing the identified
-	// HTML tag with a null string.
-	return str.replace(/(<([^>]+)>)/ig, '');
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// Javascript OBJECTS are different from javascript ARRAYS (lol),
-// so we need a custom function to get the length
-function getObjectLength (o) {
-  var length = 0;
-
-  for (var i in o) {
-    if (Object.prototype.hasOwnProperty.call(o, i)){
-      length++;
-    }
-  }
-  return length;
 }
 
 
@@ -691,6 +758,28 @@ scroll_start();
 /////////////////////////////////////////////////////////////
 
 
+function get_coords(elem) { // crossbrowser version
+    var box = elem.getBoundingClientRect();
+
+    var body = document.body;
+    var docEl = document.documentElement;
+
+    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    var clientTop = docEl.clientTop || body.clientTop || 0;
+    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    var top  = box.top +  scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+
+    return { top: Math.round(top), left: Math.round(left) };
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function print_object(obj) {
 
 let string = '';
@@ -707,6 +796,28 @@ let string = '';
     }
  
 return string;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function balloon_css(text_align="left", z_index="32767", min_width="500px") {
+
+return {
+					fontSize: set_font_size + "em",
+					minWidth: min_width,
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: z_index,
+					textAlign: text_align,
+					}
 
 }
 
@@ -732,6 +843,59 @@ var hash_check = $(location).attr('hash');
      else {
      localStorage.setItem(scroll_position_storage, 0);
      }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function crypto_val_toggle(obj_var) {
+  
+show_crypto_val = $("#show_crypto_val").val();
+	
+	if ( obj_var.checked == true ) {
+	$("#show_crypto_val").val("[" + obj_var.value + "]" + "," + show_crypto_val);
+	}
+	else {
+	$("#show_crypto_val").val( show_crypto_val.replace("[" + obj_var.value + "],", "") );
+	}
+	
+  
+show_crypto_val = $("#show_crypto_val").val(); // Reset var with any new data
+
+// Error checking
+$("#show_crypto_val").val( show_crypto_val.replace(",,", ",") );
+
+red_save_button();
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function iframe_size_adjust(elm) {
+
+    var extra_width = 2;
+
+
+    // Now that we've set any required zoom level, adjust the height
+    if ( elm.id == 'iframe_security' ) {
+    var extra_height = 1500;
+    }
+    else {
+    var extra_height = 150;
+    }
+
+    
+    // If defined
+    if ( typeof elm.contentWindow.document.body != 'undefined' && elm.contentWindow.document.body != null ) {
+    $(elm).css( 'min-height' , (elm.contentWindow.document.body.scrollHeight + extra_height) + "px" );
+    //$(elm).css( 'min-width' , (elm.contentWindow.document.body.scrollWidth + extra_width) + "px" );
+    $(elm).css( 'min-width' , "100%" );
+    }
+    
 
 }
 
@@ -790,28 +954,6 @@ var hash_check = $(location).attr('hash');
     else {
 	localStorage.setItem(scroll_position_storage, 0);
     }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function balloon_css(text_align="left", z_index="32767", min_width="500px") {
-
-return {
-					fontSize: set_font_size + "em",
-					minWidth: min_width,
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: z_index,
-					textAlign: text_align,
-					}
 
 }
 
@@ -957,31 +1099,6 @@ var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'
 /////////////////////////////////////////////////////////////
 
 
-function crypto_val_toggle(obj_var) {
-  
-show_crypto_val = $("#show_crypto_val").val();
-	
-	if ( obj_var.checked == true ) {
-	$("#show_crypto_val").val("[" + obj_var.value + "]" + "," + show_crypto_val);
-	}
-	else {
-	$("#show_crypto_val").val( show_crypto_val.replace("[" + obj_var.value + "],", "") );
-	}
-	
-  
-show_crypto_val = $("#show_crypto_val").val(); // Reset var with any new data
-
-// Error checking
-$("#show_crypto_val").val( show_crypto_val.replace(",,", ",") );
-
-red_save_button();
-	
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function chart_toggle(obj_var) {
   
 var show_charts = localStorage.getItem(show_charts_storage);
@@ -1040,27 +1157,6 @@ local_storage_saved_notice('Selected News Feeds');
 /////////////////////////////////////////////////////////////
 
 
-function human_time(timestamp) {
-    
-date = new Date(timestamp),
-
-datevalues = [
-             date.getFullYear(),
-             date.getMonth()+1,
-             date.getDate(),
-             date.getHours(),
-             date.getMinutes(),
-             date.getSeconds(),
-             ];
-
-return datevalues[0] + '/' + datevalues[1] + '/' + datevalues[2] + ' @ ' + datevalues[3] + ':' + datevalues[4] + ':' + datevalues[5];
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function show_more(id, change_text=0) {
 	
 	if ( $("#"+id).is(":visible") ) {
@@ -1098,80 +1194,6 @@ function show_more(id, change_text=0) {
 /////////////////////////////////////////////////////////////
 
 
-// JAVASCRIPT COOKIE ENCODING / DECODING IS #NOT# COMPATIBLE 
-// WITH PHP COOKIE AUTO ENCODING / DECODING!! 
-// ONLY USE THIS FOR CHECKS ON COOKIE VALS EXISTING ETC ETC!!
-function get_cookie(cname) {
-	
-name = cname + "=";
-ca = document.cookie.split(';');
-
-    for(i=0; i<ca.length; i++) {
-        c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    
-return false;
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function safe_add_remove_class(class_name, element, mode) {
-    
-    if ( mode == 'add' ) {
-    
-        if ( document.getElementById(element) ) {
-        document.getElementById(element).classList.add(class_name); 
-        }
-        
-    }
-    else if ( mode == 'remove' ) {
-    
-        if ( document.getElementById(element) ) {
-        document.getElementById(element).classList.remove(class_name); 
-        }
-        
-    }
-
-    
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function iframe_size_adjust(elm) {
-
-    var extra_width = 2;
-
-
-    // Now that we've set any required zoom level, adjust the height
-    if ( elm.id == 'iframe_security' ) {
-    var extra_height = 1500;
-    }
-    else {
-    var extra_height = 150;
-    }
-
-    
-    // If defined
-    if ( typeof elm.contentWindow.document.body != 'undefined' && elm.contentWindow.document.body != null ) {
-    $(elm).css( 'min-height' , (elm.contentWindow.document.body.scrollHeight + extra_height) + "px" );
-    //$(elm).css( 'min-width' , (elm.contentWindow.document.body.scrollWidth + extra_width) + "px" );
-    $(elm).css( 'min-width' , "100%" );
-    }
-    
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function ajax_placeholder(px_size, align, message=null, display_mode=null){
 
 // Scale properly...Run a multiplier, to slightly increase size
@@ -1193,28 +1215,6 @@ px_size = Math.round( (px_size * set_font_size) * 1.3 );
 	}
 	
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function get_coords(elem) { // crossbrowser version
-    var box = elem.getBoundingClientRect();
-
-    var body = document.body;
-    var docEl = document.documentElement;
-
-    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
-
-    var clientTop = docEl.clientTop || body.clientTop || 0;
-    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
-
-    var top  = box.top +  scrollTop - clientTop;
-    var left = box.left + scrollLeft - clientLeft;
-
-    return { top: Math.round(top), left: Math.round(left) };
 }
 
 
@@ -2587,8 +2587,35 @@ function background_tasks_check(runtime_id) {
           if ( background_tasks_elapsed_time > 240 ) {
           
           update_ui_notice = false; // NO updating UI alerts
-          
-          background_loading_notices('Background tasks MAY be stuck (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading</a> AFTER Resetting Charts / News Feeds MAY help.', "#ff4747");
+               
+               // IF price charts are hanging
+               if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' ) {
+               background_loading_notices('Price Chart tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your CHOSEN Price Charts, SHOULD fix this.', "#ff4747");
+               }
+               // IF news feeds are hanging
+               else if ( cron_run_check() == 'done' && charts_loading_check() == 'done' ) {
+               background_loading_notices('News Feed tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your CHOSEN News Feeds, SHOULD fix this.', "#ff4747");
+               }
+               // IF emulated cron is hanging
+               else if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
+               
+                    if ( Base64.decode(is_windows) == 'yes' ) {
+                    var cron_desc = 'scheduled task';
+                    }
+                    else {
+                    var cron_desc = 'cron job';
+                    }
+                    
+                    if ( is_admin ) {
+                    var area_desc = 'ADMIN';
+                    }
+                    else {
+                    var area_desc = 'USER';
+                    }
+                    
+               background_loading_notices('The EMULATED ' + cron_desc + ' manager MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br />It is HIGHLY RECOMMENDED TO STAY IN THE ' + area_desc + ' AREA, until the ' + cron_desc + ' manager finishes running (to avoid corrupting cached data).', "#ff4747");
+               
+               }
           
           //console.log('Background tasks MAY be stuck');
 
@@ -2598,7 +2625,7 @@ function background_tasks_check(runtime_id) {
                
           update_ui_notice = false; // NO updating UI alerts
           
-          background_loading_notices('Background tasks are STILL busy (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes)', "#ff4747");
+          background_loading_notices('Background tasks are STILL busy (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes)', "#ff4747");
 
           //console.log('Background tasks are STILL busy');
 
@@ -3868,7 +3895,7 @@ var tiny_line_height = tiny_line_height.toFixed(3);
      else {
           
           // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
-          if ( app_container == 'phpdesktop' && app_platform == 'linux' ) {
+          if ( Base64.decode(app_container) == 'phpdesktop' && Base64.decode(app_platform) == 'linux' ) {
           var info_icon_size = font_size * 1.6;
           }
           else {

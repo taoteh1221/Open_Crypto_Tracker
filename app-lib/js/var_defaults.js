@@ -69,6 +69,8 @@ var app_edition;
 var app_platform;
 
 var app_container;
+
+var is_windows;
 	
 var logs_csrf_sec_token;
 
