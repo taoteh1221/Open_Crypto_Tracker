@@ -389,17 +389,43 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
 
 
 function cron_run_check() {
+     
+//console.log('cron_run_check()');
 
 	if ( cron_already_ran == true ) {
 	return 'done';
 	}
 	else {
+
+	    if ( allow_regular_loading_notices ) {
+	         
+              if ( Base64.decode(is_windows) == 'yes' ) {
+              var cron_desc = 'Scheduled Task';
+              }
+              else {
+              var cron_desc = 'Cron Job';
+              }
+                    
+              if ( is_admin ) {
+              var area_desc = 'Admin';
+              }
+              else {
+              var area_desc = 'User';
+              }
+                    
+	    background_loading_notices("Running EMULATED " + cron_desc + " Manager<br />(please stay in the " + area_desc + " Area, until completed)...");
+	    
+	    }
 	     
-	     if ( update_ui_notice ) {
-	     background_loading_notices("Checking / Running Scheduled Tasks...");
-	     }
-	
-	$("#background_loading").show(250); // 0.25 seconds
+         // Wait 3 seconds before checks
+         // (so it only shows IF time elapse NOT reset yet [for UX, that we are running, and not just checking])
+         setTimeout(function(){
+
+	        if ( background_tasks_elapsed_time > 0 ) {
+	        $("#background_loading").show(250); // 0.25 seconds
+	        }
+         
+         }, 3000);
 	
 	return 'active';
 	
@@ -509,7 +535,7 @@ function charts_loading_check() {
 	}
 	else {
 	     
-	     if ( update_ui_notice ) {
+	     if ( allow_regular_loading_notices ) {
 	     background_loading_notices("Loading Price Charts...");
 	     }
 	
@@ -642,7 +668,7 @@ function feeds_loading_check() {
 	}
 	else {
 	     
-	     if ( update_ui_notice ) {
+	     if ( allow_regular_loading_notices ) {
 	     background_loading_notices("Loading News Feeds...");
 	     }
 	
@@ -2036,7 +2062,7 @@ function set_admin_2fa(obj=false, submit=false) {
 
 function app_reloading_check(form_submission=0, new_location=false) {
 
-// RESET the 'busy' ui alerts
+// RESET BG task elapsed time tracking
 background_tasks_start_time = Date.now();
 background_tasks_elapsed_time = 0; 
         
@@ -2313,44 +2339,42 @@ cron_already_ran = false;
 background_tasks_check('emulated_cron'); 
 
 
-      $.ajax({
-            type: 'GET',
-            url: 'cron.php?cron_emulate=1',
-            async: true,
-            contentType: "application/json",
-            dataType: 'json',
-            success: function(response) {
-                
-                if ( typeof response.result != 'undefined' ) {
-                console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
-                }
-            
-                // If flagged to display error in GUI
-                if ( typeof response.display_error != 'undefined' ) {
-                
-                    if ( $('#alert_bell_area').html() == 'No new runtime alerts.' ) {
-                    $('#alert_bell_area').html( response.result );
-                    }
-                    else {
-                    $('#alert_bell_area').html( $('#alert_bell_area').html() + '<br />' + response.result );
-                    }
-                
-                $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-                
-                }
-            
-            
-            cron_already_ran = true;
-            
-            background_tasks_check('emulated_cron2');  
-            
-            },
-            error: function(response) {
-            console.log( "\n\ncron emulation: *AJAX* (*NOT* PHP) ERROR response at " + human_time( new Date().getTime() ) + " (see below)...\n" + print_object(response) + "\n\n" );
-            cron_already_ran = true;
-            background_tasks_check('emulated_cron3'); 
-            }
-        });
+           $.ajax({
+                 type: 'GET',
+                 url: 'cron.php?cron_emulate=1',
+                 async: true,
+                 contentType: "application/json",
+                 dataType: 'json',
+                 success: function(response) {
+                     
+                     if ( typeof response.result != 'undefined' ) {
+                     console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
+                     }
+                 
+                     // If flagged to display error in GUI
+                     if ( typeof response.display_error != 'undefined' ) {
+                     
+                         if ( $('#alert_bell_area').html() == 'No new runtime alerts.' ) {
+                         $('#alert_bell_area').html( response.result );
+                         }
+                         else {
+                         $('#alert_bell_area').html( $('#alert_bell_area').html() + '<br />' + response.result );
+                         }
+                     
+                     $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+                     
+                     }
+                 
+                 
+                 cron_already_ran = true;
+                 
+                 },
+                 error: function(response) {
+                 console.log( "\n\ncron emulation: *AJAX* (*NOT* PHP) ERROR response at " + human_time( new Date().getTime() ) + " (see below)...\n" + print_object(response) + "\n\n" );
+                 cron_already_ran = true;
+                 }
+                 
+           });
     
     
 setTimeout(emulated_cron, 60000); // Re-check every minute (in milliseconds...cron.php will know if it's time)
@@ -2373,7 +2397,7 @@ function app_reload(form_submission, new_location) {
         background_loading_notices('Please wait, finishing background tasks...', "#ff4747");
         }
     
-    update_ui_notice = false; // NO updating UI alerts
+    allow_regular_loading_notices = false; // NO updating 'loading..' alerts
     
     background_tasks_check('app_reload');
     
@@ -2532,6 +2556,8 @@ badColor = "#ff4747";
 
 
 function background_tasks_check(runtime_id) {
+     
+//console.log('background_tasks_check() runtime_id = ' + runtime_id);
 
 //console.log( 'cron_run_check() = ' + cron_run_check() );
 
@@ -2539,30 +2565,44 @@ function background_tasks_check(runtime_id) {
 
 //console.log( 'charts_loading_check() = ' + charts_loading_check() );
      
-     // Register the runtime ID, IF not running yet
-     if ( !background_tasks_check_runtime_id ) {
-     background_tasks_check_runtime_id = runtime_id;
+     // Register this as ACTIVE runtime ID, IF not set
+     if ( !active_bg_tasks_check_runtime_id ) {
+     active_bg_tasks_check_runtime_id = runtime_id;
      }
      
 //console.log('runtime_id = ' + runtime_id);
-//console.log('background_tasks_check_runtime_id = ' + background_tasks_check_runtime_id);
+//console.log('active_bg_tasks_check_runtime_id = ' + active_bg_tasks_check_runtime_id);
      
-     // Skip. IF already running
-     if ( runtime_id != background_tasks_check_runtime_id ) {
-     return false;
+     // Skip, IF already running, UNLESS A RECHECK IS ACTIVE
+     if ( runtime_id != active_bg_tasks_check_runtime_id ) {
+     // Do nothing
      }
      else if (
      cron_run_check() == 'done'
      && feeds_loading_check() == 'done'
      && charts_loading_check() == 'done'
      ) {
-          
-     all_tasks_initial_load = false; // Unset initial bg tasks loading flag
+     
+     // Unset initial bg tasks loading flag
+     all_tasks_initial_load = false; 
 		    
 	$("#background_loading").hide(250); // 0.25 seconds
-         	
-     clearTimeout(background_tasks_recheck);
-    	
+     
+     // STOP re-checks
+     // https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
+     clearTimeout(background_tasks_recheck); 
+     background_tasks_recheck = false;
+
+     // de-register ACTIVE (allowed) runtime ID
+     active_bg_tasks_check_runtime_id = false;
+          
+     // RESET BG task elapsed time tracking
+     background_tasks_start_time = Date.now();
+     background_tasks_elapsed_time = 0;
+          
+     // ALLOW updating 'loading..' alerts
+     allow_regular_loading_notices = true; 
+
      background_tasks_status = 'done';
           
      //console.log('Background tasks have completed.');
@@ -2573,11 +2613,17 @@ function background_tasks_check(runtime_id) {
          	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
          	set_scroll_position(); 
          	}
-         	
-     return true;
 		
      }
 	else {
+    
+     background_tasks_status = 'wait';
+          
+	     // If ONLY emulated cron background task is running AFTER initial page load, flag as such
+	     // (so we DON'T reset the scroll position every minute)
+	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
+	     emulated_cron_task_only = true;
+	     }
 	
 	background_tasks_elapsed_time = ( Date.now() - background_tasks_start_time ) / 1000; // in seconds
           
@@ -2586,16 +2632,16 @@ function background_tasks_check(runtime_id) {
           // UI notice, if background tasks have lasted over 4 minutes
           if ( background_tasks_elapsed_time > 240 ) {
           
-          update_ui_notice = false; // NO updating UI alerts
+          allow_regular_loading_notices = false; // NO updating 'loading..' alerts
                
                // IF emulated cron is hanging
                if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
                
                     if ( Base64.decode(is_windows) == 'yes' ) {
-                    var cron_desc = 'scheduled task';
+                    var cron_desc = 'Scheduled Task';
                     }
                     else {
-                    var cron_desc = 'cron job';
+                    var cron_desc = 'Cron Job';
                     }
                     
                     if ( is_admin ) {
@@ -2605,7 +2651,7 @@ function background_tasks_check(runtime_id) {
                     var area_desc = 'USER';
                     }
                     
-               background_loading_notices('The EMULATED ' + cron_desc + ' manager MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br />It is HIGHLY RECOMMENDED TO STAY IN THE ' + area_desc + ' AREA, until the ' + cron_desc + ' manager finishes running (to avoid corrupting cached data).', "#ff4747");
+               background_loading_notices('The EMULATED ' + cron_desc + ' Manager MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br />It is HIGHLY RECOMMENDED to stay in the ' + area_desc + ' AREA, until it finishes running (to avoid corrupting cache data).', "#ff4747");
                
                }
                // IF price charts are hanging
@@ -2627,29 +2673,24 @@ function background_tasks_check(runtime_id) {
           // UI notice, if background tasks have lasted over 1 minute
           else if ( background_tasks_elapsed_time > 60 ) {
                
-          update_ui_notice = false; // NO updating UI alerts
+          allow_regular_loading_notices = false; // NO updating 'loading..' alerts
           
           background_loading_notices('Background tasks are STILL busy (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes)', "#ff4747");
 
           //console.log('Background tasks are STILL busy');
 
           }
-          
-	     // If ONLY emulated cron background task is running AFTER initial page load, flag as such
-	     // (so we DON'T reset the scroll position every minute)
-	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
-	     emulated_cron_task_only = true;
-	     }
-    
+
+     // Re-check every 1 second (in milliseconds), AND SET runtime_id
+     background_tasks_recheck = setTimeout(background_tasks_check, 1000, runtime_id); 
+
      }
 		
 	
-background_tasks_status = 'wait';
 
-//console.log('background_tasks_check: ' + background_tasks_status);
+//console.log('background_tasks_recheck = ' + background_tasks_recheck);
 
-// Re-check every 1 second (in milliseconds), AND SET runtime_id
-background_tasks_recheck = setTimeout(background_tasks_check, 1000, runtime_id); 
+//console.log('background_tasks_status: ' + background_tasks_status);
 
 }
 
