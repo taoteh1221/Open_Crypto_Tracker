@@ -2061,10 +2061,6 @@ function set_admin_2fa(obj=false, submit=false) {
 
 
 function app_reloading_check(form_submission=0, new_location=false) {
-
-// RESET BG task elapsed time tracking
-background_tasks_start_time = Date.now();
-background_tasks_elapsed_time = 0; 
         
     // Disable form updating in privacy mode
     if ( localStorage.getItem(priv_toggle_storage) == 'on' && form_submission == 1 ) {
@@ -2597,7 +2593,7 @@ function background_tasks_check(runtime_id) {
      active_bg_tasks_check_runtime_id = false;
           
      // RESET BG task elapsed time tracking
-     background_tasks_start_time = Date.now();
+     background_tasks_start_time = false;
      background_tasks_elapsed_time = 0;
           
      // ALLOW updating 'loading..' alerts
@@ -2623,6 +2619,11 @@ function background_tasks_check(runtime_id) {
 	     // (so we DON'T reset the scroll position every minute)
 	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
 	     emulated_cron_task_only = true;
+	     }
+	     
+	     // Set tasks start time, IF not already set
+	     if ( !background_tasks_start_time ) {
+	     background_tasks_start_time = Date.now();
 	     }
 	
 	background_tasks_elapsed_time = ( Date.now() - background_tasks_start_time ) / 1000; // in seconds

@@ -257,7 +257,7 @@ var custom_3deep_menu_open = false;
 
 var news_feed_batched_maximum = 0;
 
-var background_tasks_start_time = Date.now();
+var background_tasks_start_time = false;
 
 var background_tasks_elapsed_time = 0;
 
