@@ -2588,16 +2588,8 @@ function background_tasks_check(runtime_id) {
           
           update_ui_notice = false; // NO updating UI alerts
                
-               // IF price charts are hanging
-               if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' ) {
-               background_loading_notices('Price Chart tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your CHOSEN Price Charts, SHOULD fix this.', "#ff4747");
-               }
-               // IF news feeds are hanging
-               else if ( cron_run_check() == 'done' && charts_loading_check() == 'done' ) {
-               background_loading_notices('News Feed tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your CHOSEN News Feeds, SHOULD fix this.', "#ff4747");
-               }
                // IF emulated cron is hanging
-               else if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
+               if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
                
                     if ( Base64.decode(is_windows) == 'yes' ) {
                     var cron_desc = 'scheduled task';
@@ -2615,6 +2607,18 @@ function background_tasks_check(runtime_id) {
                     
                background_loading_notices('The EMULATED ' + cron_desc + ' manager MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br />It is HIGHLY RECOMMENDED TO STAY IN THE ' + area_desc + ' AREA, until the ' + cron_desc + ' manager finishes running (to avoid corrupting cached data).', "#ff4747");
                
+               }
+               // IF price charts are hanging
+               else if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' ) {
+               background_loading_notices('Price Chart tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED Price Charts, SHOULD fix this.', "#ff4747");
+               }
+               // IF news feeds are hanging
+               else if ( cron_run_check() == 'done' && charts_loading_check() == 'done' ) {
+               background_loading_notices('News Feed tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED News Feeds, SHOULD fix this.', "#ff4747");
+               }
+               // Every other combo
+               else {
+               background_loading_notices('Background tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED News Feeds AND Price Charts, MAY fix this.', "#ff4747");
                }
           
           //console.log('Background tasks MAY be stuck');
