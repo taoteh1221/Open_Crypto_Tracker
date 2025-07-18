@@ -6,6 +6,13 @@
         "dummy_entry": true
     },
     {
+        "timestamp": 1752883200,
+        "very_important": true,
+        "affected_version": "6.01.01",
+        "affected_earlier": true,
+        "affected_desc": "v6.01.02 has been released. The @JupiterExchange PRICE API has been upgraded to v3, AND TOKEN API to v2. BOTH of the PREVIOUS versions of these APIs will be DEPRECIATED on August 1st, 2025. Upgrade now, if you want to avoid disruption of your Jupiter tracked markets \/ new asset search capabilities."
+    },
+    {
         "timestamp": 1751328000,
         "very_important": true,
         "affected_version": "6.01.00",
