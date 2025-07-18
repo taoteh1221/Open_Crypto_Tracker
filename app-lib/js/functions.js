@@ -308,7 +308,7 @@ function set_cookie(cname, cvalue, exdays) {
      var expires = "expires=" + d.toUTCString();
      }
 
-is_secure = app_edition == 'server' ? ' Secure' : '';
+is_secure = Base64.decode(app_edition) == 'server' ? ' Secure' : '';
 
 document.cookie = cname + "=" + cvalue + "; path=" + cookie_path + "; " + expires + "; SameSite=Strict;" + is_secure;
 
@@ -389,17 +389,43 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
 
 
 function cron_run_check() {
+     
+//console.log('cron_run_check()');
 
 	if ( cron_already_ran == true ) {
 	return 'done';
 	}
 	else {
+
+	    if ( allow_regular_loading_notices ) {
+	         
+              if ( Base64.decode(is_windows) == 'yes' ) {
+              var cron_desc = 'Scheduled Task';
+              }
+              else {
+              var cron_desc = 'Cron Job';
+              }
+                    
+              if ( is_admin ) {
+              var area_desc = 'Admin';
+              }
+              else {
+              var area_desc = 'User';
+              }
+                    
+	    background_loading_notices("Running EMULATED " + cron_desc + " Manager<br />(please stay in the " + area_desc + " Area, until completed)...");
+	    
+	    }
 	     
-	     if ( update_ui_notice ) {
-	     background_loading_notices("Checking / Running Scheduled Tasks...");
-	     }
-	
-	$("#background_loading").show(250); // 0.25 seconds
+         // Wait 3 seconds before checks
+         // (so it only shows IF time elapse NOT reset yet [for UX, that we are running, and not just checking])
+         setTimeout(function(){
+
+	        if ( background_tasks_elapsed_time > 0 ) {
+	        $("#background_loading").show(250); // 0.25 seconds
+	        }
+         
+         }, 3000);
 	
 	return 'active';
 	
@@ -446,6 +472,40 @@ $('#pref_number_format').val(pref_number_format);
 /////////////////////////////////////////////////////////////
 
 
+// https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
+function remove_tags(str) {
+	if ((str === null) || (str === ''))
+		return false;
+	else
+		str = str.toString();
+
+	// Regular expression to identify HTML tags in
+	// the input string. Replacing the identified
+	// HTML tag with a null string.
+	return str.replace(/(<([^>]+)>)/ig, '');
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// Javascript OBJECTS are different from javascript ARRAYS (lol),
+// so we need a custom function to get the length
+function getObjectLength (o) {
+  var length = 0;
+
+  for (var i in o) {
+    if (Object.prototype.hasOwnProperty.call(o, i)){
+      length++;
+    }
+  }
+  return length;
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function load_highlightjs(id=false) {
 
      if ( id == false ) {
@@ -475,7 +535,7 @@ function charts_loading_check() {
 	}
 	else {
 	     
-	     if ( update_ui_notice ) {
+	     if ( allow_regular_loading_notices ) {
 	     background_loading_notices("Loading Price Charts...");
 	     }
 	
@@ -529,6 +589,73 @@ $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
 /////////////////////////////////////////////////////////////
 
 
+// JAVASCRIPT COOKIE ENCODING / DECODING IS #NOT# COMPATIBLE 
+// WITH PHP COOKIE AUTO ENCODING / DECODING!! 
+// ONLY USE THIS FOR CHECKS ON COOKIE VALS EXISTING ETC ETC!!
+function get_cookie(cname) {
+	
+name = cname + "=";
+ca = document.cookie.split(';');
+
+    for(i=0; i<ca.length; i++) {
+        c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    
+return false;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function safe_add_remove_class(class_name, element, mode) {
+    
+    if ( mode == 'add' ) {
+    
+        if ( document.getElementById(element) ) {
+        document.getElementById(element).classList.add(class_name); 
+        }
+        
+    }
+    else if ( mode == 'remove' ) {
+    
+        if ( document.getElementById(element) ) {
+        document.getElementById(element).classList.remove(class_name); 
+        }
+        
+    }
+
+    
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function human_time(timestamp) {
+    
+date = new Date(timestamp),
+
+datevalues = [
+             date.getFullYear(),
+             date.getMonth()+1,
+             date.getDate(),
+             date.getHours(),
+             date.getMinutes(),
+             date.getSeconds(),
+             ];
+
+return datevalues[0] + '/' + datevalues[1] + '/' + datevalues[2] + ' @ ' + datevalues[3] + ':' + datevalues[4] + ':' + datevalues[5];
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function feeds_loading_check() {
      
 //console.log('feeds_loaded.length = ' + feeds_loaded.length );
@@ -541,7 +668,7 @@ function feeds_loading_check() {
 	}
 	else {
 	     
-	     if ( update_ui_notice ) {
+	     if ( allow_regular_loading_notices ) {
 	     background_loading_notices("Loading News Feeds...");
 	     }
 	
@@ -551,40 +678,6 @@ function feeds_loading_check() {
 
 	}
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
-function remove_tags(str) {
-	if ((str === null) || (str === ''))
-		return false;
-	else
-		str = str.toString();
-
-	// Regular expression to identify HTML tags in
-	// the input string. Replacing the identified
-	// HTML tag with a null string.
-	return str.replace(/(<([^>]+)>)/ig, '');
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// Javascript OBJECTS are different from javascript ARRAYS (lol),
-// so we need a custom function to get the length
-function getObjectLength (o) {
-  var length = 0;
-
-  for (var i in o) {
-    if (Object.prototype.hasOwnProperty.call(o, i)){
-      length++;
-    }
-  }
-  return length;
 }
 
 
@@ -691,6 +784,28 @@ scroll_start();
 /////////////////////////////////////////////////////////////
 
 
+function get_coords(elem) { // crossbrowser version
+    var box = elem.getBoundingClientRect();
+
+    var body = document.body;
+    var docEl = document.documentElement;
+
+    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    var clientTop = docEl.clientTop || body.clientTop || 0;
+    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    var top  = box.top +  scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+
+    return { top: Math.round(top), left: Math.round(left) };
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function print_object(obj) {
 
 let string = '';
@@ -707,6 +822,28 @@ let string = '';
     }
  
 return string;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function balloon_css(text_align="left", z_index="32767", min_width="500px") {
+
+return {
+					fontSize: set_font_size + "em",
+					minWidth: min_width,
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: z_index,
+					textAlign: text_align,
+					}
 
 }
 
@@ -732,6 +869,59 @@ var hash_check = $(location).attr('hash');
      else {
      localStorage.setItem(scroll_position_storage, 0);
      }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function crypto_val_toggle(obj_var) {
+  
+show_crypto_val = $("#show_crypto_val").val();
+	
+	if ( obj_var.checked == true ) {
+	$("#show_crypto_val").val("[" + obj_var.value + "]" + "," + show_crypto_val);
+	}
+	else {
+	$("#show_crypto_val").val( show_crypto_val.replace("[" + obj_var.value + "],", "") );
+	}
+	
+  
+show_crypto_val = $("#show_crypto_val").val(); // Reset var with any new data
+
+// Error checking
+$("#show_crypto_val").val( show_crypto_val.replace(",,", ",") );
+
+red_save_button();
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function iframe_size_adjust(elm) {
+
+    var extra_width = 2;
+
+
+    // Now that we've set any required zoom level, adjust the height
+    if ( elm.id == 'iframe_security' ) {
+    var extra_height = 1500;
+    }
+    else {
+    var extra_height = 150;
+    }
+
+    
+    // If defined
+    if ( typeof elm.contentWindow.document.body != 'undefined' && elm.contentWindow.document.body != null ) {
+    $(elm).css( 'min-height' , (elm.contentWindow.document.body.scrollHeight + extra_height) + "px" );
+    //$(elm).css( 'min-width' , (elm.contentWindow.document.body.scrollWidth + extra_width) + "px" );
+    $(elm).css( 'min-width' , "100%" );
+    }
+    
 
 }
 
@@ -790,28 +980,6 @@ var hash_check = $(location).attr('hash');
     else {
 	localStorage.setItem(scroll_position_storage, 0);
     }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function balloon_css(text_align="left", z_index="32767", min_width="500px") {
-
-return {
-					fontSize: set_font_size + "em",
-					minWidth: min_width,
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: z_index,
-					textAlign: text_align,
-					}
 
 }
 
@@ -957,31 +1125,6 @@ var target_elements = document.querySelectorAll('form:not(.numeric_format_safe)'
 /////////////////////////////////////////////////////////////
 
 
-function crypto_val_toggle(obj_var) {
-  
-show_crypto_val = $("#show_crypto_val").val();
-	
-	if ( obj_var.checked == true ) {
-	$("#show_crypto_val").val("[" + obj_var.value + "]" + "," + show_crypto_val);
-	}
-	else {
-	$("#show_crypto_val").val( show_crypto_val.replace("[" + obj_var.value + "],", "") );
-	}
-	
-  
-show_crypto_val = $("#show_crypto_val").val(); // Reset var with any new data
-
-// Error checking
-$("#show_crypto_val").val( show_crypto_val.replace(",,", ",") );
-
-red_save_button();
-	
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function chart_toggle(obj_var) {
   
 var show_charts = localStorage.getItem(show_charts_storage);
@@ -1040,27 +1183,6 @@ local_storage_saved_notice('Selected News Feeds');
 /////////////////////////////////////////////////////////////
 
 
-function human_time(timestamp) {
-    
-date = new Date(timestamp),
-
-datevalues = [
-             date.getFullYear(),
-             date.getMonth()+1,
-             date.getDate(),
-             date.getHours(),
-             date.getMinutes(),
-             date.getSeconds(),
-             ];
-
-return datevalues[0] + '/' + datevalues[1] + '/' + datevalues[2] + ' @ ' + datevalues[3] + ':' + datevalues[4] + ':' + datevalues[5];
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function show_more(id, change_text=0) {
 	
 	if ( $("#"+id).is(":visible") ) {
@@ -1098,80 +1220,6 @@ function show_more(id, change_text=0) {
 /////////////////////////////////////////////////////////////
 
 
-// JAVASCRIPT COOKIE ENCODING / DECODING IS #NOT# COMPATIBLE 
-// WITH PHP COOKIE AUTO ENCODING / DECODING!! 
-// ONLY USE THIS FOR CHECKS ON COOKIE VALS EXISTING ETC ETC!!
-function get_cookie(cname) {
-	
-name = cname + "=";
-ca = document.cookie.split(';');
-
-    for(i=0; i<ca.length; i++) {
-        c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    
-return false;
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function safe_add_remove_class(class_name, element, mode) {
-    
-    if ( mode == 'add' ) {
-    
-        if ( document.getElementById(element) ) {
-        document.getElementById(element).classList.add(class_name); 
-        }
-        
-    }
-    else if ( mode == 'remove' ) {
-    
-        if ( document.getElementById(element) ) {
-        document.getElementById(element).classList.remove(class_name); 
-        }
-        
-    }
-
-    
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function iframe_size_adjust(elm) {
-
-    var extra_width = 2;
-
-
-    // Now that we've set any required zoom level, adjust the height
-    if ( elm.id == 'iframe_security' ) {
-    var extra_height = 1500;
-    }
-    else {
-    var extra_height = 150;
-    }
-
-    
-    // If defined
-    if ( typeof elm.contentWindow.document.body != 'undefined' && elm.contentWindow.document.body != null ) {
-    $(elm).css( 'min-height' , (elm.contentWindow.document.body.scrollHeight + extra_height) + "px" );
-    //$(elm).css( 'min-width' , (elm.contentWindow.document.body.scrollWidth + extra_width) + "px" );
-    $(elm).css( 'min-width' , "100%" );
-    }
-    
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function ajax_placeholder(px_size, align, message=null, display_mode=null){
 
 // Scale properly...Run a multiplier, to slightly increase size
@@ -1193,28 +1241,6 @@ px_size = Math.round( (px_size * set_font_size) * 1.3 );
 	}
 	
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function get_coords(elem) { // crossbrowser version
-    var box = elem.getBoundingClientRect();
-
-    var body = document.body;
-    var docEl = document.documentElement;
-
-    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
-
-    var clientTop = docEl.clientTop || body.clientTop || 0;
-    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
-
-    var top  = box.top +  scrollTop - clientTop;
-    var left = box.left + scrollLeft - clientLeft;
-
-    return { top: Math.round(top), left: Math.round(left) };
 }
 
 
@@ -2035,10 +2061,6 @@ function set_admin_2fa(obj=false, submit=false) {
 
 
 function app_reloading_check(form_submission=0, new_location=false) {
-
-// RESET the 'busy' ui alerts
-background_tasks_start_time = Date.now();
-background_tasks_elapsed_time = 0; 
         
     // Disable form updating in privacy mode
     if ( localStorage.getItem(priv_toggle_storage) == 'on' && form_submission == 1 ) {
@@ -2313,44 +2335,42 @@ cron_already_ran = false;
 background_tasks_check('emulated_cron'); 
 
 
-      $.ajax({
-            type: 'GET',
-            url: 'cron.php?cron_emulate=1',
-            async: true,
-            contentType: "application/json",
-            dataType: 'json',
-            success: function(response) {
-                
-                if ( typeof response.result != 'undefined' ) {
-                console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
-                }
-            
-                // If flagged to display error in GUI
-                if ( typeof response.display_error != 'undefined' ) {
-                
-                    if ( $('#alert_bell_area').html() == 'No new runtime alerts.' ) {
-                    $('#alert_bell_area').html( response.result );
-                    }
-                    else {
-                    $('#alert_bell_area').html( $('#alert_bell_area').html() + '<br />' + response.result );
-                    }
-                
-                $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-                
-                }
-            
-            
-            cron_already_ran = true;
-            
-            background_tasks_check('emulated_cron2');  
-            
-            },
-            error: function(response) {
-            console.log( "\n\ncron emulation: *AJAX* (*NOT* PHP) ERROR response at " + human_time( new Date().getTime() ) + " (see below)...\n" + print_object(response) + "\n\n" );
-            cron_already_ran = true;
-            background_tasks_check('emulated_cron3'); 
-            }
-        });
+           $.ajax({
+                 type: 'GET',
+                 url: 'cron.php?cron_emulate=1',
+                 async: true,
+                 contentType: "application/json",
+                 dataType: 'json',
+                 success: function(response) {
+                     
+                     if ( typeof response.result != 'undefined' ) {
+                     console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
+                     }
+                 
+                     // If flagged to display error in GUI
+                     if ( typeof response.display_error != 'undefined' ) {
+                     
+                         if ( $('#alert_bell_area').html() == 'No new runtime alerts.' ) {
+                         $('#alert_bell_area').html( response.result );
+                         }
+                         else {
+                         $('#alert_bell_area').html( $('#alert_bell_area').html() + '<br />' + response.result );
+                         }
+                     
+                     $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+                     
+                     }
+                 
+                 
+                 cron_already_ran = true;
+                 
+                 },
+                 error: function(response) {
+                 console.log( "\n\ncron emulation: *AJAX* (*NOT* PHP) ERROR response at " + human_time( new Date().getTime() ) + " (see below)...\n" + print_object(response) + "\n\n" );
+                 cron_already_ran = true;
+                 }
+                 
+           });
     
     
 setTimeout(emulated_cron, 60000); // Re-check every minute (in milliseconds...cron.php will know if it's time)
@@ -2373,7 +2393,7 @@ function app_reload(form_submission, new_location) {
         background_loading_notices('Please wait, finishing background tasks...', "#ff4747");
         }
     
-    update_ui_notice = false; // NO updating UI alerts
+    allow_regular_loading_notices = false; // NO updating 'loading..' alerts
     
     background_tasks_check('app_reload');
     
@@ -2532,6 +2552,8 @@ badColor = "#ff4747";
 
 
 function background_tasks_check(runtime_id) {
+     
+//console.log('background_tasks_check() runtime_id = ' + runtime_id);
 
 //console.log( 'cron_run_check() = ' + cron_run_check() );
 
@@ -2539,30 +2561,44 @@ function background_tasks_check(runtime_id) {
 
 //console.log( 'charts_loading_check() = ' + charts_loading_check() );
      
-     // Register the runtime ID, IF not running yet
-     if ( !background_tasks_check_runtime_id ) {
-     background_tasks_check_runtime_id = runtime_id;
+     // Register this as ACTIVE runtime ID, IF not set
+     if ( !active_bg_tasks_check_runtime_id ) {
+     active_bg_tasks_check_runtime_id = runtime_id;
      }
      
 //console.log('runtime_id = ' + runtime_id);
-//console.log('background_tasks_check_runtime_id = ' + background_tasks_check_runtime_id);
+//console.log('active_bg_tasks_check_runtime_id = ' + active_bg_tasks_check_runtime_id);
      
-     // Skip. IF already running
-     if ( runtime_id != background_tasks_check_runtime_id ) {
-     return false;
+     // Skip, IF already running, UNLESS A RECHECK IS ACTIVE
+     if ( runtime_id != active_bg_tasks_check_runtime_id ) {
+     // Do nothing
      }
      else if (
      cron_run_check() == 'done'
      && feeds_loading_check() == 'done'
      && charts_loading_check() == 'done'
      ) {
-          
-     all_tasks_initial_load = false; // Unset initial bg tasks loading flag
+     
+     // Unset initial bg tasks loading flag
+     all_tasks_initial_load = false; 
 		    
 	$("#background_loading").hide(250); // 0.25 seconds
-         	
-     clearTimeout(background_tasks_recheck);
-    	
+     
+     // STOP re-checks
+     // https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
+     clearTimeout(background_tasks_recheck); 
+     background_tasks_recheck = false;
+
+     // de-register ACTIVE (allowed) runtime ID
+     active_bg_tasks_check_runtime_id = false;
+          
+     // RESET BG task elapsed time tracking
+     background_tasks_start_time = false;
+     background_tasks_elapsed_time = 0;
+          
+     // ALLOW updating 'loading..' alerts
+     allow_regular_loading_notices = true; 
+
      background_tasks_status = 'done';
           
      //console.log('Background tasks have completed.');
@@ -2573,11 +2609,22 @@ function background_tasks_check(runtime_id) {
          	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
          	set_scroll_position(); 
          	}
-         	
-     return true;
 		
      }
 	else {
+    
+     background_tasks_status = 'wait';
+          
+	     // If ONLY emulated cron background task is running AFTER initial page load, flag as such
+	     // (so we DON'T reset the scroll position every minute)
+	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
+	     emulated_cron_task_only = true;
+	     }
+	     
+	     // Set tasks start time, IF not already set
+	     if ( !background_tasks_start_time ) {
+	     background_tasks_start_time = Date.now();
+	     }
 	
 	background_tasks_elapsed_time = ( Date.now() - background_tasks_start_time ) / 1000; // in seconds
           
@@ -2586,9 +2633,40 @@ function background_tasks_check(runtime_id) {
           // UI notice, if background tasks have lasted over 4 minutes
           if ( background_tasks_elapsed_time > 240 ) {
           
-          update_ui_notice = false; // NO updating UI alerts
-          
-          background_loading_notices('Background tasks MAY be stuck (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading</a> AFTER Resetting Charts / News Feeds MAY help.', "#ff4747");
+          allow_regular_loading_notices = false; // NO updating 'loading..' alerts
+               
+               // IF emulated cron is hanging
+               if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
+               
+                    if ( Base64.decode(is_windows) == 'yes' ) {
+                    var cron_desc = 'Scheduled Task';
+                    }
+                    else {
+                    var cron_desc = 'Cron Job';
+                    }
+                    
+                    if ( is_admin ) {
+                    var area_desc = 'ADMIN';
+                    }
+                    else {
+                    var area_desc = 'USER';
+                    }
+                    
+               background_loading_notices('The EMULATED ' + cron_desc + ' Manager MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br />It is HIGHLY RECOMMENDED to stay in the ' + area_desc + ' AREA, until it finishes running (to avoid corrupting cache data).', "#ff4747");
+               
+               }
+               // IF price charts are hanging
+               else if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' ) {
+               background_loading_notices('Price Chart tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED Price Charts, SHOULD fix this.', "#ff4747");
+               }
+               // IF news feeds are hanging
+               else if ( cron_run_check() == 'done' && charts_loading_check() == 'done' ) {
+               background_loading_notices('News Feed tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED News Feeds, SHOULD fix this.', "#ff4747");
+               }
+               // Every other combo
+               else {
+               background_loading_notices('Background tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED News Feeds AND Price Charts, MAY fix this.', "#ff4747");
+               }
           
           //console.log('Background tasks MAY be stuck');
 
@@ -2596,29 +2674,24 @@ function background_tasks_check(runtime_id) {
           // UI notice, if background tasks have lasted over 1 minute
           else if ( background_tasks_elapsed_time > 60 ) {
                
-          update_ui_notice = false; // NO updating UI alerts
+          allow_regular_loading_notices = false; // NO updating 'loading..' alerts
           
-          background_loading_notices('Background tasks are STILL busy (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes)', "#ff4747");
+          background_loading_notices('Background tasks are STILL busy (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes)', "#ff4747");
 
           //console.log('Background tasks are STILL busy');
 
           }
-          
-	     // If ONLY emulated cron background task is running AFTER initial page load, flag as such
-	     // (so we DON'T reset the scroll position every minute)
-	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
-	     emulated_cron_task_only = true;
-	     }
-    
+
+     // Re-check every 1 second (in milliseconds), AND SET runtime_id
+     background_tasks_recheck = setTimeout(background_tasks_check, 1000, runtime_id); 
+
      }
 		
 	
-background_tasks_status = 'wait';
 
-//console.log('background_tasks_check: ' + background_tasks_status);
+//console.log('background_tasks_recheck = ' + background_tasks_recheck);
 
-// Re-check every 1 second (in milliseconds), AND SET runtime_id
-background_tasks_recheck = setTimeout(background_tasks_check, 1000, runtime_id); 
+//console.log('background_tasks_status: ' + background_tasks_status);
 
 }
 
@@ -3868,7 +3941,7 @@ var tiny_line_height = tiny_line_height.toFixed(3);
      else {
           
           // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
-          if ( app_container == 'phpdesktop' && app_platform == 'linux' ) {
+          if ( Base64.decode(app_container) == 'phpdesktop' && Base64.decode(app_platform) == 'linux' ) {
           var info_icon_size = font_size * 1.6;
           }
           else {

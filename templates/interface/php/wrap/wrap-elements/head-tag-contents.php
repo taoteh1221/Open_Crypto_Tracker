@@ -44,9 +44,24 @@
 	
 	ct_id = '<?=base64_encode( $ct['sec']->id() )?>';
 	
-	app_edition = '<?=$ct['app_edition']?>';
+	// Are we running windows?
+	<?php
+	if (
+	isset($ct['system_info']['distro_name'])
+     && preg_match("/windows/i", $ct['system_info']['distro_name'])
+     ) {
+     $is_windows = 'yes';
+     }
+     else {
+     $is_windows = 'no';
+     }
+	?>
 	
-	app_platform = '<?=$ct['app_platform']?>';
+	is_windows = '<?=base64_encode($is_windows)?>';
+	
+	app_edition = '<?=base64_encode($ct['app_edition'])?>';
+	
+	app_platform = '<?=base64_encode($ct['app_platform'])?>';
 	
 	cookie_path = '<?=$ct['cookie_path']?>';
 	
@@ -108,7 +123,7 @@
      if ( isset($ct['app_container']) ) {
      ?>
      
-	app_container = '<?=$ct['app_container']?>';
+	app_container = '<?=base64_encode($ct['app_container'])?>';
 	
      <?php
      }

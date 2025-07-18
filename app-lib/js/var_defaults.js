@@ -69,6 +69,8 @@ var app_edition;
 var app_platform;
 
 var app_container;
+
+var is_windows;
 	
 var logs_csrf_sec_token;
 
@@ -197,8 +199,6 @@ var bitcoin_primary_currency_pair;
 var watch_only_flag_val;
 
 var cookies_size_warning;
-	
-var background_tasks_recheck;
 
 var range_inputs;
 
@@ -211,6 +211,8 @@ var cookie_path;
 // With defaults
 	
 var gen_csrf_sec_token = Base64.encode('none');
+	
+var background_tasks_recheck = false;
 
 var disable_nav_save_buttons = false;
 
@@ -247,15 +249,15 @@ var all_tasks_initial_load = true;
 	
 var background_tasks_status = 'wait';
 	
-var background_tasks_check_runtime_id = false;
+var active_bg_tasks_check_runtime_id = false;
 
-var update_ui_notice = true;
+var allow_regular_loading_notices = true;
 
 var custom_3deep_menu_open = false;
 
 var news_feed_batched_maximum = 0;
 
-var background_tasks_start_time = Date.now();
+var background_tasks_start_time = false;
 
 var background_tasks_elapsed_time = 0;
 

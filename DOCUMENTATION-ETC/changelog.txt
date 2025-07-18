@@ -6925,6 +6925,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous (minor)
 
+-Better Desktop Edition user experience, related to the built-in (EMULATED) Cron Job / Scheduled Task Manager (only shows the running notice when it's time for a FULL run, NOT just a CHECK)
+
 -Upgraded to Jupiter Aggregator TOKEN API v2 (UPGRADE THIS APP BY AUGUST 1ST 2025, TO KEEP GETTING JUPITER MARKET DATA)
 
 -Upgraded to Jupiter Aggregator PRICE API v3 (UPGRADE THIS APP BY AUGUST 1ST 2025, TO KEEP GETTING JUPITER MARKET DATA)

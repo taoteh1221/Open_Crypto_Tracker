@@ -4018,8 +4018,7 @@ var $exchange_apis = array(
     		     }
     		     else {
     		
-         		// As of 2025/5/3, ONLY ONE COIN AT A TIME IS SUPPORTED:
-         		// https://dev.jup.ag/docs/token-api#get-token-information
+         		// https://dev.jup.ag/docs/token-api/v2
                $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v2/search?query=' . $result['jup_ag_address'], 45); // 45 minute cache
                  
                $data = json_decode($response, true);
