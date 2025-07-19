@@ -124,7 +124,7 @@ $ct['admin_render_settings']['smtp_login']['is_password'] = true;
 
 $ct['admin_render_settings']['smtp_login']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['smtp_login']['is_notes'] = 'This format MUST be used: username||password<br />USE A THROW-AWAY EMAIL ACCOUNT HERE FOR SAFETY!';
+$ct['admin_render_settings']['smtp_login']['is_notes'] = 'This format MUST be used: username||password<br /><b class="red">USE A THROW-AWAY EMAIL ACCOUNT HERE, FOR SAFETY!</b>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ $ct['admin_render_settings']['from_email']['is_trim'] = true;
 
 $ct['admin_render_settings']['from_email']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['from_email']['is_notes'] = 'FROM Email address MUST be a REAL address on the app server, *UNLESS* you are behind a home internet gateway (in those cases, it should match the Email address associated with an "SMTP Login" account [further above])';
+$ct['admin_render_settings']['from_email']['is_notes'] = 'FROM Email address MUST be a REAL address on the app server, *UNLESS* you are behind a home internet gateway (with no MATCHING reverse DNS [for the email domain]. In those cases, it should match the Email address associated with an "SMTP Login" account [further above])';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +178,7 @@ $ct['admin_render_settings']['to_mobile_text']['is_trim'] = true;
 
 $ct['admin_render_settings']['to_mobile_text']['text_field_size'] = 40;
 
-$ct['admin_render_settings']['to_mobile_text']['is_notes'] = 'USE "skip_network_name" IN THE PROVIDER FIELD, IF YOU ARE USING A 3RD PARTY SMS-SENDING SERVICE (TWILIO / TEXTBELT / TEXTLOCAL / ETC)!<br />Examples:<br />12223334444||virgin_us / 12223334444||skip_network_name<br />(available gateways can be found in the "Mobile Text Gateways" section, while 3rd party SMS-sending services can be found in the "External APIs" section)';
+$ct['admin_render_settings']['to_mobile_text']['is_notes'] = 'USE "skip_network_name" IN THE PROVIDER FIELD, IF YOU ARE USING A 3RD PARTY SMS-SENDING SERVICE (TWILIO / TEXTBELT / TEXTLOCAL / ETC)!<br />Examples:<br />12223334444||virgin_us &nbsp; 12223334444||skip_network_name<br />(available gateways can be found in the "Mobile Text Gateways" section, while 3rd party SMS-sending services can be found in the "External APIs" section)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,6 +205,7 @@ $ct['admin_render_settings']['logs_email']['range_ui_suffix'] = ' Days';
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
+// SHOULD BE COMMA-DELIMITED: 'iframe_reset_backup_restore,iframe_apis'
 $ct['admin_render_settings']['is_refresh_admin'] = 'all';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)

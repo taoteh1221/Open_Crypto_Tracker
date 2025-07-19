@@ -160,7 +160,7 @@ $ct['admin_render_settings']['chart_crypto_volume_decimals']['range_max'] = 10;
 $ct['admin_render_settings']['chart_crypto_volume_decimals']['range_step'] = 1;
 
 
-$ct['admin_render_settings']['chart_crypto_volume_decimals']['is_notes'] = 'Number of decimals to use IN *CRYPTO* PRICE CHARTS.';
+$ct['admin_render_settings']['chart_crypto_volume_decimals']['is_notes'] = 'Number of decimals to use for 24 Hour Trade Volume, IN *CRYPTO* PRICE CHARTS.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,7 +262,7 @@ $ct['admin_render_settings']['tracked_markets']['is_notes'] = 'Add price charts 
 ticker||exchange||trade_pair||alert<br />
 ticker-2||exchange2||trade_pair2||chart<br />
 ticker-3||exchange3||trade_pair3||both<br />
-ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker[-number]) SETS CHART *FILENAMES*, KEEP THIS THE SAME TO *RESTORE OLD CHART DATA* PROPERLY!<br />' . "<p class='red'>The EXCHANGE value MUST be the <a style='font-weight: bold;' class='red' href='javascript: show_more(\"all_exchange_keys\");' title='Click to show exchange keys.'><b>\"key value\" assigned to that exchange</b></a>.</p><div id='all_exchange_keys' style='display: none;' class='align_left'><p class='red'>\"Under the hood\", this app identifies what exchange to use with \"exchange keys\". Here is the FULL list of all ACTIVE exchange keys (exchanges with configured markets, in the current portfolio assets config, that you can add price alerts / charts for):</p><p class='red'>" . strtolower($active_exchanges_list) . "</p></div>";
+ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker[-number]) SETS CHART *FILENAMES*, KEEP THIS THE SAME TO *RESTORE OLD CHART DATA* PROPERLY!<br />' . "<p class='red'>The EXCHANGE value MUST be the <a style='font-weight: bold;' class='red' href='javascript: show_more(\"all_exchange_keys\");' title='Click to show exchange keys.'><b>\"key value\" assigned to that exchange</b></a>.</p><div id='all_exchange_keys' style='display: none;' class='align_left'><p class='red'>\"Under the hood\", this app identifies what exchange to use with \"exchange keys\". Here is the FULL list of all ACTIVE exchange keys (exchanges used in the current portfolio assets config, that you can associate with app settings, by using their exchange keys):</p><p class='red'>" . strtolower($active_exchanges_list) . "</p></div>";
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -271,6 +271,7 @@ ticker-4||exchange4||trade_pair4||none<br />THE FIRST VALUE (ticker[-number]) SE
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
+// SHOULD BE COMMA-DELIMITED: 'iframe_reset_backup_restore,iframe_apis'
 $ct['admin_render_settings']['is_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)

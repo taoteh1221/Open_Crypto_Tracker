@@ -92,6 +92,7 @@ $ct['admin_render_settings']['int_api_cache_time']['is_notes'] = 'Cache time (ti
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
+// SHOULD BE COMMA-DELIMITED: 'iframe_reset_backup_restore,iframe_apis'
 $ct['admin_render_settings']['is_refresh_admin'] = 'all';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
@@ -205,7 +206,7 @@ unset($webhook_plug);
 	        
 	    <p class='bitcoin'>Bash / CURL example:</p>
 	        	        
-<pre class='rounded'><code class='hide-x-scroll bash' style='width: auto; height: auto;'># CURL command line example
+<pre class='rounded'><code class='hide-x-scroll bash' style='width: auto; height: auto;'># CURL command line example:
 <?php
 
 // ALERT for WINDOWS SERVER EDITION
@@ -213,6 +214,7 @@ if ( $ct['app_edition'] == 'server' ) {
 ?>
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
+
 <?php
 }
 
@@ -226,6 +228,7 @@ isset($ct['system_info']['distro_name'])
 $curl_name = 'curl.exe';
 ?>
 # WINDOWS (ANY Edition) USERS: ALWAYS USE "curl.exe", AS "curl" IS A DIFFERENT PROGRAM!
+
 <?php
 }
 else {
@@ -238,10 +241,10 @@ if ( $ct['app_container'] == 'phpdesktop' && $ct['app_platform'] == 'windows' ) 
 ?>
 # WINDOWS (DESKTOP Edition) USERS: <?=$curl_name?> COMMANDS MAY NOT WORK, because the
 # PHPdesktop (used by Desktop Editions) server config sends MALFORMED header responses!
+
 <?php
 }
 ?>
-
 <?=$curl_name?><?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$ct['base_url']?><?=$ct['int_api_base_endpoint']?>market_conversion/eur/kraken-btc-usd,coinbase-eth-usd,binance_us-sol-usdc
 </code></pre>
 	        
@@ -249,7 +252,7 @@ if ( $ct['app_container'] == 'phpdesktop' && $ct['app_platform'] == 'windows' ) 
 	    <p class='bitcoin' style='margin-top: 45px;'>Javascript example:</p>
 	        	        	        
 	                
-<pre class='rounded'><code class='hide-x-scroll javascript' style='width: auto; height: auto;'>// Javascript example
+<pre class='rounded'><code class='hide-x-scroll javascript' style='width: auto; height: auto;'>// Javascript example:
 
 <?php
 if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
@@ -308,7 +311,7 @@ api_request.send(params);
 	    <p class='bitcoin' style='margin-top: 45px;'>PHP / CURL example:</p>
 	        	        
 	        
-<pre class='rounded'><code class='hide-x-scroll php' style='width: auto; height: auto;'>// CURL PHP example (requires CURL PHP module)
+<pre class='rounded'><code class='hide-x-scroll php' style='width: auto; height: auto;'>// CURL PHP example (requires CURL PHP module):
 
 // PHP version
 if (!defined('PHP_VERSION_ID')) {

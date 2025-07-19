@@ -1312,6 +1312,7 @@ nav_menu('.user-nav');
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
+	// DEBUGGING, show all admin iframe IDs
+	//console.log('all_admin_iframe_ids = ' + all_admin_iframe_ids);
 	
 });
