@@ -132,6 +132,15 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 REDO all screenshots, used on the project page.
 
 
+News feed XML errors should be saved to /cache/logs/debug/xml_error_parsing/, instead of /cache/other/xml_error_parsing/.
+
+
+For the 'margin leverage maximum' power user setting, add decimal support (in the admin interface too), as modern perp markets on Solana allow this.
+
+
+For the 'address balance tracker' plugin, look into requiring ANY 'sol' pairing (instead of insisting it's a jupiter market 'sol' pairing), to automatically list it in the interface.
+
+
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 
 
 

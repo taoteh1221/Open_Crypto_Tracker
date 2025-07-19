@@ -286,7 +286,7 @@ $ct['admin_render_settings']['backup_archive_frequency']['range_ui_prefix'] = 'E
 
 $ct['admin_render_settings']['backup_archive_frequency']['range_ui_suffix'] = ' Days';
 
-$ct['admin_render_settings']['backup_archive_frequency']['is_notes'] = 'Backup chart data (AND send a download LINK to the ADMIN email)';
+$ct['admin_render_settings']['backup_archive_frequency']['is_notes'] = 'Backup chart / config / etc data (AND send a download LINK to the ADMIN email)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
