@@ -413,7 +413,7 @@ function cron_run_check() {
               var area_desc = 'User';
               }
                     
-	    background_loading_notices("Running EMULATED " + cron_desc + " Manager<br />(please stay in the " + area_desc + " Area, until completed)...");
+	    background_loading_notices("Running EMULATED " + cron_desc + " Manager (please stay in the " + area_desc + " Area, until completed)...");
 	    
 	    }
 	     
@@ -2630,8 +2630,8 @@ function background_tasks_check(runtime_id) {
           
      //console.log('Background tasks have taken ' + custom_round(background_tasks_elapsed_time, 0) + ' seconds so far...');
      
-          // UI notice, if background tasks have lasted over 4 minutes
-          if ( background_tasks_elapsed_time > 240 ) {
+          // UI notice, if background tasks have lasted OVER 90 SECONDS
+          if ( background_tasks_elapsed_time > 90 ) {
           
           allow_regular_loading_notices = false; // NO updating 'loading..' alerts
                
@@ -2652,33 +2652,23 @@ function background_tasks_check(runtime_id) {
                     var area_desc = 'USER';
                     }
                     
-               background_loading_notices('The EMULATED ' + cron_desc + ' Manager MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br />It is HIGHLY RECOMMENDED to stay in the ' + area_desc + ' AREA, until it finishes running (to avoid corrupting cache data).', "#ff4747");
+               background_loading_notices('EMULATED ' + cron_desc + ' Manager is taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). It\'s RECOMMENDED to stay in the ' + area_desc + ' AREA, until it finishes (to avoid corrupt cache data).', "#ff4747");
                
                }
                // IF price charts are hanging
                else if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' ) {
-               background_loading_notices('Price Chart tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED Price Charts, SHOULD fix this.', "#ff4747");
+               background_loading_notices('Price Charts are taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your Price Charts, SHOULD fix this.', "#ff4747");
                }
                // IF news feeds are hanging
                else if ( cron_run_check() == 'done' && charts_loading_check() == 'done' ) {
-               background_loading_notices('News Feed tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED News Feeds, SHOULD fix this.', "#ff4747");
+               background_loading_notices('News Feeds are taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your News Feeds, SHOULD fix this.', "#ff4747");
                }
                // Every other combo
                else {
-               background_loading_notices('Background tasks MAY be stuck (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes).<br /><a href="index.php">Reloading this app</a>, AFTER resetting your SELECTED News Feeds AND Price Charts, MAY fix this.', "#ff4747");
+               background_loading_notices('Background tasks are taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your News Feeds / Price Charts, MAY fix this.', "#ff4747");
                }
           
           //console.log('Background tasks MAY be stuck');
-
-          }
-          // UI notice, if background tasks have lasted over 1 minute
-          else if ( background_tasks_elapsed_time > 60 ) {
-               
-          allow_regular_loading_notices = false; // NO updating 'loading..' alerts
-          
-          background_loading_notices('Background tasks are STILL busy (running for ' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes)', "#ff4747");
-
-          //console.log('Background tasks are STILL busy');
 
           }
 
