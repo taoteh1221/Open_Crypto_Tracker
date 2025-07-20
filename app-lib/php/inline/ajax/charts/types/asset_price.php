@@ -89,6 +89,9 @@ gui: {
     ]
 },
    type: "area",
+   plotarea: {
+     margin: "60 65 20 165"
+   },
    noData: {
      text: "No data for this '<?=$ct['gen']->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
   	fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",

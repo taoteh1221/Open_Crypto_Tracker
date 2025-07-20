@@ -62,6 +62,7 @@ $ct['admin_render_settings']['text_gateways']['is_notes'] = 'Mobile text gateway
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
+// SHOULD BE COMMA-DELIMITED: 'iframe_reset_backup_restore,iframe_apis'
 $ct['admin_render_settings']['is_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)

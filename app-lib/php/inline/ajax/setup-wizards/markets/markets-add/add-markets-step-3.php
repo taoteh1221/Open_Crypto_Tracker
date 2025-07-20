@@ -223,6 +223,8 @@ if ( !$specific_exchange ) {
     <?php
     }
     ?>
+    
+<span class='red'>ALWAYS click the exchange name in each result, to VERIFY THE MARKET PRICE / DETAILS ARE CORRECT, for the asset you are looking for! WATCH OUT FOR COPYCAT COINS (pretending to be the coin you are looking for)!</span><br /><br />
 
 <!-- jupiter notices -->
 IF YOU DON'T SEE THE JUPITER AGGREGATOR ASSET / PAIRING YOU WANT, WAIT 1 HOUR FOR THE APP'S ASSET CACHE TO REFRESH (OR 3 HOURS FOR THE PAIRING CACHE).<br /><br />

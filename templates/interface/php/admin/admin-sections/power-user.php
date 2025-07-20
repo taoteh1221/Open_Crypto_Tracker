@@ -286,7 +286,7 @@ $ct['admin_render_settings']['backup_archive_frequency']['range_ui_prefix'] = 'E
 
 $ct['admin_render_settings']['backup_archive_frequency']['range_ui_suffix'] = ' Days';
 
-$ct['admin_render_settings']['backup_archive_frequency']['is_notes'] = 'Backup chart data (AND send a download LINK to the ADMIN email)';
+$ct['admin_render_settings']['backup_archive_frequency']['is_notes'] = 'Backup chart / config / etc data (AND send a download LINK to the ADMIN email)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -499,6 +499,7 @@ $ct['admin_render_settings']['cookies_size_warning']['is_notes'] = 'If ALL COOKI
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // CAN ALSO BE 'none' OR 'all'...THE SECTION BEING RUN IS AUTO-EXCLUDED,
 // (SEE 'all_admin_iframe_ids' [javascript array], for ALL possible values)
+// SHOULD BE COMMA-DELIMITED: 'iframe_reset_backup_restore,iframe_apis'
 $ct['admin_render_settings']['is_refresh_admin'] = 'all';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
