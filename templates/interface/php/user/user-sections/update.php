@@ -82,7 +82,7 @@
 			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>ADMIN AND PLUGIN CONFIG SETTINGS are the only data stored in the app</u></i>, everything else is stored temporarily or semi-permanently in the web browser on your computer that you use to access the app with (even the "Desktop Edition" is an embedded web browser).</p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>TRADING NOTES are kept in LOCAL STORAGE</u></i> within your web browser, which is saved PERMANENTLY between browser sessions. Soon user-selected price chart / news feed options will be kept in local storage too (instead of in cookie data).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>TRADING NOTES are kept in LOCAL STORAGE</u></i> within your web browser, which is ALWAYS saved PERMANENTLY between browser sessions. So are user-selected price charts / news feeds / portfoilo sorting options. ONLY your web browser has access to LOCAL STORAGE (REMOTE access is NOT possible). Your data stored in this manner is secured by your web browser.</p>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>IMPORTED SPREADSHEETS are DELETED AFTER THE IMPORT HAS COMPLETED</u></i> processing your portfolio data, and nothing related to the imported data remains anywhere other than in your web browser afterwards.</p>'
