@@ -55,7 +55,34 @@ echo '?';
  
  $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' && $asset_symb != 'BTCNFTS' && $asset_symb != 'ETHNFTS' && $asset_symb != 'SOLNFTS' && $asset_symb != 'ALTNFTS' && !preg_match("/stock/i", $asset_symb) ? 'info-red.png' : 'info.png' );
  
- 
+     
+     // UX, auto-filling marketcap web page slug, FOR STOCKS WITHOUT THE SLUG ALREADY SET
+     // (ONLY IF WE CAN IDENTIFY THE EXCHANGE, BY A DISTINCT MARKET ID)
+	if ( preg_match("/stock/i", $asset_symb) && $mkcap_render_data == '' ) {
+	
+	$raw_ticker = preg_replace('/stock/i', '', $asset_symb);
+	
+	    foreach ( $ct['conf']['assets'][$asset_symb]['pair'] as $stock_pairing_key => $unused ) {
+	    
+	    $stock_exchange_id = $ct['var']->array_key_first($ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key]);
+	         
+	         // Alphavantage
+	         if ( $stock_exchange_id == 'alphavantage_stock' ) {
+	              
+	              if ( preg_match('/\.trt/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
+	              $mkcap_render_data = $raw_ticker . ':TSE';
+	              }
+	              else if ( preg_match('/\.dex/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
+	              $mkcap_render_data = $raw_ticker . ':ETR';
+	              }
+	              
+	         }
+	    
+	    }
+	
+	}
+	
+	
 	if ( isset($mkcap_render_data) && $mkcap_render_data != '' ) {
  	
  
