@@ -653,7 +653,7 @@ var $ct_array = array();
    
        // If code tags appear present
        // (NOT JUST A SINGLE TAG, WHICH COULD BE VALID HEX FORMAT DECODED, ***CREATING A FALSE POSITIVE***)
-       if ( $all_tags > 1 && $open_tags > 0 && $close_tags > 0  ) {
+       if ( $open_tags > 0 && $close_tags > 0  ) {
        $attack_signature_count = $all_tags;
        }
        // Scan for ADDITIONAL malicious content, ONLY IF CODE TAGS CHECK PASSED
@@ -1026,10 +1026,15 @@ var $ct_array = array();
    global $ct;
 
         
-        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* / HARD-CODE-SANITIZED ARE *ALREADY* HEAVILY CHECKED, SO WE CAN SAFELY EXCLUDE THEM 
+        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* / HARD-CODE-SANITIZED ARE *ALREADY* HEAVILY CHECKED, SO WE CAN SAFELY EXCLUDE THEM,
+        // AND WE MUST LEAVE ANYTHING THAT'S FLAGGED AS A CRYPTO ADDRESS ALONE TOO
         // (AS THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening and closing tag symbols <>,
         // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
-        if ( stristr($ext_key, 'nonce') || in_array($ext_key, $ct['dev']['skip_injection_scanner']) ) {
+        if (
+        stristr($ext_key, 'nonce')
+        || stristr($ext_key, 'crypto_address')
+        || in_array($ext_key, $ct['dev']['skip_injection_scanner'])
+        ) {
         return $data;
         }
 
