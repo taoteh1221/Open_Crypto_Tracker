@@ -57,8 +57,13 @@ $ct['admin_render_settings']['upgrade_alert_channels']['is_select'] = array(
                                                                'text',
                                                                'notifyme',
                                                                'telegram',
-                                                               'all',
                                                              );
+
+
+$ct['admin_render_settings']['upgrade_alert_channels']['is_select']['is_assoc'][] = array(
+                                                                                   'key' => 'all',
+                                                                                   'val' => 'all activated channels',
+                                                                                  );
 
 
 $ct['admin_render_settings']['upgrade_alert_channels']['is_notes'] = 'Checks the <a href="https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest" target="_BLANK">Github.com API</a> for the latest release\'s version number.<br />(see "External APIs" section for using any comms-related APIs)';
@@ -89,8 +94,13 @@ $ct['admin_render_settings']['market_error_alert_channels']['is_select'] = array
                                                                'text',
                                                                'notifyme',
                                                                'telegram',
-                                                               'all',
                                                              );
+
+
+$ct['admin_render_settings']['market_error_alert_channels']['is_select']['is_assoc'][] = array(
+                                                                                   'key' => 'all',
+                                                                                   'val' => 'all activated channels',
+                                                                                  );
 
 
 $ct['admin_render_settings']['market_error_alert_channels']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';

@@ -57,8 +57,13 @@ $ct['admin_render_settings']['proxy_alert_channels']['is_select'] = array(
                                                           'text',
                                                           'notifyme',
                                                           'telegram',
-                                                          'all',
                                                          );
+
+
+$ct['admin_render_settings']['proxy_alert_channels']['is_select']['is_assoc'][] = array(
+                                                                                   'key' => 'all',
+                                                                                   'val' => 'all activated channels',
+                                                                                  );
 
 $ct['admin_render_settings']['proxy_alert_channels']['is_notes'] = 'Receive alerts IF a proxy FAILS (per-proxy)<br />(see "External APIs" section for using any comms-related APIs)';
                                                          
