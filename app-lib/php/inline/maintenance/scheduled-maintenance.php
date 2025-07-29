@@ -18,9 +18,8 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
 	////////////////////////////////////////////////////////////
 	if ( $ct['runtime_mode'] == 'cron' ) {
 	
-	
-		// User (cached) config backups (done once per day, encrypted with backup password)...
-		$ct['cache']->backup_archive('config-data', $ct['cached_conf_path'], 1, $ct['conf']['sec']['backup_archive_password']);
+	// User (cached) config backups (done once per day, encrypted with backup password)...
+	$ct['cache']->backup_archive('config-data', $ct['cached_conf_path'], 1, $ct['conf']['sec']['backup_archive_password']);
 		
 		
 		// Chart backups...run before any price checks to avoid any potential file lock issues
@@ -49,6 +48,9 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
      //$ct['api']->etherscan('gasLimit');
     
      // Chain data END
+     
+     // Cleanup price charts (delete charts for removed assets)
+     $ct['cache']->price_chart_cleanup();
    
 	}
 	////////////////////////////////////////////////////////////

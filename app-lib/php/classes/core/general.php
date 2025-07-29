@@ -76,28 +76,6 @@ var $ct_array = array();
    return $ct['var']->strip_non_alpha($str[0]);
    
    }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function rm_dir($dir) {
-   
-      if (is_dir($dir)) {
-        $objects = scandir($dir);
-        foreach ($objects as $object) {
-          if ($object != "." && $object != "..") {
-            if (filetype($dir."/".$object) == "dir") 
-               rrmdir($dir."/".$object); 
-            else unlink   ($dir."/".$object);
-          }
-        }
-        reset($objects);
-        rmdir($dir);
-      }
-      
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -2765,7 +2743,7 @@ var $ct_array = array();
             
        $ct['gen']->log(
     			'other_error',
-    			'Server at "' . $host . '" SEEMS offline (port = "' . $port . '", connection type = "' . $connection_type . '", timeout = "' . $timeout . '"' . ( isset($ssl_desc) ? ', ' . $ssl_desc : '' ) . '): ' . "$errstr ($errno)"
+    			'Server at "' . $ct['sec']->obfusc_str($host, 3) . '" SEEMS offline (port = "' . $port . '", connection type = "' . $connection_type . '", timeout = "' . $timeout . '"' . ( isset($ssl_desc) ? ', ' . $ssl_desc : '' ) . '): ' . "$errstr ($errno)"
     			);
        
        return false;
