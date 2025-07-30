@@ -18,6 +18,23 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function db_version_state_updating() {
+   
+   global $ct;
+   
+   $ct['conf']['version_states']['app_version'] = $ct['app_version'];
+   
+      if ( $ct['active_plugins_registered'] ) {
+      $ct['conf']['version_states']['plug_version'] = $ct['plug_version'];
+      }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function test_ipv4($str) {
    return filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
    }

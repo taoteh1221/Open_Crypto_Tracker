@@ -129,6 +129,15 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
++++++++++
+
+We need to store the app / plugin versions INSIDE THE CACHED CONFIG, TO SAFELY VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A OLDER SAVED CONFIG FILE (to make sure imported OLD VERSION backups are triggering the db upgrade logic, AND REJECTING NEWER VERSION BACKUPS [as it's a db downgrade, which we can only safely FULLY RESET the config for, which makes the importing useless]).
+
+We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EVEN for high security mode cached config updating [RESETS], as a user could change security modes later in the future, AND we still backup the cached config for app backups even in high security mode). WE ALSO need to include these stored versions in the initial / loaded / default configs, so comparisions during config initiation are consistent (eg: to avoid screwing up high security mode's "auto cache updating" MD5 CHECKS, etc etc). This can be done fairly easy, by using the newly added function $ct['gen']->db_version_state_updating(), which updates $ct['conf']['version_states'] with the latest app / active plugin versions.
+
++++++++++
+
+
 All STALE charts (light AND archival) that no longer have any corresponding charts config (user removed it), should be scanned for and deleted automatically WITH A BUTTON ATOP THE CHARTS / ALERTS PAGE. Button should have a confirmation prompt: "This will DELETE *ALL* PRICE CHARTS that currently don't have an ACTIVE CONFIG SETUP BELOW. Are you sure you wish to proceed?" We can re-use some of the logic that we use for scheduled maintenance (for deleting ALL price charts associated with assets that no longer exist).
 
 
@@ -283,17 +292,6 @@ Buildout the top navigation, for responsive templating on small mobile screens. 
 
 
 The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny screen sizes. SAME FOR UPDATE PORTFOLIO PAGE. Review ALL other user / admin sections, for any needed mobile-compatible tweaks.
-
-
-+++++++++
-
-We need to store the app / plugin versions INSIDE THE CACHED CONFIG (as keys "db_app_version" / "db_plug_version"), TO SAFELY VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A OLDER SAVED CONFIG FILE (to make sure what settings within OLD backups can be SAFELY imported). We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EVEN for high security mode cached config updating [RESETS], as a user could change security modes later in the future, AND we still backup the cached config for app backups even in high security mode).
-
-DURING THE RESTORE IMPORT, SHOW AN "IMPORT SUMMARY", showing admin sections with checkbox (with NOTHING CHECKED OFF BY DEFAULT) / expand detials UI, and what settings are DIFFERENT FROM CURRENT DEFAULTS / WHAT SETTINGS CANNOT BE SAFELY IMPORTED?
-
-For the "db_app_version" / "db_plug_version" values we add to the CACHED config, we need to somehow add them without screwing up high security mode's "auto cache updating" MD5 CHECKS. This can be done by stripping out ALL the keys named "db_app_version" / "db_plug_version" from the CACHED config BEFORE RUNNING HIGH SECURITY MODE "auto cache updating" MD5 CHECKS.
-
-+++++++++
 
 
 Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
