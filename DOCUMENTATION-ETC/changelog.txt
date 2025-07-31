@@ -6944,6 +6944,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed FALSE POSITIVE alerts in the malware scanner built-in to this app, for asset market IDs CONTAINING CRYPTO ADDRESSES, when adding new assets / markets in the admin interface (for Jupiter Aggregator, CoinGecko Terminal, etc), which caused 'Invalid security token' error messages when reviewing desired market additions
 
+-Scheduled maintenance routine, that deletes any prices charts left over, after DELETING AN ASSET from the Admin Area: "Asset Tracking => Portfolio Assets"
+
 -Minor user experience improvements / runtime optimizations
 
 -------------------------------------------------------------------
