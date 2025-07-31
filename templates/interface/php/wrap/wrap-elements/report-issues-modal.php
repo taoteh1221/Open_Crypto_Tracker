@@ -27,8 +27,10 @@
 	
 	</div>
 			
-    		
-   <ul style='margin-top: 25px; font-weight: bold;'>
+   
+   <p style='margin-top: 25px;'><a style='font-weight: bold;' class='bitcoin' href='javascript: show_more("devstatusnotice");' title='Click to show notices about how charts run within this app.'><b>Dev Status Information</b></a></p>
+   
+   <ul id='devstatusnotice' style='display: none; margin-top: 25px; font-weight: bold;'>
 	
 	<li class='bitcoin' style='font-weight: bold;'>Every 90 minutes (in the interface, during app loading / auto-reloads), this app checks for development status notifications (related to security / functionality / etc), at this location on Github.com:<br />
 	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json</a></li>	
@@ -52,6 +54,8 @@
 	<?php
 	
 	if ( $ct['dev']['status_data_found'] ) {
+	
+	$count = 0;
 	     
 	     foreach ( $ct['dev']['status'] as $dev_alert ) {
 	          
@@ -59,6 +63,8 @@
 	          continue;
 	          }
 	          
+	          
+	          if ($count < 2) {
 	?>
 	
 	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-M-d', $ct['sec']->sanitize_string($dev_alert['timestamp']) )?></strong> </legend>
@@ -69,9 +75,37 @@
 	
 	</fieldset>
 	
-	<?php
-	    }
+	          <?php
+	          }
+	          else {
+	            
+	             if ( !isset($status_show_more_less) ) {
+                  $status_show_more_less = "<p><a id='dev_status_hidden' href='javascript: show_more(\"dev_status_hidden_element\", \"dev_status_hidden\");' style='font-weight: bold;' class='bitcoin' title='Show more / less Dev Status entries.'>Show More</a></p><div class='hidden' id='dev_status_hidden_element'>";
+                  echo $status_show_more_less;
+	             }
+                  ?>
+	          
+	
+	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-M-d', $ct['sec']->sanitize_string($dev_alert['timestamp']) )?></strong> </legend>
+	
+	<b><u><i>Affected Version(s):</i></u> &nbsp; v<?=$ct['sec']->sanitize_string($dev_alert['affected_version'])?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?></b><br /><br />
+	
+	<?=$ct['sec']->sanitize_string($dev_alert['affected_desc'])?>
+	
+	</fieldset>
+	
+	          <?php
+	          }
+	         
+	         
+	    $count++;  
 	    
+	    }
+	    ?>
+	
+	</div>
+	
+	<?php
 	}
 	else {
 	?>
