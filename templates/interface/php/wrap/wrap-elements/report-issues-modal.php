@@ -9,26 +9,23 @@
 <div class='' id="show_report_issues">
 	
 		
-		<h3 class='blue' style='display: inline;'>Issues Help & Status (of app development)</h3>
-	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
-	
-	<br clear='all' />
-	<br clear='all' />
+	<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	
 	<div class='blue_dotted blue' style='font-weight: bold;'>
 	
 	Additional documentation can be found in <a href='README.txt' target='_blank'>README.txt</a><br /><br />
 	
-	If your issue is NOT listed in the above README.txt file, or below in the Development Status or Help FAQ sub-sections, please REPORT IT HERE:<br />
+	If your issue is NOT listed in the above README.txt file, or below in the Development Status or Help / FAQ sub-sections, please REPORT IT HERE:<br />
 	
 	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/issues' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/issues</a>
 	
 	</div>
 			
    
-   <p style='margin-top: 25px;'><a style='font-weight: bold;' class='bitcoin' href='javascript: show_more("devstatusnotice");' title='Click to show notices about how charts run within this app.'><b>Development Status Information</b></a></p>
+	<h3 class='blue' style='margin-top: 35px;'>Development Status</h3>
+	
+   <p style='margin-top: 25px;'><a style='font-weight: bold;' class='bitcoin' href='javascript: show_more("devstatusnotice");' title='Click to show notices about how Development Status runs within this app.'><b>Development Status Information</b></a></p>
    
    <ul id='devstatusnotice' style='display: none; margin-top: 25px; font-weight: bold;'>
 	
@@ -80,7 +77,7 @@
 	          else {
 	            
 	             if ( !isset($status_show_more_less) ) {
-                  $status_show_more_less = "<p><a id='dev_status_hidden' href='javascript: show_more(\"dev_status_hidden_element\", \"dev_status_hidden\");' style='font-weight: bold;' class='bitcoin' title='Show more / less Dev Status entries.'>Show More</a></p><div class='hidden' id='dev_status_hidden_element'>";
+                  $status_show_more_less = "<p><a id='dev_status_hidden' href='javascript: show_more(\"dev_status_hidden_element\", \"dev_status_hidden\");' style='font-weight: bold;' class='bitcoin' title='Show more / less Development Status entries.'>Show More</a></p><div class='hidden' id='dev_status_hidden_element'>";
                   echo $status_show_more_less;
 	             }
                   ?>
@@ -116,6 +113,7 @@
 	}
 	?>
 	
+	<h3 class='blue' style='margin-top: 35px;'>Help / FAQ</h3>
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->
 	
