@@ -98,11 +98,14 @@
 	    $count++;  
 	    
 	    }
-	    ?>
-	
-	</div>
-	
-	<?php
+	    
+	    
+	    // End tag, IF we are rendering hidden statuses in a show / hide element         
+	    if ( isset($status_show_more_less) ) {
+         echo "</div>";
+	    }
+	   
+	   
 	}
 	else {
 	?>
