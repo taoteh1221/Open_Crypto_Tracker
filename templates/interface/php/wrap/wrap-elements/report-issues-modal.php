@@ -28,7 +28,7 @@
 	</div>
 			
    
-   <p style='margin-top: 25px;'><a style='font-weight: bold;' class='bitcoin' href='javascript: show_more("devstatusnotice");' title='Click to show notices about how charts run within this app.'><b>Dev Status Information</b></a></p>
+   <p style='margin-top: 25px;'><a style='font-weight: bold;' class='bitcoin' href='javascript: show_more("devstatusnotice");' title='Click to show notices about how charts run within this app.'><b>Development Status Information</b></a></p>
    
    <ul id='devstatusnotice' style='display: none; margin-top: 25px; font-weight: bold;'>
 	
