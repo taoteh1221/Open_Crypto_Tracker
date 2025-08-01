@@ -405,7 +405,7 @@ var $ct_array = array();
       // Secured cache data
       if ( preg_match("/cache\/secured/i", $path) ) {
          
-      $subpath = preg_replace("/(.*)cache\/secured\//i", "", $path);
+      $subpath = preg_replace("/(.*)cache\/secured\//i", "", $path); // For security (hide ABSOLUTE path)
       
       $subpath_array = explode("/", $subpath);
          
@@ -422,9 +422,11 @@ var $ct_array = array();
       //$path = str_replace('cache/secured', $this->obfusc_str('cache', 0) . '/' . $this->obfusc_str('secured', 0), $path);
       
       }
-      // Everything else, obfuscate just the filename OR deepest directory (last part of the path)
+      // Everything else, obfuscate just the filename OR deepest directory (last part of the path),
+      // AND the directory path ABOVE the app's root directory.
       elseif ( is_array($basepath_array) && sizeof($basepath_array) > 0 ) {
       $filename = sizeof($basepath_array) - 1;
+      $path = preg_replace("/(.*)cache\//i", "cache/", $path); // For security (hide ABSOLUTE path)
       $path = str_replace($basepath_array[$filename], $this->obfusc_str($basepath_array[$filename], 5), $path);
       }
    
