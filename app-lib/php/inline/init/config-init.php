@@ -179,7 +179,8 @@ $ct['ticker_markets_search'] = true;
 require_once('app-lib/php/inline/config/load-config-by-security-level.php');
 
 // Dynamic app config auto-adjust (MUST RUN AS EARLY AS POSSIBLE AFTER #FULL# ct_conf setup)
-require_once('app-lib/php/inline/config/config-auto-adjust.php');
+// Do NOT use require_once(), AS WE ALSO RUN A TAD EARLIER, IF VALIDATING ADMIN USER INPUT
+require('app-lib/php/inline/config/config-auto-adjust.php');
 
 // VERY EARLY init BASED OFF USER CONFIGS (MUST RUN AS EARLY AS POSSIBLE AFTER app config auto-adjust)
 require_once('app-lib/php/inline/init/config-early-init.php');

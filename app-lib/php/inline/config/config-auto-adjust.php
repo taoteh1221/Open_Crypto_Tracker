@@ -16,7 +16,7 @@ $ct['light_chart_day_intervals'] = array_map( "trim", explode(',', $ct['conf']['
 // DO BEFORE ADDING 'all' BELOW
 sort($ct['light_chart_day_intervals']);
 
-// Default light chart mode 'all' (we activate it here instead of in Admin Config, for good UX adding ONLY day intervals there)
+// Append default light chart mode 'all' (we activate it here instead of in Admin Config, for good UX adding ONLY day intervals there)
 $ct['light_chart_day_intervals'][] = 'all';
     
 
@@ -201,6 +201,7 @@ ksort($ct['opt_conf']['conversion_currency_symbols']);
 
 if ( is_array($ct['conf']['currency']['bitcoin_preferred_currency_markets']) ) {
      
+     
      if ( sizeof($ct['conf']['currency']['bitcoin_preferred_currency_markets']) == 1 ) {
           
           // We are NOT assured key == 0, if it was updated via the admin interface
@@ -223,6 +224,7 @@ if ( is_array($ct['conf']['currency']['bitcoin_preferred_currency_markets']) ) {
      $conversion_array = array_map("trim", $conversion_array);
      $ct['opt_conf']['bitcoin_preferred_currency_markets'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
      }
+     
      
 // Alphabetically sort
 sort($ct['conf']['currency']['bitcoin_preferred_currency_markets']);
