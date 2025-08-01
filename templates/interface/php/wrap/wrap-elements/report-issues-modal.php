@@ -556,7 +556,7 @@ Token Presales support (pre-exchange value in USD) has been built in (as static 
                                   'coingecko_usd' => 'coingecko_api_id_here',
                                   // GENERIC *DEX* USD PRICE (IF NOT LISTED *ANYWHERE* BESIDES DEXS [DECENTRALIZED EXCHANGES])
                                   'coingecko_terminal' => 'network_name_here||pool_address_here',
-                                  // Token Presales IN USD...TOKENNAME MUST be defined in 'token_presales_usd' (Admin Config CURRENCY SUPPORT section)
+                                  // Token Presales IN USD...TICKER_HERE MUST be defined in 'token_presales_usd' (Admin Config CURRENCY SUPPORT section)
                                   'presale_usd_value' => 'TICKER_HERE', 
                                   ),
 
