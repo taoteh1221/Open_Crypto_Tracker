@@ -18,8 +18,25 @@ header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 }
 
 
+// Security monitoring
+if ( $ct['possible_input_injection'] ) {
+     
+$ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
+
+$security_error_ui = '<br /><br /><span class="red">Possible code injection attack stopped, please DO NOT attempt to inject scripting or HTML into user inputs.</span>';
+
+echo $security_error_ui;
+
+// Log errors before exiting
+// WE ALREADY QUEUED THE ERROR LOG ENTRY FOR THIS ISSUE IN: $ct['sec']->malware_scan_string()
+$ct['cache']->app_log();
+$ct['cache']->send_notifications();
+
+exit;
+
+}
 // If we are not admin logged in, OR fail the CSRF security token check, exit
-if ( !$ct['sec']->admin_logged_in() || !$ct['sec']->pass_sec_check($_GET['gen_nonce'], 'general_csrf_security') ) {
+elseif ( !$ct['sec']->admin_logged_in() || !$ct['sec']->pass_sec_check($_GET['gen_nonce'], 'general_csrf_security') ) {
      
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();

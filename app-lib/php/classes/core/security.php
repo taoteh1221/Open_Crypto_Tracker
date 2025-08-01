@@ -405,7 +405,7 @@ var $ct_array = array();
       // Secured cache data
       if ( preg_match("/cache\/secured/i", $path) ) {
          
-      $subpath = preg_replace("/(.*)cache\/secured\//i", "", $path);
+      $subpath = preg_replace("/(.*)cache\/secured\//i", "", $path); // For security (hide ABSOLUTE path)
       
       $subpath_array = explode("/", $subpath);
          
@@ -422,9 +422,11 @@ var $ct_array = array();
       //$path = str_replace('cache/secured', $this->obfusc_str('cache', 0) . '/' . $this->obfusc_str('secured', 0), $path);
       
       }
-      // Everything else, obfuscate just the filename OR deepest directory (last part of the path)
+      // Everything else, obfuscate just the filename OR deepest directory (last part of the path),
+      // AND the directory path ABOVE the app's root directory.
       elseif ( is_array($basepath_array) && sizeof($basepath_array) > 0 ) {
       $filename = sizeof($basepath_array) - 1;
+      $path = preg_replace("/(.*)cache\//i", "cache/", $path); // For security (hide ABSOLUTE path)
       $path = str_replace($basepath_array[$filename], $this->obfusc_str($basepath_array[$filename], 5), $path);
       }
    
@@ -653,7 +655,7 @@ var $ct_array = array();
    
        // If code tags appear present
        // (NOT JUST A SINGLE TAG, WHICH COULD BE VALID HEX FORMAT DECODED, ***CREATING A FALSE POSITIVE***)
-       if ( $all_tags > 1 && $open_tags > 0 && $close_tags > 0  ) {
+       if ( $open_tags > 0 && $close_tags > 0  ) {
        $attack_signature_count = $all_tags;
        }
        // Scan for ADDITIONAL malicious content, ONLY IF CODE TAGS CHECK PASSED
@@ -1026,10 +1028,15 @@ var $ct_array = array();
    global $ct;
 
         
-        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* / HARD-CODE-SANITIZED ARE *ALREADY* HEAVILY CHECKED, SO WE CAN SAFELY EXCLUDE THEM 
+        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* / HARD-CODE-SANITIZED ARE *ALREADY* HEAVILY CHECKED, SO WE CAN SAFELY EXCLUDE THEM,
+        // AND WE MUST LEAVE ANYTHING THAT'S FLAGGED AS A CRYPTO ADDRESS ALONE TOO
         // (AS THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening and closing tag symbols <>,
         // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
-        if ( stristr($ext_key, 'nonce') || in_array($ext_key, $ct['dev']['skip_injection_scanner']) ) {
+        if (
+        stristr($ext_key, 'nonce')
+        || stristr($ext_key, 'crypto_address')
+        || in_array($ext_key, $ct['dev']['skip_injection_scanner'])
+        ) {
         return $data;
         }
 

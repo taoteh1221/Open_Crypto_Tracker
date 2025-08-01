@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2025-8-1'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.02',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => true,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'v6.01.03 has been released, with FIXES related to FALSE POSITIVE alerts in the malware scanner built-in to this app, for asset market IDs CONTAINING CRYPTO ADDRESSES, when adding new assets / markets in the admin interface (for Jupiter Aggregator, CoinGecko Terminal, etc), which caused "Invalid security token" error messages when reviewing desired market additions.',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2025-7-19'),
                    
                    'very_important' => true,

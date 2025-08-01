@@ -214,8 +214,13 @@ $ct['admin_render_settings']['login_alert_channels']['is_select'] = array(
                                                           'text',
                                                           'notifyme',
                                                           'telegram',
-                                                          'all',
                                                          );
+
+
+$ct['admin_render_settings']['login_alert_channels']['is_select']['is_assoc'][] = array(
+                                                                                   'key' => 'all',
+                                                                                   'val' => 'all activated channels',
+                                                                                  );
 
 $ct['admin_render_settings']['login_alert_channels']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
                                                          

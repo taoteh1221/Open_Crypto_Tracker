@@ -554,7 +554,7 @@ $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array( // START
                      'eur = kraken',  // WAY BETTER api than ALL alternatives
                      'gbp = kraken',  // WAY BETTER api than ALL alternatives
                      'jpy = kraken',  // WAY MORE reputable than ALL alternatives
-                     'inr = wazirx',  // One of the biggest exchanges in India (should be good price discovery)
+                     'inr = coingecko_inr',  // Coingecko should be best spot value
                      'rub = binance',  // WAY MORE volume / price discovery than ALL alternatives
                      'usd = kraken',  // WAY BETTER api than ALL alternatives
                                    							
@@ -1021,7 +1021,7 @@ $ct['conf']['power']['marketcap_ranks_max'] = 300; // (default = 300)
 $ct['conf']['power']['margin_leverage_maximum'] = 150; 
 
 
-// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+// Every X days backup chart / config / etc data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 $ct['conf']['power']['backup_archive_frequency'] = 1; 
 
 

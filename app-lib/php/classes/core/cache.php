@@ -19,6 +19,65 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
+  function list_directories($path) {
+       
+  $results = array();
+  
+  $scanned_parent = scandir($path);
+  
+  //var_dump($scanned_parent);
+  
+     foreach ( $scanned_parent as $dir_check ) {
+     
+          if ( is_dir($path . '/' . $dir_check) && $dir_check != '.' && $dir_check != '..' ) {
+          $results[] = $dir_check;
+          }
+     
+     }
+     
+  return $results;
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function price_chart_cleanup($path=false) {
+       
+  global $ct;
+  
+     if ( !$path ) {
+     $path = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/';
+     }
+  
+  $subdirectory_list = $this->list_directories($path);
+  
+     foreach ( $subdirectory_list as $asset_ticker ) {
+     
+          if ( !isset($ct['conf']['assets'][$asset_ticker]) ) {
+               
+          //var_dump($path . $asset_ticker);
+               
+          $this->remove_dir($path . $asset_ticker);
+		
+     		// Light charts
+     		foreach( $ct['light_chart_day_intervals'] as $light_chart_days ) {
+     		$this->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/'.$light_chart_days.'_days/' . $asset_ticker);
+     		}
+		
+          }
+     
+     }
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
   function update_cache($cache_file, $minutes) {
     
     // We ROUND (60 * $minutes), to also support SECONDS if needed
@@ -79,20 +138,26 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function remove_dir($dir) {
-  	
-    foreach ( glob($dir . '/*') as $file ) {
-    
-        if ( is_dir($file) ) {
-        $this->remove_dir($file);
-        }
-        else {
-        unlink($file);
-        }
-    	
+  function remove_dir($src) {
+       
+    if ( !is_dir($src) ) {
+    return false;
     }
-  
-  rmdir($dir);
+  	
+    $dir = opendir($src);
+    while(false !== ( $file = readdir($dir)) ) {
+        if (( $file != '.' ) && ( $file != '..' )) {
+            $full = $src . '/' . $file;
+            if ( is_dir($full) ) {
+                $this->remove_dir($full);
+            }
+            else {
+                unlink($full);
+            }
+        }
+    }
+    closedir($dir);
+    rmdir($src);
   
   }
 
@@ -3451,21 +3516,6 @@ var $ct_array = array();
                 }
                 // Everything else ERROR LOGGING
                 else {
-                
-                
-                     // For UX, we don't want "check your markets" user alerts,
-                     // IF IT'S JUST AN ASSET SEARCH (BEFORE EVEN ADDING AS A TRACKED MARKET)
-                     if ( !$ct['ticker_markets_search'] ) {
-                     
-                     $ct['gen']->log(
-                   		    'notify_error',
-                   		    'make sure your markets for the "' . $endpoint_tld_or_ip . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
-                   		    false,
-                   		    'no_market_data_' . $endpoint_tld_or_ip
-                   		    );
-                   		    
-                     }
-                     
              
                 // LOG-SAFE VERSION (no post data with API keys etc)
                 $ct['gen']->log(

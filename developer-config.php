@@ -16,8 +16,8 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-// PLEASE UPDATE TIMESTAMP HERE, TO DATE OF LATEST VERSION BUMP: 2025/FEBRUARY/4TH
-$ct['app_version'] = '6.01.02';
+// PLEASE ALSO UPDATE TIMESTAMP, TO DATE OF LATEST VERSION BUMP:
+$ct['app_version'] = '6.01.03'; // 2025/JULY/24TH
 
 
 // #PHP# ERROR LOGGING
@@ -144,6 +144,21 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 // Only allow the MOST READABLE characters for use in captcha image 
 // (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
+
+        
+// Input keys to EXCLUDE SCANNING for malware injection attacks, IF THEY CAN CAUSE FALSE POSITIVES
+// (SHOULD STILL BE HARD-CODE-SANITIZED WITH HTML SPECIAL CHARACTER FILTERS,
+// UNLESS IT'S A USER'S WALLET CRYPTO ADDRESS [AS WE DON'T WANT IT MALFORMED] / OR IN A FORM FIELD OUTPUT)
+// WE ALREADY AUTOMATICALLY SKIP DATA KEYS CONTAINING 'nonce' / 'crypto_address' IN THE NAME (CASE-INSENSITIVE)
+$ct['dev']['skip_injection_scanner'] = array(
+                                               // GET / POST key
+                                               // Add markets searches MAY contain crypto addresses
+                                               'add_markets_search', 
+                                               // Market IDs containing crypto addresses
+                                               // (when adding new markets, via interface)
+                                               'jupiter_ag',
+                                               'coingecko_terminal',
+                                               );
      
      
 // Static value SPECIAL assets, to exclude or include throughout the app
@@ -389,17 +404,6 @@ $ct['dev']['script_injection_checks'] = array(
                                                "onsubmit",
                                                "onunload",
                                              );
-
-        
-// Input keys to EXCLUDE SCANNING for malware injection attacks
-// (SHOULD STILL BE HARD-CODE-SANITIZED WITH HTML SPECIAL CHARACTER FILTERS,
-// UNLESS IT'S A USER'S WALLET CRYPTO ADDRESS IN A FORM FIELD OUTPUT [AS WE DON'T WANT IT MALFORMED])
-$ct['dev']['skip_injection_scanner'] = array(
-                                               // GET / POST key
-                                               'qr_code_crypto_address',
-                                               'crypto_address',
-                                               'add_markets_search',
-                                               );
                            
 
 }

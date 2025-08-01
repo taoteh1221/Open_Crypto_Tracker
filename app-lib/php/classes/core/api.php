@@ -2656,7 +2656,7 @@ var $exchange_apis = array(
                     
                libxml_clear_errors();
            
-               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $xml_response_file_cache . $xml_error_summary);
+               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) . $xml_error_summary);
 
                }
 
@@ -4065,6 +4065,21 @@ var $exchange_apis = array(
            || isset($result['last_trade']) && !is_numeric($result['last_trade'])
            || isset($result['last_trade']) && $result['last_trade'] < $ct['min_crypto_val_test']
            ) {
+                
+                
+               // For UX, we don't want "check your markets" user alerts,
+               // IF IT'S JUST AN ASSET SEARCH (BEFORE EVEN ADDING AS A TRACKED MARKET)
+               if ( !$ct['ticker_markets_search'] ) {
+                     
+               $ct['gen']->log(
+                   		    'notify_error',
+                   		    'make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                   		    false,
+                   		    'no_market_data_' . $sel_exchange
+                   		    );
+                   		    
+               }
+                
                 
            // Safe filename characters
            $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->compat_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id . '.dat');

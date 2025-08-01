@@ -9,26 +9,25 @@
 <div class='' id="show_report_issues">
 	
 		
-		<h3 class='blue' style='display: inline;'>Issues Help & Status (of app development)</h3>
-	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
-	
-	<br clear='all' />
-	<br clear='all' />
+	<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	
 	<div class='blue_dotted blue' style='font-weight: bold;'>
 	
 	Additional documentation can be found in <a href='README.txt' target='_blank'>README.txt</a><br /><br />
 	
-	If your issue is NOT listed in the above README.txt file, or below in the Development Status or Help FAQ sub-sections, please REPORT IT HERE:<br />
+	If your issue is NOT listed in the above README.txt file, or below in the Development Status or Help / FAQ sub-sections, please REPORT IT HERE:<br />
 	
 	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/issues' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/issues</a>
 	
 	</div>
 			
-    		
-   <ul style='margin-top: 25px; font-weight: bold;'>
+   
+	<h3 class='blue' style='margin-top: 35px;'>Development Status</h3>
+	
+   <p style='margin-top: 25px;'><a style='font-weight: bold;' class='bitcoin' href='javascript: show_more("devstatusnotice");' title='Click to show notices about how Development Status runs within this app.'><b>Development Status Information</b></a></p>
+   
+   <ul id='devstatusnotice' style='display: none; margin-top: 25px; font-weight: bold;'>
 	
 	<li class='bitcoin' style='font-weight: bold;'>Every 90 minutes (in the interface, during app loading / auto-reloads), this app checks for development status notifications (related to security / functionality / etc), at this location on Github.com:<br />
 	<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/blob/main/.dev-status.json</a></li>	
@@ -52,6 +51,8 @@
 	<?php
 	
 	if ( $ct['dev']['status_data_found'] ) {
+	
+	$count = 0;
 	     
 	     foreach ( $ct['dev']['status'] as $dev_alert ) {
 	          
@@ -59,6 +60,8 @@
 	          continue;
 	          }
 	          
+	          
+	          if ($count < 2) {
 	?>
 	
 	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-M-d', $ct['sec']->sanitize_string($dev_alert['timestamp']) )?></strong> </legend>
@@ -69,9 +72,40 @@
 	
 	</fieldset>
 	
-	<?php
+	          <?php
+	          }
+	          else {
+	            
+	             if ( !isset($status_show_more_less) ) {
+                  $status_show_more_less = "<p><a id='dev_status_hidden' href='javascript: show_more(\"dev_status_hidden_element\", \"dev_status_hidden\");' style='font-weight: bold;' class='bitcoin' title='Show more / less Development Status entries.'>Show More</a></p><div class='hidden' id='dev_status_hidden_element'>";
+                  echo $status_show_more_less;
+	             }
+                  ?>
+	          
+	
+	<fieldset class='subsection_fieldset <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'><legend class='subsection_legend <?=( $dev_alert['very_important'] ? 'red' : 'bitcoin' )?>'> <strong><?=date('Y-M-d', $ct['sec']->sanitize_string($dev_alert['timestamp']) )?></strong> </legend>
+	
+	<b><u><i>Affected Version(s):</i></u> &nbsp; v<?=$ct['sec']->sanitize_string($dev_alert['affected_version'])?> <?=( $dev_alert['affected_earlier'] ? ' and earlier' : '' )?></b><br /><br />
+	
+	<?=$ct['sec']->sanitize_string($dev_alert['affected_desc'])?>
+	
+	</fieldset>
+	
+	          <?php
+	          }
+	         
+	         
+	    $count++;  
+	    
 	    }
 	    
+	    
+	    // End tag, IF we are rendering hidden statuses in a show / hide element         
+	    if ( isset($status_show_more_less) ) {
+         echo "</div>";
+	    }
+	   
+	   
 	}
 	else {
 	?>
@@ -82,6 +116,7 @@
 	}
 	?>
 	
+	<h3 class='blue' style='margin-top: 35px;'>Help / FAQ</h3>
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->
 	

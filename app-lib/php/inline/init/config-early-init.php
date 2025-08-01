@@ -9,24 +9,29 @@
 ////////////////////////////////////////////////////////////////// 
 
 
-// Email FROM service check
+// Email FROM check
 if ( isset($ct['conf']['comms']['from_email']) && $ct['gen']->valid_email($ct['conf']['comms']['from_email']) == 'valid' ) {
 $valid_from_email = true;
 }
 ////
-// Email TO service check
-if ( $valid_from_email && isset($ct['conf']['comms']['to_email']) && $ct['gen']->valid_email($ct['conf']['comms']['to_email']) == 'valid' ) {
+// Email services ready to rock?
+if (
+$ct['smtp_server_ok'] // true, IF not using / server verified online
+&& $valid_from_email
+&& isset($ct['conf']['comms']['to_email'])
+&& $ct['gen']->valid_email($ct['conf']['comms']['to_email']) == 'valid'
+) {
 $ct['email_activated'] = true;
 }
 
 
-// Notifyme service check
+// Notifyme ready to rock?
 if ( isset($ct['conf']['ext_apis']['notifyme_access_code']) && trim($ct['conf']['ext_apis']['notifyme_access_code']) != '' ) {
 $ct['notifyme_activated'] = true;
 }
 
 
-// Texting (SMS) services check
+// Texting (SMS) ready to rock?
 // (if MORE THAN ONE is activated, keep ALL disabled to avoid a texting firestorm)
 if ( isset($ct['conf']['ext_apis']['textbelt_api_key']) && trim($ct['conf']['ext_apis']['textbelt_api_key']) != '' ) {
 $ct['activated_sms_services'][] = 'textbelt';
