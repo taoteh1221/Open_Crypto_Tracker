@@ -178,11 +178,7 @@ $ct['ticker_markets_search'] = true;
 // Load config type based on admin security level
 require_once('app-lib/php/inline/config/load-config-by-security-level.php');
 
-// Dynamic app config auto-adjust (MUST RUN AS EARLY AS POSSIBLE AFTER #FULL# ct_conf setup)
-// Do NOT use require_once(), AS WE ALSO RUN A TAD EARLIER, IF VALIDATING ADMIN USER INPUT
-require('app-lib/php/inline/config/config-auto-adjust.php');
-
-// VERY EARLY init BASED OFF USER CONFIGS (MUST RUN AS EARLY AS POSSIBLE AFTER app config auto-adjust)
+// VERY EARLY init BASED OFF USER CONFIGS (MUST RUN AS EARLY AS POSSIBLE AFTER load-config-by-security-level.php)
 require_once('app-lib/php/inline/init/config-early-init.php');
 
 // Load any activated 3RD PARTY classes WITH CONFIGS (MUST RUN AS EARLY AS POSSIBLE AFTER config-early-init.php)

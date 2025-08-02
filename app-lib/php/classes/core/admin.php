@@ -284,8 +284,12 @@ var $ct_array = array();
    $field_array_base = $ct['sec']->valid_secure_config_update_request();
         
         
+        // Return, IF not a validated user config update request
+        if ( !$field_array_base ) {
+        return false;
+        }
         // IF we're cleared to run a user's config update request
-        if ( $field_array_base && !$ct['update_config_halt'] ) {
+        elseif ( $field_array_base && !$ct['update_config_halt'] ) {
    
       
               if ( preg_match('/plug_conf\|/', $_POST['conf_id']) ) {

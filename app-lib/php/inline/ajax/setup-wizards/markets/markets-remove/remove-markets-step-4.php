@@ -120,7 +120,7 @@ is_array($updated_assets_structure['assets']) && sizeof($updated_assets_structur
      
      	<button class='force_button_style result_margins green' onclick='
      	
-     	var confirm_removing = confirm("Click OK to continue removing <?=strtoupper($_POST['remove_markets_mode'])?> (this will ALSO remove any prices charts for this asset, during the next background maintenance task).");
+     	var confirm_removing = confirm("Click OK to continue removing <?=strtoupper($_POST['remove_markets_mode'])?> (this will ALSO remove any prices charts for this asset!).");
      	
                if ( !confirm_removing ) {
                return false;         
@@ -232,7 +232,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
      
      	<button class='force_button_style result_margins green' onclick='
      	
-     	var confirm_removing = confirm("Click OK to continue removing <?=strtoupper($_POST['remove_markets_mode'])?> (this will ALSO remove any prices charts for this asset, during the next background maintenance task).");
+     	var confirm_removing = confirm("Click OK to continue removing <?=strtoupper($_POST['remove_markets_mode'])?> (this will ALSO remove any prices charts for this asset!).");
      	
                if ( !confirm_removing ) {
                return false;         

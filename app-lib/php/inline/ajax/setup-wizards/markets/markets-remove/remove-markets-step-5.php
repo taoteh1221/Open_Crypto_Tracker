@@ -25,6 +25,10 @@ console.log('disable_nav_save_buttons = ' + disable_nav_save_buttons);
 	 
 	 <?php
 	 if ( $ct['update_config_success'] != null ) {
+	      
+      // Cleanup price charts (delete charts for removed assets)
+      $ct['cache']->price_chart_cleanup();
+     
 	 ?>
 	 
 	 <script>

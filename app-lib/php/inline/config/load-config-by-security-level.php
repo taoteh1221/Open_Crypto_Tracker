@@ -47,9 +47,7 @@ $ct['activate_proxies'] = $ct['conf']['proxy']['allow_proxies'];
 
 
 // Queue up any user updates to the config (sets $ct['update_config'] flag if there are any, MUST be done AFTER registering active plugins)
-if ( $ct['admin_area_sec_level'] != 'high' ) {
-// Dynamic app config auto-adjust (MUST RUN BEFORE VALIDATING USER INPUT [FOR REQUIRED CONFIG ARRAYS / SETUP, ETC ETC])
-require('app-lib/php/inline/config/config-auto-adjust.php');
+if ( $ct['verified_update_request'] && $ct['admin_area_sec_level'] != 'high' ) {
 $ct['admin']->queue_config_update();
 }
 
