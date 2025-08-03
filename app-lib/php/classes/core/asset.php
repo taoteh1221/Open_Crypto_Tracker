@@ -1706,6 +1706,13 @@ var $ct_array = array();
    // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
    $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, 'utf-8') ) );
    $asset = strtoupper($asset);
+
+      
+      // IF the asset / market does NOT exist, skip this config entry
+      if ( !isset($ct['conf']['assets'][$asset]) || !isset($ct['conf']['assets'][$asset]['pair'][$pair][$exchange]) ) {
+      return false;
+      }
+      
         
    $pair_btc_val = $this->pair_btc_val($pair); 
    

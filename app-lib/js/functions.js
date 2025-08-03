@@ -3076,6 +3076,9 @@ function sorting_generic_tables(paginated=false) {
                if ( $(table).hasClass( "access_stats" ) ) {
                dynamic_sort_list = [ [0,1] ]; // Sort descending (1)
                }
+               else if ( $(table).hasClass( "no_default_sort" ) ) {
+               dynamic_sort_list = []; // No default sort
+               }
 
                
                if ( typeof table.id == 'undefined' || table.id != 'coins_table' ) {
