@@ -263,7 +263,7 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function delete_old_files($dir_arr, $days, $ext) {
+  function delete_old_files($dir_arr, $days, $ext=false) {
   
   global $ct;
    
@@ -276,7 +276,12 @@ var $ct_array = array();
       // Process each directory
       foreach ( $dir_arr as $dir ) {
       
-      $files = glob($dir."/*.".$ext);
+          if ( !$ext ) {
+          $files = glob($dir."/*");
+          }
+          else {
+          $files = glob($dir."/*.".$ext);
+          }
      
           foreach ($files as $file) {
            

@@ -4082,7 +4082,7 @@ var $exchange_apis = array(
                 
                 
            // Safe filename characters
-           $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->compat_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id . '.dat');
+           $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->compat_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id) . '.dat';
            
                
                // Get any existing count, OR set to zero

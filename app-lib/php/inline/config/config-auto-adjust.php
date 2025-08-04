@@ -449,8 +449,11 @@ $ct['conf']['power']['last_trade_cache_time'] = 60;
 }
 
 // Idiot-proof access_stats_delete_old
-if ( abs($ct['conf']['power']['access_stats_delete_old']) > 360 || $ct['conf']['power']['access_stats_delete_old'] < 0 ) {
-$ct['conf']['power']['access_stats_delete_old'] = 360;
+if ( $ct['conf']['power']['access_stats_delete_old'] > 10 ) {
+$ct['conf']['power']['access_stats_delete_old'] = 10;
+}
+elseif ( $ct['conf']['power']['access_stats_delete_old'] < 5 ) {
+$ct['conf']['power']['access_stats_delete_old'] = 5;
 }
 
 // Idiot-proof blockchain_stats_cache_time
