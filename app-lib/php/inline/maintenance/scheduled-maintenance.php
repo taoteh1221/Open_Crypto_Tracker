@@ -83,7 +83,8 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['
 /////////////////////////
 
 // Delete OLD visitor stats event tracking cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/access_stats', $ct['conf']['power']['access_stats_delete_old']); 
+// ONLY .dat FILES
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/access_stats', $ct['conf']['power']['access_stats_delete_old'], 'dat'); 
 
 /////////////////////////
 // Every 30 days

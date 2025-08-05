@@ -129,6 +129,12 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+For Access Stats, add showing multiple visit timestamps by adding an info balloon when hovering over a 'last visit ' timestamp INFO ICON.
+
+
+Use the 'light charts' algo for stripping out lines with old timestamps in access stats, AND run that logic in the NON-must-be-cron-runtime section of the maintenance routine. This should allow the time period tracked to scale up well, without significantly slowing down runtime speeds (allowing a greater range using the 'access_stats_delete_old' power user setting).
+
+
 Validate crypto addresses (with QR code algo) and labels, for the address balance tracker plugin.
 
 
@@ -396,10 +402,7 @@ Add a new mode for the asset perfomance chart (on the 'more stats' modal page), 
 Add setting upper / lower case auto-correction for the portfolio assets array keys in config-auto-adjust.php.
 
 
-Add a drop-down menu on the access stats page, to switch between listing visits as 'per ip address' (which we have already) OR 'per visit time' (combining all visits into one list, based of visit timestamp).
-
-
-For access stats, add showing multiple visit timestamps by adding an info balloon when hovering over the 'last visit ' timestamp.
+Create the 'ALL STATS' button's features on the access stats page, to switch between listing visits as 'per ip address' (which we have already) OR 'per visit time' (combining all visits into one list, based of visit timestamp).
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.

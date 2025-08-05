@@ -15,6 +15,8 @@
 	
 	<li class='bitcoin' style='font-weight: bold;'>The DEFAULT sorting (on INITIAL load) is "Last Visit Time" first, AND "Total Visits" second (both descending).</li>
 	
+	<li class='bitcoin' style='font-weight: bold;'>Clicking the "Show" button again will refresh the stats, and show any newer data (if available).</li>
+	
 	<li class='bitcoin' style='font-weight: bold;'>Hover your mouse over the browser name, to see the full user agent string.</li>
 	
    </ul>		
@@ -22,7 +24,11 @@
   
    <p>
   
-   <button class='load_access_stats_onclick force_button_style' style='margin: 1em;'>Show / Refresh Latest Access Stats</button>
+   <button class='load_all_access_stats_onclick force_button_style' style='margin: 1em;'>Show ALL Stats (bundled)</button>
+   
+   &nbsp; &nbsp; &nbsp; 
+   
+   <button class='load_ip_access_stats_onclick force_button_style' style='margin: 1em;'>Show Stats PER IP ADDRESS</button>
 	
    </p>
   

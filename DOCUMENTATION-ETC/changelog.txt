@@ -6959,6 +6959,10 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous (minor)
 
+-Secured / optimized the Access Stats feature (in Admin Area => System Monitoring), to run from /cache/secured/, and run faster
+
+-Added "Referrer" data for Access Stats (shows what page the visit initiated from, if available)
+
 -Minor user experience improvements / runtime optimizations
 
 -------------------------------------------------------------------

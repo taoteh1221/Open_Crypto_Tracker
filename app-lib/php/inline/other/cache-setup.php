@@ -39,7 +39,6 @@ if (
 $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/light_chart_rebuilds/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/system/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/throttling/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/access_stats/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/upgrading/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/logging/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/first_run/') != true
@@ -49,6 +48,7 @@ $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/light_chart_rebuilds/') 
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/backups/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/external_data/cookies') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/messages/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/access_stats/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/archival/') != true
