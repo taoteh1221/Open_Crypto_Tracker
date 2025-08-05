@@ -643,12 +643,104 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function get_url($include_host=false, $section_only=false) {
+   function pretty_app_uri($include_host=false, $section_only=false, $url_check=false) {
         
-        
+   global $ct;
+   
+   $parsed_params = array();
+   
+      
+      // IF system path, get path to parse
+      if (
+      substr($url_check, 0, 1) == '/'
+      && substr($url_check, 0, 2) != '//'
+      && !preg_match('/\?/i', $url_check)
+      ) {
+      $path_parts = pathinfo($url_check);
+      }
+   
+      
+      // If passing in a URL, and it's NOT the app's base URL, just set path / query data
+      if (
+      $url_check != false
+      && $url_check != ''
+      && !is_array($path_parts)
+      && !preg_match('/' . $ct['gen']->regex_compat_path($ct['base_url']) . '/i', $url_check)
+      ) {
+      
+      $url_check_path = preg_replace( '/\?(.*)/i', '', $url_check);
+      
+      $url_check_query = preg_replace( '/(.*)\?/i', '', $url_check);
+      
+      }
+      // Otherwise IF populated, truncate path down to app main directory (for UX, in access stats UI)
+      elseif ( $url_check != false && $url_check != '' ) {
+           
+           
+           // IF system path
+           if ( is_array($path_parts) ) {
+           
+           $url_check_path = preg_replace( '/(.*)' . $ct['gen']->regex_compat_path($path_parts['dirname']) . '\//i', '/', $url_check);
+     
+           $url_check_query = ''; // MUST be set to something, so blank it out
+           
+           }
+           // Anything else
+           else {
+           
+           $url_check_path = parse_url($url_check, PHP_URL_PATH);
+     
+           $url_check_query = parse_url($url_check, PHP_URL_QUERY);
+           
+           $url_check = preg_replace( '/(.*)' . $ct['gen']->regex_compat_path($ct['base_url']) . '/i', '', $url_check);
+           
+           }
+
+           
+      }
+      // Otherwise just return blank data, IF blank data was passed in
+      elseif ( $url_check != false && $url_check == '' ) {
+      return $url_check;
+      }
+      
+      
+      // Set condition vars...
+      
+      if ( $url_check ) {
+      
+      $query_params = explode('&', $url_check_query);
+      
+      
+          foreach ( $query_params as $param ) {
+          
+          $param_array = explode('=', $param);
+          
+          $parsed_params[ $param_array[0] ] = $param_array[1];
+          
+          }
+      
+      
+      $script_name = ( $url_check_path != '' ? $url_check_path : '/' );
+      
+      $server_uri = ( $url_check_query != '' ? $url_check_path . '?' . $url_check_query : $url_check_path );
+      
+      }
+      else {
+           
+      $parsed_params = $_GET;
+
+      $script_name = $_SERVER['SCRIPT_NAME'];
+      
+      $server_uri = $_SERVER['REQUEST_URI'];
+
+      }
+
+      
+      // Render the pretty app path (for access stats UI, etc)
+      
       if ( $include_host ) {
            
-           if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+           if( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ) {
            $url = "https://";
            }
            else {
@@ -658,25 +750,25 @@ var $ct_array = array();
       $url .= $_SERVER['HTTP_HOST'];   
 
       }
-
-
+      
+      
       if ( !$section_only ) {
-      $url .= $_SERVER['REQUEST_URI'];
+      $url .= $server_uri;
       }
-      elseif ( $_GET['section'] ) {
-      $url .= $_SERVER['SCRIPT_NAME'] . '?section=' . $_GET['section'];
+      elseif ( $parsed_params['section'] ) {
+      $url .= $script_name . '?section=' . $parsed_params['section'];
       }
-      elseif ( $_GET['subsection'] ) {
-      $url .= $_SERVER['SCRIPT_NAME'] . '?parent=' . $_GET['parent'] . '&subsection=' . $_GET['subsection'];
+      elseif ( $parsed_params['subsection'] ) {
+      $url .= $script_name . '?parent=' . $parsed_params['parent'] . '&subsection=' . $parsed_params['subsection'];
       }
-      elseif ( $_GET['plugin'] ) {
-      $url .= $_SERVER['SCRIPT_NAME'] . '?plugin=' . $_GET['plugin'];
+      elseif ( $parsed_params['plugin'] ) {
+      $url .= $script_name . '?plugin=' . $parsed_params['plugin'];
       }
-      elseif ( $_GET['type'] ) {
-      $url .= $_SERVER['SCRIPT_NAME'] . '?type=' . $_GET['type'];
+      elseif ( $parsed_params['type'] ) {
+      $url .= $script_name . '?type=' . $parsed_params['type'];
       }
       else {
-      $url .= $_SERVER['SCRIPT_NAME'];
+      $url .= $script_name;
       }
        
    

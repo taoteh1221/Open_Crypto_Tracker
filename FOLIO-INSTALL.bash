@@ -2069,6 +2069,7 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/cache/rest-api > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/secured/apis > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/events/lite_chart_rebuilds > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/events/access_stats > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/charts/system/lite > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite > /dev/null 2>&1
   				rm -rf $DOC_ROOT/misc-docs-etc > /dev/null 2>&1

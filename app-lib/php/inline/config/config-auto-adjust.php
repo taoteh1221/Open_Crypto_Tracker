@@ -166,6 +166,7 @@ if ( is_array($ct['conf']['news']['strict_news_feed_servers']) && sizeof($ct['co
 
 if ( is_array($ct['conf']['currency']['conversion_currency_symbols']) ) {
      
+     
      if ( sizeof($ct['conf']['currency']['conversion_currency_symbols']) == 1 ) {
           
           // We are NOT assured key == 0, if it was updated via the admin interface
@@ -192,6 +193,7 @@ if ( is_array($ct['conf']['currency']['conversion_currency_symbols']) ) {
      $ct['opt_conf']['conversion_currency_symbols'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
      }
      
+
 // Alphabetically sort
 sort($ct['conf']['currency']['conversion_currency_symbols']);
 ksort($ct['opt_conf']['conversion_currency_symbols']);
@@ -235,6 +237,7 @@ ksort($ct['opt_conf']['bitcoin_preferred_currency_markets']);
 
 if ( is_array($ct['conf']['currency']['crypto_pair']) ) {
      
+     
      if ( sizeof($ct['conf']['currency']['crypto_pair']) == 1 ) {
           
           // We are NOT assured key == 0, if it was updated via the admin interface
@@ -259,6 +262,7 @@ if ( is_array($ct['conf']['currency']['crypto_pair']) ) {
      $ct['opt_conf']['crypto_pair'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
      }
      
+     
 // Alphabetically sort
 sort($ct['conf']['currency']['crypto_pair']);
 ksort($ct['opt_conf']['crypto_pair']);
@@ -267,6 +271,7 @@ ksort($ct['opt_conf']['crypto_pair']);
 
 
 if ( is_array($ct['conf']['currency']['crypto_pair_preferred_markets']) ) {
+     
      
      if ( sizeof($ct['conf']['currency']['crypto_pair_preferred_markets']) == 1 ) {
           
@@ -291,6 +296,7 @@ if ( is_array($ct['conf']['currency']['crypto_pair_preferred_markets']) ) {
      $ct['opt_conf']['crypto_pair_preferred_markets'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
      }
      
+     
 // Alphabetically sort
 sort($ct['conf']['currency']['crypto_pair_preferred_markets']);
 ksort($ct['opt_conf']['crypto_pair_preferred_markets']);
@@ -299,6 +305,7 @@ ksort($ct['opt_conf']['crypto_pair_preferred_markets']);
 
 
 if ( is_array($ct['conf']['currency']['token_presales_usd']) ) {
+     
      
      if ( sizeof($ct['conf']['currency']['token_presales_usd']) == 1 ) {
           
@@ -322,6 +329,7 @@ if ( is_array($ct['conf']['currency']['token_presales_usd']) ) {
      $conversion_array = array_map("trim", $conversion_array);
      $ct['opt_conf']['token_presales_usd'][ strtolower($conversion_array[0]) ] = $conversion_array[1];
      }
+     
      
 // Alphabetically sort
 sort($ct['conf']['currency']['token_presales_usd']);
@@ -441,8 +449,11 @@ $ct['conf']['power']['last_trade_cache_time'] = 60;
 }
 
 // Idiot-proof access_stats_delete_old
-if ( abs($ct['conf']['power']['access_stats_delete_old']) > 360 || $ct['conf']['power']['access_stats_delete_old'] < 0 ) {
-$ct['conf']['power']['access_stats_delete_old'] = 360;
+if ( $ct['conf']['power']['access_stats_delete_old'] > 10 ) {
+$ct['conf']['power']['access_stats_delete_old'] = 10;
+}
+elseif ( $ct['conf']['power']['access_stats_delete_old'] < 5 ) {
+$ct['conf']['power']['access_stats_delete_old'] = 5;
 }
 
 // Idiot-proof blockchain_stats_cache_time
@@ -461,6 +472,7 @@ $ct['conf']['power']['marketcap_cache_time'] = 120;
 // (EXCEPT BTC, AS ITS **THE PRIMARY CRYPTO MARKET** [WE ADD ABOVE IN THIS FILE])
 foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
 
+
      foreach ( $ct['conf']['assets'] as $asset_key => $asset_unused ) {
      
           if ( $asset_key == 'BTC' || isset($ct['conf']['assets'][strtoupper($pair_key)]['pair']['btc']) ) {
@@ -468,10 +480,12 @@ foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
           }
      
      }
+
      
      if ( !isset($ct['check_crypto_pair'][$pair_key]) ) {
      unset($ct['opt_conf']['crypto_pair'][$pair_key]);
      }
+
 
 }
 

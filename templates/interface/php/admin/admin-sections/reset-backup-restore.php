@@ -244,7 +244,7 @@ else {
 
 <?php
 
-$backup_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/backups', 'zip', 'asc');
+$backup_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/backups', 'zip', 'desc');
 
 
 if ( is_array($backup_files) && sizeof($backup_files) > 0 ) {
@@ -278,7 +278,7 @@ $backup_count_max = ( sizeof($backup_links['charts-data']) > sizeof($backup_link
                
                <?=$ct['gen']->table_pager_nav('backup_restore')?>
                
-               <table id='backup_restore' border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
+               <table id='backup_restore' border='0' cellpadding='10' cellspacing='0' class="data_table no_default_sort align_center" style='width: 100% !important;'>
                 <thead>
                    <tr>
                     <th class="filter-match" data-placeholder="Filter Results">Configuration Backups <span class='bitcoin'>(RESTORE feature soon&trade;)</span></th>

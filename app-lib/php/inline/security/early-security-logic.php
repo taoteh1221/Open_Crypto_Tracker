@@ -105,6 +105,20 @@ if ( !$is_fast_runtime && $ct['runtime_mode'] == 'cron' || !$is_fast_runtime && 
      ///////////////////////////////////////////
      
      
+     // Recreate /cache/secured/access_stats/.htaccess to restrict web snooping of cache contents, if the messages directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/access_stats/.htaccess') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/access_stats/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template') );
+     }
+     
+     // Recreate /cache/secured/access_stats/index.php to restrict web snooping of cache contents, if the messages directory was deleted / recreated
+     if ( !file_exists($ct['base_dir'] . '/cache/secured/access_stats/index.php') ) {
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/access_stats/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+     }
+     
+     
+     ///////////////////////////////////////////
+     
+     
      // Recreate /plugins/.htaccess to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
      // DIFFERENT FILENAME TEMPLATE (deny-all-htaccess-plugins.template) FOR SOME ACCESS EXCEPTIONS!!!
      if ( !file_exists($ct['base_dir'] . '/plugins/.htaccess') ) {

@@ -15,12 +15,13 @@
 
 // To be loaded IMMEADIATELY after loading the cached config
 
-// API configs
-require('app-lib/php/inline/config/batched-api-config.php');
-require('app-lib/php/inline/config/throttled-api-config.php');
+// Do NOT use require_once(), AS WE MAY RUN MORE THAN ONCE, UNDER CERTAIN CONDITIONS
+
+// Dynamic app config auto-adjust (MUST RUN FIRST [FOR AUTO-CORRECT, REQUIRED CONFIG ARRAYS / SETUP, ETC ETC])
+require('app-lib/php/inline/config/config-auto-adjust.php');
 
 
-// Get / check system info for debugging / stats (MUST run IMMEADIATELY AFTER loading the cached config)
+// Get / check system info for debugging / stats (MUST run IMMEADIATELY AFTER auto-adjusting the cached config)
 require($ct['base_dir'] . '/app-lib/php/inline/system/system-info.php');
 
 
@@ -29,15 +30,31 @@ require($ct['base_dir'] . '/app-lib/php/inline/system/system-info.php');
 $ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct['system_info']['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
 
 
+// User agent (MUST BE SET VERY EARLY, FOR ANY CURL-BASED API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
+if ( trim($ct['conf']['power']['override_curl_user_agent']) != '' ) {
+$ct['curl_user_agent'] = $ct['conf']['power']['override_curl_user_agent'];  // Custom user agent
+}
+elseif ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
+$ct['curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
+}
+else {
+$ct['curl_user_agent'] = $ct['strict_curl_user_agent']; // SET IN primary-init.php (NEEDED MUCH EARLIER THAN HERE [FOR ADMIN INPUT VALIDATION])
+}
+
+
+// API configs
+require('app-lib/php/inline/config/batched-api-config.php');
+require('app-lib/php/inline/config/throttled-api-config.php');
+
+
 // Developer-only configs
 $dev_only_configs_mode = 'after-load-config'; // Flag to only run 'after-load-config' section
 require('developer-config.php');
 
+
 // Development status DATA SET from github file:
 // https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json
 $ct['dev']['status'] = @$ct['api']->dev_status();
-
-//var_dump($ct['dev']['status']);
 
 
 // Sort the alerts by NEWEST

@@ -72,6 +72,7 @@ $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/cache_size.dat', $ct['gen
 // Cache files cleanup...
 
 // Delete ANY old zip archive backups scheduled to be purged
+// ONLY .zip FILES
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['conf']['power']['backup_archive_delete_old'], 'zip');
 
 
@@ -82,52 +83,53 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['
 /////////////////////////
 
 // Delete OLD visitor stats event tracking cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/access_stats', $ct['conf']['power']['access_stats_delete_old'], 'dat'); 
+// ONLY .dat FILES
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/access_stats', $ct['conf']['power']['access_stats_delete_old'], 'dat'); 
 
 /////////////////////////
 // Every 30 days
 /////////////////////////
 
 // Delete OLD external API cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data', 30, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data', 30, 'dat'); // ONLY .dat FILES
 
 // Delete OLD external API cookie files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data/cookies', 30, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data/cookies', 30, 'dat'); // ONLY .dat FILES
 
 /////////////////////////
 // Every 7 days
 /////////////////////////
 
 // Delete OLD light chart rebuild event tracking cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/light_chart_rebuilds', 7, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/light_chart_rebuilds', 7); 
 
 // Delete OLD market error tracking cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/market_error_tracking', 7, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/market_error_tracking', 7); 
 
 // Delete OLD cached invalid XML response files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/other/xml_error_parsing', 7, 'xml'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/other/xml_error_parsing', 7); 
 
 /////////////////////////
 // Every day
 /////////////////////////
 
 // Delete OLD UNSENT message queue files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/messages', 1, 'queue'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/messages', 1, 'queue'); // ONLY .queue FILES
 
 // Delete OLD recent search cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/other_data', 1, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/other_data', 1, 'dat'); // ONLY .dat FILES
 
 // Delete OLD activation cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/activation', 1, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/activation', 1, 'dat'); // ONLY .dat FILES
 
 // Delete OLD throttling event tracking cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling', 1, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling', 1); 
 
 // Delete OLD internal API cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/internal_api', 1, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/internal_api', 1); 
 
 // Delete OLD alert cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/alerts', 1, 'dat'); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/alerts', 1); 
 
 
 // Secondary logs cleanup
@@ -136,7 +138,7 @@ $logs_cache_cleanup = array(
 					   $ct['base_dir'] . '/cache/logs/error/external_data',
 					  );
 ////								
-$ct['cache']->delete_old_files($logs_cache_cleanup, $ct['conf']['power']['logs_purge'], 'log'); // Purge app LOG cache files older than $ct['conf']['power']['logs_purge'] day(s)
+$ct['cache']->delete_old_files($logs_cache_cleanup, $ct['conf']['power']['logs_purge']); // Purge app LOG cache files older than $ct['conf']['power']['logs_purge'] day(s)
 
 
     // Purge any excessive logging in the PHPdesktop version every 48 hours
