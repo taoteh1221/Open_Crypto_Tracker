@@ -458,9 +458,6 @@ $ct['conf']['currency']['price_rounding_percent'] = 'thousandth'; // (OF A PERCE
 $ct['conf']['currency']['price_rounding_fixed_decimals'] = 'on'; // 'off', 'on'
 
 
-// CoinGecko market pairings searched for, when adding new assets / coins (comma-separated)
-$ct['conf']['currency']['coingecko_pairings_search'] = 'usd,gbp,eur,hkd,sgd,rub,eth,btc,try,jpy,cad,inr,chf,aud,twd,cny,ils'; 
-////
 // Jupiter aggregator market pairings searched for, when adding new assets / coins (comma-separated, CASE-SENSITIVE!)
 // We have a HARD CAP OF 100 asset search results maximum PER-PAIRING (to avoid search timeouts [taking too long]),
 // AND each pairing MUST be a VERIFIED token (for your SAFETY!)

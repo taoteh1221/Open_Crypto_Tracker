@@ -116,7 +116,7 @@ $active_currency_count = 0;
 		
 		     if ( $all_exchanges_key == 'coingecko' ) {
 		     
-		     $cg_currencies_array = array_map( "trim", explode(',', $ct['conf']['currency']['coingecko_pairings_search']) );
+		     $cg_currencies_array = $ct['api']->coingecko_currencies();
 		     
 		          foreach( $cg_currencies_array as $cg_currency ) {
 		          $all_exchange_count = $all_exchange_count + 1;

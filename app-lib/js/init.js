@@ -149,9 +149,9 @@ nav_menu('.user-nav');
 	
      
      // Load ALL access stats
-     $('.load_all_access_stats_onclick').on({
+     $('.load_bundled_access_stats_onclick').on({
         "click":function(e){
-         alert("Coming Soon™");
+         ct_ajax_load('type=access_stats&mode=bundled', '#access_stats_data', 'BUNDLED access stats', false, true, true); // Secured / tablesorter
          }
      });
 	
@@ -159,7 +159,7 @@ nav_menu('.user-nav');
      // Load access stats PER IP ADDRESS
      $('.load_ip_access_stats_onclick').on({
         "click":function(e){
-         ct_ajax_load('type=access_stats', '#access_stats_data', 'latest access stats', false, true, true); // Secured / tablesorter
+         ct_ajax_load('type=access_stats&mode=ip', '#access_stats_data', 'PER-IP access stats', false, true, true); // Secured / tablesorter
          }
      });
                      

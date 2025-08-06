@@ -6957,11 +6957,17 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.04
 
+-BUG FIX: MAJOR fixes / refactoring / optimizations to the BTC value conversion function (used to convert / determine values between Currencies and other Cryptos, everywhere in this app)
+
 -BUG FIX: Miscellaneous (minor)
 
 -Secured / optimized the Access Stats feature (in Admin Area => System Monitoring), to run from /cache/secured/, and run faster
 
 -Added "Referrer" data for Access Stats (shows what page the visit initiated from, if available)
+
+-Accurate coingecko currency support (currency list is now retrieved from their API)
+
+-Added BUNDLED Access Stats (PER IP ADDRESS stats are also still available)
 
 -Minor user experience improvements / runtime optimizations
 

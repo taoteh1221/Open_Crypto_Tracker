@@ -288,27 +288,24 @@ var $ct_array = array();
      
           foreach ($files as $file) {
            
-            if ( is_file($file) ) {
-              
-              if ( time() - filemtime($file) >= (60 * 60 * 24 * $days) ) {
-               
-              $result = unlink($file);
-              
-               	if ( $result == false ) {
-               		
-               	$ct['gen']->log(
-               				'system_error',
-               				'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")'
-               				);
-               	
-               	}
-              
-              }
-              
-            }
-            else {
-            $ct['gen']->log('system_error', 'File deletion failed, file not found: "' . $file . '"');
-            }
+               if ( is_file($file) ) {
+                   
+                    if ( time() - filemtime($file) >= (60 * 60 * 24 * $days) ) {
+                    
+                    $result = unlink($file);
+                   
+                    	if ( $result == false ) {
+                    		
+                    	$ct['gen']->log(
+                    				'system_error',
+                    				'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")'
+                    				);
+                    	
+                    	}
+                   
+                    }
+                   
+               }
             
           }
      
@@ -1022,10 +1019,13 @@ var $ct_array = array();
            $agent = $result[3];
            
            $referrer = ( $result[4] == 'NO_DATA' ? 'None' : $ct['gen']->pretty_app_uri(false, true, $result[4]) );
+           
+           // PER-IP OR BUNDLED RESULTS
+           $results_array_keyed_by = ( $_GET['mode'] == 'bundled' ? 'all' : $ip );
                
-           $safe_name = $ct['gen']->compat_file_name($ip);
+           $safe_name = $ct['gen']->compat_file_name($results_array_keyed_by);
                
-           $ct['show_access_stats'][$safe_name]['ip'] = $ip;
+           $ct['show_access_stats'][$safe_name]['ip'] = $results_array_keyed_by;
 
            
                if ( !isset($ct['show_access_stats'][$safe_name]['ip_total_visits']) ) {
@@ -1034,21 +1034,25 @@ var $ct_array = array();
                else {
                $ct['show_access_stats'][$safe_name]['ip_total_visits'] = $ct['show_access_stats'][$safe_name]['ip_total_visits'] + 1;
                }
+                     
                
+               if ( $_GET['mode'] == 'bundled' ) {
+               $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($url) ]['last_ip'] = $ip;
+               }
+               
+                     
+           $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($url) ]['last_visit'] = $time;
+                         
+           $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($url) ]['last_referrer'] = $referrer;
+                         
+           $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($url) ]['url'] = $url;
+         
                          
                // For UX, we only want one table row per-page (no duplicates same page)
                // (an we just include page / user agent counts in this row)
                // $time is the visited timestamp, we only want the MOST RECENT
                if ( !isset($url_visit_count[ md5($url) ]) ) {
-                              
-               $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($url) ]['last_visit'] = $time;
-                         
-               $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($url) ]['url'] = $url;
-                         
-               $ct['show_access_stats'][$safe_name]['visited_pages'][ md5($url) ]['referrer'] = $referrer;
-     
                $url_visit_count[ md5($url) ] = 1;
-     
                }
                // URL visits
                else {
@@ -1090,25 +1094,50 @@ var $ct_array = array();
       
       // Render the stats
       foreach ( $ct['show_access_stats'] as $key => $val ) {
+           
+      // PER-IP OR BUNDLED RESULTS
+      $results_array_keyed_by = ( $_GET['mode'] == 'bundled' ? 'all' : $val['ip'] );
       
-      $safe_name = $ct['gen']->compat_file_name($val['ip']);
+      $safe_name = $ct['gen']->compat_file_name($results_array_keyed_by);
            
       ?>
 
           <fieldset class='subsection_fieldset'>
                
-               <legend class='subsection_legend'> IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits<?=( $val['ip'] == $ct['remote_ip'] ? ' <span class="bitcoin">[YOUR current address]</span>' : '' )?>) </legend>
+               <legend class='subsection_legend'> 
                
-               <?=$ct['gen']->table_pager_nav($safe_name, 'access_stats')?>
+               <?php
+               if ( $_GET['mode'] == 'bundled' ) {
+               ?>
+               ALL (<?=$val['ip_total_visits']?> visits) 
+               <?php
+               }
+               else {
+               ?>
+               IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits<?=( $val['ip'] == $ct['remote_ip'] ? ' <span class="bitcoin">[YOUR current address]</span>' : '' )?>) 
+               <?php
+               }
+               ?>
                
-               <table id='<?=$safe_name?>' border='0' cellpadding='10' cellspacing='0' class="access_stats data_table align_center" style='width: 100% !important;'>
+               </legend>
+               
+               <?=$ct['gen']->table_pager_nav($safe_name . '_ip', 'access_stats')?>
+               
+               <table id='<?=$safe_name?>_ip' border='0' cellpadding='10' cellspacing='0' class="access_stats data_table align_center" style='width: 100% !important;'>
                 <thead>
                    <tr>
-                    <th class="filter-match" data-placeholder="Filter Results">Last Visit Time</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Last Visit</th>
                     <th class="filter-match" data-placeholder="Filter Results">Total Visits</th>
                     <th class="filter-match" data-placeholder="Filter Results">URL</th>
-                    <th class="filter-match" data-placeholder="Filter Results">Referrer (Visited FROM)</th>
-                    <th class="filter-match" data-placeholder="Filter Results">User Agents</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Last Referrer <span class='bitcoin'>(CAN BE SPOOFED!)</span></th>
+                    <?php
+                    if ( $_GET['mode'] == 'bundled' ) {
+                    ?>
+                    <th class="filter-match" data-placeholder="Filter Results">Last IP Address</th>
+                    <?php
+                    }
+                    ?>
+                    <th class="filter-match" data-placeholder="Filter Results">User Agents <span class='bitcoin'>(CAN BE SPOOFED!)</span></th>
                    </tr>
                  </thead>
                  
@@ -1123,7 +1152,14 @@ var $ct_array = array();
                      <td><?=date("Y-m-d H:i:s", $visited_pages['last_visit'])?></td>
                      <td> <?=$ct['show_access_stats'][$key]['ip_url_visits'][ md5($visited_pages['url']) ]?> </td>
                      <td style='word-break: break-all;'> <?=$visited_pages['url']?> </td>
-                     <td style='word-break: break-all;'> <?=$visited_pages['referrer']?> </td>
+                     <td style='word-break: break-all;'> <?=$visited_pages['last_referrer']?> </td>
+                    <?php
+                    if ( $_GET['mode'] == 'bundled' ) {
+                    ?>
+                     <td> <?=$visited_pages['last_ip']?> </td>
+                    <?php
+                    }
+                    ?>
                      <td> 
                      
                      <?php
@@ -3409,7 +3445,6 @@ var $ct_array = array();
         // DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
         if ( 
         preg_match("/xml version/i", $data) // RSS feeds (that are likely intact)
-        || preg_match("/invalid vs_currency/i", $data) // Coingecko (we fallback to USD in this case anyways, and error would repeat every cache refresh cluttering logs)
         || preg_match("/\"error\":\[\],/i", $data) // kraken.com / generic
         || preg_match("/warning-icon/i", $data)  // Medium.com RSS feeds
         || preg_match("/\"error_code\":0/i", $data) // Generic

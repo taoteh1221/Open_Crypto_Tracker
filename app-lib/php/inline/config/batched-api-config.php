@@ -57,7 +57,7 @@ foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
 
 // Coingecko pairing search support, in currency support admin config
 // (so we can IMMEDIATELY check market data for valid numbers, during 'add market' searches)
-$coingecko_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['coingecko_pairings_search']) );
+$coingecko_pairings = $ct['api']->coingecko_currencies();
             
 foreach ( $coingecko_pairings as $pairing ) {
      

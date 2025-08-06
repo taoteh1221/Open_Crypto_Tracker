@@ -1824,11 +1824,11 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
   
    <p>
   
-   <button class='load_all_access_stats_onclick force_button_style' style='margin: 1em;'>Show ALL Stats (bundled)</button>
+   <button class='load_bundled_access_stats_onclick force_button_style' style='margin: 1em;'>Show / Refresh BUNDLED Stats</button>
    
    &nbsp; &nbsp; &nbsp; 
    
-   <button class='load_ip_access_stats_onclick force_button_style' style='margin: 1em;'>Show Stats PER IP ADDRESS</button>
+   <button class='load_ip_access_stats_onclick force_button_style' style='margin: 1em;'>Show / Refresh PER IP ADDRESS Stats</button>
 	
    </p>
 	
