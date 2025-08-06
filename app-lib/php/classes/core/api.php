@@ -4115,7 +4115,7 @@ var $exchange_apis = array(
       // IF IT'S JUST AN ASSET SEARCH (BEFORE EVEN ADDING AS A TRACKED MARKET)
       if (
       !$ct['ticker_markets_search'] && !isset($result['last_trade'])
-      || isset($result['last_trade']) && !is_numeric($result['last_trade'])
+      || !$ct['ticker_markets_search'] && isset($result['last_trade']) && !is_numeric($result['last_trade'])
       ) {
            
       $invalid_last_trade = true;

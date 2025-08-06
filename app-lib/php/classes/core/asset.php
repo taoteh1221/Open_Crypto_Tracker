@@ -936,7 +936,7 @@ var $ct_array = array();
      		            else {
                            
                            // Market exclusion list, getting pair data from this exchange IN ANY PAIR, for this runtime only
-     		            $ct['btc_pair_mrkts_excluded'][$pair][] = $mrkt_key; 
+     		            $ct['btc_pair_mrkts_excluded'][$pair][] = $mrkt_override; 
      
      		            return $this->pair_btc_val($pair);
      
