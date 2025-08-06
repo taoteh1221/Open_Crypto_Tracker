@@ -6957,6 +6957,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.04
 
+-BUG FIX: MAJOR fixes / refactoring / optimizations to the BTC value conversion function (used to convert / determine values between Currencies and other Cryptos, everywhere in this app)
+
 -BUG FIX: Miscellaneous (minor)
 
 -Secured / optimized the Access Stats feature (in Admin Area => System Monitoring), to run from /cache/secured/, and run faster

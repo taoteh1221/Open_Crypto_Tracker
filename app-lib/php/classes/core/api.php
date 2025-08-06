@@ -4087,7 +4087,7 @@ var $exchange_apis = array(
     		elseif ( isset($result['24hr_pair_vol']) && isset($pair) && $pair == $ct['conf']['currency']['bitcoin_primary_currency_pair'] ) {
     		$result['24hr_prim_currency_vol'] = $ct['var']->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
     		}
-    		elseif ( isset($result['24hr_pair_vol']) ) {
+    		elseif ( isset($result['24hr_pair_vol']) && isset($pair) ) {
     		$result['24hr_prim_currency_vol'] = $ct['var']->num_to_str( $ct['asset']->prim_currency_trade_vol($asset_symb, $pair, $result['last_trade'], $result['24hr_pair_vol']) );
     		}
     		else {
@@ -4109,34 +4109,32 @@ var $exchange_apis = array(
                    		    );
                    		    
       }
-
-
-      // Track market data failure
-      if ( $ct['conf']['comms']['market_error_alert_channels'] != 'off' ) {
-      
-      
-           if (
-           !isset($result['last_trade'])
-           || isset($result['last_trade']) && !is_numeric($result['last_trade'])
-           ) {
                 
                 
-               // For UX, we don't want "check your markets" user alerts,
-               // IF IT'S JUST AN ASSET SEARCH (BEFORE EVEN ADDING AS A TRACKED MARKET)
-               if ( !$ct['ticker_markets_search'] ) {
+      // For UX, we don't want "check your markets" user alerts,
+      // IF IT'S JUST AN ASSET SEARCH (BEFORE EVEN ADDING AS A TRACKED MARKET)
+      if (
+      !$ct['ticker_markets_search'] && !isset($result['last_trade'])
+      || isset($result['last_trade']) && !is_numeric($result['last_trade'])
+      ) {
+           
+      $invalid_last_trade = true;
                      
-               $ct['gen']->log(
+      $ct['gen']->log(
                    		    'notify_error',
-                   		    'make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                   		    'the trade value of "'.$result['last_trade'].'" seems invalid. make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
                    		    false,
                    		    'no_market_data_' . $sel_exchange
                    		    );
                    		    
-               }
-                
-                
-           // Safe filename characters
-           $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->compat_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id) . '.dat';
+      }
+
+
+      // Track market data failure
+      if ( $invalid_last_trade && $ct['conf']['comms']['market_error_alert_channels'] != 'off' ) {
+      
+      // Safe filename characters
+      $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->compat_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id) . '.dat';
            
                
                // Get any existing count, OR set to zero
@@ -4201,11 +4199,8 @@ var $exchange_apis = array(
                }
            
                      
-           // Update the market error tracking count
-           $ct['cache']->save_file($market_error_cache_path, $market_error_count);
-          
-           }
-
+      // Update the market error tracking count
+      $ct['cache']->save_file($market_error_cache_path, $market_error_count);
            
       }
    
