@@ -288,27 +288,24 @@ var $ct_array = array();
      
           foreach ($files as $file) {
            
-            if ( is_file($file) ) {
-              
-              if ( time() - filemtime($file) >= (60 * 60 * 24 * $days) ) {
-               
-              $result = unlink($file);
-              
-               	if ( $result == false ) {
-               		
-               	$ct['gen']->log(
-               				'system_error',
-               				'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")'
-               				);
-               	
-               	}
-              
-              }
-              
-            }
-            else {
-            $ct['gen']->log('system_error', 'File deletion failed, file not found: "' . $file . '"');
-            }
+               if ( is_file($file) ) {
+                   
+                    if ( time() - filemtime($file) >= (60 * 60 * 24 * $days) ) {
+                    
+                    $result = unlink($file);
+                   
+                    	if ( $result == false ) {
+                    		
+                    	$ct['gen']->log(
+                    				'system_error',
+                    				'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")'
+                    				);
+                    	
+                    	}
+                   
+                    }
+                   
+               }
             
           }
      
