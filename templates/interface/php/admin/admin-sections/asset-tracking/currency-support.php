@@ -117,16 +117,6 @@ $ct['admin_render_settings']['price_rounding_fixed_decimals']['is_notes'] = '(wh
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['coingecko_pairings_search']['is_text'] = true;
-
-$ct['admin_render_settings']['coingecko_pairings_search']['text_field_size'] = 40;
-
-$ct['admin_render_settings']['coingecko_pairings_search']['is_notes'] = 'CoinGecko market pairings searched for, when adding new assets / coins (comma-separated)';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 $ct['admin_render_settings']['jupiter_ag_pairings_search']['is_text'] = true;
 
 $ct['admin_render_settings']['jupiter_ag_pairings_search']['text_field_size'] = 40;

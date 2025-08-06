@@ -46,8 +46,6 @@ $ct['conf']['charts_alerts']['whale_alert_thresholds'] = trim($ct['conf']['chart
 
 // Auto-correct case on market tickers...
 
-$ct['conf']['currency']['coingecko_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['coingecko_pairings_search'], 'coingecko');
-
 $ct['conf']['currency']['upbit_pairings_search'] = $ct['gen']->auto_correct_market_id($ct['conf']['currency']['upbit_pairings_search'], 'upbit');
 
 $ct['conf']['currency']['additional_pairings_search'] = $ct['var']->auto_correct_str($ct['conf']['currency']['additional_pairings_search'], 'lower');

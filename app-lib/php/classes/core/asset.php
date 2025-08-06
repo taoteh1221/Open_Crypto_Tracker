@@ -1441,7 +1441,7 @@ var $ct_array = array();
                   $other_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['additional_pairings_search']) );
                        
                   // Coingecko pairing support
-                  $coingecko_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['coingecko_pairings_search']) );
+                  $coingecko_pairings = $ct['api']->coingecko_currencies();
                        
                   // Upbit pairing support
                   $upbit_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['upbit_pairings_search']) );

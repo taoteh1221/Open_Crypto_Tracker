@@ -380,6 +380,25 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
+   function coingecko_currencies() {
+    
+   global $ct;
+         
+   $url = 'https://api.coingecko.com/api/v3/simple/supported_vs_currencies';
+         
+   $response = @$ct['cache']->ext_data('url', $url, 1440); // Check DAILY
+       
+   $data = json_decode($response, true);
+   
+   return $data;
+     
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function bitcoin($request) {
     
    global $ct;
@@ -3386,6 +3405,29 @@ var $exchange_apis = array(
      	                        '24hr_pair_vol' => $data[$coingecko_route . "_24h_vol"]
      	                        );
            
+           }
+           else {
+           
+
+               // For UX, we don't want "check your markets" user alerts,
+               // IF IT'S JUST AN ASSET SEARCH (BEFORE EVEN ADDING AS A TRACKED MARKET)
+               if (
+               !$ct['ticker_markets_search']
+               && $coingecko_route != 'terminal'
+               && !in_array( $coingecko_route, $ct['api']->coingecko_currencies() )
+               ) {
+                     
+               $ct['gen']->log(
+                   		    'notify_error',
+                   		    'coingecko does NOT support the currency "' . $coingecko_route . '". please REMOVE the "'.$asset_symb.' / '.$coingecko_route.'" coingecko-based market, to avoid seeing this message',
+                   		    false,
+                   		    'no_market_data_' . $sel_exchange
+                   		    );
+                   		    
+               }
+                 
+
+
            }
            
 	     
