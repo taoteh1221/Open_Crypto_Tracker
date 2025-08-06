@@ -4098,6 +4098,19 @@ var $exchange_apis = array(
       }
       
       
+      // Log if last trade value is under the minimum crypto value set in the config
+      if ( isset($result['last_trade']) && $result['last_trade'] < $ct['min_crypto_val_test'] ) {
+      
+      $ct['gen']->log(
+                   		    'notify_error',
+                   		    'the '.$asset_symb.' trade value "'.$result['last_trade'].'" for the "' . $sel_exchange . '" exchange market ID "'.$mrkt_id.'" is LESS THAN THE ALLOWED "'.$ct['min_crypto_val_test'].'" VALUE [adjustable in: Admin Area => Asset Tracking => Currency Support => Crypto Decimals Maximum])',
+                   		    false,
+                   		    'low_market_value_' . $mrkt_id
+                   		    );
+                   		    
+      }
+
+
       // Track market data failure
       if ( $ct['conf']['comms']['market_error_alert_channels'] != 'off' ) {
       
@@ -4105,7 +4118,6 @@ var $exchange_apis = array(
            if (
            !isset($result['last_trade'])
            || isset($result['last_trade']) && !is_numeric($result['last_trade'])
-           || isset($result['last_trade']) && $result['last_trade'] < $ct['min_crypto_val_test']
            ) {
                 
                 

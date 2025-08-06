@@ -1708,8 +1708,12 @@ var $ct_array = array();
    $asset = strtoupper($asset);
 
       
-      // IF the asset / market does NOT exist, skip this config entry
-      if ( !isset($ct['conf']['assets'][$asset]) || !isset($ct['conf']['assets'][$asset]['pair'][$pair][$exchange]) ) {
+      // IF disabled, or the asset / market does NOT exist, skip this config entry
+      if (
+      $mode == 'none'
+      || !isset($ct['conf']['assets'][$asset])
+      || !isset($ct['conf']['assets'][$asset]['pair'][$pair][$exchange])
+      ) {
       return false;
       }
       
