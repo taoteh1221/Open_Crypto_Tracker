@@ -1128,6 +1128,8 @@ var $ct_array = array();
                    <tr>
                     <th class="filter-match" data-placeholder="Filter Results">Last Visit</th>
                     <th class="filter-match" data-placeholder="Filter Results">Total Visits</th>
+                    <th class="filter-match" data-placeholder="Filter Results">URL</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Last Referrer <span class='bitcoin'>(CAN BE SPOOFED!)</span></th>
                     <?php
                     if ( $_GET['mode'] == 'bundled' ) {
                     ?>
@@ -1135,8 +1137,6 @@ var $ct_array = array();
                     <?php
                     }
                     ?>
-                    <th class="filter-match" data-placeholder="Filter Results">URL</th>
-                    <th class="filter-match" data-placeholder="Filter Results">Last Referrer <span class='bitcoin'>(CAN BE SPOOFED!)</span></th>
                     <th class="filter-match" data-placeholder="Filter Results">User Agents <span class='bitcoin'>(CAN BE SPOOFED!)</span></th>
                    </tr>
                  </thead>
@@ -1151,6 +1151,8 @@ var $ct_array = array();
                    
                      <td><?=date("Y-m-d H:i:s", $visited_pages['last_visit'])?></td>
                      <td> <?=$ct['show_access_stats'][$key]['ip_url_visits'][ md5($visited_pages['url']) ]?> </td>
+                     <td style='word-break: break-all;'> <?=$visited_pages['url']?> </td>
+                     <td style='word-break: break-all;'> <?=$visited_pages['last_referrer']?> </td>
                     <?php
                     if ( $_GET['mode'] == 'bundled' ) {
                     ?>
@@ -1158,8 +1160,6 @@ var $ct_array = array();
                     <?php
                     }
                     ?>
-                     <td style='word-break: break-all;'> <?=$visited_pages['url']?> </td>
-                     <td style='word-break: break-all;'> <?=$visited_pages['last_referrer']?> </td>
                      <td> 
                      
                      <?php
