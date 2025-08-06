@@ -1721,7 +1721,7 @@ var $ct_array = array();
 	        	
 	 $ct['gen']->log(
 	        			 'market_error',
-	        			 'this->pair_btc_val() returned null in ct_asset->charts_price_alerts() (for ' . $pair . ')'
+	        			 'this->pair_btc_val() returned null in ct_asset->charts_price_alerts() (for ' . $pair . ', in key: '.$asset_data.')'
 	        			);
 	        
 	 }
