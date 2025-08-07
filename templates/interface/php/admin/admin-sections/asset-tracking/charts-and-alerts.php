@@ -20,7 +20,17 @@ if ( $ct['admin_area_sec_level'] == 'high' ) {
 <?php
 }
 else {
+?>
 
+
+	<p class='blue blue_dotted'>
+	
+	PRO TIP: You can temporarily DISABLE any Price Alert, by setting the last parameter to 'none' OR 'chart' (if you want to keep any price chart active).
+	
+	</p>
+	
+
+<?php
 
 // Render config settings for this section...
 
@@ -240,7 +250,7 @@ $ct['admin_render_settings']['asset_marketcap_chart_defaults']['is_notes'] = 'Th
 $ct['admin_render_settings']['tracked_markets']['is_repeatable']['add_button'] = 'Add Chart / Alert (at bottom)';
 
 $ct['admin_render_settings']['tracked_markets']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
-$ct['admin_render_settings']['tracked_markets']['is_repeatable']['text_field_size'] = 35;
+$ct['admin_render_settings']['tracked_markets']['is_repeatable']['text_field_size'] = 45;
                
 
 // FILLED IN setting values
@@ -250,13 +260,13 @@ if ( sizeof($ct['conf']['charts_alerts']['tracked_markets']) > 0 ) {
 
      foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
      $ct['admin_render_settings']['tracked_markets']['is_subarray'][$key]['is_text'] = true;
-     $ct['admin_render_settings']['tracked_markets']['is_subarray'][$key]['text_field_size'] = 35;
+     $ct['admin_render_settings']['tracked_markets']['is_subarray'][$key]['text_field_size'] = 45;
      }
 
 }
 else {
 $ct['admin_render_settings']['tracked_markets']['is_subarray'][0]['is_text'] = true;
-$ct['admin_render_settings']['tracked_markets']['is_subarray'][0]['text_field_size'] = 35;
+$ct['admin_render_settings']['tracked_markets']['is_subarray'][0]['text_field_size'] = 45;
 }
 
 

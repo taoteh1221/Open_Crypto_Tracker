@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Do input validation for btc / crypto preferred markets, on the currency admin page. Also add the exchange keys list to each tooltip area.
+
+
 Note at top of access stats page, that all times are UTC. Maybe even put a UTC clock on the page, like we do for the logs page.
 
 
@@ -141,10 +144,7 @@ Validate the EXACT array size, before parsing ANY data in price chart / access s
 For Access Stats, add showing multiple visit timestamps / referrers by adding an info balloon when hovering over a 'last visit ' timestamp INFO ICON. INCLUDE IP ADDRESSES FOR 'ALL STATS' BUNDLED MODE. 
 
 
-Use the 'light charts' algo for stripping out lines with old timestamps in access stats, AND run that logic in the NON-must-be-cron-runtime section of the maintenance routine. This should allow the time period tracked to scale up well, without significantly slowing down runtime speeds (allowing a greater range using the 'access_stats_delete_old' power user setting).
-
-
-Validate crypto addresses (with QR code algo) and labels, for the address balance tracker plugin.
+Validate crypto addresses (with QR code algo) and labels, for the address balance tracker plugin?
 
 
 +++++++++

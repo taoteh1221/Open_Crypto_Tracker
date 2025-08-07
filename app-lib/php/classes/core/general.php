@@ -765,7 +765,7 @@ var $ct_array = array();
       $url .= $script_name . '?plugin=' . $parsed_params['plugin'];
       }
       elseif ( $parsed_params['type'] ) {
-      $url .= $script_name . '?type=' . $parsed_params['type'];
+      $url .= $script_name . '?type=' . $parsed_params['type'] . ( $parsed_params['mode'] ? '&mode=' . $parsed_params['mode'] : '' );
       }
       else {
       $url .= $script_name;

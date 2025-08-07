@@ -13,6 +13,64 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function prune_access_stats() {
+   
+   global $ct;
+   
+   $prune_threshold = time() - $ct['var']->num_to_str($ct['conf']['power']['access_stats_delete_old'] * 86400);
+   
+   //var_dump($prune_threshold);
+  
+   $access_stats_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/access_stats', 'dat', 'desc');
+  
+       
+       // Prune ALL the stats
+       foreach( $access_stats_files as $ip_access_file ) {
+   
+       $queued_newer_lines = array();
+       
+       $path = $ct['base_dir'] . '/cache/secured/access_stats/' . $ip_access_file;
+       
+       // Access stats file array
+       $file_lines = file($path);
+       
+       
+          foreach ( $file_lines as $line ) {
+          
+          $data_array = explode("||", $line);
+          
+          //var_dump($data_array);
+          
+              if ( $ct['var']->num_to_str($data_array[0]) >= $prune_threshold ) {
+              $queued_newer_lines[] = $line;
+              //var_dump($line);
+              }
+          
+          }
+       
+          
+       $pruned_data = implode("\n", $queued_newer_lines);
+       
+       $pruned_data = preg_replace('/\\n\\n/', "\n", $pruned_data);
+       
+       $result = $this->save_file($path, $pruned_data); 
+       
+       }
+       
+   
+   // Give the file write / lock time to release
+   // (as we'll be updating access stats at the end of this runtime)
+   sleep(1); 
+   
+   gc_collect_cycles(); // Clean memory cache
+   
+   }
 
   
   ////////////////////////////////////////////////////////

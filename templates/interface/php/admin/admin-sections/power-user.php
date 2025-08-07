@@ -6,7 +6,7 @@
 
 ?>
 
-				<div class='bitcoin align_center' style='margin-bottom: 20px;'>(advanced configuration, handle with care)</div>
+<h3 class='red align_center' style='margin-bottom: 20px; font-weight: bold;'>Advanced configurations, handle with care!</h3>
 
 
 <?php
@@ -158,7 +158,7 @@ $ct['admin_render_settings']['access_stats_delete_old']['range_min'] = 15;
 
 $ct['admin_render_settings']['access_stats_delete_old']['range_max'] = 360;
 
-$ct['admin_render_settings']['access_stats_delete_old']['range_step'] = 1;
+$ct['admin_render_settings']['access_stats_delete_old']['range_step'] = 15;
 
 $ct['admin_render_settings']['access_stats_delete_old']['range_ui_prefix'] = 'Delete After ';
 

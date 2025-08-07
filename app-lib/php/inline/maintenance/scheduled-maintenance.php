@@ -12,7 +12,6 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
 //////////////////////////////////////////////////////////////////
 
 
-
 	////////////////////////////////////////////////////////////
 	// Maintenance to run only if cron is setup and running
 	////////////////////////////////////////////////////////////
@@ -29,7 +28,7 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
     
     
          	// If coinmarketcap API key is added, re-cache data for faster UI runtimes later
-         	if ( trim($ct['conf']['ext_apis']['coinmarketcap_api_key']) != null ) {
+         	if ( trim($ct['conf']['ext_apis']['coinmarketcap_api_key']) != '' ) {
          	$ct['coinmarketcap_api'] = $ct['api']->mcap_data_coinmarketcap();
          	}
     	 
@@ -64,19 +63,22 @@ require($ct['base_dir'] . '/app-lib/php/inline/maintenance/upgrade-check.php');
 
 // Update cached vars...
 
-
 // Determine / store portfolio cache size
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/cache_size.dat', $ct['gen']->conv_bytes( $ct['gen']->dir_size($ct['base_dir'] . '/cache/') , 3) );
-
-
+     
+     
 // Cache files cleanup...
+
+// Cleanup access stats (prune entries older than X days)
+$ct['cache']->prune_access_stats();
+
 
 // Delete ANY old zip archive backups scheduled to be purged
 // ONLY .zip FILES
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['conf']['power']['backup_archive_delete_old'], 'zip');
 
 
-// Stale cache files cleanup...
+// Stale cache files deletion...
 
 /////////////////////////
 // Variable days
@@ -138,7 +140,8 @@ $logs_cache_cleanup = array(
 					   $ct['base_dir'] . '/cache/logs/error/external_data',
 					  );
 ////								
-$ct['cache']->delete_old_files($logs_cache_cleanup, $ct['conf']['power']['logs_purge']); // Purge app LOG cache files older than $ct['conf']['power']['logs_purge'] day(s)
+// Purge app LOG cache files older than $ct['conf']['power']['logs_purge'] day(s)
+$ct['cache']->delete_old_files($logs_cache_cleanup, $ct['conf']['power']['logs_purge']); 
 
 
     // Purge any excessive logging in the PHPdesktop version every 48 hours
