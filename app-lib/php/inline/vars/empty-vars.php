@@ -143,7 +143,7 @@ $ct['telegram_user_data_path'] = null;
 
 // Initial zero-set / false strings
 
-$ct['sort_alpha_assoc_multidem'] = false;
+$ct['sort_by_nested'] = false;
 
 $ct['is_subsection_config'] = false;
 

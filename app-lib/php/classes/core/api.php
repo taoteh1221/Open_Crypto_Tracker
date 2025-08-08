@@ -1555,8 +1555,9 @@ var $exchange_apis = array(
      
             // Sort results by asset name
             foreach ( $results as $sort_key => $unused ) {
-            $ct['sort_alpha_assoc_multidem'] = 'name';
-            usort($results[$sort_key], array($ct['var'], 'alpha_usort') );
+            $ct['sort_by_nested'] = 'root=>name';
+            usort($results[$sort_key], array($ct['var'], 'usort_asc') );
+            $ct['sort_by_nested'] = false; // RESET
             }     
 
      

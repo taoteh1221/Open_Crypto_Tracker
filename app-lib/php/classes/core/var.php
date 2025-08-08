@@ -50,15 +50,6 @@ var $ct_array = array();
    return strlen($b)-strlen($a); // Descending sort
    }
 
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
-   function integer_usort_ascending($a, $b) {
-   return strcmp($a['timestamp'], $b['timestamp']); 
-   }
-
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -317,20 +308,68 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function alpha_usort($a, $b) {
+   function usort_asc($a, $b) {
    
    global $ct;
-   
-       // Case-insensitive equivalent comparison via strtolower()
        
-       // Sort by specific subkey value
-       if ( $ct['sort_alpha_assoc_multidem'] ) {
-       return strcmp( strtolower($a[ $ct['sort_alpha_assoc_multidem'] ]) , strtolower($b[ $ct['sort_alpha_assoc_multidem'] ]) ); 
+       // Sort by specific subkey path value (UNLIMITED depth supported)
+       if ( $ct['sort_by_nested'] ) {
+            
+       $nested_path = explode('=>', $ct['sort_by_nested']);
+       
+           foreach ( $nested_path as $level ) {
+                
+                if (
+                isset($a[$level])
+                && isset($b[$level])
+                && trim($a[$level]) != ''
+                && trim($b[$level]) != ''
+                ) {
+                $a = $a[$level];
+                $b = $b[$level];
+                }
+
+           }
+           
        }
-       // Sort by value
-       else {
-       return strcmp( strtolower($a) , strtolower($b) ); 
+       
+   // Sort by STRING value, case-insensitive equivalent comparison via strtolower()
+   return strnatcmp( strtolower( (string)$a ), strtolower( (string)$b ) );
+   
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function usort_desc($a, $b) {
+   
+   global $ct;
+       
+       // Sort by specific subkey path value (UNLIMITED depth supported)
+       if ( $ct['sort_by_nested'] ) {
+            
+       $nested_path = explode('=>', $ct['sort_by_nested']);
+       
+           foreach ( $nested_path as $level ) {
+                
+                if (
+                isset($a[$level])
+                && isset($b[$level])
+                && trim($a[$level]) != ''
+                && trim($b[$level]) != ''
+                ) {
+                $a = $a[$level];
+                $b = $b[$level];
+                }
+
+           }
+           
        }
+       
+   // Sort by STRING value, case-insensitive equivalent comparison via strtolower()
+   return strnatcmp( strtolower( (string)$b ), strtolower( (string)$a ) );
    
    }
    

@@ -465,7 +465,6 @@ $ct['conf']['power']['marketcap_cache_time'] = 120;
 }
 
 
-
 // Remove SECONDARY crypto pairs that have no configged markets
 // (EXCEPT BTC, AS ITS **THE PRIMARY CRYPTO MARKET** [WE ADD ABOVE IN THIS FILE])
 foreach ( $ct['opt_conf']['crypto_pair'] as $pair_key => $pair_unused ) {
@@ -676,8 +675,9 @@ sort($ct['conf']['charts_alerts']['tracked_markets']);
 
 // Alphabetically sort assets by 'name'
 // We need to use uasort, instead of usort, to maintain the associative array structure
-$ct['sort_alpha_assoc_multidem'] = 'name';
-uasort($ct['conf']['assets'], array($ct['var'], 'alpha_usort') );
+$ct['sort_by_nested'] = 'root=>name';
+uasort($ct['conf']['assets'], array($ct['var'], 'usort_asc') );
+$ct['sort_by_nested'] = false; // RESET
 
 //$ct['gen']->array_debugging($ct['conf']['assets'], true); // DEBUGGING ONLY
 

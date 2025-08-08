@@ -201,9 +201,10 @@ $ct['country_locales'] = array(
                          'zu-ZA' => 'Zulu (South Africa)',
                          );
 
-$ct['sort_alpha_assoc_multidem'] = false; // NOT sorting by subkey value
+// $ct['sort_by_nested'] does NOT need to be set (CAN BE DEFAULT [false]),
+// as this is NOT a multidimensional (nested) array structure
 // uasort (instead of usort) maintains the associations of the (NON-numeric) ROOT keys
-uasort($ct['country_locales'], array($ct['var'], 'alpha_usort') );
+uasort($ct['country_locales'], array($ct['var'], 'usort_asc') );
 
 
 ////////////////////////////////////////////////////////////
