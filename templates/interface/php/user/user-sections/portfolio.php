@@ -1819,6 +1819,12 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	<li class='bitcoin' style='font-weight: bold;'>Hover your mouse over the browser name, to see the full user agent string.</li>
 	
+	<li class='bitcoin' style='font-weight: bold;'>All visit timestamps are UTC time (Coordinated Universal Time).</li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>Current UTC time: <span class='utc_timestamp red'></span></li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>YOUR IP Address: <span class='red'><?=$ct['remote_ip']?></span></li>	
+	
    </ul>		
   
   

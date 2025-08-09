@@ -23,9 +23,60 @@ var $array1 = array();
 		
      
      // Validating user input in the admin interface
+	function address_valid($address) {
+		 
+	global $ct, $plug, $this_plug;
+
+     $original = trim($address);
+     
+     $sanitized = $original;
+     
+     // FLAG tabs, spaces, and new lines
+     $sanitized = preg_replace("/[\s\W]+/", "FLAG", $sanitized);
+     
+     // FLAG non-alphanumeric
+     $sanitized = preg_replace("/[^A-Za-z0-9 ]/", "FLAG", $sanitized);
+     
+     // Remove HTML
+     $sanitized = strip_tags($sanitized);
+     
+     
+          // Check if sanitized input matches original input
+          // (we want to use original input to play it safe or flag invalid, since this is crypto-related)
+          if ( trim($address) == '' || $original != $sanitized ) {
+          return false;
+          }
+          else {
+          return true;
+          }
+
+		
+	}
+		
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+		
+     
+     // Validating user input in the admin interface
 	function admin_input_validation() {
 		 
 	global $ct, $plug, $this_plug;
+     
+     $update_config_error_seperator = '<br /> ';
+          
+         // Make sure do not disturb on/off is set properly (IF filled in, CAN BE BLANK TO DISABLE)
+         
+         foreach ( $_POST[$this_plug]['tracking'] as $key => $val ) {
+         
+            if ( !$this->address_valid( $_POST[$this_plug]['tracking'][$key]['crypto_address'] ) ) {
+         $ct['update_config_error'] .= $update_config_error_seperator . 'Invalid crypto address: "'.$_POST[$this_plug]['tracking'][$key]['crypto_address'].'"';
+            }
+            
+            if ( trim($_POST[$this_plug]['tracking'][$key]['label']) == '' ) {
+         $ct['update_config_error'] .= $update_config_error_seperator . 'Label missing (for crypto address: "'.$_POST[$this_plug]['tracking'][$key]['crypto_address'].'")';
+            }
+         
+         }
 
      
      return $ct['update_config_error'];

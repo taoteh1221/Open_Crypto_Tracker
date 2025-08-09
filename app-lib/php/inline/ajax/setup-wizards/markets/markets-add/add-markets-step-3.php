@@ -178,8 +178,9 @@ $results_count = $results_count + $exchange_count;
 
 
 // Sort skipped markets by exchange
-$ct['sort_alpha_assoc_multidem'] = 'exchange';
-usort($skipped_results, array($ct['var'], 'alpha_usort') );
+$ct['sort_by_nested'] = 'root=>exchange';
+usort($skipped_results, array($ct['var'], 'usort_asc') );
+$ct['sort_by_nested'] = false; // RESET
 
 
 // WE ONLY LOAD STEP 3 IF WE HAVE RESULTS (OTHERWISE WE RELOAD STEP 2)

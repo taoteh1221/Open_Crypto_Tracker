@@ -26,6 +26,8 @@ var $array1 = array();
 	function admin_input_validation() {
 		 
 	global $ct, $plug, $this_plug;
+     
+     $update_config_error_seperator = '<br /> ';
 		
      // Logic here
      $ct['update_config_error'] = '';

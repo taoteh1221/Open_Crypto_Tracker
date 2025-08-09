@@ -447,11 +447,11 @@ $ct['conf']['power']['last_trade_cache_time'] = 60;
 }
 
 // Idiot-proof access_stats_delete_old
-if ( $ct['conf']['power']['access_stats_delete_old'] > 10 ) {
-$ct['conf']['power']['access_stats_delete_old'] = 10;
+if ( $ct['conf']['power']['access_stats_delete_old'] > 360 ) {
+$ct['conf']['power']['access_stats_delete_old'] = 360;
 }
-elseif ( $ct['conf']['power']['access_stats_delete_old'] < 5 ) {
-$ct['conf']['power']['access_stats_delete_old'] = 5;
+elseif ( $ct['conf']['power']['access_stats_delete_old'] < 15 ) {
+$ct['conf']['power']['access_stats_delete_old'] = 15;
 }
 
 // Idiot-proof blockchain_stats_cache_time
@@ -463,7 +463,6 @@ $ct['conf']['power']['blockchain_stats_cache_time'] = 100;
 if ( abs($ct['conf']['power']['marketcap_cache_time']) > 120 || $ct['conf']['power']['marketcap_cache_time'] < 0 ) {
 $ct['conf']['power']['marketcap_cache_time'] = 120;
 }
-
 
 
 // Remove SECONDARY crypto pairs that have no configged markets
@@ -676,8 +675,9 @@ sort($ct['conf']['charts_alerts']['tracked_markets']);
 
 // Alphabetically sort assets by 'name'
 // We need to use uasort, instead of usort, to maintain the associative array structure
-$ct['sort_alpha_assoc_multidem'] = 'name';
-uasort($ct['conf']['assets'], array($ct['var'], 'alpha_usort') );
+$ct['sort_by_nested'] = 'root=>name';
+uasort($ct['conf']['assets'], array($ct['var'], 'usort_asc') );
+$ct['sort_by_nested'] = false; // RESET
 
 //$ct['gen']->array_debugging($ct['conf']['assets'], true); // DEBUGGING ONLY
 

@@ -13,6 +13,62 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function prune_access_stats() {
+   
+   global $ct;
+   
+   $prune_threshold = time() - $ct['var']->num_to_str($ct['conf']['power']['access_stats_delete_old'] * 86400);
+   
+   //var_dump($prune_threshold);
+  
+   $access_stats_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/access_stats', 'dat', 'desc');
+  
+       
+       // Prune ALL the stats
+       foreach( $access_stats_files as $ip_access_file ) {
+   
+       $queued_newer_lines = array();
+       
+       $path = $ct['base_dir'] . '/cache/secured/access_stats/' . $ip_access_file;
+       
+       // Access stats file array
+       $file_lines = file($path);
+       
+       
+          foreach ( $file_lines as $line ) {
+          
+          $data_array = explode("||", $line);
+          
+          //var_dump($data_array);
+          
+              if ( $ct['var']->num_to_str($data_array[0]) >= $prune_threshold ) {
+              $queued_newer_lines[] = $line;
+              //var_dump($line);
+              }
+          
+          }
+       
+          
+       $pruned_data = implode("", $queued_newer_lines);
+       
+       $result = $this->save_file($path, $pruned_data); 
+   
+       gc_collect_cycles(); // Clean memory cache
+       
+       }
+       
+   
+   // Give the file write / lock time to release
+   // (as we'll be updating access stats at the end of this runtime)
+   sleep(1); 
+   
+   }
 
   
   ////////////////////////////////////////////////////////
@@ -243,7 +299,7 @@ var $ct_array = array();
         }
         	
         
-        // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
+        // In case a rare error occurred from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
         // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
         $now = time();
         
@@ -252,7 +308,7 @@ var $ct_array = array();
         if ( $now > 0 ) {
         
         // Store system data to archival / light charts
-        $access_stats_data = $now . $access_data_set;
+        $access_stats_data = time() . $access_data_set;
         
         $ct['cache']->save_file($file_save_path, $access_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
         
@@ -1028,11 +1084,11 @@ var $ct_array = array();
            $ct['show_access_stats'][$safe_name]['ip'] = $results_array_keyed_by;
 
            
-               if ( !isset($ct['show_access_stats'][$safe_name]['ip_total_visits']) ) {
-               $ct['show_access_stats'][$safe_name]['ip_total_visits'] = 1;
+               if ( !isset($ct['show_access_stats'][$safe_name]['total_visits_count']) ) {
+               $ct['show_access_stats'][$safe_name]['total_visits_count'] = 1;
                }
                else {
-               $ct['show_access_stats'][$safe_name]['ip_total_visits'] = $ct['show_access_stats'][$safe_name]['ip_total_visits'] + 1;
+               $ct['show_access_stats'][$safe_name]['total_visits_count'] = $ct['show_access_stats'][$safe_name]['total_visits_count'] + 1;
                }
                      
                
@@ -1085,12 +1141,20 @@ var $ct_array = array();
    
    
        fclose($fn);
+       
+       gc_collect_cycles(); // Clean memory cache
                     
        }
-   
-   
-  gc_collect_cycles(); // Clean memory cache
       
+      
+      // Alphabetically sort PER-IP access stats by 'total_visits_count'
+      // We need to use uasort, instead of usort, to maintain the associative array structure
+      if ( $_GET['mode'] == 'ip' ) {
+      $ct['sort_by_nested'] = 'root=>total_visits_count';
+      uasort($ct['show_access_stats'], array($ct['var'], 'usort_desc') );
+      $ct['sort_by_nested'] = false; // RESET
+      }
+
       
       // Render the stats
       foreach ( $ct['show_access_stats'] as $key => $val ) {
@@ -1109,12 +1173,12 @@ var $ct_array = array();
                <?php
                if ( $_GET['mode'] == 'bundled' ) {
                ?>
-               ALL (<?=$val['ip_total_visits']?> visits) 
+               ALL (<?=$val['total_visits_count']?> visits) 
                <?php
                }
                else {
                ?>
-               IP Address: <?=$val['ip']?> (<?=$val['ip_total_visits']?> visits<?=( $val['ip'] == $ct['remote_ip'] ? ' <span class="bitcoin">[YOUR current address]</span>' : '' )?>) 
+               IP Address: <?=$val['ip']?> (<?=$val['total_visits_count']?> visits<?=( $val['ip'] == $ct['remote_ip'] ? ' <span class="bitcoin">[YOUR current address]</span>' : '' )?>) 
                <?php
                }
                ?>
@@ -1128,8 +1192,6 @@ var $ct_array = array();
                    <tr>
                     <th class="filter-match" data-placeholder="Filter Results">Last Visit</th>
                     <th class="filter-match" data-placeholder="Filter Results">Total Visits</th>
-                    <th class="filter-match" data-placeholder="Filter Results">URL</th>
-                    <th class="filter-match" data-placeholder="Filter Results">Last Referrer <span class='bitcoin'>(CAN BE SPOOFED!)</span></th>
                     <?php
                     if ( $_GET['mode'] == 'bundled' ) {
                     ?>
@@ -1137,6 +1199,8 @@ var $ct_array = array();
                     <?php
                     }
                     ?>
+                    <th class="filter-match" data-placeholder="Filter Results">URL</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Last Referrer <span class='bitcoin'>(CAN BE SPOOFED!)</span></th>
                     <th class="filter-match" data-placeholder="Filter Results">User Agents <span class='bitcoin'>(CAN BE SPOOFED!)</span></th>
                    </tr>
                  </thead>
@@ -1151,8 +1215,6 @@ var $ct_array = array();
                    
                      <td><?=date("Y-m-d H:i:s", $visited_pages['last_visit'])?></td>
                      <td> <?=$ct['show_access_stats'][$key]['ip_url_visits'][ md5($visited_pages['url']) ]?> </td>
-                     <td style='word-break: break-all;'> <?=$visited_pages['url']?> </td>
-                     <td style='word-break: break-all;'> <?=$visited_pages['last_referrer']?> </td>
                     <?php
                     if ( $_GET['mode'] == 'bundled' ) {
                     ?>
@@ -1160,6 +1222,8 @@ var $ct_array = array();
                     <?php
                     }
                     ?>
+                     <td style='word-break: break-all;'> <?=$visited_pages['url']?> </td>
+                     <td style='word-break: break-all;'> <?=$visited_pages['last_referrer']?> </td>
                      <td> 
                      
                      <?php
@@ -3527,8 +3591,10 @@ var $ct_array = array();
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             || $endpoint_tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
             || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/price/i", $data) 
-            // API-specific (confirmed error message in response)
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
+            // API-specific (confirmed error in response)
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/btc/i", $data) 
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data) 
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data)
             ) {
                  
                  

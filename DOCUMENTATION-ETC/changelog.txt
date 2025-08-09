@@ -6959,6 +6959,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: MAJOR fixes / refactoring / optimizations to the BTC value conversion function (used to convert / determine values between Currencies and other Cryptos, everywhere in this app)
 
+-BUG FIX: Fixed CoinGecko marketcap data being mapped to the wrong coin (with the SAME TICKER...now 'app id' is used, instead of ticker)
+
 -BUG FIX: Miscellaneous (minor)
 
 -Secured / optimized the Access Stats feature (in Admin Area => System Monitoring), to run from /cache/secured/, and run faster
@@ -6969,7 +6971,7 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Added BUNDLED Access Stats (PER IP ADDRESS stats are also still available)
 
--Minor user experience improvements / runtime optimizations
+-Significant user experience improvements / runtime optimizations
 
 -------------------------------------------------------------------
 

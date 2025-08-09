@@ -765,7 +765,7 @@ var $ct_array = array();
       $url .= $script_name . '?plugin=' . $parsed_params['plugin'];
       }
       elseif ( $parsed_params['type'] ) {
-      $url .= $script_name . '?type=' . $parsed_params['type'];
+      $url .= $script_name . '?type=' . $parsed_params['type'] . ( $parsed_params['mode'] ? '&mode=' . $parsed_params['mode'] : '' );
       }
       else {
       $url .= $script_name;
@@ -1086,7 +1086,9 @@ var $ct_array = array();
        
           // Sort by timestamp
           if ( is_array($sortable_array) ) { 
-          usort($sortable_array, array($ct['var'], 'integer_usort_ascending') );
+          $ct['sort_by_nested'] = 'root=>timestamp';
+          usort($sortable_array, array($ct['var'], 'usort_desc') );
+          $ct['sort_by_nested'] = false; // RESET
           }
        
           // Return to normal string, after sorting logs by timestamp
@@ -2384,14 +2386,24 @@ var $ct_array = array();
    $str = preg_replace("/\|\|/i", " 123PLACEHOLDER123 ", $str); // Replaced with an arrow further down
    $str = preg_replace("/\|/i", " 123PLACEHOLDER123 ", $str); // Replaced with an arrow further down
    
-   $str = ucwords($str);
+   $str = ucwords($str); // Uppercase first character, in ALL words
    
    
       // Pretty up the individual words as needed
       $words = explode(" ",$str);
+         
       
       foreach($words as $key => $val) {
-   
+      
+      
+         // Coingecko Asset support key names
+         if (
+         strtolower($words[0]) == 'coingecko'
+         && strtolower($words[1]) != 'terminal'
+         ) {
+         $words[1] = strtoupper($words[1]); // All uppercase
+         }
+      
    
          // Pretty up all asset market PAIRS AND TICKERS
          

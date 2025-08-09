@@ -145,8 +145,9 @@ $ct['admin_render_settings']['tracking']['is_repeatable']['text_field_size'] = 5
 
 if ( sizeof($ct['conf']['plug_conf'][$this_plug]['tracking']) > 0 ) {
 
-$ct['sort_alpha_assoc_multidem'] = 'label';
-$usort_tracking_results = usort($ct['conf']['plug_conf'][$this_plug]['tracking'], array($ct['var'], 'alpha_usort') );
+$ct['sort_by_nested'] = 'root=>label';
+$usort_tracking_results = usort($ct['conf']['plug_conf'][$this_plug]['tracking'], array($ct['var'], 'usort_asc') );
+$ct['sort_by_nested'] = false; // RESET
 
 
      if ( !$usort_tracking_results ) {
