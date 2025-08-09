@@ -71,7 +71,8 @@ var $array1 = array();
             if ( !$this->address_valid( $_POST[$this_plug]['tracking'][$key]['crypto_address'] ) ) {
          $ct['update_config_error'] .= $update_config_error_seperator . 'Invalid crypto address: "'.$_POST[$this_plug]['tracking'][$key]['crypto_address'].'"';
             }
-            elseif ( trim($_POST[$this_plug]['tracking'][$key]['label']) == '' ) {
+            
+            if ( trim($_POST[$this_plug]['tracking'][$key]['label']) == '' ) {
          $ct['update_config_error'] .= $update_config_error_seperator . 'Label missing (for crypto address: "'.$_POST[$this_plug]['tracking'][$key]['crypto_address'].'")';
             }
          
