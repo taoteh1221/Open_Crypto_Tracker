@@ -6,6 +6,13 @@
         "dummy_entry": true
     },
     {
+        "timestamp": 1754784000,
+        "very_important": true,
+        "affected_version": "6.01.03",
+        "affected_earlier": true,
+        "affected_desc": "v6.01.04 has been released, with FIXES for MAJOR ISSUES, related to the Currency Conversion function. IF you have any issues getting price conversions for your desired currency, upgrading this app should fix it."
+    },
+    {
         "timestamp": 1754006400,
         "very_important": true,
         "affected_version": "6.01.02",
