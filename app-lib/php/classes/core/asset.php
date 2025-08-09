@@ -409,12 +409,26 @@ var $ct_array = array();
    
    $data = array();
    
-   
+    
+    // Do nothing for stocks, as we use $ct['api']->stock_overview() instead for them
      if ( preg_match("/stock/i", $symbol) ) {
-     // Do nothing for stocks, as we currently don't support stock stats beyond spot price / volume
+     return false;
      }
      elseif ( $ct['conf']['gen']['primary_marketcap_site'] == 'coingecko' ) {
-     
+         
+         
+         // WE USE THE APP ID, FOR GETTING THE CORRECT COINGECKO MCAP DATA, AS IT IS MORE RELIABLE THEN THE TICKER
+         if (
+         isset($ct['conf']['assets'][ strtoupper($symbol) ]['mcap_slug'])
+         && trim($ct['conf']['assets'][ strtoupper($symbol) ]['mcap_slug']) != ''
+         ) {
+         $app_id = $ct['conf']['assets'][ strtoupper($symbol) ]['mcap_slug'];
+         }
+         // Do nothing if there is no web slug (which is the app id for coingecko)
+         else {
+         return false;
+         }
+
        
          // Check for currency support, fallback to USD if needed
          if ( $force_currency != null ) {
@@ -453,34 +467,34 @@ var $ct_array = array();
      $mcap_data = ( $coingecko_api_no_overwrite ? $coingecko_api_no_overwrite : $ct['coingecko_api'] );
      
        
-     $data['rank'] = $mcap_data[$symbol]['market_cap_rank'];
-     $data['price'] = $ct['var']->num_to_str($mcap_data[$symbol]['current_price']);
-     $data['market_cap'] = round( $ct['var']->rem_num_format($mcap_data[$symbol]['market_cap']) );
+     $data['rank'] = $mcap_data[$app_id]['market_cap_rank'];
+     $data['price'] = $ct['var']->num_to_str($mcap_data[$app_id]['current_price']);
+     $data['market_cap'] = round( $ct['var']->rem_num_format($mcap_data[$app_id]['market_cap']) );
      
-       	if ( $ct['var']->rem_num_format($mcap_data[$symbol]['total_supply']) > $ct['var']->rem_num_format($mcap_data[$symbol]['circulating_supply']) ) {
-       	$data['market_cap_total'] = round( $ct['var']->rem_num_format($mcap_data[$symbol]['current_price']) * $ct['var']->rem_num_format($mcap_data[$symbol]['total_supply']) );
+       	if ( $ct['var']->rem_num_format($mcap_data[$app_id]['total_supply']) > $ct['var']->rem_num_format($mcap_data[$app_id]['circulating_supply']) ) {
+       	$data['market_cap_total'] = round( $ct['var']->rem_num_format($mcap_data[$app_id]['current_price']) * $ct['var']->rem_num_format($mcap_data[$app_id]['total_supply']) );
        	}
        
-     $data['vol_24h'] = $mcap_data[$symbol]['total_volume'];
+     $data['vol_24h'] = $mcap_data[$app_id]['total_volume'];
      
-     $data['percent_change_1h'] = number_format( $mcap_data[$symbol]['price_change_percentage_1h_in_currency'] , 2, ".", ",");
-     $data['percent_change_24h'] = number_format( $mcap_data[$symbol]['price_change_percentage_24h_in_currency'] , 2, ".", ",");
-     $data['percent_change_7d'] = number_format( $mcap_data[$symbol]['price_change_percentage_7d_in_currency'] , 2, ".", ",");
+     $data['percent_change_1h'] = number_format( $mcap_data[$app_id]['price_change_percentage_1h_in_currency'] , 2, ".", ",");
+     $data['percent_change_24h'] = number_format( $mcap_data[$app_id]['price_change_percentage_24h_in_currency'] , 2, ".", ",");
+     $data['percent_change_7d'] = number_format( $mcap_data[$app_id]['price_change_percentage_7d_in_currency'] , 2, ".", ",");
      
-     $data['circulating_supply'] = $mcap_data[$symbol]['circulating_supply'];
-     $data['total_supply'] = $mcap_data[$symbol]['total_supply'];
+     $data['circulating_supply'] = $mcap_data[$app_id]['circulating_supply'];
+     $data['total_supply'] = $mcap_data[$app_id]['total_supply'];
      $data['max_supply'] = null;
      
-     $data['last_updated'] = strtotime( $mcap_data[$symbol]['last_updated'] );
+     $data['last_updated'] = strtotime( $mcap_data[$app_id]['last_updated'] );
      
      $data['app_notice'] = $app_notice;
      
      // Coingecko-only
-     $data['percent_change_14d'] = number_format( $mcap_data[$symbol]['price_change_percentage_14d_in_currency'] , 2, ".", ",");
-     $data['percent_change_30d'] = number_format( $mcap_data[$symbol]['price_change_percentage_30d_in_currency'] , 2, ".", ",");
-     $data['percent_change_60d'] = number_format( $mcap_data[$symbol]['price_change_percentage_60d_in_currency'] , 2, ".", ",");
-     $data['percent_change_200d'] = number_format( $mcap_data[$symbol]['price_change_percentage_200d_in_currency'] , 2, ".", ",");
-     $data['percent_change_1y'] = number_format( $mcap_data[$symbol]['price_change_percentage_1y_in_currency'] , 2, ".", ",");
+     $data['percent_change_14d'] = number_format( $mcap_data[$app_id]['price_change_percentage_14d_in_currency'] , 2, ".", ",");
+     $data['percent_change_30d'] = number_format( $mcap_data[$app_id]['price_change_percentage_30d_in_currency'] , 2, ".", ",");
+     $data['percent_change_60d'] = number_format( $mcap_data[$app_id]['price_change_percentage_60d_in_currency'] , 2, ".", ",");
+     $data['percent_change_200d'] = number_format( $mcap_data[$app_id]['price_change_percentage_200d_in_currency'] , 2, ".", ",");
+     $data['percent_change_1y'] = number_format( $mcap_data[$app_id]['price_change_percentage_1y_in_currency'] , 2, ".", ",");
      
      }
      elseif ( $ct['conf']['gen']['primary_marketcap_site'] == 'coinmarketcap' ) {

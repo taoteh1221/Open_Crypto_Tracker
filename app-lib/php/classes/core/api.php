@@ -820,8 +820,8 @@ var $exchange_apis = array(
          
           foreach ($data as $key => $unused) {
             
-              if ( isset($data[$key]['symbol']) && $data[$key]['symbol'] != '' ) {
-              $result[strtolower($data[$key]['symbol'])] = $data[$key];
+              if ( isset($data[$key]['id']) && $data[$key]['id'] != '' ) {
+              $result[strtolower($data[$key]['id'])] = $data[$key];
               }
        
           }
