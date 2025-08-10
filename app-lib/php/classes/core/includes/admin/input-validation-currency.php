@@ -120,17 +120,17 @@ $val_config = array_map( "trim", explode("=", $val) );
      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      }
      elseif ( sizeof($val_config) < 2 ) {
-     $ct['update_config_error'] .= '<br />"conversion_currency_symbols" formatting is NOT valid (MUST be: TICKER = SYMBOL): "' . $val;
+     $ct['update_config_error'] .= '<br />[conversion_currency_symbols] formatting is NOT valid (MUST be: TICKER = SYMBOL): "' . $val;
      }
      else {
      
           if ( !ctype_alnum($val_config[0]) ) {
-          $ct['update_config_error'] .= '<br />"conversion_currency_symbols" Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />[conversion_currency_symbols] Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
           $skip_market_check = true;
           }
      
           if ( !isset($val_config[1]) || $val_config[1] == '' ) {
-          $ct['update_config_error'] .= '<br />"conversion_currency_symbols" No ticker SYMBOL detected: "'.$val_config[1].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />[conversion_currency_symbols] No ticker SYMBOL detected: "'.$val_config[1].'" ('.$val.')';
           $skip_market_check = true;
           }
           
@@ -144,7 +144,7 @@ $val_config = array_map( "trim", explode("=", $val) );
                // Do nothing (a bitcoin market exists)
                }
                else {
-               $ct['update_config_error'] .= '<br />No BITCOIN MARKET detected for conversion currency asset: "'.strtoupper($val_config[0]).'" ('.$val.')';
+               $ct['update_config_error'] .= '<br />[conversion_currency_symbols] No BITCOIN MARKET detected for conversion currency asset: "'.strtoupper($val_config[0]).'" ('.$val.')';
                }
 
           
@@ -158,6 +158,8 @@ $val_config = array_map( "trim", explode("=", $val) );
         
 
 foreach ( $_POST['currency']['bitcoin_preferred_currency_markets'] as $key => $val ) {
+     
+$skip_market_check = false; // RESET
 
 // Auto-correct
 $val = $ct['var']->auto_correct_str($val, 'lower'); 
@@ -172,16 +174,32 @@ $val_config = array_map( "trim", explode("=", $val) );
      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      }
      elseif ( sizeof($val_config) < 2 ) {
-     $ct['update_config_error'] .= '<br />"bitcoin_preferred_currency_markets" formatting is NOT valid (MUST be: TICKER = EXCHANGE): "' . $val;
+     $ct['update_config_error'] .= '<br />[bitcoin_preferred_currency_markets] formatting is NOT valid (MUST be: TICKER = EXCHANGE): "' . $val;
      }
      else {
      
           if ( !ctype_alnum($val_config[0]) ) {
-          $ct['update_config_error'] .= '<br />"bitcoin_preferred_currency_markets" Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />[bitcoin_preferred_currency_markets] Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $skip_market_check = true;
           }
      
           if ( !isset($val_config[1]) || $val_config[1] == '' ) {
-          $ct['update_config_error'] .= '<br />"bitcoin_preferred_currency_markets" No ticker EXCHANGE detected: "'.$val_config[1].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />[bitcoin_preferred_currency_markets] No ticker EXCHANGE detected: "'.$val_config[1].'" ('.$val.')';
+          $skip_market_check = true;
+          }
+          
+          
+          if ( !$skip_market_check ) {
+               
+               
+               if ( !isset( $ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])]) ) {
+               $ct['update_config_error'] .= '<br />[bitcoin_preferred_currency_markets] PAIRING "'.$val_config[0].'" does NOT exist in the current Bitcoin markets: '.$val;
+               }
+               elseif ( !isset( $ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])][ strtolower($val_config[1]) ]) ) {
+               $ct['update_config_error'] .= '<br />[bitcoin_preferred_currency_markets] EXCHANGE "'.$val_config[1].'" does NOT exist in the current "'.$val_config[0].'" Bitcoin markets: '.$val;
+               }
+
+          
           }
 
      }
@@ -207,34 +225,31 @@ $val_config = array_map( "trim", explode("=", $val) );
      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      }
      elseif ( sizeof($val_config) < 2 ) {
-     $ct['update_config_error'] .= '<br />"crypto_pair" formatting is NOT valid (MUST be: TICKER = SYMBOL): "' . $val;
+     $ct['update_config_error'] .= '<br />[crypto_pair] formatting is NOT valid (MUST be: TICKER = SYMBOL): "' . $val;
      }
      else {
 
      
           if ( !ctype_alnum($val_config[0]) ) {
-          $ct['update_config_error'] .= '<br />"crypto_pair" Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />[crypto_pair] Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
           $skip_market_check = true;
           }
 
      
           if ( !isset($val_config[1]) || $val_config[1] == '' ) {
-          $ct['update_config_error'] .= '<br />"crypto_pair" No ticker SYMBOL detected: "'.$val_config[1].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />[crypto_pair] No ticker SYMBOL detected: "'.$val_config[1].'" ('.$val.')';
           $skip_market_check = true;
           }
           
           
           if ( !$skip_market_check ) {
-          
-          
+               
+     
                if (
-               is_array($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])]) && sizeof($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])]) > 0
-               || is_array($ct['conf']['assets'][strtoupper($val_config[0])]['pair']['btc']) && sizeof($ct['conf']['assets'][strtoupper($val_config[0])]['pair']['btc']) > 0
+               !isset($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])])
+               && !isset($ct['conf']['assets'][strtoupper($val_config[0])]['pair']['btc'])
                ) {
-               // Do nothing (a bitcoin market exists)
-               }
-               else {
-               $ct['update_config_error'] .= '<br />No BITCOIN MARKET detected for crypto asset: "'.strtoupper($val_config[0]).'" ('.$val.')';
+               $ct['update_config_error'] .= '<br />[crypto_pair] "'.$val_config[0].'" does NOT have a Bitcoin PAIRING market anywhere: '.$val;
                }
 
           
@@ -248,6 +263,8 @@ $val_config = array_map( "trim", explode("=", $val) );
         
 
 foreach ( $_POST['currency']['crypto_pair_preferred_markets'] as $key => $val ) {
+     
+$skip_market_check = false; // RESET
 
 // Auto-correct
 $val = $ct['var']->auto_correct_str($val, 'lower'); 
@@ -262,17 +279,40 @@ $val_config = array_map( "trim", explode("=", $val) );
      // Do nothing (it's just the BLANK admin interface placeholder, TO ASSURE THE ARRAY IS NEVER EXCLUDED from the CACHED config during updating via interface)
      }
      elseif ( sizeof($val_config) < 2 ) {
-     $ct['update_config_error'] .= '<br />"crypto_pair_preferred_markets" formatting is NOT valid (MUST be: TICKER = EXCHANGE): "' . $val;
+     $ct['update_config_error'] .= '<br />[crypto_pair_preferred_markets] formatting is NOT valid (MUST be: TICKER = EXCHANGE): "' . $val;
      }
      else {
      
           if ( !ctype_alnum($val_config[0]) ) {
-          $ct['update_config_error'] .= '<br />"crypto_pair_preferred_markets" Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />[crypto_pair_preferred_markets] Ticker seems INVALID: "'.$val_config[0].'" ('.$val.')';
+          $skip_market_check = true;
           }
      
           if ( !isset($val_config[1]) || $val_config[1] == '' ) {
-          $ct['update_config_error'] .= '<br />"crypto_pair_preferred_markets" No ticker EXCHANGE detected: "'.$val_config[1].'" ('.$val.')';
+          $ct['update_config_error'] .= '<br />[crypto_pair_preferred_markets] No ticker EXCHANGE detected: "'.$val_config[1].'" ('.$val.')';
+          $skip_market_check = true;
           }
+          
+          
+          if ( !$skip_market_check ) {
+          
+          
+               if (
+               !isset($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])])
+               && !isset($ct['conf']['assets'][strtoupper($val_config[0])]['pair']['btc'])
+               ) {
+               $ct['update_config_error'] .= '<br />[crypto_pair_preferred_markets] "'.$val_config[0].'" does NOT have a Bitcoin PAIRING market anywhere: '.$val;
+               }
+               elseif (
+               !isset($ct['conf']['assets']['BTC']['pair'][strtolower($val_config[0])][ strtolower($val_config[1]) ])
+               && !isset( $ct['conf']['assets'][strtoupper($val_config[0])]['pair']['btc'][ strtolower($val_config[1]) ] )
+               ) {
+               $ct['update_config_error'] .= '<br />"[crypto_pair_preferred_markets] EXCHANGE "'.$val_config[1].'" does NOT have a Bitcoin "'.$val_config[0].'" PAIRING market anywhere: '.$val;
+               }
+     
+     
+          }
+          
 
      }
      

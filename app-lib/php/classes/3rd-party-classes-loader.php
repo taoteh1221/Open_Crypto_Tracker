@@ -25,7 +25,7 @@ $totp_base32 = new \Google\Authenticator\FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQR
      // base32 encoding (a TOTP required spec), we USE THE (ripemd160) DIGEST of contcantenating the admin username, app server hostname, AND the GLOBAL secret key
      // (since base32 in NOT encrypting, it's encoded AND decoded without a key)
      if ( is_array($stored_admin_login) ) {
-     $auth_secret_2fa = $totp_base32->encode( $ct['sec']->digest($stored_admin_login[0] . $ct['app_host'] . $auth_secret) );
+     $auth_secret_2fa = $totp_base32->encode( $ct['sec']->digest($stored_admin_login[0] . $ct['app_host'] . $ct['auth_secret']) );
      }
      
 

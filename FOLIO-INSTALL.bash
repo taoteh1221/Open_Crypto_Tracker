@@ -2061,6 +2061,7 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/2_years > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/4_years > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/all > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/alerts/plugin_alerts/address-balance-tracker > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/logs/debugging > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/logs/errors > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/secured/external_api > /dev/null 2>&1

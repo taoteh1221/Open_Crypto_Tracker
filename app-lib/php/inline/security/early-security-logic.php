@@ -258,11 +258,11 @@ if ( !$is_fast_runtime ) {
      		
      		
      		// If we already loaded the newest modified file (OR ARE MIGRATING), delete any stale ones
-     		if ( $auth_secret || $migrate_to_auth_secret ) {
+     		if ( $ct['auth_secret'] || $migrate_to_auth_secret ) {
      		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
      		}
      		else {
-     		$auth_secret = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
+     		$ct['auth_secret'] = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
      		}
      	
      	
@@ -380,7 +380,7 @@ if ( !$is_fast_runtime ) {
      
      
      // If no secret var
-     if ( !$auth_secret || $migrate_to_auth_secret ) {
+     if ( !$ct['auth_secret'] || $migrate_to_auth_secret ) {
      
      $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
      
@@ -404,7 +404,7 @@ if ( !$is_fast_runtime ) {
      	}
      	else {
      	$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/secret_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
-     	$auth_secret = $secure_256bit_hash;
+     	$ct['auth_secret'] = $secure_256bit_hash;
      	}
      
      

@@ -129,12 +129,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Do input validation for btc / crypto preferred markets, on the currency admin page. Also add the exchange keys list to each tooltip area.
-
-
-Move /cache/alerts/plugin_alerts/address-balance-tracker/ OVER TO /cache/secured/plugin_data/address-balance-tracker/, AND add in requiring .htaccess / index.php security files (from the templates).
-
-
 Validate the EXACT array size, before parsing ANY data in price chart / access stats data PER-LINE, TO AVOID READING ANY CORRUPT DATA INTO THE OUTPUT STREAMS.
 
 

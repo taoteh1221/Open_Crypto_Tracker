@@ -19,6 +19,25 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
+   function secret_name($str) {
+        
+   global $ct;
+   
+      if ( !$ct['auth_secret'] ) {
+      $ct['gen']->log('conf_error', 'auth_secret not set properly');
+      return false;
+      }
+      else {
+      return hash_hmac("sha256", $str, $ct['auth_secret']);
+      }
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
    function sanitize_string($data) {
    
    $data = strip_tags($data);
@@ -278,15 +297,15 @@ var $ct_array = array();
    
    function pepper_hashed_pass($password) {
    
-   global $auth_secret;
+   global $ct;
    
-      if ( !$auth_secret ) {
+      if ( !$ct['auth_secret'] ) {
       $ct['gen']->log('conf_error', 'auth_secret not set properly');
       return false;
       }
       else {
          
-      $password_pepper_hashed = hash_hmac("sha256", $password, $auth_secret);
+      $password_pepper_hashed = hash_hmac("sha256", $password, $ct['auth_secret']);
       
          if ( $password_pepper_hashed == false ) {
          $ct['gen']->log('conf_error', 'hash_hmac() returned false in the ct_gen->pepper_hashed_pass() function');
@@ -519,9 +538,9 @@ var $ct_array = array();
    
    function check_pepper_hashed_pass($input_password, $stored_hashed_password) {
    
-   global $auth_secret, $stored_admin_login;
+   global $ct, $stored_admin_login;
    
-      if ( !$auth_secret ) {
+      if ( !$ct['auth_secret'] ) {
       $ct['gen']->log('conf_error', 'auth_secret not set properly');
       return false;
       }
@@ -531,7 +550,7 @@ var $ct_array = array();
       }
       else {
          
-      $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $auth_secret);
+      $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $ct['auth_secret']);
       
          if ( $input_password_pepper_hashed == false ) {
          $ct['gen']->log('conf_error', 'hash_hmac() returned false in the ct_sec->check_pepper_hashed_pass() function');

@@ -552,7 +552,7 @@ $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array( // START
                      'gbp = kraken',  // WAY BETTER api than ALL alternatives
                      'jpy = kraken',  // WAY MORE reputable than ALL alternatives
                      'inr = coingecko_inr',  // Coingecko should be best spot value
-                     'rub = binance',  // WAY MORE volume / price discovery than ALL alternatives
+                     'rub = coingecko_rub',  // WAY MORE volume / price discovery than ALL alternatives
                      'usd = kraken',  // WAY BETTER api than ALL alternatives
                                    							
                                    					       ); // END
