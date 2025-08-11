@@ -2708,7 +2708,7 @@ var $exchange_apis = array(
 		      }
 		               
                 if ( is_array($sortable_feed) ) { 
-		      $usort_results = usort($sortable_feed,  array($ct['var'], 'integer_usort_decending') );
+		      $usort_results = usort($sortable_feed,  array($ct['var'], 'timestamp_usort_decending') );
 		      }
 		               
 		      if ( !$usort_results ) {
@@ -2731,7 +2731,11 @@ var $exchange_apis = array(
 				     $item_date = $item->updated;
 				     }
 			          // Support for the 'dc' namespace
-			          elseif ( sizeof( $item->children('dc', true) ) > 0 ) {
+			          elseif (
+	                    is_object($item)
+                    	&& is_object( $item->children('dc', true) )
+                    	&& sizeof( $item->children('dc', true) ) > 0
+			          ) {
 			         
                          $dc_namespace = $item->children('dc', true);
                         
@@ -2817,7 +2821,7 @@ var $exchange_apis = array(
 	          }
 	               
                if ( is_array($sortable_feed) ) { 
-	          $usort_results = usort($sortable_feed, array($ct['var'], 'integer_usort_decending') );
+	          $usort_results = usort($sortable_feed, array($ct['var'], 'timestamp_usort_decending') );
 	          }
 	               
 	          if ( !$usort_results ) {
@@ -2841,7 +2845,11 @@ var $exchange_apis = array(
 			         $item_date = $item->updated;
 			         }
 			         // Support for the 'dc' namespace
-			         elseif ( sizeof( $item->children('dc', true) ) > 0 ) {
+			         elseif (
+                        is_object($item)
+                        && is_object( $item->children('dc', true) )
+                        && sizeof( $item->children('dc', true) ) > 0
+			         ) {
 			         
                         $dc_namespace = $item->children('dc', true);
                         
@@ -4104,7 +4112,7 @@ var $exchange_apis = array(
       
       $ct['gen']->log(
                    		    'notify_error',
-                   		    'the '.$asset_symb.' trade value "'.$result['last_trade'].'" for the "' . $sel_exchange . '" exchange market ID "'.$mrkt_id.'" is LESS THAN THE ALLOWED "'.$ct['min_crypto_val_test'].'" VALUE [adjustable in: Admin Area => Asset Tracking => Currency Support => Crypto Decimals Maximum])',
+                   		    'the '.$asset_symb.' trade value "'.$result['last_trade'].'" for the "' . $sel_exchange . '" exchange market ID "'.$mrkt_id.'" is LESS THAN THE ALLOWED "'.$ct['min_crypto_val_test'].'" VALUE (adjustable in: Admin Area => Asset Tracking => Currency Support => Crypto Decimals Maximum)',
                    		    false,
                    		    'low_market_value_' . $mrkt_id
                    		    );

@@ -27,8 +27,10 @@ var $ct_array = array();
       $ct['gen']->log('conf_error', 'auth_secret not set properly');
       return false;
       }
+      // WINDOWS file path / name compatibility
+      // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
       else {
-      return hash_hmac("sha256", $str, $ct['auth_secret']);
+      return $ct['gen']->compat_file_name( hash_hmac("sha256", $str, $ct['auth_secret']) );
       }
    
    }

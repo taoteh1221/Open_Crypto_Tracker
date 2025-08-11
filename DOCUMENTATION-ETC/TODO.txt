@@ -129,18 +129,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Validate the EXACT array size, before parsing ANY data in price chart / access stats data PER-LINE, TO AVOID READING ANY CORRUPT DATA INTO THE OUTPUT STREAMS.
-
-
-Make sure we have the FULL nested path to news feed timestamps, in the parameters for sorting news feeds.
-
-
-Look into including the asset name in parentheses after the ticker, ONLY WHEN A TICKER IS LESS THAN 2 CHARACTERS, in price alert comm messages. This should help to quickly identify assets in alerts, especially if it's a notifyme Alexa alert.
-
-
-When fixed positioning is DISABLED for the alerts subwindow UI being taller than the browser height, we should also force scrolling back to top, when clicking the alert icon to view it, as it needs to be at the top of the page under this condition.
-
-
 For Access Stats, add showing multiple visit timestamps / referrers by adding an info balloon when hovering over a 'last visit ' timestamp INFO ICON. INCLUDE IP ADDRESSES FOR 'ALL STATS' BUNDLED MODE. 
 
 

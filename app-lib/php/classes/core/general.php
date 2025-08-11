@@ -53,9 +53,32 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   // Replace ALL symbols with an underscore (for filesystem compatibility, as filenames etc)
+   // LIMIT string to a max length
+   function truncate_str($var, $max) {
+        
+     if ( strlen($var) > $max ) {
+     return substr($var, 0, $max);
+     }
+     else {
+     return $var;
+     }
+     
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function compat_file_name($var) {
-   return preg_replace('/[^\p{L}\p{N}\s]/u', "_", $var); 
+        
+   // Replace ALL symbols with an underscore (for filesystem compatibility, as filenames etc)
+   $var = preg_replace('/[^\p{L}\p{N}\s]/u', "_", $var);
+   
+   // MAX 20 characters, to avoid going over the WINDOWS path character limit
+   // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+   return $this->truncate_str($var, 20); 
+
    }
    
    
@@ -3063,12 +3086,22 @@ var $ct_array = array();
      
      while( !feof($fn) )  {
       
-      $result = explode("||", fgets($fn) );
-      
-      $result = array_map('trim', $result); // Trim whitespace out of all array values
+     $result = explode("||", fgets($fn) );
       
       
-         if ( isset($result[0]) && trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
+         // If the data set on this line is NOT valid, skip it
+         if (
+         $chart_format == 'system' && !isset($result[7])
+         || $chart_format != 'system' && !isset($result[2])
+         ) {
+         continue;
+         }
+      
+      
+     $result = array_map('trim', $result); // Trim whitespace out of all array values
+      
+      
+         if ( trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
             
          $data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
          
@@ -3076,7 +3109,7 @@ var $ct_array = array();
             if ( $system_statistics_chart ) {
             
             
-                if ( isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' && is_numeric($result[1]) ) {
+                if ( trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' && is_numeric($result[1]) ) {
                 $data['load_average_15_minutes'] .= trim($result[1]) . ',';
                 $ct['last_valid_chart_data']['load_average_15_minutes'] = $result[1];
                 }
@@ -3086,7 +3119,7 @@ var $ct_array = array();
                 }
             
             
-                if ( isset($result[2]) && trim($result[2]) != 'NO_DATA' && trim($result[2]) != '' && is_numeric($result[2]) ) {
+                if ( trim($result[2]) != 'NO_DATA' && trim($result[2]) != '' && is_numeric($result[2]) ) {
                 $data['temperature_celsius'] .= trim($result[2]) . ',';
                 $ct['last_valid_chart_data']['temperature_celsius'] = $result[2];
                 }
@@ -3096,7 +3129,7 @@ var $ct_array = array();
                 }
             
             
-                if ( isset($result[3]) && trim($result[3]) != 'NO_DATA' && trim($result[3]) != '' && is_numeric($result[3]) ) {
+                if ( trim($result[3]) != 'NO_DATA' && trim($result[3]) != '' && is_numeric($result[3]) ) {
                 $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
                 $ct['last_valid_chart_data']['used_memory_gigabytes'] = $result[3];
                 }
@@ -3106,7 +3139,7 @@ var $ct_array = array();
                 }
             
             
-                if ( isset($result[4]) && trim($result[4]) != 'NO_DATA' && trim($result[4]) != '' && is_numeric($result[4]) ) {
+                if ( trim($result[4]) != 'NO_DATA' && trim($result[4]) != '' && is_numeric($result[4]) ) {
                 $data['used_memory_percentage'] .= trim($result[4]) . ',';
                 $ct['last_valid_chart_data']['used_memory_percentage'] = $result[4];
                 }
@@ -3116,7 +3149,7 @@ var $ct_array = array();
                 }
             
             
-                if ( isset($result[5]) && trim($result[5]) != 'NO_DATA' && trim($result[5]) != '' && is_numeric($result[5]) ) {
+                if ( trim($result[5]) != 'NO_DATA' && trim($result[5]) != '' && is_numeric($result[5]) ) {
                 $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
                 $ct['last_valid_chart_data']['free_disk_space_terabytes'] = $result[5];
                 }
@@ -3126,7 +3159,7 @@ var $ct_array = array();
                 }
             
             
-                if ( isset($result[6]) && trim($result[6]) != 'NO_DATA' && trim($result[6]) != '' && is_numeric($result[6]) ) {
+                if ( trim($result[6]) != 'NO_DATA' && trim($result[6]) != '' && is_numeric($result[6]) ) {
                 $data['crypto_tracker_cache_size_gigabytes'] .= trim($result[6]) . ',';
                 $ct['last_valid_chart_data']['crypto_tracker_cache_size_gigabytes'] = $result[6];
                 }
@@ -3136,7 +3169,7 @@ var $ct_array = array();
                 }
             
             
-                if ( isset($result[7]) && trim($result[7]) != 'NO_DATA' && trim($result[7]) != '' && is_numeric($result[7]) ) {
+                if ( trim($result[7]) != 'NO_DATA' && trim($result[7]) != '' && is_numeric($result[7]) ) {
                 $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
                 $ct['last_valid_chart_data']['cron_core_runtime_seconds'] = $result[7];
                 }
@@ -3147,7 +3180,7 @@ var $ct_array = array();
                 
             
             }
-            elseif ( $asset_perf_chart && isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' && is_numeric($result[1]) ) {
+            elseif ( $asset_perf_chart && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' && is_numeric($result[1]) ) {
       
                if ( !$ct['runtime_data']['performance_stats'][$asset]['start_val'] ) {
                $ct['runtime_data']['performance_stats'][$asset]['start_val'] = $result[1];
@@ -3168,10 +3201,10 @@ var $ct_array = array();
                }
             
             }
-            elseif ( isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' && is_numeric($result[1]) ) {
+            elseif ( trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' && is_numeric($result[1]) ) {
                  
                // Some APIs don't have trade volume data, so we just set trade volume to zero if none exists
-               if ( !isset($result[2]) || isset($result[2]) && $result[2] == 'NO_DATA' || isset($result[2]) && trim($result[2]) == '' || isset($result[2]) && !is_numeric($result[2]) ) {
+               if ( $result[2] == 'NO_DATA' || trim($result[2]) == '' || !is_numeric($result[2]) ) {
                $result[2] = 0;
                }
             

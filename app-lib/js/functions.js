@@ -2826,7 +2826,9 @@ var docViewBottom = docViewTop + $(window).height();
 var elmTop = $(elm).offset().top;
 var elmBottom = elmTop + $(elm).height();
 
-var is_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
+var is_hidden = $(elm).is(":hidden");
+
+var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
 
      
      // IF compact sidebar, we tweak things differently
@@ -2836,13 +2838,40 @@ var is_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
      }
 
 
-     // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT +100 px
+     // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT +50 px
      // (otherwise we allow scrolling the elements contents to be fully viewable)
-     if ( mode == 'emulate_sticky' && ( $(elm).height() + 100 ) < $(window).height() ) {
+     if (
+     is_hidden && mode == 'emulate_sticky'
+     || !is_hidden && mode == 'emulate_sticky' && ( $(elm).height() + 50 ) < $(window).height()
+     ) {
+          
+          // Set top of element's POSITION, ONLY TO BE USED if there is a content height overflow
+          if ( $(elm).attr('id') ) {
+          dynamic_position_overflow[$(elm).attr('id')] = docViewTop;
+          //console.log( 'HIDDEN dynamic_position_overflow['+$(elm).attr('id')+'] = ' + dynamic_position_overflow[$(elm).attr('id')] );
+          }
+          
      $(elm).css("top", Math.round(docViewTop) + "px", "important");
+
+     }
+     // IF emulating 'sticky' CSS mode, AND IS SHOWING [from IF cond. NOT met above],
+     // BUT height is greater then viewport's height,
+     // 'stick' it to the top of viewport's SCROLLED position ONE TIME (IF not already set),
+     // so you can scroll and see the ENTIRE element contents that overflow the viewport height
+     else if ( mode == 'emulate_sticky' && ( $(elm).height() + 50 ) >= $(window).height() ) {
+          
+          // IF top position NOT ALREADY SET for content height overflow situations
+          if ( $(elm).attr('id') && !dynamic_position_overflow[$(elm).attr('id')] ) {
+          dynamic_position_overflow[$(elm).attr('id')] = docViewTop;
+          }
+
+     $(elm).css("top", Math.round( dynamic_position_overflow[$(elm).attr('id')] ) + "px", "important");
+     
+     //console.log( 'SHOWING dynamic_position_overflow['+$(elm).attr('id')+'] = ' + dynamic_position_overflow[$(elm).attr('id')] );
+     
      }
      // If element isn't fully showing on page (and we are NOT emulating sticky), try to make it show as fully as possible
-     else if( !is_showing && mode != 'emulate_sticky' ) {
+     else if( !fully_showing && mode != 'emulate_sticky' ) {
      
      console.log('A page element is not FULLY showing on the screen, attempting to auto-adjust now (as best as we can)...');
           
