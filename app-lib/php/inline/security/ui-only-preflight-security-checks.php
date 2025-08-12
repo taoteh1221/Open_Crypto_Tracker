@@ -187,8 +187,21 @@ $base_url_check = $ct['sec']->base_url(true);
              
                      
      // Build the different messages, configure comm methods, and send messages
+     
+     $derive_file_path = $ct['base_dir'] . parse_url($base_url_check['checked_url'], PHP_URL_PATH);
+     $derive_file_path = preg_replace("/\/\//", "/", $derive_file_path);
+    
+    
+         // If we are over the 260 character path limit on windows
+         // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+         if ( strlen($derive_file_path) >= 260 && PHP_OS_FAMILY == 'Windows' ) {
          
-     $log_error_message = 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (originating from ' . $ct['remote_ip'] . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
+         $log_error_message = 'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($derive_file_path).' characters in path: ' . $ct['sec']->obfusc_path_data($derive_file_path) . ')' . "<br />\n<br />\n";
+         
+         }
+         
+         
+     $log_error_message .= 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (originating from ' . $ct['remote_ip'] . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
                      
      $email_msg = $log_error_message . ' ' . $system_info_summary . "\n\n" . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
                      

@@ -2676,7 +2676,7 @@ var $exchange_apis = array(
                     
                libxml_clear_errors();
            
-               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) . $xml_error_summary);
+               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) . $xml_error_summary . "\n");
 
                }
 
@@ -3003,11 +3003,27 @@ var $exchange_apis = array(
       
     
       elseif ( $sel_exchange == 'aevo' || stristr( $sel_exchange , 'aevo_') ) {
+           
+           
+           if (
+           isset($data["markets"]["daily_volume_contracts"])
+           && is_numeric($data["markets"]["daily_volume_contracts"])
+           && $ct['var']->num_to_str($data["markets"]["daily_volume_contracts"]) > 0
+           && isset($data["mark_price"])
+           && is_numeric($data["mark_price"])
+           && $ct['var']->num_to_str($data["mark_price"]) > 0
+           ) {
+           $temp_vol = $data["markets"]["daily_volume_contracts"] * $data["mark_price"];
+           }
+           else {
+           $temp_vol = null; // Unavailable, set null
+           }
+      
       
       $result = array(
                      'last_trade' => $data["mark_price"],
                      '24hr_asset_vol' => null, // Unavailable, set null
-                     '24hr_pair_vol' => ($data["markets"]["daily_volume_contracts"] * $data["mark_price"])
+                     '24hr_pair_vol' => $temp_vol
                 	   );
       
       }

@@ -1614,7 +1614,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'verizon||vtext.com',
                         'viaero||mmsviaero.com',
                         'virgin_us||vmobl.com',
-                        'west_central||sms.wcc.net',
                         'xit||sms.xit.net',
                         
 
