@@ -2054,7 +2054,7 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function save_file($file, $data, $mode=false, $lock=true) {
+  function save_file($file_path, $data, $mode=false, $lock=true) {
   
   global $ct;
   
@@ -2064,16 +2064,16 @@ var $ct_array = array();
      
     $ct['gen']->log(
     			'system_error',
-    			'No bytes of data received to write to file "' . $ct['sec']->obfusc_path_data($file) . '" (aborting useless file write)'
+    			'No bytes of data received to write to file "' . $ct['sec']->obfusc_path_data($file_path) . '" (aborting useless file write)'
     			);
     
      // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
-     if ( preg_match("/cache\/secured\/apis/i", $file) ) {
+     if ( preg_match("/cache\/secured\/apis/i", $file_path) ) {
        
      $ct['gen']->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['sec']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['sec']->obfusc_path_data($file_path) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
      								
      			'remote_api_timeout: '.$ct['conf']['ext_apis']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
      			);
@@ -2083,19 +2083,36 @@ var $ct_array = array();
     return false;
     
     }
+    
+    
+    // If we are over the 260 character path limit on windows
+    // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+    if ( strlen($file_path) >= 260 && PHP_OS_FAMILY == 'Windows' ) {
+    
+    $ct['gen']->log(
+    			'system_error',
+    			'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($file_path).' characters in path: ' . $ct['sec']->obfusc_path_data($file_path) . ')'
+    			);
+    
+    }
    
    
     // We ALWAYS set .htaccess files to a more secure $ct['dev']['chmod_index_sec'] permission AFTER EDITING, 
     // so we TEMPORARILY set .htaccess to $ct['dev']['chmod_cache_file'] for NEW EDITING...
     // (anything else stays weaker write security permissions, for UX)
-    if ( strstr($file, '.dat') != false || strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
+    if (
+    strstr($file_path, '.dat') != false
+    || strstr($file_path, '.htaccess') != false
+    || strstr($file_path, '.user.ini') != false
+    || strstr($file_path, 'index.php') != false
+    ) {
      
     $chmod_setting = octdec($ct['dev']['chmod_cache_file']);
     
          // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
          // In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
-         if ( file_exists($file) == true ) {
-         $ct['sec']->ct_chmod($file, $chmod_setting);
+         if ( file_exists($file_path) == true ) {
+         $ct['sec']->ct_chmod($file_path, $chmod_setting);
          }
     
     }
@@ -2104,16 +2121,16 @@ var $ct_array = array();
   
     // Write to the file
     if ( $mode == 'append' && $lock ) {
-    $result = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
+    $result = file_put_contents($file_path, $data, FILE_APPEND | LOCK_EX);
     }
     elseif ( $mode == 'append' && !$lock ) {
-    $result = file_put_contents($file, $data, FILE_APPEND);
+    $result = file_put_contents($file_path, $data, FILE_APPEND);
     }
     elseif ( !$mode && $lock ) {
-    $result = file_put_contents($file, $data, LOCK_EX);
+    $result = file_put_contents($file_path, $data, LOCK_EX);
     }
     else {
-    $result = file_put_contents($file, $data);
+    $result = file_put_contents($file_path, $data);
     }
    
    
@@ -2122,14 +2139,18 @@ var $ct_array = array();
     	
     $ct['gen']->log(
     				'system_error',
-    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct['sec']->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['sec']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['sec']->obfusc_str($path_parts['basename'], 5) . '")'
+    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct['sec']->obfusc_path_data($file_path) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['sec']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['sec']->obfusc_str($path_parts['basename'], 5) . '")'
     				);
     
     }
     
     
     // For security, NEVER make an .htaccess file writable by any user not in the group
-    if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
+    if (
+    strstr($file_path, '.htaccess') != false
+    || strstr($file_path, '.user.ini') != false
+    || strstr($file_path, 'index.php') != false
+    ) {
     $chmod_setting = octdec($ct['dev']['chmod_index_sec']);
     }
     // All other files
@@ -2137,7 +2158,7 @@ var $ct_array = array();
     $chmod_setting = octdec($ct['dev']['chmod_cache_file']);
     }
    
-    $ct['sec']->ct_chmod($file, $chmod_setting);
+    $ct['sec']->ct_chmod($file_path, $chmod_setting);
    
   return $result;
   

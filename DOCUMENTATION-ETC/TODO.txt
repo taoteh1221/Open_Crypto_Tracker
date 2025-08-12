@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+At some point, put together a list of things to test, when package testing right before public release. 
+
+
 For Access Stats, add showing multiple visit timestamps / referrers by adding an info balloon when hovering over a 'last visit ' timestamp INFO ICON. INCLUDE IP ADDRESSES FOR 'ALL STATS' BUNDLED MODE. 
 
 
