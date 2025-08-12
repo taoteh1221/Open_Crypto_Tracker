@@ -1608,7 +1608,7 @@ var $exchange_apis = array(
    
          
          // Coingecko's search API only takes tickers,
-         // so we need their app id info endpoint in $single_asset_info mode
+         // so we need their API ID info endpoint in $single_asset_info mode
          if ( $single_asset_info && $exchange_key == 'coingecko' ) {
          $url = 'https://api.coingecko.com/api/v3/coins/' . $market_search;
          }
@@ -1886,7 +1886,7 @@ var $exchange_apis = array(
                 elseif ( $exchange_key == 'coingecko' ) {
                 
                 
-                     // Return an APP ID's associated values
+                     // Return an API ID's associated values
                      if ( $single_asset_info && isset($data['id']) && $data['id'] == $market_search ) {
                      gc_collect_cycles(); // Clean memory cache
                      return $data;
@@ -1912,7 +1912,7 @@ var $exchange_apis = array(
                                    if ( $ct['coingecko_assets'] == null ) {
                                    $ct['coingecko_assets'] = $val['api_symbol'];
                                    }
-                                   // IF APP ID wasn't bundled yet into the single call format we use for coingecko, add it now,
+                                   // IF API ID wasn't bundled yet into the single call format we use for coingecko, add it now,
                                    // to optimize this search loop INTO A SINGLE CALL (consecutive calls will automatically use the cache system)
                                    // (THIS IS ***REQUIRED*** FOR MULTIPLE COINGECKO SEARCH RESULTS, DUE TO IT'S 'BATCHED' DATA CALL STRUCTURE!!!)
                                    elseif (
@@ -2153,9 +2153,9 @@ var $exchange_apis = array(
               if ( $ct['coingecko_assets'] == null ) {
               $ct['coingecko_assets'] = $dyn_id;
               }
-              // IF APP ID wasn't bundled yet into the single call format we use for coingecko,
+              // IF API ID wasn't bundled yet into the single call format we use for coingecko,
               // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
-              // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, AS WELL AS IT BEING THE FIRST VALUE
+              // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE API ID, AS WELL AS IT BEING THE FIRST VALUE
               elseif (
               substr($ct['coingecko_assets'], 0, strlen($dyn_id) ) != $dyn_id
               && !stristr($ct['coingecko_assets'], ',' . $dyn_id)
@@ -2203,7 +2203,7 @@ var $exchange_apis = array(
                    }
                    // IF MARKET ID wasn't bundled yet into the single call format we use for upbit,
                    // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
-                   // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, AS WELL AS IT BEING THE FIRST VALUE
+                   // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE MARKET ID, AS WELL AS IT BEING THE FIRST VALUE
                    elseif (
                    substr($ct['upbit_batched_markets'], 0, strlen($dyn_id) ) != $dyn_id
                    && !stristr($ct['upbit_batched_markets'], ',' . $dyn_id)

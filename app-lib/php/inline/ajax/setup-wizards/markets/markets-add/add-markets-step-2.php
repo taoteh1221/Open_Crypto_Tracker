@@ -40,7 +40,7 @@ If the 'add asset market' search result does NOT return a PAIRING VALUE, WE LOG 
           	<li class='blue'>
           	
           	<b>Search a SPECIFIC EXCHANGE, for a SPECIFIC MARKET ID <span class='red'>(MARKET ID MUST BE AN **EXACT** MATCH [CASE SENSITIVE!])</span>.</b><br />
-          	<span class='bitcoin'>(example[s]: XBTUSD for Bitmex, tBTCUSD for Bitfinex, ETHDAI for Binance, SOL-USD for Coinbase, Bonk/zBTC for Jupiter Ag. <span class='red'>[see what cases to use at: <a class='red' href='https://jup.ag/swap/' target='_BLANK'>jup.ag/swap</a>]</span>)</span>
+          	<span class='bitcoin'>(example[s]: XBTUSD for Bitmex, tBTCUSD for Bitfinex, ETHDAI for Binance, SOL-USD for Coinbase, star-atlas-dao [API ID] for CoinGecko, Bonk/zBTC for Jupiter Ag. <span class='red'>[see what cases to use at: <a class='red' href='https://jup.ag/swap/' target='_BLANK'>jup.ag/swap</a>]</span>)</span>
           	
           	</li>
 	     
