@@ -14,7 +14,7 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
-                   'timestamp' => strtotime('2025-8-13'),
+                   'timestamp' => strtotime('2025-8-15'),
                    
                    'very_important' => true,
 
