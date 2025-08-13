@@ -194,7 +194,7 @@ $base_url_check = $ct['sec']->base_url(true);
     
          // If we are over the 260 character path limit on windows
          // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
-         if ( strlen($derive_file_path) >= 260 && PHP_OS_FAMILY == 'Windows' ) {
+         if ( preg_match("/windows/i", PHP_OS_FAMILY) && strlen($derive_file_path) >= 260 ) {
          
          $log_error_message = 'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($derive_file_path).' characters in path: ' . $ct['sec']->obfusc_path_data($derive_file_path) . ')' . "<br />\n<br />\n";
          

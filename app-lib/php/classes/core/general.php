@@ -3636,7 +3636,7 @@ var $ct_array = array();
          
       
       }
-      elseif ( PHP_OS_FAMILY == 'Windows' ) {
+      elseif ( preg_match("/windows/i", PHP_OS_FAMILY) ) {
           
           if ( preg_match("/windows 11/i", $system['operating_system']) ) {
           $win_ver = '11';
@@ -3688,7 +3688,7 @@ var $ct_array = array();
       
       }
       // CPU core count on Windows
-      elseif ( PHP_OS_FAMILY == 'Windows' ) {
+      elseif ( preg_match("/windows/i", PHP_OS_FAMILY) ) {
       
       $win_cpu_model = getenv("PROCESSOR_IDENTIFIER");
       

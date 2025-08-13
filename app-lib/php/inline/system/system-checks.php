@@ -4,7 +4,7 @@
  */
 
 
-if ( PHP_OS_FAMILY == 'Windows' && $php_ini_path ) {
+if ( preg_match("/windows/i", PHP_OS_FAMILY) && $php_ini_path ) {
 $ext_win_php_ini = ' (try enabling it in the file: ' . $php_ini_path . ')';
 }
 

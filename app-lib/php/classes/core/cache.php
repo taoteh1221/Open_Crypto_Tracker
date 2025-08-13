@@ -2087,13 +2087,15 @@ var $ct_array = array();
     
     // If we are over the 260 character path limit on windows
     // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
-    if ( strlen($file_path) >= 260 && PHP_OS_FAMILY == 'Windows' ) {
+    if ( preg_match("/windows/i", PHP_OS_FAMILY) && strlen($file_path) >= 260 ) {
     
     $ct['gen']->log(
-    			'system_error',
-    			'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($file_path).' characters in path: ' . $ct['sec']->obfusc_path_data($file_path) . ')'
+    			'notify_error',
+    			'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($file_path).' characters in path: ' . $ct['sec']->obfusc_path_data($file_path) . ')',
+          	false,
+               'windows_max_path_alert'
     			);
-    
+    			
     }
    
    
