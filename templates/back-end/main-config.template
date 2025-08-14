@@ -1491,7 +1491,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'ice||sms.ice.cr',                  // Costa Rica
                         'tmobile_hr||sms.t-mobile.hr',      // Croatia
                         'tellus_talk||esms.nu',             // Europe
-                        'guyana_tt||sms.cellinkgy.com',     // Guyana
                         'csl||mgw.mmsc1.hkcsl.com',         // Hong Kong
                         'tele2_lv||sms.tele2.lv',           // Latvia
                         'emtel||emtelworld.net',            // Mauritius

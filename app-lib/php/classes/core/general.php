@@ -929,29 +929,27 @@ var $ct_array = array();
    function display_xml_error($error, $xml_line_parsed) {
    
    //$return  = $xml_line_parsed[$error->line - 1] . "\n";
-   $return .= str_repeat('-', $error->column) . "^\n";
+   //$return .= str_repeat('-', $error->column) . "^\n";
 
       switch ($error->level) {
         case LIBXML_ERR_WARNING:
-            $return .= "Warning $error->code: ";
+            $return .= "Warning $error->code: \n  ";
             break;
          case LIBXML_ERR_ERROR:
-            $return .= "Error $error->code: ";
+            $return .= "Error $error->code: \n  ";
             break;
         case LIBXML_ERR_FATAL:
-            $return .= "Fatal Error $error->code: ";
+            $return .= "Fatal Error $error->code: \n  ";
             break;
       }
 
-   $return .= trim($error->message) .
-               "\n  Line: $error->line" .
-               "\n  Column: $error->column";
+   $return .= trim($error->message) . " \n  " . "Line: $error->line \n  " . "Column: $error->column \n  ";
 
       if ($error->file) {
-        $return .= "\n  File: $error->file";
+        $return .= "File: $error->file \n  ";
       }
 
-   return "$return\n\n------------------\n------------------\n\n";
+   return $return;
    
    }
    

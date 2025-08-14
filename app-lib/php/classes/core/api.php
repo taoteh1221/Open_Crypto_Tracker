@@ -2676,7 +2676,7 @@ var $exchange_apis = array(
                     
                libxml_clear_errors();
            
-               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) . $xml_error_summary . "\n");
+               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) . " \n (" . $xml_error_summary . ") \n ");
 
                }
 
