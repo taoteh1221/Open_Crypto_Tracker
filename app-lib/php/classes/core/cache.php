@@ -2138,6 +2138,8 @@ var $ct_array = array();
    
     // Log any write error
     if ( $result == false ) {
+    
+    $path_parts = pathinfo($file_path);
     	
     $ct['gen']->log(
     				'system_error',
@@ -3615,9 +3617,10 @@ var $ct_array = array();
             || $endpoint_tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
             || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/price/i", $data) 
             // API-specific (confirmed error in response)
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/btc/i", $data) 
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data) 
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data)
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/btc/i", $data)
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data)  
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/coins/i", $request_params) && !preg_match("/name/i", $data) 
             ) {
                  
                  

@@ -927,27 +927,20 @@ var $ct_array = array();
    
    
    function display_xml_error($error, $xml_line_parsed) {
-   
-   //$return  = $xml_line_parsed[$error->line - 1] . "\n";
-   //$return .= str_repeat('-', $error->column) . "^\n";
 
       switch ($error->level) {
         case LIBXML_ERR_WARNING:
-            $return .= "Warning $error->code: \n  ";
+            $return .= "XML Warning $error->code: ";
             break;
          case LIBXML_ERR_ERROR:
-            $return .= "Error $error->code: \n  ";
+            $return .= "XML Error $error->code: ";
             break;
         case LIBXML_ERR_FATAL:
-            $return .= "Fatal Error $error->code: \n  ";
+            $return .= "XML Fatal Error $error->code: ";
             break;
       }
 
-   $return .= trim($error->message) . " \n  " . "Line: $error->line \n  " . "Column: $error->column \n  ";
-
-      if ($error->file) {
-        $return .= "File: $error->file \n  ";
-      }
+   $return .= $error->message;
 
    return $return;
    
