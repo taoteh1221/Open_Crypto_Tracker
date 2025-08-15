@@ -2661,22 +2661,20 @@ var $exchange_apis = array(
                     
                libxml_clear_errors();
                
-               sleep(2);
+               sleep(1);
+           
+               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) );
                
                // Load again, BUT FROM THE SAVED FILE (to get line numbers of all errors)
                $rss_check = simplexml_load_string($xml_response_file);
-                
-               $xml_lines_parsed = file($xml_response_file);
                     
                $xml_errors = libxml_get_errors();
                
                     foreach ( $xml_errors as $error ) {
-                    $xml_error_summary .= $ct['gen']->display_xml_error($error, $xml_lines_parsed);
+                    $ct['gen']->log('other_error', 'URL "' . $url . '" XML error details: ' . $ct['gen']->display_xml_error($error) );
                     }
                     
                libxml_clear_errors();
-           
-               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) . '...' . $xml_error_summary);
 
                }
 

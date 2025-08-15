@@ -14,7 +14,7 @@ date_default_timezone_set('UTC');
 
 
 // Mac compatibility with CSV spreadsheet importing / exporting
-if (  preg_match("/darwin/i", php_uname()) || preg_match("/webkit/i", $_SERVER['HTTP_USER_AGENT']) ) {
+if (  $ct['mac_darwin_server'] || preg_match("/webkit/i", $_SERVER['HTTP_USER_AGENT']) ) {
 ini_set('auto_detect_line_endings', true); 
 }
 

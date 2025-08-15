@@ -926,7 +926,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function display_xml_error($error, $xml_line_parsed) {
+   function display_xml_error($error) {
 
       switch ($error->level) {
         case LIBXML_ERR_WARNING:
@@ -942,6 +942,8 @@ var $ct_array = array();
 
    $return .= $error->message;
 
+   $return = preg_replace("/\\n/i", "; ", $return); // Replace linebreaks with semicolons
+          
    return $return;
    
    }
@@ -1107,7 +1109,8 @@ var $ct_array = array();
        
           // Return to normal string, after sorting logs by timestamp
           foreach( $sortable_array as $val ) {
-          $result .= $val['entry'];
+          $val['entry'] = preg_replace("/\\n/i", "; ", $val['entry']); // Replace linebreaks with semicolons
+          $result .= $val['entry'] . "\n";
           }
        
       return $result;
@@ -2347,17 +2350,17 @@ var $ct_array = array();
           
    
           if ( $hashcheck != false ) {
-          $ct['log_debugging'][$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_debugging'][$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' );
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
           elseif ( $category[0] == 'cache' ) {
-          $ct['log_debugging'][$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_debugging'][$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' );
           }
           elseif ( $overwrite != false ) {
-          $ct['log_debugging'][$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_debugging'][$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' );
           }
           else {
-          $ct['log_debugging'][$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_debugging'][$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' );
           }
       
       
@@ -2366,17 +2369,17 @@ var $ct_array = array();
           
    
           if ( $hashcheck != false ) {
-          $ct['log_errors'][$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_errors'][$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' );
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
           elseif ( $category[0] == 'cache' ) {
-          $ct['log_errors'][$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_errors'][$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' );
           }
           elseif ( $overwrite != false ) {
-          $ct['log_errors'][$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_errors'][$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' );
           }
           else {
-          $ct['log_errors'][$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $ct['log_errors'][$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . $type_desc . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' );
           }
       
       
@@ -3627,7 +3630,7 @@ var $ct_array = array();
          
       
       }
-      elseif ( preg_match("/windows/i", PHP_OS_FAMILY) ) {
+      elseif ( $ct['ms_windows_server'] ) {
           
           if ( preg_match("/windows 11/i", $system['operating_system']) ) {
           $win_ver = '11';
@@ -3679,7 +3682,7 @@ var $ct_array = array();
       
       }
       // CPU core count on Windows
-      elseif ( preg_match("/windows/i", PHP_OS_FAMILY) ) {
+      elseif ( $ct['ms_windows_server'] ) {
       
       $win_cpu_model = getenv("PROCESSOR_IDENTIFIER");
       

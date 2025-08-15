@@ -1931,59 +1931,59 @@ var $ct_array = array();
   // ERRORS 
   
       foreach ( $ct['log_errors']['notify_error'] as $error ) {
-      $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
+      $error_log .= $error; // Remove any HTML formatting used in UI alerts
       }
       
   
   // Combine all errors logged
-  $error_log .= strip_tags($ct['log_errors']['security_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['security_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['system_warning']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['system_warning']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['system_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['system_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['conf_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['conf_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['ext_data_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['ext_data_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['int_api_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['int_api_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['int_webhook_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['int_webhook_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['market_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['market_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['other_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['other_error']; // Remove any HTML formatting used in UI alerts
   
      
       foreach ( $ct['log_errors']['cache_error'] as $error ) {
-      $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
+      $error_log .= $error; // Remove any HTML formatting used in UI alerts
       }
     
   // DEBUGGING
   
       foreach ( $ct['log_debugging']['notify_debug'] as $debugging ) {
-      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+      $debug_log .= $debugging; // Remove any HTML formatting used in UI alerts
       }
   
   
   // Combine all debugging logged
-  $debug_log .= strip_tags($ct['log_debugging']['security_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['security_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['system_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['system_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['conf_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['conf_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['ext_data_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['ext_data_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['int_api_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['int_api_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['market_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['market_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['other_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['other_debug']; // Remove any HTML formatting used in UI alerts
   
   
       foreach ( $ct['log_debugging']['cache_debug'] as $debugging ) {
-      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+      $debug_log .= $debugging; // Remove any HTML formatting used in UI alerts
       }
       
   
@@ -2087,7 +2087,7 @@ var $ct_array = array();
     
     // If we are over the 260 character path limit on windows
     // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
-    if ( preg_match("/windows/i", PHP_OS_FAMILY) && strlen($file_path) >= 260 ) {
+    if ( $ct['ms_windows_server'] && strlen($file_path) >= 260 ) {
     
     $ct['gen']->log(
     			'notify_error',

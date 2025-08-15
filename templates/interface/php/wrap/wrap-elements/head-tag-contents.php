@@ -46,10 +46,7 @@
 	
 	// Are we running windows?
 	<?php
-	if (
-	isset($ct['system_info']['distro_name'])
-     && preg_match("/windows/i", $ct['system_info']['distro_name'])
-     ) {
+	if ( $ct['ms_windows_server'] ) {
      $is_windows = 'yes';
      }
      else {
