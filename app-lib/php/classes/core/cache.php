@@ -1931,59 +1931,59 @@ var $ct_array = array();
   // ERRORS 
   
       foreach ( $ct['log_errors']['notify_error'] as $error ) {
-      $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
+      $error_log .= $error; // Remove any HTML formatting used in UI alerts
       }
       
   
   // Combine all errors logged
-  $error_log .= strip_tags($ct['log_errors']['security_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['security_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['system_warning']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['system_warning']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['system_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['system_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['conf_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['conf_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['ext_data_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['ext_data_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['int_api_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['int_api_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['int_webhook_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['int_webhook_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['market_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['market_error']; // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($ct['log_errors']['other_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= $ct['log_errors']['other_error']; // Remove any HTML formatting used in UI alerts
   
      
       foreach ( $ct['log_errors']['cache_error'] as $error ) {
-      $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
+      $error_log .= $error; // Remove any HTML formatting used in UI alerts
       }
     
   // DEBUGGING
   
       foreach ( $ct['log_debugging']['notify_debug'] as $debugging ) {
-      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+      $debug_log .= $debugging; // Remove any HTML formatting used in UI alerts
       }
   
   
   // Combine all debugging logged
-  $debug_log .= strip_tags($ct['log_debugging']['security_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['security_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['system_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['system_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['conf_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['conf_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['ext_data_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['ext_data_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['int_api_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['int_api_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['market_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['market_debug']; // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($ct['log_debugging']['other_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= $ct['log_debugging']['other_debug']; // Remove any HTML formatting used in UI alerts
   
   
       foreach ( $ct['log_debugging']['cache_debug'] as $debugging ) {
-      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+      $debug_log .= $debugging; // Remove any HTML formatting used in UI alerts
       }
       
   
@@ -2054,7 +2054,7 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function save_file($file, $data, $mode=false, $lock=true) {
+  function save_file($file_path, $data, $mode=false, $lock=true) {
   
   global $ct;
   
@@ -2064,16 +2064,16 @@ var $ct_array = array();
      
     $ct['gen']->log(
     			'system_error',
-    			'No bytes of data received to write to file "' . $ct['sec']->obfusc_path_data($file) . '" (aborting useless file write)'
+    			'No bytes of data received to write to file "' . $ct['sec']->obfusc_path_data($file_path) . '" (aborting useless file write)'
     			);
     
      // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
-     if ( preg_match("/cache\/secured\/apis/i", $file) ) {
+     if ( preg_match("/cache\/secured\/apis/i", $file_path) ) {
        
      $ct['gen']->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['sec']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['sec']->obfusc_path_data($file_path) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
      								
      			'remote_api_timeout: '.$ct['conf']['ext_apis']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
      			);
@@ -2083,19 +2083,38 @@ var $ct_array = array();
     return false;
     
     }
+    
+    
+    // If we are over the 260 character path limit on windows
+    // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+    if ( $ct['ms_windows_server'] && strlen($file_path) >= 260 ) {
+    
+    $ct['gen']->log(
+    			'notify_error',
+    			'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($file_path).' characters in path: ' . $ct['sec']->obfusc_path_data($file_path) . ')',
+          	false,
+               'windows_max_path_alert'
+    			);
+    			
+    }
    
    
     // We ALWAYS set .htaccess files to a more secure $ct['dev']['chmod_index_sec'] permission AFTER EDITING, 
     // so we TEMPORARILY set .htaccess to $ct['dev']['chmod_cache_file'] for NEW EDITING...
     // (anything else stays weaker write security permissions, for UX)
-    if ( strstr($file, '.dat') != false || strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
+    if (
+    strstr($file_path, '.dat') != false
+    || strstr($file_path, '.htaccess') != false
+    || strstr($file_path, '.user.ini') != false
+    || strstr($file_path, 'index.php') != false
+    ) {
      
     $chmod_setting = octdec($ct['dev']['chmod_cache_file']);
     
          // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
          // In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
-         if ( file_exists($file) == true ) {
-         $ct['sec']->ct_chmod($file, $chmod_setting);
+         if ( file_exists($file_path) == true ) {
+         $ct['sec']->ct_chmod($file_path, $chmod_setting);
          }
     
     }
@@ -2104,32 +2123,38 @@ var $ct_array = array();
   
     // Write to the file
     if ( $mode == 'append' && $lock ) {
-    $result = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
+    $result = file_put_contents($file_path, $data, FILE_APPEND | LOCK_EX);
     }
     elseif ( $mode == 'append' && !$lock ) {
-    $result = file_put_contents($file, $data, FILE_APPEND);
+    $result = file_put_contents($file_path, $data, FILE_APPEND);
     }
     elseif ( !$mode && $lock ) {
-    $result = file_put_contents($file, $data, LOCK_EX);
+    $result = file_put_contents($file_path, $data, LOCK_EX);
     }
     else {
-    $result = file_put_contents($file, $data);
+    $result = file_put_contents($file_path, $data);
     }
    
    
     // Log any write error
     if ( $result == false ) {
+    
+    $path_parts = pathinfo($file_path);
     	
     $ct['gen']->log(
     				'system_error',
-    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct['sec']->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['sec']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['sec']->obfusc_str($path_parts['basename'], 5) . '")'
+    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct['sec']->obfusc_path_data($file_path) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['sec']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['sec']->obfusc_str($path_parts['basename'], 5) . '")'
     				);
     
     }
     
     
     // For security, NEVER make an .htaccess file writable by any user not in the group
-    if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
+    if (
+    strstr($file_path, '.htaccess') != false
+    || strstr($file_path, '.user.ini') != false
+    || strstr($file_path, 'index.php') != false
+    ) {
     $chmod_setting = octdec($ct['dev']['chmod_index_sec']);
     }
     // All other files
@@ -2137,7 +2162,7 @@ var $ct_array = array();
     $chmod_setting = octdec($ct['dev']['chmod_cache_file']);
     }
    
-    $ct['sec']->ct_chmod($file, $chmod_setting);
+    $ct['sec']->ct_chmod($file_path, $chmod_setting);
    
   return $result;
   
@@ -3592,9 +3617,10 @@ var $ct_array = array();
             || $endpoint_tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
             || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/price/i", $data) 
             // API-specific (confirmed error in response)
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/btc/i", $data) 
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data) 
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data)
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/btc/i", $data)
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data)  
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/coins/i", $request_params) && !preg_match("/name/i", $data) 
             ) {
                  
                  

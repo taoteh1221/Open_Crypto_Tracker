@@ -221,10 +221,7 @@ if ( $ct['app_edition'] == 'server' ) {
 
 // Proper curl name for WINDOWS (ANY edition)
 // https://stackoverflow.com/questions/69261782/why-does-the-same-curl-command-output-different-things-in-windows-and-linux
-if (
-isset($ct['system_info']['distro_name'])
-&& preg_match("/windows/i", $ct['system_info']['distro_name'])
-) {
+if ( $ct['ms_windows_server'] ) {
 $curl_name = 'curl.exe';
 ?>
 # WINDOWS (ANY Edition) USERS: ALWAYS USE "curl.exe", AS "curl" IS A DIFFERENT PROGRAM!

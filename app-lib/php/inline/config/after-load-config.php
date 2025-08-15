@@ -60,7 +60,7 @@ $ct['dev']['status'] = @$ct['api']->dev_status();
 // Sort the alerts by NEWEST
 if ( is_array($ct['dev']['status']) && sizeof($ct['dev']['status']) > 0 ) {
 
-usort($ct['dev']['status'], array($ct['var'], 'integer_usort_decending') );
+usort($ct['dev']['status'], array($ct['var'], 'timestamp_usort_decending') );
 
 $ct['dev']['status_data_found'] = true; // Flag as data was found (for loading in interface)
 

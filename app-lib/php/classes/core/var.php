@@ -400,23 +400,47 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function integer_usort_decending($a, $b) {
+   function timestamp_usort_decending($a, $b) {
+        
       
-      if ( isset($a->pubDate) && $a->pubDate != '' ) {
+      if ( isset($a['timestamp']) && isset($b['timestamp']) ) {
+      $result_a = $a['timestamp'];
+      $result_b = $b['timestamp'];
+      }
+      elseif ( isset($a->pubDate) && isset($b->pubDate) ) {
       $result_a = strtotime($a->pubDate);
       $result_b = strtotime($b->pubDate);
       }
-      elseif ( isset($a->published) && $a->published != '' ) {
+      elseif ( isset($a->published) && isset($b->published) ) {
       $result_a = strtotime($a->published);
       $result_b = strtotime($b->published);
       }
-      elseif ( isset($a->updated) && $a->updated != '' ) {
+      elseif ( isset($a->updated) && isset($b->updated) ) {
       $result_a = strtotime($a->updated);
       $result_b = strtotime($b->updated);
       }
-      elseif ( isset($a['timestamp']) && $a['timestamp'] != '' ) {
-      $result_a = $a['timestamp'];
-      $result_b = $b['timestamp'];
+	 // Support for the 'dc' namespace
+	 elseif (
+	 is_object($a)
+	 && is_object( $a->children('dc', true) )
+	 && sizeof( $a->children('dc', true) ) > 0
+	 && is_object($b)
+	 && is_object( $b->children('dc', true) )
+	 && sizeof( $b->children('dc', true) ) > 0
+	 ) {
+			         
+      $dc_namespace_a = $a->children('dc', true);
+      $dc_namespace_b = $b->children('dc', true);
+			         
+           if ( $dc_namespace_a->date != '' && $dc_namespace_b->date != '' ) {
+           $result_a = $dc_namespace_a->date;
+           $result_b = $dc_namespace_b->date;
+           }
+			         
+	 }
+      elseif ( !is_array($a) && !is_array($b) ) {
+      $result_a = $a;
+      $result_b = $b;
       }
    
    return $result_b - $result_a;

@@ -164,10 +164,11 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
 
 // KEEP CACHED BASE URL *SECURELY* UPDATED (CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS [now that we have fully processed the app config])
 
-// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
+// Have UI runtime mode RE-CACHE the app URL data every 24 hours (1440 minutes),
+// since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
 // (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
 // WE FORCE A SECURITY CHECK HERE, SINCE WE ARE CACHING THE BASE URL DATA, BUT WE ABORT THE BASE URL CACHING IF WE ARE IN THE PROCESS OF MODIFYING THE CACHED CONFIG
-if ( $ct['cache']->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true && !$ct['reset_config'] && !$ct['update_config'] && !$ct['app_upgrade_check'] && !$ct['plugin_upgrade_check'] ) {
+if ( $ct['cache']->update_cache('cache/vars/base_url.dat', 1440) == true && !$ct['reset_config'] && !$ct['update_config'] && !$ct['app_upgrade_check'] && !$ct['plugin_upgrade_check'] ) {
 	    
 $base_url_check = $ct['sec']->base_url(true); 
 	
@@ -187,8 +188,21 @@ $base_url_check = $ct['sec']->base_url(true);
              
                      
      // Build the different messages, configure comm methods, and send messages
+     
+     $derive_file_path = $ct['base_dir'] . parse_url($base_url_check['checked_url'], PHP_URL_PATH);
+     $derive_file_path = preg_replace("/\/\//", "/", $derive_file_path);
+    
+    
+         // If we are over the 260 character path limit on windows
+         // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+         if ( $ct['ms_windows_server'] && strlen($derive_file_path) >= 260 ) {
          
-     $log_error_message = 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (originating from ' . $ct['remote_ip'] . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
+         $log_error_message = 'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($derive_file_path).' characters in path: ' . $ct['sec']->obfusc_path_data($derive_file_path) . ')' . "<br />\n<br />\n";
+         
+         }
+         
+         
+     $log_error_message .= 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (originating from ' . $ct['remote_ip'] . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
                      
      $email_msg = $log_error_message . ' ' . $system_info_summary . "\n\n" . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
                      

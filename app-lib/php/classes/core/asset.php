@@ -417,14 +417,14 @@ var $ct_array = array();
      elseif ( $ct['conf']['gen']['primary_marketcap_site'] == 'coingecko' ) {
          
          
-         // WE USE THE APP ID, FOR GETTING THE CORRECT COINGECKO MCAP DATA, AS IT IS MORE RELIABLE THEN THE TICKER
+         // WE USE THE API ID, FOR GETTING THE CORRECT COINGECKO MCAP DATA, AS IT IS MORE RELIABLE THEN THE TICKER
          if (
          isset($ct['conf']['assets'][ strtoupper($symbol) ]['mcap_slug'])
          && trim($ct['conf']['assets'][ strtoupper($symbol) ]['mcap_slug']) != ''
          ) {
          $app_id = $ct['conf']['assets'][ strtoupper($symbol) ]['mcap_slug'];
          }
-         // Do nothing if there is no web slug (which is the app id for coingecko)
+         // Do nothing if there is no web slug (which is the API id for coingecko)
          else {
          return false;
          }

@@ -552,7 +552,7 @@ $ct['conf']['currency']['bitcoin_preferred_currency_markets'] = array( // START
                      'gbp = kraken',  // WAY BETTER api than ALL alternatives
                      'jpy = kraken',  // WAY MORE reputable than ALL alternatives
                      'inr = coingecko_inr',  // Coingecko should be best spot value
-                     'rub = binance',  // WAY MORE volume / price discovery than ALL alternatives
+                     'rub = coingecko_rub',  // WAY MORE volume / price discovery than ALL alternatives
                      'usd = kraken',  // WAY BETTER api than ALL alternatives
                                    							
                                    					       ); // END
@@ -1491,7 +1491,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'ice||sms.ice.cr',                  // Costa Rica
                         'tmobile_hr||sms.t-mobile.hr',      // Croatia
                         'tellus_talk||esms.nu',             // Europe
-                        'guyana_tt||sms.cellinkgy.com',     // Guyana
                         'csl||mgw.mmsc1.hkcsl.com',         // Hong Kong
                         'tele2_lv||sms.tele2.lv',           // Latvia
                         'emtel||emtelworld.net',            // Mauritius
@@ -1614,7 +1613,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'verizon||vtext.com',
                         'viaero||mmsviaero.com',
                         'virgin_us||vmobl.com',
-                        'west_central||sms.wcc.net',
                         'xit||sms.xit.net',
                         
 

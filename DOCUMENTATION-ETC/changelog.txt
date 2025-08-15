@@ -6969,6 +6969,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Accurate coingecko currency support (currency list is now retrieved from their API)
 
+-Secured 'address-balance-tracker' plugin's cache data, to run from /cache/secured/
+
 -Added BUNDLED Access Stats (PER IP ADDRESS stats are also still available)
 
 -Significant user experience improvements / runtime optimizations

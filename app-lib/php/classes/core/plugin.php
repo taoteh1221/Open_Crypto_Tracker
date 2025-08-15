@@ -94,7 +94,7 @@ var $ct_array = array();
       }
 
    
-      // This plugin's vars cache directory
+      // This plugin's vars/state-tracking cache directory
       if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/vars/state-tracking/plugin_state/'.$set_plug.'/') != true ) {
       $ct['gen']->log('system_error', 'Could not create directory: /cache/vars/state-tracking/plugin_state/'.$set_plug.'/');
       }
@@ -162,7 +162,7 @@ var $ct_array = array();
       }
 
    
-      // This plugin's events cache directory
+      // This plugin's alerts cache directory
       if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/plugin_alerts/'.$set_plug.'/') != true ) {
       $ct['gen']->log('system_error', 'Could not create directory: /cache/alerts/plugin_alerts/'.$set_plug.'/');
       }
@@ -195,7 +195,7 @@ var $ct_array = array();
       }
 
    
-      // This plugin's events chart directory
+      // This plugin's charts cache directory
       if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/plugin_charts/'.$set_plug.'/') != true ) {
       $ct['gen']->log('system_error', 'Could not create directory: /cache/charts/plugin_charts/'.$set_plug.'/');
       }
@@ -206,6 +206,68 @@ var $ct_array = array();
       }
       else {
       return $ct['base_dir'] . '/cache/charts/plugin_charts/'.$set_plug.'/' . $file;
+      }
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function secure_cache($file=false, $passed_plug=false) {
+      
+   global $ct, $this_plug;
+   
+      
+      if ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
+      }
+      elseif ( $passed_plug ) {
+      $set_plug = $passed_plug;
+      }
+
+   
+      // This plugin's secure cache directory
+      if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug.'/') != true ) {
+      $ct['gen']->log('system_error', 'Could not create directory: /cache/secured/plugin_data/'.$set_plug.'/');
+      }
+      else {
+           
+     
+          // Create /cache/secured/plugin_data/.htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+          if ( !file_exists($ct['base_dir'] . '/cache/secured/plugin_data/.htaccess') ) {
+          $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/plugin_data/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template')); 
+          }
+          
+          // Create /cache/secured/plugin_data/index.php to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+          if ( !file_exists($ct['base_dir'] . '/cache/secured/plugin_data/index.php') ) {
+          $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/plugin_data/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+          }
+          
+          
+          /////////////////////////////////////////////////////////////////////////////////////////
+           
+     
+          // Create /cache/secured/plugin_data/'.$set_plug.'/.htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+          if ( !file_exists($ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug.'/.htaccess') ) {
+          $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug.'/.htaccess', file_get_contents($ct['base_dir'] . '/templates/back-end/deny-all-htaccess.template')); 
+          }
+          
+          // Create /cache/secured/plugin_data/'.$set_plug.'/index.php to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+          if ( !file_exists($ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug.'/index.php') ) {
+          $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug.'/index.php', file_get_contents($ct['base_dir'] . '/templates/back-end/403-directory-index.template')); 
+          }
+      
+      
+      }
+      
+      
+      if ( $file == false ) {
+      return $ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug;
+      }
+      else {
+      return $ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug.'/' . $file;
       }
    
    }

@@ -24,6 +24,8 @@ var example_only = new Set();
 
 // Arrays
 
+var dynamic_position_overflow = new Array();
+
 var modal_windows = new Array(); // Set the modal windows array (to dynamically populate)
 
 var orig_iframe_src = new Array();

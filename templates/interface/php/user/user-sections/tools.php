@@ -151,14 +151,16 @@
 	        
 	        		<li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> (a side project of mine)</li>
 	        
+	        		<li class='links_list'><a href='https://jup.ag/portfolio' target='_blank'>Jupiter Portfolio</a> (automatic ON-CHAIN portfolio tracking [for Solana wallets])</li>
+	        
 	        		<li class='links_list'><a href='https://github.com/iancoleman/bip39' target='_blank'>Hardware / Software Wallet 24 Word Recovery Seed Generator</a> (USE OFFLINE WITH NO INTERNET CONNECTION FOR SAFETY!!!)</li>
 		    
         			<li class='links_list'><a href='https://opentimestamps.org/' target='_blank'>Timestamp Proof-Of-Existence Of Files (FREE) With The Bitcoin Blockchain</a></li>
         			<!-- alternate if any issues occur: https://dgi.io/ots/#ots_stampverify -->
         
-        			<li class='links_list'><a href='https://calendar.google.com/' target='_blank'>Google Calendar to Send Yourself Reminders For Important Crypto Times</a> ;-)</li>
+        			<li class='links_list'><a href='https://www.google.com/search?q=psytrance+internet+radio+stations' target='_blank'>Get *In The Zone* While Writing Computer Code, With PsyTrance Internet Radio</a> ;-)</li>
         
-        			<li class='links_list'><a href='http://www.hbr1.com/' target='_blank'>Get *In The Zone* While Writing Computer Code, With HBR1 Radio</a> ;-)</li>
+        			<li class='links_list'><a href='https://calendar.google.com/' target='_blank'>Google Calendar to Send Yourself Reminders For Important Crypto Times</a> ;-)</li>
 				
 				
     			</ul>

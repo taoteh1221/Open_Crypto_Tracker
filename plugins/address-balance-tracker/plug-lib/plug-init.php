@@ -30,13 +30,8 @@ if ( is_array($plug['conf'][$this_plug]['tracking']) && sizeof($plug['conf'][$th
 }
 
 
-// Remove any stale cache files
-$loop = ( is_array($plug['conf'][$this_plug]['tracking']) ? sizeof($plug['conf'][$this_plug]['tracking']) : 0 );
-while ( file_exists( $ct['plug']->alert_cache($loop . '.dat') ) ) {
-unlink( $ct['plug']->alert_cache($loop . '.dat') );
-$loop = $loop + 1;
-}
-$loop = null;
+// For cleaning up stale files
+$address_tracking_cleanup = array();
 
 
 foreach ( $plug['conf'][$this_plug]['tracking'] as $target_key => $target_val ) {
@@ -47,7 +42,9 @@ $cache_reset = false;
 // Cleanup
 $target_val = array_map('trim', $target_val);
 
-$balance_tracking_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
+$address_tracking_cleanup[] = $ct['sec']->secret_name($target_key) . '.dat';
+
+$balance_tracking_cache_file = $ct['plug']->secure_cache( $ct['sec']->secret_name($target_key) . '.dat' );
 
 
 	// If it's too early to re-send an alert again, skip this entry
@@ -283,6 +280,18 @@ $pair_btc_val = $ct['asset']->pair_btc_val( strtolower($asset) );
 
 $chain = null;
 
+}
+
+
+// Remove any stale cache files
+$address_tracking_files = $ct['gen']->sort_files($ct['plug']->secure_cache(), 'dat', 'asc');
+
+foreach( $address_tracking_files as $tracking_file ) {
+     
+     if ( !in_array($tracking_file, $address_tracking_cleanup) ) {
+     unlink($ct['plug']->secure_cache() . '/' . $tracking_file);
+     }
+     
 }
 
 

@@ -169,6 +169,8 @@ $ct['is_login_form'] = false;
 
 $ct['ticker_markets_search'] = false;
 
+$ct['auth_secret'] = false;
+
 $ct['smtp_server_ok'] = true; // true, in case we are NOT using it
         
 $ct['alphavantage_pairs'] = 0;

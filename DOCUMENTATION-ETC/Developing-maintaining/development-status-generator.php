@@ -14,7 +14,7 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
-                   'timestamp' => strtotime('2025-8-10'),
+                   'timestamp' => strtotime('2025-8-15'),
                    
                    'very_important' => true,
 
@@ -25,7 +25,7 @@ $dev_status[] = array(
                    'affected_earlier' => true,
                    
                    // DESCRIPTION
-                   'affected_desc' => 'v6.01.04 has been released, with FIXES for MAJOR ISSUES, related to the Currency Conversion function. IF you have any issues getting price conversions for your desired currency, upgrading this app should fix it.',
+                   'affected_desc' => 'v6.01.04 has been released, with FIXES for MAJOR ISSUES, related to the Currency Conversion function. IF you have any issues getting price conversions for your desired currency, upgrading this app should fix it. ADDITIONALLY, there are SIGNIFICANT User Experience improvements in this release too.',
 
                    );
 

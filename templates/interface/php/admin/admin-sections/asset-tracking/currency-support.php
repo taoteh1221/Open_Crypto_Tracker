@@ -272,7 +272,7 @@ $ct['admin_render_settings']['crypto_pair']['is_subarray'][0]['text_field_size']
 
 
 $ct['admin_render_settings']['crypto_pair']['is_notes'] = 'Auto-activate support for ALTCOIN PAIRED MARKETS (like COIN/sol or COIN/eth, etc...markets where the base pair is an altcoin).<br />This format MUST be used:<br />
-TICKER = SYMBOL<br /><span class="red">IMPORTANT NOTE: If coins added here do NOT already have BITCOIN-PAIRED MARKETS in their "Portfolio Assets" section, THESE CRYPTO PAIRS CAN *NOT* BE USED BY THE APP!</span>';
+TICKER = SYMBOL<br /><span class="red">IMPORTANT NOTE: If coins added here do NOT already have BITCOIN-PAIRED MARKETS in their "Portfolio Assets" section (OR exist as a PAIRING in the Bitcoin asset), THESE CRYPTO PAIRS CAN *NOT* BE USED BY THE APP!</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -304,7 +304,7 @@ $ct['admin_render_settings']['crypto_pair_preferred_markets']['is_subarray'][0][
 
 
 $ct['admin_render_settings']['crypto_pair_preferred_markets']['is_notes'] = 'Preferred ALTCOIN PAIRED MARKETS, for getting a certain crypto\'s value.<br />This format MUST be used:<br />
-TICKER = EXCHANGE_KEY_ID<br /><span class="red">IMPORTANT NOTE: If coins added here do NOT already have the corresponding EXCHANGES *WITHIN BITCOIN-PAIRED MARKETS* in their "Portfolio Assets" section, THESE PREFERRED MARKETS CAN *NOT* BE USED BY THE APP!</span><br />' . "<p class='red'>The EXCHANGE_KEY_ID value MUST be the <a style='font-weight: bold;' class='red' href='javascript: show_more(\"all_exchange_keys2\");' title='Click to show exchange keys.'><b>\"key value\" assigned to that exchange</b></a>.</p><div id='all_exchange_keys2' style='display: none;' class='align_left'><p class='red'>\"Under the hood\", this app identifies what exchange to use with \"exchange keys\". Here is the FULL list of all ACTIVE exchange keys (exchanges used in the current portfolio assets config, that you can associate with app settings, by using their exchange keys):</p><p class='red'>" . strtolower($active_exchanges_list) . "</p></div>";
+TICKER = EXCHANGE_KEY_ID<br /><span class="red">IMPORTANT NOTE: If coins added here do NOT already have the corresponding EXCHANGES *WITHIN BITCOIN-PAIRED MARKETS* in their "Portfolio Assets" section (OR exist as a PAIRING in the Bitcoin asset), THESE PREFERRED MARKETS CAN *NOT* BE USED BY THE APP!</span><br />' . "<p class='red'>The EXCHANGE_KEY_ID value MUST be the <a style='font-weight: bold;' class='red' href='javascript: show_more(\"all_exchange_keys2\");' title='Click to show exchange keys.'><b>\"key value\" assigned to that exchange</b></a>.</p><div id='all_exchange_keys2' style='display: none;' class='align_left'><p class='red'>\"Under the hood\", this app identifies what exchange to use with \"exchange keys\". Here is the FULL list of all ACTIVE exchange keys (exchanges used in the current portfolio assets config, that you can associate with app settings, by using their exchange keys):</p><p class='red'>" . strtolower($active_exchanges_list) . "</p></div>";
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

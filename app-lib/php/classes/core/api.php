@@ -1608,7 +1608,7 @@ var $exchange_apis = array(
    
          
          // Coingecko's search API only takes tickers,
-         // so we need their app id info endpoint in $single_asset_info mode
+         // so we need their API ID info endpoint in $single_asset_info mode
          if ( $single_asset_info && $exchange_key == 'coingecko' ) {
          $url = 'https://api.coingecko.com/api/v3/coins/' . $market_search;
          }
@@ -1886,7 +1886,7 @@ var $exchange_apis = array(
                 elseif ( $exchange_key == 'coingecko' ) {
                 
                 
-                     // Return an APP ID's associated values
+                     // Return an API ID's associated values
                      if ( $single_asset_info && isset($data['id']) && $data['id'] == $market_search ) {
                      gc_collect_cycles(); // Clean memory cache
                      return $data;
@@ -1912,7 +1912,7 @@ var $exchange_apis = array(
                                    if ( $ct['coingecko_assets'] == null ) {
                                    $ct['coingecko_assets'] = $val['api_symbol'];
                                    }
-                                   // IF APP ID wasn't bundled yet into the single call format we use for coingecko, add it now,
+                                   // IF API ID wasn't bundled yet into the single call format we use for coingecko, add it now,
                                    // to optimize this search loop INTO A SINGLE CALL (consecutive calls will automatically use the cache system)
                                    // (THIS IS ***REQUIRED*** FOR MULTIPLE COINGECKO SEARCH RESULTS, DUE TO IT'S 'BATCHED' DATA CALL STRUCTURE!!!)
                                    elseif (
@@ -2153,9 +2153,9 @@ var $exchange_apis = array(
               if ( $ct['coingecko_assets'] == null ) {
               $ct['coingecko_assets'] = $dyn_id;
               }
-              // IF APP ID wasn't bundled yet into the single call format we use for coingecko,
+              // IF API ID wasn't bundled yet into the single call format we use for coingecko,
               // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
-              // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, AS WELL AS IT BEING THE FIRST VALUE
+              // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE API ID, AS WELL AS IT BEING THE FIRST VALUE
               elseif (
               substr($ct['coingecko_assets'], 0, strlen($dyn_id) ) != $dyn_id
               && !stristr($ct['coingecko_assets'], ',' . $dyn_id)
@@ -2203,7 +2203,7 @@ var $exchange_apis = array(
                    }
                    // IF MARKET ID wasn't bundled yet into the single call format we use for upbit,
                    // add it now, or we WON'T GET RELEVANT RESULTS (when VALIDATING 'add market' search results, etc)
-                   // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE APP ID, AS WELL AS IT BEING THE FIRST VALUE
+                   // WE INCLUDE SEARCHING FOR A COMMA IN FRONT OF THE MARKET ID, AS WELL AS IT BEING THE FIRST VALUE
                    elseif (
                    substr($ct['upbit_batched_markets'], 0, strlen($dyn_id) ) != $dyn_id
                    && !stristr($ct['upbit_batched_markets'], ',' . $dyn_id)
@@ -2661,22 +2661,20 @@ var $exchange_apis = array(
                     
                libxml_clear_errors();
                
-               sleep(2);
+               sleep(1);
+           
+               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) );
                
                // Load again, BUT FROM THE SAVED FILE (to get line numbers of all errors)
                $rss_check = simplexml_load_string($xml_response_file);
-                
-               $xml_lines_parsed = file($xml_response_file);
                     
                $xml_errors = libxml_get_errors();
                
                     foreach ( $xml_errors as $error ) {
-                    $xml_error_summary .= $ct['gen']->display_xml_error($error, $xml_lines_parsed);
+                    $ct['gen']->log('other_error', 'URL "' . $url . '" XML error details: ' . $ct['gen']->display_xml_error($error) );
                     }
                     
                libxml_clear_errors();
-           
-               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) . $xml_error_summary);
 
                }
 
@@ -2708,7 +2706,7 @@ var $exchange_apis = array(
 		      }
 		               
                 if ( is_array($sortable_feed) ) { 
-		      $usort_results = usort($sortable_feed,  array($ct['var'], 'integer_usort_decending') );
+		      $usort_results = usort($sortable_feed,  array($ct['var'], 'timestamp_usort_decending') );
 		      }
 		               
 		      if ( !$usort_results ) {
@@ -2731,7 +2729,11 @@ var $exchange_apis = array(
 				     $item_date = $item->updated;
 				     }
 			          // Support for the 'dc' namespace
-			          elseif ( sizeof( $item->children('dc', true) ) > 0 ) {
+			          elseif (
+	                    is_object($item)
+                    	&& is_object( $item->children('dc', true) )
+                    	&& sizeof( $item->children('dc', true) ) > 0
+			          ) {
 			         
                          $dc_namespace = $item->children('dc', true);
                         
@@ -2817,7 +2819,7 @@ var $exchange_apis = array(
 	          }
 	               
                if ( is_array($sortable_feed) ) { 
-	          $usort_results = usort($sortable_feed, array($ct['var'], 'integer_usort_decending') );
+	          $usort_results = usort($sortable_feed, array($ct['var'], 'timestamp_usort_decending') );
 	          }
 	               
 	          if ( !$usort_results ) {
@@ -2841,7 +2843,11 @@ var $exchange_apis = array(
 			         $item_date = $item->updated;
 			         }
 			         // Support for the 'dc' namespace
-			         elseif ( sizeof( $item->children('dc', true) ) > 0 ) {
+			         elseif (
+                        is_object($item)
+                        && is_object( $item->children('dc', true) )
+                        && sizeof( $item->children('dc', true) ) > 0
+			         ) {
 			         
                         $dc_namespace = $item->children('dc', true);
                         
@@ -2995,11 +3001,27 @@ var $exchange_apis = array(
       
     
       elseif ( $sel_exchange == 'aevo' || stristr( $sel_exchange , 'aevo_') ) {
+           
+           
+           if (
+           isset($data["markets"]["daily_volume_contracts"])
+           && is_numeric($data["markets"]["daily_volume_contracts"])
+           && $ct['var']->num_to_str($data["markets"]["daily_volume_contracts"]) > 0
+           && isset($data["mark_price"])
+           && is_numeric($data["mark_price"])
+           && $ct['var']->num_to_str($data["mark_price"]) > 0
+           ) {
+           $temp_vol = $data["markets"]["daily_volume_contracts"] * $data["mark_price"];
+           }
+           else {
+           $temp_vol = null; // Unavailable, set null
+           }
+      
       
       $result = array(
                      'last_trade' => $data["mark_price"],
                      '24hr_asset_vol' => null, // Unavailable, set null
-                     '24hr_pair_vol' => ($data["markets"]["daily_volume_contracts"] * $data["mark_price"])
+                     '24hr_pair_vol' => $temp_vol
                 	   );
       
       }
@@ -4104,7 +4126,7 @@ var $exchange_apis = array(
       
       $ct['gen']->log(
                    		    'notify_error',
-                   		    'the '.$asset_symb.' trade value "'.$result['last_trade'].'" for the "' . $sel_exchange . '" exchange market ID "'.$mrkt_id.'" is LESS THAN THE ALLOWED "'.$ct['min_crypto_val_test'].'" VALUE [adjustable in: Admin Area => Asset Tracking => Currency Support => Crypto Decimals Maximum])',
+                   		    'the '.$asset_symb.' trade value "'.$result['last_trade'].'" for the "' . $sel_exchange . '" exchange market ID "'.$mrkt_id.'" is LESS THAN THE ALLOWED "'.$ct['min_crypto_val_test'].'" VALUE (adjustable in: Admin Area => Asset Tracking => Currency Support => Crypto Decimals Maximum)',
                    		    false,
                    		    'low_market_value_' . $mrkt_id
                    		    );

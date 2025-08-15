@@ -83,6 +83,18 @@ else {
 $ct['app_container'] = 'browser';
 }
 
+
+// The operating system family PHP was built for.
+// One of 'Windows', 'BSD', 'Darwin', 'Solaris', 'Linux' or 'Unknown'. Available as of PHP 7.2.0.
+// https://www.php.net/manual/en/reserved.constants.php
+if ( preg_match("/windows/i", PHP_OS_FAMILY) ) {
+$ct['ms_windows_server'] = true;
+}
+elseif ( preg_match("/darwin/i", PHP_OS_FAMILY) ) {
+$ct['mac_darwin_server'] = true;
+}
+
+
 // Internal API / webhook URLs vary by edition...
 
 $ct['int_api_base_endpoint'] = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
