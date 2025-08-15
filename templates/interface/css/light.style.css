@@ -117,6 +117,11 @@ CLASSES
 ////////////////////////////// */
 
 
+.settings_notes {
+background-color: #ffffff !important;
+}
+
+
 table.data_table:not(#coins_table) {
     border: 2px solid black;
 }
