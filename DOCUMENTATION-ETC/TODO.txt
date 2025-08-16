@@ -132,6 +132,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 At some point, put together a list of things to test, when package testing right before public release. 
 
 
+For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This will need a check boxes rendering function, for the admin interfacing too.
+
+
 Leverage should be switched to a slider in the user interface, whenever we add decimal support. We also should create a custom js listener, that still runs our "batshit crazy" js alerts. :)
 
 
