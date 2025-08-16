@@ -175,9 +175,7 @@ exit;
 
 // CSRF attack protection for downloads EXCEPT backup downloads (which are secured by having a nonce in the filename instead)
 if ( $ct['runtime_mode'] == 'download' && !isset($_GET['backup']) && $_GET['download_nonce'] != $ct['sec']->nonce_digest('download') ) {
-$ct['gen']->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
-$ct['cache']->app_log();
-echo "Aborted, security token mis-match/stale, try reloading the app.";
+echo "Aborted runtime, security token mis-match/stale, try reloading the app.";
 exit;
 }
 

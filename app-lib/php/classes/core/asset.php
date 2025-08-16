@@ -433,17 +433,17 @@ var $ct_array = array();
          // Check for currency support, fallback to USD if needed
          if ( $force_currency != null ) {
            
-         $app_notice = 'Forcing '.strtoupper($force_currency).' stats.';
+         $app_notice .= 'Forcing '.strtoupper($force_currency).' stats.';
          
          $coingecko_api_no_overwrite = $ct['api']->mcap_data_coingecko($force_currency);
            
                // Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
                if ( !isset($coingecko_api_no_overwrite['btc']['market_cap_rank']) ) {
-           	$app_notice = 'Coingecko.com API data error, check the app logs for more information.';
+           	$app_notice .= '<br />Coingecko.com API data error, app logs MAY have more information.';
            	}
          
          }
-         elseif ( !isset($ct['coingecko_api']['btc']['market_cap_rank']) && strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) != 'USD' ) {
+         elseif ( !isset($ct['coingecko_api']['bitcoin']['market_cap_rank']) && strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) != 'USD' ) {
            
          $app_notice = 'Coingecko.com does not seem to support '.strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).' stats,<br />showing USD stats instead.';
          
@@ -452,9 +452,9 @@ var $ct_array = array();
          $ct['coingecko_api'] = $ct['api']->mcap_data_coingecko('usd');
            
            	// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
-           	if ( !isset($ct['coingecko_api']['btc']['market_cap_rank']) ) {
+           	if ( !isset($ct['coingecko_api']['bitcoin']['market_cap_rank']) ) {
            	$ct['mcap_data_force_usd'] = null;
-           	$app_notice = 'Coingecko.com API data error, check the app logs for more information.';
+           	$app_notice .= '<br />Coingecko.com API data error, app logs MAY have more information.';
            	}
          
          }
@@ -514,7 +514,7 @@ var $ct_array = array();
      
          // Default to USD, if selected primary currency is not supported
          if ( $force_currency != null ) {
-         $app_notice .= ' Forcing '.strtoupper($force_currency).' stats. ';
+         $app_notice .= '<br />Forcing '.strtoupper($force_currency).' stats. ';
          $coinmarketcap_api_no_overwrite = $ct['api']->mcap_data_coinmarketcap($force_currency);
          }
          elseif ( isset($ct['mcap_data_force_usd']) ) {

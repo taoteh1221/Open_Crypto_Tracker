@@ -460,8 +460,19 @@ $ct['conf']['power']['blockchain_stats_cache_time'] = 100;
 }
 
 // Idiot-proof marketcap_cache_time
-if ( abs($ct['conf']['power']['marketcap_cache_time']) > 120 || $ct['conf']['power']['marketcap_cache_time'] < 0 ) {
-$ct['conf']['power']['marketcap_cache_time'] = 120;
+if ( $ct['conf']['power']['marketcap_cache_time'] > 200 ) {
+$ct['conf']['power']['marketcap_cache_time'] = 200;
+}
+elseif ( $ct['conf']['power']['marketcap_cache_time'] < 50 ) {
+$ct['conf']['power']['marketcap_cache_time'] = 50;
+}
+
+// Idiot-proof marketcap_ranks_max
+if ( $ct['conf']['power']['marketcap_ranks_max'] > 1000 ) {
+$ct['conf']['power']['marketcap_ranks_max'] = 1000;
+}
+elseif ( $ct['conf']['power']['marketcap_ranks_max'] < 100 ) {
+$ct['conf']['power']['marketcap_ranks_max'] = 100;
 }
 
 

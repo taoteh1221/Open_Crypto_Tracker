@@ -1103,7 +1103,7 @@ var $ct_array = array();
           // Sort by timestamp
           if ( is_array($sortable_array) ) { 
           $ct['sort_by_nested'] = 'root=>timestamp';
-          usort($sortable_array, array($ct['var'], 'usort_desc') );
+          usort($sortable_array, array($ct['var'], 'usort_asc') );
           $ct['sort_by_nested'] = false; // RESET
           }
        

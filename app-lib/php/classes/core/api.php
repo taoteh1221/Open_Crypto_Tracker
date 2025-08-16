@@ -821,7 +821,7 @@ var $exchange_apis = array(
           foreach ($data as $key => $unused) {
             
               if ( isset($data[$key]['id']) && $data[$key]['id'] != '' ) {
-              $result[strtolower($data[$key]['id'])] = $data[$key];
+              $result[ strtolower($data[$key]['id']) ] = $data[$key];
               }
        
           }
@@ -2706,7 +2706,7 @@ var $exchange_apis = array(
 		      }
 		               
                 if ( is_array($sortable_feed) ) { 
-		      $usort_results = usort($sortable_feed,  array($ct['var'], 'timestamp_usort_decending') );
+		      $usort_results = usort($sortable_feed,  array($ct['var'], 'rss_usort_newest') );
 		      }
 		               
 		      if ( !$usort_results ) {
@@ -2819,7 +2819,7 @@ var $exchange_apis = array(
 	          }
 	               
                if ( is_array($sortable_feed) ) { 
-	          $usort_results = usort($sortable_feed, array($ct['var'], 'timestamp_usort_decending') );
+	          $usort_results = usort($sortable_feed, array($ct['var'], 'rss_usort_newest') );
 	          }
 	               
 	          if ( !$usort_results ) {
