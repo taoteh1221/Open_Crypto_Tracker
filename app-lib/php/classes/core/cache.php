@@ -3175,8 +3175,16 @@ var $ct_array = array();
           // FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
           if ( !isset($fallback_cache_data) ) {
                
-          $ct['gen']->log('ext_data_error', 'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip);
-          
+          // NOTIFY formatted logging, so there are not a bazzilion log entries
+          // (as we are KEEPING this endpoint queued for live requests, whenever the throttling limitation stops,
+          // so there easily could be a bazzilion THROTTLED [SUPPRESSED] live data requests this runtime, when re-checking)
+          $ct['gen']->log(
+           		    'notify_error',
+           		    'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip,
+           		    false,
+           		    'live_throttled_fallback_failed_' . $endpoint_tld_or_ip
+           		    );
+           		    
           unset($ct['api_runtime_cache'][$hash_check]);
           
           unlink($cached_path);

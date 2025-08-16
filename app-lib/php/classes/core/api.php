@@ -2648,7 +2648,7 @@ var $exchange_apis = array(
           // Log full results to file, TO GET LINE NUMBERS FOR ERRORS
           
           // FOR SECURE ERROR LOGS, we redact the full path
-          $xml_response_file_cache = '/cache/other/xml_error_parsing/xml-data-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'.xml';
+          $xml_response_file_cache = '/cache/logs/debug/xml_error_parsing/xml-data-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'.xml';
           
           $xml_response_file = $ct['base_dir'] . $xml_response_file_cache;
           
@@ -2657,31 +2657,42 @@ var $exchange_apis = array(
                if ( !file_exists($xml_response_file) ) {
            
                // Log this error response from this data request
-               $ct['cache']->save_file($xml_response_file, $response);
+               $save_result = $ct['cache']->save_file($xml_response_file, $response);
                     
                libxml_clear_errors();
                
-               sleep(1);
-           
-               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache) );
                
-               // Load again, BUT FROM THE SAVED FILE (to get line numbers of all errors)
-               $rss_check = simplexml_load_string($xml_response_file);
+                    if ( $save_result ) {
+                         
+                    $log_details = ', SAVED FOR 48 HOURS TO FILE FOR INSPECTION AT ' . $ct['sec']->obfusc_path_data($xml_response_file_cache);
+
+                    sleep(1);
                     
-               $xml_errors = libxml_get_errors();
-               
-                    foreach ( $xml_errors as $error ) {
-                    $ct['gen']->log('other_error', 'URL "' . $url . '" XML error details: ' . $ct['gen']->display_xml_error($error) );
+                    // Load again, BUT FROM THE SAVED FILE (to get line numbers of all errors)
+                    $rss_check = simplexml_load_string($xml_response_file);
+                         
+                    $xml_errors = libxml_get_errors();
+                    
+                         foreach ( $xml_errors as $error ) {
+                         $ct['gen']->log('other_error', 'URL "' . $url . '" XML error details: ' . $ct['gen']->display_xml_error($error) );
+                         }
+                         
+                    libxml_clear_errors();
+                    
                     }
-                    
-               libxml_clear_errors();
+                    else {
+                    $log_details = ' (SAVING TO FILE FOR INSPECTION FAILED)';
+                    }
+
+           
+               $ct['gen']->log('other_error', 'error reading XML-based news feed data from ' . $url . $log_details);
 
                }
 
 
           gc_collect_cycles(); // Clean memory cache
 
-          return '<span class="red">Error reading news feed data (XML error), see admin app logs for details.</span>';
+          return '<span class="red">Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.</span>';
 
           }
                      
