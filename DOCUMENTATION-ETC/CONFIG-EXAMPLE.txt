@@ -997,7 +997,7 @@ $ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4, MAX = 60)
 
 
 // MINUTES to cache data, for exchange "search" mode, when adding new asset markets in the admin interface
-$ct['conf']['power']['exchange_search_cache_time'] = 20; // Default = 20
+$ct['conf']['power']['exchange_search_cache_time'] = 30; // Default = 30
 
 
 // MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict
@@ -1006,12 +1006,12 @@ $ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60, MAX
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct['conf']['power']['marketcap_cache_time'] = 100;  // (default = 100, MAX = 120)
+$ct['conf']['power']['marketcap_cache_time'] = 150;  // (default = 150, MIN = 50, MAX = 200)
 ////
 // Number of marketcap rankings to request from API.
 // 300 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct['conf']['power']['marketcap_ranks_max'] = 300; // (default = 300)
+$ct['conf']['power']['marketcap_ranks_max'] = 500; // (default = 500, MIN = 100, MAX = 1000)
 
 
 // Maximum margin leverage available in the user interface ('Update Portfolio' page, etc)
@@ -2351,7 +2351,7 @@ $ct['conf']['assets'] = array(
                     'JUP' => array(
                         
                         'name' => 'Jupiter Aggregator',
-                        'mcap_slug' => 'jupiter',
+                        'mcap_slug' => 'jupiter-exchange-solana',
                         'pair' => array(
 
                         

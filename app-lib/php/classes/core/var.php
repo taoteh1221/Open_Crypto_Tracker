@@ -400,14 +400,10 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function timestamp_usort_decending($a, $b) {
+   function rss_usort_newest($a, $b) {
         
       
-      if ( isset($a['timestamp']) && isset($b['timestamp']) ) {
-      $result_a = $a['timestamp'];
-      $result_b = $b['timestamp'];
-      }
-      elseif ( isset($a->pubDate) && isset($b->pubDate) ) {
+      if ( isset($a->pubDate) && isset($b->pubDate) ) {
       $result_a = strtotime($a->pubDate);
       $result_b = strtotime($b->pubDate);
       }
@@ -438,12 +434,15 @@ var $ct_array = array();
            }
 			         
 	 }
-      elseif ( !is_array($a) && !is_array($b) ) {
-      $result_a = $a;
-      $result_b = $b;
-      }
    
-   return $result_b - $result_a;
+   
+      if ( isset($result_a) && isset($result_b) ) {
+      return $result_b - $result_a;
+      }
+      else {
+      return 0;
+      }
+      
       
    }
 

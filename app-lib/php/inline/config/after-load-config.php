@@ -60,9 +60,13 @@ $ct['dev']['status'] = @$ct['api']->dev_status();
 // Sort the alerts by NEWEST
 if ( is_array($ct['dev']['status']) && sizeof($ct['dev']['status']) > 0 ) {
 
-usort($ct['dev']['status'], array($ct['var'], 'timestamp_usort_decending') );
+// NEWEST dev statuses first
+$ct['sort_by_nested'] = 'root=>timestamp';
+usort($ct['dev']['status'], array($ct['var'], 'usort_desc') );
+$ct['sort_by_nested'] = false; // RESET
 
 $ct['dev']['status_data_found'] = true; // Flag as data was found (for loading in interface)
+
 
 	// Timestamp, of latest important status alert
 	foreach ( $ct['dev']['status'] as $dev_alert ) {
@@ -75,6 +79,7 @@ $ct['dev']['status_data_found'] = true; // Flag as data was found (for loading i
      	}
 	
 	}
+
 
 }
 

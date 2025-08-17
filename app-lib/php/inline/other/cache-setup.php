@@ -53,10 +53,10 @@ $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/light_chart_rebuilds/') 
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/archival/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/charts/system/light/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/xml_error_parsing/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/external_data/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/cron/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/error/external_data/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/xml_error_parsing/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/market_id_parsing/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/assets/stocks/overviews/') != true

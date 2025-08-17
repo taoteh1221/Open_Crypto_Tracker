@@ -719,19 +719,19 @@ var $ct_array = array();
       // (THIS KEEPS THE OTHER RUNTIME SESSIONS SEPERATED FROM THESE TWO, SO NO FORCED ADMIN LOGOUTS OR OTHER MISSING SESSION
       // DATA ISSUES WITH THE OTHER RUNTIMES, AFTER ACCESSING /api/ OR /hook/ ENDPOINTS WITH JAVASCRIPT OR DIRECTLY IN BROWSER)
       elseif ( $ct['runtime_mode'] == 'webhook' || $ct['runtime_mode'] == 'int_api' ) {
-      return 'SESS2_'.substr( md5('secondary_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
+      return 'SESS_INT_APIS_'.substr( md5('internal_apis_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
       }
       // DESKTOP EDITION (when not running the above condition of webhook / internal api runtimes)
       elseif ( $ct['app_edition'] == 'desktop' ) {
-      return 'SESSD_'.substr( md5('desktop_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
+      return 'SESS_DESKTOP_'.substr( md5('desktop_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
       }
       // CRON
       elseif ( $ct['runtime_mode'] == 'cron' ) {
-      return 'SESSC_'.substr( md5('cron_session' . $ct['base_dir']) , 0, 10); // First 10 characters
+      return 'SESS_CRON_'.substr( md5('cron_session' . $ct['base_dir']) , 0, 10); // First 10 characters
       }
       // EVERYTHING ELSE
       else {
-      return 'SESS1_'.substr( md5('primary_session' . $ct['base_dir']) , 0, 10); // First 10 characters
+      return 'SESS_SERVER_'.substr( md5('server_session' . $ct['base_dir']) , 0, 10); // First 10 characters
       }
       
    

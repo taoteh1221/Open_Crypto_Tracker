@@ -3175,8 +3175,16 @@ var $ct_array = array();
           // FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
           if ( !isset($fallback_cache_data) ) {
                
-          $ct['gen']->log('ext_data_error', 'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip);
-          
+          // NOTIFY formatted logging, so there are not a bazzilion log entries
+          // (as we are KEEPING this endpoint queued for live requests, whenever the throttling limitation stops,
+          // so there easily could be a bazzilion THROTTLED [SUPPRESSED] live data requests this runtime, when re-checking)
+          $ct['gen']->log(
+           		    'notify_error',
+           		    'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip,
+           		    false,
+           		    'live_throttled_fallback_failed_' . $endpoint_tld_or_ip
+           		    );
+           		    
           unset($ct['api_runtime_cache'][$hash_check]);
           
           unlink($cached_path);
@@ -3624,15 +3632,16 @@ var $ct_array = array();
             ) {
                  
                  
-                 // IMMEADIATELY adjust API throttling for coingecko, as under loads they decrease API limits up to 66%!
+                 // IMMEDIATELY adjust API throttling for coingecko, as under loads they decrease API limits up to 66%!
                  // https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
                  if ( $endpoint_tld_or_ip == 'coingecko.com' && $ct['throttled_api_per_minute_limit']['coingecko.com'] > 5 ) {
                       
-                      // INCREMENTALLY, DOWN TO 5 CALLS PER MINUTE
+                 // EVEN THOUGH COINGECKO HAS NO PER-SECOND THROTTLE LIMIT,
+                 // SET TO 1 PER-SECOND, IF WE'RE GETTING NO DATA                 
+                 $ct['throttled_api_per_second_limit']['coingecko.com'] = 1;
+                      
+                      // THROTTLE DOWN TO 7 CALLS PER MINUTE
                       if ( $ct['throttled_api_per_minute_limit']['coingecko.com'] >= 15 ) {
-                      $ct['throttled_api_per_minute_limit']['coingecko.com'] = 10;
-                      }
-                      elseif ( $ct['throttled_api_per_minute_limit']['coingecko.com'] >= 10 ) {
                       $ct['throttled_api_per_minute_limit']['coingecko.com'] = 5;
                       }
                      

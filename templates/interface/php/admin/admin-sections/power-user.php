@@ -226,11 +226,11 @@ $ct['admin_render_settings']['marketcap_cache_time']['is_range'] = true;
 
 $ct['admin_render_settings']['marketcap_cache_time']['range_ui_meta_data'] .= 'zero_is_disabled;';
 
-$ct['admin_render_settings']['marketcap_cache_time']['range_min'] = 0;
+$ct['admin_render_settings']['marketcap_cache_time']['range_min'] = 50;
 
-$ct['admin_render_settings']['marketcap_cache_time']['range_max'] = 120;
+$ct['admin_render_settings']['marketcap_cache_time']['range_max'] = 200;
 
-$ct['admin_render_settings']['marketcap_cache_time']['range_step'] = 20;
+$ct['admin_render_settings']['marketcap_cache_time']['range_step'] = 25;
 
 $ct['admin_render_settings']['marketcap_cache_time']['range_ui_suffix'] = ' Minutes';
 
@@ -244,7 +244,7 @@ $ct['admin_render_settings']['marketcap_ranks_max']['is_range'] = true;
 
 $ct['admin_render_settings']['marketcap_ranks_max']['range_min'] = 100;
 
-$ct['admin_render_settings']['marketcap_ranks_max']['range_max'] = 500;
+$ct['admin_render_settings']['marketcap_ranks_max']['range_max'] = 1000;
 
 $ct['admin_render_settings']['marketcap_ranks_max']['range_step'] = 100;
 

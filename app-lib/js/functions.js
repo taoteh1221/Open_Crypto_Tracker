@@ -299,7 +299,7 @@ function set_cookie(cname, cvalue, exdays) {
      
      // DELETE cookie
      if ( exdays < 0 ) {
-     var expires = 'expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+     var expires = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
      }
      // CREATE / MODIFY cookie
      else {
@@ -2574,9 +2574,9 @@ function background_tasks_check(runtime_id) {
      // Do nothing
      }
      else if (
-     cron_run_check() == 'done'
-     && feeds_loading_check() == 'done'
+     feeds_loading_check() == 'done'
      && charts_loading_check() == 'done'
+     && cron_run_check() == 'done'
      ) {
      
      // Unset initial bg tasks loading flag
@@ -2617,7 +2617,12 @@ function background_tasks_check(runtime_id) {
           
 	     // If ONLY emulated cron background task is running AFTER initial page load, flag as such
 	     // (so we DON'T reset the scroll position every minute)
-	     if ( !all_tasks_initial_load && cron_run_check() != 'done' && feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
+	     if (
+	     !all_tasks_initial_load
+	     && feeds_loading_check() == 'done'
+	     && charts_loading_check() == 'done'
+	     && cron_run_check() != 'done'
+	     ) {
 	     emulated_cron_task_only = true;
 	     }
 	     
@@ -2656,11 +2661,11 @@ function background_tasks_check(runtime_id) {
                
                }
                // IF price charts are hanging
-               else if ( cron_run_check() == 'done' && feeds_loading_check() == 'done' ) {
+               else if ( feeds_loading_check() == 'done' && cron_run_check() == 'done' ) {
                background_loading_notices('Price Charts are taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your Price Charts, SHOULD fix this.', "#ff4747");
                }
                // IF news feeds are hanging
-               else if ( cron_run_check() == 'done' && charts_loading_check() == 'done' ) {
+               else if ( charts_loading_check() == 'done' && cron_run_check() == 'done' ) {
                background_loading_notices('News Feeds are taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your News Feeds, SHOULD fix this.', "#ff4747");
                }
                // Every other combo

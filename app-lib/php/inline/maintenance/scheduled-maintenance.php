@@ -109,7 +109,7 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/light_chart_rebu
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/market_error_tracking', 7); 
 
 // Delete OLD cached invalid XML response files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/other/xml_error_parsing', 7); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/logs/debug/xml_error_parsing', 7); 
 
 /////////////////////////
 // Every day
