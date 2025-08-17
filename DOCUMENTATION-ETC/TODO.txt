@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+For the 'margin leverage maximum' power user setting, add decimal support (in the admin interface too), as modern perp markets on Solana allow this.
+
+
 At some point, put together a list of things to test, when package testing right before public release. 
 
 
@@ -139,9 +142,6 @@ For all comm channel settings, and the ability to mix-and-match whatever comms y
 
 
 Leverage should be switched to a slider in the user interface, whenever we add decimal support. We also should create a custom js listener, that still runs our "batshit crazy" js alerts. :)
-
-
-For the 'margin leverage maximum' power user setting, add decimal support (in the admin interface too), as modern perp markets on Solana allow this.
 
 
 For Access Stats, add showing multiple visit timestamps / referrers by adding an info balloon when hovering over a 'last visit ' timestamp INFO ICON. INCLUDE IP ADDRESSES FOR 'ALL STATS' BUNDLED MODE. 
