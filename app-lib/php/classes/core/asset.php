@@ -1533,7 +1533,7 @@ var $ct_array = array();
                   $other_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['additional_pairings_search']) );
                        
                   // Coingecko pairing support
-                  $coingecko_pairings = $ct['api']->coingecko_currencies();
+                  $coingecko_pairings = $ct['coingecko_currencies'];
                        
                   // Upbit pairing support
                   $upbit_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['upbit_pairings_search']) );

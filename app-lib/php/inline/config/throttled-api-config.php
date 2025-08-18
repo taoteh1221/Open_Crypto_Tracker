@@ -62,9 +62,9 @@ $ct['throttled_api_per_minute_limit']['alphavantage.co'] = $ct['conf']['ext_apis
 // THROTTLE ALPHAVANTAGE - END
 
 
-// THROTTLE Coingecko (PER-MINUTE)
-// https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
-$ct['throttled_api_per_minute_limit']['coingecko.com'] = 15;
+// THROTTLE Reddit (PER-MINUTE)
+// https://www.reddit.com/r/redditdev/comments/14nbw6g/updated_rate_limits_going_into_effect_over_the/
+$ct['throttled_api_per_minute_limit']['reddit.com'] = 10;
 
 
 // THROTTLE Coingecko TERMINAL (PER-MINUTE)
@@ -72,9 +72,13 @@ $ct['throttled_api_per_minute_limit']['coingecko.com'] = 15;
 $ct['throttled_api_per_minute_limit']['geckoterminal.com'] = 30;
 
 
-// THROTTLE Reddit (PER-MINUTE)
-// https://www.reddit.com/r/redditdev/comments/14nbw6g/updated_rate_limits_going_into_effect_over_the/
-$ct['throttled_api_per_minute_limit']['reddit.com'] = 10;
+// THROTTLE Coingecko (PER-MINUTE)
+// https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
+$ct['throttled_api_per_minute_limit']['coingecko.com'] = 10;
+////
+// EVEN THOUGH COINGECKO HAS NO PER-SECOND THROTTLE LIMIT,
+// SET TO 2 PER-SECOND, AS THEY ARE USUALLY PRETTY STRICT WITH ACCESS LIMITS          
+$ct['throttled_api_per_second_limit']['coingecko.com'] = 2;
 
 
 // THROTTLE JUP_AG (PER-SECOND)

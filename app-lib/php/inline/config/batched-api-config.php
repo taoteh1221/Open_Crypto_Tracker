@@ -16,6 +16,16 @@
 
 // RESET, since we reload this logic on config resets / user updates
 
+// Set the array of available currencies for coingecko
+$ct['coingecko_currencies'] = $ct['api']->coingecko_currencies();
+
+
+// For parsing compatibility fallback
+if ( !is_array($ct['coingecko_currencies']) ) {
+$ct['coingecko_currencies'] = array();
+}
+
+
 $check_pairs = array();
 $check_assets = array();
 
@@ -57,10 +67,8 @@ foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
 
 // We only need ALL available coingecko pairings during ticker market searches
 if ( $ct['ticker_markets_search'] ) {
-     
-$coingecko_pairings = $ct['api']->coingecko_currencies();
             
-     foreach ( $coingecko_pairings as $pairing ) {
+     foreach ( $ct['coingecko_currencies'] as $pairing ) {
           
      $pairing = strtolower($pairing);
      

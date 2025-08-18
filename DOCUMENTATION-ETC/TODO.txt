@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
+
+
 For the 'margin leverage maximum' power user setting, add decimal support (in the admin interface too), as modern perp markets on Solana allow this.
 
 

@@ -3441,6 +3441,8 @@ var $exchange_apis = array(
            
            }
            else {
+                
+           //var_dump($ct['coingecko_currencies']);
            
 
                // For UX, we don't want "check your markets" user alerts,
@@ -3448,7 +3450,8 @@ var $exchange_apis = array(
                if (
                !$ct['ticker_markets_search']
                && $coingecko_route != 'terminal'
-               && !in_array( $coingecko_route, $ct['api']->coingecko_currencies() )
+               && sizeof($ct['coingecko_currencies']) > 0
+               && !in_array($coingecko_route, $ct['coingecko_currencies'])
                ) {
                      
                $ct['gen']->log(
@@ -3459,8 +3462,21 @@ var $exchange_apis = array(
                    		    );
                    		    
                }
-                 
-
+               elseif (
+               !$ct['ticker_markets_search']
+               && $coingecko_route != 'terminal'
+               && sizeof($ct['coingecko_currencies']) == 0
+               ) {
+                     
+               $ct['gen']->log(
+                   		    'notify_error',
+                   		    'the coingecko currency list API returned NO DATA, please try reloading / refreshing this app to fix this',
+                   		    false,
+                   		    'no_currency_data_coingecko'
+                   		    );
+                   		    
+               }
+               
 
            }
            
@@ -4156,7 +4172,7 @@ var $exchange_apis = array(
                      
       $ct['gen']->log(
                    		    'notify_error',
-                   		    'the trade value of "'.$result['last_trade'].'" seems invalid. make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                   		    'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
                    		    false,
                    		    'no_market_data_' . $sel_exchange
                    		    );

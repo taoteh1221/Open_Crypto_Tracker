@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$ct['coingecko_currencies'] = array();
+
 $ct['jup_ag_address_mapping'] = array();
 
 $ct['jup_ag_runtime_cache'] = array();
