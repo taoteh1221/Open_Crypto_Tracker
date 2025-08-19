@@ -129,6 +129,23 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+
+
+Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
+          	                     'MISCASSETS',
+          	                     'BTCNFTS',
+          	                     'ETHNFTS',
+          	                     'SOLNFTS',
+          	                     'ALTNFTS',
+
+
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
+
+
+Move all remaining relevent APIs over to the new per-second / per-minute / per-day throttling system.
+
+
 Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
 
 
@@ -166,23 +183,6 @@ When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FO
 
 
 Security page should show any version upgrade alerts (if available).
-
-
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
-
-
-Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
-          	                     'MISCASSETS',
-          	                     'BTCNFTS',
-          	                     'ETHNFTS',
-          	                     'SOLNFTS',
-          	                     'ALTNFTS',
-
-
-Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
-
-
-Move all remaining relevent APIs over to the new per-second / per-minute / per-day throttling system.
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
