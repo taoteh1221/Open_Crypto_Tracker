@@ -841,9 +841,9 @@ var $ct_array = array();
          && $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] >= 1
          ) {
               
-              // Cap per-second throttle to 1 million, to support our usleep auto-calculation logic
-              if ( $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] > 1000000 ) {
-              $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 1000000;
+              // Cap per-second throttle to ten thousand, to support our usleep auto-calculation logic
+              if ( $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] > 10000 ) {
+              $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 10000;
               }
          
          $sleep_microseconds = (1 / $ct['dev']['throttled_apis'][$tld_or_ip]['per_second']) * 1000000;
@@ -858,7 +858,7 @@ var $ct_array = array();
          // We ALWAYS want at least a small amount of sleep, IF WE UPDATED THE DAY / MINUTE COUNT CACHE FILE
          // (since we may still have consecutive counts for this server, during this runtime)
          elseif ( $save_limit_counts ) {
-         usleep(100000); // Wait 0.1 seconds, since we just re-saved the count cache file
+         usleep(50000); // Wait 0.05 seconds, since we just re-saved the count cache file
          }
 
      
@@ -3652,7 +3652,7 @@ var $ct_array = array();
             $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute'] = 5;
                  
             // THROTTLE DOWN TO 1 REQUEST PER SECOND MAX    
-            $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 1;         
+            $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 0.5; // Max once every 2 seconds
             
             // Reset $data var with any cached value (null / false result is OK), as we don't want to cache a KNOWN error response
             // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle,

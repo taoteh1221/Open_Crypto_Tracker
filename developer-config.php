@@ -159,66 +159,74 @@ $ct['dev']['throttled_apis'] = array(
                                      // DYNAMIC (set in dynamic-throttling-config.php)
                                      'alphavantage.co' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => null,
+                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
 // https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
 // EVEN THOUGH COINGECKO HAS NO PER-SECOND THROTTLE LIMIT,
-// SET TO 2 PER-SECOND, AS THEY ARE USUALLY PRETTY STRICT WITH ACCESS LIMITS     
+// SET TO 1 PER-SECOND, AS THEY ARE USUALLY PRETTY STRICT WITH ACCESS LIMITS     
                                      'coingecko.com' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => 10,
-                                                       'per_second' => 2,
+                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
                                      // https://apiguide.geckoterminal.com/faq
                                      'geckoterminal.com' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => 30,
-                                                       'per_second' => null,
+                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
 // https://www.reddit.com/r/redditdev/comments/14nbw6g/updated_rate_limits_going_into_effect_over_the/
                                      'reddit.com' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => 10,
-                                                       'per_second' => null,
+                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
                                                       ), 
 
 
                                      // https://www.bitstamp.net/api/#section/Response-codes
                                      'bitstamp.net' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 400,
+                                                       'per_second' => 400, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
                                      // https://docs.cdp.coinbase.com/exchange/docs/rate-limits
                                      'coinbase.com' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10,
+                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
                                      // https://docs.etherscan.io/support/rate-limits
                                      'etherscan.io' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10,
+                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
                                      // https://solana.com/docs/references/clusters
                                      'solana.com' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 4,
+                                                       'per_second' => 4, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
@@ -226,32 +234,36 @@ $ct['dev']['throttled_apis'] = array(
                                      // https://dev.jup.ag/docs/api-setup
                                      'jup.ag' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1,
+                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
                                      // https://docs.gemini.com/rest-api/#two-factor-authentication
                                      'gemini.com' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1,
+                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
 // https://help.twilio.com/articles/115002943027-Understanding-Twilio-Rate-Limits-and-Message-Queues
                                      'twilio.com' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1,
+                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
                                      // NO DOCS, BUT CAN BE FINICKY, SO MIGHT AS WELL THROTTLE IT
                                      'medium.com' => array(
                                                        'min_cache_time' => null,
+                                                       'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1,
+                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
                                                       ),
 
 
