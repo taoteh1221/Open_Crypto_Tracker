@@ -13,14 +13,7 @@ if ( $ct['conf']['proxy']['proxy_alert_channels'] != 'off' ) {
 	}
 
 }
-          	
-
-// Calculate script runtime length
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$total_runtime = round( ($time - $start_runtime) , 3);
-
+        
 
 // If debug mode is 'stats'
 if ( $ct['conf']['power']['debug_mode'] == 'stats' ) {
@@ -41,17 +34,14 @@ $ct['gen']->log(
 	
 // Log user agent
 $ct['gen']->log('system_debug', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
-	
-// Log runtime stats
-$ct['gen']->log('system_debug', strtoupper($ct['runtime_mode']).' runtime was ' . $total_runtime . ' seconds');
 
 }
 
 
-// Process logs / notification AFTER runtime stats
+// Process logs AFTER above debug stats, but BEFORE any UI alerts output
+// (sets $ct['alerts_gui_logs'] global, to output below for UI alerts)
 $app_log = $ct['cache']->app_log();
-$ct['cache']->send_notifications();
-        
+
 
 // Iframe footer code
 if ( $is_iframe ) {
@@ -145,11 +135,10 @@ require("templates/interface/php/wrap/wrap-elements/report-issues-modal.php");
 		<div class="red" style='font-weight: bold;'><?=$app_log?></div>
 		<?php
 		}
-    		
-    	echo '<p class="align_center '.( $total_runtime > 25 ? 'red' : 'green' ).'"> Runtime: '.$total_runtime.' seconds</p>';
     	
-    ?>
-        
+?>
+
+        <div id="app_runtime" class='align_center'></div>
         
         
    		 </div> <!-- .footer_content -->
@@ -219,6 +208,51 @@ footer_banner(safari_notice_storage, 'This web app MAY NOT FULLY FUNCTION / DISP
 <!-- https://getbootstrap.com/docs/5.3/getting-started/download/ -->
 <script src="app-lib/js/bootstrap/bootstrap.min.js"></script>
 
+<?php
+
+
+// Access stats / notifications
+$ct['cache']->log_access_stats();
+$ct['cache']->send_notifications();
+          	
+
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$total_runtime = round( ($time - $start_runtime) , 3);
+
+
+// If debug mode is 'stats', add runtime minutes stats to logs
+// (to get accurate runtime seconds, we can't included this at top of this file,
+// to be included in the UI alerts, BUT the UI always shows the runtime seconds anyway)
+if ( $ct['conf']['power']['debug_mode'] == 'stats' ) {
+	
+// Log runtime stats
+$ct['gen']->log('system_debug', strtoupper($ct['runtime_mode']).' runtime was ' . $total_runtime . ' seconds');
+
+// Process logs AGAIN, AFTER runtime minutes stats
+$app_log = $ct['cache']->app_log();
+
+}
+
+
+?>
+
+
+<div id="app_runtime_hidden" style='display: none;'>
+
+<?php
+echo '<p class="align_center '.( $total_runtime > 25 ? 'red' : 'green' ).'"> Runtime: '.$total_runtime.' seconds</p>';
+?>
+
+</div>
+
+
+<script>
+$('#app_runtime').html( $('#app_runtime_hidden').html() );
+</script>
+
 
 </body>
 </html>
@@ -230,9 +264,6 @@ footer_banner(safari_notice_storage, 'This web app MAY NOT FULLY FUNCTION / DISP
 
  
  <?php
-
-// Access stats logging
-$ct['cache']->log_access_stats();
 
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

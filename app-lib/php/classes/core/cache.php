@@ -270,7 +270,7 @@ var $ct_array = array();
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   
-  $safe_name = $ct['gen']->compat_file_name($ct['remote_ip']);
+  $safe_name = $ct['gen']->safe_name($ct['remote_ip']);
   
   $file_save_path = $ct['base_dir'] . '/cache/secured/access_stats/ip_' . $safe_name . '.dat';
   
@@ -738,13 +738,13 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function api_throttling($tld_or_ip) {
+  function api_throttled($tld_or_ip) {
   
   global $ct;
   
      
      // If there is no throttling profile, skip / return false
-     if ( !isset($ct['dev']['throttle_limited_servers'][$tld_or_ip]) ) {
+     if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
      return false;
      }
      
@@ -753,13 +753,18 @@ var $ct_array = array();
   // to assure we get anything written recently by other runtimes
   
   // SAFE filename
-  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->compat_file_name($tld_or_ip) . '.dat';
+  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
   
   $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , true);
   
   
      // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $ct['api_throttle_count'] array
-     if ( !isset($ct['api_throttle_flag']['init'][$tld_or_ip]) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
+     if (
+     !isset($ct['api_throttle_flag']['init'][$tld_or_ip])
+     && $api_throttle_count_check != false
+     && $api_throttle_count_check != null
+     && $api_throttle_count_check != "null"
+     ) {
      $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
      }
      
@@ -770,7 +775,7 @@ var $ct_array = array();
      // Set OR reset DAY start time / counts, if needed
      // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
      if (
-     isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start'])
+     isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day']) && !isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start'])
      || isset($ct['api_throttle_count'][$tld_or_ip]['day_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] <= ( time() - 86400 )
      ) {
      $ct['api_throttle_count'][$tld_or_ip]['day_count']['start'] = time();
@@ -781,7 +786,7 @@ var $ct_array = array();
      // Set OR reset MINUTE start time / counts, if needed
      // (SECONDS ARE NOT NEEDED, AS WE CAN JUST SLEEP 1 SECOND DURING THIS RUNTIME TO THROTTLE)
      if (
-     isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) && !isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'])
+     isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']) && !isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'])
      || isset($ct['api_throttle_count'][$tld_or_ip]['minute_count']['start']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'] <= ( time() - 60 )
      ) {
      $ct['api_throttle_count'][$tld_or_ip]['minute_count']['start'] = time();
@@ -795,28 +800,28 @@ var $ct_array = array();
      
      // Limits met, return TRUE
      if (
-     isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['throttled_api_per_minute_limit'][$tld_or_ip]
-     || isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] >= $ct['throttled_api_per_day_limit'][$tld_or_ip]
+     isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']
+     || isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_day']
      ) {
      return true;
      }
      // Limits NOT met, up counts, return FALSE
      elseif (
-     isset($ct['throttled_api_per_second_limit'][$tld_or_ip])
-     || isset($ct['throttled_api_per_minute_limit'][$tld_or_ip])
-     || isset($ct['throttled_api_per_day_limit'][$tld_or_ip])
+     isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_second'])
+     || isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute'])
+     || isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day'])
      ) {
          
          
          // PER-DAY count
-         if ( isset($ct['throttled_api_per_day_limit'][$tld_or_ip]) ) {
+         if ( isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day']) ) {
          $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] + 1;
          $save_limit_counts = true;         
          }
          
          
          // PER-MINUTE count
-         if ( isset($ct['throttled_api_per_minute_limit'][$tld_or_ip]) ) {
+         if ( isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']) ) {
          $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] + 1;
          $save_limit_counts = true; 
          }
@@ -832,16 +837,16 @@ var $ct_array = array();
          // FOR VALID PER-SECOND LIMITS, WE CAN JUST USE USLEEP DURING THIS RUNTIME,
          // TO PREFORM THE REQUIRED THROTTLING FOR THIS SERVER (NO NEED TO TALLY A REQUEST COUNTER)
          if (
-         isset($ct['throttled_api_per_second_limit'][$tld_or_ip])
-         && $ct['throttled_api_per_second_limit'][$tld_or_ip] >= 1
+         isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_second'])
+         && $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] >= 1
          ) {
               
               // Cap per-second throttle to 1 million, to support our usleep auto-calculation logic
-              if ( $ct['throttled_api_per_second_limit'][$tld_or_ip] > 1000000 ) {
-              $ct['throttled_api_per_second_limit'][$tld_or_ip] = 1000000;
+              if ( $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] > 1000000 ) {
+              $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 1000000;
               }
          
-         $sleep_microseconds = (1 / $ct['throttled_api_per_second_limit'][$tld_or_ip]) * 1000000;
+         $sleep_microseconds = (1 / $ct['dev']['throttled_apis'][$tld_or_ip]['per_second']) * 1000000;
          
          // Assure any large number is NON-scientific format (and NO DECIMALS!)
          $sleep_microseconds = $ct['var']->num_to_str( round($sleep_microseconds, 0) );
@@ -1079,7 +1084,7 @@ var $ct_array = array();
            // PER-IP OR BUNDLED RESULTS
            $results_array_keyed_by = ( $_GET['mode'] == 'bundled' ? 'all' : $ip );
                
-           $safe_name = $ct['gen']->compat_file_name($results_array_keyed_by);
+           $safe_name = $ct['gen']->safe_name($results_array_keyed_by);
                
            $ct['show_access_stats'][$safe_name]['ip'] = $results_array_keyed_by;
 
@@ -1162,7 +1167,7 @@ var $ct_array = array();
       // PER-IP OR BUNDLED RESULTS
       $results_array_keyed_by = ( $_GET['mode'] == 'bundled' ? 'all' : $val['ip'] );
       
-      $safe_name = $ct['gen']->compat_file_name($results_array_keyed_by);
+      $safe_name = $ct['gen']->safe_name($results_array_keyed_by);
            
       ?>
 
@@ -2998,10 +3003,10 @@ var $ct_array = array();
   
   $api_endpoint = ( $mode == 'params' ? $api_server : $request_params );
      
-  $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($api_endpoint);
+  $tld_or_ip = $ct['gen']->get_tld_or_ip($api_endpoint);
   
   
-    if ( $endpoint_tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_api_key'] == '' ) {
+    if ( $tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_api_key'] == '' ) {
     
     $ct['gen']->log(
           		    'notify_error',
@@ -3013,7 +3018,7 @@ var $ct_array = array();
     return false;
     
     }
-    elseif ( $endpoint_tld_or_ip == 'etherscan.io' && $ct['conf']['ext_apis']['etherscan_api_key'] == '' ) {
+    elseif ( $tld_or_ip == 'etherscan.io' && $ct['conf']['ext_apis']['etherscan_api_key'] == '' ) {
     
     $ct['gen']->log(
           		    'notify_error',
@@ -3028,18 +3033,18 @@ var $ct_array = array();
 
   
   // IPV6 friendly filename (no illegal filename characters)
-  $safe_name = $ct['gen']->compat_file_name($endpoint_tld_or_ip);
+  $safe_name = $ct['gen']->safe_name($tld_or_ip);
   
-  $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
+  $tld_session_prefix = preg_replace("/\./i", "_", $tld_or_ip);
   
-  $cookie_file = $ct['base_dir'] . '/cache/secured/external_data/cookies/ext_dat_cookie_' . $ct['app_id'] . '_' . $endpoint_tld_or_ip . '.dat';
+  $cookie_file = $ct['base_dir'] . '/cache/secured/external_data/cookies/ext_dat_cookie_' . $ct['app_id'] . '_' . $tld_or_ip . '.dat';
       
   // FAILSAFE (< V6.00.29 UPGRADES), IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON
   $temp_array = array();
   $anti_proxy_servers = ( is_array($ct['conf']['proxy']['anti_proxy_servers']) ? $ct['conf']['proxy']['anti_proxy_servers'] : $temp_array );
 
              
-    if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+    if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($tld_or_ip, $anti_proxy_servers) ) {
     $ip_description = 'PROXY';
     }
     else {
@@ -3072,10 +3077,9 @@ var $ct_array = array();
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     // FIRST, see if we have data in the RUNTIME cache (the MEMORY cache, NOT the FILE cache), for the quickest data retrieval time
-    // Only use runtime cache if $ttl greater than zero (set as 0 NEVER wants cached data, -1 is flag for deleting cache data)
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    elseif ( isset($ct['api_runtime_cache'][$hash_check]) && $ttl > 0 ) {
+    elseif ( isset($ct['api_runtime_cache'][$hash_check]) ) {
     
     $data = $ct['api_runtime_cache'][$hash_check];
     
@@ -3141,10 +3145,10 @@ var $ct_array = array();
     }
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    // Live data retrieval (if no RUNTIME cache exists yet, OR ttl set to zero [explicit request to NOT use cached data])
+    // Live data retrieval (if no RUNTIME cache exists yet)
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    elseif ( !isset($ct['api_runtime_cache'][$hash_check]) && $this->update_cache($cached_path, $ttl) == true || $ttl == 0 ) {
+    elseif ( !isset($ct['api_runtime_cache'][$hash_check]) && $this->update_cache($cached_path, $ttl) == true ) {
     
     // Track the request response time
     $api_time = microtime();
@@ -3154,8 +3158,21 @@ var $ct_array = array();
               
       
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
-      // (are processed by api_throttling(), to avoid using up request limits getting LIVE DATA)
-      if ( $this->api_throttling($endpoint_tld_or_ip) == true ) {
+      // (are processed by api_throttled(), to avoid using up request limits getting LIVE DATA)
+      if ( $this->api_throttled($tld_or_ip) == true ) {
+           
+           
+           if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
+                    
+           $ct['gen']->log(
+                         	    'notify_debug',
+                         	    'skipping API request for LIVE data, as we are throttled by this app to cache-only, to avoid API limits (for ' . $tld_or_ip . ')',
+                   		          false,
+                   		          'throttled_api_' . $tld_or_ip
+                         	   );
+                    	   
+           }
+               		  
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
       // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
@@ -3180,9 +3197,9 @@ var $ct_array = array();
           // so there easily could be a bazzilion THROTTLED [SUPPRESSED] live data requests this runtime, when re-checking)
           $ct['gen']->log(
            		    'notify_error',
-           		    'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip,
+           		    'cache fallback FAILED during (LIVE) throttling of API for: ' . $tld_or_ip,
            		    false,
-           		    'live_throttled_fallback_failed_' . $endpoint_tld_or_ip
+           		    'live_throttled_fallback_failed_' . $tld_or_ip
            		    );
            		    
           unset($ct['api_runtime_cache'][$hash_check]);
@@ -3205,7 +3222,7 @@ var $ct_array = array();
       // LIMITED endpoints we should throttle (APIs with poor multiple-data-sets support) in $ct['dev']['limited_apis']
       // If this is an API service that requires multiple calls (for each market), 
       // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
-      if ( in_array($endpoint_tld_or_ip, $ct['dev']['limited_apis']) ) {
+      if ( in_array($tld_or_ip, $ct['dev']['limited_apis']) ) {
       
         if ( !$ct['limited_api_calls'][$tld_session_prefix . '_calls'] ) {
         $ct['limited_api_calls'][$tld_session_prefix . '_calls'] = 1;
@@ -3234,7 +3251,7 @@ var $ct_array = array();
       
       
       // If proxies are configured FOR PRIVACY
-      if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+      if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && !in_array($tld_or_ip, $anti_proxy_servers) ) {
        
       $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct['var']->random_array_var($ct['conf']['proxy']['proxy_list']) );
       
@@ -3312,11 +3329,11 @@ var $ct_array = array();
           
      
       // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-      if ( in_array($endpoint_tld_or_ip, $strict_news_feed_servers) ) {
+      if ( in_array($tld_or_ip, $strict_news_feed_servers) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, 'RSS_Feed_Parser/1.1 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       // Strict user agent
-      elseif ( in_array($endpoint_tld_or_ip, $anti_proxy_servers) ) {
+      elseif ( in_array($tld_or_ip, $anti_proxy_servers) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, $ct['strict_curl_user_agent']);
       }
       // Regular user agent
@@ -3364,7 +3381,7 @@ var $ct_array = array();
         
       }
       // If this is a twilio endpoint, we need to authenticate
-      elseif ( $endpoint_tld_or_ip == 'twilio.com' ) {
+      elseif ( $tld_or_ip == 'twilio.com' ) {
       curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
       // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
       curl_setopt($ch, CURLOPT_USERPWD, $ct['conf']['ext_apis']['twilio_sid'] . ':' . $ct['conf']['ext_apis']['twilio_token']); 
@@ -3390,9 +3407,9 @@ var $ct_array = array();
     
      
      // DEBUGGING FOR PROBLEM ENDPOINT (DEVELOPER ONLY, #DISABLE THIS SECTION# AFTER DEBUGGING)
-     // USAGE: $endpoint_tld_or_ip == 'domain.com' || preg_match("/domain\.com\/endpoint\/var/i", $api_endpoint)
+     // USAGE: $tld_or_ip == 'domain.com' || preg_match("/domain\.com\/endpoint\/var/i", $api_endpoint)
      /*
-     if ( $endpoint_tld_or_ip == 'blablabla.com' ) {
+     if ( $tld_or_ip == 'blablabla.com' ) {
      $debug_problem_endpoint_data = 1;
      curl_setopt($ch, CURLOPT_VERBOSE, 1);
      curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -3502,18 +3519,18 @@ var $ct_array = array();
       			
         // Servers which are known to block API access by location / jurisdiction
         // (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
-        if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
+        if ( in_array($tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
 
             
         $ct['gen']->log(
         
           		'notify_error',
 
-          		'your ' . $ip_description . '\'S IP ADDRESS location / jurisdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+          		'your ' . $ip_description . '\'S IP ADDRESS location / jurisdiction *MAY* be blocked from accessing the "'.$tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
 
           		false,
 
-          		md5($endpoint_tld_or_ip) . '_possibly_blocked'
+          		md5($tld_or_ip) . '_possibly_blocked'
 
           		);
           		    
@@ -3532,8 +3549,8 @@ var $ct_array = array();
       
       }
       // Scan this latest live data response for POSSIBLE errors, 
-      // ONLY IF WE DETECT AN $endpoint_tld_or_ip, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
-      elseif ( isset($data) && isset($endpoint_tld_or_ip) && $endpoint_tld_or_ip != '' && $ttl != 0 ) {
+      // ONLY IF WE DETECT AN $tld_or_ip, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
+      elseif ( isset($data) && isset($tld_or_ip) && $tld_or_ip != '' && $ttl != 0 ) {
       
       
         ////////////////////////////////////////////////////////////////	
@@ -3621,33 +3638,25 @@ var $ct_array = array();
             || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
             || preg_match("/block access from your country/i", $data)  // ByBit (via Amazon CloudFront)
             // API-specific (confirmed no price data in response)
-            || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
-            || $endpoint_tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
-            || $endpoint_tld_or_ip == 'alphavantage.co' && !preg_match("/price/i", $data) 
+            || $tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
+            || $tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
+            || $tld_or_ip == 'alphavantage.co' && !preg_match("/price/i", $data) 
             // API-specific (confirmed error in response)
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/usd/i", $data)
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data)  
-            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/coins/i", $request_params) && !preg_match("/name/i", $data) 
+            || $tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/usd/i", $data)
+            || $tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 
+            || $tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data)  
+            || $tld_or_ip == 'coingecko.com' && preg_match("/coins/i", $request_params) && !preg_match("/name/i", $data) 
             ) {
                  
+            // THROTTLE DOWN TO 5 REQUESTS PER MINUTE MAX
+            $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute'] = 5;
                  
-                 // IMMEDIATELY adjust API throttling for coingecko, as under loads they decrease API limits up to 66%!
-                 // https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
-                 if ( $endpoint_tld_or_ip == 'coingecko.com' && $ct['throttled_api_per_minute_limit']['coingecko.com'] > 5 ) {
-                      
-                 // THROTTLE DOWN TO 5 CALLS PER MINUTE
-                 $ct['throttled_api_per_minute_limit']['coingecko.com'] = 5;
-                      
-                 // EVEN THOUGH COINGECKO HAS NO PER-SECOND THROTTLE LIMIT,
-                 // SET TO 1 PER-SECOND, IF WE'RE GETTING NO DATA                 
-                 $ct['throttled_api_per_second_limit']['coingecko.com'] = 1;
-                     
-                 }
-                 
+            // THROTTLE DOWN TO 1 REQUEST PER SECOND MAX    
+            $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 1;         
             
             // Reset $data var with any cached value (null / false result is OK), as we don't want to cache a KNOWN error response
-            // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
+            // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle,
+            // if no cached data exists to fallback on)
             $data = trim( file_get_contents($cached_path) );
              
                 
@@ -3667,8 +3676,8 @@ var $ct_array = array();
                  
                 // FREE alphavantage API tier limit hit ERROR LOGGING
                 if ( 
-                $endpoint_tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && preg_match("/api rate limit/i", $data)
-                || $endpoint_tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $data == ''
+                $tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && preg_match("/api rate limit/i", $data)
+                || $tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $data == ''
                 ) {
                      
                           
@@ -3682,9 +3691,9 @@ var $ct_array = array();
                      
                 $ct['gen']->log(
                    		    'notify_error',
-                   		    'your FREE tier API key for "' . $endpoint_tld_or_ip . '" ' . $desc . ' hit it\'s DAILY LIMIT for LIVE data requests (this is USUALLY auto-throttled [to stay within limits], BUT if you recently installed OR updated "' . $endpoint_tld_or_ip . '" markets, YOU MAY NEED TO WAIT ~24 HOURS for this issue to start auto-fixing itself, OR upgrade to the premium tier at: alphavantage.co/premium [AND raise the auto-throttle limits in "Admin => APIs => External APIs"])',
+                   		    'your FREE tier API key for "' . $tld_or_ip . '" ' . $desc . ' hit it\'s DAILY LIMIT for LIVE data requests (this is USUALLY auto-throttled [to stay within limits], BUT if you recently installed OR updated "' . $tld_or_ip . '" markets, YOU MAY NEED TO WAIT ~24 HOURS for this issue to start auto-fixing itself, OR upgrade to the premium tier at: alphavantage.co/premium [AND raise the auto-throttle limits in "Admin => APIs => External APIs"])',
                    		    false,
-                   		    'no_market_data_' . $endpoint_tld_or_ip
+                   		    'no_market_data_' . $tld_or_ip
                    		    );
                    		    
                 }
@@ -3705,17 +3714,17 @@ var $ct_array = array();
       			
                      // Servers which are known to block API access by location / jurisdiction
                      // (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
-                     if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
+                     if ( in_array($tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
                
                      $ct['gen']->log(
                        
                          		'notify_error',
      
-                         		'your ' . $ip_description . '\'S IP ADDRESS location / jurisdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+                         		'your ' . $ip_description . '\'S IP ADDRESS location / jurisdiction *MAY* be blocked from accessing the "'.$tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
      
                          		false,
      
-                         		md5($endpoint_tld_or_ip) . '_possibly_blocked'
+                         		md5($tld_or_ip) . '_possibly_blocked'
      
                          		);
                          		    
@@ -3826,19 +3835,16 @@ var $ct_array = array();
       }
     
     
-      // Servers requiring 'throttled_api_min_cache_time' THROTTLE-LIMITING ******BASED OFF API CACHED TIME******,
+      // Servers requiring 'min_cache_time' THROTTLE-LIMITING ******BASED OFF API CACHED TIME******,
       // due to limited-allowed daily requests
-      if (
-      isset($ct['throttled_api_min_cache_time'][$endpoint_tld_or_ip])
-      && $this->update_cache($cached_path, $ct['throttled_api_min_cache_time'][$endpoint_tld_or_ip]) == false
-      ) {
+      if ( isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time']) ) {
           
           
           // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
           //  FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
           if ( !isset($fallback_cache_data) ) {
                
-          $ct['gen']->log('ext_data_error', 'cached fallback FAILED during "throttled_api_min_cache_time" throttling of API for: ' . $endpoint_tld_or_ip);
+          $ct['gen']->log('ext_data_error', 'cached fallback FAILED during "min_cache_time" throttling of API for: ' . $tld_or_ip);
           
           unset($ct['api_runtime_cache'][$hash_check]);
           

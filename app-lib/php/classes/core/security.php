@@ -30,7 +30,7 @@ var $ct_array = array();
       // WINDOWS file path / name compatibility
       // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
       else {
-      return $ct['gen']->compat_file_name( hash_hmac("sha256", $str, $ct['auth_secret']) );
+      return $ct['gen']->safe_name( hash_hmac("sha256", $str, $ct['auth_secret']) );
       }
    
    }

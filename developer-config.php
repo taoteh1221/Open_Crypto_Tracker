@@ -145,6 +145,142 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 // (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
+
+// API THROTTLE MAPPING, for servers requiring TRACKED THROTTLE-LIMITING,
+// due to limited-allowed second / minute / daily requests
+// (are processed by ct_cache->api_throttled(), to avoid using up API request limits)
+// ANY *DYNAMIC* LOGIC MUST BE ADDED IN /inline/config/dynamic-throttling-config.php
+$ct['dev']['throttled_apis'] = array(
+                                     
+                                     
+                                     // 'tld_domain_name' => 'throttle_array',
+                                     
+                                     
+                                     // DYNAMIC (set in dynamic-throttling-config.php)
+                                     'alphavantage.co' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => null,
+                                                      ),
+
+
+// https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
+// EVEN THOUGH COINGECKO HAS NO PER-SECOND THROTTLE LIMIT,
+// SET TO 2 PER-SECOND, AS THEY ARE USUALLY PRETTY STRICT WITH ACCESS LIMITS     
+                                     'coingecko.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => 10,
+                                                       'per_second' => 2,
+                                                      ),
+
+
+                                     // https://apiguide.geckoterminal.com/faq
+                                     'geckoterminal.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => 30,
+                                                       'per_second' => null,
+                                                      ),
+
+
+// https://www.reddit.com/r/redditdev/comments/14nbw6g/updated_rate_limits_going_into_effect_over_the/
+                                     'reddit.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => 10,
+                                                       'per_second' => null,
+                                                      ), 
+
+
+                                     // https://www.bitstamp.net/api/#section/Response-codes
+                                     'bitstamp.net' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 400,
+                                                      ),
+
+
+                                     // https://docs.cdp.coinbase.com/exchange/docs/rate-limits
+                                     'coinbase.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 10,
+                                                      ),
+
+
+                                     // https://docs.etherscan.io/support/rate-limits
+                                     'etherscan.io' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 10,
+                                                      ),
+
+
+                                     // https://solana.com/docs/references/clusters
+                                     'solana.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 4,
+                                                      ),
+
+
+                                     // FREE tier is one request per second (as of 2025/may/3rd):
+                                     // https://dev.jup.ag/docs/api-setup
+                                     'jup.ag' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 1,
+                                                      ),
+
+
+                                     // https://docs.gemini.com/rest-api/#two-factor-authentication
+                                     'gemini.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 1,
+                                                      ),
+
+
+// https://help.twilio.com/articles/115002943027-Understanding-Twilio-Rate-Limits-and-Message-Queues
+                                     'twilio.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 1,
+                                                      ),
+
+
+                                     // NO DOCS, BUT CAN BE FINICKY, SO MIGHT AS WELL THROTTLE IT
+                                     'medium.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 1,
+                                                      ),
+
+
+                                     );
+							
+
+// PRIMARY Domain only (NO SUBDOMAINS), for each API service that requires multiple calls (for each data set)
+// Used to throttle these market calls a tiny bit (0.55 seconds), so we don't get easily blocked / throttled by external APIs etc
+// (ANY EXCHANGES LISTED HERE ARE FLAGGED IN THE INTERFACE AS !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
+// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
+// ADDING ANYTHING ALSO DIRECTLY ABOVE THIS SETTING IN $ct['dev']['throttled_apis'] WILL BE AUTO-REMOVED FROM HERE,
+// TO AVOID DOUBLE-THROTTLING (IF ADDED ABOVE [FOLLOWING THEIR API SPECS], THEY SHOULD BE SAFE ENOUGH TO *NOT* BE FLAGGED HERE AS 'LIMITED')!!!
+// !MUST BE LOWERCASE!
+// #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED!!!
+// WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY ENHANCEMENT
+$ct['dev']['limited_apis'] = array(
+                          		'aevo.xyz',
+                          		'anchor.fm',
+                          		'bitflyer.com',
+                          		'bitmex.com',
+                          		'bitso.com',
+                          		'blockchain.info',
+                          		'btcmarkets.net',
+                          		'megaphone.fm',
+                          		'substack.com',
+                          		'stackexchange.com',
+                          		'youtube.com',
+          				     );
+
         
 // Input keys to EXCLUDE SCANNING for malware injection attacks, IF THEY CAN CAUSE FALSE POSITIVES
 // (SHOULD STILL BE HARD-CODE-SANITIZED WITH HTML SPECIAL CHARACTER FILTERS,
@@ -161,7 +297,7 @@ $ct['dev']['skip_injection_scanner'] = array(
                                                );
      
      
-// Static value SPECIAL assets, to exclude or include throughout the app
+// Static value SPECIAL assets, to exclude or include (depending on the logic), throughout the app
 $ct['dev']['special_assets'] = array(
                                      // 'TICKER',
                                      'MISCASSETS',
@@ -178,7 +314,7 @@ $ct['dev']['location_blocked_servers'] = array(
                                                // 'tld_domain_name',
                                                'binance.com',
                                                'bybit.com',
-                                              );
+                                               );
 
         
 // Market ID delimiters (for coin exchange market IDs)
@@ -225,9 +361,9 @@ $ct['dev']['colon_delimited_markets'] = array(
 
 // Market IDs HAVE PAIRING IN FRONT OF ASSET
 $ct['dev']['reverse_id_markets'] = array(
-                                                      'upbit',
-                                                      'buyucoin',
-                                                );
+                                            'upbit',
+                                            'buyucoin',
+                                      );
                             
 
 // Auto-correct for end user market searches, when adding new markets
@@ -326,49 +462,6 @@ $ct['dev']['no_trade_volume_api_data'] = array(
                                                 'coinspot',
                                                 'unocoin',
                                                );
-     
-     
-// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed second / minute / hour / daily requests
-// (are processed by ct_cache->api_throttling(), to avoid using up API request limits)
-// ADDITIONAL (CORRESPONDING) LOGIC MUST BE ADDED IN /inline/config/throttled-markets-config.php
-$ct['dev']['throttle_limited_servers'] = array(
-                                                       // 'tld_domain_name' => 'corresponding_exchange_identifier_OR_BOOLEAN_TRUE',
-                                                     	'alphavantage.co' => 'alphavantage_stock',
-                                                     	'jup.ag' => 'jupiter_ag',
-                                                     	'coinbase.com' => 'coinbase',
-                                                     	'gemini.com' => 'gemini',
-                                                     	'bitstamp.net' => 'bitstamp',
-                                                     	'geckoterminal.com' => 'coingecko_terminal',
-                                                     	'coingecko.com' => true,
-                                                     	'solana.com' => true,
-                                                     	'reddit.com' => true,
-                                                     	'twilio.com' => true,
-                                                     	'etherscan.io' => true,
-                                                     	'medium.com' => true,
-                                                      );
-							
-
-// PRIMARY Domain only (NO SUBDOMAINS), for each API service that requires multiple calls (for each data set)
-// Used to throttle these market calls a tiny bit (0.55 seconds), so we don't get easily blocked / throttled by external APIs etc
-// (ANY EXCHANGES LISTED HERE ARE FLAGGED IN THE INTERFACE AS !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
-// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
-// !MUST BE LOWERCASE!
-// #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
-// WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY ENHANCEMENT
-// DON'T ADD ANYTHING DIRECTLY ABOVE THIS SETTING IN $ct['dev']['throttle_limited_servers'], SO WE DON'T THROTTLE A CALL *TWICE*!!!
-$ct['dev']['limited_apis'] = array(
-                          		'aevo.xyz',
-                          		'anchor.fm',
-                          		'bitflyer.com',
-                          		'bitmex.com',
-                          		'bitso.com',
-                          		'blockchain.info',
-                          		'btcmarkets.net',
-                          		'megaphone.fm',
-                          		'substack.com',
-                          		'stackexchange.com',
-                          		'youtube.com',
-          				  );
 
         
 // Attack signatures, used when scanning for script / HTML injection attacks

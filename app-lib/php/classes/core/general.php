@@ -70,7 +70,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function compat_file_name($var) {
+   function safe_name($var) {
         
    // Replace ALL symbols with an underscore (for filesystem compatibility, as filenames etc)
    $var = preg_replace('/[^\p{L}\p{N}\s]/u', "_", $var);
@@ -2315,18 +2315,22 @@ var $ct_array = array();
    $category = explode('|', $category);
    
       
-      if ( $category[0] == 'notify' ) {
-           
-      $type_desc = null;
+      // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries),
+      // to AVOID CORRUPTING log formatting
+      if ( $category[0] == 'notify' && $hashcheck == false ) {
+      $hashcheck = md5($log_type . $log_msg);
+      }
+      // Otherwise, if hashcheck is set, assure compatibility as an array key
+      elseif ( $hashcheck != false ) {
+      $hashcheck = md5($hashcheck);
+      }
       
-          // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries), to AVOID CORRUPTING log formatting
-          if ( $hashcheck == false ) {
-          $hashcheck = md5($timestamp_milliseconds . $category[0] . $log_msg);
-          }
-          
+      
+      if ( isset($category[1]) && trim($category[1]) != '' ) {
+      $type_desc = ' (' . $category[1] . ')';
       }
       else {
-      $type_desc = ' (' . $category[1] . ')';
+      $type_desc = null;
       }
    
    
