@@ -3,8 +3,12 @@
  * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
  
- 
-// IMPORTANT NOTICE: DEVELOPER-ONLY APP CONFIGS ARE BELOW INITIAL LOGIC *FURTHER DOWN IN THIS FILE*
+
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start_runtime = $time;
 
 
 // Forbid direct INTERNET access to this file
@@ -24,10 +28,24 @@ $plug = array(); // Plugins
 
 $ct['opt_conf'] = array(); // Optimized config (from interface-friendly over to logic-friendly)
 
+$ct['dev'] = array(); // Developer config
+
 
 // Developer-only configs
 $dev_only_configs_mode = 'init'; // Flag to only run 'init' section
 require('developer-config.php');
+
+
+// Idiot-proof limited APIs config
+// (IF the domain is already in $ct['dev']['throttled_apis'],
+// REMOVE IT FROM LIMITED APIS, SO WE DON'T DOUBLE-THROTTLE AN EXTRA 0.55 SECONDS)
+foreach ( $ct['dev']['limited_apis'] as $limited_api_key => $limited_api_val ) {
+
+     if ( array_key_exists($limited_api_val, $ct['dev']['throttled_apis']) ) {
+     unset($ct['dev']['limited_apis'][$limited_api_key]);
+     }
+
+}
 
 
 // Assure our array of attack signatures (for scanning user input for malware injection attacks)
@@ -42,13 +60,6 @@ error_reporting($ct['dev']['debug_php_errors']); // PHP error reporting
 if ( $ct['dev']['debug_php_errors'] != 0 && function_exists('opcache_reset') ) {
 opcache_reset();
 }
-
-
-// Calculate script runtime length
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start_runtime = $time;
 
 
 // Include runtime mode in our $ct array (for easily importing globals into functions, etc)

@@ -44,7 +44,7 @@ $ct['curl_user_agent'] = $ct['strict_curl_user_agent']; // SET IN primary-init.p
 
 // API configs
 require('app-lib/php/inline/config/batched-api-config.php');
-require('app-lib/php/inline/config/throttled-api-config.php');
+require('app-lib/php/inline/config/dynamic-throttling-config.php');
 
 
 // Developer-only configs

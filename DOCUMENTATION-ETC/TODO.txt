@@ -129,19 +129,19 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
+
+
+For the 'margin leverage maximum' power user setting, add decimal support (in the admin interface too), as modern perp markets on Solana allow this.
+
+
 At some point, put together a list of things to test, when package testing right before public release. 
-
-
-Refactor / move as much API throttling into developer-config.php, and replace the throttle configs already in that file (with a simpler structure).
 
 
 For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This can be done by formating like price alerts / charts, and putting into a trimmed array in config-auto-adjust.php. Then we can create in_array() conditions, for queueing messages, for whatever comm channels are preffered.
 
 
 Leverage should be switched to a slider in the user interface, whenever we add decimal support. We also should create a custom js listener, that still runs our "batshit crazy" js alerts. :)
-
-
-For the 'margin leverage maximum' power user setting, add decimal support (in the admin interface too), as modern perp markets on Solana allow this.
 
 
 For Access Stats, add showing multiple visit timestamps / referrers by adding an info balloon when hovering over a 'last visit ' timestamp INFO ICON. INCLUDE IP ADDRESSES FOR 'ALL STATS' BUNDLED MODE. 

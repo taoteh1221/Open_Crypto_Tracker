@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$ct['coingecko_currencies'] = array();
+
 $ct['jup_ag_address_mapping'] = array();
 
 $ct['jup_ag_runtime_cache'] = array();
@@ -88,14 +90,6 @@ $ct['api_throttle_flag'] = array();
 $ct['int_webhooks'] = array();
 
 $ct['activated_sms_services'] = array();
-        
-$ct['throttled_api_min_cache_time'] = array();
-        
-$ct['throttled_api_per_day_limit'] = array();
-        
-$ct['throttled_api_per_minute_limit'] = array();
-        
-$ct['throttled_api_per_second_limit'] = array();
         
 $ct['log_access_stats'] = array();
         

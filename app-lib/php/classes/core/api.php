@@ -2112,9 +2112,12 @@ var $exchange_apis = array(
    $cache_time = $ct['conf']['power']['last_trade_cache_time']; // Default
    
    $cache_time = ( $ct['ticker_markets_search'] ? $ct['conf']['power']['exchange_search_cache_time'] : $cache_time ); // IF ticker searching, optimize for runtime speed
+           
+   // Get exchange's markets endpoint domain
+   $tld_or_ip = $ct['gen']->get_tld_or_ip( $exchange_api['markets_endpoint'] );
    
-   // IF alphavantage, we have to throttle LIVE requests for the FREE tier
-   $cache_time = ( $exchange_key == 'alphavantage_stock' ? $ct['throttled_api_min_cache_time']['alphavantage.co'] : $cache_time );
+   // IF 'min_cache_time' is set, we have to throttle LIVE requests with that value
+   $cache_time = ( isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time']) ? $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'] : $cache_time );
           
    $url = $exchange_api['markets_endpoint'];
    
@@ -2588,34 +2591,33 @@ var $exchange_apis = array(
       
       $_SESSION[$fetched_feeds]['all'] = $_SESSION[$fetched_feeds]['all'] + 1; // Mark as a fetched feed, since it's going to update
       
-      $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($url);
+      $tld_or_ip = $ct['gen']->get_tld_or_ip($url);
    
          
           if ( $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' ) {
          	
           $ct['gen']->log(
          			  'system_debug',
-         			  $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . $ct['gen']->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ct['gen']->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
+         			  $tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . $ct['gen']->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ct['gen']->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
          			   );
          
           }
       
       
       // Throttling multiple requests to same server
-      $tld_session = strtr($endpoint_tld_or_ip, ".", "");
+      $tld_session = $ct['gen']->safe_name($tld_or_ip);
    
             
           if ( !isset($_SESSION[$fetched_feeds][$tld_session]) ) {
           $_SESSION[$fetched_feeds][$tld_session] = 0;
           }
-          // If it's a consecutive feed request to the same server, sleep 1 second to avoid rate limiting request denials
+          // If it's a consecutive feed request to the same server,
+          // sleep 1 second to avoid rate limiting request denials
           elseif ( $_SESSION[$fetched_feeds][$tld_session] > 0 ) {
-            
-              if ( $endpoint_tld_or_ip == 'reddit.com' || $endpoint_tld_or_ip == 'medium.com' ) {
-              // We already throttle reddit / medium in $ct['dev']['throttle_limited_servers']
-              }
-              else {
-              sleep(1); // 1 second for everything else generic
+             
+             // 1 second for everything generic (NOT in $ct['dev']['throttled_apis'])
+              if ( !array_key_exists($tld_or_ip, $ct['dev']['throttled_apis']) ) {
+              sleep(1); 
               }
             
           }
@@ -2643,12 +2645,12 @@ var $exchange_apis = array(
           // If invalid XML
           if ( $rss === false ) {
            
-          $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($url);
+          $tld_or_ip = $ct['gen']->get_tld_or_ip($url);
            
           // Log full results to file, TO GET LINE NUMBERS FOR ERRORS
           
           // FOR SECURE ERROR LOGS, we redact the full path
-          $xml_response_file_cache = '/cache/logs/debug/xml_error_parsing/xml-data-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'.xml';
+          $xml_response_file_cache = '/cache/logs/debug/xml_error_parsing/xml-data-'.preg_replace("/\./", "_", $tld_or_ip).'.xml';
           
           $xml_response_file = $ct['base_dir'] . $xml_response_file_cache;
           
@@ -3441,6 +3443,8 @@ var $exchange_apis = array(
            
            }
            else {
+                
+           //var_dump($ct['coingecko_currencies']);
            
 
                // For UX, we don't want "check your markets" user alerts,
@@ -3448,7 +3452,8 @@ var $exchange_apis = array(
                if (
                !$ct['ticker_markets_search']
                && $coingecko_route != 'terminal'
-               && !in_array( $coingecko_route, $ct['api']->coingecko_currencies() )
+               && sizeof($ct['coingecko_currencies']) > 0
+               && !in_array($coingecko_route, $ct['coingecko_currencies'])
                ) {
                      
                $ct['gen']->log(
@@ -3459,8 +3464,21 @@ var $exchange_apis = array(
                    		    );
                    		    
                }
-                 
-
+               elseif (
+               !$ct['ticker_markets_search']
+               && $coingecko_route != 'terminal'
+               && sizeof($ct['coingecko_currencies']) == 0
+               ) {
+                     
+               $ct['gen']->log(
+                   		    'notify_error',
+                   		    'the coingecko currency list API returned NO DATA, please try reloading / refreshing this app to fix this',
+                   		    false,
+                   		    'no_currency_data_coingecko'
+                   		    );
+                   		    
+               }
+               
 
            }
            
@@ -4156,7 +4174,7 @@ var $exchange_apis = array(
                      
       $ct['gen']->log(
                    		    'notify_error',
-                   		    'the trade value of "'.$result['last_trade'].'" seems invalid. make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                   		    'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
                    		    false,
                    		    'no_market_data_' . $sel_exchange
                    		    );
@@ -4168,7 +4186,7 @@ var $exchange_apis = array(
       if ( $invalid_last_trade && $ct['conf']['comms']['market_error_alert_channels'] != 'off' ) {
       
       // Safe filename characters
-      $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->compat_file_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id) . '.dat';
+      $market_error_cache_path = $ct['base_dir'] . '/cache/events/market_error_tracking/' . $ct['gen']->safe_name($sel_exchange . '_' . $asset_symb . '_' . $mrkt_id) . '.dat';
            
                
                // Get any existing count, OR set to zero

@@ -24,7 +24,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Credentials: true'); 
 
 // Ip address information
-$ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $ct['gen']->compat_file_name($ct['remote_ip']) . '.dat';
+$ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $ct['gen']->safe_name($ct['remote_ip']) . '.dat';
 
 
 // Throttle ip addresses reconnecting before $ct['conf']['int_api']['api_rate_limit'] interval passes

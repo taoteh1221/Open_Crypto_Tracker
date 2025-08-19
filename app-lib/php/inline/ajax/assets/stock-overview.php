@@ -15,17 +15,17 @@ $parse_ticker = strtoupper( preg_replace("/stock/i", "", $_GET['ticker']) );
 if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
 			     
 			     
-     if ( $ct['throttled_api_min_cache_time']['alphavantage.co'] >= 1440 ) {
+     if ( $ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'] >= 1440 ) {
      $stock_cached_unit = 'day';
-     $stock_cached_val = $ct['var']->num_pretty( ($ct['throttled_api_min_cache_time']['alphavantage.co'] / 1440) , 2);
+     $stock_cached_val = $ct['var']->num_pretty( ($ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'] / 1440) , 2);
      }
-     elseif ( $ct['throttled_api_min_cache_time']['alphavantage.co'] >= 60 ) {
+     elseif ( $ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'] >= 60 ) {
      $stock_cached_unit = 'hour';
-     $stock_cached_val = $ct['var']->num_pretty( ($ct['throttled_api_min_cache_time']['alphavantage.co'] / 60) , 2);
+     $stock_cached_val = $ct['var']->num_pretty( ($ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'] / 60) , 2);
      }
      else {
      $stock_cached_unit = 'minute';
-     $stock_cached_val = $ct['var']->num_pretty($ct['throttled_api_min_cache_time']['alphavantage.co'], 2);
+     $stock_cached_val = $ct['var']->num_pretty($ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'], 2);
      }
      
                     

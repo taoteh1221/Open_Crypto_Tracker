@@ -6979,6 +6979,18 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.01.05
+
+-BUG FIX: Fixed occasional blanked out screen in user area, due to lack of data set checks, before data parsing within coingecko's available currencies list
+
+-Optimized / refactored API throttling system
+
+-------------------------------------------------------------------
+
+
+
+
 
 
 

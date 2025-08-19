@@ -1533,7 +1533,7 @@ var $ct_array = array();
                   $other_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['additional_pairings_search']) );
                        
                   // Coingecko pairing support
-                  $coingecko_pairings = $ct['api']->coingecko_currencies();
+                  $coingecko_pairings = $ct['coingecko_currencies'];
                        
                   // Upbit pairing support
                   $upbit_pairings = array_map( "trim", explode(',', $ct['conf']['currency']['upbit_pairings_search']) );
@@ -1793,48 +1793,15 @@ var $ct_array = array();
    // Globals
    global $ct;
       
-   $pair = strtolower($pair);
-   
-   // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-   $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, 'utf-8') ) );
-   $asset = strtoupper($asset);
-
-      
-      // IF disabled, or the asset / market does NOT exist, skip this config entry
-      if (
-      $mode == 'none'
-      || !isset($ct['conf']['assets'][$asset])
-      || !isset($ct['conf']['assets'][$asset]['pair'][$pair][$exchange])
-      ) {
-      return false;
-      }
-      
-        
-   $pair_btc_val = $this->pair_btc_val($pair); 
-   
-      
-	 if ( $pair_btc_val == null ) {
-	        	
-	 $ct['gen']->log(
-	        			 'market_error',
-	        			 'this->pair_btc_val() returned null in ct_asset->charts_price_alerts() (for ' . $pair . ', in key: '.$asset_data.')'
-	        			);
-	        
-	 }
-   
-   
-      // Fiat or equivalent pair?
-      // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($pair, $ct['conf']['assets']['BTC']['pair']) && !array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
-      $has_btc_pairing = true;
-      $min_vol_val_test = $ct['min_fiat_val_test'];
-      }
-      else {
-      $min_vol_val_test = $ct['min_crypto_val_test'];
-      }
-      
       
       // RUN BASIC CHECKS FIRST...
+      
+      
+      // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
+      if ( $exchange == 'alphavantage_stock' && trim($ct['conf']['ext_apis']['alphavantage_api_key']) == '' ) {
+      return false;
+      }      
+      
       
       // For UX, scan to remove any old stale price alert entries that are now disabled / disabled GLOBALLY 
       // Return false if there is no charting on this entry (to optimize runtime)
@@ -1854,10 +1821,32 @@ var $ct_array = array();
       }
       
       
-      // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
-      if ( $exchange == 'alphavantage_stock' && trim($ct['conf']['ext_apis']['alphavantage_api_key']) == '' ) {
+   $pair = strtolower($pair);
+   
+   // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+   $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, 'utf-8') ) );
+   $asset = strtoupper($asset);
+
+      
+      // IF disabled, or the asset / market does NOT exist, skip this config entry
+      if (
+      $mode == 'none'
+      || !isset($ct['conf']['assets'][$asset])
+      || !isset($ct['conf']['assets'][$asset]['pair'][$pair][$exchange])
+      ) {
       return false;
-      }      
+      }
+   
+   
+      // Fiat or equivalent pair?
+      // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+      if ( array_key_exists($pair, $ct['conf']['assets']['BTC']['pair']) && !array_key_exists($pair, $ct['opt_conf']['crypto_pair']) ) {
+      $has_btc_pairing = true;
+      $min_vol_val_test = $ct['min_fiat_val_test'];
+      }
+      else {
+      $min_vol_val_test = $ct['min_crypto_val_test'];
+      }
       
       
       // Return false if we have no minimum bitcoin primary currency value
@@ -1880,6 +1869,19 @@ var $ct_array = array();
       
       
    // IF BASIC CHECKS PASSED, CHECK THE PRIMARY CURRENCY VALUE NEXT...
+      
+        
+   $pair_btc_val = $this->pair_btc_val($pair); 
+   
+      
+	 if ( $pair_btc_val == null ) {
+	        	
+	 $ct['gen']->log(
+	        			 'market_error',
+	        			 'this->pair_btc_val() returned null in ct_asset->charts_price_alerts() (for ' . $pair . ', in key: '.$asset_data.')'
+	        			);
+	        
+	 }
    
    
    // Get any necessary variables for calculating asset's PRIMARY CURRENCY CONFIG value
@@ -2010,31 +2012,48 @@ var $ct_array = array();
    /////////////////////////////////////////////////////////////////
    
    
-      // Skip storing price chart data, IF API limits have been reached ON APIs REGISTERED IN: $ct['dev']['throttle_limited_servers']
+      // Skip storing price chart data, IF API limits have been reached IN: $ct['cache']->api_throttled($tld_or_ip)
       // (to save on storage space / using same repetitive CACHED API price data)
-      // (ONLY IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS BEEN UPDATED WITHIN THE PAST $ct['throttled_api_min_cache_time'][$api_tld_or_ip] MINUTES,
+      // (ONLY IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS BEEN UPDATED WITHIN
+      // THE PAST $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'] MINUTES,
       // OTHERWISE IT COULD BE NEW PRICE DATA CACHED FROM INTERFACE USAGE ETC ETC, SO WE STILL WANT TO UPDATE CHARTS IN THIS CASE)
-      foreach ( $ct['dev']['throttle_limited_servers'] as $api_tld_or_ip => $api_exchange_id ) {
+      foreach ( $ct['api']->exchange_apis as $check_exchange_key => $check_exchange_data ) {
       
-           // Keep initial match check quick, for runtime speed
-           if ( $exchange == $api_exchange_id ) {
-                
-               if ( isset($ct['api_throttle_flag'][$api_tld_or_ip]) && $ct['api_throttle_flag'][$api_tld_or_ip] == true && isset($ct['throttled_api_min_cache_time'][$api_tld_or_ip]) && $ct['cache']->update_cache($prim_currency_chart_path, $ct['throttled_api_min_cache_time'][$api_tld_or_ip]) == false ) {
+      
+           // Keep INITIAL condition check targeted but quick, for runtime speed
+           if ( $exchange == $check_exchange_key ) {
+           
+           // Get exchange's markets endpoint domain
+           $tld_or_ip = $ct['gen']->get_tld_or_ip( $check_exchange_data['markets_endpoint'] );
+      
+               
+               // IF we have flagged an APP-BASED API throttle for this domain,
+               // AND have ALREADY updated the chart within $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'],
+               // HALT storing duplicate chart data
+               if (
+               $ct['cache']->api_throttled($tld_or_ip) == true
+               && isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'])
+               && $ct['cache']->update_cache($prim_currency_chart_path, $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time']) == false
+               ) {
                
                $halt_chart_storage = true;
+           
            
                     if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
                     
                      $ct['gen']->log(
                          	    'notify_debug',
-                         	    'skipping "' . $api_exchange_id . '" price chart storage (for ' . strtoupper($asset_data) . '), to avoid exceeding API limits (' . $ct['throttled_api_min_cache_time'][$api_tld_or_ip] . ' minute MINIMUM API cache OR archival chart time interval NOT met)'
+                         	    'skipping "' . $check_exchange_key . '" price chart storage (for ' . strtoupper($asset_data) . '), as we are throttled by this app to cache-only, to avoid API limits (for ' . $tld_or_ip . ')'
                          	   );
                     	   
                     }
+
                		  
                }
+               
            
            }
+           
       
       }
      
