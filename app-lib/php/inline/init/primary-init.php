@@ -89,6 +89,102 @@ $is_fast_runtime = true;
 }
 
 
+if ( !$is_fast_runtime ) {
+
+// SYSTEM INFO
+$ct['system_info'] = $ct['gen']->system_info(); // MUST RUN AFTER SETTING $ct['base_dir']
+    			
+$system_load_all = $ct['system_info']['system_load'];
+
+// Use 15 minute average
+$system_load = $system_load_all;
+$system_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $system_load);
+$system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); 
+    		
+$system_temp = preg_replace("/° Celsius/i", "", $ct['system_info']['system_temp']);
+
+$system_free_space_mb = $ct['gen']->in_megabytes($ct['system_info']['free_partition_space'])['in_megs'];
+
+$portfolio_cache_size_mb = $ct['gen']->in_megabytes($ct['system_info']['portfolio_cache'])['in_megs'];
+
+$system_memory_total_mb = $ct['gen']->in_megabytes($ct['system_info']['memory_total'])['in_megs'];
+    		
+$system_memory_free_mb = $ct['gen']->in_megabytes($ct['system_info']['memory_free'])['in_megs'];
+    		
+    		
+    // Percent difference (!MUST BE! absolute value)
+    if ( ( abs($system_memory_total_mb) * 100 ) > 0 ) {
+    $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
+    $memory_percent_free = round( 100 - $memory_percent_free, 2);
+    }
+    else {
+    $memory_percent_free = null;
+    }
+    		
+    		
+$system_load_redline = ( $ct['system_info']['cpu_threads'] > 1 ? ($ct['system_info']['cpu_threads'] * 2) : 2 );
+
+}
+else {
+$ct['system_info'] = array(); // BLANK if fast runtimes
+}
+
+
+// STRICT curl user agent (for strict API servers list in proxy mode, etc, etc)
+// MUST BE SET IMMEDIATELY AFTER system info (AS EARLY AS POSSIBLE FOR ADMIN INPUT VALIDATION)
+$ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct['system_info']['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+
+
+if ( !$is_fast_runtime ) {
+
+// Set the array of available currencies for coingecko (set after 'strict_curl_user_agent')
+$ct['coingecko_currencies'] = $ct['api']->coingecko_currencies();
+     
+// Development status DATA SET from github file (get data after 'strict_curl_user_agent'):
+// https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json
+$ct['dev']['status'] = @$ct['api']->dev_status();
+
+
+     // Sort the alerts by NEWEST
+     if (
+     $ct['runtime_mode'] == 'ui'
+     && is_array($ct['dev']['status'])
+     && sizeof($ct['dev']['status']) > 0
+     ) {
+     
+     // NEWEST dev statuses first
+     $ct['sort_by_nested'] = 'root=>timestamp';
+     usort($ct['dev']['status'], array($ct['var'], 'usort_desc') );
+     $ct['sort_by_nested'] = false; // RESET
+     
+     $ct['dev']['status_data_found'] = true; // Flag as data was found (for loading in interface)
+     
+     
+     	// Timestamp, of latest important status alert
+     	foreach ( $ct['dev']['status'] as $dev_alert ) {
+     	
+          	if ( $dev_alert['dummy_entry'] ) {
+          	continue;
+          	}
+          	elseif ( $dev_alert['very_important'] && !isset($ct['dev']['latest_important_dev_alerts_timestamp']) ) {
+          	$ct['dev']['latest_important_dev_alerts_timestamp'] = $dev_alert['timestamp'];
+          	}
+     	
+     	}
+     
+     
+     }
+
+
+     // Mining calculator settings (DURING 'ui' ONLY, since we run the interface mining settings from here)
+     if ( $ct['runtime_mode'] == 'ui' ) {
+     require('dynamic-config.php');
+     }
+
+
+}
+
+
 $fetched_feeds = 'fetched_feeds_' . $ct['runtime_mode']; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
 

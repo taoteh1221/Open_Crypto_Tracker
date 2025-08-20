@@ -11,8 +11,11 @@
 
 // *ALL* RUNTIMES
 
-// General preflight security checks (that MUST run for ANY runtime [EVEN IF IT SLOWS DOWN FAST RUNTIMES])
+
+// General preflight security checks (that MUST run for ANY runtime [EXCEPT FAST RUNTIMES])
+if ( !$is_fast_runtime ) {
 require_once('app-lib/php/inline/security/general-preflight-security-checks.php');
+}
 
 
 // Set all POST / COOKIE BASED DATA BEFORE ANYTHING ELSE! (except charts, since we check they are enabled first)

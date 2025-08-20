@@ -16,16 +16,6 @@
 
 // RESET, since we reload this logic on config resets / user updates
 
-// Set the array of available currencies for coingecko
-$ct['coingecko_currencies'] = $ct['api']->coingecko_currencies();
-
-
-// For parsing compatibility fallback
-if ( !is_array($ct['coingecko_currencies']) ) {
-$ct['coingecko_currencies'] = array();
-}
-
-
 $check_pairs = array();
 $check_assets = array();
 
