@@ -1287,7 +1287,7 @@ var $ct_array = array();
       }
               
 
-   usleep(150000); // Wait 0.15 seconds, to give cookies a chance to save, before any redirect
+   usleep(70000); // Wait 0.07 seconds, to give cookies a chance to save, before any redirect
     
    }
    

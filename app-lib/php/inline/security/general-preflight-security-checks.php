@@ -12,13 +12,11 @@
 // Recreate /.htaccess for optional password access restriction / mod rewrite etc
 if ( !file_exists($ct['base_dir'] . '/.htaccess') ) {
 $ct['cache']->save_file($ct['base_dir'] . '/.htaccess', $ct['cache']->php_timeout_defaults($ct['base_dir'] . '/templates/back-end/root-app-directory-htaccess.template') ); 
-sleep(1);
 }
 
 // Recreate /.user.ini for optional php-fpm php.ini control
 if ( !file_exists($ct['base_dir'] . '/.user.ini') ) {
 $ct['cache']->save_file($ct['base_dir'] . '/.user.ini', $ct['cache']->php_timeout_defaults($ct['base_dir'] . '/templates/back-end/root-app-directory-user-ini.template') ); 
-sleep(1);
 }
 
 

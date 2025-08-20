@@ -704,12 +704,6 @@ $ct['conf']['sec']['admin_cookie_expires'] = 6;
 }
 
 
-// Mining calculator settings (DURING 'ui' ONLY, since we run the interface mining settings from here)
-if ( $ct['runtime_mode'] == 'ui' ) {
-require('dynamic-config.php');
-}
-
-
 //////////////////////////////////////////////////////////////////
 // END APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////

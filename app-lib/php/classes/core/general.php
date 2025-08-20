@@ -1255,7 +1255,6 @@ var $ct_array = array();
             return array('status' => 'ok');
             }
             elseif ( $transport == 'tcp://' ) {
-            sleep(1);
             return $this->connect_test($server_and_port, 'ping', 'ssl://', '['.$transport.'] error ' . $errno . ': ' . $errstr);
             }
             else {

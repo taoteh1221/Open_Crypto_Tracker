@@ -6,49 +6,9 @@
 // ONLY RUN IF NOT FAST RUNTIMES
 if ( !$is_fast_runtime ) {
 
-
 // NEVER USE REQUIRE ONCE IN THIS FILE!
-
-// MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
-
-
-// Fetch ALL system info (OVERWRITES / RESETS CLEANLY, EVEN IF RELOADING AFTER A CONFIG RESET / USER UPDATE)
-$ct['system_info'] = $ct['gen']->system_info(); // MUST RUN AFTER SETTING $ct['base_dir']
-////
-    			
-$system_load_all = $ct['system_info']['system_load'];
-
-// Use 15 minute average
-$system_load = $system_load_all;
-$system_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $system_load);
-$system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); 
-    		
-$system_temp = preg_replace("/° Celsius/i", "", $ct['system_info']['system_temp']);
-
-$system_free_space_mb = $ct['gen']->in_megabytes($ct['system_info']['free_partition_space'])['in_megs'];
-
-$portfolio_cache_size_mb = $ct['gen']->in_megabytes($ct['system_info']['portfolio_cache'])['in_megs'];
-
-$system_memory_total_mb = $ct['gen']->in_megabytes($ct['system_info']['memory_total'])['in_megs'];
-    		
-$system_memory_free_mb = $ct['gen']->in_megabytes($ct['system_info']['memory_free'])['in_megs'];
-    		
-    		
-    // Percent difference (!MUST BE! absolute value)
-    if ( ( abs($system_memory_total_mb) * 100 ) > 0 ) {
-    $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
-    $memory_percent_free = round( 100 - $memory_percent_free, 2);
-    }
-    else {
-    $memory_percent_free = null;
-    }
-    		
-    		
-$system_load_redline = ( $ct['system_info']['cpu_threads'] > 1 ? ($ct['system_info']['cpu_threads'] * 2) : 2 );
-
-
+// (OVERWRITES / RESETS CLEANLY, EVEN IF RELOADING AFTER A CONFIG RESET / USER UPDATE)
 // Interface alert messages (UI / email / etc), and error logging
-
 
 $system_uptime_warning = array_map( "trim", explode('||', $ct['conf']['power']['system_uptime_warning']) ); 
 
@@ -113,9 +73,6 @@ $cookies_size_warning = array_map( "trim", explode('||', $ct['conf']['power']['c
      }
 
 
-}
-else {
-$ct['system_info'] = array(); // BLANK if fast runtimes
 }
 
 

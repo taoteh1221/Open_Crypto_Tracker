@@ -36,18 +36,6 @@ $dev_only_configs_mode = 'init'; // Flag to only run 'init' section
 require('developer-config.php');
 
 
-// Idiot-proof limited APIs config
-// (IF the domain is already in $ct['dev']['throttled_apis'],
-// REMOVE IT FROM LIMITED APIS, SO WE DON'T DOUBLE-THROTTLE AN EXTRA 0.55 SECONDS)
-foreach ( $ct['dev']['limited_apis'] as $limited_api_key => $limited_api_val ) {
-
-     if ( array_key_exists($limited_api_val, $ct['dev']['throttled_apis']) ) {
-     unset($ct['dev']['limited_apis'][$limited_api_key]);
-     }
-
-}
-
-
 // Assure our array of attack signatures (for scanning user input for malware injection attacks)
 // is ALL LOWERCASE, since we temporarily convert user input to lowercase in the scanning algorithm
 $ct['dev']['script_injection_checks'] = array_map('strtolower', $ct['dev']['script_injection_checks']);

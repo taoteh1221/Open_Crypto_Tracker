@@ -66,7 +66,7 @@ var $ct_array = array();
    
    // Give the file write / lock time to release
    // (as we'll be updating access stats at the end of this runtime)
-   sleep(1); 
+   usleep(120000); // Wait 0.12 seconds
    
    }
 
@@ -1897,7 +1897,7 @@ var $ct_array = array();
     	}
     	
    
-   sleep(1); // Chill for a second, since we just refreshed the conf on disk
+   usleep(120000); // Wait 0.12 seconds, since we just refreshed the conf on disk
 
              
      // Since we are resetting OR updating the cached config, telegram chatroom data should be refreshed too
@@ -2032,7 +2032,7 @@ var $ct_array = array();
       
       $this->save_file('cache/events/logging/purge-app-logs.dat', date('Y-m-d H:i:s'));
       
-      sleep(1);
+      usleep(120000); // Wait 0.12 seconds
       
       }
       
@@ -2624,9 +2624,9 @@ var $ct_array = array();
       /////////////////////////////////////////////////
       
       
-        // Sleep for 2 seconds before starting ANY consecutive message send, to help avoid being blocked / throttled by external server
+        // Sleep for 1 second before starting ANY consecutive message send, to help avoid being blocked / throttled by external server
         if ( $ct['processed_msgs']['notifications_count'] > 0 ) {
-        sleep(2);
+        sleep(1);
         }
       
       
@@ -3223,13 +3223,34 @@ var $ct_array = array();
       // If this is an API service that requires multiple calls (for each market), 
       // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
       if ( in_array($tld_or_ip, $ct['dev']['limited_apis']) ) {
-      
-        if ( !$ct['limited_api_calls'][$tld_session_prefix . '_calls'] ) {
-        $ct['limited_api_calls'][$tld_session_prefix . '_calls'] = 1;
-        }
-        elseif ( $ct['limited_api_calls'][$tld_session_prefix . '_calls'] == 1 ) {
-        usleep(550000); // Throttle 0.55 seconds
-        }
+
+
+           // Idiot-proof limited APIs config
+           // (IF the domain is already in $ct['dev']['throttled_apis'],
+           // REMOVE IT FROM LIMITED APIS, SO WE DON'T DOUBLE-THROTTLE AN EXTRA 0.55 SECONDS)
+           foreach ( $ct['dev']['limited_apis'] as $limited_api_key => $limited_api_val ) {
+          
+               if ( array_key_exists($limited_api_val, $ct['dev']['throttled_apis']) ) {
+               unset($ct['dev']['limited_apis'][$limited_api_key]);
+               }
+          
+           }
+          
+           
+           // CHECK AGAIN, AFTER PURGING ANY LIMITED APIS
+           if ( in_array($tld_or_ip, $ct['dev']['limited_apis']) ) {
+           
+           
+                if ( !$ct['limited_api_calls'][$tld_session_prefix . '_calls'] ) {
+                $ct['limited_api_calls'][$tld_session_prefix . '_calls'] = 1;
+                }
+                elseif ( $ct['limited_api_calls'][$tld_session_prefix . '_calls'] == 1 ) {
+                usleep(550000); // Throttle 0.55 seconds
+                }
+
+
+           }
+    
     
       }
      

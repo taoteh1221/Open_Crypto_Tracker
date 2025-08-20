@@ -156,9 +156,9 @@ if ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] != 1 || $reset_all_coo
     
 $ct['sec']->delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled / reset
 
-    // Reset cookies / populated form data cleanly, with a redirect back to the app after 1 second
+    // Reset cookies / populated form data cleanly, with a redirect back to the app after 0.12 seconds
     if ( $reset_all_cookies ) {
-    sleep(1);
+    usleep(120000); // Wait 
     header("Location: " . $ct['gen']->start_page($_GET['start_page'])); // Preserve any start page data
     exit;
     }

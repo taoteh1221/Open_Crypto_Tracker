@@ -267,6 +267,15 @@ $ct['dev']['throttled_apis'] = array(
                                                       ),
 
 
+                                     // https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this
+                                     'telegram.org' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 20,
+                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
+                                                      ),
+
+
                                      );
 							
 

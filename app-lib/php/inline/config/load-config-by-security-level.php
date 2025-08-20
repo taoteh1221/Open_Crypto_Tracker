@@ -31,7 +31,6 @@ require($ct['base_dir'] . '/app-lib/php/inline/init/plugins-init.php');
 if ( $check_default_ct_conf == null ) {
 $check_default_ct_conf = md5( serialize($default_ct_conf) );
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', $check_default_ct_conf);
-sleep(1); // Chill for a second, since we just saved the default conf digest
 }
 
 

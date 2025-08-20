@@ -390,7 +390,7 @@ var $exchange_apis = array(
        
    $data = json_decode($response, true);
    
-   return $data;
+   return ( is_array($data) ? $data : array() );
      
    }
    
@@ -426,12 +426,7 @@ var $exchange_apis = array(
    
    $data = json_decode($response, true);
    
-      if ( is_array($data) ) {
-      return $data;
-      }
-      else {
-      return false;
-      }
+   return ( is_array($data) ? $data : array() );
      
    }
    
@@ -1450,18 +1445,9 @@ var $exchange_apis = array(
                         $try_pairing = $ct['gen']->auto_correct_market_id($try_pairing, $key);
                                        
                         $pairing_array = array_map( "trim", explode(',', $try_pairing) ); // TRIM ANY WHITESPACE
-                        
-                        
-                             $run_already = false;
+                             
+                             
                              foreach ( $pairing_array as $pairing_val ) {
-     
-                                  
-                                  if ( $run_already ) {
-                                  sleep(1); // Throttle multiple requests, to avoid be blocked
-                                  }
-                                  else {
-                                  $run_already = true;
-                                  }
                                   
                                   
                                   // IF we have a USER-INPUTTED PAIRING IN THE SEARCH, then skip any pairings that are NOT RELEVANT

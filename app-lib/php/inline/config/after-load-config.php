@@ -22,12 +22,7 @@ require('app-lib/php/inline/config/config-auto-adjust.php');
 
 
 // Get / check system info for debugging / stats (MUST run IMMEADIATELY AFTER auto-adjusting the cached config)
-require($ct['base_dir'] . '/app-lib/php/inline/system/system-info.php');
-
-
-// STRICT curl user agent (for strict API servers list in proxy mode, etc, etc)
-// MUST BE SET IMMEDIATELY AFTER system-info.php (AS EARLY AS POSSIBLE FOR ADMIN INPUT VALIDATION)
-$ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct['system_info']['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+require($ct['base_dir'] . '/app-lib/php/inline/system/system-resource-alerts.php');
 
 
 // User agent (MUST BE SET VERY EARLY, FOR ANY CURL-BASED API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
@@ -50,38 +45,6 @@ require('app-lib/php/inline/config/dynamic-throttling-config.php');
 // Developer-only configs
 $dev_only_configs_mode = 'after-load-config'; // Flag to only run 'after-load-config' section
 require('developer-config.php');
-
-
-// Development status DATA SET from github file:
-// https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json
-$ct['dev']['status'] = @$ct['api']->dev_status();
-
-
-// Sort the alerts by NEWEST
-if ( is_array($ct['dev']['status']) && sizeof($ct['dev']['status']) > 0 ) {
-
-// NEWEST dev statuses first
-$ct['sort_by_nested'] = 'root=>timestamp';
-usort($ct['dev']['status'], array($ct['var'], 'usort_desc') );
-$ct['sort_by_nested'] = false; // RESET
-
-$ct['dev']['status_data_found'] = true; // Flag as data was found (for loading in interface)
-
-
-	// Timestamp, of latest important status alert
-	foreach ( $ct['dev']['status'] as $dev_alert ) {
-	
-     	if ( $dev_alert['dummy_entry'] ) {
-     	continue;
-     	}
-     	elseif ( $dev_alert['very_important'] && !isset($ct['dev']['latest_important_dev_alerts_timestamp']) ) {
-     	$ct['dev']['latest_important_dev_alerts_timestamp'] = $dev_alert['timestamp'];
-     	}
-	
-	}
-
-
-}
 
 
 //////////////////////////////////////////////////////////////////
