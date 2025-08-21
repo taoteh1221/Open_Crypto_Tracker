@@ -529,6 +529,8 @@ var $ct_array = array();
    
       // If path does not exist
       if ( !is_dir($path) ) {
+           
+      $ct['dir_creation'] = true; // Flag global, indicating directory creation was attempted this runtime
       
          // Run cache compatibility on certain PHP setups
          if ( !$ct['http_runtime_user'] || in_array($ct['http_runtime_user'], $ct['possible_http_users']) ) {

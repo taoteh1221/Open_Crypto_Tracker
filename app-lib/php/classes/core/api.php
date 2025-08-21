@@ -749,6 +749,15 @@ var $exchange_apis = array(
       
    global $ct;
    
+   
+      // IF we were creating any new directory structure during this runtime,
+      // skip getting marketcap data, as we PREFER price data
+      // (in case we are throttled by the API, for heavy request loads, when rebuilding the API cache, etc)
+      if ( $ct['dir_creation'] ) {
+      return array(); // Parsing failsafe
+      }
+   
+   
    $data = array();
    $sub_arrays = array();
    $result = array();
@@ -1041,6 +1050,16 @@ var $exchange_apis = array(
    function mcap_data_coinmarketcap($force_prim_currency=null) {
       
    global $ct;
+   
+   
+      // IF we were creating any new directory structure during this runtime,
+      // skip getting marketcap data, as we PREFER price data
+      // (in case we are throttled by the API, for heavy request loads, when rebuilding the API cache, etc)
+      if ( $ct['dir_creation'] ) {
+      return array(); // Parsing failsafe
+      }
+   
+   
    
    $result = array();
    

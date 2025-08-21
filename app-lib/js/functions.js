@@ -375,11 +375,11 @@ function reset_tablesorter(priv_pmode) {
     
 col = priv_pmode == 'on' ? 0 : sorted_by_col;
 
-$("#coins_table").find("th:eq("+col+")").trigger("sort");
+$("#coins_table").find("thead tr:eq("+col+")").trigger("sort");
 
     // Reverse the sort, if it's decending (1)
     if ( priv_pmode != 'on' && sorted_asc_desc > 0 ) {
-    $("#coins_table").find("th:eq("+col+")").trigger("sort");
+    $("#coins_table").find("thead tr:eq("+col+")").trigger("sort");
     }
 
 }

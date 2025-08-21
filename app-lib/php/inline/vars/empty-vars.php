@@ -139,6 +139,8 @@ $ct['telegram_user_data_path'] = null;
 
 // Initial zero-set / false strings
 
+$ct['dir_creation'] = false; // Flag if directory creation attempts occurred this runtime
+
 $ct['sort_by_nested'] = false;
 
 $ct['is_subsection_config'] = false;
