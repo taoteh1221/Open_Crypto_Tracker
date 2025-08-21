@@ -33,8 +33,13 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
          	}
     	 
     
-     // Re-cache marketcap data for faster UI runtimes later
-     $ct['coingecko_api'] = $ct['api']->mcap_data_coingecko();
+          // Re-cache marketcap data for faster UI runtimes later
+          if ( $ct['conf']['gen']['primary_marketcap_site'] == 'coingecko' ) {
+          $ct['coingecko_api'] = $ct['api']->mcap_data_coingecko();
+          }
+          elseif ( $ct['conf']['gen']['primary_marketcap_site'] == 'coinmarketcap' ) {
+          $ct['coinmarketcap_api'] = $ct['api']->mcap_data_coinmarketcap();
+          }
     	 
     	 
      // Re-cache chain data for faster UI runtimes later

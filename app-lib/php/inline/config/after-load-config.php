@@ -17,12 +17,28 @@
 
 // Do NOT use require_once(), AS WE MAY RUN MORE THAN ONCE, UNDER CERTAIN CONDITIONS
 
-// Dynamic app config auto-adjust (MUST RUN FIRST [FOR AUTO-CORRECT, REQUIRED CONFIG ARRAYS / SETUP, ETC ETC])
-require('app-lib/php/inline/config/config-auto-adjust.php');
+// CONFIG AUTO-CORRECT (fix any basic end user data entry errors in possibly user-customized config)
+require('app-lib/php/inline/config/config-auto-corrections.php');
 
+// Formatting adjustments, for app config (MUST RUN AFTER AUTO-CORRECTION, FOR REQUIRED CONFIG ARRAYS / SETUP, ETC ETC)
+require('app-lib/php/inline/config/config-adjust-formatting.php');
 
-// Get / check system info for debugging / stats (MUST run IMMEADIATELY AFTER auto-adjusting the cached config)
+// Get / check system info for debugging / stats (MUST run IMMEADIATELY AFTER all auto-adjusting of config)
 require($ct['base_dir'] . '/app-lib/php/inline/system/system-resource-alerts.php');
+
+
+// We only need mcap stats for the UI
+if ( $ct['runtime_mode'] == 'ui' ) {
+
+     // Set marketcap data source global
+     if ( $ct['conf']['gen']['primary_marketcap_site'] == 'coingecko' ) {
+     $ct['coingecko_api'] = $ct['api']->mcap_data_coingecko();
+     }
+     elseif ( $ct['conf']['gen']['primary_marketcap_site'] == 'coinmarketcap' ) {
+     $ct['coinmarketcap_api'] = $ct['api']->mcap_data_coinmarketcap();
+     }
+
+}
 
 
 // User agent (MUST BE SET VERY EARLY, FOR ANY CURL-BASED API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)

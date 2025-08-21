@@ -390,7 +390,7 @@ var $exchange_apis = array(
        
    $data = json_decode($response, true);
    
-   return ( is_array($data) ? $data : array() );
+   return ( is_array($data) ? $data : array() ); // Parsing failsafe
      
    }
    
@@ -426,7 +426,7 @@ var $exchange_apis = array(
    
    $data = json_decode($response, true);
    
-   return ( is_array($data) ? $data : array() );
+   return ( is_array($data) ? $data : array() ); // Parsing failsafe
      
    }
    
@@ -826,7 +826,7 @@ var $exchange_apis = array(
            
    gc_collect_cycles(); // Clean memory cache
    
-   return $result;
+   return ( is_array($result) ? $result : array() ); // Parsing failsafe
      
    }
    
@@ -1056,7 +1056,7 @@ var $exchange_apis = array(
       		    'coinmarketcap_api_key'
       		    );
       
-      return false;
+      return array(); // Parser failsafe
       
       }
          
@@ -1154,13 +1154,13 @@ var $exchange_apis = array(
               }
           
           }
-        
-      gc_collect_cycles(); // Clean memory cache
-      
-      return $result;
       
       }
    
+        
+   gc_collect_cycles(); // Clean memory cache
+   
+   return ( is_array($result) ? $result : array() ); // Parsing failsafe
            
    }
    

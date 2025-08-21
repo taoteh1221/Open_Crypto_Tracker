@@ -1009,7 +1009,7 @@ $ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60, MAX
 $ct['conf']['power']['marketcap_cache_time'] = 150;  // (default = 150, MIN = 50, MAX = 200)
 ////
 // Number of marketcap rankings to request from API.
-// 300 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
+// 500 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
 $ct['conf']['power']['marketcap_ranks_max'] = 500; // (default = 500, MIN = 100, MAX = 1000)
 

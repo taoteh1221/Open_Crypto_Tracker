@@ -250,7 +250,7 @@ $ct['admin_render_settings']['marketcap_ranks_max']['range_step'] = 100;
 
 $ct['admin_render_settings']['marketcap_ranks_max']['range_ui_suffix'] = ' Rankings';
 
-$ct['admin_render_settings']['marketcap_ranks_max']['is_notes'] = 'Number of marketcap rankings to request from API<br />300 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED';
+$ct['admin_render_settings']['marketcap_ranks_max']['is_notes'] = 'Number of marketcap rankings to request from the selected marketcap provider (located at: Admin Area => General => Primary Marketcap Site)<br />500 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED.<br /><span class="red">Higher values MAY slow down app loading times.</span>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

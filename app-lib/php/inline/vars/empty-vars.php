@@ -69,6 +69,8 @@ $ct['btc_pair_mrkts'] = array();
 
 $ct['btc_pair_mrkts_excluded'] = array();
 
+$ct['btc_crypto_pair_mrkts_excluded'] = array();
+
 $ct['btc_worth_array'] = array();
 
 $ct['stocks_btc_worth_array'] = array();
