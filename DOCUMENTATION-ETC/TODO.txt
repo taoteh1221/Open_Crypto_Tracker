@@ -129,7 +129,31 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
++++++++++
+
+We need to store the app / plugin versions INSIDE THE CACHED CONFIG, TO SAFELY VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A OLDER SAVED CONFIG FILE (to make sure imported OLD VERSION backups are triggering the db upgrade logic, AND REJECTING NEWER VERSION BACKUPS [as it's a db downgrade, which we can only safely FULLY RESET the config for, which makes the importing useless]).
+
+We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EVEN for high security mode cached config updating [RESETS], as a user could change security modes later in the future, AND we still backup the cached config for app backups even in high security mode). WE ALSO need to include these stored versions in the initial / loaded / default configs, so comparisions during config initiation are consistent (eg: to avoid screwing up high security mode's "auto cache updating" MD5 CHECKS, etc etc). This can be done fairly easy, by using the newly added function $ct['gen']->db_version_state_updating(), which updates $ct['conf']['version_states'] with the latest app / active plugin versions.
+
++++++++++
+
+
+Move all remaining relevent (important) APIs over to the new per-second / per-minute / per-day throttling system.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This can be done by formating like price alerts / charts, and putting into a trimmed array in config-auto-adjust.php. Then we can create in_array() conditions, for queueing messages, for whatever comm channels are preffered.
+
+
 Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+
+
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
+
+
+Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
 
 
 Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
@@ -140,13 +164,7 @@ Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in ev
           	                     'ALTNFTS',
 
 
-Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
-
-
-Move all remaining relevent APIs over to the new per-second / per-minute / per-day throttling system.
-
-
-Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
+Leverage should be switched to a slider in the user interface, whenever we add decimal support. We also should create a custom js listener, that still runs our "batshit crazy" js alerts. :)
 
 
 For the 'margin leverage maximum' power user setting, add decimal support (in the admin interface too), as modern perp markets on Solana allow this.
@@ -155,22 +173,7 @@ For the 'margin leverage maximum' power user setting, add decimal support (in th
 At some point, put together a list of things to test, when package testing right before public release. 
 
 
-For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This can be done by formating like price alerts / charts, and putting into a trimmed array in config-auto-adjust.php. Then we can create in_array() conditions, for queueing messages, for whatever comm channels are preffered.
-
-
-Leverage should be switched to a slider in the user interface, whenever we add decimal support. We also should create a custom js listener, that still runs our "batshit crazy" js alerts. :)
-
-
 For Access Stats, add showing multiple visit timestamps / referrers by adding an info balloon when hovering over a 'last visit ' timestamp INFO ICON. INCLUDE IP ADDRESSES FOR 'ALL STATS' BUNDLED MODE. 
-
-
-+++++++++
-
-We need to store the app / plugin versions INSIDE THE CACHED CONFIG, TO SAFELY VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A OLDER SAVED CONFIG FILE (to make sure imported OLD VERSION backups are triggering the db upgrade logic, AND REJECTING NEWER VERSION BACKUPS [as it's a db downgrade, which we can only safely FULLY RESET the config for, which makes the importing useless]).
-
-We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EVEN for high security mode cached config updating [RESETS], as a user could change security modes later in the future, AND we still backup the cached config for app backups even in high security mode). WE ALSO need to include these stored versions in the initial / loaded / default configs, so comparisions during config initiation are consistent (eg: to avoid screwing up high security mode's "auto cache updating" MD5 CHECKS, etc etc). This can be done fairly easy, by using the newly added function $ct['gen']->db_version_state_updating(), which updates $ct['conf']['version_states'] with the latest app / active plugin versions.
-
-+++++++++
 
 
 All STALE charts (light AND archival) that no longer have any corresponding charts config (user removed it), should be scanned for and deleted automatically WITH A BUTTON ATOP THE CHARTS / ALERTS PAGE. Button should have a confirmation prompt: "This will DELETE *ALL* PRICE CHARTS that currently don't have an ACTIVE CONFIG SETUP BELOW. Are you sure you wish to proceed?" We can re-use some of the logic that we use for scheduled maintenance (for deleting ALL price charts associated with assets that no longer exist).

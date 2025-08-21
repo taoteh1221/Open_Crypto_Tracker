@@ -69,6 +69,8 @@ $ct['btc_pair_mrkts'] = array();
 
 $ct['btc_pair_mrkts_excluded'] = array();
 
+$ct['btc_crypto_pair_mrkts_excluded'] = array();
+
 $ct['btc_worth_array'] = array();
 
 $ct['stocks_btc_worth_array'] = array();
@@ -136,6 +138,8 @@ $ct['telegram_user_data_path'] = null;
 
 
 // Initial zero-set / false strings
+
+$ct['dir_creation'] = false; // Flag if directory creation attempts occurred this runtime
 
 $ct['sort_by_nested'] = false;
 

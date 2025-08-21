@@ -390,7 +390,7 @@ var $exchange_apis = array(
        
    $data = json_decode($response, true);
    
-   return ( is_array($data) ? $data : array() );
+   return ( is_array($data) ? $data : array() ); // Parsing failsafe
      
    }
    
@@ -426,7 +426,7 @@ var $exchange_apis = array(
    
    $data = json_decode($response, true);
    
-   return ( is_array($data) ? $data : array() );
+   return ( is_array($data) ? $data : array() ); // Parsing failsafe
      
    }
    
@@ -749,6 +749,15 @@ var $exchange_apis = array(
       
    global $ct;
    
+   
+      // IF we were creating any new directory structure during this runtime,
+      // skip getting marketcap data, as we PREFER price data
+      // (in case we are throttled by the API, for heavy request loads, when rebuilding the API cache, etc)
+      if ( $ct['dir_creation'] ) {
+      return array(); // Parsing failsafe
+      }
+   
+   
    $data = array();
    $sub_arrays = array();
    $result = array();
@@ -826,7 +835,7 @@ var $exchange_apis = array(
            
    gc_collect_cycles(); // Clean memory cache
    
-   return $result;
+   return ( is_array($result) ? $result : array() ); // Parsing failsafe
      
    }
    
@@ -1042,6 +1051,16 @@ var $exchange_apis = array(
       
    global $ct;
    
+   
+      // IF we were creating any new directory structure during this runtime,
+      // skip getting marketcap data, as we PREFER price data
+      // (in case we are throttled by the API, for heavy request loads, when rebuilding the API cache, etc)
+      if ( $ct['dir_creation'] ) {
+      return array(); // Parsing failsafe
+      }
+   
+   
+   
    $result = array();
    
    $coinmarketcap_currencies = array();
@@ -1056,7 +1075,7 @@ var $exchange_apis = array(
       		    'coinmarketcap_api_key'
       		    );
       
-      return false;
+      return array(); // Parser failsafe
       
       }
          
@@ -1154,13 +1173,13 @@ var $exchange_apis = array(
               }
           
           }
-        
-      gc_collect_cycles(); // Clean memory cache
-      
-      return $result;
       
       }
    
+        
+   gc_collect_cycles(); // Clean memory cache
+   
+   return ( is_array($result) ? $result : array() ); // Parsing failsafe
            
    }
    
