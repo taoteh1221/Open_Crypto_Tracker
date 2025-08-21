@@ -23,7 +23,8 @@ require('app-lib/php/inline/config/config-auto-corrections.php');
 // Formatting adjustments, for app config (MUST RUN AFTER AUTO-CORRECTION, FOR REQUIRED CONFIG ARRAYS / SETUP, ETC ETC)
 require('app-lib/php/inline/config/config-adjust-formatting.php');
 
-// Get / check system info for debugging / stats (MUST run IMMEADIATELY AFTER all auto-adjusting of config)
+// Flags for any excessive system resource usage thresholds being hit
+// (for UI / comm / log alerts, MUST run IMMEDIATELY AFTER all auto-adjusting of config)
 require($ct['base_dir'] . '/app-lib/php/inline/system/system-resource-alerts.php');
 
 
