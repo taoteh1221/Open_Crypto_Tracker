@@ -205,6 +205,20 @@ function is_numeric(val) {
 /////////////////////////////////////////////////////////////
 
 
+function tablesort_state(table_id) {
+
+var tablesorter_sort_state = $("#" + table_id)[0].config.sortList;
+     
+var parse_sort = tablesorter_sort_state.toString().split(',');
+
+return parse_sort;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function responsive_menu_override() {
 
      if ( localStorage.getItem(sidebar_toggle_storage) == "closed" ) {
@@ -233,6 +247,23 @@ $(".local_storage_saved_notice").show(250, 'linear'); // 0.25 seconds
      }, 4000);
 
 
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function add_css_class_recursively(topElement, CssClass) {
+
+$(topElement).addClass(CssClass);
+
+    $(topElement).children().each(
+            function() {
+                 $(this).addClass(CssClass);
+                 add_css_class_recursively($(this), CssClass);
+            }
+    );
+            
 }
 
 
@@ -275,6 +306,25 @@ return str.split(delimiter);
 /////////////////////////////////////////////////////////////
 
 
+function update_alert_percent() {
+
+	if ( document.getElementById("alert_percent").value == "yes" ) {
+	document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|"
+	+ document.getElementById("percent_change_amnt").value + "|" + document.getElementById("percent_change_filter").value + "|" 
+	+ document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
+	}
+	else {
+	document.getElementById("use_alert_percent").value = "";
+	}
+
+red_save_button();
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function process_element(element) {
      
 var was_processed = element.getAttribute('data-was-processed');
@@ -295,48 +345,6 @@ return true;
 /////////////////////////////////////////////////////////////
 
 
-function set_cookie(cname, cvalue, exdays) {
-     
-     // DELETE cookie
-     if ( exdays < 0 ) {
-     var expires = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
-     }
-     // CREATE / MODIFY cookie
-     else {
-     d = new Date();
-     d.setTime(d.getTime() + (exdays*24*60*60*1000));
-     var expires = "expires=" + d.toUTCString();
-     }
-
-is_secure = Base64.decode(app_edition) == 'server' ? ' Secure' : '';
-
-document.cookie = cname + "=" + cvalue + "; path=" + cookie_path + "; " + expires + "; SameSite=Strict;" + is_secure;
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function update_alert_percent() {
-
-	if ( document.getElementById("alert_percent").value == "yes" ) {
-	document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|"
-	+ document.getElementById("percent_change_amnt").value + "|" + document.getElementById("percent_change_filter").value + "|" 
-	+ document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-	}
-	else {
-	document.getElementById("use_alert_percent").value = "";
-	}
-
-red_save_button();
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function start_utc_time() {
 
 today = new Date();
@@ -346,90 +354,6 @@ time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUT
 $("span.utc_timestamp").text('[' + date + ' ' + time + '.000]');
 
 utc_time = setTimeout(start_utc_time, 1000);
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function add_css_class_recursively(topElement, CssClass) {
-
-$(topElement).addClass(CssClass);
-
-    $(topElement).children().each(
-            function() {
-                 $(this).addClass(CssClass);
-                 add_css_class_recursively($(this), CssClass);
-            }
-    );
-            
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// https://mottie.github.io/tablesorter/docs/
-function reset_tablesorter(priv_pmode) {
-    
-col = priv_pmode == 'on' ? 0 : sorted_by_col;
-
-$("#coins_table").find("thead tr:eq("+col+")").trigger("sort");
-
-    // Reverse the sort, if it's decending (1)
-    if ( priv_pmode != 'on' && sorted_asc_desc > 0 ) {
-    $("#coins_table").find("thead tr:eq("+col+")").trigger("sort");
-    }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function cron_run_check() {
-     
-//console.log('cron_run_check()');
-
-	if ( cron_already_ran == true ) {
-	return 'done';
-	}
-	else {
-
-	    if ( allow_regular_loading_notices ) {
-	         
-              if ( Base64.decode(is_windows) == 'yes' ) {
-              var cron_desc = 'Scheduled Task';
-              }
-              else {
-              var cron_desc = 'Cron Job';
-              }
-                    
-              if ( is_admin ) {
-              var area_desc = 'Admin';
-              }
-              else {
-              var area_desc = 'User';
-              }
-                    
-	    background_loading_notices("Running EMULATED " + cron_desc + " Manager (please stay in the " + area_desc + " Area, until completed)...");
-	    
-	    }
-	     
-         // Wait 3 seconds before checks
-         // (so it only shows IF time elapse NOT reset yet [for UX, that we are running, and not just checking])
-         setTimeout(function(){
-
-	        if ( background_tasks_elapsed_time > 0 ) {
-	        $("#background_loading").show(250); // 0.25 seconds
-	        }
-         
-         }, 3000);
-	
-	return 'active';
-	
-	}
 
 }
 
@@ -544,6 +468,29 @@ function charts_loading_check() {
 	return 'active';
 
 	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function set_cookie(cname, cvalue, exdays) {
+     
+     // DELETE cookie
+     if ( exdays < 0 ) {
+     var expires = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
+     }
+     // CREATE / MODIFY cookie
+     else {
+     d = new Date();
+     d.setTime(d.getTime() + (exdays*24*60*60*1000));
+     var expires = "expires=" + d.toUTCString();
+     }
+
+is_secure = Base64.decode(app_edition) == 'server' ? ' Secure' : '';
+
+document.cookie = cname + "=" + cvalue + "; path=" + cookie_path + "; " + expires + "; SameSite=Strict;" + is_secure;
 
 }
 
@@ -1592,6 +1539,101 @@ function monitor_iframe_sizes() {
     iframe_height_adjuster.observe(this);
     });
     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// https://mottie.github.io/tablesorter/docs/
+function reset_tablesorter(set_priv_mode, user_click, table_id, header_sort_row=1) {
+	     
+	     
+     // IF user enabled / disabled privacy, we need to check the sort state
+     if ( user_click ) {
+    
+     var col = set_priv_mode == 'on' ? 0 : sorted_by_col;
+               
+     var sort_state = tablesort_state(table_id);
+         
+         
+          // Wait 3 seconds (so encrypt / decrypt finishes FIRST, BEFORE ANY RE-SORTING)
+          setTimeout(function(){
+
+     
+               // COLUMN sorted check
+               if ( sort_state[0] != col ) {
+               $("#" + table_id).find("thead > tr:nth-child("+header_sort_row+") > th:eq("+col+")").trigger("sort");
+               sort_state = tablesort_state(table_id); // Refresh, for sort DIRECTION checks
+               }
+               
+               
+               // Sort DIRECTION checks...
+               // IF privacy mode enabled, and CURRENT sort direction is NOT ascending (0),
+               // OR IF privacy mode disabled, AND CURRENT sort direction is DIFFERENT from user's setting
+               if (
+               set_priv_mode == 'on' && sort_state[1] != 0
+               || set_priv_mode != 'on' && sort_state[1] != sorted_direction
+               ) {
+               $("#" + table_id).find("thead > tr:nth-child("+header_sort_row+") > th:eq("+col+")").trigger("sort");
+               }
+
+         
+          }, 3000);
+
+         
+     }
+     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function cron_run_check() {
+     
+//console.log('cron_run_check()');
+
+	if ( cron_already_ran == true ) {
+	return 'done';
+	}
+	else {
+
+	    if ( allow_regular_loading_notices ) {
+	         
+              if ( Base64.decode(is_windows) == 'yes' ) {
+              var cron_desc = 'Scheduled Task';
+              }
+              else {
+              var cron_desc = 'Cron Job';
+              }
+                    
+              if ( is_admin ) {
+              var area_desc = 'Admin';
+              }
+              else {
+              var area_desc = 'User';
+              }
+                    
+	    background_loading_notices("Running EMULATED " + cron_desc + " Manager (please stay in the " + area_desc + " Area, until completed)...");
+	    
+	    }
+	     
+         // Wait 3 seconds before checks
+         // (so it only shows IF time elapse NOT reset yet [for UX, that we are running, and not just checking])
+         setTimeout(function(){
+
+	        if ( background_tasks_elapsed_time > 0 ) {
+	        $("#background_loading").show(250); // 0.25 seconds
+	        }
+         
+         }, 3000);
+	
+	return 'active';
+	
+	}
 
 }
 
@@ -3033,7 +3075,7 @@ function sorting_portfolio_table() {
 	console.log('adding table sorting to PORTFOLIO table (with "coins_table" id)');
 	        
 	// Set default sort, based on whether privacy mode is on        
-	var folio_sort_list = localStorage.getItem(priv_toggle_storage) == 'on' ? [0,0] : [sorted_by_col, sorted_asc_desc];
+	var folio_sort_list = localStorage.getItem(priv_toggle_storage) == 'on' ? [0,0] : [sorted_by_col, sorted_direction];
 		
 		
     	$("#coins_table").tablesorter({
@@ -4375,12 +4417,12 @@ function nav_menu($chosen_menu) {
 
 
 // https://stackoverflow.com/questions/14458819/simplest-way-to-obfuscate-and-deobfuscate-a-string-in-javascript
-function privacy_mode(click=false) {
+function privacy_mode(user_click=false) {
     
 private_data = document.getElementsByClassName('private_data');
 
 
-    if ( localStorage.getItem(priv_toggle_storage) == 'on' && click == true ) {
+    if ( localStorage.getItem(priv_toggle_storage) == 'on' && user_click == true ) {
         
 
             pw_prompt({
@@ -4468,17 +4510,17 @@ private_data = document.getElementsByClassName('private_data');
                     safe_add_remove_class('hidden', 'balance_stats', 'remove');
                     
                     // https://mottie.github.io/tablesorter/docs/
-                    $("#coins_table").find("th:eq(7)").removeClass("no-sort");
-                    $("#coins_table").find("th:eq(9)").removeClass("no-sort");
-                    $("#coins_table").find("th:eq(10)").removeClass("no-sort");
+                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").removeClass("no-sort");
+                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").removeClass("no-sort");
+                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").removeClass("no-sort");
                     
-                    $("#coins_table").find("th:eq(7)").addClass("num-sort");
-                    $("#coins_table").find("th:eq(9)").addClass("num-sort");
-                    $("#coins_table").find("th:eq(10)").addClass("num-sort");
+                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").addClass("num-sort");
+                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").addClass("num-sort");
+                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").addClass("num-sort");
                     
-                    //$("#coins_table").find("th:eq(10)").data('sorter', 'sortprices');
+                    //$("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").data('sorter', 'sortprices');
                     
-                    reset_tablesorter('off');
+                    reset_tablesorter('off', user_click, 'coins_table', 2);
                     
                     var lvrg_info = document.querySelectorAll(".lvrg_info");
                         
@@ -4514,19 +4556,19 @@ private_data = document.getElementsByClassName('private_data');
     confirm_privacy_mode = false; // Interface only, set immediately below in interfacing
     
          
-        if ( click == true ) {
+        if ( user_click == true ) {
         var confirm_privacy_mode = confirm("Click OK to continue enabling privacy mode.");
         }
     
         
         // Only continue if clicked and confirmed by user in the interface,
         // OR it's just running automatically during page load
-        if ( click == true && !confirm_privacy_mode ) {
+        if ( user_click == true && !confirm_privacy_mode ) {
         return;
         }
         
         
-        if ( localStorage.getItem(priv_sec_storage) == null && click == true ) {
+        if ( localStorage.getItem(priv_sec_storage) == null && user_click == true ) {
     
 
             pw_prompt({
@@ -4551,7 +4593,7 @@ private_data = document.getElementsByClassName('private_data');
         
                                 if ( pin == pin_check ) {
                                 localStorage.setItem(priv_sec_storage, btoa(pin) );
-                                privacy_mode(click);
+                                privacy_mode(user_click);
                                 }
                                 else {
                                 alert("PIN mis-match, please try again.");
@@ -4575,7 +4617,13 @@ private_data = document.getElementsByClassName('private_data');
         
         
         // Check, now that 'priv_sec' is set
-        if ( not_empty( localStorage.getItem(priv_sec_storage) ) && click == true || not_empty( localStorage.getItem(priv_sec_storage) ) && click == false && localStorage.getItem(priv_toggle_storage) == 'on' ) {
+        if (
+        not_empty( localStorage.getItem(priv_sec_storage) )
+        && user_click == true
+        || not_empty( localStorage.getItem(priv_sec_storage) )
+        && user_click == false
+        && localStorage.getItem(priv_toggle_storage) == 'on'
+        ) {
                     
         pin = atob( localStorage.getItem(priv_sec_storage) );
         
@@ -4652,17 +4700,17 @@ private_data = document.getElementsByClassName('private_data');
         safe_add_remove_class('hidden', 'balance_stats', 'add');
         
         // https://mottie.github.io/tablesorter/docs/
-        $("#coins_table").find("th:eq(7)").addClass("no-sort");
-        $("#coins_table").find("th:eq(9)").addClass("no-sort");
-        $("#coins_table").find("th:eq(10)").addClass("no-sort");
+        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").addClass("no-sort");
+        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").addClass("no-sort");
+        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").addClass("no-sort");
                     
-        $("#coins_table").find("th:eq(7)").removeClass("num-sort");
-        $("#coins_table").find("th:eq(9)").removeClass("num-sort");
-        $("#coins_table").find("th:eq(10)").removeClass("num-sort");
+        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").removeClass("num-sort");
+        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").removeClass("num-sort");
+        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").removeClass("num-sort");
                     
-        //$("#coins_table").find("th:eq(10)").data('sorter', false);
+        //$("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").data('sorter', false);
         
-        reset_tablesorter('on');
+        reset_tablesorter('on', user_click, 'coins_table', 2);
                     
         var lvrg_info = document.querySelectorAll(".lvrg_info");
                         

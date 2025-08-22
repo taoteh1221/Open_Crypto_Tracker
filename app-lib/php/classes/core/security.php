@@ -19,27 +19,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
 
    
-   function secret_name($str) {
-        
-   global $ct;
-   
-      if ( !$ct['auth_secret'] ) {
-      $ct['gen']->log('conf_error', 'auth_secret not set properly');
-      return false;
-      }
-      // WINDOWS file path / name compatibility
-      // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
-      else {
-      return $ct['gen']->safe_name( hash_hmac("sha256", $str, $ct['auth_secret']) );
-      }
-   
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-
-   
    function sanitize_string($data) {
    
    $data = strip_tags($data);
@@ -134,6 +113,27 @@ var $ct_array = array();
        else {
        return false;
        }
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+
+   
+   function secret_name($str) {
+        
+   global $ct;
+   
+      if ( !$ct['auth_secret'] ) {
+      $ct['gen']->log('conf_error', 'auth_secret not set properly');
+      return false;
+      }
+      // WINDOWS file path / name compatibility
+      // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+      else {
+      return $ct['gen']->safe_name( hash_hmac("sha256", $str, $ct['auth_secret']) );
+      }
    
    }
    

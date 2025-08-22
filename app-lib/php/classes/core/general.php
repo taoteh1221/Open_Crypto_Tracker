@@ -18,23 +18,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function db_version_state_updating() {
-   
-   global $ct;
-   
-   $ct['conf']['version_states']['app_version'] = $ct['app_version'];
-   
-      if ( $ct['active_plugins_registered'] ) {
-      $ct['conf']['version_states']['plug_version'] = $ct['plug_version'];
-      }
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function test_ipv4($str) {
    return filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
    }
@@ -63,22 +46,6 @@ var $ct_array = array();
      return $var;
      }
      
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function safe_name($var) {
-        
-   // Replace ALL symbols with an underscore (for filesystem compatibility, as filenames etc)
-   $var = preg_replace('/[^\p{L}\p{N}\s]/u', "_", $var);
-   
-   // MAX 20 characters, to avoid going over the WINDOWS path character limit
-   // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
-   return $this->truncate_str($var, 20); 
-
    }
    
    
@@ -115,6 +82,22 @@ var $ct_array = array();
    
    return $ct['var']->strip_non_alpha($str[0]);
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function safe_name($var) {
+        
+   // Replace ALL symbols with an underscore (for filesystem compatibility, as filenames etc)
+   $var = preg_replace('/[^\p{L}\p{N}\s]/u', "_", $var);
+   
+   // MAX 20 characters, to avoid going over the WINDOWS path character limit
+   // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+   return $this->truncate_str($var, 20); 
+
    }
    
    
@@ -231,6 +214,23 @@ var $ct_array = array();
          unlink($file); // delete file
          }
          
+      }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function db_version_state_updating() {
+   
+   global $ct;
+   
+   $ct['conf']['version_states']['app_version'] = $ct['app_version'];
+   
+      if ( $ct['active_plugins_registered'] ) {
+      $ct['conf']['version_states']['plug_version'] = $ct['plug_version'];
       }
    
    }

@@ -13,121 +13,6 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function prune_access_stats() {
-   
-   global $ct;
-   
-   $prune_threshold = time() - $ct['var']->num_to_str($ct['conf']['power']['access_stats_delete_old'] * 86400);
-   
-   //var_dump($prune_threshold);
-  
-   $access_stats_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/access_stats', 'dat', 'desc');
-  
-       
-       // Prune ALL the stats
-       foreach( $access_stats_files as $ip_access_file ) {
-   
-       $queued_newer_lines = array();
-       
-       $path = $ct['base_dir'] . '/cache/secured/access_stats/' . $ip_access_file;
-       
-       // Access stats file array
-       $file_lines = file($path);
-       
-       
-          foreach ( $file_lines as $line ) {
-          
-          $data_array = explode("||", $line);
-          
-          //var_dump($data_array);
-          
-              if ( $ct['var']->num_to_str($data_array[0]) >= $prune_threshold ) {
-              $queued_newer_lines[] = $line;
-              //var_dump($line);
-              }
-          
-          }
-       
-          
-       $pruned_data = implode("", $queued_newer_lines);
-       
-       $result = $this->save_file($path, $pruned_data); 
-   
-       gc_collect_cycles(); // Clean memory cache
-       
-       }
-       
-   
-   // Give the file write / lock time to release
-   // (as we'll be updating access stats at the end of this runtime)
-   usleep(120000); // Wait 0.12 seconds
-   
-   }
-
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function list_directories($path) {
-       
-  $results = array();
-  
-  $scanned_parent = scandir($path);
-  
-  //var_dump($scanned_parent);
-  
-     foreach ( $scanned_parent as $dir_check ) {
-     
-          if ( is_dir($path . '/' . $dir_check) && $dir_check != '.' && $dir_check != '..' ) {
-          $results[] = $dir_check;
-          }
-     
-     }
-     
-  return $results;
-  
-  }
-
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function price_chart_cleanup($path=false) {
-       
-  global $ct;
-  
-     if ( !$path ) {
-     $path = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/';
-     }
-  
-  $subdirectory_list = $this->list_directories($path);
-  
-     foreach ( $subdirectory_list as $asset_ticker ) {
-     
-          if ( !isset($ct['conf']['assets'][$asset_ticker]) ) {
-               
-          //var_dump($path . $asset_ticker);
-               
-          $this->remove_dir($path . $asset_ticker);
-		
-     		// Light charts
-     		foreach( $ct['light_chart_day_intervals'] as $light_chart_days ) {
-     		$this->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/'.$light_chart_days.'_days/' . $asset_ticker);
-     		}
-		
-          }
-     
-     }
-  
-  }
 
   
   ////////////////////////////////////////////////////////
@@ -217,6 +102,65 @@ var $ct_array = array();
   
   }
 
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function list_directories($path) {
+       
+  $results = array();
+  
+  $scanned_parent = scandir($path);
+  
+  //var_dump($scanned_parent);
+  
+     foreach ( $scanned_parent as $dir_check ) {
+     
+          if ( is_dir($path . '/' . $dir_check) && $dir_check != '.' && $dir_check != '..' ) {
+          $results[] = $dir_check;
+          }
+     
+     }
+     
+  return $results;
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function price_chart_cleanup($path=false) {
+       
+  global $ct;
+  
+     if ( !$path ) {
+     $path = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/';
+     }
+  
+  $subdirectory_list = $this->list_directories($path);
+  
+     foreach ( $subdirectory_list as $asset_ticker ) {
+     
+          if ( !isset($ct['conf']['assets'][$asset_ticker]) ) {
+               
+          //var_dump($path . $asset_ticker);
+               
+          $this->remove_dir($path . $asset_ticker);
+		
+     		// Light charts
+     		foreach( $ct['light_chart_day_intervals'] as $light_chart_days ) {
+     		$this->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/'.$light_chart_days.'_days/' . $asset_ticker);
+     		}
+		
+          }
+     
+     }
+  
+  }
+
 
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -256,6 +200,62 @@ var $ct_array = array();
       }
       
 
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function prune_access_stats() {
+   
+   global $ct;
+   
+   $prune_threshold = time() - $ct['var']->num_to_str($ct['conf']['power']['access_stats_delete_old'] * 86400);
+   
+   //var_dump($prune_threshold);
+  
+   $access_stats_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/access_stats', 'dat', 'desc');
+  
+       
+       // Prune ALL the stats
+       foreach( $access_stats_files as $ip_access_file ) {
+   
+       $queued_newer_lines = array();
+       
+       $path = $ct['base_dir'] . '/cache/secured/access_stats/' . $ip_access_file;
+       
+       // Access stats file array
+       $file_lines = file($path);
+       
+       
+          foreach ( $file_lines as $line ) {
+          
+          $data_array = explode("||", $line);
+          
+          //var_dump($data_array);
+          
+              if ( $ct['var']->num_to_str($data_array[0]) >= $prune_threshold ) {
+              $queued_newer_lines[] = $line;
+              //var_dump($line);
+              }
+          
+          }
+       
+          
+       $pruned_data = implode("", $queued_newer_lines);
+       
+       $result = $this->save_file($path, $pruned_data); 
+   
+       gc_collect_cycles(); // Clean memory cache
+       
+       }
+       
+   
+   // Give the file write / lock time to release
+   // (as we'll be updating access stats at the end of this runtime)
+   usleep(120000); // Wait 0.12 seconds
+   
    }
   
   

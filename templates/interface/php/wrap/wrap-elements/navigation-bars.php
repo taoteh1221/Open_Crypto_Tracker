@@ -299,7 +299,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
         
         <div class="sidebar-slogan align_center">
         
-        <i>Privately</i> track <i>ANY</i> Crypto on your home network or internet website, for <a class='sidebar_secondary_link' href='https://taoteh1221.github.io/' target='_blank'><i>FREE</i></a>.
+        <i>Privately</i> track <i>ANY</i> Crypto on your home network or internet website, for <a class='sidebar_secondary_link' href='https://taoteh1221.github.io/' target='_blank'><i>FREE</i></a>, with NO middle-man.
         
         </div>
 

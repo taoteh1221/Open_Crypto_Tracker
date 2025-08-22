@@ -88,7 +88,7 @@ var admin_iframe_dom;
 	
 var sorted_by_col;
 
-var sorted_asc_desc;
+var sorted_direction;
 	
 var theme_selected;
 

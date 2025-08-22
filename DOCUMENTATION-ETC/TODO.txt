@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Look into moving the per minute / day API throttle tracking file save to the end of each runtime. Also, add a file include at the end of each runtime, to run general logic we always run at the end of runtimes, to simplify updating our exit time logic for any given runtime modes. Inline with a require() file include is best DX. Additionally, we can EXCLUDE any logic PER-RUNTIME TYPE, by just using conditions based off the $ct['runtime_mode'] value.
+
+
 Move all remaining relevent (important) APIs over to the new per-second / per-minute / per-day throttling system.
 
 
