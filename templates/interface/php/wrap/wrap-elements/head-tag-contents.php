@@ -300,7 +300,7 @@
 	
 	sorted_by_col = not_empty( localStorage.getItem(folio_sorting_storage) ) ? folio_sort_array[0] : 0;
 	
-	sorted_asc_desc = not_empty( localStorage.getItem(folio_sorting_storage) ) ? folio_sort_array[1] : 0;
+	sorted_direction = not_empty( localStorage.getItem(folio_sorting_storage) ) ? folio_sort_array[1] : 0;
      
 	
 	    <?php

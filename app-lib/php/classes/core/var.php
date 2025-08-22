@@ -159,6 +159,24 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function delimited_str_sample($str, $delimiter, $position, $charset='utf-8') {
+      
+      if ( $position == 'first' ) {
+      $result = substr($str, 0, mb_strpos($str, $delimiter, 0, $charset) );
+      }
+      elseif ( $position == 'last' ) {
+      $result = array_pop( explode(',', $str) );
+      }
+   
+   return $result;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function rem_num_format($str) {
    
    $str = str_replace("    ", '', $str);
@@ -194,24 +212,6 @@ var $ct_array = array();
 		
    return trim($result);
 	
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function delimited_str_sample($str, $delimiter, $position, $charset='utf-8') {
-      
-      if ( $position == 'first' ) {
-      $result = substr($str, 0, mb_strpos($str, $delimiter, 0, $charset) );
-      }
-      elseif ( $position == 'last' ) {
-      $result = array_pop( explode(',', $str) );
-      }
-   
-   return $result;
-   
    }
 
 
@@ -303,6 +303,28 @@ var $ct_array = array();
        
    }
    
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function auto_correct_str($str, $mode) {
+   
+      // Upper or lower case
+      if ( $mode == 'lower' ) {
+      $str = strtolower($str);
+      }
+      elseif ( $mode == 'upper' ) {
+      $str = strtoupper($str);
+      }
+   
+   // Remove all whitespace
+   $str = preg_replace('/\s/', '', $str);
+   
+   return $str;
+   
+   }
+   
 
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -371,79 +393,6 @@ var $ct_array = array();
    // Sort by STRING value, case-insensitive equivalent comparison via strtolower()
    return strnatcmp( strtolower( (string)$b ), strtolower( (string)$a ) );
    
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function auto_correct_str($str, $mode) {
-   
-      // Upper or lower case
-      if ( $mode == 'lower' ) {
-      $str = strtolower($str);
-      }
-      elseif ( $mode == 'upper' ) {
-      $str = strtoupper($str);
-      }
-   
-   // Remove all whitespace
-   $str = preg_replace('/\s/', '', $str);
-   
-   return $str;
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function rss_usort_newest($a, $b) {
-        
-      
-      if ( isset($a->pubDate) && isset($b->pubDate) ) {
-      $result_a = strtotime($a->pubDate);
-      $result_b = strtotime($b->pubDate);
-      }
-      elseif ( isset($a->published) && isset($b->published) ) {
-      $result_a = strtotime($a->published);
-      $result_b = strtotime($b->published);
-      }
-      elseif ( isset($a->updated) && isset($b->updated) ) {
-      $result_a = strtotime($a->updated);
-      $result_b = strtotime($b->updated);
-      }
-	 // Support for the 'dc' namespace
-	 elseif (
-	 is_object($a)
-	 && is_object( $a->children('dc', true) )
-	 && sizeof( $a->children('dc', true) ) > 0
-	 && is_object($b)
-	 && is_object( $b->children('dc', true) )
-	 && sizeof( $b->children('dc', true) ) > 0
-	 ) {
-			         
-      $dc_namespace_a = $a->children('dc', true);
-      $dc_namespace_b = $b->children('dc', true);
-			         
-           if ( $dc_namespace_a->date != '' && $dc_namespace_b->date != '' ) {
-           $result_a = $dc_namespace_a->date;
-           $result_b = $dc_namespace_b->date;
-           }
-			         
-	 }
-   
-   
-      if ( isset($result_a) && isset($result_b) ) {
-      return $result_b - $result_a;
-      }
-      else {
-      return 0;
-      }
-      
-      
    }
 
    
@@ -529,6 +478,57 @@ var $ct_array = array();
    
    return $result;
    
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function rss_usort_newest($a, $b) {
+        
+      
+      if ( isset($a->pubDate) && isset($b->pubDate) ) {
+      $result_a = strtotime($a->pubDate);
+      $result_b = strtotime($b->pubDate);
+      }
+      elseif ( isset($a->published) && isset($b->published) ) {
+      $result_a = strtotime($a->published);
+      $result_b = strtotime($b->published);
+      }
+      elseif ( isset($a->updated) && isset($b->updated) ) {
+      $result_a = strtotime($a->updated);
+      $result_b = strtotime($b->updated);
+      }
+	 // Support for the 'dc' namespace
+	 elseif (
+	 is_object($a)
+	 && is_object( $a->children('dc', true) )
+	 && sizeof( $a->children('dc', true) ) > 0
+	 && is_object($b)
+	 && is_object( $b->children('dc', true) )
+	 && sizeof( $b->children('dc', true) ) > 0
+	 ) {
+			         
+      $dc_namespace_a = $a->children('dc', true);
+      $dc_namespace_b = $b->children('dc', true);
+			         
+           if ( $dc_namespace_a->date != '' && $dc_namespace_b->date != '' ) {
+           $result_a = $dc_namespace_a->date;
+           $result_b = $dc_namespace_b->date;
+           }
+			         
+	 }
+   
+   
+      if ( isset($result_a) && isset($result_b) ) {
+      return $result_b - $result_a;
+      }
+      else {
+      return 0;
+      }
+      
+      
    }
    
    

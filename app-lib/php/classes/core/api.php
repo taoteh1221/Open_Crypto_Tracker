@@ -380,25 +380,6 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function coingecko_currencies() {
-    
-   global $ct;
-         
-   $url = 'https://api.coingecko.com/api/v3/simple/supported_vs_currencies';
-         
-   $response = @$ct['cache']->ext_data('url', $url, 1440); // Check DAILY
-       
-   $data = json_decode($response, true);
-   
-   return ( is_array($data) ? $data : array() ); // Parsing failsafe
-     
-   }
-   
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function bitcoin($request) {
     
    global $ct;
@@ -424,6 +405,25 @@ var $exchange_apis = array(
          
    $response = @$ct['cache']->ext_data('url', $url, 90); // 90 minute cache
    
+   $data = json_decode($response, true);
+   
+   return ( is_array($data) ? $data : array() ); // Parsing failsafe
+     
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function coingecko_currencies() {
+    
+   global $ct;
+         
+   $url = 'https://api.coingecko.com/api/v3/simple/supported_vs_currencies';
+         
+   $response = @$ct['cache']->ext_data('url', $url, 1440); // Check DAILY
+       
    $data = json_decode($response, true);
    
    return ( is_array($data) ? $data : array() ); // Parsing failsafe

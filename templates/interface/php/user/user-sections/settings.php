@@ -133,7 +133,7 @@
 			    <b>Sort Portfolio Data By:</b> 
 			    
 			    <select class='browser-default custom-select' id='sorted_by_col' onchange='
-			    localStorage.setItem(folio_sorting_storage,  this.value + "|" + $("#sorted_asc_desc").val() );
+			    localStorage.setItem(folio_sorting_storage,  this.value + "|" + $("#sorted_direction").val() );
                    local_storage_saved_notice("Portfolio Sort Order");
 			    '>
 				<option value='0'> Rank </option>
@@ -149,7 +149,7 @@
 				<option value='10'> (in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) </option>
 			    </select> 
 			    
-			     <select class='browser-default custom-select' id='sorted_asc_desc' onchange='
+			     <select class='browser-default custom-select' id='sorted_direction' onchange='
 			    localStorage.setItem(folio_sorting_storage,  $("#sorted_by_col").val() + "|" + this.value );
                    local_storage_saved_notice("Portfolio Sort Order");
 			    '>
@@ -165,7 +165,7 @@
 		 <script>
 		 
 		 $('#sorted_by_col').val(sorted_by_col);
-		 $('#sorted_asc_desc').val(sorted_asc_desc);
+		 $('#sorted_direction').val(sorted_direction);
 		 
 
 				    if ( localStorage.getItem(priv_toggle_storage) == 'on' ) {

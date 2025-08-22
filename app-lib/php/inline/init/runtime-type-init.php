@@ -176,8 +176,8 @@ require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php'
 	if ( !$ct['sel_opt']['sorted_by_col'] ) {
 	$ct['sel_opt']['sorted_by_col'] = 0;
 	}
-	if ( !$ct['sel_opt']['sorted_asc_desc'] ) {
-	$ct['sel_opt']['sorted_asc_desc'] = 0;
+	if ( !$ct['sel_opt']['sorted_direction'] ) {
+	$ct['sel_opt']['sorted_direction'] = 0;
 	}
     
     
