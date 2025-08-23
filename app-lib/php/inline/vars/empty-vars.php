@@ -87,8 +87,6 @@ $ct['last_valid_chart_data'] = array();
 
 $ct['api_throttle_count'] = array();
 
-$ct['api_throttle_flag'] = array();
-
 $ct['int_webhooks'] = array();
 
 $ct['activated_sms_services'] = array();

@@ -126,6 +126,35 @@ var $ct_array = array();
   return $results;
   
   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function api_throttle_cache() {
+        
+   global $ct;
+   
+      if ( sizeof($ct['api_throttle_count']) > 0 ) {
+      
+          foreach ( $ct['api_throttle_count'] as $tld_or_ip => $unused ) {
+          
+          // SAFE filename
+          $file_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
+         
+               // We only store to cached file, if there is a limit count updated
+               if ( $ct['api_throttle_count'][$tld_or_ip]['updated_counts'] ) {
+               $ct['api_throttle_count'][$tld_or_ip]['updated_counts'] = false; // RESET update flag, before saving
+               $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
+               $store_file_contents = $this->save_file($file_path, $store_api_throttle_count);
+               }
+         
+          }
+      
+      }
+   
+   }
 
   
   ////////////////////////////////////////////////////////
@@ -749,27 +778,27 @@ var $ct_array = array();
      }
      
   
-  // We wait until we are in this function, to grab any cached data at the last minute,
-  // to assure we get anything written recently by other runtimes
-  
-  // SAFE filename
-  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
-  
-  $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , true);
-  
-  
-     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $ct['api_throttle_count'] array
-     if (
-     !isset($ct['api_throttle_flag']['init'][$tld_or_ip])
-     && $api_throttle_count_check != false
-     && $api_throttle_count_check != null
-     && $api_throttle_count_check != "null"
-     ) {
-     $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
+     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached,
+     // import it as the $ct['api_throttle_count'] array
+     // "null" in quotes as the actual value is returned sometimes
+     if ( !is_array($ct['api_throttle_count'][$tld_or_ip]) ) {
+          
+     // We wait until we are in this function, to grab any cached data at the last minute,
+     // to assure we get anything written recently by other runtimes
+       
+     // SAFE filename
+     $file_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
+       
+     $api_throttle_count_check = json_decode( trim( file_get_contents($file_path) ) , true);
+          
+          if ( is_array($api_throttle_count_check) ) {
+          $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
+          }
+          else {
+          $ct['api_throttle_count'][$tld_or_ip] = array();
+          }
+     
      }
-     
-     
-     $ct['api_throttle_flag']['init'][$tld_or_ip] = true; // Flag as initiated this runtime (AFTER above logic)
 
      
      // Set OR reset DAY start time / counts, if needed
@@ -795,7 +824,7 @@ var $ct_array = array();
      
      
      // Thresholds for API servers (we throttle-limit, to have reliable LIVE data EVERY HOUR OF THE DAY) 
-     // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $ct['api_throttle_flag'][$tld_or_ip] *AND* THE FUNCTION CALL)
+     // (ALL WE DO HERE BESIDES UPDATING CACHED JSON RESULTS, IS RETURN TRUE / FALSE FOR THE FUNCTION CALL)
      
      
      // Limits met, return TRUE
@@ -816,21 +845,14 @@ var $ct_array = array();
          // PER-DAY count
          if ( isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day']) ) {
          $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] + 1;
-         $save_limit_counts = true;         
+         $ct['api_throttle_count'][$tld_or_ip]['updated_counts'] = true;         
          }
          
          
          // PER-MINUTE count
          if ( isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']) ) {
          $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] = $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] + 1;
-         $save_limit_counts = true; 
-         }
- 
-         
-         // We only store to cached file, if there is a limit count updated
-         if ( $save_limit_counts ) {
-         $store_api_throttle_count = json_encode($ct['api_throttle_count'][$tld_or_ip], JSON_PRETTY_PRINT);
-         $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
+         $ct['api_throttle_count'][$tld_or_ip]['updated_counts'] = true; 
          }
          
          
@@ -854,11 +876,6 @@ var $ct_array = array();
          // https://www.php.net/manual/en/function.usleep.php
          usleep($sleep_microseconds);
 
-         }
-         // We ALWAYS want at least a small amount of sleep, IF WE UPDATED THE DAY / MINUTE COUNT CACHE FILE
-         // (since we may still have consecutive counts for this server, during this runtime)
-         elseif ( $save_limit_counts ) {
-         usleep(50000); // Wait 0.05 seconds, since we just re-saved the count cache file
          }
 
      
@@ -1610,7 +1627,12 @@ var $ct_array = array();
         			
         			
         		    // "null" in quotes as the actual value is returned sometimes
-        			if ( $ct['gen']->config_state_synced() && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
+        			if (
+        			$ct['gen']->config_state_synced()
+        			&& $cached_ct_conf != false
+        			&& $cached_ct_conf != null
+        			&& $cached_ct_conf != "null"
+        			) {
 
         			// Use cached ct_conf if it exists, seems intact, BUT RUN A CHECK ON IT JUST IN CASE
         			// (which triggers running it through the cached config upgrade mechanism, IF it seems wonky)

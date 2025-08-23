@@ -366,8 +366,9 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
 
 
 
-// Access stats logging
+// Access stats logging / etc
 $ct['cache']->log_access_stats();
+$ct['cache']->api_throttle_cache();
 
 gc_collect_cycles(); // Clean memory cache
     
