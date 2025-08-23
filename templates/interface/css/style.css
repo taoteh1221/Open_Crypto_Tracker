@@ -206,12 +206,23 @@ padding: .5em !important;
 code {
 padding: 0em !important;
 margin: 0px;
+padding: 0px;
 }
 
 
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+
+/*
+Fixes highlight.js horizontal overflow NOT force-wrapping
+(to avoid overly-wide code areas, when a line does not want to wrap easily)
+*/
+pre code.hljs {
+overflow-x: unset !important;
+overflow-wrap: anywhere !important;
+}
 
 
 /* https://talk.tiddlywiki.org/t/how-to-limit-the-width-of-select-widget-if-the-text-in-the-dropdown-in-lengthy/10406 */
