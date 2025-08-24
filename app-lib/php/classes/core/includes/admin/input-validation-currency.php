@@ -14,8 +14,27 @@ $additional_pairings_search = array_map( "trim", explode(',', $_POST['currency']
 
 
 // Make sure primary currency conversion params are set properly
-if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['currency']['bitcoin_primary_currency_pair'] ][ $_POST['currency']['bitcoin_primary_currency_exchange'] ] ) {
+if (
+!$ct['conf']['assets']['BTC']['pair'][ $_POST['currency']['bitcoin_primary_currency_pair'] ][ $_POST['currency']['bitcoin_primary_currency_exchange'] ]
+) {
 $ct['update_config_error'] .= '<br />Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['currency']['bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($_POST['currency']['bitcoin_primary_currency_pair']) . '" market';
+}
+// Check the spot price data for validity
+else {
+
+$parsed_market_id = $ct['conf']['assets']['BTC']['pair'][ $_POST['currency']['bitcoin_primary_currency_pair'] ][ $_POST['currency']['bitcoin_primary_currency_exchange'] ];
+
+$market_value_check = $ct['api']->market('BTC', $_POST['currency']['bitcoin_primary_currency_exchange'], $parsed_market_id);
+
+
+     if ( isset($market_value_check['last_trade']) && $market_value_check['last_trade'] > 0 ) {
+     // All set, do nothing
+     }
+     else {
+     $ct['update_config_error'] .= '<br />The Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['currency']['bitcoin_primary_currency_exchange']) . '" did NOT return a valid trade value, for the "' . strtoupper($_POST['currency']['bitcoin_primary_currency_pair']) . '" market (trade value: "' . $market_value_check['last_trade'] . '"). It is POSSIBLE this MAY be from a network error, OR exchange MAINTENANCE temporarily taking the market offline. IF either of these are the reason for the market error, trying again in a few minutes / hours may fix the issue.';
+     }
+
+
 }
         
 
