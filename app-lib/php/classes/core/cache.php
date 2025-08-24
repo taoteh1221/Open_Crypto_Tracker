@@ -1240,7 +1240,7 @@ var $ct_array = array();
                     <?php
                     if ( $_GET['mode'] == 'bundled' ) {
                     ?>
-                     <td> <?=$visited_pages['last_ip']?> </td>
+                     <td> <?=( $visited_pages['last_ip'] == $ct['remote_ip'] ? '<span class="bitcoin" style="text-decoration-line: underline; text-decoration-style: dotted; cursor: pointer;" title="YOUR current address">' . $visited_pages['last_ip'] . '</span>' : $visited_pages['last_ip'] )?> </td>
                     <?php
                     }
                     ?>

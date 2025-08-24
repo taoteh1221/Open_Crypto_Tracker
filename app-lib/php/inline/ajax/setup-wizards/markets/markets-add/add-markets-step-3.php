@@ -200,16 +200,24 @@ $ct['gen']->ajax_wizard_back_button("#update_markets_ajax");
      echo '<p class="align_center ' . ( $search_runtime > 90 ? 'red' : 'green' ) . '"> ' . $ct['var']->num_pretty($results_count, 0) . ' total results <span class="' . ( sizeof($skipped_results) > 0 ? 'red' : '' ) . '">(' . $ct['var']->num_pretty( sizeof($skipped_results) , 0) . ' skipped)</span> in ' . $search_runtime . ' seconds.</p>';
      }
 
+
+// Specific exchange
+if ( $specific_exchange ) {
+?>
+
+
+<h3 class='green input_margins'>STEP #3: Select Asset Markets Found For (EXACT <?=$ct['gen']->key_to_name($specific_exchange)?> Market ID Match) Search "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</h3>
+
+
+<?php
+}
+// 'all exchanges' search results notices
+else {
 ?>
 
 
 <h3 class='green input_margins'>STEP #3: Select Asset Markets Found For (<?=( $_POST['strict_search'] == 'yes' ? 'Exact' : 'Similar' )?> Match) Search "<?=htmlspecialchars($search_desc, ENT_QUOTES)?>"</h3>
 
-
-<?php
-// 'all exchanges' search results notices
-if ( !$specific_exchange ) {
-?>
 
 <p style='font-weight: bold;' class='bitcoin bitcoin_dotted input_margins'>
     
