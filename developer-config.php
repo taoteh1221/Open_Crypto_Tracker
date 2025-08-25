@@ -161,7 +161,61 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+                                     // https://www.binance.com/en-ZA/support/faq/detail/360004492232
+                                     'binance.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+                                     // https://www.binance.com/en-ZA/support/faq/detail/360004492232
+                                     'binance.us' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+                                     // https://docs.bitfinex.com/docs/requirements-and-limitations
+                                     'bitfinex.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 10,
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+                                     // https://www.bitmex.com/app/restAPI#Request-Rate-Limits
+                                     'bitmex.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 30,
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+                                     // https://www.bitstamp.net/api/#section/Response-codes
+                                     'bitstamp.net' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 400, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+                                     // https://docs.cdp.coinbase.com/exchange/docs/rate-limits
+                                     'coinbase.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -172,43 +226,16 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 10,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
-                                     // https://apiguide.geckoterminal.com/faq
-                                     'geckoterminal.com' => array(
-                                                       'min_cache_time' => null,
-                                                       'per_day' => null,
-                                                       'per_minute' => 30,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
-                                                      ),
-
-
-// https://www.reddit.com/r/redditdev/comments/14nbw6g/updated_rate_limits_going_into_effect_over_the/
-                                     'reddit.com' => array(
-                                                       'min_cache_time' => null,
-                                                       'per_day' => null,
-                                                       'per_minute' => 10,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
-                                                      ), 
-
-
-                                     // https://www.bitstamp.net/api/#section/Response-codes
-                                     'bitstamp.net' => array(
+                                     // https://crypto.com/exchange-docs-v1#resp-code    
+                                     'crypto.com' => array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 400, // 10000 max, decimals (even less than 1.00) supported
-                                                      ),
-
-
-                                     // https://docs.cdp.coinbase.com/exchange/docs/rate-limits
-                                     'coinbase.com' => array(
-                                                       'min_cache_time' => null,
-                                                       'per_day' => null,
-                                                       'per_minute' => null,
-                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 100, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -217,16 +244,34 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
-                                     // https://solana.com/docs/references/clusters
-                                     'solana.com' => array(
+                                     // https://github.com/gateio/rest-v4    
+                                     'gateio.ws' => array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 4, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 300, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+                                     // https://apiguide.geckoterminal.com/faq
+                                     'geckoterminal.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 30,
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+                                     // https://docs.gemini.com/rate-limit
+                                     'gemini.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -236,25 +281,16 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
-                                     // https://docs.gemini.com/rest-api/#two-factor-authentication
-                                     'gemini.com' => array(
+                                     // https://support.kraken.com/articles/206548367-what-are-the-api-rate-limits-#1
+                                     'kraken.com' => array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
-                                                      ),
-
-
-// https://help.twilio.com/articles/115002943027-Understanding-Twilio-Rate-Limits-and-Message-Queues
-                                     'twilio.com' => array(
-                                                       'min_cache_time' => null,
-                                                       'per_day' => null,
-                                                       'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -263,7 +299,25 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+// https://www.reddit.com/r/redditdev/comments/14nbw6g/updated_rate_limits_going_into_effect_over_the/
+                                     'reddit.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 10,
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ), 
+
+
+                                     // https://solana.com/docs/references/clusters
+                                     'solana.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 4, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -272,7 +326,16 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 20,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                      ),
+
+
+// https://help.twilio.com/articles/115002943027-Understanding-Twilio-Rate-Limits-and-Message-Queues
+                                     'twilio.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 

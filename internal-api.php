@@ -180,8 +180,9 @@ $hash_check = md5($_GET['data_set']);
 // Echo result in json format
 echo $json_result;
 
-// Access stats logging
+// Access stats logging / etc
 $ct['cache']->log_access_stats();
+$ct['cache']->api_throttle_cache();
 
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();

@@ -1511,7 +1511,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'sms_central||sms.smscentral.com.au',
                         'sms_pup||smspup.com',
                         'tmobile_au||optusmobile.com.au',
-                        'telstra||sms.tim.telstra.com',
                         'ut_box||sms.utbox.net',
                         
                         

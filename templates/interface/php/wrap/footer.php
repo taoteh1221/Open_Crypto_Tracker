@@ -211,8 +211,9 @@ footer_banner(safari_notice_storage, 'This web app MAY NOT FULLY FUNCTION / DISP
 <?php
 
 
-// Access stats / notifications
+// Access stats / notifications / etc
 $ct['cache']->log_access_stats();
+$ct['cache']->api_throttle_cache();
 $ct['cache']->send_notifications();
           	
 

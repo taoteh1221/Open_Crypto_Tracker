@@ -129,10 +129,15 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Look into moving the per minute / day API throttle tracking file save to the end of each runtime. Also, add a file include at the end of each runtime, to run general logic we always run at the end of runtimes, to simplify updating our exit time logic for any given runtime modes. Inline with a require() file include is best DX. Additionally, we can EXCLUDE any logic PER-RUNTIME TYPE, by just using conditions based off the $ct['runtime_mode'] value.
+Look into adding a file include at the end of each runtime, to run general logic we always run at the end of runtimes, to simplify updating our exit time logic for any given runtime modes. Inline with a require() file include is best DX. Additionally, we can EXCLUDE any logic PER-RUNTIME TYPE, by just using conditions based off the $ct['runtime_mode'] value.
 
 
-Move all remaining relevent (important) APIs over to the new per-second / per-minute / per-day throttling system.
+Docker imaging for PHP app:
+https://docs.docker.com/guides/php/containerize/
+https://www.google.com/search?q=docker+image+for+php+application
+
+
+Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
 
 
 +++++++++
@@ -156,7 +161,16 @@ Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sur
 Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
 
 
-Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
+Security page should show any version upgrade alerts (if available).
+
+
+Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
+
+
+Add the same hard-coded-config check we do for the app config, to plugin configs.
+
+
+Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
 
 
 Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
@@ -186,18 +200,6 @@ REDO all screenshots, used on the project page.
 
 
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 
-
-
-Security page should show any version upgrade alerts (if available).
-
-
-Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
-
-
-Add the same hard-coded-config check we do for the app config, to plugin configs.
-
-
-Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
 
 
 Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.

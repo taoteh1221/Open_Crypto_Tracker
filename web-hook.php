@@ -105,8 +105,9 @@ $result = array('error' => "Webhook key mismatch: " . $plug['webhook'][$this_plu
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
-// Access stats logging
+// Access stats logging / etc
 $ct['cache']->log_access_stats();
+$ct['cache']->api_throttle_cache();
 
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();

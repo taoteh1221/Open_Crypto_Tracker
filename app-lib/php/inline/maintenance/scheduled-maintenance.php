@@ -116,21 +116,25 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/market_error_tra
 // Delete OLD cached invalid XML response files
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/logs/debug/xml_error_parsing', 7); 
 
+// Delete OLD recent secured/other cache files
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/other_data', 7, 'dat'); // ONLY .dat FILES
+
+/////////////////////////
+// Every 2 days
+/////////////////////////
+
+// Delete OLD throttling event tracking cache files
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling', 2); 
+
+// Delete OLD UNSENT message queue files
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/messages', 2, 'queue'); // ONLY .queue FILES
+
 /////////////////////////
 // Every day
 /////////////////////////
 
-// Delete OLD UNSENT message queue files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/messages', 1, 'queue'); // ONLY .queue FILES
-
-// Delete OLD recent search cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/other_data', 1, 'dat'); // ONLY .dat FILES
-
 // Delete OLD activation cache files
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/activation', 1, 'dat'); // ONLY .dat FILES
-
-// Delete OLD throttling event tracking cache files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling', 1); 
 
 // Delete OLD internal API cache files
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/internal_api', 1); 

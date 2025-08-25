@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2025-8-25'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.04',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => false,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'v6.01.05 has been released, which FIXES occasionally getting a blank page in the user area, related to automated CoinGecko.com multi-currency support (added in v6.01.04). API throttling has also been further refined, for better API data reliability. Other optimizations / smaller fixes / user experience improvements are also included.',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2025-8-17'),
                    
                    'very_important' => true,
