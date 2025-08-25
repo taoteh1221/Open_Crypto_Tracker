@@ -863,9 +863,14 @@ var $ct_array = array();
          && $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] >= 1
          ) {
               
-              // Cap per-second throttle to ten thousand, to support our usleep auto-calculation logic
-              if ( $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] > 10000 ) {
-              $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 10000;
+              // Limits on our usleep auto-calculation logic
+              // 100000 per second maximum
+              if ( $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] > 100000 ) {
+              $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 100000;
+              }
+              // 0.25 per second minimum (translates to once every 4 seconds, in below equation)
+              elseif ( $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] < 0.25 ) {
+              $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 0.25;
               }
          
          $sleep_microseconds = (1 / $ct['dev']['throttled_apis'][$tld_or_ip]['per_second']) * 1000000;

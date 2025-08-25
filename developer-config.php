@@ -161,7 +161,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -170,7 +170,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -179,7 +179,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -188,7 +188,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 10,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -197,7 +197,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 30,
-                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -206,7 +206,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 400, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 400, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -215,7 +215,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -226,7 +226,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 10,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -235,7 +235,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 100, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 100, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -244,7 +244,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -253,7 +253,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 300, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 300, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -262,7 +262,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 30,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -271,7 +271,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -281,7 +281,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -290,7 +290,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -299,7 +299,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -308,7 +308,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 10,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ), 
 
 
@@ -317,7 +317,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 4, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 4, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -326,7 +326,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 20,
-                                                       'per_second' => null, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
@@ -335,7 +335,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 10000 max, decimals (even less than 1.00) supported
+                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 
