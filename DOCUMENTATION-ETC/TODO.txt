@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
+
+
 Look into adding a file include at the end of each runtime, to run general logic we always run at the end of runtimes, to simplify updating our exit time logic for any given runtime modes. Inline with a require() file include is best DX. Additionally, we can EXCLUDE any logic PER-RUNTIME TYPE, by just using conditions based off the $ct['runtime_mode'] value.
 
 
@@ -162,9 +165,6 @@ Add pagination to the "my portfolio" section, like we already do for other sorte
 
 
 Security page should show any version upgrade alerts (if available).
-
-
-Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
 Add the same hard-coded-config check we do for the app config, to plugin configs.
