@@ -335,9 +335,23 @@ var $ct_array = array();
         
         // (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
         if ( $now > 0 ) {
-        
+           
         // Store system data to archival / light charts
-        $access_stats_data = time() . $access_data_set;
+        $access_stats_data = $now . $access_data_set;
+      
+            // Access stats telemetry, IF NO DATA
+            // (ONLY IN ACCESS STATS DEBUG MODE, FOR OBFUSCATION SECURITY!!!)
+            if (
+            strlen($access_stats_data) < 1
+            && $ct['conf']['power']['debug_mode'] == 'access_stats_telemetry'
+            ) {
+              
+            $ct['gen']->log(
+             			'system_debug',	
+             			'access_stats_data: ' . $access_stats_data . '; file_save_path: ' . $file_save_path
+             			);
+             			
+            }
         
         $ct['cache']->save_file($file_save_path, $access_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
         
@@ -2092,7 +2106,7 @@ var $ct_array = array();
   
   
     // If no data was passed on to write to file, log it and return false early for runtime speed sake
-    if ( strlen($data) == 0 ) {
+    if ( strlen($data) < 1 ) {
      
     $ct['gen']->log(
     			'system_error',

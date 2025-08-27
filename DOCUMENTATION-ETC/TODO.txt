@@ -129,15 +129,33 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Add full redhat support for auto-installer.
+
+
+Docker imaging for PHP app:
+https://docs.docker.com/guides/php/containerize/
+https://www.google.com/search?q=docker+image+for+php+application
+
+
+For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This can be done by formating like price alerts / charts, and putting into a trimmed array in config-auto-adjust.php. Then we can create in_array() conditions, for queueing messages, for whatever comm channels are preffered.
+
+
+Add a 'comm channels' setting to plugins: address-balance-tracker, price-target-alert, recurring-reminder
+
+
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
 Look into adding a file include at the end of each runtime, to run general logic we always run at the end of runtimes, to simplify updating our exit time logic for any given runtime modes. Inline with a require() file include is best DX. Additionally, we can EXCLUDE any logic PER-RUNTIME TYPE, by just using conditions based off the $ct['runtime_mode'] value.
 
 
-Docker imaging for PHP app:
-https://docs.docker.com/guides/php/containerize/
-https://www.google.com/search?q=docker+image+for+php+application
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+
+
+Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
+
+
+Security page should show any version upgrade alerts (if available).
 
 
 Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
@@ -153,18 +171,6 @@ We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EV
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This can be done by formating like price alerts / charts, and putting into a trimmed array in config-auto-adjust.php. Then we can create in_array() conditions, for queueing messages, for whatever comm channels are preffered.
-
-
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
-
-
-Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
-
-
-Security page should show any version upgrade alerts (if available).
 
 
 Add the same hard-coded-config check we do for the app config, to plugin configs.
@@ -209,9 +215,6 @@ Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/19112016606
 
 
 For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
-
-
-Add full redhat support for auto-installer.
 
 
 Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
