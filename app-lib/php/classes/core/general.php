@@ -94,7 +94,7 @@ var $ct_array = array();
    // Replace ALL symbols with an underscore (for filesystem compatibility, as filenames etc)
    $var = preg_replace('/[^\p{L}\p{N}\s]/u', "_", $var);
    
-   // MAX 20 characters, to avoid going over the WINDOWS path character limit
+   // MAX 30 characters, to avoid going over the WINDOWS path character limit
    // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
    return $this->truncate_str($var, 30); 
 
