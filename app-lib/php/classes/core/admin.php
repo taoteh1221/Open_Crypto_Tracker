@@ -797,6 +797,9 @@ var $ct_array = array();
                    if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
                        
                    $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+                   
+                   // Escape any double quotes
+                   $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
                   
                    ?>
                    <script>
@@ -805,6 +808,10 @@ var $ct_array = array();
                    <?php
                    }
                    elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
+                   
+                   // Escape any double quotes
+                   $render_params[$passed_key]['is_confirm'] = preg_replace("/\"/", '\"', $render_params[$passed_key]['is_confirm']);
+                   
                    ?>
                    <script>
                    select_confirm("id_<?=md5($field_array_base . $passed_key . $radio_val)?>", "<?=$render_params[$passed_key]['is_confirm']?>");
@@ -860,6 +867,9 @@ var $ct_array = array();
                    if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
                        
                    $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+                   
+                   // Escape any double quotes
+                   $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
                   
                    ?>
                    <script>
@@ -868,6 +878,10 @@ var $ct_array = array();
                    <?php
                    }
                    elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
+                   
+                   // Escape any double quotes
+                   $render_params[$passed_key]['is_confirm'] = preg_replace("/\"/", '\"', $render_params[$passed_key]['is_confirm']);
+                   
                    ?>
                    <script>
                    select_confirm("id_<?=md5($field_array_base . $passed_key . $subarray_key . $setting_val)?>", "<?=$render_params[$passed_key]['is_confirm']?>");
@@ -1633,6 +1647,9 @@ var $ct_array = array();
              if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
                   
              $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+                   
+             // Escape any double quotes
+             $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
              
              ?>
              <script>
@@ -1641,6 +1658,10 @@ var $ct_array = array();
              <?php
              }
              elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
+                   
+             // Escape any double quotes
+             $render_params[$passed_key]['is_confirm'] = preg_replace("/\"/", '\"', $render_params[$passed_key]['is_confirm']);
+                   
              ?>
              <script>
              select_confirm("id_<?=md5($field_array_base . $passed_key)?>", "<?=$render_params[$passed_key]['is_confirm']?>");

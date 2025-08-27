@@ -45,6 +45,9 @@ $ct['admin_render_settings']['php_error_reporting']['is_notes'] = 'Enable / disa
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+     
+
+$ct['admin_render_settings']['debug_mode']['is_confirm']['specific_unselected'] = 'off||Enabling ANY "Debug Mode" MAY risk exposing sensitive information IN THE USER AREA ALERTS INTERFACE (debugging is only recommended for environments WITHOUT public access). Do you want to proceed?';
 
 
 $ct['admin_render_settings']['debug_mode']['is_select'] = array(
@@ -54,6 +57,7 @@ $ct['admin_render_settings']['debug_mode']['is_select'] = array(
                                                                'memory_usage_telemetry',
                                                                'ext_data_live_telemetry',
                                                                'ext_data_cache_telemetry',
+                                                               'file_save_telemetry',
                                                                'smtp_telemetry',
                                                                'api_comms_telemetry',
                                                                'cron_telemetry',
