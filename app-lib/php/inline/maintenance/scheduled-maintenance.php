@@ -5,10 +5,10 @@
 
 
 //////////////////////////////////////////////////////////////////
-// Scheduled maintenance (run every ~2 hours if NOT cron runtime, OR if runtime is cron every ~30 minutes)
+// Scheduled maintenance (run every ~3 hours if NOT cron runtime, OR if runtime is cron every ~1 hour)
 //////////////////////////////////////////////////////////////////
-if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/scheduled-maintenance.dat', 120) == true 
-|| $ct['runtime_mode'] == 'cron' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/scheduled-maintenance.dat', 30) == true  ) {
+if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/scheduled-maintenance.dat', 180) == true 
+|| $ct['runtime_mode'] == 'cron' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/scheduled-maintenance.dat', 60) == true  ) {
 //////////////////////////////////////////////////////////////////
 
 

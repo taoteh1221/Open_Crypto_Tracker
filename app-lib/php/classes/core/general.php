@@ -96,7 +96,7 @@ var $ct_array = array();
    
    // MAX 20 characters, to avoid going over the WINDOWS path character limit
    // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
-   return $this->truncate_str($var, 20); 
+   return $this->truncate_str($var, 30); 
 
    }
    
