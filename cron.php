@@ -383,7 +383,6 @@ gc_collect_cycles(); // Clean memory cache
     $ct['cache']->save_file($ct['base_dir'] . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'FULLY COMPLETED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct['gen']->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n\n\n\n", "append", false);     
     }
 
-exit; // For extra security, force exit at end of this script file
 
 }
   

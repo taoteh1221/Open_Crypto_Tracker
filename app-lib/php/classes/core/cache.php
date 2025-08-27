@@ -1205,7 +1205,7 @@ var $ct_array = array();
                }
                else {
                ?>
-               IP Address: <?=$val['ip']?> (<?=$val['total_visits_count']?> visits<?=( $val['ip'] == $ct['remote_ip'] ? ' <span class="bitcoin">[YOUR current address]</span>' : '' )?>) 
+               IP Address: <span class="black" style="text-decoration-line: underline; text-decoration-style: dotted; cursor: pointer;" title="<?=gethostbyaddr($val['ip'])?>"><?=$val['ip']?></span> (<?=$val['total_visits_count']?> visits<?=( $val['ip'] == $ct['remote_ip'] ? ' <span class="bitcoin">[YOUR current address]</span>' : '' )?>) 
                <?php
                }
                ?>
@@ -1244,8 +1244,18 @@ var $ct_array = array();
                      <td> <?=$ct['show_access_stats'][$key]['ip_url_visits'][ md5($visited_pages['url']) ]?> </td>
                     <?php
                     if ( $_GET['mode'] == 'bundled' ) {
+                         
+                         if ( $visited_pages['last_ip'] == $ct['remote_ip'] ) {
+                         $ip_class='bitcoin';
+                         $ip_desc = ' (YOUR current address)';
+                         }
+                         else {
+                         $ip_class='black';
+                         $ip_desc = '';
+                         }
+
                     ?>
-                     <td> <?=( $visited_pages['last_ip'] == $ct['remote_ip'] ? '<span class="bitcoin" style="text-decoration-line: underline; text-decoration-style: dotted; cursor: pointer;" title="YOUR current address">' . $visited_pages['last_ip'] . '</span>' : $visited_pages['last_ip'] )?> </td>
+                     <td> <span class="<?=$ip_class?>" style="text-decoration-line: underline; text-decoration-style: dotted; cursor: pointer;" title="<?=gethostbyaddr($visited_pages['last_ip'])?><?=$ip_desc?>"><?=$visited_pages['last_ip']?></span> </td>
                     <?php
                     }
                     ?>
