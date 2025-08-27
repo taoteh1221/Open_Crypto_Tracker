@@ -274,7 +274,17 @@ var $ct_array = array();
           
        $pruned_data = implode("", $queued_newer_lines);
        
-       $result = $this->save_file($path, $pruned_data); 
+       
+          // Save the pruned data (IF any data is left AFTER pruning)
+          if ( strlen($pruned_data) > 0 ) {
+          $result = $this->save_file($path, $pruned_data); 
+          }
+          // IF there is no RECENT stats data (pruning removed ALL data),
+          // delete the stats file completely
+          else {
+          unlink($path);
+          }
+       
    
        gc_collect_cycles(); // Clean memory cache
        

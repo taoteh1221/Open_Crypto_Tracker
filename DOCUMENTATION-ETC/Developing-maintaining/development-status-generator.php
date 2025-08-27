@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2025-8-26'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.05',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => true,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'IF you see the error "No...data received...file /cache/secured/a*********s/ip_XX*********X.dat (aborting...)", be aware this is only an issue with the prune_access_stats() function, when called during scheduled maintenance. This occurs when no stats remain, AFTER PRUNING any outdated access stats (the stats file is properly deleted in the UPCOMING [NOT yet] v6.01.06 release). You can safely ignore error logging that looks like this. Sorry! Another development status alert will be sent out, when the fix is released in v6.01.06 publicly.',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2025-8-25'),
                    
                    'very_important' => true,
