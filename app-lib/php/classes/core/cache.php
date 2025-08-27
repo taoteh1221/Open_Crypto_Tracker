@@ -338,20 +338,6 @@ var $ct_array = array();
            
         // Store system data to archival / light charts
         $access_stats_data = $now . $access_data_set;
-      
-            // Access stats telemetry, IF NO DATA
-            // (ONLY IN ACCESS STATS DEBUG MODE, FOR OBFUSCATION SECURITY!!!)
-            if (
-            strlen($access_stats_data) < 1
-            && $ct['conf']['power']['debug_mode'] == 'access_stats_telemetry'
-            ) {
-              
-            $ct['gen']->log(
-             			'system_debug',	
-             			'access_stats_data: ' . $access_stats_data . '; file_save_path: ' . $file_save_path
-             			);
-             			
-            }
         
         $ct['cache']->save_file($file_save_path, $access_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
         
@@ -2107,10 +2093,22 @@ var $ct_array = array();
   
     // If no data was passed on to write to file, log it and return false early for runtime speed sake
     if ( strlen($data) < 1 ) {
+         
+        
+        // ONLY SKIP OBFUSCATION, IF FILE SAVE DEBUGGING IS ON!!!
+        if ( $ct['conf']['power']['debug_mode'] == 'file_save_telemetry' ) {
+        $path_desc = $file_path;
+        $data_desc = '; data: ' . $data;
+        }
+        else {
+        $path_desc = $ct['sec']->obfusc_path_data($file_path);
+        $data_desc = '';
+        }
+
      
     $ct['gen']->log(
     			'system_error',
-    			'No bytes of data received to write to file "' . $ct['sec']->obfusc_path_data($file_path) . '" (aborting useless file write)'
+    			'No bytes of data received to write to file "' . $path_desc . '" (aborting useless file write)' . $data_desc
     			);
     
      // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
@@ -2119,7 +2117,7 @@ var $ct_array = array();
      $ct['gen']->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['sec']->obfusc_path_data($file_path) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $path_desc . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config EXTERNAL APIS SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config SECURITY SECTION' : '' ) . ')',
      								
      			'remote_api_timeout: '.$ct['conf']['ext_apis']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
      			);
@@ -2137,7 +2135,7 @@ var $ct_array = array();
     
     $ct['gen']->log(
     			'notify_error',
-    			'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($file_path).' characters in path: ' . $ct['sec']->obfusc_path_data($file_path) . ')',
+    			'Windows Operating System MAXIMUM PATH LENGTH of 260 characters MET / EXCEEDED. PLEASE MOVE THIS APP TO A SHORTER FILE PATH, OR YOU LIKELY WILL ENCOUNTER SIGNIFICANT ISSUES ('.strlen($file_path).' characters in path: ' . $path_desc . ')',
           	false,
                'windows_max_path_alert'
     			);
@@ -2189,7 +2187,7 @@ var $ct_array = array();
     	
     $ct['gen']->log(
     				'system_error',
-    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct['sec']->obfusc_path_data($file_path) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['sec']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['sec']->obfusc_str($path_parts['basename'], 5) . '")'
+    				'File write failed storing '.strlen($data).' bytes of data to file "' . $path_desc . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['sec']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['sec']->obfusc_str($path_parts['basename'], 5) . '")'
     				);
     
     }

@@ -938,7 +938,7 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // 'memory_usage_telemetry' (PHP system memory usage),
 // 'ext_data_live_telemetry' (external API requests from server),
 // 'ext_data_cache_telemetry' (external API requests from cache),
-// 'access_stats_telemetry' (saving access stats to cache),
+// 'file_save_telemetry' (saving files to cache),
 // 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
 // 'api_comms_telemetry' (API comms responses to: /cache/logs/debug/external_data/last-response-[service].log),
 // 'cron_telemetry' (cron runtime telemetry to: /cache/logs/debug/cron/cron_runtime_telemetry.log),
