@@ -6999,6 +6999,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed error "No...data received...file /cache/secured/a*********s/ip_XX*********X.dat (aborting...)", originating in prune_access_stats() (called during scheduled maintenance), which occurred when no stats remained AFTER PRUNING any outdated access stats (the stats file is properly deleted now). You can safely ignore past error logging that looks like this. Sorry!
 
+-Minor user experience improvements
+
 -------------------------------------------------------------------
 
 
