@@ -17,6 +17,8 @@
 	
 	<li class='bitcoin' style='font-weight: bold;'>Clicking the "Show" button again will refresh the stats, and show any newer data (if available).</li>
 	
+	<li class='bitcoin' style='font-weight: bold;'>Hover your mouse over the IP address, to see the associated domain name.</li>
+	
 	<li class='bitcoin' style='font-weight: bold;'>Hover your mouse over the browser name, to see the full user agent string.</li>
 	
 	<li class='bitcoin' style='font-weight: bold;'>All visit timestamps are UTC time (Coordinated Universal Time).</li>	

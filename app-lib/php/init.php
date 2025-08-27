@@ -102,10 +102,13 @@ $ct['int_webhook_base_endpoint'] = ( $ct['app_edition'] == 'server' || $ct['app_
 
 
 // Remote IP
-$ct['remote_ip'] = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
+$ct['remote_ip'] = ( isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] != '' ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
+
+// Remote HOST
+$ct['remote_host'] = ( isset($_SERVER['REMOTE_HOST']) && $_SERVER['REMOTE_HOST'] != '' ? $_SERVER['REMOTE_HOST'] : 'localhost' );
 
 // User Agent
-$ct['user_agent'] = ( isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Unknown' );
+$ct['user_agent'] = ( isset($_SERVER['HTTP_USER_AGENT']) && $_SERVER['HTTP_USER_AGENT'] != '' ? $_SERVER['HTTP_USER_AGENT'] : 'Unknown' );
 
 
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)

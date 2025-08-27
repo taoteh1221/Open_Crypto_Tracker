@@ -110,7 +110,11 @@ $_SESSION['light_charts_updated'] = 0;
     // Emulated cron checks / flag as go or not 
     // (WE ALREADY ADJUST EXECUTION TIME FOR CRON RUNTIMES IN INIT.PHP, SO THAT'S ALREADY OK EVEN EMULATING CRON)
     // (DISABLED if end-user sets $ct['conf']['power']['desktop_cron_interval'] to zero)
-    if ( isset($_GET['cron_emulate']) && $ct['conf']['power']['desktop_cron_interval'] == 0 ) {
+    if (
+    $ct['app_edition'] == 'desktop'
+    && isset($_GET['cron_emulate'])
+    && $ct['conf']['power']['desktop_cron_interval'] < 1
+    ) {
         
     $exit_result_text = "EMULATED cron job is disabled in power user config";
     
@@ -122,7 +126,12 @@ $_SESSION['light_charts_updated'] = 0;
     
     }
     // If end-user did not disable emulated cron, BEFORE setting up and running regular cron
-    elseif ( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 && php_sapi_name() == 'cli' ) {
+    elseif (
+    $ct['app_edition'] == 'desktop'
+    && isset($_GET['cron_emulate'])
+    && $ct['conf']['power']['desktop_cron_interval'] > 0
+    && php_sapi_name() == 'cli'
+    ) {
         
     $exit_result_text = 'you must disable EMULATED cron BEFORE running REGULAR cron (set "desktop_cron_interval" to zero in power user config, AND THEN YOU *MUST* RESTART / RELOAD THE APP *AFTERWARDS*)';
     
@@ -133,7 +142,11 @@ $_SESSION['light_charts_updated'] = 0;
     $run_cron = false;
     
     }
-    elseif ( isset($_GET['cron_emulate']) && $ct['conf']['power']['desktop_cron_interval'] > 0 ) {
+    elseif (
+    $ct['app_edition'] == 'desktop'
+    && isset($_GET['cron_emulate'])
+    && $ct['conf']['power']['desktop_cron_interval'] > 0
+    ) {
     $run_cron = true;
     }
     // Regular cron check (via command line)

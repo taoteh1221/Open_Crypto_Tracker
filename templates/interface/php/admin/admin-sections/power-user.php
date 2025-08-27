@@ -78,6 +78,7 @@ $ct['admin_render_settings']['debug_mode']['is_notes'] = 'Enable / disable the d
 // 'memory_usage_telemetry' (PHP system memory usage),
 // 'ext_data_live_telemetry' (external API requests from server),
 // 'ext_data_cache_telemetry' (external API requests from cache),
+// 'file_save_telemetry' (saving files to cache),
 // 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
 // 'api_comms_telemetry' (API comms responses to: /cache/logs/debug/external_data/last-response-[service].log),
 // 'cron_telemetry' (cron runtime telemetry to: /cache/logs/debug/cron/cron_runtime_telemetry.log),
