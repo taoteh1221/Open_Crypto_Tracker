@@ -196,16 +196,13 @@ $upgrade_check_latest_version = trim( file_get_contents($ct['base_dir'] . '/cach
 
 // If CACHED app version set, set the runtime var, AND FLAG ANY UPGRADE FOR
 // NON-HIGH SECURITY MODE'S CACHED CONFIG (IF IT DOESN'T MATCH THE CURRENT VERSION NUMBER)
-if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') ) {
+if ( $ct['runtime_mode'] != 'ajax' && file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') ) {
      
 $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') );
 
 
      // Check version number against cached value, Avoid running during any AJAX runtimes etc
-     if (
-     $ct['cached_app_version'] != $ct['app_version'] && $ct['runtime_mode'] == 'ui'
-     || $ct['cached_app_version'] != $ct['app_version'] && $ct['runtime_mode'] == 'cron'
-     ) {
+     if ( $ct['cached_app_version'] != $ct['app_version'] ) {
                                    
      // Refresh current app version to flat file
      // (for auto-install/upgrade scripts to easily determine the currently-installed version)
@@ -274,7 +271,7 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
 }
 // Otherwise cache the app version for FIRST RUN ON NEW INSTALLATIONS
 // (do NOT set $ct['cached_app_version'] here, as we have FIRST RUN logic seeing if the CACHED version is set!)
-else {
+elseif ( $ct['runtime_mode'] != 'ajax' ) {
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
 }
 

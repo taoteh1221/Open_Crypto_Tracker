@@ -129,6 +129,12 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Test admin high security mode AND normal security mode more, with the new 'version states' logic, importing cached configs with different version numbers, etc etc.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Add full redhat support for auto-installer.
 
 
@@ -159,15 +165,6 @@ Security page should show any version upgrade alerts (if available).
 
 
 Validate all text inputs with domain names, in the admin interfacing. Maybe use our "is server online" function.
-
-
-+++++++++
-
-We need to store the app / plugin versions INSIDE THE CACHED CONFIG, TO SAFELY VALIDATE / CHECK AGAINST CURRENT VERSIONS WHEN RESTORING FROM A OLDER SAVED CONFIG FILE (to make sure imported OLD VERSION backups are triggering the db upgrade logic, AND REJECTING NEWER VERSION BACKUPS [as it's a db downgrade, which we can only safely FULLY RESET the config for, which makes the importing useless]).
-
-We need to update these stored versions WHENEVER WE UPDATE THE CACHED CONFIG (EVEN for high security mode cached config updating [RESETS], as a user could change security modes later in the future, AND we still backup the cached config for app backups even in high security mode). WE ALSO need to include these stored versions in the initial / loaded / default configs, so comparisions during config initiation are consistent (eg: to avoid screwing up high security mode's "auto cache updating" MD5 CHECKS, etc etc). This can be done fairly easy, by using the newly added function $ct['gen']->db_version_state_updating(), which updates $ct['conf']['version_states'] with the latest app / active plugin versions.
-
-+++++++++
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

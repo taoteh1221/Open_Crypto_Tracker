@@ -12,13 +12,14 @@
 // Default config, used for upgrade checks
 // (#MUST# BE SET AT VERY TOP OF CONFIG-INIT.PHP, AND BEFORE LOADING CACHED CONFIG)
 // WE MODIFY / RUN THIS AND UPGRADE LOGIC, WITHIN load-config-by-security-level.php
-$default_ct_conf = $ct['conf']; 
+// Add version states to DEFAULT config (for SAFETY on any imported cached configs [IF high sec mode ever disabled in future])
+$default_ct_conf = $ct['gen']->version_states($ct['conf'], true); // Runs quick, as we don't need comparison checks
 
 
 // Used for quickening runtimes on app config upgrading checks
 // (#MUST# BE SET AT VERY TOP OF CONFIG-INIT.PHP, AND BEFORE LOADING CACHED CONFIG)
-if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat') ) {
-$check_default_ct_conf = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat') );
+if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/default_conf_md5.dat') ) {
+$check_default_ct_conf = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/default_conf_md5.dat') );
 }
 else {
 $check_default_ct_conf = null;

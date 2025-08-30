@@ -223,15 +223,142 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function db_version_state_updating() {
+   function version_states($conf_passed, $set_defaults=false) {
    
    global $ct;
    
-   $ct['conf']['version_states']['app_version'] = $ct['app_version'];
-   
-      if ( $ct['active_plugins_registered'] ) {
-      $ct['conf']['version_states']['plug_version'] = $ct['plug_version'];
+      
+      // If we are setting defaults, no checks needed
+      if ( $ct['reset_config'] || $set_defaults ) {
+      
+      $conf_passed['version_states']['app_version'] = $ct['app_version'];
+      
+      $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
+      
+      return $conf_passed;
+      
       }
+   
+   
+      // PLUGIN CHECKS
+      if ( $ct['active_plugins_registered'] ) {
+           
+           
+           // Set the version states
+           foreach ( $ct['plug_version'] as $key => $val ) {
+                
+                
+                if ( isset($conf_passed['version_states']['plug_version'][$key]) ) {
+                     
+                $config_version_compare = $this->version_compare($ct['plug_version'][$key], $conf_passed['version_states']['plug_version'][$key]);
+      
+                     
+                     // Upgrades
+                     if ( $config_version_compare['base_diff'] > 0 ) {
+                     $ct['plugin_upgrade_check'] = true;
+                     $ct['changed_version_states'] = true;
+                     $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
+                     }
+                     // Downgrades
+                     elseif ( $config_version_compare['base_diff'] < 0 ) {
+                                 			
+                     $ct['update_config'] = true;
+                     
+                     $ct['changed_version_states'] = true;
+                     
+                     // Triggers resetting (by forcing re-activation) this plugin's config to default
+          	      $ct['conf']['plug_conf'][$key] = $default_ct_conf['plug_conf'][$key];
+                              
+                     $ct['gen']->log(
+                              			'notify_error',
+                              			'"' . $key . '" plugin DOWNGRADE detected, RESETTING this ENTIRE plugin TO ASSURE COMPATIBILITY'
+                                 			);
+                     
+                     }
+                
+                
+                }
+                // IF cached plugin version doesn't exist yet, trigger an upgrade check
+                else {
+                $ct['plugin_upgrade_check'] = true;
+                $ct['changed_version_states'] = true;
+                $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
+                }
+   
+           
+           }
+           
+           
+           // Set blank default, if no plugins are active
+           if ( 
+           sizeof($ct['plug_version']) < 1
+           && !is_array($conf_passed['version_states']['plug_version'])
+           || sizeof($ct['plug_version']) < 1
+           && is_array($conf_passed['version_states']['plug_version'])
+           && sizeof($conf_passed['version_states']['plug_version']) > 1
+           ) {
+           $ct['plugin_upgrade_check'] = true;
+           $ct['changed_version_states'] = true;
+           $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
+           }
+
+
+      }
+      else {
+     
+     
+           // APP CHECKS
+           if ( isset($conf_passed['version_states']['app_version']) ) {
+           
+           $config_version_compare = $this->version_compare($ct['app_version'], $conf_passed['version_states']['app_version']);
+        
+                
+                // Upgrades
+                if ( $config_version_compare['base_diff'] > 0 ) {
+
+                $ct['app_upgrade_check'] = true;
+
+                $ct['changed_version_states'] = true;
+
+                $conf_passed['version_states']['app_version'] = $ct['app_version'];
+                
+                }
+                // Downgrades
+                elseif ( $config_version_compare['base_diff'] < 0 ) {
+                
+                $ct['reset_config'] = true;
+                
+                $ct['changed_version_states'] = true;
+                    
+                $ct['db_upgrade_desc']['app'] = 'DOWNGRADE';
+          
+                $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
+                    
+                $ct['gen']->log(
+                         			'notify_error',
+                         			'app DOWNGRADE detected, RESETTING the ENTIRE app configuration TO ASSURE COMPATIBILITY'
+                            			);
+                
+                }
+                
+                
+           }
+           // IF cached app version doesn't exist yet, trigger an upgrade check
+           else {
+
+           $ct['app_upgrade_check'] = true;
+
+           $ct['changed_version_states'] = true;
+
+           $conf_passed['version_states']['app_version'] = $ct['app_version'];
+           
+           }
+
+
+      }
+
+   
+   return $conf_passed;
    
    }
    
