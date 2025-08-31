@@ -2016,7 +2016,7 @@ var $ct_array = array();
                     
                      $ct['gen']->log(
                          	    'notify_debug',
-                         	    'skipping "' . $check_exchange_key . '" price chart storage (for ' . strtoupper($asset_data) . '), as we are CURRENTLY throttled by this app to cache-only, to avoid API limits (for ' . $tld_or_ip . ')'
+                         	    'skipping "' . $check_exchange_key . '" ARCHIVAL price chart storage (for ' . strtoupper($asset_data) . '), as we are CURRENTLY throttled by this app to cache-only, to avoid API limits (for ' . $tld_or_ip . ')'
                          	   );
                     	   
                     }
