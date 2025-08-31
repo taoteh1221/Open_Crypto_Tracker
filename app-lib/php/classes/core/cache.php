@@ -2374,10 +2374,11 @@ var $ct_array = array();
     }
   
   
-  // WE PRESUME ARCHIVAL CHART FILES EXIST, BECAUSE IT IS WRITTEN TO #RIGHT BEFORE# THIS LIGHT CHARTS FUNCTION IS CALLED
-  // Get LAST line of archival chart data (we save SIGNIFICANTLY on runtime / resource usage, if this var is passed into this function already)
+  // IF ARCHIVAL CHART FILES EXIST, AND IT WAS WRITTEN TO #RIGHT BEFORE# THIS LIGHT CHARTS FUNCTION IS CALLED
+  // Get LAST line of archival chart data from $newest_arch_data (we save SIGNIFICANTLY on runtime / resource usage,
+  // if this var is passed into this function already...otherwise, use tail_custom() [when throttling APIs sets to FALSE, etc])
   // (determines newest archival timestamp)
-  $last_arch_line = ( $newest_arch_data != false ? $newest_arch_data : $this->tail_custom($archive_path) );
+  $last_arch_line = ( $newest_arch_data ? $newest_arch_data : $this->tail_custom($archive_path) );
   $last_arch_array = explode("||", $last_arch_line);
   $newest_arch_timestamp = $ct['var']->num_to_str($last_arch_array[0]);
   

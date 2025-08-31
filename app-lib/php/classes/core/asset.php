@@ -2002,14 +2002,14 @@ var $ct_array = array();
                
                // IF we have flagged an APP-BASED API throttle for this domain,
                // AND have ALREADY updated the chart within $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'],
-               // HALT storing duplicate chart data
+               // HALT storing duplicate ARCHIVAL chart data (we handle LIGHT CHART data with different checks)
                if (
                $ct['cache']->api_throttled($tld_or_ip) == true
                && isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'])
                && $ct['cache']->update_cache($prim_currency_chart_path, $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time']) == false
                ) {
                
-               $halt_chart_storage = true;
+               $halt_archival_storage = true;
            
            
                     if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
@@ -2037,8 +2037,12 @@ var $ct_array = array();
       // Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
       // If the charts page is enabled in Admin Config, save latest chart data for assets with price alerts configured on them
       if (
-      !$halt_chart_storage && $mode == 'both' && $asset_prim_currency_val_raw >= $ct['min_fiat_val_test'] && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
-      || !$halt_chart_storage && $mode == 'chart' && $asset_prim_currency_val_raw >= $ct['min_fiat_val_test'] && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
+      $mode == 'both'
+      && $asset_prim_currency_val_raw >= $ct['min_fiat_val_test']
+      && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
+      ||  $mode == 'chart'
+      && $asset_prim_currency_val_raw >= $ct['min_fiat_val_test']
+      && $ct['conf']['charts_alerts']['enable_price_charts'] == 'on'
       ) {
       
       // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
@@ -2067,14 +2071,27 @@ var $ct_array = array();
       // AND ALSO crypto-to-crypto pairs converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)
       
       
-      $prim_currency_chart_data = $now . '||' . $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw;
-      $ct['cache']->save_file($prim_currency_chart_path, $prim_currency_chart_data . "\n", "append", false);  // WITH newline (UNLOCKED file write)
+      // Set to FALSE will have the light chart function grab the last line of the archival data
+      $prim_currency_chart_data = ( $halt_archival_storage ? false : $now . '||' . $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw );
+         
+         
+         // IF no halted ARCHIVAL storage, save WITH newline (UNLOCKED file write)
+         if ( !$halt_archival_storage ) {
+         $ct['cache']->save_file($prim_currency_chart_path, $prim_currency_chart_data . "\n", "append", false);  
+         }
         
         
          // Crypto / secondary currency pair ARCHIVAL charts, volume as pair (for UX)
          if ( $pair != strtolower($ct['default_bitcoin_primary_currency_pair']) ) {
-         $crypto_secondary_currency_chart_data = $now . '||' . $asset_pair_val_raw . '||' . $pair_vol_raw;
-         $ct['cache']->save_file($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
+         
+         // Set to FALSE will have the light chart function grab the last line of the archival data
+         $crypto_secondary_currency_chart_data = ( $halt_archival_storage ? false : $now . '||' . $asset_pair_val_raw . '||' . $pair_vol_raw );
+         
+              // IF no halted ARCHIVAL storage, save WITH newline (UNLOCKED file write)
+              if ( !$halt_archival_storage ) {
+              $ct['cache']->save_file($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data . "\n", "append", false); 
+              }
+
          }
         
         
