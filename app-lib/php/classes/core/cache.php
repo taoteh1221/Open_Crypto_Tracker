@@ -2369,7 +2369,7 @@ var $ct_array = array();
         
     $newest_light_timestamp = false;
     
-    usleep(150000); // Wait 0.15 seconds, since we just re-created the light chart path (likely after a mid-flight reset)
+    usleep(250000); // Wait 0.25 seconds, since we just re-created the light chart path (likely after a mid-flight reset)
     
     }
   
@@ -2441,10 +2441,9 @@ var $ct_array = array();
     }
   
   
-    // #INITIALLY# (if no light data exists yet) we randomly spread the load across multiple cron jobs
-    // THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
-    if ( $newest_light_timestamp == false ) {
-    $light_data_update_thres = rand( (time() - 3333) , (time() + 6666) ); // 1/3 of all light charts REBUILDS update on average, per runtime
+    // #INITIALLY# (if no light data exists yet), set the update threshold to zero
+    if ( !$newest_light_timestamp ) {
+    $light_data_update_thres = 0;
     }
     // Update threshold calculated from pre-existing light data
     else {
