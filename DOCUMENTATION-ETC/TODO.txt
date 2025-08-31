@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Backup the GitHub project website (forgot to).
+
+
 Make sure the original upgrade logic still works for APP UPGRADES / DOWNGRADES (now that we have integrated 'version states' tracking for safe config importing checks / upgrading).
 
 
