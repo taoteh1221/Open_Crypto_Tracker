@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Make sure the original upgrade logic still works for APP UPGRADES / DOWNGRADES (now that we have integrated 'version states' tracking for safe config importing checks / upgrading).
+
+
 Test admin high security mode AND normal security mode more, with the new 'version states' logic, importing cached configs with different version numbers, etc etc.
 
 
