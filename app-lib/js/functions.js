@@ -4194,7 +4194,7 @@ function auto_reload(select_elm=false) {
 		
 		}
 		else {
-		localStorage.setItem(auto_reload_storage, '');
+		localStorage.setItem(auto_reload_storage, 0);
 		$("span.countdown_notice").html(""); // Main pages
 		$("span.countdown_notice_modal").html(""); // Modal pages
 		}

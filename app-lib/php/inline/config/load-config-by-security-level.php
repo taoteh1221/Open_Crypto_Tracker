@@ -26,11 +26,24 @@ require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); /
 // Refresh available plugins / register active plugins 
 require($ct['base_dir'] . '/app-lib/php/inline/init/plugins-init.php');
 
+// Add PLUGIN version states to DEFAULT config (for SAFETY on any imported cached configs [IF high sec mode ever disabled in future])
+// (AFTER initializing plugins / BEFORE any initial default conf comparison digest)
+$default_ct_conf = $ct['gen']->sync_version_states($default_ct_conf, true); // Runs quick, as we don't need comparison checks
 
-// If no comparison digest of the default config yet, save it now to the cache (MUST be done AFTER registering active plugins)
+
+// If no comparison digest of the default config yet, save it now to the cache
+// (MUST be done AFTER registering active plugins)
+// !!!!ONLY if not set YET, as it's for tracking state change when loading config in high security mode!!!!
 if ( $check_default_ct_conf == null ) {
 $check_default_ct_conf = md5( serialize($default_ct_conf) );
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', $check_default_ct_conf);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_conf_md5.dat', $check_default_ct_conf);
+}
+
+
+// Check PLUGIN version states, in medium / normal admin security modes (for SAFETY on any imported cached configs)
+// (AFTER force-set above on DEFAULT config [so we have plugin defaults set, if needed])
+if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
+$ct['conf'] = $ct['gen']->sync_version_states($ct['conf']);
 }
 
 
@@ -53,14 +66,21 @@ $ct['admin']->queue_config_update();
 
 // IF ct_conf CACHE RESET (MUST be done AFTER registering active plugins / OVERRIDE ANY $ct['update_config'])
 if ( $ct['reset_config'] ) {
+     
 $ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Reset flag
+
 require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
+
 }
 // Updating cached config (APP OR USER INITIATED...SO THIS CAN BE ANY SECURITY MODE)
-else if ( $ct['update_config'] ) {
+elseif ( $ct['update_config'] ) {
+
 $ct['conf'] = $ct['cache']->update_cached_config($ct['conf']);
-$ct['update_config'] = false; // Set back to false IMMEADIATELY, since this is a global var
+
+$ct['update_config'] = false; // Set back to false IMMEDIATELY, since this is a global var
+
 require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
+
 }
 
 
@@ -69,9 +89,15 @@ require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); /
 // (ONLY RUN IF NO $ct['reset_config'] WAS ALREADY TRIGGERED [IN WHICH CASE WE'D *ALREADY* HAVE THE CACHED CONFIG *FULLY* UPGRADED / RELOADED])
 // FOR UPGRADES: WE DON'T COMBINE ALL UPGRADE CHECKS HERE [*MAIN* CONFIG UPGRADE CHECK IS RUN **EARLIER**], BECAUSE THE EARLIER WE RUN UPGRADES
 // ON THE ***MAIN CONFIG***, THE EARLIER WE CATCH AND AUTO-REPAIR OR UPGRADE VALUES TO PREVENT THE APP FROM CRASHING (IF IT'S USING AN OUTDATED / CORRUPT CONFIG)
-if ( $ct['admin_area_sec_level'] == 'high' && !$ct['reset_config'] || $ct['plugin_upgrade_check'] && !$ct['reset_config'] ) {
+if (
+$ct['admin_area_sec_level'] == 'high' && !$ct['reset_config']
+|| $ct['plugin_upgrade_check'] && !$ct['reset_config']
+) {
+     
 $ct['cache']->load_cached_config();
+
 require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
+
 }
 
 

@@ -94,9 +94,9 @@ var $ct_array = array();
    // Replace ALL symbols with an underscore (for filesystem compatibility, as filenames etc)
    $var = preg_replace('/[^\p{L}\p{N}\s]/u', "_", $var);
    
-   // MAX 20 characters, to avoid going over the WINDOWS path character limit
+   // MAX 30 characters, to avoid going over the WINDOWS path character limit
    // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
-   return $this->truncate_str($var, 20); 
+   return $this->truncate_str($var, 30); 
 
    }
    
@@ -214,23 +214,6 @@ var $ct_array = array();
          unlink($file); // delete file
          }
          
-      }
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function db_version_state_updating() {
-   
-   global $ct;
-   
-   $ct['conf']['version_states']['app_version'] = $ct['app_version'];
-   
-      if ( $ct['active_plugins_registered'] ) {
-      $ct['conf']['version_states']['plug_version'] = $ct['plug_version'];
       }
    
    }
@@ -2318,11 +2301,11 @@ var $ct_array = array();
       
       // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries),
       // to AVOID CORRUPTING log formatting
-      if ( $category[0] == 'notify' && $hashcheck == false ) {
+      if ( $category[0] == 'notify' && !$hashcheck ) {
       $hashcheck = md5($log_type . $log_msg);
       }
       // Otherwise, if hashcheck is set, assure compatibility as an array key
-      elseif ( $hashcheck != false ) {
+      elseif ( $hashcheck ) {
       $hashcheck = md5($hashcheck);
       }
       
@@ -3421,6 +3404,196 @@ var $ct_array = array();
       return array_slice( $lines, (0 - $linecount) );
       }
    
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function sync_version_states($conf_passed, $set_defaults=false) {
+   
+   global $ct;
+   
+      
+      // If we are setting defaults, no checks needed
+      if ( $ct['reset_config'] || $set_defaults ) {
+      
+      $conf_passed['version_states']['app_version'] = $ct['app_version'];
+      
+          if ( $ct['active_plugins_registered'] ) {
+          $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
+          }
+      
+      return $conf_passed;
+      
+      }
+      // We do NOT sync version states, IF runtime is ajax OR 'fast_runtime'
+      elseif ( $ct['fast_runtime'] || $ct['runtime_mode'] == 'ajax' ) {
+      return $conf_passed;
+      }
+   
+   
+      // PLUGIN CHECKS
+      if ( $ct['active_plugins_registered'] ) {
+           
+           
+           // Set the version states
+           foreach ( $ct['plug_version'] as $key => $val ) {
+                
+                
+                if ( isset($conf_passed['version_states']['plug_version'][$key]) ) {
+                     
+                $config_version_compare = $this->version_compare($ct['plug_version'][$key], $conf_passed['version_states']['plug_version'][$key]);
+      
+                     
+                     // Upgrades
+                     if ( $config_version_compare['base_diff'] > 0 ) {
+                     
+                     $ct['plugin_upgrade_check'] = true;
+                     
+                     // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
+                     $ct['changed_version_states'] = true; 
+
+                     $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
+           
+                     }
+                     // Downgrades
+                     elseif ( $config_version_compare['base_diff'] < 0 ) {
+
+                     $ct['plugin_upgrade_check'] = true;
+                     
+                     // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
+                     $ct['changed_version_states'] = true;
+                     
+                     // Triggers resetting (by forcing re-activation) this plugin's config to default
+          	      $conf_passed['plug_conf'][$key] = $default_ct_conf['plug_conf'][$key];
+                              
+                     $ct['gen']->log(
+                              			'notify_error',
+                              			'"' . $key . '" plugin DOWNGRADE detected, RESETTING this ENTIRE plugin TO ASSURE COMPATIBILITY'
+                                 			);
+                     
+                     }
+                
+                
+                }
+                // IF cached plugin version doesn't exist yet, trigger an upgrade check
+                else {
+
+                $ct['plugin_upgrade_check'] = true;
+
+                // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
+                $ct['changed_version_states'] = true;
+                
+                $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
+           
+                }
+   
+           
+           }
+           
+           
+           // Set blank default, if no plugins are active
+           if ( 
+           sizeof($ct['plug_version']) < 1
+           && !is_array($conf_passed['version_states']['plug_version'])
+           || sizeof($ct['plug_version']) < 1
+           && is_array($conf_passed['version_states']['plug_version'])
+           && sizeof($conf_passed['version_states']['plug_version']) > 1
+           ) {
+                
+           $ct['plugin_upgrade_check'] = true;
+           
+           // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
+           $ct['changed_version_states'] = true;
+
+           $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
+
+           }
+
+           
+           // Update the config
+           if ( $ct['plugin_upgrade_check'] ) {
+
+           // Directly updating / reloading config RIGHT NOW avoids conflicts,
+           // such as $ct['update_config'] (for RESETS) NOT BEING COMPATIBLE (MIXABLE) WITH "XXX_upgrade_check"
+           $conf_passed = $ct['cache']->update_cached_config($conf_passed, true);
+                             
+           $ct['plugin_upgrade_check'] = false; // RESET, as we've now upgraded the app config 
+           
+           }
+           
+
+      }
+      else {
+     
+     
+           // APP CHECKS
+           if ( isset($conf_passed['version_states']['app_version']) ) {
+           
+           $config_version_compare = $this->version_compare($ct['app_version'], $conf_passed['version_states']['app_version']);
+        
+                
+                // Upgrades
+                if ( $config_version_compare['base_diff'] > 0 ) {
+
+                $ct['app_upgrade_check'] = true;
+
+                // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
+                $ct['changed_version_states'] = true;
+
+                $conf_passed['version_states']['app_version'] = $ct['app_version'];
+                
+                }
+                // Downgrades
+                elseif ( $config_version_compare['base_diff'] < 0 ) {
+                
+                $ct['reset_config'] = true; // RESET ENTIRE CONFIG
+                    
+                $ct['db_upgrade_desc']['app'] = 'DOWNGRADE';
+          
+                $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
+                    
+                $ct['gen']->log(
+                         			'notify_error',
+                         			'app DOWNGRADE detected, RESETTING the ENTIRE app configuration TO ASSURE COMPATIBILITY'
+                            			);
+                
+                }
+                
+                
+           }
+           // IF cached app version doesn't exist yet, trigger an upgrade check
+           else {
+
+           $ct['app_upgrade_check'] = true;
+
+           // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
+           $ct['changed_version_states'] = true;
+
+           $conf_passed['version_states']['app_version'] = $ct['app_version'];
+           
+           }
+
+           
+           // Update the config
+           if ( $ct['app_upgrade_check'] ) {
+
+           // Directly updating / reloading config RIGHT NOW avoids conflicts,
+           // such as $ct['update_config'] (for RESETS) NOT BEING COMPATIBLE (MIXABLE) WITH "XXX_upgrade_check"
+           $conf_passed = $ct['cache']->update_cached_config($conf_passed, true);
+                             
+           $ct['app_upgrade_check'] = false; // RESET, as we've now upgraded the app config 
+
+           }
+           
+
+      }
+
+   
+   return $conf_passed;
    
    }
   

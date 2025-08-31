@@ -85,11 +85,11 @@ $is_csv_export
 || $ct['runtime_mode'] == 'qr_code' 
 || isset($_GET['mode']) && $_GET['mode'] == 'stock_overview'
 ) {
-$is_fast_runtime = true;
+$ct['fast_runtime'] = true;
 }
 
 
-if ( !$is_fast_runtime ) {
+if ( !$ct['fast_runtime'] ) {
 
 // SYSTEM INFO
 $ct['system_info'] = $ct['gen']->system_info(); // MUST RUN AFTER SETTING $ct['base_dir']
@@ -135,7 +135,7 @@ $ct['system_info'] = array(); // BLANK if fast runtimes
 $ct['strict_curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct['system_info']['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
 
 
-if ( !$is_fast_runtime ) {
+if ( !$ct['fast_runtime'] ) {
 
 // Set the array of available currencies for coingecko (set after 'strict_curl_user_agent')
 $ct['coingecko_currencies'] = $ct['api']->coingecko_currencies();
@@ -196,16 +196,13 @@ $upgrade_check_latest_version = trim( file_get_contents($ct['base_dir'] . '/cach
 
 // If CACHED app version set, set the runtime var, AND FLAG ANY UPGRADE FOR
 // NON-HIGH SECURITY MODE'S CACHED CONFIG (IF IT DOESN'T MATCH THE CURRENT VERSION NUMBER)
-if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') ) {
+if ( !$ct['fast_runtime'] && $ct['runtime_mode'] != 'ajax' && file_exists($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') ) {
      
 $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat') );
 
 
      // Check version number against cached value, Avoid running during any AJAX runtimes etc
-     if (
-     $ct['cached_app_version'] != $ct['app_version'] && $ct['runtime_mode'] == 'ui'
-     || $ct['cached_app_version'] != $ct['app_version'] && $ct['runtime_mode'] == 'cron'
-     ) {
+     if ( $ct['cached_app_version'] != $ct['app_version'] ) {
                                    
      // Refresh current app version to flat file
      // (for auto-install/upgrade scripts to easily determine the currently-installed version)
@@ -274,7 +271,7 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
 }
 // Otherwise cache the app version for FIRST RUN ON NEW INSTALLATIONS
 // (do NOT set $ct['cached_app_version'] here, as we have FIRST RUN logic seeing if the CACHED version is set!)
-else {
+elseif ( !$ct['fast_runtime'] && $ct['runtime_mode'] != 'ajax' ) {
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
 }
 
