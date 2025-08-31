@@ -13,7 +13,7 @@ unlink('.dev-status.json');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-if ( !$is_fast_runtime && $ct['runtime_mode'] == 'cron' || !$is_fast_runtime && $ct['runtime_mode'] == 'ui' )  {
+if ( !$ct['fast_runtime'] && $ct['runtime_mode'] == 'cron' || !$ct['fast_runtime'] && $ct['runtime_mode'] == 'ui' )  {
 
 
      // Recreate /cache/.htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
@@ -223,7 +223,7 @@ $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $ct[
 
 
 // IF NOT FAST RUNTIMES
-if ( !$is_fast_runtime ) {
+if ( !$ct['fast_runtime'] ) {
      
      
      // Secured cache files

@@ -13,7 +13,7 @@
 
 
 // General preflight security checks (that MUST run for ANY runtime [EXCEPT FAST RUNTIMES])
-if ( !$is_fast_runtime ) {
+if ( !$ct['fast_runtime'] ) {
 require_once('app-lib/php/inline/security/general-preflight-security-checks.php');
 }
 
@@ -65,7 +65,7 @@ exit;
 
 
 // *ALL* RUNTIMES *NOT* DESIGNATED AS A "FAST RUNTIME"
-if ( !$is_fast_runtime ) {
+if ( !$ct['fast_runtime'] ) {
 
 
      // Log errors / send email alerts for any system warnings, if time interval has passed since any previous runs
@@ -165,7 +165,7 @@ $_SESSION['light_charts_updated'] = 0;
 
 }
 // UI RUNTIMES *NOT* DESIGNATED AS A "FAST RUNTIME"
-elseif ( $ct['runtime_mode'] == 'ui' && !$is_fast_runtime ) {
+elseif ( $ct['runtime_mode'] == 'ui' && !$ct['fast_runtime'] ) {
 
 
 // Final UI-ONLY preflight SECURITY checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
@@ -269,7 +269,7 @@ require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php'
 
 // NON-CRON / NON-FAST RUNTIMES ALLOW COOKIE FEATURES TO BE ENABLED (BY END-USERS)
 // (MUST BE CALLED AT END OF "RUNTIME TYPE INIT" BY ITSELF)
-if ( $ct['runtime_mode'] != 'cron' && !$is_fast_runtime ) {
+if ( $ct['runtime_mode'] != 'cron' && !$ct['fast_runtime'] ) {
 require_once($ct['base_dir'] . "/app-lib/php/inline/vars/cookies.php");
 }
 

@@ -4,7 +4,7 @@
  */
 
 // ONLY RUN IF NOT FAST RUNTIMES
-if ( !$is_fast_runtime ) {
+if ( !$ct['fast_runtime'] ) {
 
 // NEVER USE REQUIRE ONCE IN THIS FILE!
 // (OVERWRITES / RESETS CLEANLY, EVEN IF RELOADING AFTER A CONFIG RESET / USER UPDATE)

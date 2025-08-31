@@ -26,22 +26,24 @@ require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); /
 // Refresh available plugins / register active plugins 
 require($ct['base_dir'] . '/app-lib/php/inline/init/plugins-init.php');
 
-// Add version states to DEFAULT config (for SAFETY on any imported cached configs [IF high sec mode ever disabled in future])
+// Add PLUGIN version states to DEFAULT config (for SAFETY on any imported cached configs [IF high sec mode ever disabled in future])
 // (AFTER initializing plugins / BEFORE any initial default conf comparison digest)
-$default_ct_conf = $ct['gen']->version_states($default_ct_conf, true); // Runs quick, as we don't need comparison checks
+$default_ct_conf = $ct['gen']->sync_version_states($default_ct_conf, true); // Runs quick, as we don't need comparison checks
 
 
-// If no comparison digest of the default config yet, save it now to the cache (MUST be done AFTER registering active plugins)
+// If no comparison digest of the default config yet, save it now to the cache
+// (MUST be done AFTER registering active plugins)
+// !!!!ONLY if not set YET, as it's for tracking state change when loading config in high security mode!!!!
 if ( $check_default_ct_conf == null ) {
 $check_default_ct_conf = md5( serialize($default_ct_conf) );
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_conf_md5.dat', $check_default_ct_conf);
 }
 
 
-// Check plugin version states, in medium / normal admin security modes (for SAFETY on any imported cached configs)
-// (AFTER force-set above on DEFAULT config [in case we need to DOWNGRADE any plugin to defaults])
+// Check PLUGIN version states, in medium / normal admin security modes (for SAFETY on any imported cached configs)
+// (AFTER force-set above on DEFAULT config [so we have plugin defaults set, if needed])
 if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
-$ct['conf'] = $ct['gen']->version_states($ct['conf']);
+$ct['conf'] = $ct['gen']->sync_version_states($ct['conf']);
 }
 
 

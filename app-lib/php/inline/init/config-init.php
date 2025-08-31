@@ -13,7 +13,7 @@
 // (#MUST# BE SET AT VERY TOP OF CONFIG-INIT.PHP, AND BEFORE LOADING CACHED CONFIG)
 // WE MODIFY / RUN THIS AND UPGRADE LOGIC, WITHIN load-config-by-security-level.php
 // Add version states to DEFAULT config (for SAFETY on any imported cached configs [IF high sec mode ever disabled in future])
-$default_ct_conf = $ct['gen']->version_states($ct['conf'], true); // Runs quick, as we don't need comparison checks
+$default_ct_conf = $ct['gen']->sync_version_states($ct['conf'], true); // Runs quick, as we don't need comparison checks
 
 
 // Used for quickening runtimes on app config upgrading checks
@@ -227,7 +227,7 @@ set_time_limit($max_exec_time); // Doc suggest this may be more reliable than in
      			
 // If no master webhook (AND not a fast runtime), or a webhook secret key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$is_fast_runtime && !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_webhook_master_key') && $ct['sec']->valid_2fa('strict') ) {
+if ( !$ct['fast_runtime'] && !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_webhook_master_key') && $ct['sec']->valid_2fa('strict') ) {
      	
 $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct['sec']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -257,7 +257,7 @@ $secure_256bit_hash = $ct['sec']->rand_hash(32); // 256-bit (32-byte) hash conve
 
 // If no internal API key (AND not a fast runtime), OR an internal API key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$is_fast_runtime && !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_int_api_key') && $ct['sec']->valid_2fa('strict') ) {
+if ( !$ct['fast_runtime'] && !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_int_api_key') && $ct['sec']->valid_2fa('strict') ) {
      				
 $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct['sec']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var

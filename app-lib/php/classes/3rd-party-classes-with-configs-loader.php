@@ -20,7 +20,7 @@ $smtp_vars = $ct['gen']->smtp_vars();
      // AND THE SMTP SERVER IS VERIFIED AS ONLINE
      // THE ENTIRE APP (ESPECIALLY THE INTERFACE) WILL HANG / FREEZE, IF A SPECIFIED SMTP SERVER IS OFFLINE!!
      // (so we CANCEL using / enabling SMTP mail, if our server check FAILS)
-     if ( $ct['runtime_mode'] != 'ajax' && $ct['gen']->smtp_server_online() ) {
+     if ( !$ct['fast_runtime'] && $ct['runtime_mode'] != 'ajax' && $ct['gen']->smtp_server_online() ) {
           
      require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/smtp-mailer/SMTPMailer.php');
      

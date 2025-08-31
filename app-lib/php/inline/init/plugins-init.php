@@ -57,7 +57,7 @@ $this_plug = trim($key);
      
                // If CACHED plugin version set, set the runtime var, AND FLAG ANY UPGRADE FOR
                // NON-HIGH SECURITY MODE'S CACHED CONFIG (IF IT DOESN'T MATCH THE CURRENT PLUGIN VERSION NUMBER)
-               if ( $ct['runtime_mode'] != 'ajax' && file_exists($cached_plug_version_file) ) {
+               if ( !$ct['fast_runtime'] && $ct['runtime_mode'] != 'ajax' && file_exists($cached_plug_version_file) ) {
                     
                $ct['cached_plug_version'][$this_plug] = trim( file_get_contents($cached_plug_version_file) );
                
@@ -122,7 +122,7 @@ $this_plug = trim($key);
                }
                // Otherwise save cached plugin version for NEW installs,
                // OR flag any DB upgrading (ONLY for FIRST RUN OF POST-PLUGIN-VERSIONING compatibility on EXISTING [NOT new] installs)
-               elseif ( $ct['runtime_mode'] != 'ajax' ) {
+               elseif ( !$ct['fast_runtime'] && $ct['runtime_mode'] != 'ajax' ) {
                
                // Do NOT set $ct['cached_plug_version'][$this_plug] here,
                // as we have FIRST RUN / POST-PLUGIN-VERSIONING logic seeing if the CACHED version is set!
@@ -237,7 +237,7 @@ $this_plug = trim($key);
                        	// If NOT A FAST RUNTIME, and we don't have webhook keys set yet for this webhook plugin,
                        	// OR a webhook secret key reset from authenticated admin is verified (STRICT 2FA MODE ONLY)
                          if (
-                         !$is_fast_runtime && !isset($ct['int_webhooks'][$this_plug])
+                         !$ct['fast_runtime'] && !isset($ct['int_webhooks'][$this_plug])
                          || $_POST['reset_' . $this_plug . '_webhook_key'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_' . $this_plug . '_webhook_key') && $ct['sec']->valid_2fa('strict')
                          ) {
                          	
@@ -302,8 +302,15 @@ $this_plug = trim($key);
                unset($ct['plugin_setting_resets'][$temp_key]);
                }
 
-	
+	     
+	     // Just unset EVERYTHING to be safe,
+	     // as unset() will NOT throw an error if the var does not exist
+	     
 	     unset($plug['conf'][$this_plug]); 
+
+          unset($ct['conf']['plug_conf'][$this_plug]);
+
+          unset($default_ct_conf['plug_conf'][$this_plug]);
                    
 	     }
      		
