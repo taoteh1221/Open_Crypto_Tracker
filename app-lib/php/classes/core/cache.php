@@ -436,7 +436,12 @@ var $ct_array = array();
         
               
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)...Uses === for PHPv7.4 support
-              if ( $ct['plugin_upgrade_check'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              if (
+              $ct['active_plugins_registered']
+              && $cat_key === 'plugins'
+              && $conf_key === 'plugin_status'
+              && $conf[$cat_key][$conf_key][$setting_key] == 'on'
+              ) {
                    
               $this_plug = $setting_key;
                            
@@ -496,7 +501,7 @@ var $ct_array = array();
               // If DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***, AND ACTIVE / DEFAULT ARRAYS DON'T MATCH,
               // then import and check for duplicates after (for efficiency)
               else if (
-              !$ct['plugin_upgrade_check']
+              !$ct['active_plugins_registered']
               && !$ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && md5(serialize($conf[$cat_key][$conf_key])) != md5(serialize($default_ct_conf[$cat_key][$conf_key]))
               ) {
@@ -520,7 +525,7 @@ var $ct_array = array();
               // (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY)
               // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
               else if (
-              !$ct['plugin_upgrade_check']
+              !$ct['active_plugins_registered']
               && $ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($conf[$cat_key][$conf_key][$setting_key])
               ) {
@@ -556,7 +561,12 @@ var $ct_array = array();
         
               
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              if ( $ct['plugin_upgrade_check'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              if (
+              $ct['active_plugins_registered']
+              && $cat_key === 'plugins'
+              && $conf_key === 'plugin_status'
+              && $conf[$cat_key][$conf_key][$setting_key] == 'on'
+              ) {
                    
               $this_plug = $setting_key;
                    
@@ -583,7 +593,7 @@ var $ct_array = array();
               // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
               // (ONLY ALLOW REMOVAL OF STRING-BASED ARRAY KEYS [WE'RE BLIND FOR NOW ON NUMERIC / AUTO-INDEXING KEYS, UNLESS LOGIC IS BUILT TO SAFELY CHECK THAT])
               else if (
-              !$ct['plugin_upgrade_check']
+              !$ct['active_plugins_registered']
               && $ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
               && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key])
               ) {
@@ -1389,7 +1399,7 @@ var $ct_array = array();
    
       if ( $ct['reset_config'] ) {
            
-    	 $ct['gen']->log('notify_error', ( $ct['active_plugins_registered'] && $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS UPDATES' : 'MAIN CONFIG' ) . ': RESET in-progress, no need to run upgrade logic (as we reset from the latest database structure)');
+    	 $ct['gen']->log('notify_error', 'FULL APP RESET in-progress, no need to check for updates (as we reset EVERYTHING, from the latest defaults)');
 
     	 return false;
 
@@ -1415,7 +1425,7 @@ var $ct_array = array();
       else {
       $ct['gen']->log(
                       'notify_error',
-                      ( $ct['active_plugins_registered'] && $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS UPDATE check flagged, checking ALL plugins now' : 'MAIN CONFIG ' . $ct['db_upgrade_desc']['app'] . ' check flagged, checking now' )
+                      ( $ct['active_plugins_registered'] ? 'ACTIVE PLUGINS' : 'APP' ) . ' updates check flagged, checking now'
                       );
       }
                    	 
@@ -1424,24 +1434,21 @@ var $ct_array = array();
       foreach ( $default_ct_conf as $cat_key => $cat_val ) {
            
                 
-           // We don't process anything in 'plug_conf' 
-           if ( $cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
+           // We NEVER process anything in 'plug_conf' OR 'version_states'
+           if ( $cat_key === 'plug_conf' || $cat_key === 'version_states' ) { // Uses === for PHPv7.4 support
            continue;
            }   
            // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
            elseif (
            !isset($conf[$cat_key])
            && !$ct['active_plugins_registered']
-           && !$ct['plugin_upgrade_check']
            || array_key_exists($cat_key, $ct['dev']['config_allow_resets'])
            && isset($ct['cached_app_version'])
            && $ct['cached_app_version'] != $ct['app_version']
            && !$ct['active_plugins_registered']
-           && !$ct['plugin_upgrade_check']
            || array_key_exists($cat_key, $ct['dev']['config_allow_resets'])
            && !isset($ct['cached_app_version'])
            && !$ct['active_plugins_registered']
-           && !$ct['plugin_upgrade_check']
            ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
@@ -1489,7 +1496,7 @@ var $ct_array = array();
                     // If not in 'config_deny_additions'
                     !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
                     // If plugin status (we handle whitelisting for this in subarray_cached_ct_conf_upgrade())
-                    // (WE CHECK $ct['plugin_upgrade_check'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
+                    // (WE CHECK $ct['active_plugins_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
@@ -1500,31 +1507,26 @@ var $ct_array = array();
                else if (
                // If we are allowed to add settings in this category, and the setting doesn't exist
                // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
-               !in_array($cat_key, $ct['dev']['config_deny_additions'])
+               !$ct['active_plugins_registered']
+               && !in_array($cat_key, $ct['dev']['config_deny_additions'])
                && !isset($conf[$cat_key][$conf_key])
-               && !$ct['active_plugins_registered']
-               && !$ct['plugin_upgrade_check']
                // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
                || !$ct['active_plugins_registered']
-               && !$ct['plugin_upgrade_check']
                && is_array($conf[$cat_key][$conf_key])
                && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
                && isset($ct['cached_app_version'])
                && $ct['cached_app_version'] != $ct['app_version']
                || !$ct['active_plugins_registered']
-               && !$ct['plugin_upgrade_check']
                && is_array($conf[$cat_key][$conf_key])
                && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
                && !isset($ct['cached_app_version'])
                // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
                || !$ct['active_plugins_registered']
-               && !$ct['plugin_upgrade_check']
                && is_array($conf[$cat_key][$conf_key])
                && !$ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
                && $ct['var']->has_string_keys($conf[$cat_key][$conf_key])
                // If we DOWNGRADED from using integer-based / auto-index array keys (downgrading to an OLDER version of the app etc...and it's not the SECOND upgrade check for active registered plugins)
                || !$ct['active_plugins_registered']
-               && !$ct['plugin_upgrade_check']
                && is_array($conf[$cat_key][$conf_key])
                && $ct['var']->has_string_keys($default_ct_conf[$cat_key][$conf_key])
                && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key])
@@ -1576,8 +1578,8 @@ var $ct_array = array();
       foreach ( $conf as $cached_cat_key => $cached_cat_val ) {
            
                 
-           // We don't process anything in 'plug_conf' 
-           if ( $cached_cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
+           // We don't process anything in 'plug_conf' OR 'version_states'
+           if ( $cached_cat_key === 'plug_conf' || $cached_cat_key === 'version_states' ) { // Uses === for PHPv7.4 support
            continue;
            }
            // If category is depreciated
@@ -1608,7 +1610,7 @@ var $ct_array = array();
                     if (
                     !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
                     // Uses === for PHPv7.4 support
-                    // (WE CHECK $ct['plugin_upgrade_check'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
+                    // (WE CHECK $ct['active_plugins_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
@@ -1646,20 +1648,29 @@ var $ct_array = array();
       return $conf;
 
       }
-      elseif ( $ct['changed_version_states'] ) {
-           
-      $ct['changed_version_states'] = false; // Reset, because we run main config / active plugins upgrades SEPERATELY
-           
-    	 $ct['gen']->log('notify_error', ( $ct['active_plugins_registered'] && $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' recently IMPORTED config "version states" have been synced (no UPGRADES were required)');
-
-      return $conf;
-
-      }
       else {
+      
+      // Notice to logs / UI that no updates were needed
+    	 $ct['gen']->log('notify_error', ( $ct['active_plugins_registered'] ? 'ACTIVE PLUGINS' : 'APP' ) . ' updates check completed (no updates were needed)');
+      
+      
+          // IF this was a config import check
+          if ( $ct['config_import_check'] ) {
+          
+          // Reset, because we run main config / active plugins config import checks SEPERATELY
+          $ct['config_import_check'] = false; 
            
-    	 $ct['gen']->log('notify_error', 'no ' . ( $ct['active_plugins_registered'] && $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS UPDATES' : 'MAIN CONFIG ' . $ct['db_upgrade_desc']['app'] . 'S' ) . ' needed');
+          // WE STILL NEED TO RETURN THE CONFIG HERE, AS WE DID UPDATE THE 'VERSION STATES'
+          // (SO WE HAVE TO TRIGGER SAVING THE UPDATED CONFIG)
+          return $conf; 
 
-    	 return false;
+          }
+          // Otherwise, no need to return any data
+          // (nothing new to require triggering a config save)
+          else {
+          return false;
+          }
+    	 
 
       }
       
@@ -2029,7 +2040,9 @@ var $ct_array = array();
     		unlink($ct['base_dir'] . '/.user.ini');
     		unlink($ct['base_dir'] . '/cache/secured/.app_htpasswd');
     		
-    	     sleep(1); // Sleep 1 second, so we don't have file lock issues updating the cached config
+    		// Sleep 2 seconds so we don't have file lock issues,
+    		// in case we are updating the cached config (on slow machines) additional times
+    	     sleep(2); 
     		
     		}
     		
@@ -2456,9 +2469,9 @@ var $ct_array = array();
   $light_data_update_thres = $ct['var']->num_to_str($light_data_update_thres); 
   
   
-     // If we are queued to update an existing light chart, get the data points we want to add 
-     // (may be multiple data points, if the last update had network errors / system reboot / etc)
-     if ( isset($newest_light_timestamp) && $light_data_update_thres <= $newest_arch_timestamp ) {
+    // If we are queued to update an existing light chart, get the data points we want to add 
+    // (may be multiple data points, if the last update had network errors / system reboot / etc)
+    if ( isset($newest_light_timestamp) && $light_data_update_thres <= $newest_arch_timestamp ) {
      
         // If we are only adding the newest archival data point (passed into this function), 
         // #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
@@ -2479,11 +2492,15 @@ var $ct_array = array();
           $arch_line_array = explode('||', $arch_line);
           $arch_line_array[0] = $ct['var']->num_to_str($arch_line_array[0]);
            
-             if ( !$added_arch_timestamp && $light_data_update_thres <= $arch_line_array[0]
-             || isset($added_arch_timestamp) && $ct['var']->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
-             $queued_arch_lines[] = $arch_line;
-             $added_arch_timestamp = $arch_line_array[0];
-             }
+              if (
+              !$added_arch_timestamp
+              && $light_data_update_thres <= $arch_line_array[0]
+              || isset($added_arch_timestamp)
+              && $ct['var']->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0]
+              ) {
+              $queued_arch_lines[] = $arch_line;
+              $added_arch_timestamp = $arch_line_array[0];
+              }
           
           }
          
@@ -2499,10 +2516,9 @@ var $ct_array = array();
         }
         
         
-     gc_collect_cycles(); // Clean memory cache
+    gc_collect_cycles(); // Clean memory cache
      
-     }
-  
+    }
   
   
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2522,91 +2538,92 @@ var $ct_array = array();
     ) {
     
       
-      // Avoid overloading low power devices with the SCALED first build hard limit
-      // (multiplies the first build limit by the number of available CPU threads)
-      // [less cores == lower hard limit == NOT OVERLOADING SLOW DEVICES]
-      // [more cores == higher hard limit == FASTER ON FAST DEVICES]
-      if ( isset($ct['system_info']['cpu_threads']) && $ct['system_info']['cpu_threads'] > 1 ) {
-      $scaled_first_build_hard_limit = ($ct['conf']['power']['light_chart_first_build_hard_limit'] * $ct['system_info']['cpu_threads']);
-      }
-      // Doubles as failsafe (if number of threads not detected on this system, eg: windows devices)
-      else {
-      $scaled_first_build_hard_limit = $ct['conf']['power']['light_chart_first_build_hard_limit'];
-      }
-      
-      
-      if ( !$newest_light_timestamp && $ct['light_chart_first_build_count'] >= $scaled_first_build_hard_limit ) {
-      return false;
-      }
-      // Count first builds, to enforce first build hard limit
-      elseif ( !$newest_light_timestamp ) {
-      $ct['light_chart_first_build_count'] = $ct['light_chart_first_build_count'] + 1;
-      }
+           // Avoid overloading low power devices with the SCALED first build hard limit
+           // (multiplies the first build limit by the number of available CPU threads)
+           // [less cores == lower hard limit == NOT OVERLOADING SLOW DEVICES]
+           // [more cores == higher hard limit == FASTER ON FAST DEVICES]
+           if ( isset($ct['system_info']['cpu_threads']) && $ct['system_info']['cpu_threads'] > 1 ) {
+           $scaled_first_build_hard_limit = ($ct['conf']['power']['light_chart_first_build_hard_limit'] * $ct['system_info']['cpu_threads']);
+           }
+           // Doubles as failsafe (if number of threads not detected on this system, eg: windows devices)
+           else {
+           $scaled_first_build_hard_limit = $ct['conf']['power']['light_chart_first_build_hard_limit'];
+           }
+           
+           
+           if ( !$newest_light_timestamp && $ct['light_chart_first_build_count'] >= $scaled_first_build_hard_limit ) {
+           return false;
+           }
+           // Count first builds, to enforce first build hard limit
+           elseif ( !$newest_light_timestamp ) {
+           $ct['light_chart_first_build_count'] = $ct['light_chart_first_build_count'] + 1;
+           }
       
    
     $archive_file_data = file($archive_path);
     $archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
     
     
-      foreach($archive_file_data as $line) {
-      
-      $line_array = explode("||", $line);
-      $line_array[0] = $ct['var']->num_to_str($line_array[0]);
-     
-        if ( $line_array[0] >= $oldest_allowed_timestamp ) {
-        $arch_data[] = $line;
-        }
-      
-      }
+           foreach($archive_file_data as $line) {
+           
+           $line_array = explode("||", $line);
+           $line_array[0] = $ct['var']->num_to_str($line_array[0]);
+          
+             if ( $line_array[0] >= $oldest_allowed_timestamp ) {
+             $arch_data[] = $line;
+             }
+           
+           }
     
      
-      // We are looping IN REVERSE ODER, to ALWAYS include the latest data
-      $loop = 0;
-      $data_points = 0;
-      // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-      while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['power']['light_chart_data_points_maximum'] ) {
-       
-      $data_point_array = explode("||", $arch_data[$loop]);
-      $data_point_array[0] = $ct['var']->num_to_str($data_point_array[0]);
-        
-         if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
+           // We are looping IN REVERSE ODER, to ALWAYS include the latest data
+           $loop = 0;
+           $data_points = 0;
+           // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
+           while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['power']['light_chart_data_points_maximum'] ) {
             
-         $new_light_data = $arch_data[$loop] . $new_light_data; // WITHOUT newline, since file() maintains those by default
-         $next_timestamp = $data_point_array[0] - $min_data_interval;
-         $data_points = $data_points + 1;
+           $data_point_array = explode("||", $arch_data[$loop]);
+           $data_point_array[0] = $ct['var']->num_to_str($data_point_array[0]);
+             
+                   if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
+                      
+                   $new_light_data = $arch_data[$loop] . $new_light_data; // WITHOUT newline, since file() maintains those by default
+                   $next_timestamp = $data_point_array[0] - $min_data_interval;
+                   $data_points = $data_points + 1;
+                  
+                      if ( $loop == ( sizeof($arch_data) - 1 ) ) {
+                      $lastline_added = true;
+                      }
+                      else {
+                      $lastline_added = false;
+                      }
+                  
+                   }
+          
+           $loop = $loop + 1;
+           }
         
-            if ( $loop == ( sizeof($arch_data) - 1 ) ) {
-            $lastline_added = true;
-            }
-            else {
-            $lastline_added = false;
-            }
-        
-         }
-     
-      $loop = $loop + 1;
-      }
         
         
-        
-      // If last array value hasn't been added yet, AND it's the 'all' light chart,
-      // we ALWAYS want to ALSO include THIS VERY FIRST ARCHIVAL data point TOO (which is the last value in this reversed array),
-      // so we can detect if a user ever restores archival charts WITH OLDER / LARGER data sets
-      // (so we know if we need to reset light charts, by comparing the first data point on the 'all' light charts to archival charts)
-      if ( $days_span == 'all' && !$lastline_added ) {
-      $new_light_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_light_data; // WITHOUT newline, since file() maintains those by default
-      }
-     
-    
+           // If last array value hasn't been added yet, AND it's the 'all' light chart,
+           // we ALWAYS want to ALSO include THIS VERY FIRST ARCHIVAL data point TOO (which is the last value in this reversed array),
+           // so we can detect if a user ever restores archival charts WITH OLDER / LARGER data sets
+           // (so we know if we need to reset light charts, by comparing the first data point on the 'all' light charts to archival charts)
+           if ( $days_span == 'all' && !$lastline_added ) {
+           // WITHOUT newline, since file() maintains those by default
+           $new_light_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_light_data; 
+           }
+          
+         
     // Store the light chart data (rebuild)
     $result = $this->save_file($light_path, $new_light_data);  // WITHOUT newline, since file() maintains those by default (file write)
     $light_mode_logging = 'REBUILD';
-    
-    
-      // Update the 'all' light chart rebuild event tracking, IF THE LIGHT CHART UPDATED SUCESSFULLY
-      if ( $days_span == 'all' && $result == true ) {
-      $this->save_file($ct['base_dir'] . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
-      }
+         
+         
+           // Update the 'all' light chart rebuild event tracking, IF THE LIGHT CHART UPDATED SUCESSFULLY
+           if ( $days_span == 'all' && $result == true ) {
+           $this->save_file($ct['base_dir'] . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
+           }
     
    
     }

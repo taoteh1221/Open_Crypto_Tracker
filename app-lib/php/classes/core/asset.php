@@ -2002,7 +2002,7 @@ var $ct_array = array();
                
                // IF we have flagged an APP-BASED API throttle for this domain,
                // AND have ALREADY updated the chart within $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'],
-               // HALT storing duplicate ARCHIVAL chart data (we handle LIGHT CHART data with different checks)
+               // HALT storing duplicate ARCHIVAL chart data (we still allow LIGHT CHART data building)
                if (
                $ct['cache']->api_throttled($tld_or_ip) == true
                && isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'])
