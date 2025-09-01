@@ -2369,15 +2369,16 @@ var $ct_array = array();
         
     $newest_light_timestamp = false;
     
-    usleep(150000); // Wait 0.15 seconds, since we just re-created the light chart path (likely after a mid-flight reset)
+    usleep(250000); // Wait 0.25 seconds, since we just re-created the light chart path (likely after a mid-flight reset)
     
     }
   
   
-  // WE PRESUME ARCHIVAL CHART FILES EXIST, BECAUSE IT IS WRITTEN TO #RIGHT BEFORE# THIS LIGHT CHARTS FUNCTION IS CALLED
-  // Get LAST line of archival chart data (we save SIGNIFICANTLY on runtime / resource usage, if this var is passed into this function already)
+  // IF ARCHIVAL CHART FILES EXIST, AND IT WAS WRITTEN TO #RIGHT BEFORE# THIS LIGHT CHARTS FUNCTION IS CALLED
+  // Get LAST line of archival chart data from $newest_arch_data (we save SIGNIFICANTLY on runtime / resource usage,
+  // if this var is passed into this function already...otherwise, use tail_custom() [when throttling APIs sets to FALSE, etc])
   // (determines newest archival timestamp)
-  $last_arch_line = ( $newest_arch_data != false ? $newest_arch_data : $this->tail_custom($archive_path) );
+  $last_arch_line = ( $newest_arch_data ? $newest_arch_data : $this->tail_custom($archive_path) );
   $last_arch_array = explode("||", $last_arch_line);
   $newest_arch_timestamp = $ct['var']->num_to_str($last_arch_array[0]);
   
@@ -2440,10 +2441,9 @@ var $ct_array = array();
     }
   
   
-    // #INITIALLY# (if no light data exists yet) we randomly spread the load across multiple cron jobs
-    // THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
-    if ( $newest_light_timestamp == false ) {
-    $light_data_update_thres = rand( (time() - 3333) , (time() + 6666) ); // 1/3 of all light charts REBUILDS update on average, per runtime
+    // #INITIALLY# (if no light data exists yet), set the update threshold to zero
+    if ( !$newest_light_timestamp ) {
+    $light_data_update_thres = 0;
     }
     // Update threshold calculated from pre-existing light data
     else {

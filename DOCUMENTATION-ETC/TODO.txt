@@ -129,10 +129,19 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Backup the GitHub project website (forgot to).
+
+
+Make sure the original upgrade logic still works for APP UPGRADES / DOWNGRADES (now that we have integrated 'version states' tracking for safe config importing checks / upgrading).
+
+
 Test admin high security mode AND normal security mode more, with the new 'version states' logic, importing cached configs with different version numbers, etc etc.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups. I BELIEVE I FIXED THIS LAST RELEASE, WITH LIGHT CHART CREATION VAR $light_data_update_thres SET TO ZERO, ONLY IF NO LIGHT CHART DATA EXISTED YET.
 
 
 Add full redhat support for auto-installer.
@@ -200,9 +209,6 @@ All STALE charts (light AND archival) that no longer have any corresponding char
 
 
 REDO all screenshots, used on the project page.
-
-
-When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER. 
 
 
 Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
