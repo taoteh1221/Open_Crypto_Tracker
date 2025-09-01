@@ -235,8 +235,6 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
                if ( $config_version_compare['base_diff'] < 0 ) {
                     
                $ct['reset_config'] = true;
-               
-               $ct['db_upgrade_desc']['app'] = 'DOWNGRADE';
      
                $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
                
@@ -256,8 +254,6 @@ $ct['cached_app_version'] = trim( file_get_contents($ct['base_dir'] . '/cache/va
                                        
                // User updates halted message (avoid any conflicts, as we are busy finishing the upgrade above)
                $ct['update_config_halt'] = 'The app was busy UPGRADING it\'s cached config, please wait a minute and try again.'; 
-     
-               $ct['db_upgrade_desc']['app'] = 'UPGRADE';
                     
                }
      

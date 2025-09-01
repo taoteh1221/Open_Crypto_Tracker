@@ -139,7 +139,7 @@ $ct['telegram_user_data_path'] = null;
 
 $ct['dir_creation'] = false; // Flag if directory creation attempts occurred this runtime
 
-$ct['sync_version_states'] = false;
+$ct['config_import_check'] = false;
 
 $ct['fast_runtime'] = false;
 

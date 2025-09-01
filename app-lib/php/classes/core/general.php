@@ -3451,21 +3451,17 @@ var $ct_array = array();
                      // Upgrades
                      if ( $config_version_compare['base_diff'] > 0 ) {
                      
-                     $ct['plugin_upgrade_check'] = true;
-                     
                      // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                     $ct['sync_version_states'] = true; 
+                     $ct['config_import_check'] = true; 
 
                      $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
            
                      }
                      // Downgrades
                      elseif ( $config_version_compare['base_diff'] < 0 ) {
-
-                     $ct['plugin_upgrade_check'] = true;
                      
                      // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                     $ct['sync_version_states'] = true;
+                     $ct['config_import_check'] = true;
                      
                      // Triggers resetting (by forcing re-activation) this plugin's config to default
           	      $conf_passed['plug_conf'][$key] = $default_ct_conf['plug_conf'][$key];
@@ -3482,10 +3478,8 @@ var $ct_array = array();
                 // IF cached plugin version doesn't exist yet, trigger an upgrade check
                 else {
 
-                $ct['plugin_upgrade_check'] = true;
-
                 // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                $ct['sync_version_states'] = true;
+                $ct['config_import_check'] = true;
                 
                 $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
            
@@ -3503,26 +3497,19 @@ var $ct_array = array();
            && is_array($conf_passed['version_states']['plug_version'])
            && sizeof($conf_passed['version_states']['plug_version']) > 1
            ) {
-                
-           $ct['plugin_upgrade_check'] = true;
            
            // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-           $ct['sync_version_states'] = true;
+           $ct['config_import_check'] = true;
 
            $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
 
            }
 
            
-           // Update the config
-           if ( $ct['plugin_upgrade_check'] ) {
-
-           // Directly updating / reloading config RIGHT NOW avoids conflicts,
-           // such as $ct['update_config'] (for RESETS) NOT BEING COMPATIBLE (MIXABLE) WITH "XXX_upgrade_check"
-           $conf_passed = $ct['cache']->update_cached_config($conf_passed, true);
-                             
-           $ct['plugin_upgrade_check'] = false; // RESET, as we've now upgraded the app config 
-           
+           // Directly updating / reloading config RIGHT NOW avoids conflicts
+           // (AS $ct['update_config'] / $ct['reset_config'] / "XXX_upgrade_check" CANNOT BE MIXED WITH EACH OTHER)
+           if ( $ct['config_import_check'] ) {
+           $conf_passed = $ct['cache']->update_cached_config($conf_passed, true); // UPGRADE MODE
            }
            
 
@@ -3539,10 +3526,8 @@ var $ct_array = array();
                 // Upgrades
                 if ( $config_version_compare['base_diff'] > 0 ) {
 
-                $ct['app_upgrade_check'] = true;
-
                 // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                $ct['sync_version_states'] = true;
+                $ct['config_import_check'] = true;
 
                 $conf_passed['version_states']['app_version'] = $ct['app_version'];
                 
@@ -3551,8 +3536,6 @@ var $ct_array = array();
                 elseif ( $config_version_compare['base_diff'] < 0 ) {
                 
                 $ct['reset_config'] = true; // RESET ENTIRE CONFIG
-                    
-                $ct['db_upgrade_desc']['app'] = 'DOWNGRADE';
           
                 $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
                     
@@ -3568,25 +3551,18 @@ var $ct_array = array();
            // IF cached app version doesn't exist yet, trigger an upgrade check
            else {
 
-           $ct['app_upgrade_check'] = true;
-
            // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-           $ct['sync_version_states'] = true;
+           $ct['config_import_check'] = true;
 
            $conf_passed['version_states']['app_version'] = $ct['app_version'];
            
            }
 
            
-           // Update the config
-           if ( $ct['app_upgrade_check'] ) {
-
-           // Directly updating / reloading config RIGHT NOW avoids conflicts,
-           // such as $ct['update_config'] (for RESETS) NOT BEING COMPATIBLE (MIXABLE) WITH "XXX_upgrade_check"
-           $conf_passed = $ct['cache']->update_cached_config($conf_passed, true);
-                             
-           $ct['app_upgrade_check'] = false; // RESET, as we've now upgraded the app config 
-
+           // Directly updating / reloading config RIGHT NOW avoids conflicts
+           // (AS $ct['update_config'] / $ct['reset_config'] / "XXX_upgrade_check" CANNOT BE MIXED WITH EACH OTHER)
+           if ( $ct['config_import_check'] ) {
+           $conf_passed = $ct['cache']->update_cached_config($conf_passed, true); // UPGRADE MODE
            }
            
 
