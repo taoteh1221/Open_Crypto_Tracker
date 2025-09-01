@@ -2458,9 +2458,9 @@ var $ct_array = array();
   $light_data_update_thres = $ct['var']->num_to_str($light_data_update_thres); 
   
   
-     // If we are queued to update an existing light chart, get the data points we want to add 
-     // (may be multiple data points, if the last update had network errors / system reboot / etc)
-     if ( isset($newest_light_timestamp) && $light_data_update_thres <= $newest_arch_timestamp ) {
+    // If we are queued to update an existing light chart, get the data points we want to add 
+    // (may be multiple data points, if the last update had network errors / system reboot / etc)
+    if ( isset($newest_light_timestamp) && $light_data_update_thres <= $newest_arch_timestamp ) {
      
         // If we are only adding the newest archival data point (passed into this function), 
         // #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
@@ -2481,11 +2481,15 @@ var $ct_array = array();
           $arch_line_array = explode('||', $arch_line);
           $arch_line_array[0] = $ct['var']->num_to_str($arch_line_array[0]);
            
-             if ( !$added_arch_timestamp && $light_data_update_thres <= $arch_line_array[0]
-             || isset($added_arch_timestamp) && $ct['var']->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
-             $queued_arch_lines[] = $arch_line;
-             $added_arch_timestamp = $arch_line_array[0];
-             }
+              if (
+              !$added_arch_timestamp
+              && $light_data_update_thres <= $arch_line_array[0]
+              || isset($added_arch_timestamp)
+              && $ct['var']->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0]
+              ) {
+              $queued_arch_lines[] = $arch_line;
+              $added_arch_timestamp = $arch_line_array[0];
+              }
           
           }
          
@@ -2523,91 +2527,92 @@ var $ct_array = array();
     ) {
     
       
-      // Avoid overloading low power devices with the SCALED first build hard limit
-      // (multiplies the first build limit by the number of available CPU threads)
-      // [less cores == lower hard limit == NOT OVERLOADING SLOW DEVICES]
-      // [more cores == higher hard limit == FASTER ON FAST DEVICES]
-      if ( isset($ct['system_info']['cpu_threads']) && $ct['system_info']['cpu_threads'] > 1 ) {
-      $scaled_first_build_hard_limit = ($ct['conf']['power']['light_chart_first_build_hard_limit'] * $ct['system_info']['cpu_threads']);
-      }
-      // Doubles as failsafe (if number of threads not detected on this system, eg: windows devices)
-      else {
-      $scaled_first_build_hard_limit = $ct['conf']['power']['light_chart_first_build_hard_limit'];
-      }
-      
-      
-      if ( !$newest_light_timestamp && $ct['light_chart_first_build_count'] >= $scaled_first_build_hard_limit ) {
-      return false;
-      }
-      // Count first builds, to enforce first build hard limit
-      elseif ( !$newest_light_timestamp ) {
-      $ct['light_chart_first_build_count'] = $ct['light_chart_first_build_count'] + 1;
-      }
+           // Avoid overloading low power devices with the SCALED first build hard limit
+           // (multiplies the first build limit by the number of available CPU threads)
+           // [less cores == lower hard limit == NOT OVERLOADING SLOW DEVICES]
+           // [more cores == higher hard limit == FASTER ON FAST DEVICES]
+           if ( isset($ct['system_info']['cpu_threads']) && $ct['system_info']['cpu_threads'] > 1 ) {
+           $scaled_first_build_hard_limit = ($ct['conf']['power']['light_chart_first_build_hard_limit'] * $ct['system_info']['cpu_threads']);
+           }
+           // Doubles as failsafe (if number of threads not detected on this system, eg: windows devices)
+           else {
+           $scaled_first_build_hard_limit = $ct['conf']['power']['light_chart_first_build_hard_limit'];
+           }
+           
+           
+           if ( !$newest_light_timestamp && $ct['light_chart_first_build_count'] >= $scaled_first_build_hard_limit ) {
+           return false;
+           }
+           // Count first builds, to enforce first build hard limit
+           elseif ( !$newest_light_timestamp ) {
+           $ct['light_chart_first_build_count'] = $ct['light_chart_first_build_count'] + 1;
+           }
       
    
     $archive_file_data = file($archive_path);
     $archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
     
     
-      foreach($archive_file_data as $line) {
-      
-      $line_array = explode("||", $line);
-      $line_array[0] = $ct['var']->num_to_str($line_array[0]);
-     
-        if ( $line_array[0] >= $oldest_allowed_timestamp ) {
-        $arch_data[] = $line;
-        }
-      
-      }
+           foreach($archive_file_data as $line) {
+           
+           $line_array = explode("||", $line);
+           $line_array[0] = $ct['var']->num_to_str($line_array[0]);
+          
+             if ( $line_array[0] >= $oldest_allowed_timestamp ) {
+             $arch_data[] = $line;
+             }
+           
+           }
     
      
-      // We are looping IN REVERSE ODER, to ALWAYS include the latest data
-      $loop = 0;
-      $data_points = 0;
-      // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-      while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['power']['light_chart_data_points_maximum'] ) {
-       
-      $data_point_array = explode("||", $arch_data[$loop]);
-      $data_point_array[0] = $ct['var']->num_to_str($data_point_array[0]);
-        
-         if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
+           // We are looping IN REVERSE ODER, to ALWAYS include the latest data
+           $loop = 0;
+           $data_points = 0;
+           // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
+           while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['power']['light_chart_data_points_maximum'] ) {
             
-         $new_light_data = $arch_data[$loop] . $new_light_data; // WITHOUT newline, since file() maintains those by default
-         $next_timestamp = $data_point_array[0] - $min_data_interval;
-         $data_points = $data_points + 1;
+           $data_point_array = explode("||", $arch_data[$loop]);
+           $data_point_array[0] = $ct['var']->num_to_str($data_point_array[0]);
+             
+                   if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
+                      
+                   $new_light_data = $arch_data[$loop] . $new_light_data; // WITHOUT newline, since file() maintains those by default
+                   $next_timestamp = $data_point_array[0] - $min_data_interval;
+                   $data_points = $data_points + 1;
+                  
+                      if ( $loop == ( sizeof($arch_data) - 1 ) ) {
+                      $lastline_added = true;
+                      }
+                      else {
+                      $lastline_added = false;
+                      }
+                  
+                   }
+          
+           $loop = $loop + 1;
+           }
         
-            if ( $loop == ( sizeof($arch_data) - 1 ) ) {
-            $lastline_added = true;
-            }
-            else {
-            $lastline_added = false;
-            }
-        
-         }
-     
-      $loop = $loop + 1;
-      }
         
         
-        
-      // If last array value hasn't been added yet, AND it's the 'all' light chart,
-      // we ALWAYS want to ALSO include THIS VERY FIRST ARCHIVAL data point TOO (which is the last value in this reversed array),
-      // so we can detect if a user ever restores archival charts WITH OLDER / LARGER data sets
-      // (so we know if we need to reset light charts, by comparing the first data point on the 'all' light charts to archival charts)
-      if ( $days_span == 'all' && !$lastline_added ) {
-      $new_light_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_light_data; // WITHOUT newline, since file() maintains those by default
-      }
-     
-    
+           // If last array value hasn't been added yet, AND it's the 'all' light chart,
+           // we ALWAYS want to ALSO include THIS VERY FIRST ARCHIVAL data point TOO (which is the last value in this reversed array),
+           // so we can detect if a user ever restores archival charts WITH OLDER / LARGER data sets
+           // (so we know if we need to reset light charts, by comparing the first data point on the 'all' light charts to archival charts)
+           if ( $days_span == 'all' && !$lastline_added ) {
+           // WITHOUT newline, since file() maintains those by default
+           $new_light_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_light_data; 
+           }
+          
+         
     // Store the light chart data (rebuild)
     $result = $this->save_file($light_path, $new_light_data);  // WITHOUT newline, since file() maintains those by default (file write)
     $light_mode_logging = 'REBUILD';
-    
-    
-      // Update the 'all' light chart rebuild event tracking, IF THE LIGHT CHART UPDATED SUCESSFULLY
-      if ( $days_span == 'all' && $result == true ) {
-      $this->save_file($ct['base_dir'] . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
-      }
+         
+         
+           // Update the 'all' light chart rebuild event tracking, IF THE LIGHT CHART UPDATED SUCESSFULLY
+           if ( $days_span == 'all' && $result == true ) {
+           $this->save_file($ct['base_dir'] . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
+           }
     
    
     }
