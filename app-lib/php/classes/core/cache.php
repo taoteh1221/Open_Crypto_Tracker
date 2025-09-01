@@ -1646,11 +1646,11 @@ var $ct_array = array();
       return $conf;
 
       }
-      elseif ( $ct['changed_version_states'] ) {
+      elseif ( $ct['sync_version_states'] ) {
            
-      $ct['changed_version_states'] = false; // Reset, because we run main config / active plugins upgrades SEPERATELY
+      $ct['sync_version_states'] = false; // Reset, because we run main config / active plugins upgrades SEPERATELY
            
-    	 $ct['gen']->log('notify_error', ( $ct['active_plugins_registered'] && $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' recently IMPORTED config "version states" have been synced (no UPGRADES were required)');
+    	 $ct['gen']->log('notify_error', ( $ct['active_plugins_registered'] && $ct['plugin_upgrade_check'] ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ) . ' recently IMPORTED config "version states" have been synced (no UPGRADES were needed)');
 
       return $conf;
 
@@ -2029,7 +2029,9 @@ var $ct_array = array();
     		unlink($ct['base_dir'] . '/.user.ini');
     		unlink($ct['base_dir'] . '/cache/secured/.app_htpasswd');
     		
-    	     sleep(1); // Sleep 1 second, so we don't have file lock issues updating the cached config
+    		// Sleep 2 seconds so we don't have file lock issues,
+    		// in case we are updating the cached config (on slow machines) additional times
+    	     sleep(2); 
     		
     		}
     		
@@ -2499,10 +2501,9 @@ var $ct_array = array();
         }
         
         
-     gc_collect_cycles(); // Clean memory cache
+    gc_collect_cycles(); // Clean memory cache
      
-     }
-  
+    }
   
   
     ////////////////////////////////////////////////////////////////////////////////////////////////

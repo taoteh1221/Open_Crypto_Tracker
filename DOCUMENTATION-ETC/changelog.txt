@@ -6999,9 +6999,11 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed error "No...data received...file /cache/secured/a*********s/ip_XX*********X.dat (aborting...)", originating in prune_access_stats() (called during scheduled maintenance), which occurred when no stats remained AFTER PRUNING any outdated access stats (the stats file is properly deleted now). You can safely ignore past error logging that looks like this. Sorry!
 
--BUG FIX: Fixed edge-cases where updating the CACHED application configuration could FAIL (any updates now initiate a 1 second pause AFTER, so any file locks release, in case a second update needs to happen during the same runtime)
+-BUG FIX: Fixed edge-cases where updating the CACHED application configuration could FAIL (any updates now initiate a 2 second pause AFTER, so any file locks release on slower machines, in case an additional update needs to happen during the same runtime)
 
 -BUG FIX: Fixed throttled APIs (like AlphaVantage FREE tier) not allowing LIGHT CHART REBUILDS (which caused related price charts to not appear in the user interface, AFTER resetting light charts) Sorry!
+
+-BUG FIX: Fixes for price charts importing reliability, where they would not properly rebuild the time period (light) charts
 
 -BUG FIX: Miscellaneous (minor)
 

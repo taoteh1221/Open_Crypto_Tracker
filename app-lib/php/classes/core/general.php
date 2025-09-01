@@ -3454,7 +3454,7 @@ var $ct_array = array();
                      $ct['plugin_upgrade_check'] = true;
                      
                      // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                     $ct['changed_version_states'] = true; 
+                     $ct['sync_version_states'] = true; 
 
                      $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
            
@@ -3465,7 +3465,7 @@ var $ct_array = array();
                      $ct['plugin_upgrade_check'] = true;
                      
                      // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                     $ct['changed_version_states'] = true;
+                     $ct['sync_version_states'] = true;
                      
                      // Triggers resetting (by forcing re-activation) this plugin's config to default
           	      $conf_passed['plug_conf'][$key] = $default_ct_conf['plug_conf'][$key];
@@ -3485,7 +3485,7 @@ var $ct_array = array();
                 $ct['plugin_upgrade_check'] = true;
 
                 // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                $ct['changed_version_states'] = true;
+                $ct['sync_version_states'] = true;
                 
                 $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
            
@@ -3495,7 +3495,7 @@ var $ct_array = array();
            }
            
            
-           // Set blank default, if no plugins are active
+           // Set blank defaults, if no plugins are active
            if ( 
            sizeof($ct['plug_version']) < 1
            && !is_array($conf_passed['version_states']['plug_version'])
@@ -3507,7 +3507,7 @@ var $ct_array = array();
            $ct['plugin_upgrade_check'] = true;
            
            // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-           $ct['changed_version_states'] = true;
+           $ct['sync_version_states'] = true;
 
            $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
 
@@ -3542,7 +3542,7 @@ var $ct_array = array();
                 $ct['app_upgrade_check'] = true;
 
                 // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                $ct['changed_version_states'] = true;
+                $ct['sync_version_states'] = true;
 
                 $conf_passed['version_states']['app_version'] = $ct['app_version'];
                 
@@ -3571,7 +3571,7 @@ var $ct_array = array();
            $ct['app_upgrade_check'] = true;
 
            // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-           $ct['changed_version_states'] = true;
+           $ct['sync_version_states'] = true;
 
            $conf_passed['version_states']['app_version'] = $ct['app_version'];
            

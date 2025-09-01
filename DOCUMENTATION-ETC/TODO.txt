@@ -132,6 +132,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Backup the GitHub project website (forgot to).
 
 
+We've only tested when no 'version states' exist yet. Next, we need to test upgrade and downgrade flagging. Note that we previously have set a bunch of upgrade-related code at the bottom of plugins-init.php as well, BUT we run the new plugin 'version states' logic AFTER that code. Make sure that's ok.
+
+
 Make sure the original upgrade logic still works for APP UPGRADES / DOWNGRADES (now that we have integrated 'version states' tracking for safe config importing checks / upgrading).
 
 
