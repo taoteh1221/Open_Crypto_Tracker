@@ -144,9 +144,6 @@ Test admin high security mode AND normal security mode more, with the new 'versi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups. I BELIEVE I FIXED THIS LAST RELEASE, WITH LIGHT CHART CREATION VAR $light_data_update_thres SET TO ZERO, ONLY IF NO LIGHT CHART DATA EXISTED YET.
-
-
 Add full redhat support for auto-installer.
 
 
