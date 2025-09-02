@@ -2425,6 +2425,8 @@ var $ct_array = array();
     $this->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
     $this->remove_dir($ct['base_dir'] . '/cache/charts/system/light');
     
+    sleep(5); // Sleep 5 seconds (for low power devices), as we are deleting ALL the light charts
+    
     return 'reset';
     
     }
