@@ -13,7 +13,8 @@
 $ct['plug_version'][$this_plug] = '0.90.00'; // VERSION BUMP DATE: 2025/May/7TH
 
 
-// FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
+// FULL RESET(s) on specified settings (CAN include subarrays)
+// Resets ENTIRE setting, IF upgrading from EARLIER version than param value
 $ct['dev']['plugin_allow_resets'][$this_plug] = array(
                                                       // key id, and plugin version number of when the reset was added
                                                       // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!

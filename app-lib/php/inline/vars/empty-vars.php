@@ -17,8 +17,6 @@ $ct['db_upgrade_desc'] = array();
 
 $ct['plug_version'] = array();
 
-$ct['cached_plug_version'] = array();
-
 $ct['plugin_setting_resets'] = array();
 
 $ct['reset_plugin'] = array();
@@ -139,7 +137,7 @@ $ct['telegram_user_data_path'] = null;
 
 $ct['dir_creation'] = false; // Flag if directory creation attempts occurred this runtime
 
-$ct['config_import_check'] = false;
+$ct['config_upgrade_check'] = false;
 
 $ct['fast_runtime'] = false;
 
@@ -156,10 +154,6 @@ $ct['reset_config'] = false;
 $ct['update_config'] = false;
 
 $ct['possible_input_injection'] = false;
-
-$ct['app_upgrade_check'] = false;
-
-$ct['plugin_upgrade_check'] = false;
 
 $ct['update_config_halt'] = false;
 

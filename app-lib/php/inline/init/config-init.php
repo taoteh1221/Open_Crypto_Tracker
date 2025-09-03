@@ -27,22 +27,18 @@ $check_default_ct_conf = null;
 
 
 // If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
-// (!!MUST RUN *AFTER* $ct['app_upgrade_check'], AN *BEFORE* load-config-by-security-level.php)
-// (STRICT 2FA MODE ONLY)
-if ( $_POST['reset_ct_conf'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_ct_conf') && $ct['sec']->valid_2fa('strict') ) {
+// (!!MUST RUN *BEFORE* load-config-by-security-level.php)
+if (
+$_POST['reset_ct_conf'] == 1
+&& $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_ct_conf')
+&& $ct['sec']->valid_2fa('strict')
+) {
 
-     if ( $ct['app_upgrade_check'] ) {
-     $admin_reset_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try resetting again.';
-     }
-     else {
+$ct['reset_config'] = true;
 
-     $ct['reset_config'] = true;
+$ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
 
-     $ct['update_config_halt'] = 'The app was busy RESETTING it\'s cached config, please wait a minute and try again.';
-
-     $admin_reset_success = 'The app configuration was reset successfully.';
-     
-     }
+$admin_reset_success = 'The app configuration was reset successfully.';
 
 }	
 

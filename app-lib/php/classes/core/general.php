@@ -3452,19 +3452,18 @@ var $ct_array = array();
                      if ( $config_version_compare['base_diff'] > 0 ) {
                      
                      // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                     $ct['config_import_check'] = true; 
-
-                     $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
+                     $ct['config_upgrade_check'] = true; 
            
                      }
                      // Downgrades
                      elseif ( $config_version_compare['base_diff'] < 0 ) {
                      
                      // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                     $ct['config_import_check'] = true;
+                     $ct['config_upgrade_check'] = true;
                      
-                     // Triggers resetting (by forcing re-activation) this plugin's config to default
-          	      $conf_passed['plug_conf'][$key] = $default_ct_conf['plug_conf'][$key];
+                     // RESET this plugin's config
+                     // (blanking it out will get it filled with defaults on upgrade check)
+          	      $conf_passed['plug_conf'][$key] = array();
                               
                      $ct['gen']->log(
                               			'notify_error',
@@ -3479,37 +3478,39 @@ var $ct_array = array();
                 else {
 
                 // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                $ct['config_import_check'] = true;
-                
-                $conf_passed['version_states']['plug_version'][$key] = $ct['plug_version'][$key];
+                $ct['config_upgrade_check'] = true;
            
                 }
    
            
            }
-           
-           
-           // Set blank defaults, if no plugins are active
-           if ( 
-           sizeof($ct['plug_version']) < 1
-           && !is_array($conf_passed['version_states']['plug_version'])
-           || sizeof($ct['plug_version']) < 1
-           && is_array($conf_passed['version_states']['plug_version'])
-           && sizeof($conf_passed['version_states']['plug_version']) > 1
-           ) {
-           
-           // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-           $ct['config_import_check'] = true;
-
-           $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
-
-           }
 
            
            // Directly updating / reloading config RIGHT NOW avoids conflicts
            // (AS $ct['update_config'] / $ct['reset_config'] / "XXX_upgrade_check" CANNOT BE MIXED WITH EACH OTHER)
-           if ( $ct['config_import_check'] ) {
+           if ( $ct['config_upgrade_check'] ) {
+
+           // Flag for UI alerts that we UPGRADED / DOWNGRADED
+           // (general message about cached CSS / JS [WITHOUT VERSION NUMBERS], so shown even when NOT logged in)
+           $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
+                    
+           $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+
+
+               // Configure any developer-added plugin DB SETTING RESETS (for RELIABLE DB upgrading)
+               // PLUGINS INCLUDE THEIR RESET DATA IN THEIR CONFIG FILE (FOR DEV UX), SO WE JUST NEED TO PARSE / CONFIG IT
+               foreach( $ct['plugin_setting_resets'] as $this_plug ) {
+               require($ct['base_dir'] . '/app-lib/php/classes/core/includes/config/plugin-setting-reset-config.php');
+               }
+               
+               
+           unset($this_plug);  // Reset
+           
+           // Update plugin version states (automatically prunes removed plugins, mirroring hardcoded versions)
+           $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
+                
            $conf_passed = $ct['cache']->update_cached_config($conf_passed, true); // UPGRADE MODE
+
            }
            
 
@@ -3527,9 +3528,7 @@ var $ct_array = array();
                 if ( $config_version_compare['base_diff'] > 0 ) {
 
                 // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-                $ct['config_import_check'] = true;
-
-                $conf_passed['version_states']['app_version'] = $ct['app_version'];
+                $ct['config_upgrade_check'] = true;
                 
                 }
                 // Downgrades
@@ -3541,7 +3540,7 @@ var $ct_array = array();
                     
                 $ct['gen']->log(
                          			'notify_error',
-                         			'app DOWNGRADE detected, RESETTING the ENTIRE app configuration TO ASSURE COMPATIBILITY'
+                         			'app DOWNGRADE detected, RESETTING the ENTIRE app AND plugin configuration TO ASSURE COMPATIBILITY'
                             			);
                 
                 }
@@ -3552,17 +3551,34 @@ var $ct_array = array();
            else {
 
            // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
-           $ct['config_import_check'] = true;
-
-           $conf_passed['version_states']['app_version'] = $ct['app_version'];
+           $ct['config_upgrade_check'] = true;
            
            }
 
            
            // Directly updating / reloading config RIGHT NOW avoids conflicts
            // (AS $ct['update_config'] / $ct['reset_config'] / "XXX_upgrade_check" CANNOT BE MIXED WITH EACH OTHER)
-           if ( $ct['config_import_check'] ) {
+           if ( $ct['config_upgrade_check'] ) {
+         
+           // Flag for UI alerts that we UPGRADED / DOWNGRADED
+           // (general message about cached CSS / JS [WITHOUT VERSION NUMBERS], so shown even when NOT logged in)
+           $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
+          
+          $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+     
+           // Developer-only configs
+           $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
+               
+           // setting RESET configs
+           require('developer-config.php');
+               
+           // Process any developer-added APP DB SETTING RESETS (for RELIABLE DB upgrading)
+           require($ct['base_dir'] . '/app-lib/php/classes/core/includes/config/setting-reset-config.php');
+
+           $conf_passed['version_states']['app_version'] = $ct['app_version'];
+                          
            $conf_passed = $ct['cache']->update_cached_config($conf_passed, true); // UPGRADE MODE
+
            }
            
 

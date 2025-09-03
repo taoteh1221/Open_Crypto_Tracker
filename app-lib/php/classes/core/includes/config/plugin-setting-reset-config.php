@@ -15,12 +15,9 @@ is_array($ct['dev']['plugin_allow_resets'][$this_plug])
 && sizeof($ct['dev']['plugin_allow_resets'][$this_plug]) > 0
 ) {
 
-// If we're upgrading, these could change as the runtime progresses, so set the ORIGINAL vals
-$orig_app_version = $ct['app_version'];
-
 $orig_plug_version = $ct['plug_version'][$this_plug];
 
-$orig_cached_plug_version = $ct['cached_plug_version'][$this_plug];
+$orig_cached_plug_version = ( isset($conf_passed['version_states']['plug_version'][$this_plug]) ? $conf_passed['version_states']['plug_version'][$this_plug] : '' );
 
 
      foreach ( $ct['dev']['plugin_allow_resets'][$this_plug] as $reset_key => $reset_val ) {
@@ -31,11 +28,9 @@ $orig_cached_plug_version = $ct['cached_plug_version'][$this_plug];
      $plug_cache_compare = $ct['gen']->version_compare($orig_cached_plug_version, $reset_val);
      
           
-          // IF UPGRADING AFTER plugin versioning was introduced, we have no previous plugin version cache,
-          // BUT we can safely mark it as 'lesser than' version number, thereby activating upgrade checks
-          // (cached APP version already exists, BUT version_compare() returns FALSE, because
-          // cached PLUGIN version does NOT exist yet...so we can presume LACK OF plugin versioning was culprit)
-          if ( isset($orig_app_version) && $plug_cache_compare['base_diff'] === false ) {
+          // IF UPGRADING AFTER state versioning was introduced, mark it as 'lesser than' version number,
+          // thereby activating upgrade SETTING RESETS
+          if ( $plug_cache_compare['base_diff'] === false ) {
           $plug_cache_compare['base_diff'] = -1;
           }
      

@@ -417,8 +417,8 @@ var $ct_array = array();
    function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
    
    global $ct, $plug, $default_ct_conf;
-        
-        
+           
+           
         if ( is_array($conf[$cat_key][$conf_key]) ) {
         $orig_array_size = sizeof($conf[$cat_key][$conf_key]);
         }
@@ -455,11 +455,6 @@ var $ct_array = array();
                       !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
                       || is_array($ct['dev']['plugin_allow_resets'][$this_plug])
                       && array_key_exists($plug_setting_key, $ct['dev']['plugin_allow_resets'][$this_plug])
-                      && isset($ct['cached_plug_version'][$this_plug])
-                      && $ct['cached_plug_version'][$this_plug] != $ct['plug_version'][$this_plug]
-                      || is_array($ct['dev']['plugin_allow_resets'][$this_plug])
-                      && array_key_exists($plug_setting_key, $ct['dev']['plugin_allow_resets'][$this_plug])
-                      && !isset($ct['cached_plug_version'][$this_plug])
                       ) {
                            
                            
@@ -1396,13 +1391,18 @@ var $ct_array = array();
    
    global $ct, $check_default_ct_conf, $default_ct_conf, $admin_general_success;
    
-   
+      
+      // Skip, if we are already resetting the ENTIRE config
       if ( $ct['reset_config'] ) {
            
     	 $ct['gen']->log('notify_error', 'FULL APP RESET in-progress, no need to check for updates (as we reset EVERYTHING, from the latest defaults)');
 
     	 return false;
 
+      }
+      // Skip, if a config upgrade check is NOT flagged
+      elseif ( !$ct['config_upgrade_check'] ) {
+    	 return false;
       }
 
    
@@ -1440,15 +1440,10 @@ var $ct_array = array();
            }   
            // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
            elseif (
-           !isset($conf[$cat_key])
-           && !$ct['active_plugins_registered']
-           || array_key_exists($cat_key, $ct['dev']['config_allow_resets'])
-           && isset($ct['cached_app_version'])
-           && $ct['cached_app_version'] != $ct['app_version']
-           && !$ct['active_plugins_registered']
-           || array_key_exists($cat_key, $ct['dev']['config_allow_resets'])
-           && !isset($ct['cached_app_version'])
-           && !$ct['active_plugins_registered']
+           !$ct['active_plugins_registered']
+           && !isset($conf[$cat_key])
+           || !$ct['active_plugins_registered']
+           && array_key_exists($cat_key, $ct['dev']['config_allow_resets'])
            ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
@@ -1494,7 +1489,8 @@ var $ct_array = array();
            
                     if (
                     // If not in 'config_deny_additions'
-                    !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
+                    !in_array($cat_key, $ct['dev']['config_deny_additions'])
+                    && !in_array($conf_key, $ct['dev']['config_deny_additions'])
                     // If plugin status (we handle whitelisting for this in subarray_cached_ct_conf_upgrade())
                     // (WE CHECK $ct['active_plugins_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
@@ -1514,12 +1510,6 @@ var $ct_array = array();
                || !$ct['active_plugins_registered']
                && is_array($conf[$cat_key][$conf_key])
                && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
-               && isset($ct['cached_app_version'])
-               && $ct['cached_app_version'] != $ct['app_version']
-               || !$ct['active_plugins_registered']
-               && is_array($conf[$cat_key][$conf_key])
-               && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
-               && !isset($ct['cached_app_version'])
                // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
                || !$ct['active_plugins_registered']
                && is_array($conf[$cat_key][$conf_key])
@@ -1644,6 +1634,9 @@ var $ct_array = array();
       if ( $ct['conf_upgraded'] ) {
            
       $ct['conf_upgraded'] = false; // Reset, because we run main config / active plugins upgrades SEPERATELY
+          
+      // Reset, because we run main config / active plugins config import checks SEPERATELY
+      $ct['config_upgrade_check'] = false; 
       
       return $conf;
 
@@ -1655,10 +1648,10 @@ var $ct_array = array();
       
       
           // IF this was a config import check
-          if ( $ct['config_import_check'] ) {
+          if ( $ct['config_upgrade_check'] ) {
           
           // Reset, because we run main config / active plugins config import checks SEPERATELY
-          $ct['config_import_check'] = false; 
+          $ct['config_upgrade_check'] = false; 
            
           // WE STILL NEED TO RETURN THE CONFIG HERE, AS WE DID UPDATE THE 'VERSION STATES'
           // (SO WE HAVE TO TRIGGER SAVING THE UPDATED CONFIG)
@@ -1761,34 +1754,6 @@ var $ct_array = array();
         			    ) {
         			    $ct['conf'] = $ct['gen']->sync_version_states($ct['conf']);
         			    }
-
-
-        			    // Avoid running upgrade checks during any AJAX runtimes etc
-        			    if ( !$ct['reset_config'] && !$ct['fast_runtime'] && $ct['runtime_mode'] != 'ajax' ) {
-        			         
-             			         
-                             // RUN UPGRADE CHECK MODES IF FLAGGED
-                             
-                             // (RUNNING APP CHECK EARLY HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG,
-                             // THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
-        			         if ( $ct['app_upgrade_check'] ) {
-        			         
-        			         $ct['conf'] = $this->update_cached_config($ct['conf'], true);
-                             
-                             $ct['app_upgrade_check'] = false; // RESET, as we've now upgraded the app config 
-        			         
-        			         }
-        			         // PLUGIN UPGRADE CHECK
-             			    elseif ( $ct['plugin_upgrade_check'] ) {
-             			    
-             			    $ct['conf'] = $this->update_cached_config($ct['conf'], true);
-     						     
-                             $ct['plugin_upgrade_check'] = false; // RESET, as we've now upgraded the plugin configs
-             			    
-             			    }
-
-        			    
-        			    }    
 
         			
         			}

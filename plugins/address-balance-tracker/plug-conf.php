@@ -13,16 +13,13 @@
 $ct['plug_version'][$this_plug] = '1.01.00'; // VERSION BUMP DATE: 2025/May/7TH
 
 
-// FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
-// As of v1.01.00, we change the input field key name for crypto addresses,
-// so the app's built-in malware injection scanner doesn't flag a FALSE POSITIVE
-// (safe, since we only render inside a text input field)
+// FULL RESET(s) on specified settings (CAN include subarrays)
+// Resets ENTIRE setting, IF upgrading from EARLIER version than param value
 $ct['dev']['plugin_allow_resets'][$this_plug] = array(
                                                       // key id, and plugin version number of when the reset was added
                                                       // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                                       // 'plugin-setting-key-1' => '0.90.00',
                                                       // 'plugin-setting-key-2' => '1.23.45',
-                                                      'tracking' => '1.01.00',
                                                      );
 
 

@@ -2030,7 +2030,6 @@ select opt in $OPTIONS; do
 				
 				# Move to new locations
 				
-				mv $DOC_ROOT/cache/vars/app_version.dat $DOC_ROOT/cache/vars/state-tracking/app_version.dat > /dev/null 2>&1
 				mv $DOC_ROOT/cache/vars/default_bitcoin_primary_currency_pair.dat $DOC_ROOT/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat > /dev/null 2>&1
 				mv $DOC_ROOT/cache/vars/light_chart_struct.dat $DOC_ROOT/cache/vars/state-tracking/light_chart_struct.dat > /dev/null 2>&1
 				mv $DOC_ROOT/cache/vars/php_timeout.dat $DOC_ROOT/cache/vars/state-tracking/php_timeout.dat > /dev/null 2>&1
@@ -2130,6 +2129,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_ct_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/state-tracking/default_ct_conf_md5.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/state-tracking/app_version.dat > /dev/null 2>&1
 				
 				# Force-resets script timeout from config.php (automatically / dynamically re-created by app)
 				rm $DOC_ROOT/.htaccess > /dev/null 2>&1 
