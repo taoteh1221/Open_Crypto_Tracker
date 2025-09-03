@@ -18,7 +18,7 @@ is_array($ct['dev']['config_allow_resets'])
 // If we're upgrading, these could change as the runtime progresses, so set the ORIGINAL vals
 $orig_app_version = $ct['app_version'];
 
-$orig_cached_app_version = $ct['cached_app_version'];
+$orig_cached_app_version = ( isset($conf_passed['version_states']['app_version']) ? $conf_passed['version_states']['app_version'] : '' );
 
 
      foreach ( $ct['dev']['config_allow_resets'] as $reset_key => $reset_val ) {
@@ -27,6 +27,13 @@ $orig_cached_app_version = $ct['cached_app_version'];
      $config_current_compare = $ct['gen']->version_compare($orig_app_version, $reset_val);
      
      $config_cache_compare = $ct['gen']->version_compare($orig_cached_app_version, $reset_val);
+     
+          
+          // IF UPGRADING AFTER state versioning was introduced, mark it as 'lesser than' version number,
+          // thereby activating upgrade SETTING RESETS
+          if ( $config_cache_compare['base_diff'] === false ) {
+          $config_cache_compare['base_diff'] = -1;
+          }
      
      
           // RESETS (if the reset has not run ever yet)

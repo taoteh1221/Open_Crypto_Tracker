@@ -132,7 +132,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Backup the GitHub project website (forgot to).
 
 
-We've only tested when no 'version states' exist yet. Next, we need to test upgrade and downgrade flagging. We need to revise setting-reset-config.php AND plugin-setting-reset-config.php logic / placement to include 'version state' checks in imported configs. WE NEED TO PRIORITIZE 'VERSION STATE' CONFIG IMPORT CHECKS OVER APP UPGRADE CHECKS, AS WE ARE ALWAYS JUST UPGRADING THE CACHED CONFIG ANYWAY, AND WE WANT TO ASSURE VERSIONS ARE INCLUDED IN THE CACHED CONFIG (BUT MAKE SURE OUR SEPERATE VERSION CACHE FILES FOR APP / PLUGIN UPGRADES STILL UPDATED AS NEEDED).
+We've only tested when no 'version states' exist yet. Next, we need to test upgrade and downgrade flagging. We need to revise setting-reset-config.php AND plugin-setting-reset-config.php logic / placement to include 'version state' checks in imported configs. REPLACE THE OLD UPGRADE FLAGGING SYSTEM WITH THIS ONE, AS IT'S MORE RELIABLE, AND ALL WE DO IS UPGRADE THE CACHED CONFIG IN BOTH SYSTEMS.
 
 
 Make sure the original upgrade logic still works for APP UPGRADES / DOWNGRADES (now that we have integrated 'version states' tracking for safe config importing checks / upgrading).
@@ -142,9 +142,6 @@ Test admin high security mode AND normal security mode more, with the new 'versi
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups. I BELIEVE I FIXED THIS LAST RELEASE, WITH LIGHT CHART CREATION VAR $light_data_update_thres SET TO ZERO, ONLY IF NO LIGHT CHART DATA EXISTED YET.
 
 
 Add full redhat support for auto-installer.

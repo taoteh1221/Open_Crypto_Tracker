@@ -595,18 +595,13 @@ $ct['dev']['script_injection_checks'] = array(
 elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 
 
-// v6.00.31
-// RESET the 'assets' and 'tracked_markets' cached config values
-// (bittrex is going out of business, AND WE HAVE TONS OF BITTREX MARKETS IN OUR PREVIOUS DEMO DATA WE NEED TO PURGE)
-
-                    
+// FULL RESET(s) on specified settings (CAN include subarrays)
+// Resets ENTIRE setting, IF upgrading from EARLIER version than param value
 $ct['dev']['config_allow_resets'] = array(
                                           // key id, and app version number of when the reset was added
                                           // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                           // 'setting-key-1' => '0.90.00',
                                           // 'setting-key-2' => '1.23.45',
-                                          'tracked_markets' => '6.00.31',
-                                          'assets' => '6.00.31',
                                           );
 
 

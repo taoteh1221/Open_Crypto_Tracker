@@ -84,15 +84,9 @@ require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); /
 }
 
 
-// load_cached_config() IN *HIGH* ADMIN SECURITY MODE, OR FOR A *PLUGINS* CONFIG UPGRADE CHECK (NOW THAT WE REGISTERED ANY ACTIVE PLUGINS)
-// (MUST be run AFTER registering active plugins!)
+// load_cached_config() IN *HIGH* ADMIN SECURITY MODE
 // (ONLY RUN IF NO $ct['reset_config'] WAS ALREADY TRIGGERED [IN WHICH CASE WE'D *ALREADY* HAVE THE CACHED CONFIG *FULLY* UPGRADED / RELOADED])
-// FOR UPGRADES: WE DON'T COMBINE ALL UPGRADE CHECKS HERE [*MAIN* CONFIG UPGRADE CHECK IS RUN **EARLIER**], BECAUSE THE EARLIER WE RUN UPGRADES
-// ON THE ***MAIN CONFIG***, THE EARLIER WE CATCH AND AUTO-REPAIR OR UPGRADE VALUES TO PREVENT THE APP FROM CRASHING (IF IT'S USING AN OUTDATED / CORRUPT CONFIG)
-if (
-$ct['admin_area_sec_level'] == 'high' && !$ct['reset_config']
-|| $ct['plugin_upgrade_check'] && !$ct['reset_config']
-) {
+if ( $ct['admin_area_sec_level'] == 'high' && !$ct['reset_config'] ) {
      
 $ct['cache']->load_cached_config();
 

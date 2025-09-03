@@ -75,45 +75,45 @@ function <?=$reload_function_name?>() {
     if ( isset($refresh_sections) && trim($refresh_sections) != '' && $refresh_sections != 'none' && $refresh_sections != 'auto' ) {
     
     
-   // Flag as config NOT updated if it was halted (so we skip refreshing any other admin sections)
-   if ( !$ct['app_upgrade_check'] && !$ct['plugin_upgrade_check'] && !$ct['reset_config'] && !$ct['update_config'] ) {
+        // Flag as config NOT updated if it was halted (so we skip refreshing any other admin sections)
+        if ( !$ct['config_upgrade_check'] && !$ct['reset_config'] && !$ct['update_config'] ) {
+        
+            if ( $ct['check_2fa_error'] != null || $ct['update_config_error'] != null || $admin_general_error != null || $admin_reset_error != null ) {
+            $halt_iframe_refreshing = true;
+            ?>
+            console.log('halt_iframe_refreshing = "<?=$halt_iframe_refreshing?>"');
+            <?php
+            }
+        
+        }
    
-  if ( $ct['check_2fa_error'] != null || $ct['update_config_error'] != null || $admin_general_error != null || $admin_reset_error != null ) {
-  $halt_iframe_refreshing = true;
-  ?>
-  console.log('halt_iframe_refreshing = "<?=$halt_iframe_refreshing?>"');
-  <?php
-  }
    
-   }
-   
-   
-   // 'auto' is the 'refresh' param value we set further down here in footer.php,
-   // so we never get stuck in endless loops with refresh=all when refreshing here
-   if ( $halt_iframe_refreshing ) {
-   ?>
-   selected_admin_iframe_ids = new Array(); // SET TO BLANK (no iframe refreshing)
-   <?php
-   }
-   // Refreshing ALL admin sections
-   elseif ( $refresh_sections == 'all' ) {
-   ?>
-   selected_admin_iframe_ids = all_admin_iframe_ids; // ALL admin iframes refreshed
-   <?php    
-   }
-   // Refreshing the passed list of admin sections
-   else {
-   
-   $refresh_admin = explode(',', $refresh_sections);
-   $refresh_admin = array_map("trim", $refresh_admin);
-   
-   foreach ( $refresh_admin as $refresh ) {
-   ?>
-   selected_admin_iframe_ids.push("<?=$refresh?>"); // SELECTED admin iframes refreshed
-   <?php 
-   }
-   
-   }
+        // 'auto' is the 'refresh' param value we set further down here in footer.php,
+        // so we never get stuck in endless loops with refresh=all when refreshing here
+        if ( $halt_iframe_refreshing ) {
+        ?>
+        selected_admin_iframe_ids = new Array(); // SET TO BLANK (no iframe refreshing)
+        <?php
+        }
+        // Refreshing ALL admin sections
+        elseif ( $refresh_sections == 'all' ) {
+        ?>
+        selected_admin_iframe_ids = all_admin_iframe_ids; // ALL admin iframes refreshed
+        <?php    
+        }
+        // Refreshing the passed list of admin sections
+        else {
+        
+        $refresh_admin = explode(',', $refresh_sections);
+        $refresh_admin = array_map("trim", $refresh_admin);
+        
+             foreach ( $refresh_admin as $refresh ) {
+             ?>
+             selected_admin_iframe_ids.push("<?=$refresh?>"); // SELECTED admin iframes refreshed
+             <?php 
+             }
+        
+        }
     
     ?>
     
