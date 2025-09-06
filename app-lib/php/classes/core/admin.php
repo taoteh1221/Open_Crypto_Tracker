@@ -289,7 +289,7 @@ var $ct_array = array();
         return false;
         }
         // IF we're cleared to run a user's config update request
-        elseif ( $field_array_base && !$ct['update_config_halt'] ) {
+        elseif ( $field_array_base ) {
    
       
               if ( preg_match('/plug_conf\|/', $_POST['conf_id']) ) {

@@ -1652,6 +1652,8 @@ var $ct_array = array();
           
           // Reset, because we run main config / active plugins config import checks SEPERATELY
           $ct['config_upgrade_check'] = false; 
+          
+          $ct['update_config_halt'] = 'The app was busy running UPGRADE CHECKS, please wait a minute and try again.';
            
           // WE STILL NEED TO RETURN THE CONFIG HERE, AS WE DID UPDATE THE 'VERSION STATES'
           // (SO WE HAVE TO TRIGGER SAVING THE UPDATED CONFIG)

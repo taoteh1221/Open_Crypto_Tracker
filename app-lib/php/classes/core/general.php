@@ -3505,11 +3505,16 @@ var $ct_array = array();
                
            unset($this_plug);  // Reset
            
-           // Update plugin version states (automatically prunes removed plugins, mirroring hardcoded versions)
+           // Update plugin version states (prunes any removed plugins, mirroring current active plugin versions)
            $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
                 
            $conf_passed = $ct['cache']->update_cached_config($conf_passed, true); // UPGRADE MODE
 
+           }
+           // Otherwise, IF we have a VALIDATED admin interface user update submission in-progress,
+           // update plugin version states (mirroring active plugin versions, will be saved during the user update)
+           elseif ( $ct['verified_update_request'] ) {
+           $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
            }
            
 

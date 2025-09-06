@@ -129,7 +129,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Torture-test the new upgrade logic (app AND plugin upgrades / downgrades / resets / config imports, including in high security mode).
+Torture-test the new upgrade logic (app AND plugin upgrades / downgrades / resets / config imports, turning plugins on / off, including in high security mode).
 
 
 Add developer status alert that the prune_access_stats() patch is released, AND it's also now safe to MANUALLY import configs / charts (with import interfacing coming in the NEXT release).
