@@ -746,6 +746,12 @@ var $ct_array = array();
         
    global $ct;
    
+        
+        // If we've flagged halting config updates, return false
+        if ( $ct['update_config_halt'] ) {
+        return false;
+        }
+   
       
         if ( isset($_POST['conf_id']) && preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
              

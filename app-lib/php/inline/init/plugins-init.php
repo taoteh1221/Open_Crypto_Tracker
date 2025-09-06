@@ -49,14 +49,14 @@ $this_plug = trim($key);
 	     && preg_match('#^(\d+\.)?(\d+\.)?(\d+)(-[a-z0-9]+)?$#i', $ct['plug_version'][$this_plug])
 	     ) {
      
-          $default_ct_conf['plug_conf'][$this_plug] = $plug['conf'][$this_plug]; // Add each plugin's HARD-CODED config into the DEFAULT app config
+          $ct['default_conf']['plug_conf'][$this_plug] = $plug['conf'][$this_plug]; // Add each plugin's HARD-CODED config into the DEFAULT app config
                     
      		
                // If this plugin config is not set in the ACTIVELY-USED ct_conf yet, add it now (from HARD-CODED config)
           	if ( !isset($ct['conf']['plug_conf'][$this_plug]) ) {
                
                // Add this plugin's config into the GLOBAL app config
-          	$ct['conf']['plug_conf'][$this_plug] = $default_ct_conf['plug_conf'][$this_plug]; 
+          	$ct['conf']['plug_conf'][$this_plug] = $ct['default_conf']['plug_conf'][$this_plug]; 
      		   
      		   
           	    // If were're not high security mode / resetting / updating plugin status, flag a cached config update to occur
@@ -216,7 +216,7 @@ $this_plug = trim($key);
 
           unset($ct['conf']['plug_conf'][$this_plug]);
 
-          unset($default_ct_conf['plug_conf'][$this_plug]);
+          unset($ct['default_conf']['plug_conf'][$this_plug]);
                    
 	     }
      		
