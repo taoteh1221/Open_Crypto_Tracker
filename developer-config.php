@@ -595,10 +595,12 @@ $ct['dev']['script_injection_checks'] = array(
 elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
 
 
-// FULL RESET(s) on specified settings (CAN include subarrays)
+// FULL RESET(s) on specified category settings (the setting CAN include internal subarrays)
 // Resets ENTIRE setting, IF upgrading from EARLIER version than param value
+// ONLY top-level KEY NAMES WITHIN A CATEGORY ARRAY can be reset:
+// $ct['conf']['CATEGORY']['setting-key-1']
 $ct['dev']['config_allow_resets'] = array(
-                                          // key id, and app version number of when the reset was added
+                                          // setting key id, and app version number of when the reset was added
                                           // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                           // 'setting-key-1' => '0.90.00',
                                           // 'setting-key-2' => '1.23.45',

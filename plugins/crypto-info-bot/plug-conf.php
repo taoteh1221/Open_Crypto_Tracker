@@ -13,10 +13,12 @@
 $ct['plug_version'][$this_plug] = '0.90.00'; // VERSION BUMP DATE: 2025/May/7TH
 
 
-// FULL RESET(s) on specified settings (CAN include subarrays)
+// FULL RESET(s) on specified plugin settings (the setting CAN include internal subarrays)
 // Resets ENTIRE setting, IF upgrading from EARLIER version than param value
+// ONLY top-level KEY NAMES WITHIN A PLUGIN CONFIG ARRAY can be reset:
+// $plug['conf'][$this_plug]['plugin-setting-key-1']
 $ct['dev']['plugin_allow_resets'][$this_plug] = array(
-                                                      // key id, and plugin version number of when the reset was added
+                                                      // setting key id, and plugin version number of when the reset was added
                                                       // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                                       // 'plugin-setting-key-1' => '0.90.00',
                                                       // 'plugin-setting-key-2' => '1.23.45',

@@ -86,13 +86,7 @@ GENERAL REMINDERS
 Always set bluefish to "5 spaces" as a tab indentation (AND enable "insert spaces instead of tabs"), and enable indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!! PLEASE DO *NOT* USE REGULAR TAB INDENTATION (PLEASE ALWAYS USE MULTIPLE SPACES)! USE THE UBUNTU VERSION OF BLUEFISH (*NOT* the un-polished windows version)! THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, JUST SO YOU KNOW WHY THE NESTED INDENTS MAY NOT LOOK GOOD ON YOUR SETUP.
 
 
-ALWAYS TEST UPGRADING *AND* RE-DOWNGRADING the 'normal' security mode CACHED config on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING / DOWNGRADING GOES SMOOTHLY!
-
-
-Use the app "Meld" to compare json config files from a fresh reset vs after many user customizations vs after upgrades added / removed, to assure ordering / structure is not corrupted.
-
-
-Try to prioritize building out the responsive templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
+ALWAYS TEST UPGRADING the 'normal' security mode CACHED config on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING GOES SMOOTHLY (downgrades should be fine, as we ALWAYS RESET everything [or the whole plugin only])!
 
 
 Occasionally re-run the debug mode that prints out all the btc / crypto exchanges and base pairs, and update the docs (project page / README / config file / etc).
@@ -101,7 +95,7 @@ Occasionally re-run the debug mode that prints out all the btc / crypto exchange
 Please ALWAYS use snake case (var_name), as it's way harder to accidentally format incorrectly compared to camel case, and it is WAY EASIER TO CODE REVIEW!
 
 
-Occasionally check Youtube channels on the resources page, and news feeds latest posts timestamp, to see any that MAY BE DYING.
+Occasionally check Youtube channels abd podcasts on the resources page, and news feeds latest posts timestamp, to see any that MAY BE DYING.
 
 
 Post on Telegram, Discord, Twitter, and Facebook whenever there is a new release of the app.
@@ -110,10 +104,16 @@ Post on Telegram, Discord, Twitter, and Facebook whenever there is a new release
 Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
 
 
-Keep github price chart bootstrap download updated weekly at the least.
+Keep github price chart bootstrap download updated a few times monthly (at the least).
 
 
-If you need MORE debug backtracing in any error / debug logging, use the fairly polished backtrace logging in: $ct['var']->num_to_str()
+If you need MORE debug backtracing in any error / debug logging:
+
+$ct['gen']->log(
+         		'other_error',
+         		'YOUR LOG MESSAGE HERE (DEBUG_BACKTRACE: ' . json_encode( debug_backtrace(2) ) . ')'
+         		);
+    		
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +129,11 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Torture-test the new upgrade logic (app AND plugin upgrades / downgrades / resets / config imports, turning plugins on / off, including in high security mode).
+Torture-test the new upgrade logic...REMAINING TESTS NOT COMPLETED YET:
+
+1) App AND plugin developer-configged PER-SETTING resets [by version number]
+
+2) High security mode
 
 
 Add developer status alert that the prune_access_stats() patch is released, AND it's also now safe to MANUALLY import configs / charts (with import interfacing coming in the NEXT release).
@@ -310,6 +314,9 @@ Document the ABOVE new plugin settings, and fully test before public release.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ALL width-related syling for smaller screens should ALWAYS be responsive CSS based (with minimal JS). It's the most feasible method, AND tests well in a desktop (developing) environment.
 
 
 Buildout the top navigation, for responsive templating on small mobile screens. On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
