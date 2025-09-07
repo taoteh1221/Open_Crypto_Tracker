@@ -382,11 +382,11 @@ var $ct_array = array();
    
    function config_state_synced() {
        
-   global $ct, $default_ct_conf, $check_default_ct_conf;
+   global $ct, $check_default_ct_conf;
    
       if ( $ct['admin_area_sec_level'] == 'high' ) {
       
-         if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) ) {
+         if ( $check_default_ct_conf == md5(serialize($ct['default_conf'])) ) {
          return true;
          }
          else {
@@ -1922,7 +1922,7 @@ var $ct_array = array();
    
    function refresh_plugins_list() {
         
-   global $ct, $default_ct_conf;
+   global $ct;
    
    $plugin_base = $ct['base_dir'] . '/plugins/';
    
@@ -1942,8 +1942,8 @@ var $ct_array = array();
                
                // We also want to set any unset DEFAULT config
                // (does NOT need $ct['update_config'] flag)
-               if ( !isset($default_ct_conf['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
-               $default_ct_conf['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
+               if ( !isset($ct['default_conf']['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
+               $ct['default_conf']['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
                }
                
              
@@ -2006,14 +2006,14 @@ var $ct_array = array();
       
       // Remove any plugins that no longer exist / do not have proper file structure
       // DEFAULT CONFIG (does NOT need $ct['update_config'] flag)
-      foreach ( $default_ct_conf['plugins']['plugin_status'] as $key => $unused ) {
+      foreach ( $ct['default_conf']['plugins']['plugin_status'] as $key => $unused ) {
            
          if (
          !file_exists($plugin_base . $key . '/plug-conf.php')
          || !file_exists($plugin_base . $key . '/plug-lib/plug-init.php')
          ) {
-         unset($default_ct_conf['plugins']['plugin_status'][$key]);
-	    unset($default_ct_conf['plug_conf'][$key]);
+         unset($ct['default_conf']['plugins']['plugin_status'][$key]);
+	    unset($ct['default_conf']['plug_conf'][$key]);
          }
       
       }
@@ -3412,18 +3412,23 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function sync_version_states($conf_passed, $set_defaults=false) {
+   function config_versioning($conf_passed, $set_defaults=false) {
    
    global $ct;
    
       
-      // If we are setting defaults, no checks needed
-      if ( $ct['reset_config'] || $set_defaults ) {
+      // If we are resetting defaults this runtime, no checks needed
+      if ( $ct['reset_config'] || $ct['config_was_reset'] || $set_defaults ) {
       
       $conf_passed['version_states']['app_version'] = $ct['app_version'];
       
           if ( $ct['active_plugins_registered'] ) {
           $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
+          }
+          
+          // We're resetting EVERYTHING, so we don't need any upgrade checks
+          if ( $ct['reset_config'] || $ct['config_was_reset'] ) {
+          $ct['config_upgrade_check'] = false; 
           }
       
       return $conf_passed;
@@ -3462,21 +3467,21 @@ var $ct_array = array();
                      $ct['config_upgrade_check'] = true;
                      
                      // RESET this plugin's config
-                     // (blanking it out will get it filled with defaults on upgrade check)
-          	      $conf_passed['plug_conf'][$key] = array();
+          	      $conf_passed['plug_conf'][$key] = $ct['default_conf']['plug_conf'][$key];
                               
                      $ct['gen']->log(
                               			'notify_error',
-                              			'"' . $key . '" plugin DOWNGRADE detected, RESETTING this ENTIRE plugin TO ASSURE COMPATIBILITY'
+                              			'"' . $key . '" plugin DOWNGRADE detected, so a RESET to defaults on this ENTIRE plugin configuration was done, TO ASSURE COMPATIBILITY'
                                  			);
                      
                      }
                 
                 
                 }
-                // IF cached plugin version doesn't exist yet, trigger an upgrade check
-                else {
-
+                // IF cached plugin version doesn't exist yet, AND we are NOT mid-flight on
+                // activating / deactivating this plugin in the admin interface, trigger an upgrade check
+                elseif ( !isset($ct['verified_update_request']['plugin_status'][$key]) ) {
+                     
                 // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
                 $ct['config_upgrade_check'] = true;
            
@@ -3506,11 +3511,16 @@ var $ct_array = array();
                
            unset($this_plug);  // Reset
            
-           // Update plugin version states (automatically prunes removed plugins, mirroring hardcoded versions)
+           // Update plugin version states (prunes any removed plugins, mirroring current active plugin versions)
            $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
                 
            $conf_passed = $ct['cache']->update_cached_config($conf_passed, true); // UPGRADE MODE
 
+           }
+           // Otherwise, IF we have a VALIDATED admin interface user update submission in-progress,
+           // update plugin version states (mirroring active plugin versions, will be saved during the user update)
+           elseif ( $ct['verified_update_request'] ) {
+           $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
            }
            
 
@@ -3540,7 +3550,7 @@ var $ct_array = array();
                     
                 $ct['gen']->log(
                          			'notify_error',
-                         			'app DOWNGRADE detected, RESETTING the ENTIRE app AND plugin configuration TO ASSURE COMPATIBILITY'
+                         			'app DOWNGRADE detected, so a RESET to defaults on app AND plugin configurations were done, TO ASSURE COMPATIBILITY'
                             			);
                 
                 }

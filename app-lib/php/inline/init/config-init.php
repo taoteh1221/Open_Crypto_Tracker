@@ -13,7 +13,7 @@
 // (#MUST# BE SET AT VERY TOP OF CONFIG-INIT.PHP, AND BEFORE LOADING CACHED CONFIG)
 // WE MODIFY / RUN THIS AND UPGRADE LOGIC, WITHIN load-config-by-security-level.php
 // Add version states to DEFAULT config (for SAFETY on any imported cached configs [IF high sec mode ever disabled in future])
-$default_ct_conf = $ct['gen']->sync_version_states($ct['conf'], true); // Runs quick, as we don't need comparison checks
+$ct['default_conf'] = $ct['gen']->config_versioning($ct['conf'], true); // Runs quick, as we don't need comparison checks
 
 
 // Used for quickening runtimes on app config upgrading checks

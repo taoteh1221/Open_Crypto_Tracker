@@ -151,6 +151,8 @@ $ct['active_plugins_registered'] = false;
 
 $ct['reset_config'] = false;
 
+$ct['config_was_reset'] = false;
+
 $ct['update_config'] = false;
 
 $ct['possible_input_injection'] = false;
