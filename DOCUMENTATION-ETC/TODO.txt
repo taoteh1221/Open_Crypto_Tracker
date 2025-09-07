@@ -141,7 +141,7 @@ Add developer status alert that the prune_access_stats() patch is released, AND 
 Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
 
 
-On the backup / restore admin page, have all the backups have a RESTORE LINK next to each. INCLUDE AN UPLOAD FIELD TOO, TO RESTORE FROM BACKUPS SAVED TO A PC. See PHP's 'setPassword' for automatically using the config backup password, to open / restore config backups:
+On the backup / restore admin page, have all the backups have a RESTORE RADIO BUTTON next to each. INCLUDE AN UPLOAD FIELD TOO, TO RESTORE FROM BACKUPS SAVED TO A PC. See PHP's 'setPassword' for automatically using the config backup password, to open / restore config backups:
 https://www.php.net/manual/en/ziparchive.setpassword.php
 
 
