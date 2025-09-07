@@ -17,7 +17,7 @@ $ct['verified_update_request'] = $ct['sec']->valid_secure_config_update_request(
 // (UNLESS IT'S A CT_CONF USER-INITIATED RESET)
 // ALSO QUEUE ANY REQUESTED UPDATE AFTER LOADING, IF AUTHORIZED
 // (WE PROCESS IT AT THE BOTTOM OF THIS FILE [SAVE IT TO FILE STORAGE])
-if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
+if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] && !$ct['config_was_reset'] ) {
 $ct['cache']->load_cached_config();
 require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
 }
@@ -42,7 +42,7 @@ $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_co
 
 // Check PLUGIN version states, in medium / normal admin security modes (for SAFETY on any imported cached configs)
 // (AFTER force-set above on DEFAULT config [so we have plugin defaults set, if needed])
-if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
+if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] && !$ct['config_was_reset'] ) {
 $ct['conf'] = $ct['gen']->config_versioning($ct['conf']);
 }
 
@@ -65,7 +65,7 @@ $ct['admin']->queue_config_update();
 
 
 // IF ct_conf CACHE RESET (MUST be done AFTER registering active plugins / OVERRIDE ANY $ct['update_config'])
-if ( $ct['reset_config'] ) {
+if ( $ct['reset_config'] && !$ct['config_was_reset'] ) {
      
 $ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Reset flag
 
@@ -86,7 +86,7 @@ require($ct['base_dir'] . '/app-lib/php/inline/config/after-load-config.php'); /
 
 // load_cached_config() IN *HIGH* ADMIN SECURITY MODE
 // (ONLY RUN IF NO $ct['reset_config'] WAS ALREADY TRIGGERED [IN WHICH CASE WE'D *ALREADY* HAVE THE CACHED CONFIG *FULLY* UPGRADED / RELOADED])
-if ( $ct['admin_area_sec_level'] == 'high' && !$ct['reset_config'] ) {
+if ( $ct['admin_area_sec_level'] == 'high' && !$ct['reset_config'] && !$ct['config_was_reset'] ) {
      
 $ct['cache']->load_cached_config();
 

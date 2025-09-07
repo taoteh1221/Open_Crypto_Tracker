@@ -3417,13 +3417,18 @@ var $ct_array = array();
    global $ct;
    
       
-      // If we are setting defaults, no checks needed
-      if ( $ct['reset_config'] || $set_defaults ) {
+      // If we are resetting defaults this runtime, no checks needed
+      if ( $ct['reset_config'] || $ct['config_was_reset'] || $set_defaults ) {
       
       $conf_passed['version_states']['app_version'] = $ct['app_version'];
       
           if ( $ct['active_plugins_registered'] ) {
           $conf_passed['version_states']['plug_version'] = $ct['plug_version'];
+          }
+          
+          // We're resetting EVERYTHING, so we don't need any upgrade checks
+          if ( $ct['reset_config'] || $ct['config_was_reset'] ) {
+          $ct['config_upgrade_check'] = false; 
           }
       
       return $conf_passed;
@@ -3473,9 +3478,10 @@ var $ct_array = array();
                 
                 
                 }
-                // IF cached plugin version doesn't exist yet, trigger an upgrade check
-                else {
-
+                // IF cached plugin version doesn't exist yet, AND we are NOT mid-flight on
+                // activating / deactivating this plugin in the admin interface, trigger an upgrade check
+                elseif ( !isset($ct['verified_update_request']['plugin_status'][$key]) ) {
+                     
                 // Auto-set back to false in upgrade_cached_ct_conf(), AFTER processing
                 $ct['config_upgrade_check'] = true;
            

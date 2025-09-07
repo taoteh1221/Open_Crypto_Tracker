@@ -1807,6 +1807,8 @@ var $ct_array = array();
         $ct['conf'] = $this->update_cached_config(false, false, true); // Reset config
 
         $ct['reset_config'] = false; // Reset the reset flag (lol) IMMEDIATELY, as it's a global var
+        
+        $ct['config_was_reset'] = true; // FLAG we already reset the ENTIRE config this runtime
 
         }
         
