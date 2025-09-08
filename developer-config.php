@@ -486,12 +486,20 @@ $ct['dev']['markets_lowercase_search'] = array(
                                                  'korbit',
                                                  'coinspot',
                                                 );
-                                      
 
-// MAIN CONFIG settings subarray keys to ALLOW cached config RESETS on (during cached config upgrades)
-// (can manipulate later on, based on app version number / user input / etc)
+
+// FULL RESET(s) on specified category settings (the setting CAN include internal subarrays)
+// Resets ENTIRE setting, IF upgrading from EARLIER version than param value
+// ONLY top-level AND one-level deep KEY NAMES WITHIN A CATEGORY ARRAY can be reset:
+// $ct['conf']['CATEGORY']['setting-key-1']
+// $ct['conf']['CATEGORY']['top-level-key']['setting-key-2']
 // THIS ALWAYS OVERRIDES 'config_deny_additions' AND 'config_deny_removals'
-$ct['dev']['config_allow_resets'] = array();
+$ct['dev']['config_allow_resets'] = array(
+                                          // setting key id, and app version number of when the reset was added
+                                          // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
+                                          // 'setting-key-1' => '0.90.00',
+                                          // 'setting-key-2' => '1.23.45',
+                                          );
 
 
 // MAIN CONFIG settings subarray keys to DENY cached config settings ADDITIONS on (during cached config upgrades)
@@ -584,38 +592,15 @@ $ct['dev']['script_injection_checks'] = array(
                            
 
 }
-// ***************************************************************
-// ***************************************************************
-
-
 
 // ***************************************************************
-// Runs in /app-lib/php/inline/init/config-init.php, within the logic that ONLY runs during upgrade checks
 // ***************************************************************
-elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
-
-
-// FULL RESET(s) on specified category settings (the setting CAN include internal subarrays)
-// Resets ENTIRE setting, IF upgrading from EARLIER version than param value
-// ONLY top-level KEY NAMES WITHIN A CATEGORY ARRAY can be reset:
-// $ct['conf']['CATEGORY']['setting-key-1']
-$ct['dev']['config_allow_resets'] = array(
-                                          // setting key id, and app version number of when the reset was added
-                                          // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
-                                          // 'setting-key-1' => '0.90.00',
-                                          // 'setting-key-2' => '1.23.45',
-                                          );
-
-
-}
-// ***************************************************************
-// ***************************************************************
-
 
 
 // ***************************************************************
 // Runs in /app-lib/php/inline/config/after-load-config.php (because user config values are used)
 // ***************************************************************
+
 elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 
 // MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
@@ -624,6 +609,7 @@ elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 // (ONLY ADD SENSITIVE VALUES HERE THAT COULD SHOW IN URL GET REQUEST DATA / ERROR NOTICES / ETC)
 $ct['dev']['data_obfuscating'] = array(
                                       // 'hide_this',
+                                      $ct['conf']['comms']['smtp_server'],
                                       $ct['conf']['comms']['from_email'],
                                       $ct['conf']['comms']['to_email'],
                                       $ct['conf']['ext_apis']['telegram_your_username'],
@@ -641,9 +627,9 @@ $ct['dev']['data_obfuscating'] = array(
                                      
                                      
 }
-// ***************************************************************
-// ***************************************************************
 
+// ***************************************************************
+// ***************************************************************
 
 
 ///////////////////////////////////////////////////

@@ -1263,7 +1263,7 @@ The webhook key is also available, in the auto-created variable: <pre class='rou
 
 
 
-<span class='blue'>12)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$ct['dev']['plugin_allow_resets'][$this_plug]</code></pre> WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
+<span class='blue'>12)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$ct['dev']['plugin_allow_resets'][$this_plug]</code></pre> WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading of EXISTING plugin installations.
 <br /><br />
 
 
@@ -1282,7 +1282,7 @@ $ct['dev']['plugin_allow_resets'][$this_plug] = array(
 </code></pre>
 <br /><br />
 
-This will COMPLETELY RESET these plugin settings (ONLY IF THE PLUGIN VERSION HAS CHANGED), using the DEFAULT settings in the currently-installed version of the plugin, during upgrade checks on the cached config.
+This will COMPLETELY RESET these plugin settings (ONLY IF THE PLUGIN VERSION HAS CHANGED [FROM A LOWER VERSION]), using the DEFAULT settings in the currently-installed version of the plugin, during upgrade checks on the cached config.
 <br /><br /><br />
 
 

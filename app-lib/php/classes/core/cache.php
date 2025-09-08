@@ -491,7 +491,7 @@ var $ct_array = array();
                      
               
               }
-              // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
+              // Check everything else (IF IT'S THE FIRST RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
               ////
               // If DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***, AND ACTIVE / DEFAULT ARRAYS DON'T MATCH,
               // then import and check for duplicates after (for efficiency)
@@ -503,7 +503,8 @@ var $ct_array = array();
                    
               $conf[$cat_key][$conf_key][] = $ct['default_conf'][$cat_key][$conf_key][$setting_key];
                   
-              // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS...SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
+              // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS,
+              // SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
               $conf[$cat_key][$conf_key] = array_intersect_key( $conf[$cat_key][$conf_key] , array_unique( array_map('serialize' , $conf[$cat_key][$conf_key] ) ) );
                   
               // WE DON'T NEED ORDERING HERE, AS IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***
@@ -568,6 +569,7 @@ var $ct_array = array();
                    
                    foreach ( $conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
+                   
                       if ( !isset($ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key]) ) {
                       
                       unset($conf['plug_conf'][$this_plug][$plug_setting_key]);
@@ -580,6 +582,7 @@ var $ct_array = array();
                              			);
                    
                       }
+
                    
                    }
               
@@ -1487,6 +1490,7 @@ var $ct_array = array();
                && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
            
+           
                     if (
                     // If not in 'config_deny_additions'
                     !in_array($cat_key, $ct['dev']['config_deny_additions'])
@@ -1497,6 +1501,7 @@ var $ct_array = array();
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                     }
+
                     
                }
                // If regular setting, RESET on a subarray setting, OR array key type does NOT match
@@ -1597,6 +1602,7 @@ var $ct_array = array();
                // If subarray setting
                if ( is_array($ct['default_conf'][$cached_cat_key][$cached_conf_key]) ) {
                     
+                    
                     if (
                     !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
                     // Uses === for PHPv7.4 support
@@ -1605,6 +1611,7 @@ var $ct_array = array();
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
                     }
+
                     
                }
                // If regular setting
