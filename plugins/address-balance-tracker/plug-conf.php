@@ -22,6 +22,7 @@ $ct['dev']['plugin_allow_resets'][$this_plug] = array(
                                                       // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                                       // 'plugin-setting-key-1' => '0.90.00',
                                                       // 'plugin-setting-key-2' => '1.23.45',
+                                                      // 'alerts_frequency_maximum' => '1.01.00', // DEBUG TESTING ONLY!
                                                      );
 
 
