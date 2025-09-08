@@ -204,6 +204,7 @@ $this_plug = trim($key);
                }
 	     
 	     
+	          // Remove any associated plugin resets
      	     if ( ( $temp_key = array_search($this_plug, $ct['plugin_setting_resets']) ) !== false ) {
                unset($ct['plugin_setting_resets'][$temp_key]);
                }
@@ -211,6 +212,8 @@ $this_plug = trim($key);
 	     
 	     // Just unset EVERYTHING to be safe,
 	     // as unset() will NOT throw an error if the var does not exist
+	     
+	     unset($ct['plug_version'][$this_plug]);
 	     
 	     unset($plug['conf'][$this_plug]); 
 

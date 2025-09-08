@@ -491,7 +491,7 @@ var $ct_array = array();
                      
               
               }
-              // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
+              // Check everything else (IF IT'S THE FIRST RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
               ////
               // If DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***, AND ACTIVE / DEFAULT ARRAYS DON'T MATCH,
               // then import and check for duplicates after (for efficiency)
@@ -503,7 +503,8 @@ var $ct_array = array();
                    
               $conf[$cat_key][$conf_key][] = $ct['default_conf'][$cat_key][$conf_key][$setting_key];
                   
-              // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS...SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
+              // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS,
+              // SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
               $conf[$cat_key][$conf_key] = array_intersect_key( $conf[$cat_key][$conf_key] , array_unique( array_map('serialize' , $conf[$cat_key][$conf_key] ) ) );
                   
               // WE DON'T NEED ORDERING HERE, AS IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***
@@ -568,6 +569,7 @@ var $ct_array = array();
                    
                    foreach ( $conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
+                   
                       if ( !isset($ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key]) ) {
                       
                       unset($conf['plug_conf'][$this_plug][$plug_setting_key]);
@@ -580,6 +582,7 @@ var $ct_array = array();
                              			);
                    
                       }
+
                    
                    }
               
@@ -1438,20 +1441,8 @@ var $ct_array = array();
            if ( $cat_key === 'plug_conf' || $cat_key === 'version_states' ) { // Uses === for PHPv7.4 support
            continue;
            }   
-           // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-           elseif (
-           !$ct['active_plugins_registered']
-           && !isset($conf[$cat_key])
-           || !$ct['active_plugins_registered']
-           && array_key_exists($cat_key, $ct['dev']['config_allow_resets'])
-           ) {
-                    
-                if ( !isset($conf[$cat_key]) ) {
-                $desc = 'NEW';
-                }
-                else {
-                $desc = 'RESET';
-                }
+           // If category not set yet (and it's not the SECOND upgrade check for active registered plugins)
+           elseif ( !$ct['active_plugins_registered'] && !isset($conf[$cat_key]) ) {
                     
            $conf[$cat_key] = $ct['default_conf'][$cat_key];
                   			
@@ -1462,10 +1453,10 @@ var $ct_array = array();
                   
            $ct['gen']->log(
                   	       'notify_error',
-                  		  $desc . ' app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($ct['default_conf'][$cat_key]) . ')'
+                  		  'NEW app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($ct['default_conf'][$cat_key]) . ')'
                   		 );
            
-           // Since we just overwrote the ENTIRE category's settings, we can safely skip per-setting checks
+           // Since we just ADDED the ENTIRE category's settings, we can safely skip per-setting checks
            continue;
            
            }
@@ -1487,6 +1478,7 @@ var $ct_array = array();
                && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
            
+           
                     if (
                     // If not in 'config_deny_additions'
                     !in_array($cat_key, $ct['dev']['config_deny_additions'])
@@ -1497,40 +1489,52 @@ var $ct_array = array();
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                     }
+
                     
                }
-               // If regular setting, RESET on a subarray setting, OR array key type does NOT match
+               // If APP setting does NOT exist, RESET is flagged on the setting,
+               // OR array key type does NOT match
                else if (
-               // If we are allowed to add settings in this category, and the setting doesn't exist
+               // If the setting doesn't exist
                // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
-               !$ct['active_plugins_registered']
-               && !in_array($cat_key, $ct['dev']['config_deny_additions'])
-               && !isset($conf[$cat_key][$conf_key])
-               // If reset on a subarray is flagged (and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['active_plugins_registered']
-               && is_array($conf[$cat_key][$conf_key])
-               && array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
-               // If we UPGRADED to using integer-based / auto-index array keys (for better admin interface compatibility...and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['active_plugins_registered']
-               && is_array($conf[$cat_key][$conf_key])
+               !isset($conf[$cat_key][$conf_key])
+               // If reset is flagged
+               || array_key_exists($conf_key, $ct['dev']['config_allow_resets'])
+               // If we SWITCHED TO using integer-based / auto-index array keys (for better admin interface compatibility, etc)
+               || is_array($conf[$cat_key][$conf_key])
                && !$ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
                && $ct['var']->has_string_keys($conf[$cat_key][$conf_key])
-               // If we DOWNGRADED from using integer-based / auto-index array keys (downgrading to an OLDER version of the app etc...and it's not the SECOND upgrade check for active registered plugins)
-               || !$ct['active_plugins_registered']
-               && is_array($conf[$cat_key][$conf_key])
+               // If we SWITCHED FROM using integer-based / auto-index array keys (to associative arrays)
+               || is_array($conf[$cat_key][$conf_key])
                && $ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
                && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key])
                ) {
                     
                     
+                    // Skip, IF it's the plugins scan, OR additions are flagged as DENIED
+                    if (
+                    $ct['active_plugins_registered']
+                    || in_array($cat_key, $ct['dev']['config_deny_additions'])
+                    || in_array($conf_key, $ct['dev']['config_deny_additions'])
+                    ) {
+                    continue;
+                    }
+                    
+                    
                     if ( !isset($conf[$cat_key][$conf_key]) ) {
                     $desc = 'NEW';
                     }
-                    elseif ( !$ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key]) && $ct['var']->has_string_keys($conf[$cat_key][$conf_key]) ) {
-                    $desc = 'CONVERTED (UPGRADE)';
+                    elseif (
+                    !$ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
+                    && $ct['var']->has_string_keys($conf[$cat_key][$conf_key])
+                    ) {
+                    $desc = 'CONVERTED (TO integer [auto] array keys)';
                     }
-                    elseif ( $ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key]) && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key]) ) {
-                    $desc = 'CONVERTED (DOWNGRADE)';
+                    elseif (
+                    $ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
+                    && !$ct['var']->has_string_keys($conf[$cat_key][$conf_key])
+                    ) {
+                    $desc = 'CONVERTED (TO string [associative] array keys)';
                     }
                     else {
                     $desc = 'RESET';
@@ -1573,7 +1577,7 @@ var $ct_array = array();
            continue;
            }
            // If category is depreciated
-           else if ( !isset($ct['default_conf'][$cached_cat_key]) ) {
+           else if ( !$ct['active_plugins_registered'] && !isset($ct['default_conf'][$cached_cat_key]) ) {
                   	
            unset($conf[$cached_cat_key]);
                   
@@ -1597,18 +1601,26 @@ var $ct_array = array();
                // If subarray setting
                if ( is_array($ct['default_conf'][$cached_cat_key][$cached_conf_key]) ) {
                     
+                    
                     if (
-                    !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
+                    !in_array($cached_cat_key, $ct['dev']['config_deny_removals'])
+                    && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
                     // Uses === for PHPv7.4 support
                     // (WE CHECK $ct['active_plugins_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
                     || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
                     }
+
                     
                }
                // If regular setting
-               else if ( !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !isset($ct['default_conf'][$cached_cat_key][$cached_conf_key]) ) {
+               else if (
+               !$ct['active_plugins_registered'] 
+               && !in_array($cached_cat_key, $ct['dev']['config_deny_removals'])
+               && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
+               && !isset($ct['default_conf'][$cached_cat_key][$cached_conf_key])
+               ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   

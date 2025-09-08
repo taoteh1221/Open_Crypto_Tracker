@@ -1950,18 +1950,22 @@ var $ct_array = array();
                if ( !isset($ct['conf']['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
                     
                $ct['conf']['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
+
 	    
 	               // If no reset / high security mode 
 	               // (high security mode will auto-trigger a reset on plugin changes, FURTHER ALONG IN THE LOGIC)
      	          if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
      	               
          	          $ct['update_config'] = true;
+
      	               
      	               if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
          	               $ct['gen']->log('conf_debug', 'plugin "'.$file_info->getFilename().'" ADDED, updating CACHED ct_conf');
          	               }
+
          	          
      	          }
+               
                
                }
                
@@ -1982,21 +1986,28 @@ var $ct_array = array();
          !file_exists($plugin_base . $key . '/plug-conf.php')
          || !file_exists($plugin_base . $key . '/plug-lib/plug-init.php')
          ) {
-              
+         
+	    // Just unset EVERYTHING to be safe,
+	    // as unset() will NOT throw an error if the var does not exist
+         unset($ct['default_conf']['plugins']['plugin_status'][$key]);
          unset($ct['conf']['plugins']['plugin_status'][$key]);
 	    unset($ct['conf']['plug_conf'][$key]);
+	    
 	    
 	         // If no reset / high security mode 
 	         // (high security mode will auto-trigger a reset on plugin changes, FURTHER ALONG IN THE LOGIC)
 	         if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
 	              
     	         $ct['update_config'] = true;
+
     	         
     	            if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     	            $ct['gen']->log('conf_debug', 'plugin "'.$key.'" REMOVED, updating CACHED ct_conf');
     	            }
+
     	         
 	         }
+
 	    
          }
          
@@ -3575,12 +3586,6 @@ var $ct_array = array();
            $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
           
           $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
-     
-           // Developer-only configs
-           $dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
-               
-           // setting RESET configs
-           require('developer-config.php');
                
            // Process any developer-added APP DB SETTING RESETS (for RELIABLE DB upgrading)
            require($ct['base_dir'] . '/app-lib/php/classes/core/includes/config/setting-reset-config.php');

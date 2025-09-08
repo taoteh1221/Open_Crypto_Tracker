@@ -1263,14 +1263,17 @@ The webhook key is also available, in the auto-created variable: <pre class='rou
 
 
 
-<span class='blue'>12)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$ct['dev']['plugin_allow_resets'][$this_plug]</code></pre> WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading / downgrading of EXISTING plugin installations.
+<span class='blue'>12)</span> ADDITIONALLY, if you wish to trigger a RESET on any particular plugin settings during config upgrades (for ACTIVATED plugins), include an array named <pre class='rounded' style='position: relative; top: 0.65em; display: inline-block; padding: 0em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block; padding: 0em !important;'>$ct['dev']['plugin_allow_resets'][$this_plug]</code></pre> WITH YOUR PLUGIN CONFIG SETTINGS. You MUST include the PLUGIN VERSION NUMBER for when the reset began being needed during upgrades, for reliable upgrading of EXISTING plugin installations.
 <br /><br />
 
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
-// FULL RESET(s) on specified settings (CAN be an arrays), ONLY IF plugin version has changed
+// FULL RESET(s) on specified plugin settings (the setting CAN include internal subarrays)
+// Resets ENTIRE setting, IF upgrading from EARLIER version than param value
+// ONLY top-level KEY NAMES WITHIN A PLUGIN CONFIG ARRAY can be reset:
+// $plug['conf'][$this_plug]['plugin-setting-key-1']
 $ct['dev']['plugin_allow_resets'][$this_plug] = array(
-                                                      // key id, and plugin version number of when the reset was added
+                                                      // setting key id, and plugin version number of when the reset was added
                                                       // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                                       'plugin-setting-key-1' => '0.90.00',
                                                       'plugin-setting-key-2' => '1.23.45',
@@ -1279,7 +1282,7 @@ $ct['dev']['plugin_allow_resets'][$this_plug] = array(
 </code></pre>
 <br /><br />
 
-This will COMPLETELY RESET these plugin settings (ONLY IF THE PLUGIN VERSION HAS CHANGED), using the DEFAULT settings in the currently-installed version of the plugin, during upgrade checks on the cached config.
+This will COMPLETELY RESET these plugin settings (ONLY IF THE PLUGIN VERSION HAS CHANGED [FROM A LOWER VERSION]), using the DEFAULT settings in the currently-installed version of the plugin, during upgrade checks on the cached config.
 <br /><br /><br />
 
 

@@ -46,53 +46,6 @@ $ct['dev']['global_font_weight'] = 400; // 400 for ANY font size
 $ct['dev']['global_line_height_percent'] = 1.50; // 150% line height for ANY font size
 
 
-// info icon size CSS configs
-$ct['dev']['info_icon_size_css_selector'] = "img.tooltip_style_control";
-
-// ajax loading size CSS configs
-$ct['dev']['ajax_loading_size_css_selector'] = "img.ajax_loader_image";
-
-// password eye icon size CSS configs
-$ct['dev']['password_eye_size_css_selector'] = "i.gg-eye, i.gg-eye-alt";
-
-// standard font size CSS configs
-$ct['dev']['font_size_css_selector'] = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_content, .footer_banner, .countdown_notice, .sidebar-slogan, .pw_prompt";
-
-// medium font size CSS configs
-$ct['dev']['medium_font_size_css_selector'] = ".unused_for_appending";
-
-// small font size CSS configs
-$ct['dev']['small_font_size_css_selector'] = ".unused_for_appending, .gain, .loss, .crypto_worth, .extra_data";
-
-// tiny font size CSS configs
-$ct['dev']['tiny_font_size_css_selector'] = ".accordion-button";
-
-// These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but work fine in all modern browsers)
-// (dynamically appended conditionally in primary-init.php)
-$ct['dev']['small_font_size_css_selector_adjusted'] = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
-////
-$ct['dev']['tiny_font_size_css_selector_adjusted'] = ", .crypto_worth";
-
-
-// PERCENT of MEDIUM font size (as a decimal)
-$ct['dev']['medium_font_size_css_percent'] = 0.90; // 90% of $set_font_size
-////
-// PERCENT of SMALL font size (as a decimal)
-$ct['dev']['small_font_size_css_percent'] = 0.75; // 75% of $set_font_size
-////
-// PERCENT of TINY font size (as a decimal)
-$ct['dev']['tiny_font_size_css_percent'] = 0.60; // 60% of $set_font_size
-
-
-// Default charset used
-$ct['dev']['charset_default'] = 'UTF-8'; 
-////
-// Unicode charset used (if needed)
-// UCS-2 is outdated as it only covers 65536 characters of Unicode
-// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
-$ct['dev']['charset_unicode'] = 'UTF-16'; 
-
-
 // Cache directories / files and .htaccess / index.php files permissions
 // (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
 // THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION *WITHIN THE APP WHEN USED*
@@ -125,25 +78,6 @@ $ct['dev']['int_api_max_exec_time'] = 120; // (default = 120)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct['dev']['webhook_max_exec_time'] = 120; // (default = 120)
-
-
-// CAPTCHA text settings...
-// Text size
-$ct['dev']['captcha_text_size'] = 50; // Text size (default = 50)
-////
-// Number of characters
-$ct['dev']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
-////
-// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
-$ct['dev']['captcha_image_width'] = 525; // Image width (default = 525)
-////
-$ct['dev']['captcha_image_height'] = 135; // Image height (default = 135)
-////
-$ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
-////		
-// Only allow the MOST READABLE characters for use in captcha image 
-// (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
-$ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
 
 // API THROTTLE MAPPING, for servers requiring TRACKED THROTTLE-LIMITING,
@@ -364,6 +298,70 @@ $ct['dev']['limited_apis'] = array(
                           		'stackexchange.com',
                           		'youtube.com',
           				     );
+     
+     
+// Servers which are known to block API access by location / jurisdiction
+// (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
+$ct['dev']['location_blocked_servers'] = array(
+                                               // 'tld_domain_name',
+                                               'binance.com',
+                                               'bybit.com',
+                                               );
+
+
+// FULL RESET(s) on specified category settings (the setting CAN include internal subarrays)
+// Resets ENTIRE setting, IF upgrading from EARLIER version than param value
+// ONLY top-level AND one-level deep KEY NAMES WITHIN A CATEGORY ARRAY can be reset:
+// $ct['conf']['CATEGORY']['setting-key-1']
+// $ct['conf']['CATEGORY']['top-level-key']['setting-key-2']
+// THIS ALWAYS OVERRIDES 'config_deny_additions' AND 'config_deny_removals'
+$ct['dev']['config_allow_resets'] = array(
+                                          // setting key id, and app version number of when the reset was added
+                                          // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
+                                          // 'setting-key-1' => '0.90.00',
+                                          // 'setting-key-2' => '1.23.45',
+                                          // 'upgrade_alert_reminder' => '6.01.06', // DEBUG TESTING ONLY!
+                                          );
+
+
+// MAIN CONFIG settings subarray keys to DENY cached config settings ADDITIONS on (during cached config upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
+// INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
+$ct['dev']['config_deny_additions'] = array(
+                                           //////// STANDARD LIST //////////////////////
+                                           'strict_news_feed_servers', // Subarray setting (strict news feed servers)
+                                           'feeds', // Subarray setting (news feeds)
+                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
+                                           'proxy_list', // Subarray setting (proxy servers)
+                                           'tracked_markets', // Subarray setting (asset charts / price alerts)
+                                           'conversion_currency_symbols', // Subarray setting (currency support)
+                                           'bitcoin_preferred_currency_markets', // Subarray setting (currency support)
+                                           'crypto_pair', // Subarray setting (currency support)
+                                           'crypto_pair_preferred_markets', // Subarray setting (currency support)
+                                           'token_presales_usd', // Subarray setting (currency support)
+                                           'text_gateways', // Subarray setting (mobile text gateways)
+                                           'assets', // Main category (portfolio assets)
+                                           );
+
+
+// MAIN CONFIG settings subarray keys to DENY cached config settings REMOVALS on (during cached config upgrades)
+// (can manipulate later on, based on app version number / user input / etc)
+// INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
+$ct['dev']['config_deny_removals'] = array(
+                                           //////// STANDARD LIST //////////////////////
+                                           'strict_news_feed_servers', // Subarray setting (strict news feed servers)
+                                           'feeds', // Subarray setting (news feeds)
+                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
+                                           'proxy_list', // Subarray setting (proxy servers)
+                                           'tracked_markets', // Subarray setting (asset charts / price alerts)
+                                           'conversion_currency_symbols', // Subarray setting (currency support)
+                                           'bitcoin_preferred_currency_markets', // Subarray setting (currency support)
+                                           'crypto_pair', // Subarray setting (currency support)
+                                           'crypto_pair_preferred_markets', // Subarray setting (currency support)
+                                           'token_presales_usd', // Subarray setting (currency support)
+                                           'text_gateways', // Subarray setting (mobile text gateways)
+                                           'assets', // Main category (portfolio assets)
+                                          );
 
         
 // Input keys to EXCLUDE SCANNING for malware injection attacks, IF THEY CAN CAUSE FALSE POSITIVES
@@ -379,6 +377,41 @@ $ct['dev']['skip_injection_scanner'] = array(
                                                'jupiter_ag',
                                                'coingecko_terminal',
                                                );
+
+        
+// Attack signatures, used when scanning for script / HTML injection attacks
+// (via malware_scan_string() [which is called in malware_scan_requests()] in early-security-logic.php, when scanning all POST / GET data submissions)
+// (NOT CASE SENSITIVE, JUST GET THE SIGNATURES RIGHT)
+$ct['dev']['script_injection_checks'] = array(
+                                               "base64", // base64 PHP ENCODE / DECODE
+                                               "btoa(", // base64 javascript ENCODE
+                                               "atob(", // base64 javascript DECODE
+                                               "bin2hex", // hex PHP ENCODE
+                                               "hex2bin", // hex PHP DECODE
+                                               "char(", // SQL CHAR() function
+                                               "javascript", // Javascript
+                                               "script", // Javascript
+                                               "href=", // HTML
+                                               "src=", // HTML
+                                               // ALL javascript 'on' events
+                                               "onclick",
+                                               "onmouse",
+                                               "onresize",
+                                               "onchange",
+                                               "onabort",
+                                               "onblur",
+                                               "ondblclick",
+                                               "ondragdrop",
+                                               "onerror",
+                                               "onfocus",
+                                               "onkey",
+                                               "onload",
+                                               "onmove",
+                                               "onreset",
+                                               "onselect",
+                                               "onsubmit",
+                                               "onunload",
+                                             );
      
      
 // Static value SPECIAL assets, to exclude or include (depending on the logic), throughout the app
@@ -392,12 +425,17 @@ $ct['dev']['special_assets'] = array(
                                      );
      
      
-// Servers which are known to block API access by location / jurisdiction
-// (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
-$ct['dev']['location_blocked_servers'] = array(
-                                               // 'tld_domain_name',
-                                               'binance.com',
-                                               'bybit.com',
+// Exchange APIs that have NO TRADE VOLUME DATA (for UX on trade volume data in interface)
+$ct['dev']['no_trade_volume_api_data'] = array(
+                                                // 'exchange-config-key-name-here',
+                                                'misc_assets',
+                                                'presale_usd_value',
+                                                'btc_nfts',
+                                                'eth_nfts',
+                                                'sol_nfts',
+                                                'alt_nfts',
+                                                'coinspot',
+                                                'unocoin',
                                                );
 
         
@@ -486,134 +524,84 @@ $ct['dev']['markets_lowercase_search'] = array(
                                                  'korbit',
                                                  'coinspot',
                                                 );
-                                      
-
-// MAIN CONFIG settings subarray keys to ALLOW cached config RESETS on (during cached config upgrades)
-// (can manipulate later on, based on app version number / user input / etc)
-// THIS ALWAYS OVERRIDES 'config_deny_additions' AND 'config_deny_removals'
-$ct['dev']['config_allow_resets'] = array();
 
 
-// MAIN CONFIG settings subarray keys to DENY cached config settings ADDITIONS on (during cached config upgrades)
-// (can manipulate later on, based on app version number / user input / etc)
-// INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
-$ct['dev']['config_deny_additions'] = array(
-                                           //////// STANDARD LIST //////////////////////
-                                           'strict_news_feed_servers', // Subarray setting (strict news feed servers)
-                                           'feeds', // Subarray setting (news feeds)
-                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
-                                           'proxy_list', // Subarray setting (proxy servers)
-                                           'tracked_markets', // Subarray setting (asset charts / price alerts)
-                                           'conversion_currency_symbols', // Subarray setting (currency support)
-                                           'bitcoin_preferred_currency_markets', // Subarray setting (currency support)
-                                           'crypto_pair', // Subarray setting (currency support)
-                                           'crypto_pair_preferred_markets', // Subarray setting (currency support)
-                                           'token_presales_usd', // Subarray setting (currency support)
-                                           'text_gateways', // Subarray setting (mobile text gateways)
-                                           'assets', // Main category (portfolio assets)
-                                           );
+// Default charset used
+$ct['dev']['charset_default'] = 'UTF-8'; 
+////
+// Unicode charset used (if needed)
+// UCS-2 is outdated as it only covers 65536 characters of Unicode
+// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
+$ct['dev']['charset_unicode'] = 'UTF-16'; 
 
 
-// MAIN CONFIG settings subarray keys to DENY cached config settings REMOVALS on (during cached config upgrades)
-// (can manipulate later on, based on app version number / user input / etc)
-// INCLUDE NUMERIC / AUTO-INDEXING KEYED ARRAYS, EVEN THOUGH WE DON'T SUPPORT THEM WELL *YET*
-$ct['dev']['config_deny_removals'] = array(
-                                           //////// STANDARD LIST //////////////////////
-                                           'strict_news_feed_servers', // Subarray setting (strict news feed servers)
-                                           'feeds', // Subarray setting (news feeds)
-                                           'anti_proxy_servers', // Subarray setting (anti-proxy servers)
-                                           'proxy_list', // Subarray setting (proxy servers)
-                                           'tracked_markets', // Subarray setting (asset charts / price alerts)
-                                           'conversion_currency_symbols', // Subarray setting (currency support)
-                                           'bitcoin_preferred_currency_markets', // Subarray setting (currency support)
-                                           'crypto_pair', // Subarray setting (currency support)
-                                           'crypto_pair_preferred_markets', // Subarray setting (currency support)
-                                           'token_presales_usd', // Subarray setting (currency support)
-                                           'text_gateways', // Subarray setting (mobile text gateways)
-                                           'assets', // Main category (portfolio assets)
-                                          );
-     
-     
-// Exchange APIs that have NO TRADE VOLUME DATA (for UX on trade volume data in interface)
-$ct['dev']['no_trade_volume_api_data'] = array(
-                                                // 'exchange-config-key-name-here',
-                                                'misc_assets',
-                                                'presale_usd_value',
-                                                'btc_nfts',
-                                                'eth_nfts',
-                                                'sol_nfts',
-                                                'alt_nfts',
-                                                'coinspot',
-                                                'unocoin',
-                                               );
+// CAPTCHA text settings...
+// Text size
+$ct['dev']['captcha_text_size'] = 50; // Text size (default = 50)
+////
+// Number of characters
+$ct['dev']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
+////
+// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
+$ct['dev']['captcha_image_width'] = 525; // Image width (default = 525)
+////
+$ct['dev']['captcha_image_height'] = 135; // Image height (default = 135)
+////
+$ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
+////		
+// Only allow the MOST READABLE characters for use in captcha image 
+// (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
+$ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
-        
-// Attack signatures, used when scanning for script / HTML injection attacks
-// (via malware_scan_string() [which is called in malware_scan_requests()] in early-security-logic.php, when scanning all POST / GET data submissions)
-// (NOT CASE SENSITIVE, JUST GET THE SIGNATURES RIGHT)
-$ct['dev']['script_injection_checks'] = array(
-                                               "base64", // base64 PHP ENCODE / DECODE
-                                               "btoa(", // base64 javascript ENCODE
-                                               "atob(", // base64 javascript DECODE
-                                               "bin2hex", // hex PHP ENCODE
-                                               "hex2bin", // hex PHP DECODE
-                                               "char(", // SQL CHAR() function
-                                               "javascript", // Javascript
-                                               "script", // Javascript
-                                               "href=", // HTML
-                                               "src=", // HTML
-                                               // ALL javascript 'on' events
-                                               "onclick",
-                                               "onmouse",
-                                               "onresize",
-                                               "onchange",
-                                               "onabort",
-                                               "onblur",
-                                               "ondblclick",
-                                               "ondragdrop",
-                                               "onerror",
-                                               "onfocus",
-                                               "onkey",
-                                               "onload",
-                                               "onmove",
-                                               "onreset",
-                                               "onselect",
-                                               "onsubmit",
-                                               "onunload",
-                                             );
+
+// info icon size CSS configs
+$ct['dev']['info_icon_size_css_selector'] = "img.tooltip_style_control";
+
+// ajax loading size CSS configs
+$ct['dev']['ajax_loading_size_css_selector'] = "img.ajax_loader_image";
+
+// password eye icon size CSS configs
+$ct['dev']['password_eye_size_css_selector'] = "i.gg-eye, i.gg-eye-alt";
+
+// standard font size CSS configs
+$ct['dev']['font_size_css_selector'] = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_content, .footer_banner, .countdown_notice, .sidebar-slogan, .pw_prompt";
+
+// medium font size CSS configs
+$ct['dev']['medium_font_size_css_selector'] = ".unused_for_appending";
+
+// small font size CSS configs
+$ct['dev']['small_font_size_css_selector'] = ".unused_for_appending, .gain, .loss, .crypto_worth, .extra_data";
+
+// tiny font size CSS configs
+$ct['dev']['tiny_font_size_css_selector'] = ".accordion-button";
+
+// These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but work fine in all modern browsers)
+// (dynamically appended conditionally in primary-init.php)
+$ct['dev']['small_font_size_css_selector_adjusted'] = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
+////
+$ct['dev']['tiny_font_size_css_selector_adjusted'] = ", .crypto_worth";
+
+
+// PERCENT of MEDIUM font size (as a decimal)
+$ct['dev']['medium_font_size_css_percent'] = 0.90; // 90% of $set_font_size
+////
+// PERCENT of SMALL font size (as a decimal)
+$ct['dev']['small_font_size_css_percent'] = 0.75; // 75% of $set_font_size
+////
+// PERCENT of TINY font size (as a decimal)
+$ct['dev']['tiny_font_size_css_percent'] = 0.60; // 60% of $set_font_size
                            
 
 }
-// ***************************************************************
-// ***************************************************************
-
-
 
 // ***************************************************************
-// Runs in /app-lib/php/inline/init/config-init.php, within the logic that ONLY runs during upgrade checks
 // ***************************************************************
-elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
-
-
-// FULL RESET(s) on specified settings (CAN include subarrays)
-// Resets ENTIRE setting, IF upgrading from EARLIER version than param value
-$ct['dev']['config_allow_resets'] = array(
-                                          // key id, and app version number of when the reset was added
-                                          // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
-                                          // 'setting-key-1' => '0.90.00',
-                                          // 'setting-key-2' => '1.23.45',
-                                          );
-
-
-}
-// ***************************************************************
-// ***************************************************************
-
 
 
 // ***************************************************************
 // Runs in /app-lib/php/inline/config/after-load-config.php (because user config values are used)
 // ***************************************************************
+
 elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 
 // MAKE SURE **ANYTHING** RUN IN HERE --IS ENGINEERED TO-- BE CLEANLY RELOADED!!
@@ -622,6 +610,7 @@ elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 // (ONLY ADD SENSITIVE VALUES HERE THAT COULD SHOW IN URL GET REQUEST DATA / ERROR NOTICES / ETC)
 $ct['dev']['data_obfuscating'] = array(
                                       // 'hide_this',
+                                      $ct['conf']['comms']['smtp_server'],
                                       $ct['conf']['comms']['from_email'],
                                       $ct['conf']['comms']['to_email'],
                                       $ct['conf']['ext_apis']['telegram_your_username'],
@@ -639,9 +628,9 @@ $ct['dev']['data_obfuscating'] = array(
                                      
                                      
 }
-// ***************************************************************
-// ***************************************************************
 
+// ***************************************************************
+// ***************************************************************
 
 
 ///////////////////////////////////////////////////
