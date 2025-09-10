@@ -146,13 +146,6 @@ DOUBLE-CHECK app / plugin version upgrading overhaul, including per-setting rese
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
 
 
-Ideally, we want to skip including light charts in zip archiving, for two reasons:
-
-1) We already build light charts automatically from archive charts, if none exist, and our current logic MAY NOT take into account OLD light charts being imported WITH AN OLD "LAST PRICE" TIMESTAMP (but we should check the logic, and make sure it does support this).
-
-2) The backup zip archive will be significantly smaller in size, for large asset collections, and since we automatically build light charts if they don't exist, we have no real need to backup them up.
-
-
 Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
 
 
