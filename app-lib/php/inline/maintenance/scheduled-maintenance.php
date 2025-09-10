@@ -17,13 +17,27 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
 	////////////////////////////////////////////////////////////
 	if ( $ct['runtime_mode'] == 'cron' ) {
 	
-	// User (cached) config backups (done once per day, encrypted with backup password)...
-	$ct['cache']->backup_archive('config-data', $ct['cached_conf_path'], 1, $ct['conf']['sec']['backup_archive_password']);
+	// User (cached) config backups (encrypted with backup password)...
+	$ct['cache']->backup_archive(
+	                             'config-data',
+	                             $ct['cached_conf_path'],
+	                             $ct['conf']['power']['backup_archive_frequency'],
+	                             $ct['conf']['sec']['backup_archive_password']
+	                             );
 		
 		
 		// Chart backups...run before any price checks to avoid any potential file lock issues
 		if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' && $ct['conf']['power']['backup_archive_frequency'] > 0 ) {
-		$ct['cache']->backup_archive('charts-data', $ct['base_dir'] . '/cache/charts/', $ct['conf']['power']['backup_archive_frequency']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
+		     
+		// No archive password, and we skip directories named 'light' 
+		$ct['cache']->backup_archive(
+		                             'charts-data',
+		                             $ct['base_dir'] . '/cache/charts/',
+		                             $ct['conf']['power']['backup_archive_frequency'],
+		                             false,
+		                             'light'
+		                             ); 
+
 		}
     
     

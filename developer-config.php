@@ -27,9 +27,9 @@ $ct['app_version'] = '6.01.06'; // 2025/AUGUST/26TH
 $ct['dev']['debug_php_errors'] = (0); 
 
 
-// Time offset (IN MINUTES) on daily background tasks 
-// (so they run at the same time everyday [without 'creeping' up / down for it's time-of-day run])
-$ct['dev']['tasks_time_offset'] = -4; // Auto-adjusts (higher) for systems with LOW CORE COUNTS in config-init.php
+// Time offset on daily background tasks (IN MINUTES...MUST BE A NEGATIVE NUMBER)
+// (so they run at the same time everyday [without 'creeping' up for it's time-of-day run])
+$ct['dev']['tasks_time_offset'] = -3; // Auto-adjusts for systems with LOW CORE COUNTS in config-init.php
 
 
 // min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)
