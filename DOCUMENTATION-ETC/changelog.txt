@@ -7003,15 +7003,15 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed throttled APIs (like AlphaVantage FREE tier) not allowing LIGHT CHART REBUILDS (which caused related price charts to not appear in the user interface, AFTER resetting light charts) Sorry!
 
--BUG FIX: Fixes for time period (light) price charts reliability, where they would have gaps between data points, greater then the time intervals set for that particular time period chart
+-BUG FIX: Fixes for time period (light) price charts reliability, where they would have GAPS between data points, greater then the time intervals set for that particular time period chart
 
--BUG FIX: Fixes for price charts importing reliability, where they would not properly rebuild the time period (light) charts
+-BUG FIX: Fixes for price charts importing reliability, where they would not properly REBUILD the time period (light) charts
 
 -BUG FIX: Miscellaneous (minor)
 
 -We now SKIP including light charts in chart backup ZIP files, so the backup will be significantly smaller for large chart collections (we automatically rebuild light charts from archival charts if they don't exist, so we don't require backing them up)
 
--Overhauled upgrade system, that now includes importing config backups (safely)
+-Overhauled upgrade system, that now supports importing config backups (safely)
 
 -Minor user experience improvements
 

@@ -132,9 +132,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Torture-test the new upgrade logic...REMAINING TESTS NOT COMPLETED YET: High security mode
 
 
-Add developer status alert that the prune_access_stats() patch is released, AND it's also now safe to MANUALLY import configs / charts (with import interfacing coming in the NEXT release).
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

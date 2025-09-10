@@ -2681,7 +2681,7 @@ var $ct_array = array();
            }
     
      
-           // We are looping IN REVERSE ODER, to ALWAYS include the latest data
+           // We are looping IN REVERSE ORDER, to ALWAYS include the latest data
            $loop = 0;
            $data_points = 0;
            // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it

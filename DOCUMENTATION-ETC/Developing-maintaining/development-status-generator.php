@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2025-9-11'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.05',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => true,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'The error "No...data received...file /cache/secured/a*********s/ip_XX*********X.dat (aborting...)", has been fixed in the v6.01.06 release today. This was a bug in prune_access_stats(), related to NOT deleting outdated access stats properly. You can SAFELY IGNORE any old error logs like this. This release also fixes MANY issues with importing price chart backups, and includes an overhaul to the upgrade system, that now supports importing config backups SAFELY. Config / price chart backup importing must still be done MANUALLY for now, but the NEXT release will allow anybody to import backups from the "Reset / Backup & Restore" ADMIN page.',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2025-8-26'),
                    
                    'very_important' => true,
