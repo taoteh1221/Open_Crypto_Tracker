@@ -41,12 +41,13 @@ $this_plug = trim($key);
 	require_once($plug_conf_file); // Populate $plug['conf'][$this_plug] with the defaults
 	
 	
-	     // REQUIRE A VALID RUNTIME MODE / PLUGIN VERSION NUMBER, TO ACTIVATE PLUGINS!!!!!!!!!
+	     // REQUIRE A VALID RUNTIME MODE / PLUGIN VERSION NUMBER / INIT FILE, TO ACTIVATE PLUGINS!!!!!!!!!
 	     if (
 	     isset($plug['conf'][$this_plug]['runtime_mode'])
 	     && in_array($plug['conf'][$this_plug]['runtime_mode'], $ct['plugin_runtime_mode_check'])
 	     && isset($ct['plug_version'][$this_plug])
 	     && preg_match('#^(\d+\.)?(\d+\.)?(\d+)(-[a-z0-9]+)?$#i', $ct['plug_version'][$this_plug])
+	     && file_exists($ct['base_dir'] . '/plugins/' . $this_plug . '/plug-lib/plug-init.php')
 	     ) {
      
           $ct['default_conf']['plug_conf'][$this_plug] = $plug['conf'][$this_plug]; // Add each plugin's HARD-CODED config into the DEFAULT app config
@@ -201,6 +202,16 @@ $this_plug = trim($key);
                                   'plugin "'.$this_plug.'" has an INVALID "runtime_mode" configuration setting (' . ( isset($plug['conf'][$this_plug]['runtime_mode']) ? $plug['conf'][$this_plug]['runtime_mode'] : 'NOT SET' ) . '), activation was SKIPPED, until fixed'
                                   );
                                   
+               }
+               
+               
+               if ( !file_exists($ct['base_dir'] . '/plugins/' . $this_plug . '/plug-lib/plug-init.php') ) {
+               
+               $ct['gen']->log(
+                                  'conf_error',
+                                  'plugin "'.$this_plug.'" is MISSING it\'s plug-init.php file, activation was SKIPPED, until fixed'
+                                  );
+                                 
                }
 	     
 	     
