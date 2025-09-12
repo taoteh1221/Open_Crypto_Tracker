@@ -366,7 +366,7 @@
 				    
                         red_save_button();
 				    
-				    ' <?=( is_array($ct['sel_opt']['prim_currency_mrkt_standalone']) ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
+				    ' <?=( is_array($ct['sel_opt']['prim_currency_mrkt_standalone']) ? 'checked' : '' )?> /> Preferred Conversion (LOCKS conversions to this market)
 				    
 				    <div id='prim_currency_mrkts_alert' class='bitcoin_dotted bitcoin'></div>
 				    
@@ -374,9 +374,9 @@
 	
 			var currency_content = '<h5 class="align_center yellow tooltip_title">Primary Currency Market</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">The Primary Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the price charts / price alerts primary currency market <i>must be changed separately in the Admin Config GENERAL section</i>).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">The Primary Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the price charts / price alerts primary currency market <i>must be changed separately in the "Admin Area => Asset Tracking => Currency Support" section</i>).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update" page <i>will NOT be automatically changed to match your chosen Primary Currency Market on this "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">Additionally, if you check off "Preferred Conversion", the entire User Area will use this currency market, to show values in this currency for you. You will still be able to SEPARATELY change the Bitcoin market used by the Portfolio, in case you\'d like to browse through different Bitcoin markets (WITHOUT changing your preferred currency in the app).</p>'
 			
 			+'<p> </p>';
 		
