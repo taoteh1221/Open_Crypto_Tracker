@@ -376,7 +376,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">The Primary Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the price charts / price alerts primary currency market <i>must be changed separately in the "Admin Area => Asset Tracking => Currency Support" section</i>).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">Additionally, if you check off "Preferred Conversion", the entire User Area will use this currency market, to show values in this currency for you. You will still be able to SEPARATELY change the Bitcoin market used by the Portfolio, in case you\'d like to browse through different Bitcoin markets (WITHOUT changing your preferred currency in the app).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">Additionally, if you check off "Preferred Conversion", the entire User Area will ALWAYS use this currency market (to convert values into this currency for you). You will still be able to SEPARATELY change the Bitcoin market used by the Portfolio, in case you\'d like to browse through different Bitcoin markets (and it will NOT change this preferred currency conversion in the app).</p>'
 			
 			+'<p> </p>';
 		
