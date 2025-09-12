@@ -228,9 +228,17 @@ $this_plug = trim($key);
 	     
 	     unset($plug['conf'][$this_plug]); 
 
-          unset($ct['conf']['plug_conf'][$this_plug]);
+	     unset($ct['conf']['plug_conf'][$this_plug]);
+         
+          unset($ct['conf']['plugins']['plugin_status'][$this_plug]);
+	    
+	     unset($ct['conf']['version_states']['plug_version'][$this_plug]);
 
           unset($ct['default_conf']['plug_conf'][$this_plug]);
+	    
+          unset($ct['default_conf']['plugins']['plugin_status'][$this_plug]);
+	    
+	     unset($ct['default_conf']['version_states']['plug_version'][$this_plug]);
                    
 	     }
      		

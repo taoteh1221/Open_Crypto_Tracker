@@ -184,7 +184,7 @@ else {
      
      $js_safe_var = 'a_' . preg_replace("/[^A-Za-z0-9 ]/", '', $webhook_plug);
         	
-          if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$webhook_plug]) ) {
+          if ( isset($ct['int_webhooks'][$webhook_plug]) ) {
 	     ?>
 	
 
