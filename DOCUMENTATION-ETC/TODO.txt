@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Do a review of how everything renders in Firefox (as it's been a year since last FF review).
+
+
 DOUBLE-CHECK app / plugin version upgrading overhaul, including per-setting resets, upgrade / downgrade auto-update, and high security mode.
 
 

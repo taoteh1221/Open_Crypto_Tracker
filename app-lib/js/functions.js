@@ -2677,13 +2677,17 @@ function background_tasks_check(runtime_id) {
           
      //console.log('Background tasks have taken ' + custom_round(background_tasks_elapsed_time, 0) + ' seconds so far...');
      
-          // UI notice, if background tasks have lasted OVER 90 SECONDS
-          if ( background_tasks_elapsed_time > 90 ) {
+          // UI notice, if background tasks have lasted OVER 120 SECONDS
+          if ( background_tasks_elapsed_time > 120 ) {
           
           allow_regular_loading_notices = false; // NO updating 'loading..' alerts
                
                // IF emulated cron is hanging
-               if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' ) {
+               if (
+               feeds_loading_check() == 'done'
+               && charts_loading_check() == 'done'
+               && cron_run_check() != 'done'
+               ) {
                
                     if ( Base64.decode(is_windows) == 'yes' ) {
                     var cron_desc = 'Scheduled Task';
@@ -2703,16 +2707,24 @@ function background_tasks_check(runtime_id) {
                
                }
                // IF price charts are hanging
-               else if ( feeds_loading_check() == 'done' && cron_run_check() == 'done' ) {
+               else if (
+               feeds_loading_check() == 'done'
+               && cron_run_check() == 'done'
+               && charts_loading_check() != 'done'
+               ) {
                background_loading_notices('Price Charts are taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your Price Charts, SHOULD fix this.', "#ff4747");
                }
                // IF news feeds are hanging
-               else if ( charts_loading_check() == 'done' && cron_run_check() == 'done' ) {
+               else if (
+               charts_loading_check() == 'done'
+               && cron_run_check() == 'done'
+               && feeds_loading_check() != 'done'
+               ) {
                background_loading_notices('News Feeds are taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your News Feeds, SHOULD fix this.', "#ff4747");
                }
                // Every other combo
                else {
-               background_loading_notices('Background tasks are taking awhile (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your News Feeds / Price Charts, MAY fix this.', "#ff4747");
+               background_loading_notices('Background tasks are POSSIBLY stuck (' + custom_round(background_tasks_elapsed_time / 60, 1)  + ' minutes). <a href="index.php">Reloading</a> AFTER resetting your News Feeds / Price Charts, MAY fix this (UNLESS YOU RECENTLY INSTALLED THIS APP / RESET LIGHT CHARTS, IN WHICH CASE WAIT AT LEAST 5 - 10 MINUTES ON SLOWER SYSTEMS).', "#ff4747");
                }
           
           //console.log('Background tasks MAY be stuck');
