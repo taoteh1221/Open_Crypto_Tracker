@@ -1989,9 +1989,22 @@ var $ct_array = array();
          
 	    // Just unset EVERYTHING to be safe,
 	    // as unset() will NOT throw an error if the var does not exist
-         unset($ct['default_conf']['plugins']['plugin_status'][$key]);
-         unset($ct['conf']['plugins']['plugin_status'][$key]);
+         
+         unset($ct['plug_version'][$key]);
+	     
+	    unset($plug['conf'][$key]); 
+
 	    unset($ct['conf']['plug_conf'][$key]);
+         
+         unset($ct['conf']['plugins']['plugin_status'][$key]);
+	    
+	    unset($ct['conf']['version_states']['plug_version'][$key]);
+
+         unset($ct['default_conf']['plug_conf'][$key]);
+	    
+         unset($ct['default_conf']['plugins']['plugin_status'][$key]);
+	    
+	    unset($ct['default_conf']['version_states']['plug_version'][$key]);
 	    
 	    
 	         // If no reset / high security mode 
@@ -1999,12 +2012,10 @@ var $ct_array = array();
 	         if ( $ct['admin_area_sec_level'] != 'high' && !$ct['reset_config'] ) {
 	              
     	         $ct['update_config'] = true;
-
     	         
     	            if ( $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     	            $ct['gen']->log('conf_debug', 'plugin "'.$key.'" REMOVED, updating CACHED ct_conf');
     	            }
-
     	         
 	         }
 
@@ -2023,8 +2034,26 @@ var $ct_array = array();
          !file_exists($plugin_base . $key . '/plug-conf.php')
          || !file_exists($plugin_base . $key . '/plug-lib/plug-init.php')
          ) {
+              
+	    // Just unset EVERYTHING to be safe,
+	    // as unset() will NOT throw an error if the var does not exist
+         
+         unset($ct['plug_version'][$key]);
+	     
+	    unset($plug['conf'][$key]); 
+
+	    unset($ct['conf']['plug_conf'][$key]);
+         
+         unset($ct['conf']['plugins']['plugin_status'][$key]);
+	    
+	    unset($ct['conf']['version_states']['plug_version'][$key]);
+
+         unset($ct['default_conf']['plug_conf'][$key]);
+	    
          unset($ct['default_conf']['plugins']['plugin_status'][$key]);
-	    unset($ct['default_conf']['plug_conf'][$key]);
+	    
+	    unset($ct['default_conf']['version_states']['plug_version'][$key]);
+         
          }
       
       }

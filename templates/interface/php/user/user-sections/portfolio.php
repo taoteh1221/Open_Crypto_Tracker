@@ -1398,7 +1398,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
   			
   	$this_plug = $plugin_key;
   		
-  		if ( file_exists($plugin_init) && $plug['conf'][$this_plug]['ui_location'] == 'more_stats' ) {
+  		if ( $plug['conf'][$this_plug]['ui_location'] == 'more_stats' ) {
       	?>
           <fieldset class='subsection_fieldset'>
              	<legend class='subsection_legend'> <b><?=$plug['conf'][$this_plug]['ui_name']?></b> </legend>

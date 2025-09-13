@@ -316,10 +316,8 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         		
         $this_plug = $plugin_key;
         	
-        	 if ( file_exists($plugin_init) ) {
-        	 // This plugin's plug-init.php file (runs the plugin)
-        	 include($plugin_init);
-        	 }
+        // This plugin's plug-init.php file (runs the plugin)
+        include($plugin_init);
         	
         // Reset $this_plug at end of loop
         unset($this_plug); 

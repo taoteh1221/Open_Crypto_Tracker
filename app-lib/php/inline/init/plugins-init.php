@@ -41,12 +41,13 @@ $this_plug = trim($key);
 	require_once($plug_conf_file); // Populate $plug['conf'][$this_plug] with the defaults
 	
 	
-	     // REQUIRE A VALID RUNTIME MODE / PLUGIN VERSION NUMBER, TO ACTIVATE PLUGINS!!!!!!!!!
+	     // REQUIRE A VALID RUNTIME MODE / PLUGIN VERSION NUMBER / INIT FILE, TO ACTIVATE PLUGINS!!!!!!!!!
 	     if (
 	     isset($plug['conf'][$this_plug]['runtime_mode'])
 	     && in_array($plug['conf'][$this_plug]['runtime_mode'], $ct['plugin_runtime_mode_check'])
 	     && isset($ct['plug_version'][$this_plug])
 	     && preg_match('#^(\d+\.)?(\d+\.)?(\d+)(-[a-z0-9]+)?$#i', $ct['plug_version'][$this_plug])
+	     && file_exists($ct['base_dir'] . '/plugins/' . $this_plug . '/plug-lib/plug-init.php')
 	     ) {
      
           $ct['default_conf']['plug_conf'][$this_plug] = $plug['conf'][$this_plug]; // Add each plugin's HARD-CODED config into the DEFAULT app config
@@ -202,6 +203,16 @@ $this_plug = trim($key);
                                   );
                                   
                }
+               
+               
+               if ( !file_exists($ct['base_dir'] . '/plugins/' . $this_plug . '/plug-lib/plug-init.php') ) {
+               
+               $ct['gen']->log(
+                                  'conf_error',
+                                  'plugin "'.$this_plug.'" is MISSING it\'s plug-init.php file, activation was SKIPPED, until fixed'
+                                  );
+                                 
+               }
 	     
 	     
 	          // Remove any associated plugin resets
@@ -217,9 +228,17 @@ $this_plug = trim($key);
 	     
 	     unset($plug['conf'][$this_plug]); 
 
-          unset($ct['conf']['plug_conf'][$this_plug]);
+	     unset($ct['conf']['plug_conf'][$this_plug]);
+         
+          unset($ct['conf']['plugins']['plugin_status'][$this_plug]);
+	    
+	     unset($ct['conf']['version_states']['plug_version'][$this_plug]);
 
           unset($ct['default_conf']['plug_conf'][$this_plug]);
+	    
+          unset($ct['default_conf']['plugins']['plugin_status'][$this_plug]);
+	    
+	     unset($ct['default_conf']['version_states']['plug_version'][$this_plug]);
                    
 	     }
      		

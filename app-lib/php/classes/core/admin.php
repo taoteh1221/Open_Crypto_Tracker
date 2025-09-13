@@ -954,13 +954,13 @@ var $ct_array = array();
 
 	 
 	 <?php
-	 if ( $ct['update_config_success'] != null ) {
+	 if ( !$ct['$config_update_result_displayed'] && $ct['update_config_success'] != null ) {
 	 ?>
 	 <div class='green green_dotted' style='font-weight: bold;'><?=$ct['update_config_success']?></div>
 	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }
-	 elseif ( $ct['update_config_error'] != null ) {
+	 elseif ( !$ct['$config_update_result_displayed'] && $ct['update_config_error'] != null ) {
 	 ?>
 	 <div class='red red_dotted' style='font-weight: bold;'><?=$ct['update_config_error']?></div>
 	 <div style='min-height: 1em;'></div>

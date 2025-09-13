@@ -74,7 +74,7 @@ if ( isset($plug['activated']['webhook']) ) {
      $plug['webhook'][$this_plug]['key'] = preg_replace("/\/(.*)/", '', $_GET['webhook_params']); // Remove any (forwardslash-seperated) data after the webhook hash
 
              	
-         if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$this_plug]) && trim($ct['int_webhooks'][$this_plug]) != '' && $plug['webhook'][$this_plug]['key'] == $ct['sec']->nonce_digest($this_plug, $ct['int_webhooks'][$this_plug] . $webhook_master_key) ) {
+         if ( isset($ct['int_webhooks'][$this_plug]) && trim($ct['int_webhooks'][$this_plug]) != '' && $plug['webhook'][$this_plug]['key'] == $ct['sec']->nonce_digest($this_plug, $ct['int_webhooks'][$this_plug] . $webhook_master_key) ) {
               
          $webhook_key_exists = true; // Flag webhook service as found
          

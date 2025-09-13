@@ -142,7 +142,7 @@ foreach ( $plug['activated']['webhook'] as $plugin_key => $plugin_init ) {
         		
 $webhook_plug = $plugin_key;
         	
-    if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$webhook_plug]) ) {
+    if ( isset($ct['int_webhooks'][$webhook_plug]) ) {
     ?>
        
      <p>

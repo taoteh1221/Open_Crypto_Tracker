@@ -2050,7 +2050,7 @@ var $ct_array = array();
          // (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP,
          // IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
     	    else {
-    	    $updated_cache_ct_conf = $ct['conf'];
+    	    $updated_cache_ct_conf = $ct['default_conf'];
     	    }
     	
     	
@@ -2072,14 +2072,7 @@ var $ct_array = array();
     		
     		    if ( $cached_restore_conf != false && $cached_restore_conf != null && $cached_restore_conf != "null" ) {
     	
-    	
-                   if ( $ct['admin_area_sec_level'] != 'high' ) {
-            	    $updated_cache_ct_conf = $cached_restore_conf;
-            	    }
-                	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
-            	    else {
-            	    $updated_cache_ct_conf = $cached_restore_conf;
-            	    }
+    	         $updated_cache_ct_conf = $cached_restore_conf;
             	     
             	
             	// Check that the app config is valid / not corrupt
@@ -2101,7 +2094,7 @@ var $ct_array = array();
             		
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
             		    if ( $ct['admin_area_sec_level'] == 'high' || $reset_flagged ) {
-                		$this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_conf_md5.dat', md5( serialize($ct['default_conf']) ) ); 
+                	    $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_conf_md5.dat', md5( serialize($ct['default_conf']) ) ); 
             		    }
             		
             		
@@ -2681,7 +2674,7 @@ var $ct_array = array();
            }
     
      
-           // We are looping IN REVERSE ODER, to ALWAYS include the latest data
+           // We are looping IN REVERSE ORDER, to ALWAYS include the latest data
            $loop = 0;
            $data_points = 0;
            // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it

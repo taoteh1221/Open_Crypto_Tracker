@@ -184,7 +184,7 @@ else {
      
      $js_safe_var = 'a_' . preg_replace("/[^A-Za-z0-9 ]/", '', $webhook_plug);
         	
-          if ( file_exists($plugin_init) && isset($ct['int_webhooks'][$webhook_plug]) ) {
+          if ( isset($ct['int_webhooks'][$webhook_plug]) ) {
 	     ?>
 	
 
@@ -262,7 +262,24 @@ $backup_links = array();
      
      }
 
-$backup_count_max = ( sizeof($backup_links['charts-data']) > sizeof($backup_links['config-data']) ? sizeof($backup_links['charts-data']) : sizeof($backup_links['config-data']) );
+
+     if ( is_array($backup_links['charts-data']) ) {
+     $charts_count = sizeof($backup_links['charts-data']);
+     }
+     else {
+     $charts_count = 0;
+     }
+
+
+     if ( is_array($backup_links['config-data']) ) {
+     $config_count = sizeof($backup_links['config-data']);
+     }
+     else {
+     $config_count = 0;
+     }
+     
+     
+$backup_count_max = ( $charts_count > $config_count ? $charts_count : $config_count );
 
 }
 

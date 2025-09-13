@@ -76,29 +76,37 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
              elseif ( $ct['admin_area_sec_level'] != 'high' && !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-admin.php") ) {
      
              $ct['admin_render_settings'] = array();
+             
+
+                   if ( $ct['update_config_success'] != null ) {
+                   $ct['$config_update_result_displayed'] = true;
+                   ?>
+               	 <div class='green green_dotted' style='font-weight: bold;'><?=$ct['update_config_success']?></div>
+               	 <div style='min-height: 1em;'></div>
+                   <?php
+                   }
+                   elseif ( $ct['update_config_error'] != null ) {
+                   $ct['$config_update_result_displayed'] = true;
+                   ?>
+               	 <div class='red red_dotted' style='font-weight: bold;'><?=$ct['update_config_error']?></div>
+               	 <div style='min-height: 1em;'></div>
+                   <?php
+                   }
+                   elseif ( $admin_general_error != null ) {
+                   ?>
+               	 <div class='red red_dotted' style='font-weight: bold;'><?=$admin_general_error?></div>
+               	 <div style='min-height: 1em;'></div>
+                   <?php
+                   }
+                   elseif ( $admin_general_success != null ) {
+                   ?>
+               	 <div class='green green_dotted' style='font-weight: bold;'><?=$admin_general_success?></div>
+               	 <div style='min-height: 1em;'></div>
+                   <?php
+                   }
+                 
      
              require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
-             
-             ?>
-             
-     
-          	 <?php
-          	 if ( $admin_general_error != null ) {
-          	 ?>
-          	 <div class='red red_dotted' style='font-weight: bold;'><?=$admin_general_error?></div>
-          	 <div style='min-height: 1em;'></div>
-          	 <?php
-          	 }
-          	 elseif ( $admin_general_success != null ) {
-          	 ?>
-          	 <div class='green green_dotted' style='font-weight: bold;'><?=$admin_general_success?></div>
-          	 <div style='min-height: 1em;'></div>
-          	 <?php
-          	 }
-          	 ?>
-          	 
-             
-             <?php
              
              // $ct['admin']->admin_config_interface($conf_id, $interface_id)
              $ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $ct['admin_render_settings']);
