@@ -976,24 +976,31 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function valid_username($username) {
+   function valid_username($username, $min_length_check_only=false) {
    
    global $ct;
+       
+       // We ALWAYS make sure no spaces exist
+       if ( preg_match('/\s/',$username) ) {
+       $error .= "no spaces allowed; ";
+       }
    
        if ( mb_strlen($username, $ct['dev']['charset_default']) < 4 ) {
        $error .= "requires 4 minimum characters; ";
        }
        
-       if ( mb_strlen($username, $ct['dev']['charset_default']) > 30 ) {
+       if (
+       !$min_length_check_only
+       && mb_strlen($username, $ct['dev']['charset_default']) > 30
+       ) {
        $error .= "requires 30 maximum characters; ";
        }
        
-       if ( !preg_match("/^[a-z]([a-z0-9]+)$/", $username) ) {
+       if (
+       !$min_length_check_only
+       && !preg_match("/^[a-z]([a-z0-9]+)$/", $username)
+       ) {
        $error .= "lowercase letters and numbers only (lowercase letters first, then optionally numbers, no spaces); ";
-       }
-       
-       if ( preg_match('/\s/',$username) ) {
-       $error .= "no spaces allowed; ";
        }
    
    

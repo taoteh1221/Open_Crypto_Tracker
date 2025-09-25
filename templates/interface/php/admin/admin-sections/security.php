@@ -189,10 +189,10 @@ $ct['admin_render_settings']['interface_login']['is_text'] = true;
 
 $ct['admin_render_settings']['interface_login']['is_password'] = true;
 
-$ct['admin_render_settings']['interface_login']['text_field_size'] = 25;
+$ct['admin_render_settings']['interface_login']['text_field_size'] = 45;
 
 
-$ct['admin_render_settings']['interface_login']['is_notes'] = 'Username / password protection for remote access to the app\'s web address (using web server "<a href="https://httpd.apache.org/docs/current/programs/htpasswd.html" target="_BLANK">htpasswd</a>" support)<br />This format MUST be used: username||password<br />SEE ANY ALERTS (after saving changes), for weak username / password failures.';
+$ct['admin_render_settings']['interface_login']['is_notes'] = 'Username / password protection for remote access to the app\'s web address (using web server "<a href="https://httpd.apache.org/docs/current/programs/htpasswd.html" target="_BLANK">htpasswd</a>" support)<br />This format MUST be used: username||password<br />SEE ANY ALERTS (after saving changes), for weak username / password failures.<br /><b class="red">IF UPDATED, you will need to enter this login after you save the changes.</b>';
 
 }
 

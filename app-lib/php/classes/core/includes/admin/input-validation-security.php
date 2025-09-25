@@ -13,7 +13,8 @@ $interface_login_check = explode("||", $_POST['sec']['interface_login']);
 $htaccess_username_check = $interface_login_check[0];
 $htaccess_password_check = $interface_login_check[1];
   
-$valid_username_check = $ct['gen']->valid_username($htaccess_username_check);
+// true == Only check on minimum required length (and whitespace check [that we ALWAYS require])
+$valid_username_check = $ct['gen']->valid_username($htaccess_username_check, true);
   
 // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
 $password_strength_check = $ct['sec']->pass_strength($htaccess_password_check, 8, 8);
