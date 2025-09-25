@@ -4,7 +4,7 @@
 COPYRIGHT_YEARS="2022-2025"
 
 # Version of this script
-APP_VERSION="1.12.2" # 2025/FEBRUARY/26TH
+APP_VERSION="1.13.0" # 2025/SEPTEMBER/25TH
 
 
 ########################################################################################################################
@@ -363,6 +363,12 @@ elif [ "$RUNNING_X11" != "" ]; then
 fi
 
 
+# IF we are running a MODERN Raspberry Pi OS, FLAG as such (for interfacing UX)
+if [ -f /usr/bin/raspi-config ] && [ "$RUNNING_LABWC" != "" ]; then
+MODERN_RASPI_OS=1
+fi
+
+
 if [ -f "/etc/debian_version" ]; then
 
 echo "${green}Your system has been detected as Debian-based, which is compatible with this automated script."
@@ -638,11 +644,12 @@ KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel
 
      if [ "$IS_ARM" != "" ] && [ "$KERNEL_BOOTED_UPDATES" != "" ]; then
      
-     echo "${red}Your ARM-based device is CURRENTLY setup to UPDATE the grub bootloader to boot from THE LATEST KERNEL. THIS MAY CAUSE SOME ARM-BASED DEVICES TO NOT BOOT (without MANUALLY selecting a different kernel at boot time).${reset}"
+     echo "${red}Your ARM-based device is CURRENTLY setup to UPDATE the grub bootloader to boot from THE LATEST KERNEL. THIS IS LIKELY THE BEST OPTION FOR YOUR DEVICE, BUT you can FREEZE using NEWER kernels added during system upgrades, IF YOU THINK YOUR SPECIFIC DEVICE REQUIRES IT (when using CUSTOM kernels / modules / etc).${reset}"
      
      echo "${yellow} "
-     read -n1 -s -r -p $"PRESS F to fix this (disable grub auto-selecting NEW kernels to boot), OR any other key to skip fixing..." key
+     read -n1 -s -r -p $"PRESS F to freeze updating the used kernel (disable grub auto-selecting NEW kernels), OR any other key to skip fixing..." key
      echo "${reset} "
+     
      
          if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
      
@@ -879,10 +886,27 @@ clean_system_update () {
           
           echo " "
      
-          echo "${cyan}APT sources list update complete.${reset}"
+          echo "${cyan}APT sources list refresh complete.${reset}"
+          
+          echo " "
+          
+          elif [ -f "/etc/redhat-release" ]; then
+
+          # Assure we are NOT stuck using any PREVIOUSLY-USED mirror with checksum mismatches,
+          # thereby causing ABORTION of the upgrade session (due to corrupt data being detected)
+          sudo dnf clean all
+          
+          sleep 3
+          
+          # Rebuild cache, needed for updates, since we CLEANED IT ABOVE
+          sudo dnf makecache
           
           echo " "
      
+          echo "${cyan}DNF cache refresh complete.${reset}"
+          
+          echo " "
+          
           fi
           
      
@@ -1310,6 +1334,16 @@ select opt in $OPTIONS; do
         ######################################
         
         echo " "
+            
+            # IF we are running a MODERN Raspberry Pi OS, WE ARE ALREADY GOOD TO GO
+            if [ "$MODERN_RASPI_OS" != "" ]; then
+             echo "${red}YOU ARE RUNNING A MODERN VERSION OF RASPBERRY PI OS, YOU SHOULD NOT NEED PULSEAUDIO.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
         
             if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
              echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
@@ -1492,6 +1526,16 @@ select opt in $OPTIONS; do
         ######################################
         
         echo " "
+            
+            # IF we are running a MODERN Raspberry Pi OS, WE ARE ALREADY GOOD TO GO
+            if [ "$MODERN_RASPI_OS" != "" ]; then
+             echo "${red}YOU ARE RUNNING A MODERN VERSION OF RASPBERRY PI OS, YOU SHOULD NOT NEED PULSEAUDIO.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
         
             if [ "$EUID" == 0 ]; then 
              echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
@@ -1650,6 +1694,16 @@ select opt in $OPTIONS; do
         ######################################
         
         echo " "
+            
+            # IF we are running a MODERN Raspberry Pi OS, WE ARE ALREADY GOOD TO GO
+            if [ "$MODERN_RASPI_OS" != "" ]; then
+             echo "${red}YOU ARE RUNNING A MODERN VERSION OF RASPBERRY PI OS, YOU SHOULD NOT NEED PULSEAUDIO.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
         
             if [ "$EUID" == 0 ]; then 
              echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
