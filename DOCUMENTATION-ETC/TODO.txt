@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Add a maintenance routine, where if it's -4 UTC and near first Sunday in November, remind with a comms alert that daylight savings is about to end. Do the same for -5 UTC / first Sunday in March.
+
+
 Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
