@@ -129,35 +129,20 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Add a maintenance routine, where if it's -4 UTC and near first Sunday in November, remind with a comms alert that daylight savings is about to end. Do the same for -5 UTC / first Sunday in March.
+Fedora's news feed:
+https://fedoramagazine.org/feed/
 
 
 Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
-DOUBLE-CHECK app / plugin version upgrading overhaul, including per-setting resets, upgrade / downgrade auto-update, and high security mode.
+Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
+
+
+Add a maintenance routine, where if it's -4 UTC and near first Sunday in November, remind with a comms alert that daylight savings is about to end. Do the same for -5 UTC / first Sunday in March.
 
 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
-
-
-Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
-
-
-On the backup / restore admin page, have all the backups have a RESTORE RADIO BUTTON next to each. INCLUDE AN UPLOAD FIELD TOO, TO RESTORE FROM BACKUPS SAVED TO A PC. See PHP's 'setPassword' for automatically using the config backup password, to open / restore config backups:
-https://www.php.net/manual/en/ziparchive.setpassword.php
-
-
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
-
-
-Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files). Whenever we get around to building the app upgrade features, add a setting to enable automatic updates, and have users alerted by their comms methods whenever an auto-update occurs. Additionally, we can also make a configuration backup before upgrading (to save settings in case of any resets).
-
-
-For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This can be done by formating like price alerts / charts, and putting into a trimmed array in config-auto-adjust.php. Then we can create in_array() conditions, for queueing messages, for whatever comm channels are preffered.
-
-
-Add a 'comm channels' setting to plugins: address-balance-tracker, price-target-alert, recurring-reminder
 
 
 Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
@@ -175,6 +160,30 @@ Leverage should be switched to a slider in the user interface, whenever we add d
 For the 'margin leverage maximum' power user setting, add decimal support (in the admin interface too), as modern perp markets on Solana allow this.
 
 
+Whenever we buildout the config restore feature, make sure when we import it we check for valid json (like we do when updating the cached config), and restore the "last known" working cached config we always save, if it fails the check (and is saved as the new "last known" working config if it passes the check).
+
+
+On the backup / restore admin page, have all the backups have a RESTORE RADIO BUTTON next to each. INCLUDE AN UPLOAD FIELD TOO, TO RESTORE FROM BACKUPS SAVED TO A PC. See PHP's 'setPassword' for automatically using the config backup password, to open / restore config backups:
+https://www.php.net/manual/en/ziparchive.setpassword.php
+
+
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+
+
+Add a 'comm channels' setting to plugins: address-balance-tracker, price-target-alert, recurring-reminder
+
+
+For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This can be done by formating like price alerts / charts, and putting into a trimmed array in config-auto-adjust.php. Then we can create in_array() conditions, for queueing messages, for whatever comm channels are preffered.
+
+
+Allowing 2-deep config settings (with config category being the root) to be scanned for addition / removal OVERCOMPLICATES THE UPGRADE LOGIC. Strip it out, and we no longer need to deny certain additions / removals (in developer-config.php). 
+----
+The only thing we really need to do for 2-deep values is make sure their PARENT'S array type (associative or numeric / auto) is same as the default config's (which we do already, BUT SHOULD ALSO CHECK THAT LOGIC TOO, TO STRIP OUT ANYTHING RELATED TO AUTO-UPGRADING BEYOND ARRAY TYPE COMPARISON MISMATCH TRIGGERING A *FULL* SETTING RESET [NOT JUST TWEAKING A FEW SELECTIVE VALUES]).
+
+
+DOUBLE-CHECK app / plugin version upgrading overhaul, including per-setting resets, upgrade / downgrade auto-update, and high security mode.
+
+
 Add help page entry for : 2FA passcode was invalid, please try again
 
 
@@ -190,22 +199,59 @@ On the plugins admin page, add an info balloon next to a title "How can I make s
 On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
 
 
+In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
+
+
+Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
+
+
+Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
+
+
+Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
+
+
+Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
+
+
+Start creating github wiki with USER AND DEVELOPER documentation.
+
+
+For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
-Look into adding a file include at the end of each runtime, to run general logic we always run at the end of runtimes, to simplify updating our exit time logic for any given runtime modes. Inline with a require() file include is best DX. Additionally, we can EXCLUDE any logic PER-RUNTIME TYPE, by just using conditions based off the $ct['runtime_mode'] value.
+Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files). Whenever we get around to building the app upgrade features, add a setting to enable automatic updates, and have users alerted by their comms methods whenever an auto-update occurs. Additionally, we can also make a configuration backup before upgrading (to save settings in case of any resets).
 
 
-Add a third option in the 'remove asset markets' wizard, that scans ALL markets, and returns a list of MARKETS THAT DID NOT RETURN A VALID TRADE PRICE, to select the ones you want to remove (and then have a confirm page to be safe, like we normally do). Add a note on the RESULTS page to double-check that none of the markets are just offline for maintainence.
+Plugins should be allowed to optionally create their own sidebar menu, with the option of being either a single link, or a sub menu that opens up (like the admin / user areas).
+
+
+Add new plugin standard config 'ui_display_mode':
+----
+Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections) Defaults to 'inline' if not set.
+----
+$plug['conf'][$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
+
+
+Add new plugin standard config 'admin_page_width':
+----
+$plug['conf'][$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
+----
+'full' makes the plugin's admin page full width (like we do for app logs / system stats admin pages already).
+----
+Defaults to 'standard' if not set.
+
+
+Document the ABOVE new plugin settings, and fully test before public release.
 
 
 REDO all screenshots, used on the project page.
-
-
-Admin iframes: ADD A 'REVERT TO LAST-KNOWN WORKING CONFIG' OPTION ON RESET PAGE, IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG (WE ALREADY SAVE AS "restore_conf" in secured cache folder)
 
 
 Add full redhat support for auto-installer.
@@ -214,6 +260,30 @@ Add full redhat support for auto-installer.
 Docker imaging for PHP app:
 https://docs.docker.com/guides/php/containerize/
 https://www.google.com/search?q=docker+image+for+php+application
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ALL width-related syling for smaller screens should ALWAYS be responsive CSS based (with minimal JS). It's the most feasible method, AND tests well in a desktop (developing) environment.
+
+
+Buildout the top navigation, for responsive templating on small mobile screens. On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
+
+
+The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny screen sizes. SAME FOR UPDATE PORTFOLIO PAGE. Review ALL other user / admin sections, for any needed mobile-compatible tweaks.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Look into adding a file include at the end of each runtime, to run general logic we always run at the end of runtimes, to simplify updating our exit time logic for any given runtime modes. Inline with a require() file include is best DX. Additionally, we can EXCLUDE any logic PER-RUNTIME TYPE, by just using conditions based off the $ct['runtime_mode'] value.
+
+
+Add a third option in the 'remove asset markets' wizard, that scans ALL markets, and returns a list of MARKETS THAT DID NOT RETURN A VALID TRADE PRICE, to select the ones you want to remove (and then have a confirm page to be safe, like we normally do). Add a note on the RESULTS page to double-check that none of the markets are just offline for maintainence.
+
+
+Admin iframes: ADD A 'REVERT TO LAST-KNOWN WORKING CONFIG' OPTION ON RESET PAGE, IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG (WE ALREADY SAVE AS "restore_conf" in secured cache folder)
 
 
 Add the same hard-coded-config check we do for the app config, to plugin configs.
@@ -242,20 +312,10 @@ For Access Stats, add showing multiple visit timestamps / referrers by adding an
 All STALE charts (light AND archival) that no longer have any corresponding charts config (user removed it), should be scanned for and deleted automatically WITH A BUTTON ATOP THE CHARTS / ALERTS PAGE. Button should have a confirmation prompt: "This will DELETE *ALL* PRICE CHARTS that currently don't have an ACTIVE CONFIG SETUP BELOW. Are you sure you wish to proceed?" We can re-use some of the logic that we use for scheduled maintenance (for deleting ALL price charts associated with assets that no longer exist).
 
 
-Fix EVERYTHING in ALL documentation, where we moved settings over to different sections.
-
-
-Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
-
-
-For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
-
-
 Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
 
 
 All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
-
 https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
 
 
@@ -264,9 +324,6 @@ https://javascript.info/class
 
 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
-
-
-Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
 "The [exchange name] exchange API is less reliable than some others" on the User Area "User Settings" page, should also be used for the Admin Area "General" page, for setting the DEFAULT primary currency with a robust API service.
@@ -278,52 +335,6 @@ Consolidate CSV import / post data importing that are near the top of the update
 Add any other 'required api key' notices, near the top of the external data function. This is a VERY RELIABLE PLACE to have ALL of the checks, as we ALWAYS use the external data function to get API data.
 
 
-Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
-
-
-Start creating github wiki with USER AND DEVELOPER documentation.
-
-
-In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
-
-
-Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
-
-
-Implement 'plugin_deny_additions' / 'plugin_deny_removals' (with same format that we already implemented in the array structure of 'plugin_allow_resets'). Also include documentation on this in plugins documentation. 
-
-
-Add new plugin standard config 'ui_display_mode':
-
-$plug['conf'][$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
-
-Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections) Defaults to 'inline' if not set.
-
-
-Add new plugin standard config 'admin_page_width':
-
-$plug['conf'][$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
-
-'full' makes the plugin's admin page full width (like we do for app logs / system stats admin pages already).
-
-Defaults to 'standard' if not set.
-
-
-Document the ABOVE new plugin settings, and fully test before public release.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-ALL width-related syling for smaller screens should ALWAYS be responsive CSS based (with minimal JS). It's the most feasible method, AND tests well in a desktop (developing) environment.
-
-
-Buildout the top navigation, for responsive templating on small mobile screens. On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
-
-
-The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny screen sizes. SAME FOR UPDATE PORTFOLIO PAGE. Review ALL other user / admin sections, for any needed mobile-compatible tweaks.
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -331,9 +342,6 @@ Look into adding temperature / CPU monitoring support for systems other than lin
 
 
 Research whether POST data size affects header size like cookie data size does.
-
-
-Look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
 
 
 Look into adding the architecture for "chrome push alerts": https://web.dev/explore/notifications
@@ -373,14 +381,10 @@ Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome ON SMAL
 Add support for Jupiter's "freeze authority" meta data, in asset search results. Maybe even show the tag meta data?
 
 
-Fedora's news feed:
-https://fedoramagazine.org/feed/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Build a SUPER SIMPLE auto-trading bot as a plugin, called "shitcoin-dumper", to help automatically dump airdrop shitcoins if a certain price target (up or down) is met. There should be a "one time trade" mode, where if the price target is met, it makes whatever trade you setup to occur, AND *NEVER* EXECUTES *SECONDARY* TRADES AFTERWARDS. Useful if you want to go to bed, and automatically sell your shitcoin airdrop while you sleep, or any other "one time" trade.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
