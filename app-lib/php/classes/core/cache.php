@@ -786,7 +786,8 @@ var $ct_array = array();
   
   global $ct, $htaccess_username, $htaccess_password;
   
-  $valid_username = $ct['gen']->valid_username($htaccess_username);
+  // true == Only check on minimum required length (and whitespace check [that we ALWAYS require])
+  $valid_username = $ct['gen']->valid_username($htaccess_username, true); 
   
   // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
   $password_strength = $ct['sec']->pass_strength($htaccess_password, 8, 8); 

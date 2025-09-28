@@ -7021,6 +7021,17 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.01.07
+
+-BUG FIX: TBD
+
+-Loosened username restrictions for the "Admin Area => Security => Interface Login" setting (so only validity check is a 4 character MINIMUM)
+
+-------------------------------------------------------------------
+
+
+
 
 
 
