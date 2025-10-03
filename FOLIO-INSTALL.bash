@@ -15,6 +15,9 @@ echo " "
 ######################################
 
 
+# var setup, and export (for any recursion)
+
+
 # EXPLICITLY set any dietpi paths 
 # Export too, in case we are calling another bash instance in this script
 if [ -f /boot/dietpi/.version ]; then
@@ -294,21 +297,6 @@ echo " "
 ######################################
 
 
-# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
-if [ "$IS_UBUNTU" != "" ]; then
-
-sudo apt install snapd -y
-
-sleep 3
-          
-UBUNTU_SNAP_INSTALL="sudo snap install"
-
-fi
-
-
-######################################
-
-
 # Path to app (CROSS-DISTRO-COMPATIBLE)
 get_app_path() {
 
@@ -515,7 +503,7 @@ fi
 # Do we have kernel updates disabled?
 
 # ON ARM REDHAT-BASED SYSTEMS
-if [ -f "/etc/redhat-release" ]; then
+if [ -f "/etc/redhat-release" ] && [ ! -f "${HOME}/.redhat_kernel_alert.dat" ]; then
 
 # Are we auto-selecting the NEWEST kernel, to boot by default in grub?
 KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel)
@@ -570,8 +558,11 @@ KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel
      fi
 
 
+echo -e "ran" > ${HOME}/.redhat_kernel_alert.dat
+
+
 # Armbian freeze kernel updates
-elif [ -f "/usr/bin/armbian-config" ]; then
+elif [ -f "/usr/bin/armbian-config" ] && [ ! -f "${HOME}/.armbian_kernel_alert.dat" ]; then
 echo "${red}YOU MAY NEED TO *DISABLE* KERNEL UPDATES ON YOUR ARMBIAN DEVICE (IF YOU HAVE NOT ALREADY), SO YOUR DEVICE ALWAYS BOOTS UP PROPERLY."
 echo " "
 echo "${green}Run this command, and then choose 'System > Updates > Disable Armbian firmware upgrades':"
@@ -584,7 +575,6 @@ echo " "
 echo "${yellow} "
 read -n1 -s -r -p $"PRESS F to run armbian-config and fix this NOW, OR any other key to skip fixing..." key
 echo "${reset} "
-
 
     if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
 
@@ -606,6 +596,8 @@ echo "${reset} "
     
     fi
 
+
+echo -e "ran" > ${HOME}/.armbian_kernel_alert.dat
 
 fi
 
@@ -820,6 +812,23 @@ clean_system_update () {
 
 # Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
+
+
+######################################
+
+
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+
+     if [ ! -f ~/.ubuntu_check.dat ]; then
+     sudo apt install snapd -y
+     echo -e "ran" > ~/.ubuntu_check.dat
+     sleep 2
+     fi
+          
+UBUNTU_SNAP_INSTALL="sudo snap install"
+
+fi
 
 
 ######################################

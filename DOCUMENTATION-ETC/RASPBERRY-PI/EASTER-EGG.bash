@@ -335,11 +335,15 @@ fi
 
 RUNNING_PULSEAUDIO=$(pgrep pulseaudio)
 
+RUNNING_PIPEWIRE_PULSE=$(pgrep pipewire-pulse)
+
 RUNNING_PIPEWIRE=$(pgrep pipewire)
 
 
-if [ "$RUNNING_PULSEAUDIO" != "" ] || [ "$RUNNING_PIPEWIRE" != "" ]; then
+if [ "$RUNNING_PULSEAUDIO" != "" ] || [ "$RUNNING_PIPEWIRE_PULSE" != "" ]; then
 PULSEAUDIO_ALREADY_RUNNING=1
+elif [ "$RUNNING_PIPEWIRE" != "" ]; then
+PIPEWIRE_ALREADY_RUNNING=1
 fi
 
 
@@ -1215,7 +1219,7 @@ echo " "
 echo "${red}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="upgrade_check pulseaudio_install pulseaudio_status audio_fixes internet_player_install internet_player_fix internet_player_on local_player_install local_player_on any_player_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices bluetooth_status sound_test volume_adjust install_easyeffects troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps about_this_app"
+OPTIONS="upgrade_check pulseaudio_install audio_status audio_fixes internet_player_install internet_player_fix internet_player_on local_player_install local_player_on any_player_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices bluetooth_status sound_test volume_adjust install_easyeffects troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps about_this_app"
 
 
 # start options
@@ -1351,7 +1355,22 @@ select opt in $OPTIONS; do
             
             # IF we are ALREADY running pulseaudio, WE ARE ALREADY GOOD TO GO
             if [ "$PULSEAUDIO_ALREADY_RUNNING" == 1 ]; then
+            
              echo "${red}PULSEAUDIO IS ALREADY INSTALLED AND RUNNING.${reset}"
+
+                 if [ "$RUNNING_PIPEWIRE_PULSE" != "" ]; then
+                 echo "${red}(using pipewire-pulse, to run PulseAudio on PipeWire)${reset}"
+                 fi
+             
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+
+             exit
+             
+            # IF we are ALREADY running pipewire, WE ARE ALREADY GOOD TO GO
+            elif [ "$PIPEWIRE_ALREADY_RUNNING" == 1 ]; then
+             echo "${red}PIPEWIRE (AN ALTERNATIVE TO PULSEAUDIO) IS ALREADY INSTALLED AND RUNNING.${reset}"
              echo " "
              echo "${cyan}Exiting...${reset}"
              echo " "
@@ -1534,7 +1553,7 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
-        elif [ "$opt" = "pulseaudio_status" ]; then
+        elif [ "$opt" = "audio_status" ]; then
         
         
         ######################################
@@ -1555,8 +1574,13 @@ select opt in $OPTIONS; do
             # IF we are running pulseaudio through pipewire, OR directly,
             # we want to show the status for the corresponding service
             if [ "$RUNNING_PIPEWIRE" != "" ]; then
-
-             echo "${red}PulseAudio status (on PipeWire):"
+             
+                 if [ "$RUNNING_PIPEWIRE_PULSE" != "" ]; then
+                 echo "${red}PulseAudio (on PipeWire) status:"
+                 else
+                 echo "${red}PipeWire status:"
+                 fi
+             
              echo "${reset} "
              systemctl --user status pipewire.service
              exit
@@ -1636,6 +1660,10 @@ select opt in $OPTIONS; do
     		
         # Call bt_autoconnect_install function (this will re-initialize it, since we removed it)
         bt_autoconnect_install
+                    
+        echo " "
+        echo "${green}btautoconnect.service reset / re-initialized.${reset}"
+        echo " "
 
         
         ######################################
@@ -1649,7 +1677,7 @@ select opt in $OPTIONS; do
             sleep 1
             mv ~/.config/pulse/ ~/.config/pulse.old-$DATE > /dev/null 2>&1
                     
-            echo "${green}Attempted USER FILES fixes completed (old configs at ~/.config/pulse.old-$DATE, btautoconnect.service re-initialized).${reset}"
+            echo "${green}Attempted USER FILES fixes completed (old configs at ~/.config/pulse.old-$DATE).${reset}"
             echo " "
             
             fi
@@ -1735,11 +1763,6 @@ select opt in $OPTIONS; do
     		  sleep 5
     		
     		  sudo reboot
-            
-            else
-            
-            echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
-            echo " "
                     
             fi
 

@@ -1,0 +1,26 @@
+# Add this as a new IAM policy, AFTER setting up a new user, and attaching that USER GROUP to this policy.
+# This restricts S3 Bucket access (using the above user's keys) to:
+# 1) Only be allowed to read / write data within the bucket "YOUR-RESTRICTED-BUCKET"
+# 2) Only get the LIST of ALL your buckets (in case 3rd-party app crashes WITHOUT "s3:ListAllMyBuckets" ACCESS)
+# 3) ALWAYS FAIL at doing ANYTHING in ANY bucket OTHER THAN "YOUR-RESTRICTED-BUCKET" (no other bucket allowed read / write)
+# DO NOT INCLUDE THIS COMMENTED CODE IN THE POLICY JSON ON AWS IAM WEBSITE.
+
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "s3:*",
+			"Resource": [
+				"arn:aws:s3:::YOUR-RESTRICTED-BUCKET",
+				"arn:aws:s3:::YOUR-RESTRICTED-BUCKET/*"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": "s3:ListAllMyBuckets",
+			"Resource": "*",
+			"Condition": {}
+		}
+	]
+}
