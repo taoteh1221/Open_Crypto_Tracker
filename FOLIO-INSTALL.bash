@@ -2393,7 +2393,7 @@ select opt in $OPTIONS; do
 				elif [ -f /boot/dietpi/.version ]; then
 				echo " "
 				echo "${cyan}Initiating dietpi-software, please wait...${reset}"
-				dietpi-software
+				launch_graphical_safe "dietpi-software"
 				else
 				
 				echo " "
