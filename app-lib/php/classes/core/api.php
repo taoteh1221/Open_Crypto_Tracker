@@ -515,13 +515,25 @@ var $exchange_apis = array(
         
         $data = json_decode($response, true);
             
-            // Store error status, if no valid data detected
-            if ( !isset($data['Symbol']) ) {
-            $response = '{ "request_error": "no_data" }';
-            $data = json_decode($response, true);
-            }
             
-        $ct['cache']->save_file($cache_file, $response);
+            // Store error status, if no valid data detected, AND no cache file exists yet
+            if ( !isset($data['Symbol']) ) {
+                 
+            $response = '{ "request_error": "no_data" }';
+
+            $data = json_decode($response, true);
+                
+                // Save, if no cache file yet
+                if ( !file_exists($cache_file) ) {
+                $ct['cache']->save_file($cache_file, $response);
+                }
+
+            }
+            // Otherwise, save the latest overview data
+            else {
+            $ct['cache']->save_file($cache_file, $response);
+            }
+        
         
         }
         else {

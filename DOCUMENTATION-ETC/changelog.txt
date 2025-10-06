@@ -7026,6 +7026,10 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: TBD
 
+-Better Server Edition auto-installer UX
+
+-Better AlphaVantage "Stock Overview" API integration / UX
+
 -Loosened username restrictions for the "Admin Area => Security => Interface Login" setting (so only validity check is a 4 character MINIMUM)
 
 -------------------------------------------------------------------
