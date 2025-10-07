@@ -2506,13 +2506,31 @@ fi
 
 if [ "$SSH_SETUP" = "1" ]; then
 
+# Validate domain name
+valid_domain="^([a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.)+[a-zA-Z]{2,}$"
+
+
+if [[ "$HOSTNAME" =~ $valid_domain ]]; then
+app_domain="$HOSTNAME"
+port_forward_notice="${yellow}(on an internal network, you may need router port forwarding, mapping $HOSTNAME => $IP [and reserve $IP for this device])${reset}"
+else
+app_domain="${HOSTNAME}.local"
+port_forward_notice=""
+fi
+
+
 echo "${yellow}SFTP login details are..."
 echo " "
 
 echo "${green}INTERNAL NETWORK SFTP host (port 22, on home / internal network):"
 echo " "
+echo "IP ADDRESS (may change, unless reserved for this device within the router):"
 echo "$IP"
 echo " "
+echo "HOST ADDRESS: $app_domain"
+echo "${yellow}(IF YOU JUST CHANGED '${app_domain}' in raspi / dietpi config, USE THAT INSTEAD)"
+echo "${port_forward_notice} "
+echo "${green} "
 
 echo "SFTP username: $APP_USER"
 echo " "

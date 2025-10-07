@@ -132,6 +132,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
+Add full redhat support for auto-installer.
+
+
 Fedora's news feed:
 https://fedoramagazine.org/feed/
 
@@ -252,9 +255,6 @@ Document the ABOVE new plugin settings, and fully test before public release.
 
 
 REDO all screenshots, used on the project page.
-
-
-Add full redhat support for auto-installer.
 
 
 Docker imaging for PHP app:
