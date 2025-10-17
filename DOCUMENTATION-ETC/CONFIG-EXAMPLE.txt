@@ -432,7 +432,8 @@ $ct['conf']['currency']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT
 // For prettier / less-cluttered interface. IF YOU ADJUST $ct['conf']['currency']['bitcoin_primary_currency_pair'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
 // ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct['conf']['currency']['currency_decimals_max'] = 8; // Whole numbers only (represents number of decimals maximum to use...default = 20)
+// Whole numbers only (represents number of decimals maximum to use...default = 15, min = 5, max = 15)
+$ct['conf']['currency']['currency_decimals_max'] = 15; 
 
 
 // Maximum decimal places for *CRYPTO* VALUES ACROSS THE ENTIRE APP (*INCLUDING UNDER-THE-HOOD CALCULATIONS*)
@@ -440,7 +441,8 @@ $ct['conf']['currency']['currency_decimals_max'] = 8; // Whole numbers only (rep
 // LOW VALUE ALTERNATE COINS / CURRENCIES NEED THIS SET REALLY HIGH TO BE INCLUDED IN THE ASSETS LIST (TO NOT HAVE A ZERO VALUE),
 // *ESPECIALLY* SINCE WE USE BITCOIN AS OUR BASE CURRENCY *CONVERTER* (DUE TO IT'S RELIABLY HIGH LIQUIDITY ACROSS THE PLANET)
 // !!!IF YOU CHANGE THIS, THE 'WATCH ONLY' FLAG ON THE 'UPDATE' PAGE *WILL ALSO CHANGE* (CHANGING WHAT IS FLAGGED 'WATCH ONLY')!!!
-$ct['conf']['currency']['crypto_decimals_max'] = 13; // Whole numbers only (represents number of decimals maximum to use...default = 20)
+// Whole numbers only (represents number of decimals maximum to use...default = 20, min = 10, max = 20)
+$ct['conf']['currency']['crypto_decimals_max'] = 20; 
 
 
 // PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
@@ -1190,12 +1192,6 @@ $ct['conf']['news']['feeds'] = array(
         
         
         				array(
-            			      "title" => "Blog - RNDR Network (Blockchain-Distributed GPU Rendering)",
-            			      "url" => "https://medium.com/feed/render-token"
-        				     ),
-        
-        
-        				array(
             			      "title" => "Blog - Star Atlas (NFT-based Space Shooter Metaverse on Solana)",
             			      "url" => "https://medium.com/feed/star-atlas"
         				     ),
@@ -1216,12 +1212,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "News - Decrypt",
             			      "url" => "https://decrypt.co/feed"
-        				     ),
-        
-        
-        				array(
-            			      "title" => "News - Dev Class",
-            			      "url" => "https://devclass.com/feed"
         				     ),
         
         
@@ -1262,20 +1252,8 @@ $ct['conf']['news']['feeds'] = array(
     
     
         				array(
-            			      "title" => "Newsletter - Lightning Labs (Bitcoin Layer 2 Network)",
-            			      "url" => "https://lightninglabs.substack.com/feed"
-        				     ),
-    
-    
-        				array(
             			      "title" => "Newsletter - Our Network",
             			      "url" => "https://ournetwork.substack.com/feed"
-        				     ),
-    
-    
-        				array(
-            			      "title" => "Newsletter - Page One",
-            			      "url" => "https://page1.substack.com/feed"
         				     ),
     
     
@@ -1318,12 +1296,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Podcast - Unchained",
             			      "url" => "https://unchained.libsyn.com/unchained"
-        				     ),
-    
-    
-        				array(
-            			      "title" => "Podcast - Zero Knowledge",
-            			      "url" => "https://feeds.fireside.fm/zeroknowledge/rss"
         				     ),
     
     
@@ -1396,12 +1368,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Youtube - BTC Sessions",
             			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UChzLnWVsl3puKQwc5PoO6Zg"
-        				     ),
-    
-    
-        				array(
-            			      "title" => "Youtube - Kripto Emre (turkish)",
-            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC87A7vsRlyZ68gtu-z1Q3ow"
         				     ),
     
     
@@ -1486,7 +1452,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         
                         // [MISCELLANEOUS COUNTRIES]
                         'movistar_ar||sms.movistar.net.ar', // Argentina
-                        'setar||mas.aw',                    // Aruba
                         'mobiltel||sms.mtel.net',           // Bulgaria
                         'china_mobile||139.com',            // China
                         'ice||sms.ice.cr',                  // Costa Rica
@@ -1591,7 +1556,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         
                         
                         // [UNITED STATES]
-                        'att||txt.att.net',
                         'bluegrass||mms.myblueworks.com',
                         'cellcom||cellcom.quiktxt.com',
                         'chariton_valley||sms.cvalley.net',
