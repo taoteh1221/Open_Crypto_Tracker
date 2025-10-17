@@ -89,7 +89,7 @@ FEATURES
 -Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
 
 
--Automated and user-friendly installation / upgrade script for Debian device (Ubuntu / DietPi / RaspberryPi / Armbian / Etc) app setup (server edition), on your home / internal network or website.
+-Automated and user-friendly installation / upgrade script for Debian / RedHat device app setup (server edition), on your home / internal network or website.
 
 
 -PRIVATELY connects DIRECTLY to APIs / servers for data and comms (no "phoning home" to a middleman server), with optional proxy support for API connections.
@@ -208,11 +208,11 @@ IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED T
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Automatic Install / Upgrade For 'Server Edition' On Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network (recommended way to PRIVATELY / CHEAPLY use this app)
+Automatic Install / Upgrade For 'Server Edition' With Debian and RedHat based Operating Systems, On Home / Internal Network (recommended way to PRIVATELY / CHEAPLY use this app)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-To install / upgrade everything automatically on Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
+To install / upgrade everything automatically on Debian / RedHat based systems, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
 
 wget --no-cache -O FOLIO-INSTALL.bash https://tinyurl.com/install-crypto-tracker;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
@@ -271,16 +271,16 @@ IMPORTANT NOTES: THIS IS FOR 'SERVER EDITION' ONLY, UNLESS YOU DISABLE 'desktop_
 You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pair combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairs for the same asset.
 
 	    
-Running price charts or price alerts requires setting up a cron job or scheduled task on the Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 machine or website server (this is automated for Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
+Running price charts or price alerts requires setting up a cron job or scheduled task on the Debian / RedHat / Windows 10 machine or website server (this is automated for Debian and RedHat based Operating System users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 
 
 Once a cron job or scheduled task is setup ON YOUR APP SERVER, there is no need to keep your PC / Laptop turned on (UNLESS you are running the app server on the same device). The price charts and price alerts run automatically from your Open Crypto Tracker app server installation. If you encounter errors or the charts / alerts don't work during setup, check the app logs file at /cache/logs/app_log.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 
 
-If you decide to turn on cron job / scheduled task based features, then the file cron.php (located in the primary directory of this app) must be setup as a cron job or scheduled task on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 / website server device. 
+If you decide to turn on cron job / scheduled task based features, then the file cron.php (located in the primary directory of this app) must be setup as a cron job or scheduled task on your Debian / RedHat / Windows 10 / website server device. 
 
 
-As mentioned previously, if you run the automated setup / install script for Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 devices on home / internal networks, automatic cron job / scheduled task setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your app server host's documentation or help desk for their particular method of setting up a cron job. 
+As mentioned previously, if you run the automated setup / install script for Debian / RedHat / Windows 10 devices on home / internal networks, automatic cron job / scheduled task setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your app server host's documentation or help desk for their particular method of setting up a cron job. 
 
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, light (time period) chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 

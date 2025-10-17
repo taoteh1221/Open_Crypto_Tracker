@@ -15,18 +15,19 @@ echo " "
 ######################################
 
 
+# var setup, and export (for any recursion)
+
+# Working directory
+export PWD=$PWD
+
+# Terminal
+export TERM=$TERM
+
+
 # EXPLICITLY set any dietpi paths 
 # Export too, in case we are calling another bash instance in this script
 if [ -f /boot/dietpi/.version ]; then
 PATH=/boot/dietpi:$PATH
-export PATH=$PATH
-fi
-				
-
-# EXPLICITLY set any ~/.local/bin paths
-# Export too, in case we are calling another bash instance in this script
-if [ -d ~/.local/bin ]; then
-PATH=~/.local/bin:$PATH
 export PATH=$PATH
 fi
 				
@@ -38,15 +39,6 @@ PATH=/usr/sbin:$PATH
 export PATH=$PATH
 fi
 
-
-# In case we are recursing back into this script (for filtering params etc),
-# flag export of a few more basic sys vars if present
-
-# Authentication of X sessions
-export XAUTHORITY=~/.Xauthority 
-# Working directory
-export PWD=$PWD
-				
 
 ######################################
 
@@ -204,6 +196,17 @@ fi
 ######################################
 
 
+# Start in user home directory
+# WE DON'T USE ~/ FOR PATHS IN THIS SCRIPT BECAUSE:
+# 1) WE'RE #RUNNING AS SUDO# ANYWAYS (WE CAN INSTALL ANYWHERE WE WANT)
+# 2) WE SET THE USER WE WANT TO INSTALL UNDER DYNAMICALLY
+# 3) IN CASE THE USER INITIATES INSTALL AS ANOTHER ADMIN USER
+cd /home/$TERMINAL_USERNAME
+
+
+######################################
+
+
 # Find out what display manager is being used on the PHYSICAL display
 DISPLAY_SESSION=$(loginctl show-user "$TERMINAL_USERNAME" -p Display --value)
 DISPLAY_SESSION=$(echo "${DISPLAY_SESSION}" | xargs) # trim whitespace
@@ -294,16 +297,29 @@ echo " "
 ######################################
 
 
-# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
-if [ "$IS_UBUNTU" != "" ]; then
+# Graphical-based apps must be redirected to the tty,
+# to work correctly *IN A SUBSHELL*
+launch_graphical_safe() {
 
-sudo apt install snapd -y
+     if [ ! -z "$1" ]; then
+         
+         # IF we are recursing back into the script,
+         # run the command in a graphics compatible mode
+         if [ ! -z "$APP_RECURSE" ]; then
+         
+              output=$(
+              $1 < /dev/tty > /dev/tty
+              )
+         
+         # Otherwise, we NEED to just run as a plain command
+         # (or it runs badly on some systems!) 
+         else
+         $1
+         fi
+     
+     fi
 
-sleep 3
-          
-UBUNTU_SNAP_INSTALL="sudo snap install"
-
-fi
+}
 
 
 ######################################
@@ -331,12 +347,8 @@ app_path_result="${app_path_result#*$1:}"
      PATH_CHECK_REENTRY="" # Reset reentry flag
      
      echo "${red} " > /dev/tty
-     echo "System path for '$1' NOT FOUND, even AFTER package installation attempts, giving up." > /dev/tty
+     echo "System path for '$1' NOT FOUND." > /dev/tty
      echo " " > /dev/tty
-
-     echo "*PLEASE* REPORT THIS ISSUE HERE, *IF THIS SCRIPT OR THE INSTALLED APP FAILS TO RUN PROPERLY FROM THIS POINT ONWARD*:" > /dev/tty
-     echo " " > /dev/tty
-     echo "$ISSUES_URL" > /dev/tty
      echo "${reset} " > /dev/tty
      
      echo "${yellow} " > /dev/tty
@@ -428,34 +440,42 @@ app_path_result="${app_path_result#*$1:}"
           SYS_PACK="$1"
           fi
           
-          # Terminal alert for good UX...
+          
+          # IF package name is different on this system...
           if [ "$1" != "$SYS_PACK" ]; then
+          
           echo " " > /dev/tty
           echo "${yellow}'$1' is found WITHIN '$SYS_PACK', changing package request accordingly...${reset}" > /dev/tty
           echo " " > /dev/tty
+          
+          SET_PACKAGE_NAME="$SYS_PACK"
+          
+          else          
+          SET_PACKAGE_NAME="$1"
           fi
 
 
      echo " " > /dev/tty
-     echo "${cyan}Installing required component '$SYS_PACK', please wait...${reset}" > /dev/tty
+     echo "${cyan}Installing required component '$SET_PACKAGE_NAME', please wait...${reset}" > /dev/tty
      echo " " > /dev/tty
      
      sleep 3
                
-     $PACKAGE_INSTALL $SYS_PACK -y > /dev/tty
+     $PACKAGE_INSTALL $SET_PACKAGE_NAME -y > /dev/tty
      
      
           # If UBUNTU (*NOT* any other OS) snap was detected on the system, try a snap install too
           # (as they moved some libs over to snap / snap-only? now)
-          if [ "$IS_UBUNTU" != "" ] && [ $SYS_PACK != "snapd" ]; then
+          # (only if we are NOT installing snap itself)
+          if [ "$IS_UBUNTU" != "" ] && [ $SET_PACKAGE_NAME != "snapd" ]; then
           
           echo " " > /dev/tty
-          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SYS_PACK', please wait...${reset}" > /dev/tty
+          echo "${yellow}CHECKING FOR UBUNTU SNAP PACKAGE '$SET_PACKAGE_NAME', please wait...${reset}" > /dev/tty
           echo " " > /dev/tty
           
           sleep 3
           
-          $UBUNTU_SNAP_INSTALL $SYS_PACK > /dev/tty
+          $UBUNTU_SNAP_INSTALL $SET_PACKAGE_NAME > /dev/tty
           
           fi
      
@@ -464,7 +484,7 @@ app_path_result="${app_path_result#*$1:}"
      
      PATH_CHECK_REENTRY=1 # Set reentry flag, right before reentry
      
-     echo $(get_app_path "$1")
+     echo $(get_app_path "$SET_PACKAGE_NAME")
            
      fi
 
@@ -476,7 +496,7 @@ app_path_result="${app_path_result#*$1:}"
 
 
 # Make sure automatic suspend / sleep is disabled
-if [ ! -f "${HOME}/.sleep_disabled.dat" ]; then
+if [ ! -f ".sleep_disabled.dat" ]; then
 
 echo "${red}We need to make sure your system will NOT AUTO SUSPEND / SLEEP, or your app server could stop running.${reset}"
 
@@ -490,7 +510,9 @@ echo "${reset} "
     echo "${cyan}Disabling auto suspend / sleep...${reset}"
     echo " "
     
-    echo -e "ran" > ${HOME}/.sleep_disabled.dat
+    echo -e "ran" > .sleep_disabled.dat
+    
+    chown ${TERMINAL_USERNAME}:${TERMINAL_USERNAME} .sleep_disabled.dat
     
          if [ -f "/etc/debian_version" ]; then
          sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target > /dev/null 2>&1
@@ -515,7 +537,7 @@ fi
 # Do we have kernel updates disabled?
 
 # ON ARM REDHAT-BASED SYSTEMS
-if [ -f "/etc/redhat-release" ]; then
+if [ -f "/etc/redhat-release" ] && [ ! -f ".redhat_kernel_alert.dat" ]; then
 
 # Are we auto-selecting the NEWEST kernel, to boot by default in grub?
 KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel)
@@ -570,8 +592,13 @@ KERNEL_BOOTED_UPDATES=$(sudo sed -n '/UPDATEDEFAULT=yes/p' /etc/sysconfig/kernel
      fi
 
 
+echo -e "ran" > .redhat_kernel_alert.dat
+
+chown ${TERMINAL_USERNAME}:${TERMINAL_USERNAME} .redhat_kernel_alert.dat
+
+
 # Armbian freeze kernel updates
-elif [ -f "/usr/bin/armbian-config" ]; then
+elif [ -f "/usr/bin/armbian-config" ] && [ ! -f ".armbian_kernel_alert.dat" ]; then
 echo "${red}YOU MAY NEED TO *DISABLE* KERNEL UPDATES ON YOUR ARMBIAN DEVICE (IF YOU HAVE NOT ALREADY), SO YOUR DEVICE ALWAYS BOOTS UP PROPERLY."
 echo " "
 echo "${green}Run this command, and then choose 'System > Updates > Disable Armbian firmware upgrades':"
@@ -585,10 +612,9 @@ echo "${yellow} "
 read -n1 -s -r -p $"PRESS F to run armbian-config and fix this NOW, OR any other key to skip fixing..." key
 echo "${reset} "
 
-
     if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
 
-    sudo armbian-config
+    launch_graphical_safe "sudo armbian-config"
     
     sleep 1
 
@@ -606,6 +632,10 @@ echo "${reset} "
     
     fi
 
+
+echo -e "ran" > .armbian_kernel_alert.dat
+
+chown ${TERMINAL_USERNAME}:${TERMINAL_USERNAME} .armbian_kernel_alert.dat
 
 fi
 
@@ -825,6 +855,24 @@ clean_system_update
 ######################################
 
 
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+
+     if [ ! -f .ubuntu_check.dat ]; then
+     sudo apt install snapd -y
+     echo -e "ran" > .ubuntu_check.dat
+     chown ${TERMINAL_USERNAME}:${TERMINAL_USERNAME} .ubuntu_check.dat
+     sleep 2
+     fi
+          
+UBUNTU_SNAP_INSTALL="sudo snap install"
+
+fi
+
+
+######################################
+
+
 # Get PRIMARY dependency lib's paths (for bash scripting commands...auto-install is attempted, if not found on system)
 # (our usual standard library prerequisites [ordered alphabetically], for 99% of advanced bash scripting needs)
 
@@ -884,17 +932,6 @@ FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php-fpm [0-9][.][0-9]\)'`
 FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
 
 fi
-
-
-######################################
-
-
-# Start in user home directory
-# WE DON'T USE ~/ FOR PATHS IN THIS SCRIPT BECAUSE:
-# 1) WE'RE #RUNNING AS SUDO# ANYWAYS (WE CAN INSTALL ANYWHERE WE WANT)
-# 2) WE SET THE USER WE WANT TO INSTALL UNDER DYNAMICALLY
-# 3) IN CASE THE USER INITIATES INSTALL AS ANOTHER ADMIN USER
-cd /home/$TERMINAL_USERNAME
 
             
 ######################################
@@ -2359,14 +2396,32 @@ select opt in $OPTIONS; do
         
 
 				if [ -f "/usr/bin/raspi-config" ]; then
+
 				echo " "
 				echo "${cyan}Initiating raspi-config, please wait...${reset}"
+
 				# WE NEED SUDO HERE, or raspi-config fails in bash
-				sudo raspi-config
+				launch_graphical_safe "sudo raspi-config"
+    
+                    sleep 1
+
+                    echo " "
+                    echo "${cyan}Resuming auto-installer...${reset}"
+                    echo " "
+    
 				elif [ -f /boot/dietpi/.version ]; then
+
 				echo " "
 				echo "${cyan}Initiating dietpi-software, please wait...${reset}"
-				dietpi-software
+				
+				launch_graphical_safe "dietpi-software"
+                   
+                    sleep 1
+               
+                    echo " "
+                    echo "${cyan}Resuming auto-installer...${reset}"
+                    echo " "
+
 				else
 				
 				echo " "
@@ -2479,13 +2534,31 @@ fi
 
 if [ "$SSH_SETUP" = "1" ]; then
 
+# Validate domain name
+valid_domain="^([a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.)+[a-zA-Z]{2,}$"
+
+
+if [[ "$HOSTNAME" =~ $valid_domain ]]; then
+app_domain="$HOSTNAME"
+port_forward_notice="${yellow}(on an internal network, you may need router port forwarding, mapping $HOSTNAME => $IP [and reserve $IP for this device])${reset}"
+else
+app_domain="${HOSTNAME}.local"
+port_forward_notice=""
+fi
+
+
 echo "${yellow}SFTP login details are..."
 echo " "
 
 echo "${green}INTERNAL NETWORK SFTP host (port 22, on home / internal network):"
 echo " "
+echo "IP ADDRESS (may change, unless reserved for this device within the router):"
 echo "$IP"
 echo " "
+echo "HOST ADDRESS: $app_domain"
+echo "${yellow}(IF YOU JUST CHANGED '${app_domain}' in raspi / dietpi config, USE THAT INSTEAD)"
+echo "${port_forward_notice} "
+echo "${green} "
 
 echo "SFTP username: $APP_USER"
 echo " "

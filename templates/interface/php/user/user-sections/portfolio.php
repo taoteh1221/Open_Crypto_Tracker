@@ -344,7 +344,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
     			
     			// If purchased amount (not just watched), AND cost basis
         		if (
-        		$purchase_price_temp >= 0.00000001
+        		$purchase_price_temp >= $ct['min_fiat_val_test']
         		&& $held_amnt >= $ct['min_crypto_val_test']
         		) {
     			$purchase_price = $purchase_price_temp;
@@ -379,7 +379,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
     		$assets_added = 1;
     						
     						
-    			if ( $purchase_price >= 0.00000001 ) {
+    			if ( $purchase_price >= $ct['min_fiat_val_test'] ) {
     			$purchase_price_added = 1;
     			}
     												

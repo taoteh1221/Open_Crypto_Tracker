@@ -493,7 +493,7 @@ var $exchange_apis = array(
    
    $results = array();
    
-   $cache_file = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$ticker.'.dat';
+   $secondary_cache = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$ticker.'.dat';
    
         
         // IF we do NOT have a PREMIUM PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS
@@ -507,7 +507,7 @@ var $exchange_apis = array(
    
         // WE SAVE DATA OUTSIDE THE EXT_DATA DIRECTORY, AS WE MAY STORE IT FOR MANY WEEKS,
         // IF WE A USING THE FREE API TIER
-        if ( $ct['cache']->update_cache($cache_file, $cache_time) == true ) {
+        if ( $ct['cache']->update_cache($secondary_cache, $cache_time) == true ) {
          
         $url = 'https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
               
@@ -515,21 +515,38 @@ var $exchange_apis = array(
         
         $data = json_decode($response, true);
             
-            // Store error status, if no valid data detected
-            if ( !isset($data['Symbol']) ) {
-            $response = '{ "request_error": "no_data" }';
-            $data = json_decode($response, true);
-            }
             
-        $ct['cache']->save_file($cache_file, $response);
+            // Store error status, if no valid data detected, AND no cache file exists yet
+            if ( !isset($data['Symbol']) ) {
+                 
+            $response = '{ "request_error": "no_data" }';
+
+            $data = json_decode($response, true);
+                
+                // Save, if no cache file yet
+                if ( !file_exists($secondary_cache) ) {
+                $ct['cache']->save_file($secondary_cache, $response);
+                }
+                // Otherwise, just update cache file time, to avoid checking
+                // again until the minimum cache time has been reached
+                else {
+                touch($secondary_cache); 
+                }
+
+            }
+            // Otherwise, save the latest overview data
+            else {
+            $ct['cache']->save_file($secondary_cache, $response);
+            }
+        
         
         }
         else {
-        $data = json_decode( trim( file_get_contents($cache_file) ) , true);
+        $data = json_decode( trim( file_get_contents($secondary_cache) ) , true);
         }
         
    
-   $results['cache_timestamp'] = filemtime($cache_file);
+   $results['cache_timestamp'] = filemtime($secondary_cache);
    
    $results['data'] = $data;
    

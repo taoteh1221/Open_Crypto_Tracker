@@ -7024,9 +7024,23 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.07
 
--BUG FIX: TBD
+-BUG FIX: Fixed issue on "My Portfolio" page, where average-paid-per-unit of asset was hard-coded to an 8 decimal maximum (causing low value tokens to NOT display gain / loss data)
+
+-BUG FIX: Miscellaneous (minor)
 
 -Loosened username restrictions for the "Admin Area => Security => Interface Login" setting (so only validity check is a 4 character MINIMUM)
+
+-Increased amount of currency / crypto maximum decimals allowed (in the "Asset Tracking => Currency Support" Admin Config)
+
+-Better AlphaVantage "Stock Overview" API integration / UX
+
+-Buildout of developer-only-maintenance plugin
+
+-Server Edition auto-installer refactoring
+
+-Better Server Edition auto-installer UX
+
+-Minor user experience improvements
 
 -------------------------------------------------------------------
 

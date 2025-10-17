@@ -4,7 +4,7 @@
 COPYRIGHT_YEARS="2022-2025"
 
 # Version of this script
-APP_VERSION="1.12.3" # 2025/SEPTEMBER/26TH
+APP_VERSION="1.12.4" # 2025/SEPTEMBER/28TH
 
 
 ########################################################################################################################
@@ -49,6 +49,10 @@ APP_VERSION="1.12.3" # 2025/SEPTEMBER/26TH
 # ~/radio "local bsr"
 # (rescans music files / plays LOCAL music folder ~/Music/MPlayer [RECURSIVELY] in background, shuffling)
  
+# ~/radio 17
+# ~/radio volume
+# (adjust the system audio volume)
+ 
 # ~/radio 10
 # ~/radio off
 # (stops audio playback)
@@ -67,6 +71,46 @@ APP_VERSION="1.12.3" # 2025/SEPTEMBER/26TH
 
 ########################################################################################################################
 ########################################################################################################################
+
+
+# var setup, and export (for any recursion)
+
+
+# EXPLICITLY set any dietpi paths 
+# Export too, in case we are calling another bash instance in this script
+if [ -f /boot/dietpi/.version ]; then
+PATH=/boot/dietpi:$PATH
+export PATH=$PATH
+fi
+				
+
+# EXPLICITLY set any ~/.local/bin paths
+# Export too, in case we are calling another bash instance in this script
+if [ -d ~/.local/bin ]; then
+PATH=~/.local/bin:$PATH
+export PATH=$PATH
+fi
+				
+
+# EXPLICITLY set any /usr/sbin path
+# Export too, in case we are calling another bash instance in this script
+if [ -d /usr/sbin ]; then
+PATH=/usr/sbin:$PATH
+export PATH=$PATH
+fi
+
+
+# In case we are recursing back into this script (for filtering params etc),
+# flag export of a few more basic sys vars if present
+
+# Authentication of X sessions
+export XAUTHORITY=~/.Xauthority 
+
+# Working directory
+export PWD=$PWD
+
+
+######################################
 
 
 # If parameters are added via command line
@@ -108,6 +152,9 @@ convert=$(echo "$convert" | sed -r "s/internet/7/g")
 # local
 convert=$(echo "$convert" | sed -r "s/local/9/g")
 
+# volume
+convert=$(echo "$convert" | sed -r "s/volume/17/g")
+
 # off
 convert=$(echo "$convert" | sed -r "s/off/10/g")
 
@@ -146,42 +193,6 @@ echo " "
 echo "Initializing, please wait..."
 echo " "
 
-
-######################################
-
-
-# EXPLICITLY set any dietpi paths 
-# Export too, in case we are calling another bash instance in this script
-if [ -f /boot/dietpi/.version ]; then
-PATH=/boot/dietpi:$PATH
-export PATH=$PATH
-fi
-				
-
-# EXPLICITLY set any ~/.local/bin paths
-# Export too, in case we are calling another bash instance in this script
-if [ -d ~/.local/bin ]; then
-PATH=~/.local/bin:$PATH
-export PATH=$PATH
-fi
-				
-
-# EXPLICITLY set any /usr/sbin path
-# Export too, in case we are calling another bash instance in this script
-if [ -d /usr/sbin ]; then
-PATH=/usr/sbin:$PATH
-export PATH=$PATH
-fi
-
-
-# In case we are recursing back into this script (for filtering params etc),
-# flag export of a few more basic sys vars if present
-
-# Authentication of X sessions
-export XAUTHORITY=~/.Xauthority 
-# Working directory
-export PWD=$PWD
-				
 
 ######################################
 
@@ -335,11 +346,15 @@ fi
 
 RUNNING_PULSEAUDIO=$(pgrep pulseaudio)
 
+RUNNING_PIPEWIRE_PULSE=$(pgrep pipewire-pulse)
+
 RUNNING_PIPEWIRE=$(pgrep pipewire)
 
 
-if [ "$RUNNING_PULSEAUDIO" != "" ] || [ "$RUNNING_PIPEWIRE" != "" ]; then
+if [ "$RUNNING_PULSEAUDIO" != "" ] || [ "$RUNNING_PIPEWIRE_PULSE" != "" ]; then
 PULSEAUDIO_ALREADY_RUNNING=1
+elif [ "$RUNNING_PIPEWIRE" != "" ]; then
+PIPEWIRE_ALREADY_RUNNING=1
 fi
 
 
@@ -376,6 +391,9 @@ elif [ "$RUNNING_X11" != "" ]; then
      fi
 
 fi
+
+
+######################################
 
 
 if [ -f "/etc/debian_version" ]; then
@@ -423,16 +441,43 @@ fi
 ######################################
 
 
-# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
-if [ "$IS_UBUNTU" != "" ]; then
+# Graphical-based apps must be redirected to the tty, to work
+# correctly *IN A SUBSHELL* (this ALSO works fine NOT in a subshell too).
+launch_graphical_safe() {
 
-sudo apt install snapd -y
+     if [ ! -z "$1" ]; then
 
-sleep 3
-          
-UBUNTU_SNAP_INSTALL="sudo snap install"
+         output=$(
+         $1 < /dev/tty > /dev/tty
+         )
+     
+     fi
 
-fi
+}
+
+
+######################################
+
+
+# Scan media directories recursively
+recursive_media_scan() {
+                     
+shopt -s nullglob dotglob
+                    
+      for pathname in "$1"/*; do
+                        
+            if [ -d "$pathname" ]; then
+            recursive_media_scan "$pathname"
+            else
+                  case "$pathname" in
+                  *.mp3|*.ogg|*.wav|*.flac|*.mp4)
+                  printf '%s\n' "$pathname"
+                  esac
+            fi
+
+      done
+                        
+}
 
 
 ######################################
@@ -720,7 +765,7 @@ echo "${reset} "
 
     if [ "$key" = 'f' ] || [ "$key" = 'F' ]; then
 
-    sudo armbian-config
+    launch_graphical_safe "sudo armbian-config"
     
     sleep 1
 
@@ -956,6 +1001,23 @@ clean_system_update () {
 ######################################
 
 
+# Ubuntu uses snaps for very basic libraries these days, so we need to configure for possible snap installs
+if [ "$IS_UBUNTU" != "" ]; then
+
+     if [ ! -f ~/.ubuntu_check.dat ]; then
+     sudo apt install snapd -y
+     echo -e "ran" > ~/.ubuntu_check.dat
+     sleep 2
+     fi
+          
+UBUNTU_SNAP_INSTALL="sudo snap install"
+
+fi
+
+
+######################################
+
+
 # Get PRIMARY dependency lib's paths (for bash scripting commands...auto-install is attempted, if not found on system)
 # (our usual standard library prerequisites [ordered alphabetically], for 99% of advanced bash scripting needs)
 
@@ -1175,6 +1237,10 @@ echo "${green}~/radio \"9 bsr\""
 echo "${green}~/radio \"local bsr\"${cyan}"
 echo "(rescans music files / plays LOCAL music folder ~/Music/MPlayer [RECURSIVELY] in background, shuffling)"
 echo " "
+echo "${green}~/radio 17"
+echo "${green}~/radio volume${cyan}"
+echo "(adjust the system audio volume)"
+echo " "
 echo "${green}~/radio 10"
 echo "${green}~/radio off${cyan}"
 echo "(stops audio playback)"
@@ -1215,7 +1281,18 @@ echo " "
 echo "${red}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="upgrade_check pulseaudio_install pulseaudio_status audio_fixes internet_player_install internet_player_fix internet_player_on local_player_install local_player_on any_player_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices bluetooth_status sound_test volume_adjust install_easyeffects troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps about_this_app"
+OPTIONS="upgrade_check pulseaudio_install audio_status audio_fixes internet_player_install internet_player_fix internet_player_on local_player_install local_player_on any_player_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices bluetooth_status sound_test volume_adjust install_easyeffects install_rhythmbox troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps about_this_app"
+
+
+if [ -f /usr/bin/raspi-config ]; then
+OPTIONS="$OPTIONS raspi_config"
+elif [ -f /boot/dietpi/.version ]; then
+OPTIONS="$OPTIONS dietpi_config"
+elif [ -f "/usr/bin/armbian-config" ]; then
+OPTIONS="$OPTIONS armbian_config"
+else
+OPTIONS="$OPTIONS"
+fi
 
 
 # start options
@@ -1351,7 +1428,22 @@ select opt in $OPTIONS; do
             
             # IF we are ALREADY running pulseaudio, WE ARE ALREADY GOOD TO GO
             if [ "$PULSEAUDIO_ALREADY_RUNNING" == 1 ]; then
+            
              echo "${red}PULSEAUDIO IS ALREADY INSTALLED AND RUNNING.${reset}"
+
+                 if [ "$RUNNING_PIPEWIRE_PULSE" != "" ]; then
+                 echo "${red}(using pipewire-pulse, to run PulseAudio on PipeWire)${reset}"
+                 fi
+             
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+
+             exit
+             
+            # IF we are ALREADY running pipewire, WE ARE ALREADY GOOD TO GO
+            elif [ "$PIPEWIRE_ALREADY_RUNNING" == 1 ]; then
+             echo "${red}PIPEWIRE (AN ALTERNATIVE TO PULSEAUDIO) IS ALREADY INSTALLED AND RUNNING.${reset}"
              echo " "
              echo "${cyan}Exiting...${reset}"
              echo " "
@@ -1419,7 +1511,7 @@ select opt in $OPTIONS; do
     				echo " "
     				echo "${cyan}Initiating dietpi-config, please wait...${reset}"
                     sleep 3
-    				dietpi-config
+    				launch_graphical_safe "dietpi-config"
                 
                     else
                     
@@ -1534,7 +1626,7 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
-        elif [ "$opt" = "pulseaudio_status" ]; then
+        elif [ "$opt" = "audio_status" ]; then
         
         
         ######################################
@@ -1555,8 +1647,13 @@ select opt in $OPTIONS; do
             # IF we are running pulseaudio through pipewire, OR directly,
             # we want to show the status for the corresponding service
             if [ "$RUNNING_PIPEWIRE" != "" ]; then
-
-             echo "${red}PulseAudio status (on PipeWire):"
+             
+                 if [ "$RUNNING_PIPEWIRE_PULSE" != "" ]; then
+                 echo "${red}PulseAudio (on PipeWire) status:"
+                 else
+                 echo "${red}PipeWire status:"
+                 fi
+             
              echo "${reset} "
              systemctl --user status pipewire.service
              exit
@@ -1636,6 +1733,10 @@ select opt in $OPTIONS; do
     		
         # Call bt_autoconnect_install function (this will re-initialize it, since we removed it)
         bt_autoconnect_install
+                    
+        echo " "
+        echo "${green}btautoconnect.service reset / re-initialized.${reset}"
+        echo " "
 
         
         ######################################
@@ -1649,7 +1750,7 @@ select opt in $OPTIONS; do
             sleep 1
             mv ~/.config/pulse/ ~/.config/pulse.old-$DATE > /dev/null 2>&1
                     
-            echo "${green}Attempted USER FILES fixes completed (old configs at ~/.config/pulse.old-$DATE, btautoconnect.service re-initialized).${reset}"
+            echo "${green}Attempted USER FILES fixes completed (old configs at ~/.config/pulse.old-$DATE).${reset}"
             echo " "
             
             fi
@@ -1735,11 +1836,6 @@ select opt in $OPTIONS; do
     		  sleep 5
     		
     		  sudo reboot
-            
-            else
-            
-            echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
-            echo " "
                     
             fi
 
@@ -2131,8 +2227,8 @@ select opt in $OPTIONS; do
                 screen -dmS pyradio bash -c 'pyradio --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
             
                 elif [[ ${keystroke:0:1} == "s" ]] || [[ ${keystroke:0:1} == "S" ]]; then
-                
-                pyradio --play $PLAY_NUM $LOAD_CUSTOM_STATIONS
+                          
+                launch_graphical_safe "pyradio --play $PLAY_NUM $LOAD_CUSTOM_STATIONS"
                 
                 echo " "
                 echo "${cyan}Exited pyradio.${reset}"
@@ -2312,28 +2408,7 @@ select opt in $OPTIONS; do
             
             # OTHERWISE, LET USER CHOOSE WHICH WAY TO RUN mplayer
             else
-                
-                
-                recursive_media_scan () {
-                     
-                shopt -s nullglob dotglob
-                    
-                        for pathname in "$1"/*; do
-                        
-                            if [ -d "$pathname" ]; then
-                                recursive_media_scan "$pathname"
-                            else
-                                case "$pathname" in
-                                    *.mp3|*.ogg|*.wav|*.flac|*.mp4)
-                                        printf '%s\n' "$pathname"
-                                esac
-                            fi
-
-                        done
-                        
-                }
-               
-                
+            
             echo "${yellow} "
             echo "Enter B to run mplayer in the background, or S to show on-screen..." 
             echo "(to SHUFFLE append S, eg: BS...append N or nothing to skip shuffling, eg: BN)"
@@ -2833,25 +2908,25 @@ select opt in $OPTIONS; do
             fi
         
         ######################################
-       
-       
-        alsamixer
         
-        echo " "
-        echo "${green}Saving customized alsamixer settings to: ~/.config/radio.alsamixer.state${reset}"
-        echo " "
-        
+
+        launch_graphical_safe "alsamixer"
+
         sleep 1
-        
+
+        echo " "
+        echo "${green}Saving customized alsamixer settings to: ~/.config/radio.alsamixer.state...${reset}"
+        echo " "
+             
         # RELIABLY persist volume / other alsamixer setting changes
         # https://askubuntu.com/questions/50067/how-to-save-alsamixer-settings
         alsactl --file ~/.config/radio.alsamixer.state store > /dev/null 2>&1
-       
+            
         echo " "
         echo "${cyan}Exiting volume control...${reset}"
         echo " "
-        
-        exit
+             
+        exit     
         
         break
         
@@ -2883,6 +2958,40 @@ select opt in $OPTIONS; do
        
         echo " "
         echo "${red}TO USE EASY EFFECTS EQ / VOLUME LEVELING / ETC, YOU NEED TO LOGIN ON A DESKTOP INTERFACE, OPEN EASY EFFECTS FROM THE APP MENU, AND GO TO 'EFFECTS -> ADD EFFECT'${reset}"
+        echo " "
+        
+        exit
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "install_rhythmbox" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+        echo " "
+        echo "${cyan}Installing RhythmBox, please wait..."
+        echo " "
+        
+        sudo apt install rhythmbox
+       
+        echo " "
+        echo "${red}TO USE RHYTHMBOX, YOU NEED TO LOGIN ON A DESKTOP INTERFACE, AND OPEN IT FROM THE APP MENU.${reset}"
         echo " "
         
         exit
@@ -3153,6 +3262,10 @@ select opt in $OPTIONS; do
         echo "${green}~/radio \"local bsr\"${cyan}"
         echo "(rescans music files / plays LOCAL music folder ~/Music/MPlayer [RECURSIVELY] in background, shuffling)"
         echo " "
+        echo "${green}~/radio 17"
+        echo "${green}~/radio volume${cyan}"
+        echo "(adjust the system audio volume)"
+        echo " "
         echo "${green}~/radio 10"
         echo "${green}~/radio off${cyan}"
         echo "(stops audio playback)"
@@ -3169,6 +3282,51 @@ select opt in $OPTIONS; do
         echo "${green}~/radio \"devices paired\"${cyan}"
         echo "(shows paired bluetooth devices)"
         echo "${reset} "
+        echo " "
+        
+        exit
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "raspi_config" ]; then
+        
+        launch_graphical_safe "sudo raspi-config"
+       
+        echo " "
+        echo "${green}Exiting raspi-config...${reset}"
+        echo " "
+        
+        exit
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "dietpi_config" ]; then
+        
+        launch_graphical_safe "dietpi-config"
+       
+        echo " "
+        echo "${green}Exiting dietpi-config...${reset}"
+        echo " "
+        
+        exit
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "armbian_config" ]; then
+        
+        launch_graphical_safe "sudo armbian-config"
+       
+        echo " "
+        echo "${green}Exiting armbian-config...${reset}"
         echo " "
         
         exit
