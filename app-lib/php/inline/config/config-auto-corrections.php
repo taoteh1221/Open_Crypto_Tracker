@@ -114,8 +114,8 @@ $ct['conf']['ext_apis']['jupiter_ag_search_results_max_per_cpu_core'] = 75;
 
 
 // Idiot-proof maximum RANGE of $ct['conf']['currency']['currency_decimals_max'] 
-if ( $ct['conf']['currency']['currency_decimals_max'] > 10 ) {
-$ct['conf']['currency']['currency_decimals_max'] = 10;
+if ( $ct['conf']['currency']['currency_decimals_max'] > 15 ) {
+$ct['conf']['currency']['currency_decimals_max'] = 15;
 }
 elseif ( $ct['conf']['currency']['currency_decimals_max'] < 5 ) {
 $ct['conf']['currency']['currency_decimals_max'] = 5;
@@ -123,8 +123,8 @@ $ct['conf']['currency']['currency_decimals_max'] = 5;
 
 
 // Idiot-proof maximum RANGE of $ct['conf']['currency']['crypto_decimals_max']
-if ( $ct['conf']['currency']['crypto_decimals_max'] > 15 ) {
-$ct['conf']['currency']['crypto_decimals_max'] = 15;
+if ( $ct['conf']['currency']['crypto_decimals_max'] > 20 ) {
+$ct['conf']['currency']['crypto_decimals_max'] = 20;
 }
 elseif ( $ct['conf']['currency']['crypto_decimals_max'] < 10 ) {
 $ct['conf']['currency']['crypto_decimals_max'] = 10;

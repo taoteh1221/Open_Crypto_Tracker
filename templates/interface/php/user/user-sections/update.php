@@ -149,7 +149,7 @@
 	     
 						<p class='red' style='font-weight: bold;'>
 						
-						Assets included in the <u><i>default examples / demo list</i></u> DO NOT indicate ANY endorsement OR recommendation of these assets (AND removal indicates NO anti-endorsement / anti-recommendation). These crypto-assets <i>are only used as examples for demoing usage of features in this application</i>, <a href='README.txt' target='_blank'>before you install it on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 device or website server, and change the list to your favorite assets</a>. 
+						Assets included in the <u><i>default examples / demo list</i></u> DO NOT indicate ANY endorsement OR recommendation of these assets (AND removal indicates NO anti-endorsement / anti-recommendation). These crypto-assets <i>are only used as examples for demoing usage of features in this application</i>, <a href='README.txt' target='_blank'>before you install it on your Debian / RedHat / Windows 10 device or website server, and change the list to your favorite assets</a>. 
 						
 						<br /><br /><a href='https://www.google.com/search?q=financial+advisors+near+me' target='_blank'>Consult a financial advisor</a> and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth.
 						
@@ -305,7 +305,7 @@
 	
 	<div> &nbsp; </div>
 	
-	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Telegram / Alexa Price Alerts (installation on Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10, or website)</a></p>
+	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Telegram / Alexa Price Alerts (installation on Debian / RedHat / Windows 10, or website)</a></p>
 	
 				
 			
