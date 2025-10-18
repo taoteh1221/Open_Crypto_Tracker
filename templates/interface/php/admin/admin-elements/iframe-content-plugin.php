@@ -42,8 +42,25 @@ $header_link = $plug['conf'][$this_plug]['ui_name'];
              ?>
              
           	   <p>
-          	   <b class='yellow'>Plugin Version:</b> <?=$ct['plug_version'][$this_plug]?>
+          	   <b class='yellow'>Plugin Version:</b> v<?=$ct['plug_version'][$this_plug]?>
           	   </p>
+          	   
+          	   <p>
+          	   <b class='yellow'>Runtime Mode:</b> <?=$ct['gen']->key_to_name($plug['conf'][$this_plug]['runtime_mode'])?>
+          	   </p>
+          	   
+          	   <?php
+          	   if (
+          	   $plug['conf'][$this_plug]['runtime_mode'] == 'all' 
+          	   || $plug['conf'][$this_plug]['runtime_mode'] == 'ui' 
+          	   ) {
+          	   ?>
+          	   <p>
+          	   <b class='yellow'>User Interface Area:</b> <?=$ct['gen']->key_to_name($plug['conf'][$this_plug]['ui_location'])?>
+          	   </p>
+          	   <?php
+          	   }
+          	   ?>
              
              <?php
              }

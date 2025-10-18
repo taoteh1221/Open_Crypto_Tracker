@@ -4,37 +4,25 @@
  */
 
 
-$analyzed_assets = array();
-
-foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
-
-$attributes = array_map( "trim", explode("||", $val) );
-
-$asset = preg_replace("/-(.*)/i", "", $attributes[0]);
-
-	// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
-	if ( !array_key_exists($asset, $analyzed_assets) && isset($ct['conf']['assets'][strtoupper($asset)]) ) {
-	
-		if ( $attributes[3] == 'chart' || $attributes[3] == 'both' ) {
-			
-		$analyzed_assets[$asset] = $attributes[0];
-		
-		$chart_file = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/' . $attributes[0] . '_chart_'.$ct['default_bitcoin_primary_currency_pair'].'.dat';
+$chart_file = $ct['plug']->chart_cache('solana_nodes_count.dat', 'on-chain-stats');
 						
-			if ( file_exists($chart_file) ) {
-			$ct['runtime_data']['performance_stats'][strtoupper($asset)]['data'] = $ct['gen']->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
-			}
-		
-		}
-							
-	}
+
+// NO EARLIER THAN A CERTAIN TIMESTAMP
+if ( file_exists($chart_file) ) {
+     
+$ct['plug_runtime_data']['on-chain-stats']['node_stats']['all_nodes'] = $plug['class']['on-chain-stats']->solana_node_chart_data($chart_file, 'all_nodes', $_GET['start_time']); 
+
+$ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators'] = $plug['class']['on-chain-stats']->solana_node_chart_data($chart_file, 'validators', $_GET['start_time']); 
 
 }
 
 
 // If no chart data available...
 
-if ( !is_array($ct['runtime_data']['performance_stats']) || is_array($ct['runtime_data']['performance_stats']) && sizeof($ct['runtime_data']['performance_stats']) < 1 ) {
+if (
+!is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats'])
+|| is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats']) && sizeof($ct['plug_runtime_data']['on-chain-stats']['node_stats']) < 1
+) {
 ?>
 			
 {
@@ -67,7 +55,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No '<?=$ct['gen']->light_chart_time_period($_GET['time_period'], 'long')?>' light chart data for any assets yet, please check back in awhile.",
+     text: "No light chart data for any nodes yet, please check back in awhile.",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,
@@ -81,7 +69,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Asset Performance Comparison (<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?>)",
+        text: "Solana Node Count",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -104,16 +92,16 @@ exit;
 $sorted_by_last_chart_data = array();
 
 $loop = 0;
-foreach ( $ct['runtime_data']['performance_stats'] as $chart_key => $chart_val ) {
-  			
-$percent_sample_newest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_val['data']['percent'], ',', 'last') );
+foreach ( $ct['plug_runtime_data']['on-chain-stats']['node_stats'] as $chart_key => $chart_val ) {
+
+$count_sample_newest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_val['count'], ',', 'last') );
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
-	if ( !array_key_exists($percent_sample_newest, $sorted_by_last_chart_data) ) {
-	$sorted_by_last_chart_data[$percent_sample_newest] = array($chart_key, $chart_val);
+	if ( !array_key_exists($count_sample_newest, $sorted_by_last_chart_data) ) {
+	$sorted_by_last_chart_data[$count_sample_newest] = array($chart_key, $chart_val);
 	}
 	else {
-	$sorted_by_last_chart_data[$percent_sample_newest . $loop] = array($chart_key, $chart_val);
+	$sorted_by_last_chart_data[$count_sample_newest . $loop] = array($chart_key, $chart_val);
 	$loop = $loop + 1;
 	}
 
@@ -122,35 +110,18 @@ $percent_sample_newest = $ct['var']->num_to_str( $ct['var']->delimited_str_sampl
   // Sort array keys by lowest numeric value to highest 
 // (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
 ksort($sorted_by_last_chart_data);
-
-$plot_conf = explode('|', $_GET['plot_conf']);
   
 	foreach ( $sorted_by_last_chart_data as $chart_array ) {
 		
-		
-		if ( in_array($chart_array[0], $plot_conf) ) {
-		$show_plot = 'visible: true,';
-		}
-		else {
-		$show_plot = 'visible: false,';
-		}
-		
-		
-	    // We want ONLY WATCHED ASSETS SHOWN for privacy mode, so nobody easily
-	    // becomes interested in what we are NOT watching on the update page
-		if ( !in_array($chart_array[0], $plot_conf) && $_GET['privacy'] == 'on' ) {
-		continue; // Skip
-		}
-		
-    $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
+     $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
     
 	$rand_color = '#' . $ct['gen']->rand_color($choose_rand)['hex'];
 		
 					
 				$chart_conf = "{
-			  text: '".$chart_array[0]."',
-			  values: [".$chart_array[1]['data']['combined']."],
-			  ".$show_plot."
+			  text: '" . $ct['gen']->key_to_name($chart_array[0]) . "',
+			  values: [".$chart_array[1]['count']."],
+			  visible: true,
 			  lineColor: '".$rand_color."',
 				 marker: {
 			 		backgroundColor: '".$rand_color."',
@@ -211,7 +182,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "Asset Performance Comparison (<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?>)",
+        text: "Solana Node Count",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -282,7 +253,7 @@ gui: {
       	lineColor: "#444444"
         },
         label: {
-          text: "<?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value Percentage Change"
+          text: "Node Count Change"
         },
     	zooming: true
       },
@@ -295,7 +266,7 @@ gui: {
           size: '5px'
         },
         plotLabel: {
-    "thousands-separator": ",",
+      "thousands-separator": ",",
       	 backgroundColor: "white",
       	 fontColor: "black",
 	 		 fontSize: "20",
@@ -303,7 +274,7 @@ gui: {
           borderRadius: '2px',
           borderWidth: '2px',
           multiple: true,
-      	text: " %t %v%",
+      	text: " %t: %v Online",
         },
     	  scaleLabel:{
    	  	 alpha: 1.0,

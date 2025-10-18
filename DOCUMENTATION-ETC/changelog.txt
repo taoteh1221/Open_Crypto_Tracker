@@ -7030,6 +7030,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Loosened username restrictions for the "Admin Area => Security => Interface Login" setting (so only validity check is a 4 character MINIMUM)
 
+-Added to the "on-chain-stats" plugin: Solana Node Count / Solana Version charts (Solans Node Geolocation map coming soon™)
+
 -Increased amount of currency / crypto maximum decimals allowed (in the "Asset Tracking => Currency Support" Admin Config)
 
 -Better AlphaVantage "Stock Overview" API integration / UX
@@ -7041,6 +7043,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -Better Server Edition auto-installer UX
 
 -Minor user experience improvements
+
+-Refactoring
 
 -------------------------------------------------------------------
 

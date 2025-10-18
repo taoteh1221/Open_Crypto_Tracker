@@ -98,7 +98,7 @@ else if (
 || !isset($asset_performance_chart_defaults[1]) || !$ct['var']->whole_int($asset_performance_chart_defaults[1]) || $asset_performance_chart_defaults[1] < 7 || $asset_performance_chart_defaults[1] > 16
 || !$ct['var']->whole_int($asset_performance_chart_defaults[0] / 100)
 ) {
-$ct['update_config_error'] .= $update_config_error_seperator . '"Asset Performance Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
+$ct['update_config_error'] .= $update_config_error_seperator . '"Asset Performance Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
 }
   
   
@@ -111,7 +111,7 @@ else if (
 || !isset($asset_marketcap_chart_defaults[1]) || !$ct['var']->whole_int($asset_marketcap_chart_defaults[1]) || $asset_marketcap_chart_defaults[1] < 7 || $asset_marketcap_chart_defaults[1] > 16
 || !$ct['var']->whole_int($asset_marketcap_chart_defaults[0] / 100)
 ) {
-$ct['update_config_error'] .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" FORMATTING incorrect (see corrisponding setting\'s NOTES section)';
+$ct['update_config_error'] .= $update_config_error_seperator . '"Asset Marketcap Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
 }
         
         

@@ -19,6 +19,9 @@
 if ( $runtime_mode == 'ui' ) {
 require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/ui-runtime.php');
 }
+elseif ( $runtime_mode == 'cron' ) {
+require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/cron-runtime.php');
+}
 elseif ( $runtime_mode == 'webhook' ) {
 require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/webhook-runtime.php');
 }

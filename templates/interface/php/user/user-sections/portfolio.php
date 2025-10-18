@@ -546,7 +546,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 					
 			$scan_crypto_val = array_map( array($ct['var'], 'strip_brackets') , $ct['sel_opt']['show_crypto_val']); // Strip brackets
 				
-				// Control the ordering with corrisponding app config array (which is already ordered properly), for UX
+				// Control the ordering with corresponding app config array (which is already ordered properly), for UX
 				$loop = 0;
 				foreach ( $ct['opt_conf']['crypto_pair'] as $key => $val ) {
 						
@@ -966,7 +966,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
     Time Period: <select class='browser-default custom-select' id='performance_chart_period' name='performance_chart_period' onchange="
     
 		if ( this.value == 'all' ) {
-		$('.datepicker').datepicker('option', 'defaultDate', -30 );
+		$('.datepicker').datepicker('option', 'defaultDate', -7 );
 		}
 		else {
 		$('.datepicker').datepicker('option', 'defaultDate', -this.value );
@@ -1040,7 +1040,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 	$('#performance_chart').css('background', '#f2f2f2');
 	
 		if ( document.getElementById('performance_chart_period').value == 'all' ) {
-		$('.datepicker').datepicker('option', 'defaultDate', -30 );
+		$('.datepicker').datepicker('option', 'defaultDate', -7 );
 		}
 		else {
 		$('.datepicker').datepicker('option', 'defaultDate', -document.getElementById('performance_chart_period').value );
@@ -1083,7 +1083,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 
 			+'<p class="coin_info extra_margins" style=" white-space: normal;">Select the Time Period, to get finer grain details for smaller time periods.</p>'
 			
-			+'<p class="coin_info extra_margins" style=" white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisons begin, starting at 0&#37; <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($ct['default_bitcoin_primary_currency_pair'])?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
 			
 			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_performance_chart_defaults\'.</p>';
 		
@@ -1110,7 +1110,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
   <script>
 	$('.datepicker').datepicker({
     dateFormat: 'yy/mm/dd',
-    defaultDate: -30
+    defaultDate: -7
 	});
   </script>
   

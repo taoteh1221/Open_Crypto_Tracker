@@ -10,7 +10,7 @@
 
 
 // Version number of this plugin (MANDATORY)
-$ct['plug_version'][$this_plug] = '0.90.00'; // VERSION BUMP DATE: 2025/May/7TH
+$ct['plug_version'][$this_plug] = '0.91.00'; // VERSION BUMP DATE: 2025/October/18TH
 
 
 // FULL RESET(s) on specified plugin settings (the setting CAN include internal subarrays)
@@ -44,6 +44,11 @@ $plug['conf'][$this_plug]['ui_location'] = 'more_stats'; // 'tools', 'more_stats
 
 // If running in the UI, set the preferred plugin name that should show for end-users
 $plug['conf'][$this_plug]['ui_name'] = 'On-Chain Stats'; // (defaults to $this_plug if not set)
+
+
+// Default settings for Solana Node Stats chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
+// CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
+$plug['conf'][$this_plug]['solana_node_count_chart_defaults'] = '400||16'; // 'chart_height||menu_size' (default = '400||16')
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

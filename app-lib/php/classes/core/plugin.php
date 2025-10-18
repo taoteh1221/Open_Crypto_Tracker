@@ -24,11 +24,11 @@ var $ct_array = array();
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -52,11 +52,11 @@ var $ct_array = array();
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -86,11 +86,11 @@ var $ct_array = array();
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -120,11 +120,11 @@ var $ct_array = array();
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -154,11 +154,11 @@ var $ct_array = array();
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -187,11 +187,11 @@ var $ct_array = array();
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -215,16 +215,49 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function debug_cache($file=false, $passed_plug=false) {
+      
+   global $ct, $this_plug;
+   
+      
+      if ( $passed_plug ) {
+      $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
+      }
+
+   
+      // This plugin's debugging cache directory
+      if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/plugin_debug/'.$set_plug.'/') != true ) {
+      $ct['gen']->log('system_error', 'Could not create directory: /cache/logs/debug/plugin_debug/'.$set_plug.'/');
+      }
+      
+      
+      if ( $file == false ) {
+      return $ct['base_dir'] . '/cache/logs/debug/plugin_debug/'.$set_plug;
+      }
+      else {
+      return $ct['base_dir'] . '/cache/logs/debug/plugin_debug/'.$set_plug.'/' . $file;
+      }
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function secure_cache($file=false, $passed_plug=false) {
       
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    

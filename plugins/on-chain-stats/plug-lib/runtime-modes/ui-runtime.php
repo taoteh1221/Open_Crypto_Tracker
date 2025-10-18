@@ -7,16 +7,9 @@
 
 <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/style.css" type="text/css" />
 	
-
-    <div class="container">
-
-        
-        
-	</div>
-    <!-- .container END -->
-		
-
 <?php
+require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/ui/solana/ui-solana-nodes.php');
+
 
 // PHP end logic here
 
