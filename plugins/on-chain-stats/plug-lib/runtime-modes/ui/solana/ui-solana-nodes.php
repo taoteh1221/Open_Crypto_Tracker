@@ -3,23 +3,8 @@
  * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
-?>
-	
-	
-	<script>
-	// We want ONLY WATCHED ASSETS SHOWN for privacy mode, so nobody easily
-	// becomes interested in what we are NOT watching on the update page
-	if ( localStorage.getItem(priv_toggle_storage) == 'on' ) {
-	zingchart_privacy = '&privacy=on';
-	}
-	else {
-	zingchart_privacy = '&privacy=off';
-	}
-	</script>
-	
-	
-  	<?php
-  	// Performance chart START (requires price charts)
+
+  	// Solana Node Count chart START (requires price charts)
 	if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
 	?>
 	
@@ -126,7 +111,7 @@
   
   // 'load'
   zingchart.exec('solana_node_count_chart', 'load', {
-  	dataurl: '<?=$ct['plug']->plug_dir(true)?>/plug-assets/ajax.php?type=chart&mode=sol_nodes&start_time=' + date_timestamp + '&chart_width=' + solana_node_count_chart_width + '&chart_height=' + document.getElementById('solana_node_count_chart_height').value + '&menu_size=' + document.getElementById('solana_node_count_menu_size').value + zingchart_privacy,
+  	dataurl: '<?=$ct['plug']->plug_dir(true)?>/plug-assets/ajax.php?type=chart&mode=sol_nodes&start_time=' + date_timestamp + '&chart_width=' + solana_node_count_chart_width + '&chart_height=' + document.getElementById('solana_node_count_chart_height').value + '&menu_size=' + document.getElementById('solana_node_count_menu_size').value,
     cache: {
         data: true
     }
@@ -204,7 +189,7 @@ $("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/ajax.php?type=chart&mode=sol_nodes&start_time=0&chart_height=<?=$solana_node_count_chart_defaults[0]?>&menu_size=<?=$solana_node_count_chart_defaults[1]?>" + zingchart_privacy, function( json_data ) {
+$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/ajax.php?type=chart&mode=sol_nodes&start_time=0&chart_height=<?=$solana_node_count_chart_defaults[0]?>&menu_size=<?=$solana_node_count_chart_defaults[1]?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
