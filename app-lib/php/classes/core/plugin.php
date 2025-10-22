@@ -24,11 +24,11 @@ var $ct_array = array();
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -47,16 +47,16 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function var_cache($file=false, $passed_plug=false) {
+   function var_cache($child_path=false, $passed_plug=false) {
       
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -66,11 +66,11 @@ var $ct_array = array();
       }
       
       
-      if ( $file == false ) {
+      if ( $child_path == false ) {
       return $ct['base_dir'] . '/cache/vars/plugin_vars/'.$set_plug;
       }
       else {
-      return $ct['base_dir'] . '/cache/vars/plugin_vars/'.$set_plug.'/' . $file;
+      return $ct['base_dir'] . '/cache/vars/plugin_vars/'.$set_plug.'/' . $child_path;
       }
    
    
@@ -81,16 +81,16 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function state_cache($file=false, $passed_plug=false) {
+   function state_cache($child_path=false, $passed_plug=false) {
       
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -100,11 +100,11 @@ var $ct_array = array();
       }
       
       
-      if ( $file == false ) {
+      if ( $child_path == false ) {
       return $ct['base_dir'] . '/cache/vars/state-tracking/plugin_state/'.$set_plug;
       }
       else {
-      return $ct['base_dir'] . '/cache/vars/state-tracking/plugin_state/'.$set_plug.'/' . $file;
+      return $ct['base_dir'] . '/cache/vars/state-tracking/plugin_state/'.$set_plug.'/' . $child_path;
       }
       
    
@@ -115,16 +115,16 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function event_cache($file=false, $passed_plug=false) {
+   function event_cache($child_path=false, $passed_plug=false) {
       
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -134,11 +134,11 @@ var $ct_array = array();
       }
       
       
-      if ( $file == false ) {
+      if ( $child_path == false ) {
       return $ct['base_dir'] . '/cache/events/plugin_events/'.$set_plug;
       }
       else {
-      return $ct['base_dir'] . '/cache/events/plugin_events/'.$set_plug.'/' . $file;
+      return $ct['base_dir'] . '/cache/events/plugin_events/'.$set_plug.'/' . $child_path;
       }
       
    
@@ -149,16 +149,16 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function alert_cache($file=false, $passed_plug=false) {
+   function alert_cache($child_path=false, $passed_plug=false) {
       
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -168,11 +168,11 @@ var $ct_array = array();
       }
       
       
-      if ( $file == false ) {
+      if ( $child_path == false ) {
       return $ct['base_dir'] . '/cache/alerts/plugin_alerts/'.$set_plug;
       }
       else {
-      return $ct['base_dir'] . '/cache/alerts/plugin_alerts/'.$set_plug.'/' . $file;
+      return $ct['base_dir'] . '/cache/alerts/plugin_alerts/'.$set_plug.'/' . $child_path;
       }
    
    }
@@ -182,16 +182,16 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function chart_cache($file=false, $passed_plug=false) {
+   function chart_cache($child_path=false, $passed_plug=false) {
       
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
-      $set_plug = $this_plug;
-      }
-      elseif ( $passed_plug ) {
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -201,11 +201,11 @@ var $ct_array = array();
       }
       
       
-      if ( $file == false ) {
+      if ( $child_path == false ) {
       return $ct['base_dir'] . '/cache/charts/plugin_charts/'.$set_plug;
       }
       else {
-      return $ct['base_dir'] . '/cache/charts/plugin_charts/'.$set_plug.'/' . $file;
+      return $ct['base_dir'] . '/cache/charts/plugin_charts/'.$set_plug.'/' . $child_path;
       }
    
    }
@@ -215,16 +215,49 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function secure_cache($file=false, $passed_plug=false) {
+   function debug_cache($child_path=false, $passed_plug=false) {
       
    global $ct, $this_plug;
    
       
-      if ( isset($this_plug) && $this_plug != '' ) {
+      if ( $passed_plug ) {
+      $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
       $set_plug = $this_plug;
       }
-      elseif ( $passed_plug ) {
+
+   
+      // This plugin's debugging cache directory
+      if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/plugin_debug/'.$set_plug.'/') != true ) {
+      $ct['gen']->log('system_error', 'Could not create directory: /cache/logs/debug/plugin_debug/'.$set_plug.'/');
+      }
+      
+      
+      if ( $child_path == false ) {
+      return $ct['base_dir'] . '/cache/logs/debug/plugin_debug/'.$set_plug;
+      }
+      else {
+      return $ct['base_dir'] . '/cache/logs/debug/plugin_debug/'.$set_plug.'/' . $child_path;
+      }
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function secure_cache($child_path=false, $passed_plug=false) {
+      
+   global $ct, $this_plug;
+   
+      
+      if ( $passed_plug ) {
       $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
       }
 
    
@@ -263,11 +296,11 @@ var $ct_array = array();
       }
       
       
-      if ( $file == false ) {
+      if ( $child_path == false ) {
       return $ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug;
       }
       else {
-      return $ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug.'/' . $file;
+      return $ct['base_dir'] . '/cache/secured/plugin_data/'.$set_plug.'/' . $child_path;
       }
    
    }

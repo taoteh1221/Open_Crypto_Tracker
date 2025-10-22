@@ -41,7 +41,7 @@ $ct['sel_opt'] = array();
 
 $ct['runtime_data'] = array();
 
-$ct['runtime_data']['performance_stats'] = array();
+$ct['plug_runtime_data'] = array();
 
 $ct['system_warnings'] = array();
 

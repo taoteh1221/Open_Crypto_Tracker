@@ -4324,7 +4324,7 @@ function nav_menu($chosen_menu) {
                   }
                   
                   
-                  // IF we are not ALREADY in the CORRISPONDING user / admin area
+                  // IF we are not ALREADY in the corresponding user / admin area
                   if ( scan_href != $area_file ) {
                   app_reloading_check(0, click_href);
                   }

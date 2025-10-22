@@ -225,7 +225,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         }
         	
         
-        // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
+        // In case a rare error occurred from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
         // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
         $now = time();
         

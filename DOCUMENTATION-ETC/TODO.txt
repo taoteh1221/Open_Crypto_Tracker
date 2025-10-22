@@ -129,14 +129,17 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Do a pie chart for the Solana Version data.
+
+
 Do a review of how everything renders in Firefox (as it's been a year since last FF review).
-
-
-Add full redhat support for auto-installer.
 
 
 Fedora's news feed:
 https://fedoramagazine.org/feed/
+
+
+Add full redhat support for auto-installer.
 
 
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
@@ -366,7 +369,7 @@ Option to use new zip file encryption password feature to encrypt portfolio spre
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
 
 
-Add the ability to allow a BLANK single array item admin user input for domains arrays IN THE INTERFACE (strict servers, etc), in the corrisponding admin user input validation files in: /app-lib/php/classes/includes/admin/. Use the same logic we already do this for in other admin input arrays. TEST ALL THESE OUT BY DELETING ALL ITEMS VIA INTERFACE, INCLUDING ALL THE OTHER ONES WE ALREADY SETUP.
+Add the ability to allow a BLANK single array item admin user input for domains arrays IN THE INTERFACE (strict servers, etc), in the corresponding admin user input validation files in: /app-lib/php/classes/includes/admin/. Use the same logic we already do this for in other admin input arrays. TEST ALL THESE OUT BY DELETING ALL ITEMS VIA INTERFACE, INCLUDING ALL THE OTHER ONES WE ALREADY SETUP.
 
 
 Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.

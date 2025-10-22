@@ -18,17 +18,20 @@ if ( $ct['admin_area_sec_level'] == 'high' ) {
 else {
 ?>
 	
-<p class='bitcoin'>This plugin is NOT functional yet, as it's still in the early development phase.</p>
+<p class='bitcoin'>This plugin is a work-in-progress, as it's still in the early development phase.</p>
 
 <?php
 
 // Render config settings for this plugin...
 
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['solana_node_count_chart_defaults']['is_text'] = true;
 
+$ct['admin_render_settings']['solana_node_count_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

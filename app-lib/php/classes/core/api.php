@@ -584,7 +584,7 @@ var $exchange_apis = array(
                           );
                     
                     
-        if ( $params ) {
+        if ( is_array($params) && sizeof($params) > 0 ) {
         $request_params['params'] = $params;
         }
 
