@@ -270,9 +270,9 @@ var $array1 = array();
            
                
                // IF it's been at least 12 hours (720 minutes), then we update the geolocation cache file(s)
-               if ( $ct['cache']->update_cache($cache_path, 720) == true ) {
+               if ( $ct['cache']->update_cache( $ct['plug']->chart_cache($cache_path, $this_plug) , 720) == true ) {
                
-               // Cache results for 90 days (129600 minutes, IF ip addresses are EXACTLY the same as prev. request)
+               // Cache results for 30 days (43200 minutes, IF ip addresses are EXACTLY the same as prev. request)
                $response = @$ct['cache']->ext_data('params', $params, 129600, 'http://ip-api.com/batch');
            
                $data = json_decode($response, true);
