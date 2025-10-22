@@ -17,10 +17,43 @@ var $array1 = array();
 
 	
 	// Class functions
-		
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
+   
+   
+   function solana_node_version_chart() {
+   
+   global $ct, $this_plug;
+   
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function solana_node_geolocation_map() {
+   
+   global $ct, $this_plug;
+   
+   // Geolocation cache files
+   $files = $ct['gen']->sort_files( $ct['plug']->chart_cache('solana_nodes_geolocation', $this_plug) , 'dat', 'desc');
+        
+      foreach( $files as $geolocation_file ) {
+        
+        	if ( preg_match("/_locations_processed/i", $geolocation_file) ) {
+        	// LOGIC HERE
+        	}
+        	
+      }
+   
+   }
 		
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
      
      // Validating user input in the admin interface
 	function admin_input_validation() {
@@ -54,33 +87,17 @@ var $array1 = array();
    ////////////////////////////////////////////////////////////////////////////////////////////////
    
    
-     function solana_nodes_data($params=false) {
+     function solana_nodes_onchain() {
      
      global $ct, $this_plug;
      
      $results = array();     
      
-     $validators = $ct['api']->solana_rpc('getVoteAccounts', array(), 0);
+     $validators = $ct['api']->solana_rpc('getVoteAccounts', array(), 720); // 12 HOUR (720 MINUTE) CACHE
      
-     $all_nodes = $ct['api']->solana_rpc('getClusterNodes', array(), 0);
+     $all_nodes = $ct['api']->solana_rpc('getClusterNodes', array(), 720); // 12 HOUR (720 MINUTE) CACHE
      
-     
-     // DEBUGGING
-             
-     //$solana_validators_debug_file = $ct['plug']->debug_cache('solana_validators_debug.dat', $this_plug);
-     
-     //$solana_all_nodes_debug_file = $ct['plug']->debug_cache('solana_all_nodes_debug.dat', $this_plug);
-     
-     //$validators_debugging = json_encode($validators, JSON_PRETTY_PRINT);
-     
-     //$all_nodes_debugging = json_encode($all_nodes, JSON_PRETTY_PRINT);
-     
-     //$ct['cache']->save_file($solana_validators_debug_file, $validators_debugging);
-     
-     //$ct['cache']->save_file($solana_all_nodes_debug_file, $all_nodes_debugging);
-     
-     
-     // Simplify results array paths (AFTER THE DEBUGGING LOGIC ABOVE [IN CASE ACTIVATED TO DEBUG])
+     // Target results array paths
      
      $validators = $validators['result']['current'];
      
@@ -99,15 +116,27 @@ var $array1 = array();
           
                foreach ( $all_nodes as $node ) {
                     
-               $results['geolocation'][] = $node['gossip'];
+               $parse_ip = explode(":", $node['gossip']);
+                    
+                    
+                    // Don't count any duplicate ip addresses as another node
+                    if (
+                    !is_array($results['geolocation'])
+                    || !in_array($parse_ip[0], $results['geolocation'])
+                    ) {
+                         
+                    $results['geolocation'][] = $parse_ip[0];
                
                
-                    if ( isset($results['version'][ md5($node['version']) ]['count']) ) {
-                    $results['version'][ md5($node['version']) ]['count'] = $results['version'][ md5($node['version']) ]['count'] + 1;
-                    }
-                    else {
-                    $results['version'][ md5($node['version']) ]['version'] = $node['version'];
-                    $results['version'][ md5($node['version']) ]['count'] = 1;
+                         if ( isset($results['version'][ md5($node['version']) ]['count']) ) {
+                         $results['version'][ md5($node['version']) ]['count'] = $results['version'][ md5($node['version']) ]['count'] + 1;
+                         }
+                         else {
+                         $results['version'][ md5($node['version']) ]['version'] = $node['version'];
+                         $results['version'][ md5($node['version']) ]['count'] = 1;
+                         }
+
+
                     }
 
 
@@ -116,6 +145,8 @@ var $array1 = array();
 
 	     }
      
+  
+     gc_collect_cycles(); // Clean memory cache
      
      return $results;
     
@@ -126,7 +157,7 @@ var $array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function solana_node_chart_data($file, $node_type, $start_timestamp=0) {
+   function solana_node_count_chart($file, $node_type, $start_timestamp=0) {
    
    global $ct;
    
@@ -167,10 +198,8 @@ var $array1 = array();
             && trim($node_data) != ''
             && is_numeric($node_data)
             ) {
-            
             // Zingchart wants 3 more zeros with unix time (milliseconds)
             $data['count'] .= '[' . trim($result[0]) . '000' . ', ' . trim($node_data) . '],';  
-            
             }
          
          
@@ -180,13 +209,105 @@ var $array1 = array();
    
    fclose($fn);
    
-   gc_collect_cycles(); // Clean memory cache
-   
    // Trim away extra commas
    $data['time'] = rtrim($data['time'],',');
    $data['count'] = rtrim($data['count'],',');
+  
+   gc_collect_cycles(); // Clean memory cache
    
    return $data;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function solana_node_geolocation_cache($solana_nodes_ips=false) {
+   
+   global $ct, $this_plug;
+   
+   $results = array();
+   
+   $params = array();
+
+   
+       // Make sure we setup our subdirectory 'geolocation'
+       if ( !$ct['gen']->dir_struct( $ct['plug']->chart_cache('solana_nodes_geolocation', $this_plug) ) ) {
+       return false;
+       }
+   
+       
+       // IF API throttling prevented FULL caching of the geolocation data set,
+       // we use the CACHED ip address data set
+       if ( !is_array($solana_nodes_ips) ) {
+       $data_file = $ct['plug']->chart_cache('solana_nodes_ips.dat', $this_plug);
+       $solana_nodes_ips = json_decode( trim( file_get_contents( $data_file ) ) , true);
+       }
+               
+       
+       // Geolocation cache files
+       // (MUST be batched, to build over MULTIPLE runtimes [to avoid ip-api.com API limits])
+       $batch_count = 0;
+       $processed = 0;
+       foreach( $solana_nodes_ips as $ip ) {
+            
+       $params[] = $ip;
+
+       $batch_count = $batch_count + 1;
+       
+           
+           // IF we are ready to batch to cache file
+           if (
+           $batch_count == 100
+           || ($processed + $batch_count) >= sizeof($solana_nodes_ips)
+           ) {
+           
+           $processed = $processed + $batch_count;
+           
+           $cache_path = 'solana_nodes_geolocation/' . $processed . '_locations_processed.dat';
+           
+               
+               // IF it's been at least 12 hours (720 minutes), then we update the geolocation cache file(s)
+               if ( $ct['cache']->update_cache($cache_path, 720) == true ) {
+               
+               // Cache results for 90 days (129600 minutes, IF ip addresses are EXACTLY the same as prev. request)
+               $response = @$ct['cache']->ext_data('params', $params, 129600, 'http://ip-api.com/batch');
+           
+               $data = json_decode($response, true);
+                
+                    
+                    // IF we have data
+                    if ( is_array($data) && sizeof($data) > 0 ) {
+               
+                    
+                         foreach( $data as $geolocation ) {
+                         $results[] = $geolocation;
+                         }
+               
+                    $results_json = json_encode($results, JSON_PRETTY_PRINT);
+                    
+                    $ct['cache']->save_file( $ct['plug']->chart_cache($cache_path, $this_plug) , $results_json);
+                    
+                    }
+                    
+                
+               }
+           
+           
+           // LOOP RESETS
+           $batch_count = 0;
+           $results = array();
+           $params = array();
+           
+           gc_collect_cycles(); // Clean memory cache                  
+           
+           }
+
+       
+       }
+
    
    }
 		

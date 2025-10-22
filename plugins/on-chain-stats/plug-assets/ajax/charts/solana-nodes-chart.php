@@ -10,9 +10,9 @@ $chart_file = $ct['plug']->chart_cache('solana_nodes_count.dat', 'on-chain-stats
 // NO EARLIER THAN A CERTAIN TIMESTAMP
 if ( file_exists($chart_file) ) {
      
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['all_nodes'] = $plug['class']['on-chain-stats']->solana_node_chart_data($chart_file, 'all_nodes', $_GET['start_time']); 
+$ct['plug_runtime_data']['on-chain-stats']['node_stats']['all_nodes'] = $plug['class']['on-chain-stats']->solana_node_count_chart($chart_file, 'all_nodes', $_GET['start_time']); 
 
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators'] = $plug['class']['on-chain-stats']->solana_node_chart_data($chart_file, 'validators', $_GET['start_time']); 
+$ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators'] = $plug['class']['on-chain-stats']->solana_node_count_chart($chart_file, 'validators', $_GET['start_time']); 
 
 }
 

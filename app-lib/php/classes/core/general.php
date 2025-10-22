@@ -3257,8 +3257,6 @@ var $ct_array = array();
    
    fclose($fn);
    
-   gc_collect_cycles(); // Clean memory cache
-   
    // Trim away extra commas
    $data['time'] = rtrim($data['time'],',');
    
@@ -3281,6 +3279,8 @@ var $ct_array = array();
       $data['volume'] = rtrim($data['volume'],',');
       }
       
+   
+   gc_collect_cycles(); // Clean memory cache
    
    return $data;
    

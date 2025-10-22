@@ -887,6 +887,9 @@ $ct['conf']['plugins']['plugin_status'] = array( // START
 
                       // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
                       //'plugin-folder-name' => 'on',
+          
+                      // Stats for blockchain networks
+                      'on-chain-stats' => 'on',
                       							
                       // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)	  
                       'debt-interest-tracker' => 'on', 
@@ -902,9 +905,6 @@ $ct['conf']['plugins']['plugin_status'] = array( // START
           
                       // WORK-IN-PROGRESS, NOT FUNCTIONAL YET!
                       'crypto-info-bot' => 'off',
-          
-                      // WORK-IN-PROGRESS, NOT FUNCTIONAL YET!
-                      'on-chain-stats' => 'off',
           
                       					   ); // END
 
