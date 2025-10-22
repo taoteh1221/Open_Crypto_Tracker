@@ -132,6 +132,71 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Do a pie chart for the Solana Version data.
 
 
+If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
+
+
+Geolocation demo:
+///////////////////////////////////////////////////////////////////////////////////////
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Leaflet Map</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+    <div id="map" style="width: 600px; height: 400px"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+     
+     // CONFIG
+     
+     // No zoom (0), on initial rendering
+     var map = L.map('map').setView([-41.3058, 174.82082], 0); 
+     
+     // Locations (lat, long)
+	var planes = [
+		["Location Description #1",-40.99497,174.50808],
+		["Location Description #2",-41.30269,173.63696],
+		["Location Description #3",-41.49413,173.5421],
+		["Location Description #4",-40.98585,174.50659],
+		["Location Description #5",-40.93163,173.81726],
+		["Location Description #6",-41.5183,174.78081],
+		["Location Description #7",-41.42079,173.5783],
+		["Location Description #8",-42.08414,173.96632],
+		["Location Description #9",-41.51285,173.53274]
+		];
+               
+    </script>
+
+
+    <script>
+
+
+        mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+
+        L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; ' + mapLink + ' Contributors',
+            maxZoom: 18,
+            }).addTo(map);
+
+		for (var i = 0; i < planes.length; i++) {
+		marker = new L.marker([planes[i][1],planes[i][2]])
+		.bindPopup(planes[i][0])
+		.addTo(map);
+		}
+               
+    </script>
+</body>
+</html>
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
 Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
