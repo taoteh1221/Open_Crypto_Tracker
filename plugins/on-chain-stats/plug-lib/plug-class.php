@@ -273,7 +273,7 @@ var $array1 = array();
                if ( $ct['cache']->update_cache( $ct['plug']->chart_cache($cache_path, $this_plug) , 720) == true ) {
                
                // Cache results for 30 days (43200 minutes, IF ip addresses are EXACTLY the same as prev. request)
-               $response = @$ct['cache']->ext_data('params', $params, 129600, 'http://ip-api.com/batch');
+               $response = @$ct['cache']->ext_data('params', $params, 43200, 'http://ip-api.com/batch');
            
                $data = json_decode($response, true);
                 
