@@ -141,11 +141,14 @@ If plugin runtime is all | webhook, put in parentheses next to this summary to v
 Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
-Fedora's news feed:
-https://fedoramagazine.org/feed/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Add full redhat support for auto-installer.
+
+
+Fedora's news feed:
+https://fedoramagazine.org/feed/
 
 
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
