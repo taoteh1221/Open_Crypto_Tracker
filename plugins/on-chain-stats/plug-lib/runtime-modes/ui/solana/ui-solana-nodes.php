@@ -238,6 +238,21 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
 
     
     <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation</h4>
+    
+    
+    <?php
+    if ( !file_exists( $ct['plug']->event_cache('geolocation_cleanup_ran.dat', $this_plug) ) ) {
+    ?>
+             	
+             	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
+             	
+             	It may take an hour or longer to show GeoLocation data, after enabling the On-Chain Stats plugin.
+             	
+             	</p>
+             	
+    <?php
+    }
+    ?>
 	
     
     <div id="map" class='chart_wrapper' style="width: 100%; height: 600px"></div>
