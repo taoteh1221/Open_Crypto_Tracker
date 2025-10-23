@@ -155,12 +155,12 @@ $ct['dev']['throttled_apis'] = array(
 
 // https://support.coingecko.com/hc/en-us/articles/4538771776153-What-is-the-rate-limit-for-CoinGecko-API-public-plan
 // EVEN THOUGH COINGECKO HAS NO PER-SECOND THROTTLE LIMIT,
-// SET TO 1 PER-SECOND, AS THEY ARE USUALLY PRETTY STRICT WITH ACCESS LIMITS     
+// SET A PER-SECOND VALUE, AS THEY ARE USUALLY PRETTY STRICT WITH ACCESS LIMITS     
                                      'coingecko.com' => array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
-                                                       'per_minute' => 10,
-                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_minute' => 5, // As they are OFTEN under heavy load, less than spec
+                                                       'per_second' => 0.5, // 100000 maximum, decimals (0.25 minimum) supported
                                                       ),
 
 

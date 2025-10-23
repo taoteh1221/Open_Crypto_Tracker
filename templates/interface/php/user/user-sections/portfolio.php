@@ -1429,7 +1429,22 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	$('.show_portfolio_stats').modaal({
 	fullscreen: true,
-	content_source: '#show_portfolio_stats'
+	content_source: '#show_portfolio_stats',
+         after_open: function() {
+             
+             // IF we are rendering a map in this modal,
+             // we need to reset the size-rendering AFTER OPENING THE MODAL
+             setTimeout(function(){
+             
+                 if ( typeof map != 'undefined'
+                 && typeof map.invalidateSize === 'function'
+                 ) {
+                 map.invalidateSize();
+                 }
+             
+             }, 500);
+
+         }
 	});
 	
 	</script>

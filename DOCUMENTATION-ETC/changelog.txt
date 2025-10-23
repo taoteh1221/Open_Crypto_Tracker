@@ -7030,9 +7030,11 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Loosened username restrictions for the "Admin Area => Security => Interface Login" setting (so only validity check is a 4 character MINIMUM)
 
--Added to the "on-chain-stats" plugin: Solana Node Count / Solana Version charts (Solans Node Geolocation map coming soon™)
+-Added to the "on-chain-stats" plugin: Solana Node Count history chart, Solana Node GeoLocation map, and Solana Node Version pie chart
 
 -Increased amount of currency / crypto maximum decimals allowed (in the "Asset Tracking => Currency Support" Admin Config)
+
+-Tweaks to coingecko API throttling, for a better user experience
 
 -Better AlphaVantage "Stock Overview" API integration / UX
 
