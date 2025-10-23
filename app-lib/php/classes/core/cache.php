@@ -19,136 +19,6 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function lines_in_file($filepath) {
-
-  gc_collect_cycles(); // Clean memory cache
-    
-  $linecount = 0;
-  $handle = fopen($filepath, "r");
-
-      while(!feof($handle)){
-      $line = fgets($handle);
-      $linecount++;
-      }
-
-  fclose($handle);
-  
-  gc_collect_cycles(); // Clean memory cache
-  
-  //sleep(1);
-  
-  return $linecount;
-  
-  }
-
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function dyn_light_chart_update(
-                                  $archive_path,
-                                  $light_data_update_thres,
-                                  $min_data_interval,
-                                  $scan_lines=25,
-                                  $full_scan=false
-                                  ) {
-       
-  global $ct;
-              
-  gc_collect_cycles(); // Clean memory cache
-  
-  $queued_arch_lines = array();
-    
-  $tail_arch_lines = $this->tail_custom($archive_path, $scan_lines); // Grab last X lines
-  $tail_arch_lines_array = explode("\n", $tail_arch_lines);
-  // Remove all null / false / empty strings, and reindex
-  $tail_arch_lines_array = array_values( array_filter( $tail_arch_lines_array, 'strlen' ) ); 
-         
-         
-       foreach( $tail_arch_lines_array as $arch_line ) {
-       
-       $arch_line_array = explode('||', $arch_line);
-       
-       $arch_line_array[0] = $ct['var']->num_to_str($arch_line_array[0]);
-              
-              
-              // Skip if no numeric timestamp
-              if ( !is_numeric($arch_line_array[0]) ) {
-              continue;
-              }
-
-
-              // Check on time period NOT included
-              if ( !$full_scan && $light_data_update_thres < $arch_line_array[0] ) {
-              $uncounted_intervals = $ct['var']->num_to_str($arch_line_array[0] - $light_data_update_thres) / $min_data_interval;
-              }
-              
-              
-              // IF we don't have enough 'last lines', scan the ENTIRE file (if we haven't yet)
-              if ( isset($uncounted_intervals) && $uncounted_intervals >= 1 ) {
-              
-              $full_scan = true;
-              
-              $scan_lines = $this->lines_in_file($archive_path);
-                    
-              // FREE UP MEMORY
-              
-              unset($tail_arch_lines);
-              
-              unset($tail_arch_lines_array);
-              
-              gc_collect_cycles(); // Clean memory cache
-                    
-
-                    // DEBUGGING ONLY
-                    if ( $ct['conf']['power']['debug_mode'] == 'light_chart_telemetry' ) {
-                    $ct['gen']->log('cache_debug', 'arch_timestamp: ' . $arch_line_array[0] . '; light_threshold: ' . $light_data_update_thres . '; uncounted_intervals: ' . $uncounted_intervals . '; data_interval: ' . $min_data_interval . '; scan_lines: ' . $scan_lines);
-                    }
-              
-              
-              // Recurse ONCE, to scan ALL lines in archival file
-              return $this->dyn_light_chart_update(
-                                                   $archive_path,
-                                                   $light_data_update_thres,
-                                                   $min_data_interval,
-                                                   $scan_lines,
-                                                   $full_scan
-                                                   );
-                  
-              }
-              // Otherwise, add the lines by min time interval
-              elseif (
-              !$added_arch_timestamp
-              && $light_data_update_thres <= $arch_line_array[0]
-              || isset($added_arch_timestamp)
-              && $ct['var']->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0]
-              ) {
-              $queued_arch_lines[] = $arch_line;
-              $added_arch_timestamp = $arch_line_array[0];
-              }
-              
-          
-       }
-       
-  
-  // FREE UP MEMORY
-              
-  unset($tail_arch_lines);
-              
-  unset($tail_arch_lines_array);
-  
-  gc_collect_cycles(); // Clean memory cache
-  
-  return $queued_arch_lines;
-    
-  }
-
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
   function update_cache($cache_file, $minutes) {
     
     // We ROUND (60 * $minutes), to also support SECONDS if needed
@@ -254,6 +124,33 @@ var $ct_array = array();
      }
      
   return $results;
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function lines_in_file($filepath) {
+
+  gc_collect_cycles(); // Clean memory cache
+    
+  $linecount = 0;
+  $handle = fopen($filepath, "r");
+
+      while(!feof($handle)){
+      $line = fgets($handle);
+      $linecount++;
+      }
+
+  fclose($handle);
+  
+  gc_collect_cycles(); // Clean memory cache
+  
+  //sleep(1);
+  
+  return $linecount;
   
   }
    
@@ -926,6 +823,109 @@ var $ct_array = array();
   
   return trim($output);
   
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function dyn_light_chart_update(
+                                  $archive_path,
+                                  $light_data_update_thres,
+                                  $min_data_interval,
+                                  $scan_lines=25,
+                                  $full_scan=false
+                                  ) {
+       
+  global $ct;
+              
+  gc_collect_cycles(); // Clean memory cache
+  
+  $queued_arch_lines = array();
+    
+  $tail_arch_lines = $this->tail_custom($archive_path, $scan_lines); // Grab last X lines
+  $tail_arch_lines_array = explode("\n", $tail_arch_lines);
+  // Remove all null / false / empty strings, and reindex
+  $tail_arch_lines_array = array_values( array_filter( $tail_arch_lines_array, 'strlen' ) ); 
+         
+         
+       foreach( $tail_arch_lines_array as $arch_line ) {
+       
+       $arch_line_array = explode('||', $arch_line);
+       
+       $arch_line_array[0] = $ct['var']->num_to_str($arch_line_array[0]);
+              
+              
+              // Skip if no numeric timestamp
+              if ( !is_numeric($arch_line_array[0]) ) {
+              continue;
+              }
+
+
+              // Check on time period NOT included
+              if ( !$full_scan && $light_data_update_thres < $arch_line_array[0] ) {
+              $uncounted_intervals = $ct['var']->num_to_str($arch_line_array[0] - $light_data_update_thres) / $min_data_interval;
+              }
+              
+              
+              // IF we don't have enough 'last lines', scan the ENTIRE file (if we haven't yet)
+              if ( isset($uncounted_intervals) && $uncounted_intervals >= 1 ) {
+              
+              $full_scan = true;
+              
+              $scan_lines = $this->lines_in_file($archive_path);
+                    
+              // FREE UP MEMORY
+              
+              unset($tail_arch_lines);
+              
+              unset($tail_arch_lines_array);
+              
+              gc_collect_cycles(); // Clean memory cache
+                    
+
+                    // DEBUGGING ONLY
+                    if ( $ct['conf']['power']['debug_mode'] == 'light_chart_telemetry' ) {
+                    $ct['gen']->log('cache_debug', 'arch_timestamp: ' . $arch_line_array[0] . '; light_threshold: ' . $light_data_update_thres . '; uncounted_intervals: ' . $uncounted_intervals . '; data_interval: ' . $min_data_interval . '; scan_lines: ' . $scan_lines);
+                    }
+              
+              
+              // Recurse ONCE, to scan ALL lines in archival file
+              return $this->dyn_light_chart_update(
+                                                   $archive_path,
+                                                   $light_data_update_thres,
+                                                   $min_data_interval,
+                                                   $scan_lines,
+                                                   $full_scan
+                                                   );
+                  
+              }
+              // Otherwise, add the lines by min time interval
+              elseif (
+              !$added_arch_timestamp
+              && $light_data_update_thres <= $arch_line_array[0]
+              || isset($added_arch_timestamp)
+              && $ct['var']->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0]
+              ) {
+              $queued_arch_lines[] = $arch_line;
+              $added_arch_timestamp = $arch_line_array[0];
+              }
+              
+          
+       }
+       
+  
+  // FREE UP MEMORY
+              
+  unset($tail_arch_lines);
+              
+  unset($tail_arch_lines_array);
+  
+  gc_collect_cycles(); // Clean memory cache
+  
+  return $queued_arch_lines;
+    
   }
   
   

@@ -4,9 +4,9 @@
  */
 
 
-  	// Solana Node Count chart START (requires price charts)
-	if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
-	?>
+// Solana Node stats START (requires price charts)
+if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
+?>
 	
 	<h4 class='yellow'>Solana Node Count</h4>
 	
@@ -220,10 +220,102 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
 
     
   </script>
+
+
+<!-- SOLANA NODES GEOLOCATION MAP  -->
+
+
+    <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.css" />
+    
+    <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/MarkerCluster.css" />
+
+    <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/MarkerCluster.Default.css" />
+    
+    
+    <script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.js"></script>
+	
+    <script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.markercluster.js"></script>
+
+    
+    <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation</h4>
+    
+    
+    <?php
+    if ( !file_exists( $ct['plug']->event_cache('geolocation_cleanup_ran.dat', $this_plug) ) ) {
+    ?>
+             	
+             	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
+             	
+             	It may take an hour or longer to show GeoLocation data, after enabling the On-Chain Stats plugin.
+             	
+             	</p>
+             	
+    <?php
+    }
+    ?>
+	
+    
+    <div id="map" class='chart_wrapper' style="width: 100%; height: 600px"></div>
+    
+    
+    <script>
+     
+     // Zoom = 2, on initial rendering
+     var map = L.map('map').setView([0, 0], 2); 
+     
+     // Locations array
+	var addressPoints = [];
+        
+     var mapLink = '<a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a>';
+
+
+          L.tileLayer(
+            '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; ' + mapLink + ' Contributors',
+            maxZoom: 18,
+          }).addTo(map);
+     
+     
+          function load_geolocation_map(result) {
+     
+          var markers = L.markerClusterGroup();
+          
+                           
+               $.each(result, function(loop, sol_node){
+               addressPoints[loop] = [sol_node.description, sol_node.latitude, sol_node.longitude];
+               });
+     
+          
+               for (var i = 0; i < addressPoints.length; i++) {
+                 var a = addressPoints[i];
+                 var title = a[0];
+                 var marker = L.marker(new L.LatLng(a[1], a[2]), {
+                   title: title
+                 });
+                 marker.bindPopup(title);
+                 markers.addLayer(marker);
+               }
+               
+          
+          map.addLayer(markers);
+          
+          }
+     
+     
+          $(document).ready(function () {
+                          
+               $.getJSON('<?=$ct['plug']->plug_dir(true)?>/plug-assets/ajax.php?type=map&mode=sol_geolocation', function (result) {
+               load_geolocation_map(result);
+               });
+                          
+          });
+     
+	
+    </script>
   
 
-  	<?php
-	}
-  	// Solana Node Count chart END
-	?>
+<?php
+}
+// Solana Node stats END
+?>
 	

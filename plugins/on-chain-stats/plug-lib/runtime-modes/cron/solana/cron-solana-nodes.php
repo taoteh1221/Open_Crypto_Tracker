@@ -1,4 +1,4 @@
- <?php
+<?php
 /*
  * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
@@ -54,7 +54,7 @@ $ct['cache']->save_file($solana_nodes_count_chart_file, $solana_nodes_count_data
      
      // Save IPs to cache, in case we need to finish up later (because of API throttling)
      $solana_nodes_ip_data_set = json_encode($solana_nodes_onchain['geolocation'], JSON_PRETTY_PRINT);
-     $ct['cache']->save_file( $ct['plug']->chart_cache('solana_nodes_ips.dat') , $solana_nodes_ip_data_set);
+     $ct['cache']->save_file( $ct['plug']->chart_cache('solana_nodes_info.dat') , $solana_nodes_ip_data_set);
      
      // SAVE CHART DATA 
      $plug['class'][$this_plug]->solana_node_geolocation_cache($solana_nodes_onchain['geolocation']); 

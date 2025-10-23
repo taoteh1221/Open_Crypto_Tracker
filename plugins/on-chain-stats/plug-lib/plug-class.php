@@ -33,20 +33,71 @@ var $array1 = array();
    ////////////////////////////////////////////////////////
    
    
+   function solana_node_geolocation_cleanup() {
+   
+   global $ct, $this_plug;
+   
+   $results = array();
+   
+   $solana_nodes_info_file = $ct['plug']->chart_cache('solana_nodes_info.dat', $this_plug);
+   $solana_nodes_info = json_decode( trim( file_get_contents( $solana_nodes_info_file ) ) , true);
+   
+   // Geolocation TEMPORARY cache files
+   $files = $ct['gen']->sort_files( $ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) , 'dat', 'asc');
+        
+       
+       // Combine batched files
+      foreach( $files as $geolocation_file ) {
+        
+        	if ( preg_match("/_locations_processed/i", $geolocation_file) ) {
+        	
+          $temp_array = json_decode( trim( file_get_contents($ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) . '/' . $geolocation_file) ) , true);
+          
+               if ( is_array($temp_array) ) {
+               $results = array_merge($results, $temp_array);
+               }
+          
+        	}
+        	
+      }
+      
+      
+      // Remove unneeded data, and merge in solana data
+      foreach ( $results as $key => $unused ) {
+           
+      unset($results[$key]['status']);
+      unset($results[$key]['countryCode']);
+      unset($results[$key]['region']);
+      unset($results[$key]['regionName']);
+      unset($results[$key]['org']);
+      unset($results[$key]['as']);
+      
+      $results[$key]['solanaNodeInfo'] = $solana_nodes_info[ $results[$key]['query'] ];
+
+      }
+
+   
+   // Save node data, with geolocation included
+   $results_data_set = json_encode($results, JSON_PRETTY_PRINT);
+   $ct['cache']->save_file( $ct['plug']->chart_cache('solana_nodes_info_with_geolocation.dat', $this_plug) , $results_data_set);
+   
+   // Delete temp batch files
+   $ct['cache']->remove_dir( $ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) );
+   
+   // Update the event tracking
+   $ct['cache']->save_file( $ct['plug']->event_cache('geolocation_cleanup_ran.dat', $this_plug) , $ct['gen']->time_date_format(false, 'pretty_date_time') );    
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function solana_node_geolocation_map() {
    
    global $ct, $this_plug;
    
-   // Geolocation cache files
-   $files = $ct['gen']->sort_files( $ct['plug']->chart_cache('solana_nodes_geolocation', $this_plug) , 'dat', 'desc');
-        
-      foreach( $files as $geolocation_file ) {
-        
-        	if ( preg_match("/_locations_processed/i", $geolocation_file) ) {
-        	// LOGIC HERE
-        	}
-        	
-      }
    
    }
 		
@@ -122,10 +173,11 @@ var $array1 = array();
                     // Don't count any duplicate ip addresses as another node
                     if (
                     !is_array($results['geolocation'])
-                    || !in_array($parse_ip[0], $results['geolocation'])
+                    || !array_key_exists($parse_ip[0], $results['geolocation'])
                     ) {
-                         
-                    $results['geolocation'][] = $parse_ip[0];
+                    
+                    // Map by IP, for easier geolocation processing later
+                    $results['geolocation'][ $parse_ip[0] ] = $node;
                
                
                          if ( isset($results['version'][ md5($node['version']) ]['count']) ) {
@@ -224,7 +276,7 @@ var $array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function solana_node_geolocation_cache($solana_nodes_ips=false) {
+   function solana_node_geolocation_cache($solana_nodes_info=false) {
    
    global $ct, $this_plug;
    
@@ -233,17 +285,21 @@ var $array1 = array();
    $params = array();
 
    
-       // Make sure we setup our subdirectory 'geolocation'
-       if ( !$ct['gen']->dir_struct( $ct['plug']->chart_cache('solana_nodes_geolocation', $this_plug) ) ) {
+       // Make sure we setup our subdirectory 'geolocation',
+       // and haven't run the geolocation cleanup routine in a day + 1 hour (1500 minutes)
+       if ( 
+       !$ct['gen']->dir_struct( $ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) )
+       || $ct['cache']->update_cache( $ct['plug']->event_cache('geolocation_cleanup_ran.dat', $this_plug) , 1500) == false
+       ) {
        return false;
        }
    
        
        // IF API throttling prevented FULL caching of the geolocation data set,
        // we use the CACHED ip address data set
-       if ( !is_array($solana_nodes_ips) ) {
-       $data_file = $ct['plug']->chart_cache('solana_nodes_ips.dat', $this_plug);
-       $solana_nodes_ips = json_decode( trim( file_get_contents( $data_file ) ) , true);
+       if ( !is_array($solana_nodes_info) ) {
+       $data_file = $ct['plug']->chart_cache('solana_nodes_info.dat', $this_plug);
+       $solana_nodes_info = json_decode( trim( file_get_contents( $data_file ) ) , true);
        }
                
        
@@ -251,7 +307,7 @@ var $array1 = array();
        // (MUST be batched, to build over MULTIPLE runtimes [to avoid ip-api.com API limits])
        $batch_count = 0;
        $processed = 0;
-       foreach( $solana_nodes_ips as $ip ) {
+       foreach( $solana_nodes_info as $ip => $unused ) {
             
        $params[] = $ip;
 
@@ -261,19 +317,19 @@ var $array1 = array();
            // IF we are ready to batch to cache file
            if (
            $batch_count == 100
-           || ($processed + $batch_count) >= sizeof($solana_nodes_ips)
+           || ($processed + $batch_count) >= sizeof($solana_nodes_info)
            ) {
            
            $processed = $processed + $batch_count;
            
-           $cache_path = 'solana_nodes_geolocation/' . $processed . '_locations_processed.dat';
+           $cache_path = 'temp_solana_nodes_geolocation/' . $processed . '_locations_processed.dat';
            
                
                // IF it's been at least 12 hours (720 minutes), then we update the geolocation cache file(s)
-               if ( $ct['cache']->update_cache($cache_path, 720) == true ) {
+               if ( $ct['cache']->update_cache( $ct['plug']->chart_cache($cache_path, $this_plug) , 720) == true ) {
                
-               // Cache results for 90 days (129600 minutes, IF ip addresses are EXACTLY the same as prev. request)
-               $response = @$ct['cache']->ext_data('params', $params, 129600, 'http://ip-api.com/batch');
+               // Cache results for 30 days (43200 minutes, IF ip addresses are EXACTLY the same as prev. request)
+               $response = @$ct['cache']->ext_data('params', $params, 43200, 'http://ip-api.com/batch');
            
                $data = json_decode($response, true);
                 
@@ -286,9 +342,17 @@ var $array1 = array();
                          $results[] = $geolocation;
                          }
                
+               
                     $results_json = json_encode($results, JSON_PRETTY_PRINT);
                     
                     $ct['cache']->save_file( $ct['plug']->chart_cache($cache_path, $this_plug) , $results_json);
+
+                         
+                         // IF we are done getting all geolocation data
+                         if ( ($processed + $batch_count) >= sizeof($solana_nodes_info) ) {
+                         $run_geolocation_cleanup = true;
+                         }
+
                     
                     }
                     
@@ -306,6 +370,11 @@ var $array1 = array();
            }
 
        
+       }
+
+       
+       if ( $run_geolocation_cleanup ) {
+       $this->solana_node_geolocation_cleanup();
        }
 
    

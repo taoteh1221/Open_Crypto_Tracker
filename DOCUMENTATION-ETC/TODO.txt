@@ -129,7 +129,13 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Disable the on-chain-stats, and make sure there are no javascript errors related to opening the 'more stats' modal.
+
+
 Do a pie chart for the Solana Version data.
+
+
+If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
 
 
 Do a review of how everything renders in Firefox (as it's been a year since last FF review).
