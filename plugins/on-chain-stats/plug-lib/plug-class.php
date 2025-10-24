@@ -33,11 +33,29 @@ var $array1 = array();
    ////////////////////////////////////////////////////////
    
    
+   function solana_node_geolocation_map() {
+   
+   global $ct, $this_plug;
+   
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function solana_node_geolocation_cleanup() {
    
    global $ct, $this_plug;
    
    $results = array();
+   
+   $solana_validators_info_file = $ct['plug']->chart_cache('solana_validators_info.dat', $this_plug);
+   $solana_validators_info = json_decode( trim( file_get_contents( $solana_validators_info_file ) ) , true);
+   
+   $solana_recently_offline_validators_info_file = $ct['plug']->chart_cache('solana_recently_offline_validators_info.dat', $this_plug);
+   $solana_recently_offline_validators_info = json_decode( trim( file_get_contents( $solana_recently_offline_validators_info_file ) ) , true);
    
    $solana_nodes_info_file = $ct['plug']->chart_cache('solana_nodes_info.dat', $this_plug);
    $solana_nodes_info = json_decode( trim( file_get_contents( $solana_nodes_info_file ) ) , true);
@@ -73,6 +91,15 @@ var $array1 = array();
       unset($results[$key]['as']);
       
       $results[$key]['solanaNodeInfo'] = $solana_nodes_info[ $results[$key]['query'] ];
+      
+      
+          if ( isset($solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
+          $results[$key]['solanaNodeInfo']['validator_data'] = $solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
+          }
+          elseif ( isset($solana_recently_offline_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
+          $results[$key]['solanaNodeInfo']['recently_offline_validator_data'] = $solana_recently_offline_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
+          }
+
 
       }
 
@@ -85,19 +112,7 @@ var $array1 = array();
    $ct['cache']->remove_dir( $ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) );
    
    // Update the event tracking
-   $ct['cache']->save_file( $ct['plug']->event_cache('geolocation_cleanup_ran.dat', $this_plug) , $ct['gen']->time_date_format(false, 'pretty_date_time') );    
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function solana_node_geolocation_map() {
-   
-   global $ct, $this_plug;
-   
+   $ct['cache']->save_file( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) , $ct['gen']->time_date_format(false, 'pretty_date_time') );    
    
    }
 		
@@ -156,7 +171,30 @@ var $array1 = array();
 	
 	
 	     if ( is_array($validators) && sizeof($validators) > 0 ) {
+	          
 	     $results['validators'] = $validators;
+
+
+               foreach( $results['validators'] as $validator_key => $validator_val ) {
+               
+               
+                    // If NOT an active validator this epoch, remove as a validator,
+                    // after adding to recent offline validators
+                    if (
+                    !isset($validator_val['epochVoteAccount'])
+                    || $validator_val['epochVoteAccount'] == false
+                    ) {
+                         
+                    $results['recent_offline_validators'][] = $results['validators'][$validator_key];
+
+                    unset($results['validators'][$validator_key]);
+
+                    }
+
+               
+               }
+
+
 	     }
 	
 	
@@ -229,6 +267,9 @@ var $array1 = array();
          elseif ( $node_type == 'validators' ) {
          $node_data = $result[2];
          }
+         elseif ( $node_type == 'recently_offline_validators' ) {
+         $node_data = $result[3];
+         }
       
       
          // If the data set on this line is NOT valid, skip it
@@ -289,7 +330,7 @@ var $array1 = array();
        // and haven't run the geolocation cleanup routine in a day + 1 hour (1500 minutes)
        if ( 
        !$ct['gen']->dir_struct( $ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) )
-       || $ct['cache']->update_cache( $ct['plug']->event_cache('geolocation_cleanup_ran.dat', $this_plug) , 1500) == false
+       || $ct['cache']->update_cache( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) , 1500) == false
        ) {
        return false;
        }
