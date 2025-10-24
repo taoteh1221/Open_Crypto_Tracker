@@ -138,6 +138,9 @@ Do a pie chart for the Solana Version data.
 Add light chart support to Solana node count charting.
 
 
+Add an admin config setting, to enable BTC / ETH / SOL on-chain-stats, with checkbox choices.
+
+
 Add filtering in the geolocation map interface, to only load nodes onto the map that are: validators / recently offline validators / NOT validators / all nodes (with all nodes as default).
 
 

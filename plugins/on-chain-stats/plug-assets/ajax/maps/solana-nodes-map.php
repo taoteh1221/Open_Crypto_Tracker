@@ -3,8 +3,6 @@
  * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
-$absolute_slot = $ct['api']->solana_rpc('getEpochInfo', array(), 0)['result']['absoluteSlot']; // NO CACHE
-
 $solana_nodes_geolocation_file = $ct['plug']->chart_cache('solana_nodes_info_with_geolocation.dat', 'on-chain-stats');
 $solana_nodes_geolocation = json_decode( trim( file_get_contents( $solana_nodes_geolocation_file ) ) , true);
 

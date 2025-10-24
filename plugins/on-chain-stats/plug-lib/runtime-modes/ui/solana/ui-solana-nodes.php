@@ -6,9 +6,45 @@
 
 // Solana Node stats START (requires price charts)
 if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
+     
+$sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; // 5 MINUTE CACHE
+     
 ?>
 	
-	<h4 class='yellow'>Solana Node Count</h4>
+	
+	<h4 class='yellow'>Solana Epoch Information (cached for 5 minutes):</h4>
+	
+   <div class='chart_wrapper sol_epoch_data'>
+
+    <p>
+    <b class='yellow'>Absolute Slot:</b> <?=$ct['var']->num_pretty($sol_epoch_info['absoluteSlot'], 0)?>
+    </p>
+	
+    <p>
+    <b class='yellow'>Block Height:</b> <?=$ct['var']->num_pretty($sol_epoch_info['blockHeight'], 0)?>
+    </p>
+	
+    <p>
+    <b class='yellow'>Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?>
+    </p>
+	
+    <p>
+    <b class='yellow'>Slot Index:</b> <?=$ct['var']->num_pretty($sol_epoch_info['slotIndex'], 0)?>
+    </p>
+	
+    <p>
+    <b class='yellow'>Slots In Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['slotsInEpoch'], 0)?>
+    </p>
+	
+    <p>
+    <b class='yellow'>Transactions Since Genesis:</b> <?=$ct['var']->num_pretty($sol_epoch_info['transactionCount'], 0)?>
+    </p>
+    
+   </div>
+
+    
+	
+	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node Count:</h4>
 	
     <p>
     
@@ -224,7 +260,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
 
 <!-- SOLANA NODES GEOLOCATION MAP  -->
     
-    <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation</h4>
+    <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation:</h4>
     
     <?php
     if ( !file_exists( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) ) ) {
