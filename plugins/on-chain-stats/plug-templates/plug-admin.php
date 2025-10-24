@@ -29,9 +29,23 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$ct['admin_render_settings']['solana_node_count_chart_defaults']['is_text'] = true;
+$ct['admin_render_settings']['node_count_chart_defaults']['is_text'] = true;
 
-$ct['admin_render_settings']['solana_node_count_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
+$ct['admin_render_settings']['node_count_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$ct['admin_render_settings']['node_geolocation_map_height_default']['is_range'] = true;
+
+$ct['admin_render_settings']['node_geolocation_map_height_default']['range_min'] = 400;
+
+$ct['admin_render_settings']['node_geolocation_map_height_default']['range_max'] = 900;
+
+$ct['admin_render_settings']['node_geolocation_map_height_default']['range_step'] = 100;
+
+$ct['admin_render_settings']['node_geolocation_map_height_default']['is_notes'] = 'Changes the DEFAULT map height for Node GeoLocation charts';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

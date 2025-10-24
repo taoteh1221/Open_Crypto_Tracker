@@ -15,10 +15,7 @@ var geo_map_clusters = new Object();
 /////////////////////////////////////////////////////////////
 
 
-function map_init(map_key, last_update) {
-
-// Render the map HTML element 
-document.write('<div id="'+map_key+'" class="chart_wrapper geolocation_map" style="position: relative; width: 100%; height: 600px"></div>');
+function map_init(map_key, filter, last_update) {
 			
 // Zoom = 2, on initial rendering
 geo_map_init[map_key] = L.map(map_key).setView([0, 0], 2); 
@@ -26,17 +23,19 @@ geo_map_init[map_key] = L.map(map_key).setView([0, 0], 2);
     
     // Map configs
     L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span id="'+map_key+'_alert"></span> | Last Update: ' + last_update + ' (UTC)',
+    attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span id="'+map_key+'_alert">Loading, please wait...</span> | Last Update: ' + last_update + ' (UTC)',
     maxZoom: 18,
     }).addTo(geo_map_init[map_key]);
 
     
     // Load locations via AJAX
-    $.getJSON(plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key='+map_key+'&filter=all', function (result) {
+    $.getJSON(plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key='+map_key+'&filter=' + filter, function (result) {
     load_geolocation_map(result, map_key);
     });
 
-                 
+    
+resize_geolocation_maps();
+    
 }
 
 
@@ -88,6 +87,8 @@ function load_geolocation_map(result, map_key) {
 geo_map_locations[map_key] = [];
      
 geo_map_clusters[map_key] = L.markerClusterGroup();
+
+$("#"+map_key+"_alert").html('Loaded 0 map location(s)');
           
      
      // Process locations
@@ -139,7 +140,9 @@ geo_map_clusters[map_key] = L.markerClusterGroup();
               });
          }
      
-     marker.bindPopup(title);
+         marker.bindPopup(title, {
+         maxWidth : 560
+         });
      
      geo_map_clusters[map_key].addLayer(marker);
      

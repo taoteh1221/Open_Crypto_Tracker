@@ -14,7 +14,7 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
 	
 	<h4 class='yellow'>Solana Epoch Information (cached for 5 minutes):</h4>
 	
-   <div class='chart_wrapper sol_epoch_data'>
+   <div class='secondary_chart_wrapper sol_epoch_data'>
 
     <p>
     <b class='yellow'>Absolute Slot:</b> <?=$ct['var']->num_pretty($sol_epoch_info['absoluteSlot'], 0)?>
@@ -50,22 +50,22 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
     
     <?php
     
-    $solana_node_count_chart_defaults = explode("||", $plug['conf'][$this_plug]['solana_node_count_chart_defaults']);
+    $node_count_chart_defaults = explode("||", $plug['conf'][$this_plug]['node_count_chart_defaults']);
     
     	// Fallbacks
     	
-    	if ( $solana_node_count_chart_defaults[0] >= 400 && $solana_node_count_chart_defaults[0] <= 900 ) {
+    	if ( $node_count_chart_defaults[0] >= 400 && $node_count_chart_defaults[0] <= 900 ) {
 		// DO NOTHING    	
     	}
     	else {
-    	$solana_node_count_chart_defaults[0] = 600;
+    	$node_count_chart_defaults[0] = 600;
     	}
     	
-    	if ( $solana_node_count_chart_defaults[1] >= 7 && $solana_node_count_chart_defaults[1] <= 16 ) {
+    	if ( $node_count_chart_defaults[1] >= 7 && $node_count_chart_defaults[1] <= 16 ) {
 		// DO NOTHING    	
     	}
     	else {
-    	$solana_node_count_chart_defaults[1] = 15;
+    	$node_count_chart_defaults[1] = 15;
     	}
     
     ?>
@@ -83,7 +83,7 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
     $count = 400;
     while ( $count <= 900 ) {
     ?>
-    <option value='<?=$count?>' <?=( $count == $solana_node_count_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
+    <option value='<?=$count?>' <?=( $count == $node_count_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
     <?php
     $count = $count + 100;
     }
@@ -96,7 +96,7 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
     $count = 7;
     while ( $count <= 16 ) {
     ?>
-    <option value='<?=$count?>' <?=( $count == $solana_node_count_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
+    <option value='<?=$count?>' <?=( $count == $node_count_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
     <?php
     $count = $count + 1;
     }
@@ -155,38 +155,12 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
     
     " /> 
     
-    &nbsp; <img class="tooltip_style_control solana_node_count_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    &nbsp; <img class="tooltip_style_control node_count_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
     
     </div>
     
     
-<script>
-
-
-var solana_node_count_chart_defaults_content = '<h5 class="yellow tooltip_title">Settings For Solana Node Count Chart</h5>'
-
-			+'<p class="coin_info extra_margins" style=" white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time for the Solana Node Count chart to begin. The Custom Start Date can only go back in time as far back as you have data stored for, as this feature only starts storing Solana node count data once your app server background task starts saving chart data for the first time. IF you have saved chart backups (in the Backup / Restore admin area), you can restore archived chart data on new installations.</p>'
-			
-			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in "Admin Area => Plugins => On-Chain Stats => Solana Node Count Chart Defaults".</p>';
-		
-		
-		
-			$('.solana_node_count_chart_defaults').balloon({
-			html: true,
-			position: "left",
-  			classname: 'balloon-tooltips',
-			contents: solana_node_count_chart_defaults_content,
-			css: balloon_css()
-			});
-			
-		
-		
-		
-
-
-</script> 
-  
     </p>
     
   
@@ -204,7 +178,7 @@ var solana_node_count_chart_defaults_content = '<h5 class="yellow tooltip_title"
  </style>
  
  
-  	<div style='min-width: 775px; width: 100%; min-height: 1px; background: #808080; border: 2px solid #918e8e; display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='solana_node_count_chart'>
+  	<div style='min-width: 775px; width: 100%; min-height: 1px; display: flex; flex-flow: column wrap; overflow: hidden;' class='secondary_chart_wrapper' id='solana_node_count_chart'>
 	
 	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading Asset Performance Chart...</span>
 	
@@ -225,18 +199,18 @@ $("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_nodes&start_time=0&chart_height=<?=$solana_node_count_chart_defaults[0]?>&menu_size=<?=$solana_node_count_chart_defaults[1]?>", function( json_data ) {
+$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_nodes&start_time=0&chart_height=<?=$node_count_chart_defaults[0]?>&menu_size=<?=$node_count_chart_defaults[1]?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('solana_node_count_chart', 'complete', function() {
 	$("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
-	$('#solana_node_count_chart').css('height', '<?=$solana_node_count_chart_defaults[0]?>px');
+	$('#solana_node_count_chart').css('height', '<?=$node_count_chart_defaults[0]?>px');
 	});
 
 	zingchart.render({
   	id: 'solana_node_count_chart',
-  	height: '<?=$solana_node_count_chart_defaults[0]?>',
+  	height: '<?=$node_count_chart_defaults[0]?>',
   	width: "100%",
   	data: json_data
 	});
@@ -262,6 +236,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     
     <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation:</h4>
     
+    
     <?php
     if ( !file_exists( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) ) ) {
     ?>
@@ -278,13 +253,74 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     $solana_node_geolocation_cleanup_timestamp = filemtime( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) );
     $solana_node_geolocation_pretty_timestamp = date("F jS, g:ia", $solana_node_geolocation_cleanup_timestamp);
     }
+    
+    
+    $node_geolocation_map_height_default = $plug['conf'][$this_plug]['node_geolocation_map_height_default'];
+    
+    	// Fallbacks
+    	
+    	if ( $node_geolocation_map_height_default >= 400 && $node_geolocation_map_height_default <= 900 ) {
+		// DO NOTHING    	
+    	}
+    	else {
+    	$node_geolocation_map_height_default = 500;
+    	}
+    
     ?>
-	
+    
+    
+	<div class='align_left clear_both' style='white-space: nowrap;'>
+    
+    Chart Height: <select class='browser-default custom-select' id='solana_node_geolocation_map_height' name='solana_node_geolocation_map_height'>
+    <?php
+    $count = 400;
+    while ( $count <= 900 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $node_geolocation_map_height_default ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 100;
+    }
+    ?>
+    </select>  &nbsp;&nbsp; 
+    
+    Show Nodes: <select class='browser-default custom-select' id='solana_geolocation_filter' name='solana_geolocation_filter'>
+    <option value='all'> All </option>
+    <option value='validators'> Validators </option>
+    <option value='rpc'> RPC </option>
+    <option value='recently_offline_validators'> Recently Offline Validators </option>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    <input type='button' value='Update Solana GeoLocation Map' onclick="
+    
+    // Remove old rendering
+    geo_map_init['solana_map'].remove();
+
+    // Adjust map height
+	$('#solana_map').css('height', document.getElementById('solana_node_geolocation_map_height').value + 'px');
+    
+    // Reload map
+    map_init(
+             'solana_map',
+             document.getElementById('solana_geolocation_filter').value,
+             '<?=$solana_node_geolocation_pretty_timestamp?>'
+             );
+
+    " /> 
+    
+    &nbsp; <img class="tooltip_style_control geolocation_filter" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    
+    <div id="solana_map" class="secondary_chart_wrapper geolocation_map" style="position: relative; width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important;"></div>
+
     <script>
     
     // Render map
-    map_init('solana_map', '<?=$solana_node_geolocation_pretty_timestamp?>');
-	
+    map_init(
+             'solana_map',
+             document.getElementById('solana_geolocation_filter').value,
+             '<?=$solana_node_geolocation_pretty_timestamp?>'
+             );
+		
     </script>
   
 

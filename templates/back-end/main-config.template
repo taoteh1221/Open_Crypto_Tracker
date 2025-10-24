@@ -696,12 +696,12 @@ $ct['conf']['charts_alerts']['charts_tooltip_text'] = '#222222'; // (default: '#
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct['conf']['charts_alerts']['asset_performance_chart_defaults'] = '800||10'; // 'chart_height||menu_size' (default = '800||10')
+$ct['conf']['charts_alerts']['asset_performance_chart_defaults'] = '500||12'; // 'chart_height||menu_size' (default = '500||12')
 
 
 // Default settings for Marketcap Comparison chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct['conf']['charts_alerts']['asset_marketcap_chart_defaults'] = '600||10'; // 'chart_height||menu_size' (default = '600||10')
+$ct['conf']['charts_alerts']['asset_marketcap_chart_defaults'] = '500||12'; // 'chart_height||menu_size' (default = '500||12')
 
 
 // Markets you want charts or asset price change alerts for (see the COMMUNICATIONS section for price alerts threshold settings) 
