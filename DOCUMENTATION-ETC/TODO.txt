@@ -135,6 +135,12 @@ Disable the on-chain-stats, and make sure there are no javascript errors related
 Do a pie chart for the Solana Version data.
 
 
+Add light chart support to Solana node count charting.
+
+
+Add filtering in the geolocation map interface, to only load nodes onto the map that are: validators / recently offline validators / NOT validators / all nodes (with all nodes as default).
+
+
 If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
 
 
@@ -149,6 +155,19 @@ Add full redhat support for auto-installer.
 
 Fedora's news feed:
 https://fedoramagazine.org/feed/
+
+
+===============================================================================
+Step #3 in the "add asset" wizard should be a choice between "automatically choose from an exchange search" (like we already have now), and an additional option of "enter asset manually". 
+
+This allows advanced users to add assets with unconventional tickers / names (that may not be parsed properly by the automatic search option).
+
+This manual option should use prefilled drop-down menus for the exchange and pairing to use, BUT ALL OTHER FIELDS SHOULD BE TEXT FIELDS for manual entry, with validation checks run upon submission, and our documentation "notes" feature for directions.
+
+After filled in and submitted, we run a market check, to make sure we get back valid data. If we do NOT get back valid market data, reshow the submission form, prefilled with what they already submitted, and show an error message the market wasn't found / valid.
+
+If valid market data IS found, show the normal "cancel / review / confirm" screen for step #4, before adding the asset to the config.
+===============================================================================
 
 
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).

@@ -20,7 +20,9 @@
 
 // Objects
 
-var example_only = new Set();
+var plugin_name = new Object();
+
+var plugin_assets_path = new Object();
 
 // Arrays
 

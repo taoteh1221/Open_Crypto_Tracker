@@ -1432,16 +1432,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	content_source: '#show_portfolio_stats',
          after_open: function() {
              
-             // IF we are rendering a map in this modal,
-             // we need to reset the size-rendering AFTER OPENING THE MODAL
+             // IF we need to run logic, AFTER OPENING THE MODAL
              setTimeout(function(){
-             
-                 if ( typeof map != 'undefined'
-                 && typeof map.invalidateSize === 'function'
-                 ) {
-                 map.invalidateSize();
-                 }
-             
+             // Logic goes here
              }, 500);
 
          }

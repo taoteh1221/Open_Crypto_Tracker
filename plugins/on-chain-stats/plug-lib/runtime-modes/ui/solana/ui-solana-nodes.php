@@ -111,7 +111,7 @@ if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
   
   // 'load'
   zingchart.exec('solana_node_count_chart', 'load', {
-  	dataurl: '<?=$ct['plug']->plug_dir(true)?>/plug-assets/ajax.php?type=chart&mode=sol_nodes&start_time=' + date_timestamp + '&chart_width=' + solana_node_count_chart_width + '&chart_height=' + document.getElementById('solana_node_count_chart_height').value + '&menu_size=' + document.getElementById('solana_node_count_menu_size').value,
+  	dataurl: '<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_nodes&start_time=' + date_timestamp + '&chart_width=' + solana_node_count_chart_width + '&chart_height=' + document.getElementById('solana_node_count_chart_height').value + '&menu_size=' + document.getElementById('solana_node_count_menu_size').value,
     cache: {
         data: true
     }
@@ -189,7 +189,7 @@ $("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/ajax.php?type=chart&mode=sol_nodes&start_time=0&chart_height=<?=$solana_node_count_chart_defaults[0]?>&menu_size=<?=$solana_node_count_chart_defaults[1]?>", function( json_data ) {
+$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_nodes&start_time=0&chart_height=<?=$solana_node_count_chart_defaults[0]?>&menu_size=<?=$solana_node_count_chart_defaults[1]?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -223,25 +223,11 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
 
 
 <!-- SOLANA NODES GEOLOCATION MAP  -->
-
-
-    <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.css" />
-    
-    <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/MarkerCluster.css" />
-
-    <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/MarkerCluster.Default.css" />
-    
-    
-    <script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.js"></script>
-	
-    <script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.markercluster.js"></script>
-
     
     <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation</h4>
     
-    
     <?php
-    if ( !file_exists( $ct['plug']->event_cache('geolocation_cleanup_ran.dat', $this_plug) ) ) {
+    if ( !file_exists( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) ) ) {
     ?>
              	
              	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
@@ -252,64 +238,16 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
              	
     <?php
     }
+    else {
+    $solana_node_geolocation_cleanup_timestamp = filemtime( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) );
+    $solana_node_geolocation_pretty_timestamp = date("F jS, g:ia", $solana_node_geolocation_cleanup_timestamp);
+    }
     ?>
 	
-    
-    <div id="map" class='chart_wrapper' style="width: 100%; height: 600px"></div>
-    
-    
     <script>
-     
-     // Zoom = 2, on initial rendering
-     var map = L.map('map').setView([0, 0], 2); 
-     
-     // Locations array
-	var addressPoints = [];
-        
-     var mapLink = '<a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a>';
-
-
-          L.tileLayer(
-            '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; ' + mapLink + ' Contributors',
-            maxZoom: 18,
-          }).addTo(map);
-     
-     
-          function load_geolocation_map(result) {
-     
-          var markers = L.markerClusterGroup();
-          
-                           
-               $.each(result, function(loop, sol_node){
-               addressPoints[loop] = [sol_node.description, sol_node.latitude, sol_node.longitude];
-               });
-     
-          
-               for (var i = 0; i < addressPoints.length; i++) {
-                 var a = addressPoints[i];
-                 var title = a[0];
-                 var marker = L.marker(new L.LatLng(a[1], a[2]), {
-                   title: title
-                 });
-                 marker.bindPopup(title);
-                 markers.addLayer(marker);
-               }
-               
-          
-          map.addLayer(markers);
-          
-          }
-     
-     
-          $(document).ready(function () {
-                          
-               $.getJSON('<?=$ct['plug']->plug_dir(true)?>/plug-assets/ajax.php?type=map&mode=sol_geolocation', function (result) {
-               load_geolocation_map(result);
-               });
-                          
-          });
-     
+    
+    // Render map
+    map_init('solana_map', '<?=$solana_node_geolocation_pretty_timestamp?>');
 	
     </script>
   
