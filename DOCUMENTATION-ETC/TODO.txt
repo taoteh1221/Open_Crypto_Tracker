@@ -129,10 +129,10 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Disable the on-chain-stats, and make sure there are no javascript errors related to opening the 'more stats' modal.
-
-
 Do a pie chart for the Solana Version data.
+
+
+Disable the on-chain-stats, and make sure there are no javascript errors related to opening the 'more stats' modal.
 
 
 Add light chart support to Solana node count charting.
