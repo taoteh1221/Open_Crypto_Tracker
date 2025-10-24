@@ -2492,6 +2492,9 @@ var $ct_array = array();
          elseif ( strtolower($val) == 'precache' ) {
          $words[$key] = 'PreCache';
          }
+         elseif ( strtolower($val) == 'geolocation' ) {
+         $words[$key] = 'GeoLocation';
+         }
          elseif ( strtolower($val) == 'io' ) {
          $words[$key] = 'IO';
          }

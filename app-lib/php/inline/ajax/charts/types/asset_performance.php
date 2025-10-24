@@ -136,12 +136,6 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 		}
 		
 		
-	    // We want ONLY WATCHED ASSETS SHOWN for privacy mode, so nobody easily
-	    // becomes interested in what we are NOT watching on the update page
-		if ( !in_array($chart_array[0], $plot_conf) && $_GET['privacy'] == 'on' ) {
-		continue; // Skip
-		}
-		
     $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
     
 	$rand_color = '#' . $ct['gen']->rand_color($choose_rand)['hex'];

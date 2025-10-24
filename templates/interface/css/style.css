@@ -484,17 +484,26 @@ border: 0.2em solid #808080 !important;
 }
 
 
-.chart_wrapper {
+.chart_wrapper,
+.secondary_chart_wrapper {
 position: relative;
 border-radius: 0.9em;
 min-width: 100% !important;
 }
 
 
-.chart_wrapper span.chart_loading {
+.chart_wrapper span.chart_loading,
+.secondary_chart_wrapper span.chart_loading {
 font-weight: bold;
 font-size: 2.0em;
 line-height: 1.5em;
+}
+
+
+.secondary_chart_wrapper {
+background-color: #f2f2f2;
+border: 2px solid #918e8e;
+color: #808080 !important;
 }
 
 

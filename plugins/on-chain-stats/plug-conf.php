@@ -46,9 +46,14 @@ $plug['conf'][$this_plug]['ui_location'] = 'more_stats'; // 'tools', 'more_stats
 $plug['conf'][$this_plug]['ui_name'] = 'On-Chain Stats'; // (defaults to $this_plug if not set)
 
 
-// Default settings for Solana Node Stats chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
+// Default settings for Node Stats chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$plug['conf'][$this_plug]['solana_node_count_chart_defaults'] = '400||16'; // 'chart_height||menu_size' (default = '400||16')
+$plug['conf'][$this_plug]['node_count_chart_defaults'] = '400||16'; // 'chart_height||menu_size' (default = '400||16')
+
+
+// Default settings for geolocation map height (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
+// CHART HEIGHT MIN/MAX = 400/900 (increments of 100)
+$plug['conf'][$this_plug]['node_geolocation_map_height_default'] = '500'; // (default = '500')
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

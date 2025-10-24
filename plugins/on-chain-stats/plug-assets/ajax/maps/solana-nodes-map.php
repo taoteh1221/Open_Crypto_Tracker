@@ -20,7 +20,19 @@ foreach ( $solana_nodes_geolocation as $node_data ) {
      }
      else {
      $active_validator = false;
+     $recently_offline_validator = false;
      }
+
+
+      // Results filters
+      if (
+      $active_validator && $_GET['filter'] == 'rpc'
+      || $recently_offline_validator && $_GET['filter'] == 'rpc'
+      || !$active_validator && !$recently_offline_validator && $_GET['filter'] == 'validators'
+      || !$recently_offline_validator && $_GET['filter'] == 'recently_offline_validators'
+      ) {
+      continue; // Skip this loop
+      }
 
 
 $results[] = array(
@@ -45,11 +57,11 @@ $results[] = array(
                    
                    '<div class="map_point_data"> <b>Node Gossip:</b> ' . $node_data['solanaNodeInfo']['gossip'] . '</div>' .
                    
-                   '<div class="map_point_data" style="overflow-wrap: anywhere;"> <b>Node Public Key:</b> ' . $node_data['solanaNodeInfo']['pubkey'] . '</div>' .
+                   '<div class="map_point_data" style="overflow-wrap: break-word !important;"> <b>Node Public Key:</b><br />' . $node_data['solanaNodeInfo']['pubkey'] . '</div>' .
                    
-                   ( $active_validator || $recently_offline_validator ? '<div class="map_point_data bitcoin" style="overflow-wrap: anywhere;"> <b>Validator Activated Stake:</b> ' . $ct['var']->num_pretty( ($node_data['solanaNodeInfo']['validator_data']['activatedStake'] / 1000000000) , 0) . ' SOL</div>' : '' ) .
+                   ( $active_validator || $recently_offline_validator ? '<div class="map_point_data bitcoin" style="overflow-wrap: break-word !important;"> <b>Validator Voting Public Key:</b><br />' . $node_data['solanaNodeInfo']['validator_data']['votePubkey'] . '</div>' : '' ) .
                    
-                   ( $active_validator || $recently_offline_validator ? '<div class="map_point_data bitcoin" style="overflow-wrap: anywhere;"> <b>Validator Voting Public Key:</b> ' . $node_data['solanaNodeInfo']['validator_data']['votePubkey'] . '</div>' : '' ) .
+                   ( $active_validator || $recently_offline_validator ? '<div class="map_point_data bitcoin" style="overflow-wrap: break-word !important;"> <b>Validator Activated Stake:</b> ' . $ct['var']->num_pretty( ($node_data['solanaNodeInfo']['validator_data']['activatedStake'] / 1000000000) , 0) . ' SOL</div>' : '' ) .
                    
                    ( $recently_offline_validator ? '<div class="map_point_data red"> <b>Validator Recently Offline:</b> No Votes Yet This Epoch!</div>' : '' ),
                    

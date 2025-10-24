@@ -128,19 +128,19 @@ var $array1 = array();
      
      $update_config_error_seperator = '<br /> ';
 		
-     $solana_node_count_chart_defaults = array_map('trim', explode('||', $_POST[$this_plug]['solana_node_count_chart_defaults']) );
+     $node_count_chart_defaults = array_map('trim', explode('||', $_POST[$this_plug]['node_count_chart_defaults']) );
   
   
-          // Make sure Solana Node Count chart config is set
-          if ( isset($_POST[$this_plug]['solana_node_count_chart_defaults']) && trim($_POST[$this_plug]['solana_node_count_chart_defaults']) == '' ) {
-          $ct['update_config_error'] .= $update_config_error_seperator . '"Solana Node Count Chart Defaults" MUST be filled in';
+          // Make sure Node Count chart config is set
+          if ( isset($_POST[$this_plug]['node_count_chart_defaults']) && trim($_POST[$this_plug]['node_count_chart_defaults']) == '' ) {
+          $ct['update_config_error'] .= $update_config_error_seperator . '"Node Count Chart Defaults" MUST be filled in';
           }
           else if (
-          !isset($solana_node_count_chart_defaults[0]) || !$ct['var']->whole_int($solana_node_count_chart_defaults[0]) || $solana_node_count_chart_defaults[0] < 400 || $solana_node_count_chart_defaults[0] > 900 
-          || !isset($solana_node_count_chart_defaults[1]) || !$ct['var']->whole_int($solana_node_count_chart_defaults[1]) || $solana_node_count_chart_defaults[1] < 7 || $solana_node_count_chart_defaults[1] > 16
-          || !$ct['var']->whole_int($solana_node_count_chart_defaults[0] / 100)
+          !isset($node_count_chart_defaults[0]) || !$ct['var']->whole_int($node_count_chart_defaults[0]) || $node_count_chart_defaults[0] < 400 || $node_count_chart_defaults[0] > 900 
+          || !isset($node_count_chart_defaults[1]) || !$ct['var']->whole_int($node_count_chart_defaults[1]) || $node_count_chart_defaults[1] < 7 || $node_count_chart_defaults[1] > 16
+          || !$ct['var']->whole_int($node_count_chart_defaults[0] / 100)
           ) {
-          $ct['update_config_error'] .= $update_config_error_seperator . '"Solana Node Count Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
+          $ct['update_config_error'] .= $update_config_error_seperator . '"Node Count Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
           }
 		
      
