@@ -4,10 +4,6 @@
  */
 
 
-header('Access-Control-Allow-Headers: *'); // Allow ALL headers
-header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't load init.php here
-
-
 $parse_ticker = strtoupper( preg_replace("/stock/i", "", $_GET['ticker']) );
 
 			     

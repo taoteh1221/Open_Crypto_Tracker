@@ -18,7 +18,7 @@ var geo_map_clusters = new Object();
 function map_init(map_key, filter, last_update) {
 			
 // Zoom = 2, on initial rendering
-geo_map_init[map_key] = L.map(map_key).setView([0, 0], 2); 
+geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2); 
 
     
     // Map configs

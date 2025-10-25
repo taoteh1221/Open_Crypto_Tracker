@@ -4,21 +4,6 @@
  */
 
 
- 
-header('Content-type: text/html; charset=' . $ct['dev']['charset_default']);
-
-header('Access-Control-Allow-Headers: *'); // Allow ALL headers
-
-// Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
-if ( $ct['conf']['sec']['access_control_origin'] == 'any' ) {
-header('Access-Control-Allow-Origin: *');
-}
-// Strict access from THIS APP SERVER ONLY (provides tighter security)
-else {
-header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
-}
-
-
 // If we are not admin logged in, OR fail the CSRF security token check, exit
 if ( !$ct['sec']->admin_logged_in() || !$ct['sec']->pass_sec_check($_GET['gen_nonce'], 'general_csrf_security') ) {
 // Log errors / debugging, send notifications

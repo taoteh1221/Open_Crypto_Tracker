@@ -3,10 +3,6 @@
  * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
-
-header('Access-Control-Allow-Headers: *'); // Allow ALL headers
-header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't load init.php here
-
 ?>
 
 

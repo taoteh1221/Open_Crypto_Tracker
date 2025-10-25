@@ -129,6 +129,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+"this will remove any price chart data" on deletion of assets should really be: "this will delete any cached price chart files, but you will still need to delete any related config in the charts / alerts section"
+
+
 Do a pie chart for the Solana Version data.
 
 
@@ -136,15 +139,6 @@ Disable the on-chain-stats, and make sure there are no javascript errors related
 
 
 Add light chart support to Solana node count charting.
-
-
-Add an admin config setting, to enable BTC / ETH / SOL on-chain-stats, with checkbox choices.
-
-
-If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
-
-
-Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -155,6 +149,15 @@ Add full redhat support for auto-installer.
 
 Fedora's news feed:
 https://fedoramagazine.org/feed/
+
+
+Add an admin config setting, to enable BTC / ETH / SOL on-chain-stats, with checkbox choices.
+
+
+If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
+
+
+Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
 ===============================================================================
