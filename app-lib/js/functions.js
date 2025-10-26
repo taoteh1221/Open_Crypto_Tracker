@@ -4569,7 +4569,7 @@ private_data = document.getElementsByClassName('private_data');
     
          
         if ( user_click == true ) {
-        var confirm_privacy_mode = confirm("Click OK to continue enabling privacy mode.");
+        var confirm_privacy_mode = confirm("Click OK to continue enabling privacy mode.\n(any admin login will be logged out)");
         }
     
         

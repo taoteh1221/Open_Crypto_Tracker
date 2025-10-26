@@ -5,21 +5,6 @@
 
 
 // RSS feeds library
- 
-
-header('Content-type: text/html; charset=' . $ct['dev']['charset_default']);
-
-header('Access-Control-Allow-Headers: *'); // Allow ALL headers
-
-// Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
-if ( $ct['conf']['sec']['access_control_origin'] == 'any' ) {
-header('Access-Control-Allow-Origin: *');
-}
-// Strict access from THIS APP SERVER ONLY (provides tighter security)
-else {
-header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
-}
-
 
 $batched_feed_hashes_array = explode(',', $_GET['feeds']);
 

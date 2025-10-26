@@ -4,9 +4,6 @@
  */
 
 
-// Charts library
- 
-
 header('Content-type: text/html; charset=' . $ct['dev']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
@@ -20,6 +17,9 @@ else {
 header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 }
 
+
+// Charts library
+ 
 
 // ASSET PRICE CHARTS
 if ( $_GET['mode'] == 'asset_price' ) {

@@ -51,24 +51,25 @@ $solana_nodes_onchain = $plug['class'][$this_plug]->solana_nodes_onchain();
      
      
      // RECENTLY OFFLINE VALIDATOR COUNT
-     if ( isset($solana_nodes_onchain['recent_offline_validators']) ) {
+     if ( isset($solana_nodes_onchain['validators_without_epoch_votes']) ) {
           
           
           $validators_mapped_by_pubkeys = array();
-          foreach ( $solana_nodes_onchain['recent_offline_validators'] as $validator ) {
+          foreach ( $solana_nodes_onchain['validators_without_epoch_votes'] as $validator ) {
           $validators_mapped_by_pubkeys[ md5($validator['nodePubkey']) ] = $validator;
           }
 
      
      // Save to cache, to flag validators in the interface
-     $solana_recently_offline_validators_data_set = json_encode($validators_mapped_by_pubkeys, JSON_PRETTY_PRINT);
-     $ct['cache']->save_file( $ct['plug']->chart_cache('solana_recently_offline_validators_info.dat') , $solana_recently_offline_validators_data_set);
+     $solana_validators_without_epoch_votes_data_set = json_encode($validators_mapped_by_pubkeys, JSON_PRETTY_PRINT);
+     $ct['cache']->save_file( $ct['plug']->chart_cache('solana_validators_without_epoch_votes_info.dat') , $solana_validators_without_epoch_votes_data_set);
      
-     $solana_nodes_count_data_set .= '||' . sizeof($solana_nodes_onchain['recent_offline_validators']);
+     $solana_nodes_count_data_set .= '||' . sizeof($solana_nodes_onchain['validators_without_epoch_votes']);
      
      }
+     // Set to ZERO if no results found, as VERY OFTEN THERE ARE NOT ANY NON-VOTING VALIDATORS
      else {
-     $solana_nodes_count_data_set .= '||NO_DATA';
+     $solana_nodes_count_data_set .= '||0';
      }
 
 
