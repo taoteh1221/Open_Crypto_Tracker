@@ -23,9 +23,14 @@ geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2);
     
     // Map configs
     L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span class="bitcoin" id="'+map_key+'_alert">Loading, please wait...</span> | <span class="bitcoin">Last Update: ' + last_update + ' (UTC)</span>',
+    attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span class="bitcoin" id="'+map_key+'_zoom">Zoom: '+geo_map_init[map_key].getZoom()+'</span> | <span class="bitcoin" id="'+map_key+'_alert">Loading, please wait...</span> | <span class="bitcoin">Last Update: ' + last_update + ' (UTC)</span>',
     maxZoom: 18,
     }).addTo(geo_map_init[map_key]);
+
+
+     geo_map_init[map_key].on('zoomend', function() {
+       $("#"+map_key+"_zoom").html('Zoom: ' + geo_map_init[map_key].getZoom() );
+     });
 
     
     // Load locations via AJAX
@@ -83,12 +88,27 @@ var geo_maps = document.querySelectorAll('.geolocation_map');
 
 
 function load_geolocation_map(result, map_key) {
+
+$("#"+map_key+"_alert").html('Loaded 0 map location(s)');
           
 geo_map_locations[map_key] = [];
      
-geo_map_clusters[map_key] = L.markerClusterGroup();
-
-$("#"+map_key+"_alert").html('Loaded 0 map location(s)');
+     
+     // https://stackoverflow.com/questions/64476106/change-clusterradius-depending-on-current-zoom-leaflet
+     geo_map_clusters[map_key] = L.markerClusterGroup({
+         chunkedLoading: true,
+         maxClusterRadius: function (mapZoom) {
+             if (mapZoom >= 5) {
+             return 30;
+             }
+             else if (mapZoom >= 2) {
+             return 35;
+             }
+             else {
+             return 40;
+             }
+         },
+     });
           
      
      // Process locations

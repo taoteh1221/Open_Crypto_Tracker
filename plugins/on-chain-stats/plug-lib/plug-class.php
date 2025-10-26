@@ -96,7 +96,10 @@ var $array1 = array();
           if ( isset($solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
           $results[$key]['solanaNodeInfo']['validator_data'] = $solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
           }
-          elseif ( isset($solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
+          
+          
+          // We strip non-voting validators out of $solana_validators_info, so this cannot be an elseif
+          if ( isset($solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
           $results[$key]['solanaNodeInfo']['no_epoch_vote_validator_data'] = $solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
           }
 
