@@ -264,11 +264,14 @@ var $array1 = array();
          if ( $node_type == 'all_nodes' ) {
          $node_data = $result[1];
          }
-         elseif ( $node_type == 'validators' ) {
+         elseif ( $node_type == 'rpcs' ) {
          $node_data = $result[2];
          }
-         elseif ( $node_type == 'validators_without_epoch_votes' ) {
+         elseif ( $node_type == 'validators' ) {
          $node_data = $result[3];
+         }
+         elseif ( $node_type == 'validators_without_epoch_votes' ) {
+         $node_data = $result[4];
          }
       
       

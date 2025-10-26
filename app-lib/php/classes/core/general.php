@@ -2564,6 +2564,9 @@ var $ct_array = array();
          elseif ( strtolower($val) == 'rpc' ) {
          $words[$key] = 'RPC';
          }
+         elseif ( strtolower($val) == 'rpcs' ) {
+         $words[$key] = 'RPCs';
+         }
       
       
       $pretty_str .= $words[$key] . ' ';

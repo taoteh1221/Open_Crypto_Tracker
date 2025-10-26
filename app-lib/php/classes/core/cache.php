@@ -1026,7 +1026,7 @@ var $ct_array = array();
          // TO PREFORM THE REQUIRED THROTTLING FOR THIS SERVER (NO NEED TO TALLY A REQUEST COUNTER)
          if (
          isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_second'])
-         && $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] >= 1
+         && $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] >= 0.25
          ) {
               
               // Limits on our usleep auto-calculation logic

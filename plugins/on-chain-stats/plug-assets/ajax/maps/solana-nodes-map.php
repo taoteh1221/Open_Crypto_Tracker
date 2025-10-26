@@ -39,7 +39,7 @@ $results[] = array(
 
                    'description' => '<div class="map_point_data"> <b>IP Address:</b> ' . $node_data['query'] . '</div>' .
                    
-                   '<div class="map_point_data"> <b>Location / Zip:</b> ' . $node_data['city'] . ', ' . $node_data['country'] .  ' (' . $node_data['zip'] . ')' . '</div>' .
+                   '<div class="map_point_data"> <b>Location:</b> ' . $node_data['city'] . ', ' . $node_data['country'] . ( isset($node_data['zip']) && trim($node_data['zip']) != '' ? ' (' . trim($node_data['zip']) . ')' : '' ) . '</div>' .
                    
                    '<div class="map_point_data"> <b>Time Zone:</b> ' . $node_data['timezone'] . '</div>' .
 

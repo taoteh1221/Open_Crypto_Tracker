@@ -20,8 +20,17 @@ $solana_nodes_onchain = $plug['class'][$this_plug]->solana_nodes_onchain();
 
 
      // ALL NODE COUNT
-     if ( isset($solana_nodes_onchain['all_nodes']) ) {
+     if ( is_array($solana_nodes_onchain['all_nodes']) ) {
      $solana_nodes_count_data_set .= '||' . sizeof($solana_nodes_onchain['all_nodes']);
+     }
+     else {
+     $solana_nodes_count_data_set .= '||NO_DATA';
+     }
+
+
+     // RPC NODE COUNT
+     if ( is_array($solana_nodes_onchain['all_nodes']) && is_array($solana_nodes_onchain['validators']) ) {
+     $solana_nodes_count_data_set .= '||' . ( sizeof($solana_nodes_onchain['all_nodes']) - sizeof($solana_nodes_onchain['validators']) );
      }
      else {
      $solana_nodes_count_data_set .= '||NO_DATA';
@@ -29,7 +38,7 @@ $solana_nodes_onchain = $plug['class'][$this_plug]->solana_nodes_onchain();
      
      
      // VALIDATOR COUNT
-     if ( isset($solana_nodes_onchain['validators']) ) {
+     if ( is_array($solana_nodes_onchain['validators']) ) {
           
           
           $validators_mapped_by_pubkeys = array();
@@ -51,7 +60,7 @@ $solana_nodes_onchain = $plug['class'][$this_plug]->solana_nodes_onchain();
      
      
      // RECENTLY OFFLINE VALIDATOR COUNT
-     if ( isset($solana_nodes_onchain['validators_without_epoch_votes']) ) {
+     if ( is_array($solana_nodes_onchain['validators_without_epoch_votes']) ) {
           
           
           $validators_mapped_by_pubkeys = array();

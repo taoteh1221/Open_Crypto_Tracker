@@ -4192,14 +4192,37 @@ var $exchange_apis = array(
       || !$ct['ticker_markets_search'] && isset($result['last_trade']) && !is_numeric($result['last_trade'])
       ) {
            
-      $invalid_last_trade = true;
+           
+           // ONLY FLAG A MARKET DATA ALERT, IF WE ARE NOT THROTTLING IN THE APP!
+           foreach ( $this->exchange_apis as $check_exchange_key => $check_exchange_data ) {
+      
+      
+                // Keep INITIAL condition check targeted but quick, for runtime speed
+                if ( $sel_exchange == $check_exchange_key ) {
+                
+                // Get exchange's markets endpoint domain
+                $tld_or_ip = $ct['gen']->get_tld_or_ip( $check_exchange_data['markets_endpoint'] );
+                
                      
-      $ct['gen']->log(
-                   		    'notify_error',
-                   		    'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
-                   		    false,
-                   		    'no_market_data_' . $sel_exchange
-                   		    );
+                     if ( $ct['cache']->api_throttled($tld_or_ip) == false ) {
+                          
+                     $invalid_last_trade = true;
+                                    
+                     $ct['gen']->log(
+                                  		    'notify_error',
+                                  		    'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                                  		    false,
+                                  		    'no_market_data_' . $sel_exchange
+                                  		    );
+                     
+                     }
+
+           
+                }
+
+           
+           }
+           
                    		    
       }
 
