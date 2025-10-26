@@ -138,6 +138,12 @@ Add light chart support to Solana node count charting.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
+
+
+Do a review of how everything renders in Firefox (as it's been a year since last FF review).
+
+
 Change the navigation link name for plugins in the admin area to "Addon Plugins" (including the page title). Then create a new main navigation Top level entry (under "Admin Area" and "User Area") with the same name, that only shows if an installed plugin is configured to show in that as a sub menu navigation entry.
 
 
@@ -149,12 +155,6 @@ https://fedoramagazine.org/feed/
 
 
 Add an admin config setting, to enable BTC / ETH / SOL on-chain-stats, with checkbox choices.
-
-
-If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
-
-
-Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
 ===============================================================================
