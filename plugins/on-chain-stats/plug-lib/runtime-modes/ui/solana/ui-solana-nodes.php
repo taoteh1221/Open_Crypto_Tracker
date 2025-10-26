@@ -283,11 +283,11 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     ?>
     </select>  &nbsp;&nbsp; 
     
-    Show Nodes: <select class='browser-default custom-select' id='solana_geolocation_filter' name='solana_geolocation_filter'>
+    Show Node Type: <select class='browser-default custom-select' id='solana_geolocation_filter' name='solana_geolocation_filter'>
     <option value='all'> All </option>
-    <option value='validators'> Validators </option>
     <option value='rpc'> RPC </option>
-    <option value='recently_offline_validators'> Recently Offline Validators </option>
+    <option value='validators'> Validator </option>
+    <option value='validators_without_epoch_votes'> Validator Without Epoch Votes </option>
     </select>  &nbsp;&nbsp; 
     
     

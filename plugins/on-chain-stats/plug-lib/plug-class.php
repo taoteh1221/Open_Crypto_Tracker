@@ -54,8 +54,8 @@ var $array1 = array();
    $solana_validators_info_file = $ct['plug']->chart_cache('solana_validators_info.dat', $this_plug);
    $solana_validators_info = json_decode( trim( file_get_contents( $solana_validators_info_file ) ) , true);
    
-   $solana_recently_offline_validators_info_file = $ct['plug']->chart_cache('solana_recently_offline_validators_info.dat', $this_plug);
-   $solana_recently_offline_validators_info = json_decode( trim( file_get_contents( $solana_recently_offline_validators_info_file ) ) , true);
+   $solana_validators_without_epoch_votes_info_file = $ct['plug']->chart_cache('solana_validators_without_epoch_votes_info.dat', $this_plug);
+   $solana_validators_without_epoch_votes_info = json_decode( trim( file_get_contents( $solana_validators_without_epoch_votes_info_file ) ) , true);
    
    $solana_nodes_info_file = $ct['plug']->chart_cache('solana_nodes_info.dat', $this_plug);
    $solana_nodes_info = json_decode( trim( file_get_contents( $solana_nodes_info_file ) ) , true);
@@ -96,8 +96,8 @@ var $array1 = array();
           if ( isset($solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
           $results[$key]['solanaNodeInfo']['validator_data'] = $solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
           }
-          elseif ( isset($solana_recently_offline_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
-          $results[$key]['solanaNodeInfo']['recently_offline_validator_data'] = $solana_recently_offline_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
+          elseif ( isset($solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
+          $results[$key]['solanaNodeInfo']['no_epoch_vote_validator_data'] = $solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
           }
 
 
@@ -185,7 +185,7 @@ var $array1 = array();
                     || $validator_val['epochVoteAccount'] == false
                     ) {
                          
-                    $results['recent_offline_validators'][] = $results['validators'][$validator_key];
+                    $results['validators_without_epoch_votes'][] = $results['validators'][$validator_key];
 
                     unset($results['validators'][$validator_key]);
 
@@ -267,7 +267,7 @@ var $array1 = array();
          elseif ( $node_type == 'validators' ) {
          $node_data = $result[2];
          }
-         elseif ( $node_type == 'recently_offline_validators' ) {
+         elseif ( $node_type == 'validators_without_epoch_votes' ) {
          $node_data = $result[3];
          }
       

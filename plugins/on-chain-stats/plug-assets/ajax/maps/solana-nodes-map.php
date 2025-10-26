@@ -15,21 +15,21 @@ foreach ( $solana_nodes_geolocation as $node_data ) {
      if ( isset($node_data['solanaNodeInfo']['validator_data']) ) {
      $active_validator = true;
      }
-     elseif ( isset($node_data['solanaNodeInfo']['recently_offline_validator_data']) ) {
-     $recently_offline_validator = true;
+     elseif ( isset($node_data['solanaNodeInfo']['no_epoch_vote_validator_data']) ) {
+     $no_epoch_vote_validator = true;
      }
      else {
      $active_validator = false;
-     $recently_offline_validator = false;
+     $no_epoch_vote_validator = false;
      }
 
 
       // Results filters
       if (
       $active_validator && $_GET['filter'] == 'rpc'
-      || $recently_offline_validator && $_GET['filter'] == 'rpc'
-      || !$active_validator && !$recently_offline_validator && $_GET['filter'] == 'validators'
-      || !$recently_offline_validator && $_GET['filter'] == 'recently_offline_validators'
+      || $no_epoch_vote_validator && $_GET['filter'] == 'rpc'
+      || !$active_validator && !$no_epoch_vote_validator && $_GET['filter'] == 'validators'
+      || !$no_epoch_vote_validator && $_GET['filter'] == 'validators_without_epoch_votes'
       ) {
       continue; // Skip this loop
       }
@@ -59,11 +59,11 @@ $results[] = array(
                    
                    '<div class="map_point_data" style="overflow-wrap: break-word !important;"> <b>Node Public Key:</b><br />' . $node_data['solanaNodeInfo']['pubkey'] . '</div>' .
                    
-                   ( $active_validator || $recently_offline_validator ? '<div class="map_point_data bitcoin" style="overflow-wrap: break-word !important;"> <b>Validator Voting Public Key:</b><br />' . $node_data['solanaNodeInfo']['validator_data']['votePubkey'] . '</div>' : '' ) .
+                   ( $active_validator || $no_epoch_vote_validator ? '<div data_flag="is_validator" class="map_point_data bitcoin" style="overflow-wrap: break-word !important;"> <b>Validator Voting Public Key:</b><br />' . $node_data['solanaNodeInfo']['validator_data']['votePubkey'] . '</div>' : '' ) .
                    
-                   ( $active_validator || $recently_offline_validator ? '<div class="map_point_data bitcoin" style="overflow-wrap: break-word !important;"> <b>Validator Activated Stake:</b> ' . $ct['var']->num_pretty( ($node_data['solanaNodeInfo']['validator_data']['activatedStake'] / 1000000000) , 0) . ' SOL</div>' : '' ) .
+                   ( $active_validator || $no_epoch_vote_validator ? '<div class="map_point_data bitcoin" style="overflow-wrap: break-word !important;"> <b>Validator Activated Stake:</b> ' . $ct['var']->num_pretty( ($node_data['solanaNodeInfo']['validator_data']['activatedStake'] / 1000000000) , 0) . ' SOL</div>' : '' ) .
                    
-                   ( $recently_offline_validator ? '<div class="map_point_data red"> <b>Validator Recently Offline:</b> No Votes Yet This Epoch!</div>' : '' ),
+                   ( $no_epoch_vote_validator ? '<div data_flag="no_epoch_vote" class="map_point_data red"> <b>Validator Alert:</b> No votes yet for current epoch!</div>' : '' ),
                    
                    'latitude' => $node_data['lat'],
 

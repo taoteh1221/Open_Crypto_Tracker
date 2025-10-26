@@ -23,7 +23,7 @@ geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2);
     
     // Map configs
     L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span id="'+map_key+'_alert">Loading, please wait...</span> | Last Update: ' + last_update + ' (UTC)',
+    attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span class="bitcoin" id="'+map_key+'_alert">Loading, please wait...</span> | <span class="bitcoin">Last Update: ' + last_update + ' (UTC)</span>',
     maxZoom: 18,
     }).addTo(geo_map_init[map_key]);
 
@@ -94,7 +94,7 @@ $("#"+map_key+"_alert").html('Loaded 0 map location(s)');
      // Process locations
      $.each(result, function(loop, sol_node){
           
-     var count = loop + 1;
+     var count = loop;
      
          // Pretty numbers
          count = count.toLocaleString(undefined, {
@@ -104,11 +104,11 @@ $("#"+map_key+"_alert").html('Loaded 0 map location(s)');
      
      $("#"+map_key+"_alert").html('Loaded '+count+' map location(s)');
      
-     var is_validator = sol_node.description.match(/validator/i);
+     var is_validator = sol_node.description.match(/is_validator/i);
      
-     var recently_offline_validator = sol_node.description.match(/validator recently offline/i);
+     var no_epoch_vote_validator = sol_node.description.match(/no_epoch_vote/i);
 
-     geo_map_locations[map_key][loop] = [sol_node.description, sol_node.latitude, sol_node.longitude, is_validator, recently_offline_validator];
+     geo_map_locations[map_key][loop] = [sol_node.description, sol_node.latitude, sol_node.longitude, is_validator, no_epoch_vote_validator];
 
      });
      
