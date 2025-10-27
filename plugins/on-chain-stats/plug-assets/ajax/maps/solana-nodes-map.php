@@ -31,12 +31,12 @@ unset($solana_validator_info);
      }
 
 
-      // Results filters
+      // Node type filters
       if (
-      $_GET['filter'] == 'all'
-      || $_GET['filter'] == 'rpc' && !$is_validator
-      || $_GET['filter'] == 'validators' && $is_validator
-      || $_GET['filter'] == 'validators_without_epoch_votes' && $no_epoch_vote_validator
+      $_GET['node_type'] == 'all'
+      || $_GET['node_type'] == 'rpc' && !$is_validator
+      || $_GET['node_type'] == 'validators' && $is_validator
+      || $_GET['node_type'] == 'validators_without_epoch_votes' && $no_epoch_vote_validator
       ) {
       // All good, do nothing
       }
@@ -46,18 +46,98 @@ unset($solana_validator_info);
       }
       
       
-      // Address filter
+      // Secondary filters
       if (
-      !isset($_GET['address'])
-      || trim($_GET['address']) == ''
-      || trim($_GET['address']) == $node_data['solanaNodeInfo']['pubkey']
-      || isset($solana_validator_info['votePubkey']) && trim($_GET['address']) == $solana_validator_info['votePubkey']
+      isset($_GET['secondary_filter'])
+      && trim($_GET['secondary_filter']) != ''
       ) {
-      // All good, do nothing
-      }
-      // Skip this loop
-      else {
-      continue; 
+      
+      
+          if ( $_GET['secondary_filter_type'] == 'country' ) {
+          
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['country']) ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
+          elseif ( $_GET['secondary_filter_type'] == 'city' ) {
+          
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['city']) ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
+          elseif ( $_GET['secondary_filter_type'] == 'time_zone' ) {
+          
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['timezone']) ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
+          elseif ( $_GET['secondary_filter_type'] == 'isp' ) {
+          
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['isp']) ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
+          elseif ( $_GET['secondary_filter_type'] == 'node_version' ) {
+          
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['solanaNodeInfo']['version']) ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
+          elseif ( $_GET['secondary_filter_type'] == 'node_shred_version' ) {
+          
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['solanaNodeInfo']['shredVersion']) ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
+          elseif ( $_GET['secondary_filter_type'] == 'node_feature_set' ) {
+          
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['solanaNodeInfo']['featureSet']) ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
+          elseif ( $_GET['secondary_filter_type'] == 'public_key' ) {
+          
+              if ( 
+              trim($_GET['secondary_filter']) == $node_data['solanaNodeInfo']['pubkey']
+              || isset($solana_validator_info['votePubkey']) && trim($_GET['secondary_filter']) == $solana_validator_info['votePubkey']
+              ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
+      
+      
       }
 
 
