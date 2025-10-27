@@ -127,6 +127,8 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 !!!!
 ===> Test in a WebKit-based browser [Epiphany|Safari|Midori], besides Firefox / Chromium.
 !!!!
+===> Use gc_collect_cycles() conservatively, as it slows runtime (especially in loops!)
+!!!!
 ===> Try to wrap up tests / UX / QA / debugging before adding new architecture
 ===> (find every flaming turd before you start a dumpster fire!).
 !!!!

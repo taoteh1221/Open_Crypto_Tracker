@@ -15,7 +15,7 @@ var geo_map_clusters = new Object();
 /////////////////////////////////////////////////////////////
 
 
-function map_init(map_key, filter, last_update) {
+function map_init(map_key, ajax_url, last_update) {
 			
 // Zoom = 2, on initial rendering
 geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2); 
@@ -34,7 +34,7 @@ geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2);
 
     
     // Load locations via AJAX
-    $.getJSON(plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key='+map_key+'&filter=' + filter, function (result) {
+    $.getJSON(ajax_url, function (result) {
     load_geolocation_map(result, map_key);
     });
 
@@ -92,6 +92,8 @@ function load_geolocation_map(result, map_key) {
 $("#"+map_key+"_alert").html('Loaded 0 map location(s)');
           
 geo_map_locations[map_key] = [];
+
+var count;
      
      
      // https://stackoverflow.com/questions/64476106/change-clusterradius-depending-on-current-zoom-leaflet
@@ -114,16 +116,6 @@ geo_map_locations[map_key] = [];
      // Process locations
      $.each(result, function(loop, sol_node){
           
-     var count = loop;
-     
-         // Pretty numbers
-         count = count.toLocaleString(undefined, {
-         minimumFractionDigits: 0,
-         maximumFractionDigits: 0
-         });
-     
-     $("#"+map_key+"_alert").html('Loaded '+count+' map location(s)');
-     
      var is_validator = sol_node.description.match(/is_validator/i);
      
      var no_epoch_vote_validator = sol_node.description.match(/no_epoch_vote/i);
@@ -165,6 +157,17 @@ geo_map_locations[map_key] = [];
          });
      
      geo_map_clusters[map_key].addLayer(marker);
+     
+     count = i + 1;
+     
+         // Pretty numbers
+         count = count.toLocaleString(undefined, {
+         minimumFractionDigits: 0,
+         maximumFractionDigits: 0
+         });
+     
+     
+     $("#"+map_key+"_alert").html('Loaded '+count+' map location(s)');
      
      }
 

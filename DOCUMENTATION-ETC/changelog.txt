@@ -7028,6 +7028,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed an issue in the throttling system, related to sub-second throttling profiles
 
+-BUG FIX: Fixes for the plugin system
+
 -BUG FIX: Miscellaneous (minor)
 
 -Added to the "on-chain-stats" plugin: Solana Epoch Information, Solana Node Count history chart, Solana Node GeoLocation map, and Solana Node Version pie chart

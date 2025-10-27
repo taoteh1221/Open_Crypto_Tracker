@@ -290,6 +290,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     <option value='validators_without_epoch_votes'> Validator Without Epoch Votes </option>
     </select>  &nbsp;&nbsp; 
     
+    Node Public Key: <input type='text' size='30' name='solana_address_filter' id='solana_address_filter' placeholder="(optional)" />
     
     <input type='button' value='Update Solana GeoLocation Map' onclick="
     
@@ -302,7 +303,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     // Reload map
     map_init(
              'solana_map',
-             document.getElementById('solana_geolocation_filter').value,
+             plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key=solana_map&filter=' + document.getElementById('solana_geolocation_filter').value+'&address=' + document.getElementById('solana_address_filter').value,
              '<?=$solana_node_geolocation_pretty_timestamp?>'
              );
 
@@ -317,7 +318,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     // Render map
     map_init(
              'solana_map',
-             document.getElementById('solana_geolocation_filter').value,
+             plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key=solana_map&filter=' + document.getElementById('solana_geolocation_filter').value+'&address=' + document.getElementById('solana_address_filter').value,
              '<?=$solana_node_geolocation_pretty_timestamp?>'
              );
 		

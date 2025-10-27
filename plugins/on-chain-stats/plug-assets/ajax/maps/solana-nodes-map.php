@@ -44,6 +44,21 @@ unset($solana_validator_info);
       else {
       continue; 
       }
+      
+      
+      // Address filter
+      if (
+      !isset($_GET['address'])
+      || trim($_GET['address']) == ''
+      || trim($_GET['address']) == $node_data['solanaNodeInfo']['pubkey']
+      || isset($solana_validator_info['votePubkey']) && trim($_GET['address']) == $solana_validator_info['votePubkey']
+      ) {
+      // All good, do nothing
+      }
+      // Skip this loop
+      else {
+      continue; 
+      }
 
 
 $results[] = array(

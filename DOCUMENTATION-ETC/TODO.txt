@@ -56,6 +56,8 @@ TO-DO NOTES
 !!!!
 ===> Test in a WebKit-based browser [Epiphany|Safari|Midori], besides Firefox / Chromium.
 !!!!
+===> Use gc_collect_cycles() conservatively, as it slows runtime (especially in loops!)
+!!!!
 ===> Try to wrap up tests / UX / QA / debugging before adding new architecture
 ===> (find every flaming turd before you start a dumpster fire!).
 !!!!
@@ -138,13 +140,43 @@ Add light chart support to Solana node count charting.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+Find out why solana node counts in historical chart don't match the counts in the geolocation map. This LIKELY indicates a bug somewhere.
+
+
+====================================================================================
+Plugins should be allowed to optionally create their own navigation menu. This should be done by creating the additional value option 'nav_menu', for $plug['conf'][$this_plug]['ui_location'].
+
+Change the navigation link name for plugins in the admin area to "Addon Plugins" (including the page title). Then create a new main navigation Top level entry (underneath "Admin Area" and "User Area") with the same name, that only shows if at least one installed plugin is configured to show in the navigation menu.
+
+This "Addon Plugins" top level navigation menu should run from a new file in the main app directory, called 'dedicated-plugins-interface.php', in the same way the admin / user areas run from 'admin.php' and 'index.php'. Additionally, the menu behavior should also be the same, in that only entries in the "Addon Plugins" area should 'instantly load', when in that area. This can be done by formatting the rendering to resemble like we do for the user area in 'index.php'.
+====================================================================================
+
+
+Create a function is_valid_plugin(), to use in plugins-init.php, in $ct['gen']->refresh_plugins_list(), and in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case).
+
+
+On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
+
+
+On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
+
+
+In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
+
+
+Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
+
+
+Put days / hours left in current Solana epoch in the epoch info area, and try and squeeze in color maps for the types of Solana nodes into the map footer.
+
+
+Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)
+
+
 If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
 
 
 Do a review of how everything renders in Firefox (as it's been a year since last FF review).
-
-
-Change the navigation link name for plugins in the admin area to "Addon Plugins" (including the page title). Then create a new main navigation Top level entry (under "Admin Area" and "User Area") with the same name, that only shows if an installed plugin is configured to show in that as a sub menu navigation entry.
 
 
 Add full redhat support for auto-installer.
@@ -173,7 +205,13 @@ If valid market data IS found, show the normal "cancel / review / confirm" scree
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
+==================================================================
 Add a maintenance routine, where if it's -4 UTC and near first Sunday in November, remind with a comms alert that daylight savings is about to end. Do the same for -5 UTC / first Sunday in March.
+
+For our research into daylight savings time alerts feasibility, test out using the geolocator API to get the country from the detected internet gateway ip address the app server is on, and compile an array of countries that have daylight savings time, to check against. 
+
+Also, see if the dates are different for every country, and if so, map them into the array of countries.
+==================================================================
 
 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
@@ -227,18 +265,6 @@ Add an info icon next to 2FA fields, with info on what it is, usage, and how to 
 New FAQ entry "my text alerts aren't working, or are delayed"
 
 
-On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
-
-
-On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
-
-
-In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
-
-
-Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
-
-
 Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
 
 
@@ -261,28 +287,6 @@ Start looking at which exchange APIs have a 'search' API endpoint (for exchanges
 
 
 Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files). Whenever we get around to building the app upgrade features, add a setting to enable automatic updates, and have users alerted by their comms methods whenever an auto-update occurs. Additionally, we can also make a configuration backup before upgrading (to save settings in case of any resets).
-
-
-Plugins should be allowed to optionally create their own sidebar menu, with the option of being either a single link, or a sub menu that opens up (like the admin / user areas).
-
-
-Add new plugin standard config 'ui_display_mode':
-----
-Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections) Defaults to 'inline' if not set.
-----
-$plug['conf'][$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
-
-
-Add new plugin standard config 'admin_page_width':
-----
-$plug['conf'][$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
-----
-'full' makes the plugin's admin page full width (like we do for app logs / system stats admin pages already).
-----
-Defaults to 'standard' if not set.
-
-
-Document the ABOVE new plugin settings, and fully test before public release.
 
 
 REDO all screenshots, used on the project page.

@@ -3766,6 +3766,9 @@ var $ct_array = array();
       // No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST NEW INSTALLS WILL RUN
       // !!!!!!!!!!!!!!!!!NEVER RUN $data THROUGH trim() FOR CHECKS ETC, AS trim() CAN FLIP OUT AND RETURN NULL IF OBSCURE SYMBOLS ARE PRESENT!!!!!!!!!!!!!!!!!
       if ( $data == '' && $is_self_security_test != 1 ) {
+                 
+      // Tighten throttling
+      $ct['gen']->throttle_stricter($tld_or_ip);
        
       // FALLBACK TO FILE CACHE DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
       // (NO LOGIC NEEDED TO CHECK RUNTIME CACHE, AS WE ONLY ARE HERE IF THERE IS NONE)
@@ -3934,11 +3937,8 @@ var $ct_array = array();
             || $tld_or_ip == 'coingecko.com' && preg_match("/coins/i", $request_params) && !preg_match("/name/i", $data) 
             ) {
                  
-            // THROTTLE DOWN TO 5 REQUESTS PER MINUTE MAX
-            $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute'] = 5;
-                 
-            // THROTTLE DOWN TO 1 REQUEST PER SECOND MAX    
-            $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 0.5; // Max once every 2 seconds
+            // Tighten throttling
+            $ct['gen']->throttle_stricter($tld_or_ip);
             
             // Reset $data var with any cached value (null / false result is OK), as we don't want to cache a KNOWN error response
             // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle,

@@ -210,6 +210,14 @@ padding: 0px;
 }
 
 
+/* Universal styling for all placeholders */
+::placeholder {
+  color: #999; /* Example: light gray color */
+  font-style: italic; /* Example: italic font style */
+  opacity: 0.65; 
+}
+
+
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
