@@ -140,6 +140,9 @@ Add light chart support to Solana node count charting.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
+
+
 Find out why solana node counts in historical chart don't match the counts in the geolocation map. This LIKELY indicates a bug somewhere.
 
 
@@ -212,9 +215,6 @@ For our research into daylight savings time alerts feasibility, test out using t
 
 Also, see if the dates are different for every country, and if so, map them into the array of countries.
 ==================================================================
-
-
-See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
 
 
 Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
