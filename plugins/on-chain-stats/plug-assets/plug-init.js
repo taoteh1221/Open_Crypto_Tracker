@@ -15,7 +15,7 @@ var geo_map_clusters = new Object();
 /////////////////////////////////////////////////////////////
 
 
-function map_init(map_key, filter, last_update) {
+function map_init(map_key, ajax_url, last_update) {
 			
 // Zoom = 2, on initial rendering
 geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2); 
@@ -23,13 +23,18 @@ geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2);
     
     // Map configs
     L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span class="bitcoin" id="'+map_key+'_alert">Loading, please wait...</span> | <span class="bitcoin">Last Update: ' + last_update + ' (UTC)</span>',
+    attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span class="bitcoin" id="'+map_key+'_zoom">Zoom: '+geo_map_init[map_key].getZoom()+'</span> | <span class="bitcoin" id="'+map_key+'_alert">Loading, please wait...</span> | <span class="bitcoin">Last Update: ' + last_update + ' (UTC)</span>',
     maxZoom: 18,
     }).addTo(geo_map_init[map_key]);
 
+
+     geo_map_init[map_key].on('zoomend', function() {
+       $("#"+map_key+"_zoom").html('Zoom: ' + geo_map_init[map_key].getZoom() );
+     });
+
     
     // Load locations via AJAX
-    $.getJSON(plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key='+map_key+'&filter=' + filter, function (result) {
+    $.getJSON(ajax_url, function (result) {
     load_geolocation_map(result, map_key);
     });
 
@@ -83,27 +88,34 @@ var geo_maps = document.querySelectorAll('.geolocation_map');
 
 
 function load_geolocation_map(result, map_key) {
-          
-geo_map_locations[map_key] = [];
-     
-geo_map_clusters[map_key] = L.markerClusterGroup();
 
 $("#"+map_key+"_alert").html('Loaded 0 map location(s)');
+          
+geo_map_locations[map_key] = [];
+
+var count;
+     
+     
+     // https://stackoverflow.com/questions/64476106/change-clusterradius-depending-on-current-zoom-leaflet
+     geo_map_clusters[map_key] = L.markerClusterGroup({
+         chunkedLoading: true,
+         maxClusterRadius: function (mapZoom) {
+             if (mapZoom >= 5) {
+             return 30;
+             }
+             else if (mapZoom >= 2) {
+             return 35;
+             }
+             else {
+             return 40;
+             }
+         },
+     });
           
      
      // Process locations
      $.each(result, function(loop, sol_node){
           
-     var count = loop;
-     
-         // Pretty numbers
-         count = count.toLocaleString(undefined, {
-         minimumFractionDigits: 0,
-         maximumFractionDigits: 0
-         });
-     
-     $("#"+map_key+"_alert").html('Loaded '+count+' map location(s)');
-     
      var is_validator = sol_node.description.match(/is_validator/i);
      
      var no_epoch_vote_validator = sol_node.description.match(/no_epoch_vote/i);
@@ -145,6 +157,17 @@ $("#"+map_key+"_alert").html('Loaded 0 map location(s)');
          });
      
      geo_map_clusters[map_key].addLayer(marker);
+     
+     count = i + 1;
+     
+         // Pretty numbers
+         count = count.toLocaleString(undefined, {
+         minimumFractionDigits: 0,
+         maximumFractionDigits: 0
+         });
+     
+     
+     $("#"+map_key+"_alert").html('Loaded '+count+' map location(s)');
      
      }
 

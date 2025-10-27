@@ -527,11 +527,6 @@ var $exchange_apis = array(
                 if ( !file_exists($secondary_cache) ) {
                 $ct['cache']->save_file($secondary_cache, $response);
                 }
-                // Otherwise, just update cache file time, to avoid checking
-                // again until the minimum cache time has been reached
-                else {
-                touch($secondary_cache); 
-                }
 
             }
             // Otherwise, save the latest overview data
@@ -2984,7 +2979,12 @@ var $exchange_apis = array(
    
    global $ct;
    
+   gc_collect_cycles(); // Clean memory cache
+   
    $sel_exchange = strtolower($sel_exchange);
+   
+   // Get exchange's markets endpoint domain
+   $tld_or_ip = $ct['gen']->get_tld_or_ip( $this->exchange_apis[$sel_exchange]['markets_endpoint'] );
    
    
       // RUNTIME CACHING (to speed things up)
@@ -3013,9 +3013,6 @@ var $exchange_apis = array(
       if ( !isset($data) ) {
       $data = $this->exchange_api_data($sel_exchange, $mrkt_id);
       }
-   
-   
-   gc_collect_cycles(); // Clean memory cache
    
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4192,14 +4189,21 @@ var $exchange_apis = array(
       || !$ct['ticker_markets_search'] && isset($result['last_trade']) && !is_numeric($result['last_trade'])
       ) {
            
-      $invalid_last_trade = true;
+           
+           // ONLY FLAG A MARKET DATA ALERT, IF WE ARE NOT THROTTLING IN THE APP!
+           if ( $ct['cache']->api_throttled($tld_or_ip) == false ) {
+                          
+           $invalid_last_trade = true;
+                                    
+           $ct['gen']->log(
+                                  		    'notify_error',
+                                  		    'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                                  		    false,
+                                  		    'no_market_data_' . $sel_exchange
+                                  		    );
                      
-      $ct['gen']->log(
-                   		    'notify_error',
-                   		    'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
-                   		    false,
-                   		    'no_market_data_' . $sel_exchange
-                   		    );
+           }
+           
                    		    
       }
 

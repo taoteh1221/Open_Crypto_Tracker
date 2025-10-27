@@ -474,6 +474,36 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function throttle_stricter($tld_or_ip) {
+   
+   global $ct;
+   
+   
+        // THROTTLE DOWN TO 5 REQUESTS PER MINUTE MAX
+        if (
+        !isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute'])
+        || $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute'] > 5
+        ) {
+        $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute'] = 5;
+        }
+                 
+                 
+        // THROTTLE DOWN TO 1 REQUEST PER SECOND MAX    
+        if (
+        !isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_second'])
+        || $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] > 0.5
+        ) {
+        $ct['dev']['throttled_apis'][$tld_or_ip]['per_second'] = 0.5; // Max once every 2 seconds
+        }
+               
+        
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function valid_email($email) {
    
    global $ct;
@@ -2563,6 +2593,9 @@ var $ct_array = array();
          }
          elseif ( strtolower($val) == 'rpc' ) {
          $words[$key] = 'RPC';
+         }
+         elseif ( strtolower($val) == 'rpcs' ) {
+         $words[$key] = 'RPCs';
          }
       
       

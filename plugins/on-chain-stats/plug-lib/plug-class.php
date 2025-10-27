@@ -96,7 +96,10 @@ var $array1 = array();
           if ( isset($solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
           $results[$key]['solanaNodeInfo']['validator_data'] = $solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
           }
-          elseif ( isset($solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
+          
+          
+          // We strip non-voting validators out of $solana_validators_info, so this cannot be an elseif
+          if ( isset($solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
           $results[$key]['solanaNodeInfo']['no_epoch_vote_validator_data'] = $solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
           }
 
@@ -264,11 +267,14 @@ var $array1 = array();
          if ( $node_type == 'all_nodes' ) {
          $node_data = $result[1];
          }
-         elseif ( $node_type == 'validators' ) {
+         elseif ( $node_type == 'rpcs' ) {
          $node_data = $result[2];
          }
-         elseif ( $node_type == 'validators_without_epoch_votes' ) {
+         elseif ( $node_type == 'validators' ) {
          $node_data = $result[3];
+         }
+         elseif ( $node_type == 'validators_without_epoch_votes' ) {
+         $node_data = $result[4];
          }
       
       

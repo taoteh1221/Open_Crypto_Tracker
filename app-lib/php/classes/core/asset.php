@@ -1859,6 +1859,9 @@ var $ct_array = array();
    
    // Get any necessary variables for calculating asset's PRIMARY CURRENCY CONFIG value
    
+   // Get exchange's markets endpoint domain
+   $tld_or_ip = $ct['gen']->get_tld_or_ip( $ct['api']->exchange_apis[$exchange]['markets_endpoint'] );
+   
    // Consolidate function calls for runtime speed improvement
    $asset_mrkt_data = $ct['api']->market($asset, $exchange, $ct['conf']['assets'][$asset]['pair'][$pair][$exchange], $pair);
       
@@ -1990,44 +1993,28 @@ var $ct_array = array();
       // (ONLY IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS BEEN UPDATED WITHIN
       // THE PAST $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'] MINUTES,
       // OTHERWISE IT COULD BE NEW PRICE DATA CACHED FROM INTERFACE USAGE ETC ETC, SO WE STILL WANT TO UPDATE CHARTS IN THIS CASE)
-      foreach ( $ct['api']->exchange_apis as $check_exchange_key => $check_exchange_data ) {
-      
-      
-           // Keep INITIAL condition check targeted but quick, for runtime speed
-           if ( $exchange == $check_exchange_key ) {
-           
-           // Get exchange's markets endpoint domain
-           $tld_or_ip = $ct['gen']->get_tld_or_ip( $check_exchange_data['markets_endpoint'] );
-      
+      // IF we have flagged an APP-BASED API throttle for this domain,
+      // AND have ALREADY updated the chart within $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'],
+      // HALT storing duplicate ARCHIVAL chart data (we still allow LIGHT CHART data building)
+      if (
+      $ct['cache']->api_throttled($tld_or_ip) == true
+      && isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'])
+      && $ct['cache']->update_cache($prim_currency_chart_path, $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time']) == false
+      ) {
                
-               // IF we have flagged an APP-BASED API throttle for this domain,
-               // AND have ALREADY updated the chart within $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'],
-               // HALT storing duplicate ARCHIVAL chart data (we still allow LIGHT CHART data building)
-               if (
-               $ct['cache']->api_throttled($tld_or_ip) == true
-               && isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'])
-               && $ct['cache']->update_cache($prim_currency_chart_path, $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time']) == false
-               ) {
-               
-               $halt_archival_storage = true;
+      $halt_archival_storage = true;
            
            
                     if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
                     
                      $ct['gen']->log(
                          	    'notify_debug',
-                         	    'skipping "' . $check_exchange_key . '" ARCHIVAL price chart storage (for ' . strtoupper($asset_data) . '), as we are CURRENTLY throttled by this app to cache-only, to avoid API limits (for ' . $tld_or_ip . ')'
+                         	    'skipping "' . $exchange . '" ARCHIVAL price chart storage (for ' . strtoupper($asset_data) . '), as we are CURRENTLY throttled by this app to cache-only, to avoid API limits (for ' . $tld_or_ip . ')'
                          	   );
                     	   
                     }
 
                		  
-               }
-               
-           
-           }
-           
-      
       }
      
    

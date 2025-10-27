@@ -12,6 +12,8 @@ if ( file_exists($chart_file) ) {
      
 $ct['plug_runtime_data']['on-chain-stats']['node_stats']['all_nodes'] = $plug['class']['on-chain-stats']->solana_node_count_chart($chart_file, 'all_nodes', $_GET['start_time']); 
 
+$ct['plug_runtime_data']['on-chain-stats']['node_stats']['rpcs'] = $plug['class']['on-chain-stats']->solana_node_count_chart($chart_file, 'rpcs', $_GET['start_time']); 
+
 $ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators'] = $plug['class']['on-chain-stats']->solana_node_count_chart($chart_file, 'validators', $_GET['start_time']); 
 
 $ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators_without_epoch_votes'] = $plug['class']['on-chain-stats']->solana_node_count_chart($chart_file, 'validators_without_epoch_votes', $_GET['start_time']); 
