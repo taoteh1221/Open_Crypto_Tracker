@@ -497,8 +497,23 @@ var $exchange_apis = array(
    
         
         // IF we do NOT have a PREMIUM PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS
+        // (UNLESS WE GOT NO DATA LAST LIVE REQUEST, IN WHICH CASE TRY AGAIN AFTER 6 / 12 HOURS)
         if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
-        $cache_time = rand(7, 14) * 1440; 
+   
+   
+             if ( file_exists($secondary_cache) ) {
+             $secondary_cache_info = json_decode( trim( file_get_contents( $secondary_cache ) ) , true);
+             }
+
+           
+             if ( isset($secondary_cache_info['request_error']) ) {
+             $cache_time = rand(360, 720); // 6 / 12 HOURS IN MINUTES
+             }
+             else {
+             $cache_time = rand(7, 14) * 1440; 
+             }
+             
+             
         }
         else {
         $cache_time = 1440; 

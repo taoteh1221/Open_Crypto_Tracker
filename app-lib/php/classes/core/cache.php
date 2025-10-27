@@ -3443,7 +3443,8 @@ var $ct_array = array();
       // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
       $data = trim( file_get_contents($cached_path) );
       
-      // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
+      // DON'T USE isset(), use != '' to store as 'none' reliably
+      // (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
       $ct['api_runtime_cache'][$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
              
                 
@@ -3453,9 +3454,28 @@ var $ct_array = array();
           }
           
       
+          // Fallback just needs 'modified time' updated with touch(), to count this as the new cache time
+          // (THIS HELPS SETUP THE BELOW 'ELSE' CONDITION, TO MOVE FAILURES TO THE 'FRONT OF THE LINE')
+          if ( isset($fallback_cache_data) ) {
+               
+          $store_file_contents = touch($cached_path);
+
+
+               if ( $store_file_contents == false ) {
+             	
+               $ct['gen']->log(
+             			'ext_data_error',
+             			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+             			'data_size_bytes: ' . strlen($ct['api_runtime_cache'][$hash_check]) . ' bytes'
+             			);
+             
+               }
+
+
+          }
           // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
           // FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
-          if ( !isset($fallback_cache_data) ) {
+          else {
                
           // NOTIFY formatted logging, so there are not a bazzilion log entries
           // (as we are KEEPING this endpoint queued for live requests, whenever the throttling limitation stops,
@@ -4039,7 +4059,7 @@ var $ct_array = array();
       // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
       $ct['api_runtime_cache'][$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
       
-        // Fallback just needs 'modified time' updated with touch()
+        // Fallback just needs 'modified time' updated with touch(), to count this as the new cache time
         if ( isset($fallback_cache_data) ) {
         $store_file_contents = touch($cached_path);
         }

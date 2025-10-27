@@ -48,7 +48,12 @@ $stock_overview = $ct['api']->stock_overview($market_id);
 <h5 class="yellow align_center tooltip_title">AlphaVantage.co Summary For: <?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
  
 <?php
-if ( isset($stock_overview['data']['request_error']) && preg_match("/\./i", $market_id) ) {
+// IF we have a PREMIUM plan, AND got an error for a NON-USA market ticker ID
+if (
+$ct['conf']['ext_apis']['alphavantage_per_minute_limit'] > 5
+&& isset($stock_overview['data']['request_error'])
+&& preg_match("/\./i", $market_id)
+) {
      
 $orig_market_id = $market_id;
 
