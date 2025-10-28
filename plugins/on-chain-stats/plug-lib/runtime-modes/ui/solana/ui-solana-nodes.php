@@ -283,14 +283,25 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     ?>
     </select>  &nbsp;&nbsp; 
     
-    Show Node Type: <select class='browser-default custom-select' id='solana_geolocation_filter' name='solana_geolocation_filter'>
+    Node Type: <select class='browser-default custom-select' id='solana_node_type' name='solana_node_type'>
     <option value='all'> All </option>
     <option value='rpc'> RPC </option>
     <option value='validators'> Validator </option>
     <option value='validators_without_epoch_votes'> Validator Without Epoch Votes </option>
     </select>  &nbsp;&nbsp; 
     
-    Node Public Key: <input type='text' size='30' name='solana_address_filter' id='solana_address_filter' placeholder="(optional)" />
+    Filter By: <select class='browser-default custom-select' id='solana_secondary_filter_type' name='solana_secondary_filter_type'>
+    <option value='country'> Country </option>
+    <option value='city'> City </option>
+    <option value='time_zone'> Time Zone </option>
+    <option value='isp'> ISP </option>
+    <option value='node_version'> Node Version </option>
+    <option value='node_shred_version'> Node Shred Version </option>
+    <option value='node_feature_set'> Node Feature Set </option>
+    <option value='public_key'> Public Key </option>
+    </select>  &nbsp;&nbsp; 
+    
+    <input type='text' size='20' name='solana_secondary_filter' id='solana_secondary_filter' placeholder="(optional)" />
     
     <input type='button' value='Update Solana GeoLocation Map' onclick="
     
@@ -303,7 +314,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     // Reload map
     map_init(
              'solana_map',
-             plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key=solana_map&filter=' + document.getElementById('solana_geolocation_filter').value+'&address=' + document.getElementById('solana_address_filter').value,
+             plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key=solana_map&node_type=' + document.getElementById('solana_node_type').value+'&secondary_filter=' + document.getElementById('solana_secondary_filter').value+'&secondary_filter_type=' + document.getElementById('solana_secondary_filter_type').value,
              '<?=$solana_node_geolocation_pretty_timestamp?>'
              );
 
@@ -318,7 +329,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     // Render map
     map_init(
              'solana_map',
-             plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key=solana_map&filter=' + document.getElementById('solana_geolocation_filter').value+'&address=' + document.getElementById('solana_address_filter').value,
+             plugin_assets_path['on-chain-stats'] + '/plug-ajax.php?type=map&mode=geolocation&map_key=solana_map&node_type=' + document.getElementById('solana_node_type').value+'&secondary_filter=' + document.getElementById('solana_secondary_filter').value+'&secondary_filter_type=' + document.getElementById('solana_secondary_filter_type').value,
              '<?=$solana_node_geolocation_pretty_timestamp?>'
              );
 		

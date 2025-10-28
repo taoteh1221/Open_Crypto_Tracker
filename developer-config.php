@@ -80,9 +80,31 @@ $ct['dev']['int_api_max_exec_time'] = 120; // (default = 120)
 $ct['dev']['webhook_max_exec_time'] = 120; // (default = 120)
 
 
+// You can use this array for excluding / including the 'special' (hard-coded) asset EXCHANGE KEYS in any logic 
+$ct['dev']['special_asset_exchange_keys'] = array(
+                                                'misc_assets',
+                                                'presale_usd_value',
+                                                'btc_nfts',
+                                                'eth_nfts',
+                                                'sol_nfts',
+                                                'alt_nfts',
+                                    );
+     
+     
+// You can use this array for excluding / including the 'special' (hard-coded) asset TICKERS in any logic 
+$ct['dev']['special_asset_tickers'] = array(
+                                     // 'TICKER',
+                                     'MISCASSETS',
+                                     'BTCNFTS',
+                                     'ETHNFTS',
+                                     'SOLNFTS',
+                                     'ALTNFTS',
+                                     );
+
+
 // API THROTTLE MAPPING, for servers requiring TRACKED THROTTLE-LIMITING,
 // due to limited-allowed second / minute / daily requests
-// (are processed by ct_cache->api_throttled(), to avoid using up API request limits)
+// (are processed by ct_cache->run_api_throttling(), to avoid using up API request limits)
 // ANY *DYNAMIC* LOGIC MUST BE ADDED IN /inline/config/dynamic-throttling-config.php
 $ct['dev']['throttled_apis'] = array(
                                      
@@ -95,7 +117,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => null, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -104,7 +126,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 10, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -113,7 +135,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 10, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -122,7 +144,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 10,
-                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => null, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -131,7 +153,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 30,
-                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 10, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -140,7 +162,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 400, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 400, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -149,7 +171,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 10, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -160,7 +182,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 4, // As they are OFTEN under heavy load, less than spec
-                                                       'per_second' => 0.4, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 0.4, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -169,7 +191,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 100, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 100, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -178,7 +200,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 10, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 10, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -187,7 +209,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 300, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 300, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -196,7 +218,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 30,
-                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => null, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -205,7 +227,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 1, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -215,7 +237,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 1, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -224,7 +246,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 1, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -233,7 +255,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 1, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -242,7 +264,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 10,
-                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => null, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ), 
 
 
@@ -251,7 +273,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 4, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 4, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -260,7 +282,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 20,
-                                                       'per_second' => null, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => null, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -269,7 +291,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => null,
-                                                       'per_second' => 1, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 1, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -412,17 +434,6 @@ $ct['dev']['script_injection_checks'] = array(
                                                "onsubmit",
                                                "onunload",
                                              );
-     
-     
-// Static value SPECIAL assets, to exclude or include (depending on the logic), throughout the app
-$ct['dev']['special_assets'] = array(
-                                     // 'TICKER',
-                                     'MISCASSETS',
-                                     'BTCNFTS',
-                                     'ETHNFTS',
-                                     'SOLNFTS',
-                                     'ALTNFTS',
-                                     );
      
      
 // Exchange APIs that have NO TRADE VOLUME DATA (for UX on trade volume data in interface)

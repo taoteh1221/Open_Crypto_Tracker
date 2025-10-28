@@ -8,9 +8,10 @@ class ct_api {
 	
 	
 // Class variables / arrays
-var $ct_var1;
-var $ct_var2;
-var $ct_var3;
+var $prefixing_blacklist = array(
+                             'binance', // Because 'binance_us' is a separate API
+                             'coingecko', // Because 'coingecko_terminal' is a separate API
+                            );
 
 
 // We need an architecture that 'registers' each exchange API's specs / params in the app,
@@ -441,11 +442,6 @@ var $exchange_apis = array(
    
    $selected_exchange = strtolower($selected_exchange);
    
-   $prefixing_blacklist = array(
-                             'binance', // Because 'binance_us' is a separate API
-                             'coingecko', // Because 'coingecko_terminal' is a separate API
-                            );
-   
       // IF exchange API exists
       if ( isset($this->exchange_apis[$selected_exchange]) ) {
            
@@ -461,7 +457,7 @@ var $exchange_apis = array(
       }
       // IF exchange API doesn't exist, check to see if we are using our prefix delimiter, for a possible 'prefixed' exchange name
       // (for end-user descriptiveness / UX, BUT ONLY IF NOT A BLACKLISTED PREFIX!)
-      elseif ( !in_array($selected_exchange, $prefixing_blacklist) && stristr($selected_exchange, '_') ) {
+      elseif ( !in_array($selected_exchange, $this->prefixing_blacklist) && stristr($selected_exchange, '_') ) {
         
            foreach ( $this->exchange_apis as $exchange_key => $unused ) {
            
@@ -497,8 +493,24 @@ var $exchange_apis = array(
    
         
         // IF we do NOT have a PREMIUM PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS
+        // (UNLESS WE GOT NO DATA LAST TIME, IN WHICH CASE TRY AGAIN AFTER 5 DAYS,
+        // AS WE CANNOT ASSUME THEIR IS DATA AVAILABLE [HAS BEEN CONFIRMED SOME STOCKS DO NOT HAVE OVERVIEWS])
         if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
-        $cache_time = rand(7, 14) * 1440; 
+   
+   
+             if ( file_exists($secondary_cache) ) {
+             $secondary_cache_info = json_decode( trim( file_get_contents( $secondary_cache ) ) , true);
+             }
+
+           
+             if ( isset($secondary_cache_info['request_error']) ) {
+             $cache_time = 5 * 1440; 
+             }
+             else {
+             $cache_time = rand(7, 14) * 1440; 
+             }
+             
+             
         }
         else {
         $cache_time = 1440; 
@@ -2979,12 +2991,47 @@ var $exchange_apis = array(
    
    global $ct;
    
-   gc_collect_cycles(); // Clean memory cache
-   
    $sel_exchange = strtolower($sel_exchange);
    
+   
+     // Make sure the exchange key still exists
+     if (
+     !in_array($sel_exchange, $ct['dev']['special_asset_exchange_keys'])
+     && !isset($this->exchange_apis[$sel_exchange]) 
+     ) {
+          
+     $try_exchange_key = preg_replace("/_(.*)/i", "", $sel_exchange);
+      	
+      	
+      	if (
+      	!in_array($try_exchange_key, $ct['dev']['special_asset_exchange_keys'])
+      	&& !isset($this->exchange_apis[$try_exchange_key])
+      	) {
+     
+          $ct['gen']->log(
+      			'market_error',
+      			'exchange "'.$sel_exchange.'" does NOT exist in the exchange APIs (you LIKELY have a stale asset configuration)'
+      			);
+      			
+          return false;
+          
+          }
+      	else {
+      	$mapped_exchange_key = $try_exchange_key;
+      	}		
+      
+      
+     }
+     else {
+     $mapped_exchange_key = $sel_exchange;
+     }
+
+   
    // Get exchange's markets endpoint domain
-   $tld_or_ip = $ct['gen']->get_tld_or_ip( $this->exchange_apis[$sel_exchange]['markets_endpoint'] );
+   $tld_or_ip = $ct['gen']->get_tld_or_ip( $this->exchange_apis[$mapped_exchange_key]['markets_endpoint'] );
+   
+   // BEFORE GETTING MARKET DATA, see if we are currently throttled
+   $api_is_throttled = $ct['cache']->api_is_throttled($tld_or_ip);
    
    
       // RUNTIME CACHING (to speed things up)
@@ -2998,6 +3045,7 @@ var $exchange_apis = array(
           && isset($ct['jup_ag_address_mapping'][ $jup_market_id[1] ])
           ) {
           
+          // RESET $data for jupiter
           $data = array();
           
           $data[ $jup_market_id[0] ] = $ct['jup_ag_runtime_cache'][ $ct['jup_ag_address_mapping'][ $jup_market_id[0] ] ];
@@ -3010,6 +3058,7 @@ var $exchange_apis = array(
       }
 
       
+      // Our data call, IF all jupiter conditions above were NOT applicable
       if ( !isset($data) ) {
       $data = $this->exchange_api_data($sel_exchange, $mrkt_id);
       }
@@ -4143,9 +4192,6 @@ var $exchange_apis = array(
                $ct['jup_ag_address_mapping'][ $result['jup_ag_address'] ] = $data['symbol'];
     		     
     		     }
-    		     
-          
-          //var_dump($data);
 
           
                if ( $ct['var']->num_to_str($data['stats24h']['buyVolume']) > 0 ) {
@@ -4184,26 +4230,22 @@ var $exchange_apis = array(
                 
       // For UX, we don't want "check your markets" user alerts,
       // IF IT'S JUST AN ASSET SEARCH (BEFORE EVEN ADDING AS A TRACKED MARKET)
+      // ONLY FLAG A MARKET DATA ALERT, IF WE ARE NOT THROTTLING IN THE APP!
       if (
-      !$ct['ticker_markets_search'] && !isset($result['last_trade'])
-      || !$ct['ticker_markets_search'] && isset($result['last_trade']) && !is_numeric($result['last_trade'])
+      !$api_is_throttled && !$ct['ticker_markets_search'] && !isset($result['last_trade'])
+      || !$api_is_throttled && !$ct['ticker_markets_search'] && isset($result['last_trade']) && !is_numeric($result['last_trade'])
       ) {
            
-           
-           // ONLY FLAG A MARKET DATA ALERT, IF WE ARE NOT THROTTLING IN THE APP!
-           if ( $ct['cache']->api_throttled($tld_or_ip) == false ) {
-                          
-           $invalid_last_trade = true;
+      $invalid_last_trade = true;
                                     
-           $ct['gen']->log(
-                                  		    'notify_error',
-                                  		    'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
-                                  		    false,
-                                  		    'no_market_data_' . $sel_exchange
-                                  		    );
+      $ct['gen']->log(
+                       'notify_error',
+                       'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                       false,
+                       'no_market_data_' . $sel_exchange
+                       );
                      
-           }
-           
+          
                    		    
       }
 

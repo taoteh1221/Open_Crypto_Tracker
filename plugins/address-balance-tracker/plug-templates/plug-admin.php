@@ -75,7 +75,7 @@ $pair_btc_val = null; // Reset
 $is_spl_token = false; // Reset
      
      
-   if ( !in_array($asset_key, $ct['dev']['special_assets']) ) {
+   if ( !in_array($asset_key, $ct['dev']['special_asset_tickers']) ) {
    
         
         // If it's a supported NATIVE token

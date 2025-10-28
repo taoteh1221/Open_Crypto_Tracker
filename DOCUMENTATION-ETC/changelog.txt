@@ -7026,11 +7026,13 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed issue on "My Portfolio" page, where average-paid-per-unit of asset was hard-coded to an 8 decimal maximum (causing low value tokens to NOT display gain / loss data)
 
--BUG FIX: Fixed an issue in the throttling system, related to sub-second throttling profiles
+-BUG FIX: Fixed AlphaVantage Stock (FREE tier) issues, related to preserving cached data, after the daily live requests limits have been reached
+
+-BUG FIX: Fixed issues in the throttling system, including sub-second throttling profiles
 
 -BUG FIX: Fixes for the plugin system
 
--BUG FIX: Miscellaneous (minor)
+-BUG FIX: Miscellaneous
 
 -Added to the "on-chain-stats" plugin: Solana Epoch Information, Solana Node Count history chart, Solana Node GeoLocation map, and Solana Node Version pie chart
 
@@ -7049,6 +7051,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -Better Server Edition auto-installer UX
 
 -Minor user experience improvements
+
+-Miscellaneous optimizations
 
 -Refactoring
 

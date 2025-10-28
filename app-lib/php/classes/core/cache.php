@@ -19,6 +19,68 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
+  function api_is_throttled($tld_or_ip) {
+  
+  global $ct;
+     
+     // If there is no throttling profile, skip / return false
+     if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
+     return false;
+     }
+
+  $this->load_throttle_data($tld_or_ip);
+  
+     // Limits met, return TRUE
+     if (
+     isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']
+     || isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_day']
+     ) {
+     return true;
+     }
+     else {
+     return false;
+     }
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function load_throttle_data($tld_or_ip) {
+  
+  global $ct;
+  
+     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached,
+     // import it as the $ct['api_throttle_count'] array
+     // "null" in quotes as the actual value is returned sometimes
+     if ( !is_array($ct['api_throttle_count'][$tld_or_ip]) ) {
+          
+     // We wait until we are in this function, to grab any cached data at the last minute,
+     // to assure we get anything written recently by other runtimes
+       
+     // SAFE filename
+     $file_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
+       
+     $api_throttle_count_check = json_decode( trim( file_get_contents($file_path) ) , true);
+          
+          if ( is_array($api_throttle_count_check) ) {
+          $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
+          }
+          else {
+          $ct['api_throttle_count'][$tld_or_ip] = array();
+          }
+     
+     }
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
   function update_cache($cache_file, $minutes) {
     
     // We ROUND (60 * $minutes), to also support SECONDS if needed
@@ -933,7 +995,7 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function api_throttled($tld_or_ip) {
+  function run_api_throttling($tld_or_ip) {
   
   global $ct;
   
@@ -943,28 +1005,8 @@ var $ct_array = array();
      return false;
      }
      
-  
-     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached,
-     // import it as the $ct['api_throttle_count'] array
-     // "null" in quotes as the actual value is returned sometimes
-     if ( !is_array($ct['api_throttle_count'][$tld_or_ip]) ) {
-          
-     // We wait until we are in this function, to grab any cached data at the last minute,
-     // to assure we get anything written recently by other runtimes
-       
-     // SAFE filename
-     $file_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
-       
-     $api_throttle_count_check = json_decode( trim( file_get_contents($file_path) ) , true);
-          
-          if ( is_array($api_throttle_count_check) ) {
-          $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
-          }
-          else {
-          $ct['api_throttle_count'][$tld_or_ip] = array();
-          }
      
-     }
+  $this->load_throttle_data($tld_or_ip);
 
      
      // Set OR reset DAY start time / counts, if needed
@@ -994,10 +1036,7 @@ var $ct_array = array();
      
      
      // Limits met, return TRUE
-     if (
-     isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']
-     || isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_day']
-     ) {
+     if ( $this->api_is_throttled($tld_or_ip) == true ) {
      return true;
      }
      // Limits NOT met, up counts, return FALSE
@@ -3423,8 +3462,8 @@ var $ct_array = array();
               
       
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
-      // (are processed by api_throttled(), to avoid using up request limits getting LIVE DATA)
-      if ( $this->api_throttled($tld_or_ip) == true ) {
+      // (are processed by run_api_throttling(), to avoid using up request limits getting LIVE DATA)
+      if ( $this->run_api_throttling($tld_or_ip) == true ) {
            
            
            if ( $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
@@ -3443,7 +3482,8 @@ var $ct_array = array();
       // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
       $data = trim( file_get_contents($cached_path) );
       
-      // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
+      // DON'T USE isset(), use != '' to store as 'none' reliably
+      // (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
       $ct['api_runtime_cache'][$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
              
                 
@@ -3453,9 +3493,28 @@ var $ct_array = array();
           }
           
       
+          // Fallback just needs 'modified time' updated with touch(), to count this as the new cache time
+          // (THIS HELPS SETUP THE BELOW 'ELSE' CONDITION, TO MOVE FAILURES TO THE 'FRONT OF THE LINE')
+          if ( isset($fallback_cache_data) ) {
+               
+          $store_file_contents = touch($cached_path);
+
+
+               if ( $store_file_contents == false ) {
+             	
+               $ct['gen']->log(
+             			'ext_data_error',
+             			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+             			'data_size_bytes: ' . strlen($ct['api_runtime_cache'][$hash_check]) . ' bytes'
+             			);
+             
+               }
+
+
+          }
           // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
           // FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
-          if ( !isset($fallback_cache_data) ) {
+          else {
                
           // NOTIFY formatted logging, so there are not a bazzilion log entries
           // (as we are KEEPING this endpoint queued for live requests, whenever the throttling limitation stops,
@@ -4039,7 +4098,7 @@ var $ct_array = array();
       // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
       $ct['api_runtime_cache'][$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
       
-        // Fallback just needs 'modified time' updated with touch()
+        // Fallback just needs 'modified time' updated with touch(), to count this as the new cache time
         if ( isset($fallback_cache_data) ) {
         $store_file_contents = touch($cached_path);
         }
