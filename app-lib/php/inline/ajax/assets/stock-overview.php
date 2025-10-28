@@ -28,6 +28,9 @@ if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
 $stock_cached_notice = "*Current (AlphaVantage *FREE TIER*) THROTTLING retrieves LIVE market data every " . $stock_cached_val . " " . $stock_cached_unit . "(s), for " . $parse_ticker . " (determined by number of STOCKS added, to avoid going over your *FREE TIER* " . $ct['var']->num_pretty($ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'], 2) . " DAILY LIVE requests limit).";			     
 
 $app_cache_time = '1 to 2 Weeks (minimizes FREE Tier issues [last cache: {LAST_CACHE_TIME}])';
+
+// UX for FREE TIER cache time
+$app_cache_time = preg_replace('/\{LAST_CACHE_TIME\}/i', date('Y-M-d', $stock_overview['cache_timestamp']), $app_cache_time);
 			     
 }
 else {
@@ -69,14 +72,21 @@ $tried_usa_equiv = true;
 }
 
 
-// UX for FREE TIER cache time
-$app_cache_time = preg_replace('/\{LAST_CACHE_TIME\}/i', date('Y-M-d', $stock_overview['cache_timestamp']), $app_cache_time);
-
-
 if ( isset($stock_overview['data']['request_error']) ) {
 
      if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
-     $stock_cached_notice .= '<br /><br /> You MAY have gone over your AlphaVantage DAILY LIMITS. IF SO, after the "Summary Cache Time" ABOVE has passed, the Stock Overview should show here (IF available for ' . $parse_ticker . ').';     
+          
+     			    
+     $app_cache_time = '5 Days (minimizes FREE Tier issues [last cache: {LAST_CACHE_TIME}])';
+
+     // UX for FREE TIER cache time
+     $app_cache_time = preg_replace('/\{LAST_CACHE_TIME\}/i', date('Y-M-d', $stock_overview['cache_timestamp']), $app_cache_time);
+          
+     $stock_cached_notice .= '<br /><br /> You MAY have gone over your AlphaVantage DAILY LIMITS. IF SO, after the "Summary Cache Time" ABOVE has passed, the Stock Overview MAY show here (IF available for ' . $parse_ticker . ' [not all stocks have overviews]).';     
+
+     }
+     else {
+     $stock_cached_notice .= '<br /><br /> You MAY have gone over your AlphaVantage PER-MINUTE LIMITS. IF SO, after the "Summary Cache Time" ABOVE has passed, the Stock Overview MAY show here (IF available for ' . $parse_ticker . ' [not all stocks have overviews]).';     
      }
      
 ?>

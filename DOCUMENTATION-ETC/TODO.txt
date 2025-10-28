@@ -131,6 +131,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Review placement of $ct['cache']->api_throttle_cache() in all ajax files. We might have it running twice in some cases.
+
+
 Do a pie chart for the Solana Version data.
 
 
@@ -138,6 +141,14 @@ Add light chart support to Solana node count charting.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+I have already created the arrays $ct['dev']['special_asset_exchange_keys'] AND $ct['dev']['special_asset_tickers'] in developer-config.php, to be DYNAMICALLY USED in every instance of logic that has processing on them (currently only used on exchange existance checks, and in address-balance-tracker plugin), INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
+          	                     'MISCASSETS',
+          	                     'BTCNFTS',
+          	                     'ETHNFTS',
+          	                     'SOLNFTS',
+          	                     'ALTNFTS',
 
 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
@@ -325,14 +336,6 @@ Add the same hard-coded-config check we do for the app config, to plugin configs
 
 
 Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
-
-
-Have $ct['dev']['special_assets'] in developer-config.php DYNAMICALLY USED in every instance of logic that has processing on them, INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
-          	                     'MISCASSETS',
-          	                     'BTCNFTS',
-          	                     'ETHNFTS',
-          	                     'SOLNFTS',
-          	                     'ALTNFTS',
 
 
 Purge stale data in cookies / post submission with coin portfolio data, in runtime-type-init.php (if the coin market no longer is in the config).

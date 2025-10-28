@@ -1794,6 +1794,39 @@ var $ct_array = array();
       }
       
       
+      // Make sure the exchange key still exists
+      if (
+      !in_array($exchange, $ct['dev']['special_asset_exchange_keys'])
+      && !isset($ct['api']->exchange_apis[$exchange])
+      ) {
+          
+      $try_exchange_key = preg_replace("/_(.*)/i", "", $exchange);
+      	
+      	
+      	if (
+      	!in_array($try_exchange_key, $ct['dev']['special_asset_exchange_keys'])
+      	&& !isset($ct['api']->exchange_apis[$try_exchange_key])
+      	) {
+     
+          $ct['gen']->log(
+      			'market_error',
+      			'exchange "'.$exchange.'" does NOT exist in the exchange APIs (you LIKELY have a stale asset configuration)'
+      			);
+      			
+          return false;
+          
+          }
+      	else {
+      	$mapped_exchange_key = $try_exchange_key;
+      	}		
+      
+      
+      }
+      else {
+      $mapped_exchange_key = $exchange;
+      }
+      
+      
    $pair = strtolower($pair);
    
    // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
@@ -1839,7 +1872,7 @@ var $ct_array = array();
       return false;
       
       }
-      
+   
       
    // IF BASIC CHECKS PASSED, CHECK THE PRIMARY CURRENCY VALUE NEXT...
       
@@ -1860,9 +1893,29 @@ var $ct_array = array();
    // Get any necessary variables for calculating asset's PRIMARY CURRENCY CONFIG value
    
    // Get exchange's markets endpoint domain
-   $tld_or_ip = $ct['gen']->get_tld_or_ip( $ct['api']->exchange_apis[$exchange]['markets_endpoint'] );
+   $tld_or_ip = $ct['gen']->get_tld_or_ip( $ct['api']->exchange_apis[$mapped_exchange_key]['markets_endpoint'] );
    
-   // Consolidate function calls for runtime speed improvement
+   // BEFORE GETTING MARKET DATA, see if we are currently throttled
+   // (AS GETTING MARKET DATA FIRST COULD CHANGE THE RESULT!)
+   $api_is_throttled = $ct['cache']->api_is_throttled($tld_or_ip);
+
+   // ARCHIVAL chart paths MUST BE SET before the 'min_cache_time' check below
+   $prim_currency_chart_path = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($ct['default_bitcoin_primary_currency_pair']).'.dat';
+   ////
+   $crypto_secondary_currency_chart_path = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pair.'.dat';
+   
+   
+      // BEFORE GETTING MARKET DATA, see if we have an UNMET 'min_cache_time'
+      // (AS GETTING MARKET DATA FIRST COULD CHANGE THE RESULT!)
+      if ( 
+      isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'])
+      && $ct['cache']->update_cache($prim_currency_chart_path, $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time']) == false
+      ) {
+      $min_cache_time_not_met = true;
+      }
+      
+      
+   // GET MARKET DATA
    $asset_mrkt_data = $ct['api']->market($asset, $exchange, $ct['conf']['assets'][$asset]['pair'][$pair][$exchange], $pair);
       
       
@@ -1979,28 +2032,15 @@ var $ct_array = array();
    // WE USE PAIR VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
    $alert_cache_contents = $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw . '||' . $pair_vol_raw;
    
-
-   // ARCHIVAL chart paths   
-   $prim_currency_chart_path = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($ct['default_bitcoin_primary_currency_pair']).'.dat';
-   $crypto_secondary_currency_chart_path = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pair.'.dat';
-   
-   
    /////////////////////////////////////////////////////////////////
    
    
-      // Skip storing price chart data, IF API limits have been reached IN: $ct['cache']->api_throttled($tld_or_ip)
-      // (to save on storage space / using same repetitive CACHED API price data)
-      // (ONLY IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS BEEN UPDATED WITHIN
+      // Skip storing price chart data, IF API limits were reached (BEFORE the market call above) IN $api_is_throttled,
+      // OR IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS ALREADY BEEN UPDATED WITHIN
       // THE PAST $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'] MINUTES,
-      // OTHERWISE IT COULD BE NEW PRICE DATA CACHED FROM INTERFACE USAGE ETC ETC, SO WE STILL WANT TO UPDATE CHARTS IN THIS CASE)
-      // IF we have flagged an APP-BASED API throttle for this domain,
-      // AND have ALREADY updated the chart within $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'],
-      // HALT storing duplicate ARCHIVAL chart data (we still allow LIGHT CHART data building)
-      if (
-      $ct['cache']->api_throttled($tld_or_ip) == true
-      && isset($ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time'])
-      && $ct['cache']->update_cache($prim_currency_chart_path, $ct['dev']['throttled_apis'][$tld_or_ip]['min_cache_time']) == false
-      ) {
+      // SO WE WILL BE RUNNING FROM CACHED API DATA
+      // (to save on storage space / using same repetitive CACHED API price data)
+      if ( $api_is_throttled || $min_cache_time_not_met ) {
                
       $halt_archival_storage = true;
            
