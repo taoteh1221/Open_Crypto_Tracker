@@ -140,6 +140,9 @@ Do a pie chart for the Solana Version data.
 Add light chart support to Solana node count charting.
 
 
+Do a review of how everything renders in Firefox (as it's been a year since last FF review).
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -190,7 +193,7 @@ Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especi
 If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
 
 
-Do a review of how everything renders in Firefox (as it's been a year since last FF review).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Add full redhat support for auto-installer.
@@ -289,9 +292,6 @@ Start creating github wiki with USER AND DEVELOPER documentation.
 
 
 For app marketing, make a user account at https://buymeacoffee.com, and submit apps to script sites.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Start looking at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
