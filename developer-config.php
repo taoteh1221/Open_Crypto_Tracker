@@ -181,8 +181,8 @@ $ct['dev']['throttled_apis'] = array(
                                      'coingecko.com' => array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
-                                                       'per_minute' => 4, // As they are OFTEN under heavy load, less than spec
-                                                       'per_second' => 0.4, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                       'per_minute' => 5, // As they are OFTEN under heavy load, less than spec
+                                                       'per_second' => 0.75, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 

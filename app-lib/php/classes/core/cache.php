@@ -51,6 +51,23 @@ var $ct_array = array();
   function load_throttle_data($tld_or_ip) {
   
   global $ct;
+       
+  // SAFE filename
+  $file_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
+  
+     
+     // If there is no throttling profile, skip / return false
+     if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
+          
+          // Remove any stale / temporary (dynamic) throttle profile count caching
+          if ( file_exists($file_path) ) {
+          unlink($file_path);
+          }
+          
+     return false;
+
+     }
+     
   
      // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached,
      // import it as the $ct['api_throttle_count'] array
@@ -59,9 +76,6 @@ var $ct_array = array();
           
      // We wait until we are in this function, to grab any cached data at the last minute,
      // to assure we get anything written recently by other runtimes
-       
-     // SAFE filename
-     $file_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
        
      $api_throttle_count_check = json_decode( trim( file_get_contents($file_path) ) , true);
           
@@ -2340,6 +2354,10 @@ var $ct_array = array();
       usleep(120000); // Wait 0.12 seconds
       
       }
+      // Just RESET the logs purge event tracker, IF we recently deleted the log by hand while developing
+      elseif ( !file_exists($ct['base_dir'] . '/cache/logs/app_log.log') ) {
+      $this->save_file('cache/events/logging/purge-app-logs.dat', date('Y-m-d H:i:s'));
+      }
       
       
       if ( $app_log != null ) {
@@ -3910,6 +3928,7 @@ var $ct_array = array();
         || preg_match("/\"error\":\[\],/i", $data) // kraken.com / generic
         || preg_match("/warning-icon/i", $data)  // Medium.com RSS feeds
         || preg_match("/\"error_code\":0/i", $data) // Generic
+        || preg_match("/\{\}/i", $data) // Generic /Alphavantage
         ) {
         $false_positive = true;
         }
@@ -4019,24 +4038,24 @@ var $ct_array = array();
                 }
                      
                  
-                // FREE alphavantage API tier limit hit ERROR LOGGING
-                if ( 
-                $tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && preg_match("/api rate limit/i", $data)
-                || $tld_or_ip == 'alphavantage.co' && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 && $data == ''
-                ) {
+                // alphavantage API ERROR LOGGING
+                // (sometimes no data is returned, IF you go over their limits)
+                if ( $tld_or_ip == 'alphavantage.co' ) {
                      
+                $data_check = json_decode($data, true);
                           
-                      if ( preg_match("/api rate limit/i", $data) ) {
+
+                      if ( isset($data_check['Information']) ) {
                       $desc = 'HAS';
-                      }
+                      }  
                       else {
                       $desc = 'MAY HAVE';
                       }
-                     
+                      
                      
                 $ct['gen']->log(
                    		    'notify_error',
-                   		    'your FREE tier API key for "' . $tld_or_ip . '" ' . $desc . ' hit it\'s DAILY LIMIT for LIVE data requests (this is USUALLY auto-throttled [to stay within limits], BUT if you recently installed OR updated "' . $tld_or_ip . '" markets, YOU MAY NEED TO WAIT ~24 HOURS for this issue to start auto-fixing itself, OR upgrade to the premium tier at: alphavantage.co/premium [AND raise the auto-throttle limits in "Admin => APIs => External APIs"])',
+                   		    'your API key for AlphaVantage ' . $desc . ' hit it\'s LIMITS for LIVE data requests (this is USUALLY auto-throttled [to stay within limits], BUT if you recently installed OR updated AlphaVantage-based markets, YOU MAY NEED TO WAIT awhile for this issue to start auto-fixing itself, OR upgrade to a higher tier (if it does not clear up) at: alphavantage.co/premium [AND raise the auto-throttle limits in "Admin => APIs => External APIs"])',
                    		    false,
                    		    'no_market_data_' . $tld_or_ip
                    		    );
@@ -4163,18 +4182,19 @@ var $ct_array = array();
     
       // Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
       // If no API data was received, add error notices to UI / error logs (we don't try fetching the data again until cache TTL expiration, so as to NOT hang the app)
-      // Run from runtime cache if requested again (for runtime speed improvements)
+      // Run from runtime cache if requested again this runtime (for runtime speed improvements)
       if ( isset($ct['api_runtime_cache'][$hash_check]) && $ct['api_runtime_cache'][$hash_check] != '' && $ct['api_runtime_cache'][$hash_check] != 'none' ) {
       $data = $ct['api_runtime_cache'][$hash_check];
-      $fallback_cache_data = true;
+      $is_cache_data = true;
       }
+      // Otherwise, check the storage drive cache
       else {
         
       $data = trim( file_get_contents($cached_path) );
       
         if ( isset($data) && $data != '' && $data != 'none' ) {
         $ct['api_runtime_cache'][$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
-        $fallback_cache_data = true;
+        $is_cache_data = true;
         }
        
       }
@@ -4187,9 +4207,9 @@ var $ct_array = array();
           
           // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
           //  FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
-          if ( !isset($fallback_cache_data) ) {
+          if ( !isset($is_cache_data) ) {
                
-          $ct['gen']->log('ext_data_error', 'cached fallback FAILED during "min_cache_time" throttling of API for: ' . $tld_or_ip);
+          $ct['gen']->log('ext_data_error', 'no cached data available during "min_cache_time" throttling of API for: ' . $tld_or_ip . '; queueing for live request the next time this data is requested');
           
           unset($ct['api_runtime_cache'][$hash_check]);
           

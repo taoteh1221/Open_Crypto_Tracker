@@ -504,7 +504,16 @@ var $exchange_apis = array(
 
            
              if ( isset($secondary_cache_info['request_error']) ) {
-             $cache_time = 5 * 1440; 
+                                    
+                  if (
+                  $secondary_cache_info['request_error'] != 'no_data_available'
+                  ) {
+                  $cache_time = rand(4, 8) * 60; 
+                  }
+                  else {
+                  $cache_time = 99999999999999999999999999999; 
+                  }
+                  
              }
              else {
              $cache_time = rand(7, 14) * 1440; 
@@ -531,7 +540,15 @@ var $exchange_apis = array(
             // Store error status, if no valid data detected, AND no cache file exists yet
             if ( !isset($data['Symbol']) ) {
                  
-            $response = '{ "request_error": "no_data" }';
+                 if ( isset($data['Information']) ) {
+                 $response = '{ "request_error": "api_limit" }';
+                 }
+                 elseif ( preg_match("/\{\}/i", $response) ) {
+                 $response = '{ "request_error": "no_data_available" }';
+                 }
+                 else {
+                 $response = '{ "request_error": "no_response" }';
+                 }
 
             $data = json_decode($response, true);
                 
