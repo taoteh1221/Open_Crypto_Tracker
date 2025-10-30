@@ -131,6 +131,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Do a review of how everything renders in Firefox (as it's been a year since last FF review).
+
+
 Review placement of $ct['cache']->api_throttle_cache() in all ajax files. We might have it running twice in some cases.
 
 
@@ -138,9 +141,6 @@ Do a pie chart for the Solana Version data.
 
 
 Add light chart support to Solana node count charting.
-
-
-Do a review of how everything renders in Firefox (as it's been a year since last FF review).
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
