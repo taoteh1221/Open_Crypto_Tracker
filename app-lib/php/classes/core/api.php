@@ -492,60 +492,73 @@ var $exchange_apis = array(
    $secondary_cache = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$ticker.'.dat';
    
         
-        // IF we do NOT have a PREMIUM PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS
-        // (UNLESS WE GOT NO DATA LAST TIME, IN WHICH CASE TRY AGAIN AFTER 5 DAYS,
-        // AS WE CANNOT ASSUME THEIR IS DATA AVAILABLE [HAS BEEN CONFIRMED SOME STOCKS DO NOT HAVE OVERVIEWS])
-        if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
-   
-   
-             if ( file_exists($secondary_cache) ) {
-             $secondary_cache_info = json_decode( trim( file_get_contents( $secondary_cache ) ) , true);
-             }
+        // Check any secondary cache data (from previous data request)
+        if ( file_exists($secondary_cache) ) {
+        $secondary_cache_info = json_decode( trim( file_get_contents( $secondary_cache ) ) , true);
+        }
 
-           
-             if ( isset($secondary_cache_info['request_error']) ) {
-             $cache_time = 5 * 1440; 
-             }
-             else {
-             $cache_time = rand(7, 14) * 1440; 
-             }
-             
-             
+        
+        // IF we had an API request ERROR, LAST TIME we requested data for this stock asset
+        if ( isset($secondary_cache_info['request_error']) ) {
+                  
+                  // If data MAY be available, BUT we hit an API limit
+                  // OR got no server response LAST CHECK, we want to
+                  // only check again after 4 to 8 hours     
+                  if (
+                  $secondary_cache_info['request_error'] != 'no_data_available'
+                  ) {
+                  $primary_cache_time = rand(4, 8) * 60; 
+                  }
+                  // IF no data is available for this stock asset, update the secondary cache modified
+                  // timestamp, AND set ext_data() primary cache time to 100 YEARS (52560000 minutes)
+                  // (so we NEVER bother to refresh again, as they have no data for this asset...and
+                  // running touch() lets us do a 30-day maintenance cleanup on stale cache files [deleted assets])
+                  else {
+                  touch($secondary_cache);
+                  $primary_cache_time = 52560000; 
+                  }
+                  
         }
+        // IF we do NOT have a PREMIUM PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS
+        elseif ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
+        $primary_cache_time = rand(7, 14) * 1440;
+        }
+        // 1 DAY FOR ANY PREMIUM PLAN
         else {
-        $cache_time = 1440; 
+        $primary_cache_time = 1440; 
         }
    
    
-        // WE SAVE DATA OUTSIDE THE EXT_DATA DIRECTORY, AS WE MAY STORE IT FOR MANY WEEKS,
-        // IF WE A USING THE FREE API TIER
-        if ( $ct['cache']->update_cache($secondary_cache, $cache_time) == true ) {
+        // WE SAVE TO A SECONDARY CACHE, AS WE MAY STORE IT A LONG TIME,
+        // IF WE ARE USING THE FREE API TIER, OR NO OVERVIEW DATA IS AVAILABLE
+        if ( $ct['cache']->update_cache($secondary_cache, $primary_cache_time) == true ) {
          
         $url = 'https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
               
-        $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+        $response = @$ct['cache']->ext_data('url', $url, $primary_cache_time);
         
         $data = json_decode($response, true);
             
             
-            // Store error status, if no valid data detected, AND no cache file exists yet
+            // Store error status, if no valid data detected
             if ( !isset($data['Symbol']) ) {
                  
-            $response = '{ "request_error": "no_data" }';
+                 if ( isset($data['Information']) ) {
+                 $response = '{ "request_error": "api_limit" }';
+                 }
+                 elseif ( preg_match("/\{\}/i", $response) ) {
+                 $response = '{ "request_error": "no_data_available" }';
+                 }
+                 else {
+                 $response = '{ "request_error": "no_response" }';
+                 }
 
             $data = json_decode($response, true);
-                
-                // Save, if no cache file yet
-                if ( !file_exists($secondary_cache) ) {
-                $ct['cache']->save_file($secondary_cache, $response);
-                }
 
             }
-            // Otherwise, save the latest overview data
-            else {
-            $ct['cache']->save_file($secondary_cache, $response);
-            }
         
+        
+        $ct['cache']->save_file($secondary_cache, $response);
         
         }
         else {

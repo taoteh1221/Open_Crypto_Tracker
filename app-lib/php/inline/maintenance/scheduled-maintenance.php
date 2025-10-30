@@ -117,6 +117,9 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data',
 // Delete OLD external API cookie files
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data/cookies', 30, 'dat'); // ONLY .dat FILES
 
+// Delete OLD (non-existent / removed) stock overview files
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/assets/stocks/overviews', 30, 'dat'); // ONLY .dat FILES
+
 /////////////////////////
 // Every 7 days
 /////////////////////////
@@ -134,14 +137,18 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/logs/debug/xml_error_pa
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/other_data', 7, 'dat'); // ONLY .dat FILES
 
 /////////////////////////
+// Every 4 days
+/////////////////////////
+
+// Delete OLD UNSENT message queue files
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/messages', 4, 'queue'); // ONLY .queue FILES
+
+/////////////////////////
 // Every 2 days
 /////////////////////////
 
 // Delete OLD throttling event tracking cache files
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling', 2); 
-
-// Delete OLD UNSENT message queue files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/messages', 2, 'queue'); // ONLY .queue FILES
 
 /////////////////////////
 // Every day
