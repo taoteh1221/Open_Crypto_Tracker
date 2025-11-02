@@ -2130,7 +2130,7 @@ var $ct_array = array();
          foreach ( $ct['light_chart_day_intervals'] as $light_chart_days ) {
            
 	           // If we reset light charts, just skip the rest of this update session
-	           if ( $fiat_light_chart_result == 'reset' || $crypto_light_chart_result == 'reset' ) {
+	           if ( $ct['light_chart_reset'] ) {
 	           continue;
 	           }
 	           

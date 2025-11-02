@@ -73,6 +73,26 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
     
 	<div class='align_left clear_both' style='white-space: nowrap;'>
     
+    Time Period: <select class='browser-default custom-select' id='solana_node_count_period' name='solana_node_count_period' onchange="
+    
+		if ( this.value == 'all' ) {
+		$('.datepicker').datepicker('option', 'defaultDate', -7 );
+		}
+		else {
+		$('.datepicker').datepicker('option', 'defaultDate', -this.value );
+		}
+    
+    ">
+	<?php
+	foreach ($ct['light_chart_day_intervals'] as $light_chart_days) {
+	?>
+    <option value='<?=$light_chart_days?>' <?=( $light_chart_days == 'all' ? 'selected' : '' )?>> <?=$ct['gen']->light_chart_time_period($light_chart_days, 'long')?> </option>
+	<?php
+	}
+	?>
+    </select>  &nbsp;&nbsp; 
+    
+    
     Custom Start Date: <input type="text" id='solana_node_count_date' name='solana_node_count_date' class="datepicker" value='' placeholder="yyyy/mm/dd (optional)" style='width: 155px; display: inline;' /> 
 		
 			 &nbsp;&nbsp; 
@@ -119,7 +139,7 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
   });
   
   
-  $('#solana_node_count_chart div.chart_reload div.chart_reload_msg').html('Loading Asset Performance Chart...');
+  $('#solana_node_count_chart div.chart_reload div.chart_reload_msg').html('Loading Solana Node Count Chart...');
   
 	$('#solana_node_count_chart div.chart_reload').fadeIn(100); // 0.1 seconds
 	
@@ -129,7 +149,12 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
 	$('#solana_node_count_chart').css('height', document.getElementById('solana_node_count_chart_height').value + 'px');
 	$('#solana_node_count_chart').css('background', '#f2f2f2');
 	
-	$('.datepicker').datepicker('option', 'defaultDate', -7 );
+		if ( document.getElementById('solana_node_count_period').value == 'all' ) {
+		$('.datepicker').datepicker('option', 'defaultDate', -7 );
+		}
+		else {
+		$('.datepicker').datepicker('option', 'defaultDate', -document.getElementById('solana_node_count_period').value );
+		}
 	
 	});
 	
@@ -147,7 +172,7 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
   
   // 'load'
   zingchart.exec('solana_node_count_chart', 'load', {
-  	dataurl: '<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_nodes&start_time=' + date_timestamp + '&chart_width=' + solana_node_count_chart_width + '&chart_height=' + document.getElementById('solana_node_count_chart_height').value + '&menu_size=' + document.getElementById('solana_node_count_menu_size').value,
+  	dataurl: '<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_nodes&time_period=' + document.getElementById('solana_node_count_period').value + '&start_time=' + date_timestamp + '&chart_width=' + solana_node_count_chart_width + '&chart_height=' + document.getElementById('solana_node_count_chart_height').value + '&menu_size=' + document.getElementById('solana_node_count_menu_size').value,
     cache: {
         data: true
     }
@@ -180,7 +205,7 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
  
   	<div style='min-width: 775px; width: 100%; min-height: 1px; display: flex; flex-flow: column wrap; overflow: hidden;' class='secondary_chart_wrapper' id='solana_node_count_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading Asset Performance Chart...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading Solana Node Count Chart...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
@@ -189,7 +214,7 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
 	
   <script>
 
-$("#solana_node_count_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Asset Performance Chart...');
+$("#solana_node_count_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Solana Node Count Chart...');
 	
   
 zingchart.bind('solana_node_count_chart', 'load', function() {
@@ -199,7 +224,7 @@ $("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_nodes&start_time=0&chart_height=<?=$node_count_chart_defaults[0]?>&menu_size=<?=$node_count_chart_defaults[1]?>", function( json_data ) {
+$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_nodes&time_period=" + document.getElementById('solana_node_count_period').value + "&start_time=0&chart_height=<?=$node_count_chart_defaults[0]?>&menu_size=<?=$node_count_chart_defaults[1]?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered

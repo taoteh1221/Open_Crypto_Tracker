@@ -43,6 +43,18 @@ require_once($ct['plug']->plug_dir(false, 'on-chain-stats') . '/plug-assets/ajax
 }
 
 
+// Access stats logging / etc
+$ct['cache']->log_access_stats();
+$ct['cache']->api_throttle_cache();
+ 
+// Log errors / debugging, send notifications
+$ct['cache']->app_log();
+$ct['cache']->send_notifications();
+
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
+
+
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>

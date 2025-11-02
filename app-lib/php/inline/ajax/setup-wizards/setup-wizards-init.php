@@ -53,8 +53,6 @@ console.log('disable_nav_save_buttons = ' + disable_nav_save_buttons);
 
 
 <?php
-
-
 if ( $_GET['type'] == 'add_markets' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/markets/markets-add/add-markets-init.php');
 }
@@ -71,15 +69,6 @@ if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {
     }
 
 }
-
-
-// Log errors / debugging, send notifications
-$ct['cache']->app_log();
-$ct['cache']->send_notifications();
-
-flush(); // Clean memory output buffer for echo
-gc_collect_cycles(); // Clean memory cache
-
 ?>
 
 <div id="setup_wizard_error_alert" style='display: none;'><?php echo $ct['alerts_gui_logs']; ?></div>

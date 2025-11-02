@@ -1049,8 +1049,12 @@ var $ct_array = array();
      // (ALL WE DO HERE BESIDES UPDATING CACHED JSON RESULTS, IS RETURN TRUE / FALSE FOR THE FUNCTION CALL)
      
      
+     // DISABLE THROTTLING FOR ALPHAVANTAGE, DURING 'ADD ASSET' SEARCHES
+     if ( $ct['ticker_markets_search'] && $tld_or_ip == 'alphavantage.co' ) {
+     return false;
+     }
      // Limits met, return TRUE
-     if ( $this->api_is_throttled($tld_or_ip) == true ) {
+     elseif ( $this->api_is_throttled($tld_or_ip) == true ) {
      return true;
      }
      // Limits NOT met, up counts, return FALSE
@@ -2598,9 +2602,11 @@ var $ct_array = array();
     $this->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
     $this->remove_dir($ct['base_dir'] . '/cache/charts/system/light');
     
+    $ct['light_chart_reset'] = true;
+    
     sleep(5); // Sleep 5 seconds (for low power devices), as we are deleting ALL the light charts
     
-    return 'reset';
+    return false;
     
     }
    

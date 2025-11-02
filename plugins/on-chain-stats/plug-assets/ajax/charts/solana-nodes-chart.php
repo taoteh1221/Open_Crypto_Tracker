@@ -4,7 +4,7 @@
  */
 
 
-$chart_file = $ct['plug']->chart_cache('solana_nodes_count.dat', 'on-chain-stats');
+$chart_file = $ct['plug']->chart_cache('/solana/light/' . $_GET['time_period'] . '_days/solana_nodes_count.dat', 'on-chain-stats');
 						
 
 // NO EARLIER THAN A CERTAIN TIMESTAMP
@@ -59,7 +59,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No light chart data for any nodes yet, please check back in awhile.",
+     text: "No '<?=$ct['gen']->light_chart_time_period($_GET['time_period'], 'long')?>' light chart data for any Solana nodes yet, please check back in awhile.",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,

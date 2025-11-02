@@ -59,6 +59,18 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/jstree/jstree-init.php'
 elseif ( $_GET['type'] == 'add_markets' || $_GET['type'] == 'remove_markets' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/setup-wizards/setup-wizards-init.php');
 }
+	
+
+// Access stats logging / etc
+$ct['cache']->log_access_stats();
+$ct['cache']->api_throttle_cache();
+ 
+// Log errors / debugging, send notifications
+$ct['cache']->app_log();
+$ct['cache']->send_notifications();
+
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
