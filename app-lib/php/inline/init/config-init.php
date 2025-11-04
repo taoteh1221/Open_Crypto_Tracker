@@ -333,10 +333,10 @@ if (
 $conf_light_chart_struct != $cached_light_chart_struct
 || $_POST['reset_light_charts'] == 1 && $ct['sec']->pass_sec_check($_POST['admin_nonce'], 'reset_light_charts') && $ct['sec']->valid_2fa('strict')
 ) {
-
+    
 // Delete ALL light charts (this will automatically trigger a re-build)
-$ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
-$ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/system/light');
+$ct['light_chart_reset'] = true;
+$ct['cache']->manage_light_charts();
 
 // Cache the new light chart structure
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat', $conf_light_chart_struct);

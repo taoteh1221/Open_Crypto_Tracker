@@ -1765,6 +1765,9 @@ var $ct_array = array();
    
    // Globals
    global $ct;
+
+   // Make sure light chart path is registered
+   $ct['cache']->manage_light_charts($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
       
       
       // RUN BASIC CHECKS FIRST...

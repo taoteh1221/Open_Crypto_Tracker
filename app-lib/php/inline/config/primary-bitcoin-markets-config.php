@@ -56,8 +56,9 @@ if (
 // Delete OLD fiat price alerts cache data
 $ct['gen']->del_all_files($ct['base_dir'] . '/cache/alerts/fiat_price'); 
 
-// Delete OLD light charts SPOT PRICE data (automatically will trigger a light chart rebuild)
-$ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
+// Delete ALL light charts (this will automatically trigger a re-build)
+$ct['light_chart_reset'] = true;
+$ct['cache']->manage_light_charts();
 
 
      // Delete OLD *CONVERSION* price charts ONLY (NOT base-pair market price charts)

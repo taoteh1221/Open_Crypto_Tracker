@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$ct['registered_light_charts'] = array();
+
 $ct['coingecko_currencies'] = array();
 
 $ct['jup_ag_address_mapping'] = array();

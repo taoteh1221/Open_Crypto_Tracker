@@ -100,19 +100,7 @@ usleep(50000); // Wait 0.05 seconds
 	     // If we reset light charts, just skip the rest of this update session
 	     // (we already delete light chart data in plug-init.php, IF a reset is flagged)
 	     if ( $ct['light_chart_reset'] ) {
-
-              if ( !$deleted_solana_onchain_stats_light ) {
-                   
-              $ct['cache']->remove_dir( $ct['plug']->chart_cache('/solana/light') );
-              
-              $deleted_solana_onchain_stats_light = true;
-              
-              sleep(5); // Wait 5 seconds, for lower-power systems
-
-              }
-	          
 	     continue;
-
 	     }
 	           
      // Light charts, WITHOUT newline (var passing)

@@ -39,12 +39,8 @@ $ct['gen']->log(
 		
 // Light charts
 
-// If we reset light charts, just skip the rest of this update session
-if ( $ct['light_chart_reset'] ) {
-$ct['cache']->remove_dir( $ct['plug']->chart_cache('/solana/light') );
-sleep(5); // Wait 5 seconds, for lower-power systems
-}
-
+// Make sure light chart path is registered
+$ct['cache']->manage_light_charts( $ct['plug']->chart_cache('/solana/light') );
 
 // Light chart structure
 foreach( $ct['light_chart_day_intervals'] as $light_chart_days ) {
