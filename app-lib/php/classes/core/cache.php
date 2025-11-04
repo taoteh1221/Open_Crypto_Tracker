@@ -42,6 +42,78 @@ var $ct_array = array();
      }
   
   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function registered_light_charts_cache() {
+        
+   global $ct;
+       
+   // Cache filename
+   $file_path = $ct['base_dir'] . '/cache/vars/registered_light_charts.dat';
+   
+   $store_data = json_encode($ct['registered_light_charts'], JSON_PRETTY_PRINT);
+   $store_file_contents = $this->save_file($file_path, $store_data);
+   
+   }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function manage_light_charts($new_path=false) {
+  
+  global $ct;
+       
+  // Cache filename
+  $file_path = $ct['base_dir'] . '/cache/vars/registered_light_charts.dat';
+     
+     
+     // Load, if not done already
+     if ( sizeof($ct['registered_light_charts']) < 1 ) {
+          
+     $registered_light_charts = json_decode( trim( file_get_contents($file_path) ) , true);
+          
+          if ( is_array($registered_light_charts) ) {
+          $ct['registered_light_charts'] = $registered_light_charts;
+          }
+     
+     }
+     
+     
+     // IF we are registering a new path
+     if ( $new_path && !in_array($new_path, $ct['registered_light_charts']) ) {
+     $ct['registered_light_charts'][] = $new_path;
+     }
+  
+     
+     // Cleanup / resets
+     foreach ( $ct['registered_light_charts'] as $key => $val ) {
+          
+          // Remove any stale entries
+          if ( !is_dir($val) ) {
+          unset($ct['registered_light_charts'][$key]);
+          }
+          // If we reset light charts, delete all registered paths
+          // (this will automatically trigger a re-build)
+          elseif ( $ct['light_chart_reset'] ) {
+          $this->remove_dir( $ct['plug']->chart_cache($val) );
+          }
+
+     }
+
+     
+     // If we reset light charts, wait 5 seconds for lower-power systems
+     if ( $ct['light_chart_reset'] ) {
+     sleep(5); 
+     }
+  
+  
+  }
 
   
   ////////////////////////////////////////////////////////
@@ -53,7 +125,7 @@ var $ct_array = array();
   global $ct;
        
   // SAFE filename
-  $file_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
+  $file_path = $ct['base_dir'] . '/cache/events/throttling/external/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
   
      
      // If there is no throttling profile, skip / return false
@@ -238,13 +310,14 @@ var $ct_array = array();
    function api_throttle_cache() {
         
    global $ct;
+
    
       if ( sizeof($ct['api_throttle_count']) > 0 ) {
       
           foreach ( $ct['api_throttle_count'] as $tld_or_ip => $unused ) {
           
           // SAFE filename
-          $file_path = $ct['base_dir'] . '/cache/events/throttling/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
+          $file_path = $ct['base_dir'] . '/cache/events/throttling/external/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
          
                // We only store to cached file, if there is a limit count updated
                if ( $ct['api_throttle_count'][$tld_or_ip]['updated_counts'] ) {
@@ -256,6 +329,10 @@ var $ct_array = array();
           }
       
       }
+      else {
+      $this->remove_dir($ct['base_dir'] . '/cache/events/throttling/external');
+      }
+      
    
    }
 
@@ -1049,8 +1126,12 @@ var $ct_array = array();
      // (ALL WE DO HERE BESIDES UPDATING CACHED JSON RESULTS, IS RETURN TRUE / FALSE FOR THE FUNCTION CALL)
      
      
+     // DISABLE THROTTLING FOR ALPHAVANTAGE, DURING 'ADD ASSET' SEARCHES
+     if ( $ct['ticker_markets_search'] && $tld_or_ip == 'alphavantage.co' ) {
+     return false;
+     }
      // Limits met, return TRUE
-     if ( $this->api_is_throttled($tld_or_ip) == true ) {
+     elseif ( $this->api_is_throttled($tld_or_ip) == true ) {
      return true;
      }
      // Limits NOT met, up counts, return FALSE
@@ -2595,12 +2676,10 @@ var $ct_array = array();
     $ct['gen']->log('cache_error', 'Archival chart data appears recently restored, resetting ALL light charts');
     
     // Delete ALL light charts (this will automatically trigger a re-build)
-    $this->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
-    $this->remove_dir($ct['base_dir'] . '/cache/charts/system/light');
+    $ct['light_chart_reset'] = true;
+    $this->manage_light_charts();
     
-    sleep(5); // Sleep 5 seconds (for low power devices), as we are deleting ALL the light charts
-    
-    return 'reset';
+    return false;
     
     }
    
@@ -2906,13 +2985,13 @@ var $ct_array = array();
       // and no session count is set, set session count to zero
       // Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
       // (if there are notifyme messages queued to send)
-      if ( !isset($ct['processed_msgs']['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == true ) {
+      if ( !isset($ct['processed_msgs']['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/special/notifyme-alerts-sent.dat', 5) == true ) {
       $ct['processed_msgs']['notifyme_count'] = 0;
       }
       // If it hasn't been over 5 minutes since the last notifyme send, and there is no session count, 
       // use the file-cached count for the session count starting point
-      elseif ( !isset($ct['processed_msgs']['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == false ) {
-      $ct['processed_msgs']['notifyme_count'] = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat') );
+      elseif ( !isset($ct['processed_msgs']['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/special/notifyme-alerts-sent.dat', 5) == false ) {
+      $ct['processed_msgs']['notifyme_count'] = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/special/notifyme-alerts-sent.dat') );
       }
       
       
@@ -3030,7 +3109,7 @@ var $ct_array = array();
                    
                    $msg_sent = 1;
                    
-                   $this->save_file($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', $ct['processed_msgs']['notifyme_count']); 
+                   $this->save_file($ct['base_dir'] . '/cache/events/throttling/special/notifyme-alerts-sent.dat', $ct['processed_msgs']['notifyme_count']); 
                    
                      if ( $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
                      $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);

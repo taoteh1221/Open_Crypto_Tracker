@@ -4,7 +4,7 @@
  */
 
 
-$solana_nodes_geolocation_file = $ct['plug']->chart_cache('solana_nodes_info_with_geolocation.dat', 'on-chain-stats');
+$solana_nodes_geolocation_file = $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info_with_geolocation.dat', 'on-chain-stats');
 $solana_nodes_geolocation = json_decode( trim( file_get_contents( $solana_nodes_geolocation_file ) ) , true);
 
 gc_collect_cycles(); // Clean memory cache

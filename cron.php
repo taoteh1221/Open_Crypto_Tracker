@@ -232,6 +232,9 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         
         // (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
         if ( $now > 0 ) {
+             
+        // Make sure light chart path is registered
+        $ct['cache']->manage_light_charts($ct['base_dir'] . '/cache/charts/system/light');
         
         // Store system data to archival / light charts
         $sys_stats_path = $ct['base_dir'] . '/cache/charts/system/archival/system_stats.dat';
@@ -246,7 +249,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         	foreach ( $ct['light_chart_day_intervals'] as $light_chart_days ) {
         	    
         	    // If we reset light charts, just skip the rest of this update session
-        	    if ( $system_light_chart_result == 'reset' ) {
+        	    if ( $ct['light_chart_reset'] ) {
         	    continue;
         	    }
         	           
@@ -367,6 +370,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
 // Access stats logging / etc
 $ct['cache']->log_access_stats();
 $ct['cache']->api_throttle_cache();
+$ct['cache']->registered_light_charts_cache();
 
 gc_collect_cycles(); // Clean memory cache
     

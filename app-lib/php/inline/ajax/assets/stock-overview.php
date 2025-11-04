@@ -55,13 +55,11 @@ $stock_overview = $ct['api']->stock_overview($market_id);
 if ( isset($stock_overview['data']['request_error']) ) {
      
           
-     if (
-     $stock_overview['data']['request_error'] != 'no_data_available'
-     ) {
-     $app_cache_time = '4 to 8 Hours until re-try (API Error: '. $ct['gen']->key_to_name($stock_overview['data']['request_error']) .')';
+     if ( $stock_overview['data']['request_error'] == 'no_data_available' ) {
+     $app_cache_time = 'Permanent (no stock overview available)';
      }
      else {
-     $app_cache_time = 'Permanent (no stock overview available)';
+     $app_cache_time = '4 to 8 Hours until re-try (API Error: '. $ct['gen']->key_to_name($stock_overview['data']['request_error']) .')';
      }
 
 

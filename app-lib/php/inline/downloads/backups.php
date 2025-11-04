@@ -63,6 +63,7 @@ if ($fd = fopen ($fullPath, "r")) {
 // Access stats logging / etc
 $ct['cache']->log_access_stats();
 $ct['cache']->api_throttle_cache();
+$ct['cache']->registered_light_charts_cache();
 
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();

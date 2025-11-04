@@ -24,7 +24,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Credentials: true'); 
 
 // Ip address information
-$ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/local_api_incoming_ip_' . $ct['gen']->safe_name($ct['remote_ip']) . '.dat';
+$ip_access_tracking = $ct['base_dir'] . '/cache/events/throttling/internal/local_api_incoming_ip_' . $ct['gen']->safe_name($ct['remote_ip']) . '.dat';
 
 
 // Throttle ip addresses reconnecting before $ct['conf']['int_api']['api_rate_limit'] interval passes
@@ -108,6 +108,7 @@ echo json_encode($result, JSON_PRETTY_PRINT);
 // Access stats logging / etc
 $ct['cache']->log_access_stats();
 $ct['cache']->api_throttle_cache();
+$ct['cache']->registered_light_charts_cache();
 
 // Log errors / debugging, send notifications
 $ct['cache']->app_log();

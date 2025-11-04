@@ -51,17 +51,17 @@ var $array1 = array();
    
    $results = array();
    
-   $solana_validators_info_file = $ct['plug']->chart_cache('solana_validators_info.dat', $this_plug);
+   $solana_validators_info_file = $ct['plug']->chart_cache('/solana/overwrites/solana_validators_info.dat', $this_plug);
    $solana_validators_info = json_decode( trim( file_get_contents( $solana_validators_info_file ) ) , true);
    
-   $solana_validators_without_epoch_votes_info_file = $ct['plug']->chart_cache('solana_validators_without_epoch_votes_info.dat', $this_plug);
+   $solana_validators_without_epoch_votes_info_file = $ct['plug']->chart_cache('/solana/overwrites/solana_validators_without_epoch_votes_info.dat', $this_plug);
    $solana_validators_without_epoch_votes_info = json_decode( trim( file_get_contents( $solana_validators_without_epoch_votes_info_file ) ) , true);
    
-   $solana_nodes_info_file = $ct['plug']->chart_cache('solana_nodes_info.dat', $this_plug);
+   $solana_nodes_info_file = $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info.dat', $this_plug);
    $solana_nodes_info = json_decode( trim( file_get_contents( $solana_nodes_info_file ) ) , true);
    
    // Geolocation TEMPORARY cache files
-   $files = $ct['gen']->sort_files( $ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) , 'dat', 'asc');
+   $files = $ct['gen']->sort_files( $ct['plug']->chart_cache('solana/temp/solana_nodes_geolocation', $this_plug) , 'dat', 'asc');
         
        
        // Combine batched files
@@ -69,7 +69,7 @@ var $array1 = array();
         
         	if ( preg_match("/_locations_processed/i", $geolocation_file) ) {
         	
-          $temp_array = json_decode( trim( file_get_contents($ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) . '/' . $geolocation_file) ) , true);
+          $temp_array = json_decode( trim( file_get_contents($ct['plug']->chart_cache('solana/temp/solana_nodes_geolocation', $this_plug) . '/' . $geolocation_file) ) , true);
           
                if ( is_array($temp_array) ) {
                $results = array_merge($results, $temp_array);
@@ -109,10 +109,10 @@ var $array1 = array();
    
    // Save node data, with geolocation included
    $results_data_set = json_encode($results, JSON_PRETTY_PRINT);
-   $ct['cache']->save_file( $ct['plug']->chart_cache('solana_nodes_info_with_geolocation.dat', $this_plug) , $results_data_set);
+   $ct['cache']->save_file( $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info_with_geolocation.dat', $this_plug) , $results_data_set);
    
    // Delete temp batch files
-   $ct['cache']->remove_dir( $ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) );
+   $ct['cache']->remove_dir( $ct['plug']->chart_cache('solana/temp/solana_nodes_geolocation', $this_plug) );
    
    // Update the event tracking
    $ct['cache']->save_file( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) , $ct['gen']->time_date_format(false, 'pretty_date_time') );    
@@ -162,9 +162,9 @@ var $array1 = array();
      
      $results = array();     
      
-     $validators = $ct['api']->solana_rpc('getVoteAccounts', array(), 720); // 12 HOUR (720 MINUTE) CACHE
+     $validators = $ct['api']->solana_rpc('getVoteAccounts', array(), 480); // 8 HOUR (480 MINUTE) CACHE
      
-     $all_nodes = $ct['api']->solana_rpc('getClusterNodes', array(), 720); // 12 HOUR (720 MINUTE) CACHE
+     $all_nodes = $ct['api']->solana_rpc('getClusterNodes', array(), 480); // 8 HOUR (480 MINUTE) CACHE
      
      // Target results array paths
      
@@ -332,12 +332,8 @@ var $array1 = array();
    $params = array();
 
    
-       // Make sure we setup our subdirectory 'geolocation',
-       // and haven't run the geolocation cleanup routine in a day + 1 hour (1500 minutes)
-       if ( 
-       !$ct['gen']->dir_struct( $ct['plug']->chart_cache('temp_solana_nodes_geolocation', $this_plug) )
-       || $ct['cache']->update_cache( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) , 1500) == false
-       ) {
+       // Make sure we haven't run the geolocation cleanup routine in a day + 1 hour (1500 minutes)
+       if ( $ct['cache']->update_cache( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) , 1500) == false ) {
        return false;
        }
    
@@ -345,7 +341,7 @@ var $array1 = array();
        // IF API throttling prevented FULL caching of the geolocation data set,
        // we use the CACHED ip address data set
        if ( !is_array($solana_nodes_info) ) {
-       $data_file = $ct['plug']->chart_cache('solana_nodes_info.dat', $this_plug);
+       $data_file = $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info.dat', $this_plug);
        $solana_nodes_info = json_decode( trim( file_get_contents( $data_file ) ) , true);
        }
                
@@ -369,14 +365,14 @@ var $array1 = array();
            
            $processed = $processed + $batch_count;
            
-           $cache_path = 'temp_solana_nodes_geolocation/' . $processed . '_locations_processed.dat';
+           $cache_path = 'solana/temp/solana_nodes_geolocation/' . $processed . '_locations_processed.dat';
            
                
-               // IF it's been at least 12 hours (720 minutes), then we update the geolocation cache file(s)
-               if ( $ct['cache']->update_cache( $ct['plug']->chart_cache($cache_path, $this_plug) , 720) == true ) {
+               // IF it's been at least 8 hours (480 minutes), then we update the geolocation cache file(s)
+               if ( $ct['cache']->update_cache( $ct['plug']->chart_cache($cache_path, $this_plug) , 480) == true ) {
                
-               // Cache results for 30 days (43200 minutes, IF ip addresses are EXACTLY the same as prev. request)
-               $response = @$ct['cache']->ext_data('params', $params, 43200, 'http://ip-api.com/batch');
+               // Cache results for 7 days (10080 minutes, IF ip addresses are EXACTLY the same as prev. request)
+               $response = @$ct['cache']->ext_data('params', $params, 10080, 'http://ip-api.com/batch');
            
                $data = json_decode($response, true);
                 

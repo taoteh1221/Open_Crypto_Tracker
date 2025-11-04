@@ -494,48 +494,49 @@ var $exchange_apis = array(
         
         // Check any secondary cache data (from previous data request)
         if ( file_exists($secondary_cache) ) {
-        $secondary_cache_info = json_decode( trim( file_get_contents( $secondary_cache ) ) , true);
+        $secondary_cache_info = json_decode( trim( file_get_contents($secondary_cache) ) , true);
         }
 
         
         // IF we had an API request ERROR, LAST TIME we requested data for this stock asset
-        if ( isset($secondary_cache_info['request_error']) ) {
+        if (
+        isset($secondary_cache_info['request_error'])
+        && trim($secondary_cache_info['request_error']) != ''
+        ) {
                   
-                  // If data MAY be available, BUT we hit an API limit
-                  // OR got no server response LAST CHECK, we want to
-                  // only check again after 4 to 8 hours     
-                  if (
-                  $secondary_cache_info['request_error'] != 'no_data_available'
-                  ) {
-                  $primary_cache_time = rand(4, 8) * 60; 
-                  }
                   // IF no data is available for this stock asset, update the secondary cache modified
                   // timestamp, AND set ext_data() primary cache time to 100 YEARS (52560000 minutes)
                   // (so we NEVER bother to refresh again, as they have no data for this asset...and
                   // running touch() lets us do a 30-day maintenance cleanup on stale cache files [deleted assets])
-                  else {
+                  if ( $secondary_cache_info['request_error'] == 'no_data_available' ) {
                   touch($secondary_cache);
-                  $primary_cache_time = 52560000; 
+                  $overview_cache_time = 52560000; 
+                  }
+                  // If data MAY be available, BUT we hit an API limit
+                  // OR got no server response LAST CHECK, we want to
+                  // only check again after 4 to 8 hours     
+                  else {
+                  $overview_cache_time = rand(4, 8) * 60; 
                   }
                   
         }
         // IF we do NOT have a PREMIUM PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS
         elseif ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
-        $primary_cache_time = rand(7, 14) * 1440;
+        $overview_cache_time = rand(7, 14) * 1440;
         }
         // 1 DAY FOR ANY PREMIUM PLAN
         else {
-        $primary_cache_time = 1440; 
+        $overview_cache_time = 1440; 
         }
    
    
         // WE SAVE TO A SECONDARY CACHE, AS WE MAY STORE IT A LONG TIME,
         // IF WE ARE USING THE FREE API TIER, OR NO OVERVIEW DATA IS AVAILABLE
-        if ( $ct['cache']->update_cache($secondary_cache, $primary_cache_time) == true ) {
+        if ( $ct['cache']->update_cache($secondary_cache, $overview_cache_time) == true ) {
          
         $url = 'https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
               
-        $response = @$ct['cache']->ext_data('url', $url, $primary_cache_time);
+        $response = @$ct['cache']->ext_data('url', $url, $overview_cache_time);
         
         $data = json_decode($response, true);
             

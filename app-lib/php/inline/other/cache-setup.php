@@ -38,7 +38,9 @@ $ct['possible_http_users'] = array(
 if (
 $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/light_chart_rebuilds/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/system/') != true
-|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/throttling/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/throttling/internal/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/throttling/external/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/throttling/special/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/upgrading/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/logging/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/first_run/') != true

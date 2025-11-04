@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$ct['registered_light_charts'] = array();
+
 $ct['coingecko_currencies'] = array();
 
 $ct['jup_ag_address_mapping'] = array();
@@ -136,6 +138,8 @@ $ct['telegram_user_data_path'] = null;
 // Initial zero-set / false strings
 
 $ct['dir_creation'] = false; // Flag if directory creation attempts occurred this runtime
+
+$ct['light_chart_reset'] = false;
 
 $ct['config_upgrade_check'] = false;
 

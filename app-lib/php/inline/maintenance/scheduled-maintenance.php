@@ -149,6 +149,9 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/messages', 4, '
 
 // Delete OLD throttling event tracking cache files
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling', 2); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling/internal', 2); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling/external', 2); 
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/events/throttling/special', 2); 
 
 /////////////////////////
 // Every day

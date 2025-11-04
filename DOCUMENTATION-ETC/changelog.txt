@@ -7028,7 +7028,7 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed AlphaVantage Stock (FREE tier) issues, related to preserving cached data, after the daily live requests limits have been reached
 
--BUG FIX: Fixed issues in the throttling system, including sub-second throttling profiles
+-BUG FIX: Fixed issues in the throttling system, including sub-second throttling profiles, and deleting stale cache data
 
 -BUG FIX: Fixes for the plugin system
 

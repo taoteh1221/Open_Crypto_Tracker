@@ -131,19 +131,19 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Review placement of $ct['cache']->api_throttle_cache() in all ajax files. We might have it running twice in some cases.
+Test the new light chart reset logic.
 
 
 Do a pie chart for the Solana Version data.
 
 
-Add light chart support to Solana node count charting.
-
-
-Do a review of how everything renders in Firefox (as it's been a year since last FF review).
+Stock overview cache time seems too short. Double check things, IF our explicit condition refactor did not fix it.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add a cron runtime mode to the developer-only-maintenance plugin, that scans / emails results of market checks. Also add ability to skip zero volume alerts (so only offline markets show).
 
 
 I have already created the arrays $ct['dev']['special_asset_exchange_keys'] AND $ct['dev']['special_asset_tickers'] in developer-config.php, to be DYNAMICALLY USED in every instance of logic that has processing on them (currently only used on exchange existance checks, and in address-balance-tracker plugin), INCLUDING A CONVERSION TO A JAVASCRIPT ARRAY FOR JAVASCRIPT USING THEM:
