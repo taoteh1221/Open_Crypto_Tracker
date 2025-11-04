@@ -201,6 +201,9 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/security/early-security-logi
 // Load any 3RD PARTY classes WITHOUT CONFIGS (MUST run after system-config / early-security-logic)
 require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party-classes-loader.php');
 
+// Load any already-registered light chart paths
+$ct['cache']->manage_light_charts();
+
 
 //////////////////////////////////////////////////////////////////
 // END PRIMARY INIT 
