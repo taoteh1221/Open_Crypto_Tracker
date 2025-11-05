@@ -134,7 +134,7 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Do a pie chart for the Solana Version data.
 
 
-Stock overview cache time is too short, for when data has been sucessfully retrieved LAST TIME.
+Store "Transactions Since Genesis", and every 24 hours see how many more TXs there are, for a Daily TXs chart.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

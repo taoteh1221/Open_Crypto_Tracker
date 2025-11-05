@@ -7034,7 +7034,7 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous
 
--Added to the "on-chain-stats" plugin: Solana Epoch Information, Solana Node Count history chart, Solana Node GeoLocation map, and Solana Node Version pie chart
+-Added Solana network stats, to the "on-chain-stats" plugin (shows in "View More Stats", on the bottom of the My Portfolio page, for now)
 
 -Loosened username restrictions for the "Admin Area => Security => Interface Login" setting (so only validity check is a 4 character MINIMUM)
 

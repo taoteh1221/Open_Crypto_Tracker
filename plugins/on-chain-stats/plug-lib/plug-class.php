@@ -20,20 +20,44 @@ var $array1 = array();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
    
+     function solana_tps() {
+     
+     global $ct, $this_plug;
+     
+     $results = array();     
+     
+     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(1), 15); // 15 MINUTE CACHE
+     
+     
+          if (
+          is_array($network_performance['result'])
+          && sizeof($network_performance['result']) > 0
+          ) {
+          
+               foreach ( $network_performance['result'] as $val ) {
+          
+               $results['all_tps'] = round( $ct['var']->num_to_str($val['numTransactions'] / $val['samplePeriodSecs']) );
+          
+               $results['real_tps'] = round( $ct['var']->num_to_str($val['numNonVoteTransactions'] / $val['samplePeriodSecs']) );
+          
+               $results['vote_tps'] = round( $ct['var']->num_to_str($results['all_tps'] - $results['real_tps']) );
+               
+               }
+
+          }
+     
+     
+     return $results;
+   
+     }
+	
+		
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+   
+   
    
    function solana_node_version_chart() {
-   
-   global $ct, $this_plug;
-   
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function solana_node_geolocation_map() {
    
    global $ct, $this_plug;
    
@@ -244,6 +268,76 @@ var $array1 = array();
      return $results;
     
      }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function solana_tps_chart($file, $node_type, $start_timestamp=0) {
+   
+   global $ct;
+   
+   $data = array();
+   
+   
+   $fn = fopen($file,"r");
+     
+     while( !feof($fn) )  {
+      
+     $result = explode("||", fgets($fn) );
+     
+     
+         if ( $node_type == 'all_tps' ) {
+         $tps_data = $result[1];
+         }
+         elseif ( $node_type == 'real_tps' ) {
+         $tps_data = $result[2];
+         }
+         elseif ( $node_type == 'vote_tps' ) {
+         $tps_data = $result[3];
+         }
+      
+      
+         // If the data set on this line is NOT valid, skip it
+         if ( !isset($result[0]) || !isset($tps_data) ) {
+         continue;
+         }
+      
+      
+     $result = array_map('trim', $result); // Trim whitespace out of all array values
+      
+      
+         if ( trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
+            
+         $data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
+         
+         
+            if (
+            trim($tps_data) != 'NO_DATA'
+            && trim($tps_data) != ''
+            && is_numeric($tps_data)
+            ) {
+            // Zingchart wants 3 more zeros with unix time (milliseconds)
+            $data['tps'] .= '[' . trim($result[0]) . '000' . ', ' . trim($tps_data) . '],';  
+            }
+         
+         
+         }
+      
+     }
+   
+   fclose($fn);
+   
+   // Trim away extra commas
+   $data['time'] = rtrim($data['time'],',');
+   $data['tps'] = rtrim($data['tps'],',');
+  
+   gc_collect_cycles(); // Clean memory cache
+   
+   return $data;
+   
+   }
    
    
    ////////////////////////////////////////////////////////

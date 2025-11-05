@@ -6,6 +6,20 @@
 
 $parse_ticker = strtoupper( preg_replace("/stock/i", "", $_GET['ticker']) );
 
+$market_pair = $ct['var']->array_key_first($ct['conf']['assets'][ $_GET['ticker'] ]['pair']);
+
+$market_id = $ct['conf']['assets'][ $_GET['ticker'] ]['pair'][$market_pair]['alphavantage_stock'];
+
+// Stock overview
+$stock_overview = $ct['api']->stock_overview($market_id);
+			     
+?>
+
+
+<h5 class="yellow align_center tooltip_title">AlphaVantage.co Summary For: <?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
+ 
+<?php
+
 			     
 // IF we do NOT have a PREMIUM PLAN (determined by the per-minute setting)
 if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
@@ -38,20 +52,7 @@ $app_cache_time = '1 Day';
 }
 
 
-$market_pair = $ct['var']->array_key_first($ct['conf']['assets'][ $_GET['ticker'] ]['pair']);
-
-$market_id = $ct['conf']['assets'][ $_GET['ticker'] ]['pair'][$market_pair]['alphavantage_stock'];
-
-// Stock overview
-$stock_overview = $ct['api']->stock_overview($market_id);
-			     
-?>
-
-
-<h5 class="yellow align_center tooltip_title">AlphaVantage.co Summary For: <?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
- 
-<?php
-
+// IF a data retrieval error happened
 if ( isset($stock_overview['data']['request_error']) ) {
      
           
@@ -87,6 +88,7 @@ if ( isset($stock_overview['data']['request_error']) ) {
      
      
 }
+// Otherwise, render the overview
 else {
 ?>
 

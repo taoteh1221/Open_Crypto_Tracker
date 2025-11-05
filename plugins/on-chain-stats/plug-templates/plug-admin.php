@@ -34,6 +34,15 @@ $ct['admin_render_settings']['node_count_chart_defaults']['is_text'] = true;
 $ct['admin_render_settings']['node_count_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
 
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['tps_chart_defaults']['is_text'] = true;
+
+$ct['admin_render_settings']['tps_chart_defaults']['is_notes'] = 'This format MUST be used: chart_height||menu_size<br />(chart height min/max = 400/900 (increments of 100), menu size min/max = 7/16)';
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      

@@ -2591,6 +2591,9 @@ var $ct_array = array();
          elseif ( strtolower($val) == 'ssl' ) {
          $words[$key] = 'SSL';
          }
+         elseif ( strtolower($val) == 'tps' ) {
+         $words[$key] = 'TPS';
+         }
          elseif ( strtolower($val) == 'rpc' ) {
          $words[$key] = 'RPC';
          }

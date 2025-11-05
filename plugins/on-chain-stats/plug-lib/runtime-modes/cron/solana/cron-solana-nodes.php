@@ -8,12 +8,81 @@
 // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
 $now = time();
 
-$solana_node_stats_tracking_file = $ct['plug']->event_cache('update_solana_node_stats.dat');
+$solana_tps_stats_tracking_file = $ct['plug']->event_cache('update_solana_tps_stats.dat');
    
    
-// Only update every 12 hours (720 minutes), AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
-if ( $now > 0 && $ct['cache']->update_cache($solana_node_stats_tracking_file, 720) == true ) {
+// TPS update every 15+ minutes, AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
+if ( $now > 0 && $ct['cache']->update_cache($solana_tps_stats_tracking_file, 15) == true ) {
 
+// Get on-chain Solana TPS
+$solana_tps = $plug['class'][$this_plug]->solana_tps();
+
+
+     // ALL TPS
+     if ( isset($solana_tps['all_tps']) && is_numeric($solana_tps['all_tps']) ) {
+     $solana_tps_data_set .= '||' . $solana_tps['all_tps'];
+     }
+     else {
+     $solana_tps_data_set .= '||NO_DATA';
+     }
+
+
+     // REAL TPS
+     if ( isset($solana_tps['real_tps']) && is_numeric($solana_tps['real_tps']) ) {
+     $solana_tps_data_set .= '||' . $solana_tps['real_tps'];
+     }
+     else {
+     $solana_tps_data_set .= '||NO_DATA';
+     }
+
+
+     // VOTE TPS
+     if ( isset($solana_tps['vote_tps']) && is_numeric($solana_tps['vote_tps']) ) {
+     $solana_tps_data_set .= '||' . $solana_tps['vote_tps'];
+     }
+     else {
+     $solana_tps_data_set .= '||NO_DATA';
+     }
+
+
+// SAVE CHART DATA 
+$solana_tps_chart_file = $ct['plug']->chart_cache('/solana/archival/solana_tps.dat');
+
+$solana_tps_data_set = $now . $solana_tps_data_set;
+
+// WITH newline (UNLOCKED file write)
+$ct['cache']->save_file($solana_tps_chart_file, $solana_tps_data_set . "\n", "append", false);  
+        
+// Light charts (update time dynamically determined in $ct['cache']->update_light_chart() logic)
+// Wait 0.05 seconds before updating light charts (which reads archival data)
+usleep(50000); // Wait 0.05 seconds
+        
+        
+     foreach ( $ct['light_chart_day_intervals'] as $light_chart_days ) {
+           
+	     // If we reset light charts, just skip the rest of this update session
+	     // (we already delete light chart data in plug-init.php, IF a reset is flagged)
+	     if ( $ct['light_chart_reset'] ) {
+	     continue;
+	     }
+	           
+     // Light charts, WITHOUT newline (var passing)
+     $ct['cache']->update_light_chart($solana_tps_chart_file, $solana_tps_data_set, $light_chart_days); 
+         
+     }
+
+     
+// Update the event tracking
+$ct['cache']->save_file($solana_tps_stats_tracking_file, $ct['gen']->time_date_format(false, 'pretty_date_time') );
+
+}
+   
+
+$solana_node_stats_tracking_file = $ct['plug']->event_cache('update_solana_node_stats.dat');
+
+   
+// Everything else only update every 12+ hours (720 minutes), AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
+if ( $now > 0 && $ct['cache']->update_cache($solana_node_stats_tracking_file, 720) == true ) {
 
 // Get on-chain Solana nodes data
 $solana_nodes_onchain = $plug['class'][$this_plug]->solana_nodes_onchain();
@@ -104,7 +173,7 @@ usleep(50000); // Wait 0.05 seconds
 	     }
 	           
      // Light charts, WITHOUT newline (var passing)
-     $solana_stats_chart_result = $ct['cache']->update_light_chart($solana_nodes_count_chart_file, $solana_nodes_count_data_set, $light_chart_days); 
+     $ct['cache']->update_light_chart($solana_nodes_count_chart_file, $solana_nodes_count_data_set, $light_chart_days); 
          
      }
 

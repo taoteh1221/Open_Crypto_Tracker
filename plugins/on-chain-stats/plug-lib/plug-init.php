@@ -42,6 +42,7 @@ $ct['gen']->log(
 // Make sure light chart path is registered
 $ct['cache']->manage_light_charts( $ct['plug']->chart_cache('/solana/light') );
 
+
 // Light chart structure
 foreach( $ct['light_chart_day_intervals'] as $light_chart_days ) {
 			

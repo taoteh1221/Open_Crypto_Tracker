@@ -10,7 +10,7 @@
 
 
 // Version number of this plugin (MANDATORY)
-$ct['plug_version'][$this_plug] = '0.91.00'; // VERSION BUMP DATE: 2025/October/18TH
+$ct['plug_version'][$this_plug] = '0.91.00'; // VERSION BUMP DATE: 2025/November/5TH
 
 
 // FULL RESET(s) on specified plugin settings (the setting CAN include internal subarrays)
@@ -49,6 +49,11 @@ $plug['conf'][$this_plug]['ui_name'] = 'On-Chain Stats'; // (defaults to $this_p
 // Default settings for Node Stats chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
 $plug['conf'][$this_plug]['node_count_chart_defaults'] = '400||16'; // 'chart_height||menu_size' (default = '400||16')
+
+
+// Default settings for TPS chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
+// CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
+$plug['conf'][$this_plug]['tps_chart_defaults'] = '400||16'; // 'chart_height||menu_size' (default = '400||16')
 
 
 // Default settings for geolocation map height (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
