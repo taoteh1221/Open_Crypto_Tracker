@@ -137,6 +137,9 @@ Add plugins menu to the compact sidebar.
 Login to admin area, to assure our nav menu logic additions for plugin menu entries did not mess that area up. Test with a nav menu plugin enabled AND disabled.
 
 
+Move ALL $ct['dev']['tasks_time_offset'] logic into the update_cache() function, BUT only activates IF cache time is 30 minutes or higher.
+
+
 Do a pie chart for the Solana Version data.
 
 
