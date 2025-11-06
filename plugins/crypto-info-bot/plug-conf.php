@@ -39,7 +39,8 @@ $plug['conf'][$this_plug]['runtime_mode'] = 'webhook'; // 'cron', 'webhook', 'ui
 
 
 // If running in the UI, set the preferred location it should show in
-$plug['conf'][$this_plug]['ui_location'] = ''; // 'tools', 'more_stats' (defaults to 'tools' if not set)
+// 'none', 'nav_menu', 'tools', 'more_stats' (defaults to 'none' if not set)
+$plug['conf'][$this_plug]['ui_location'] = ''; 
 
 
 // If running in the UI, set the preferred plugin name that should show for end-users

@@ -320,7 +320,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
         
             <?php
             }
-            else if ( !$is_admin ) {
+            else if ( !$is_admin && !$is_plugin ) {
             ?>
    
             <li class='sidebar-item'>
@@ -607,6 +607,46 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                 </ul>
                 
             </li>
+            
+            
+           <?php 
+          foreach ( $plug['activated']['ui'] as $plugin_key => $plugin_init ) {
+                      		
+          $this_plug = $plugin_key;
+               
+               if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu' ) {
+               
+               $is_plugin_nav_menu = true;
+               
+               $render_plugin_nav_menu .= "\n <li class='sidebar-item'><a href='plugins.php#plugin_" . $this_plug . "' title='Plugin interface for: " . htmlspecialchars($plug['conf'][$this_plug]['ui_name']) . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a></li> \n";
+
+               }
+          
+          // Reset $this_plug at end of loop
+          unset($this_plug); 
+            	
+          }
+               
+               
+          if ( $is_plugin_nav_menu ) {
+          ?>
+                 
+                 <!-- plugin area -->
+                 <li class="plugin-nav-wrapper">
+                 
+                     <a href="#pluginSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle <?=( preg_match("/plugins\.php/i", $_SERVER['REQUEST_URI']) ? 'active' : '' )?>">Plugin Area</a>
+                     
+                     <ul class="user-nav all-nav collapse list-unstyled" id="pluginSubmenu">
+                     
+                     <?=$render_plugin_nav_menu?>
+               
+                     </ul>
+                     
+                 </li>
+                 
+          <?php
+          }
+          ?>
             
             
             <li class='sidebar-item'>

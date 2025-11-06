@@ -131,10 +131,22 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Login to admin area, to assure our nav menu logic additions for plugin menu entries did not mess that area up. Test with a nav menu plugin enabled AND disabled.
+
+
+Add plugins menu to the compact sidebar.
+
+
 Do a pie chart for the Solana Version data.
 
 
 Store "Transactions Since Genesis", and every 24 hours see how many more TXs there are, for a Daily TXs chart.
+
+
+Find out why solana node counts in historical chart don't match the counts in the geolocation map. This LIKELY indicates a bug somewhere.
+
+
+Put days / hours left in current Solana epoch in the epoch info area, and try and squeeze in color maps for the types of Solana nodes into the map footer.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -154,18 +166,6 @@ I have already created the arrays $ct['dev']['special_asset_exchange_keys'] AND 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
 
 
-Find out why solana node counts in historical chart don't match the counts in the geolocation map. This LIKELY indicates a bug somewhere.
-
-
-====================================================================================
-Plugins should be allowed to optionally create their own navigation menu. This should be done by creating the additional value option 'nav_menu', for $plug['conf'][$this_plug]['ui_location'].
-
-Change the navigation link name for plugins in the admin area to "Addon Plugins" (including the page title). Then create a new main navigation Top level entry (underneath "Admin Area" and "User Area") with the same name, that only shows if at least one installed plugin is configured to show in the navigation menu.
-
-This "Addon Plugins" top level navigation menu should run from a new file in the main app directory, called 'dedicated-plugins-interface.php', in the same way the admin / user areas run from 'admin.php' and 'index.php'. Additionally, the menu behavior should also be the same, in that only entries in the "Addon Plugins" area should 'instantly load', when in that area. This can be done by formatting the rendering to resemble like we do for the user area in 'index.php'.
-====================================================================================
-
-
 Create a function is_valid_plugin(), to use in plugins-init.php, in $ct['gen']->refresh_plugins_list(), and in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case).
 
 
@@ -179,9 +179,6 @@ In step #6 within the plugin development documentation, add notes on creating a 
 
 
 Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
-
-
-Put days / hours left in current Solana epoch in the epoch info area, and try and squeeze in color maps for the types of Solana nodes into the map footer.
 
 
 Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)

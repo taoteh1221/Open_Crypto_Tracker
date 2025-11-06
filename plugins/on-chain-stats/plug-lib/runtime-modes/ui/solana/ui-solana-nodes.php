@@ -219,6 +219,7 @@ $("#solana_tps_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_
   
 zingchart.bind('solana_tps_chart', 'load', function() {
 $("#solana_tps_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 });
   
 
@@ -230,6 +231,7 @@ $.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mo
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('solana_tps_chart', 'complete', function() {
 	$("#solana_tps_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+     fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 	$('#solana_tps_chart').css('height', '<?=$tps_chart_defaults[0]?>px');
 	});
 
@@ -432,6 +434,7 @@ $("#solana_node_count_chart span.chart_loading").html(' &nbsp; <img class="ajax_
   
 zingchart.bind('solana_node_count_chart', 'load', function() {
 $("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 });
   
 
@@ -443,6 +446,7 @@ $.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mo
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('solana_node_count_chart', 'complete', function() {
 	$("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+     fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 	$('#solana_node_count_chart').css('height', '<?=$node_count_chart_defaults[0]?>px');
 	});
 

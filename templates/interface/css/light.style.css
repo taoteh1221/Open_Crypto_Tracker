@@ -406,6 +406,7 @@ color: black !important;
 #sidebar ul li.sidebar-item a.active,
 .user-nav a.active,
 .admin-nav a.active,
+.plugin-nav a.active,
 #sidebar ul li.active a.nav-link.active
 {
 background-color: #606060 !important;

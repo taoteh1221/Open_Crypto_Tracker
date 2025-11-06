@@ -10,7 +10,7 @@
 
 
 // Version number of this plugin (MANDATORY)
-$ct['plug_version'][$this_plug] = '1.01.00'; // VERSION BUMP DATE: 2025/May/7TH
+$ct['plug_version'][$this_plug] = '1.02.00'; // VERSION BUMP DATE: 2025/NOVEMBER/6TH
 
 
 // FULL RESET(s) on specified plugin settings (the setting CAN include internal subarrays)
@@ -22,6 +22,7 @@ $ct['dev']['plugin_allow_resets'][$this_plug] = array(
                                                       // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                                       // 'plugin-setting-key-1' => '0.90.00',
                                                       // 'plugin-setting-key-2' => '1.23.45',
+                                                      'ui_location' => '1.02.00',
                                                      );
 
 
@@ -39,7 +40,8 @@ $plug['conf'][$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 
 
 
 // If running in the UI, set the preferred location it should show in
-$plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats' (defaults to 'tools' if not set)
+// 'none', 'nav_menu', 'tools', 'more_stats' (defaults to 'none' if not set)
+$plug['conf'][$this_plug]['ui_location'] = 'none'; 
 
 
 // If running in the UI, set the preferred plugin name that should show for end-users

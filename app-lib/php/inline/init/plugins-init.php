@@ -94,8 +94,8 @@ $this_plug = trim($key);
      		// Set to DEFAULT 'ui_location' IF not set 
      		// (UPDATE *BOTH* GLOBAL AND PLUGIN CONFIGS FOR CLEAN / RELIABLE CODE)
      		if ( !isset($plug['conf'][$this_plug]['ui_location']) || isset($plug['conf'][$this_plug]['ui_location']) && $plug['conf'][$this_plug]['ui_location'] == '' ) {
-     		$ct['conf']['plug_conf'][$this_plug]['ui_location'] = 'tools';
-     		$plug['conf'][$this_plug]['ui_location'] = 'tools';
+     		$ct['conf']['plug_conf'][$this_plug]['ui_location'] = 'none';
+     		$plug['conf'][$this_plug]['ui_location'] = 'none';
      		}
      		    
      		    

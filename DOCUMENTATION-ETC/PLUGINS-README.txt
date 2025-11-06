@@ -134,9 +134,9 @@ The webhook key is also available, in the auto-created variable: $plug['webhook'
 
 
 
-10) The PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
+10) The PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'none' if not set).
 
-Example: $plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'
+Example: $plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'none', 'nav_menu', 'tools', 'more_stats'
 
 
 

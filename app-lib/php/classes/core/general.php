@@ -1772,18 +1772,28 @@ var $ct_array = array();
    
    
    function start_page_html($page) {
+        
+        
+      if ( preg_match("/index\.php/i", $_SERVER['REQUEST_URI']) ) {
+      $render_url_file = 'index.php';
+      }
+      elseif ( preg_match("/plugins\.php/i", $_SERVER['REQUEST_URI']) ) {
+      $render_url_file = 'plugins.php';
+      }
+
       
       if ( isset($_GET['start_page']) && $_GET['start_page'] != '' ) {
       $border_highlight = '_blue';
       $text_class = 'red';
       }
+
       
    ?>
    <span class='start_page_menu<?=$border_highlight?>'> 
       
       <span class='blue' style='font-weight: bold;'>Start Page:</span> <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
       
-         if ( this.value == "index.php?start_page=<?=$page?>" ) {
+         if ( this.value == "<?=$render_url_file?>?start_page=<?=$page?>" ) {
          var anchor = "#<?=$page?>";
          }
          else {
@@ -1791,22 +1801,41 @@ var $ct_array = array();
          //localStorage.setItem(scroll_position_storage, 0); // May be bad UX, with new nav system, disabled for now
          }
       
+      var set_location = this.value + anchor;
+
+      <?php
+      if ( $render_url_file == 'index.php' ) {
+      ?>
       // This start page method saves portfolio data during the session, even without cookie data enabled
-      var set_action = this.value + anchor;
-      set_target_action("user_area_settings", "_self", set_action);
+      set_target_action("user_area_settings", "_self", set_location);
       $("#user_area_settings").submit();
+      <?php
+      }
+      else {
+      ?>
+      window.location.href = set_location;
+      <?php
+      }
+      ?>
+      
       
       '>
-         <option value='index.php#<?=$page?>'> Last-Visited </option>
+         <option value='<?=$render_url_file?>#<?=$page?>'> Last-Visited </option>
          <?php
          if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;
+         $page_name = $this->key_to_name($_GET['start_page']);
+         $page_name = preg_replace("/plugin /i", "Plugin: ", $page_name);
          ?>
-         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> </option>
+         <option value='<?=$render_url_file?>?start_page=<?=$_GET['start_page']?>' selected > <?=$page_name?> </option>
          <?php
          }
+         else {
+         $page_name = $this->key_to_name($page);
+         $page_name = preg_replace("/plugin /i", "Plugin: ", $page_name);
+         }
          ?>
-         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > <?=ucwords( preg_replace("/_/i", " ", $page) )?> </option>
+         <option value='<?=$render_url_file?>?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > <?=$page_name?> </option>
       </select> 
       
    </span>
@@ -2601,6 +2630,9 @@ var $ct_array = array();
          $words[$key] = 'RPCs';
          }
       
+      
+      // Uppercase AFTER HYPHENS
+      $words[$key] = ucwords($words[$key], "-");
       
       $pretty_str .= $words[$key] . ' ';
       

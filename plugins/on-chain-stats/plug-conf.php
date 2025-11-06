@@ -21,7 +21,7 @@ $ct['dev']['plugin_allow_resets'][$this_plug] = array(
                                                       // setting key id, and plugin version number of when the reset was added
                                                       // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                                       // 'plugin-setting-key-1' => '0.90.00',
-                                                      // 'plugin-setting-key-2' => '1.23.45',
+                                                      'ui_location' => '0.91.00',
                                                      );
 
 
@@ -39,7 +39,8 @@ $plug['conf'][$this_plug]['runtime_mode'] = 'all'; // 'cron', 'webhook', 'ui', '
 
 
 // If running in the UI, set the preferred location it should show in
-$plug['conf'][$this_plug]['ui_location'] = 'more_stats'; // 'tools', 'more_stats' (defaults to 'tools' if not set)
+// 'none', 'nav_menu', 'tools', 'more_stats' (defaults to 'none' if not set)
+$plug['conf'][$this_plug]['ui_location'] = 'nav_menu'; 
 
 
 // If running in the UI, set the preferred plugin name that should show for end-users
