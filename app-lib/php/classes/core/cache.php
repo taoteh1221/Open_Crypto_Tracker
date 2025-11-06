@@ -101,7 +101,7 @@ var $ct_array = array();
           // If we reset light charts, delete all registered paths
           // (this will automatically trigger a re-build)
           elseif ( $ct['light_chart_reset'] ) {
-          $this->remove_dir( $ct['plug']->chart_cache($val) );
+          $this->remove_dir($val);
           }
 
      }

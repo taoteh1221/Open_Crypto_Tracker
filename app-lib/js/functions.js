@@ -452,8 +452,12 @@ function charts_loading_check() {
 	
 //console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
 
-    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( charts_loaded.length >= charts_num || is_admin == true ) {
+    // NOT IN PLUGIN / ADMIN AREAS (UNLIKE CRON EMULATION)
+	if ( is_plugin == true || is_admin == true ) {
+	return 'done';
+	}
+	// Fix zingchart watermarks too, IF finished loading
+	else if ( charts_loaded.length >= charts_num ) {
 	fix_zingchart_watermarks();
 	return 'done';
 	}
@@ -609,8 +613,12 @@ function feeds_loading_check() {
      
 //console.log('feeds_num = ' + feeds_num );
 
-    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( feeds_loaded.length >= feeds_num || is_admin == true ) {
+     // NOT IN PLUGIN / ADMIN AREAS (UNLIKE CRON EMULATION)
+	if (
+	is_plugin == true
+	|| is_admin == true
+	|| feeds_loaded.length >= feeds_num
+	) {
 	return 'done';
 	}
 	else {
@@ -4137,7 +4145,8 @@ function auto_reload(select_elm=false) {
 	}
 	
 
-	if ( document.getElementById("set_use_cookies") ) {
+     // We do NOT do auto-reload in admin area
+	if ( !is_admin ) {
 		
 		
 		if ( reload_countdown ) {
@@ -4149,7 +4158,11 @@ function auto_reload(select_elm=false) {
 			
 			
                 // If subsections are still loading, wait until they are finished
-                if ( $("#background_loading").is(":visible") || charts_loaded.length < charts_num || feeds_loaded.length < feeds_num ) {
+                if (
+                $("#background_loading").is(":visible")
+                || !is_plugin && charts_loaded.length < charts_num 
+                || !is_plugin && feeds_loaded.length < feeds_num
+                ) {
                 setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
                 return;
                 }
@@ -4229,8 +4242,18 @@ function nav_menu($chosen_menu) {
      	$($chosen_menu).each(function(){
      		
      	var $active, $content, $curr_content_id, $links = $(this).find('a');
+
      	
-     	var $area_file = $chosen_menu == '.admin-nav' ? 'admin.php' : 'index.php';
+     	    if ( $chosen_menu == '.admin-nav' ) {
+     	    var $area_file = 'admin.php';
+     	    }
+     	    else if ( $chosen_menu == '.plugin-nav' ) {
+     	    var $area_file = 'plugins.php';
+     	    }
+     	    else {
+     	    var $area_file = 'index.php';
+     	    }
+     	    
      
      	// If the location.hash matches one of the links, use that as the active nav item.
      	// If no match is found, use the first link as the initial active nav item.
@@ -4432,7 +4455,7 @@ function nav_menu($chosen_menu) {
 function privacy_mode(user_click=false) {
     
 private_data = document.getElementsByClassName('private_data');
-
+    
 
     if ( localStorage.getItem(priv_toggle_storage) == 'on' && user_click == true ) {
         
@@ -4444,38 +4467,47 @@ private_data = document.getElementsByClassName('private_data');
 
                     if ( atob( localStorage.getItem(priv_sec_storage) ) == pin_check ) {
                         
+    
+                         if ( private_data.length < 1 ) {
+                         console.log("Nothing marked as private data found.");
+                         }
+                         else {
+
+
+                         	// Put configged markets into a multi-dimensional array, calculate number of markets total
+                         	Object.keys(private_data).forEach(function(element) {
+                         	    
+                              //console.log( private_data[element].nodeName );
+                         		
+                         		
+                         		if ( private_data[element].nodeName == "INPUT" || private_data[element].nodeName == "TEXTAREA" ) {
+                         		    
+                                   //console.log( private_data[element].nodeName + ': ' + private_data[element].value );
+                                 
+                                   decrypted = CryptoJS.AES.decrypt(private_data[element].value, pin_check);
+                 	    
+                 	               private_data[element].value = decrypted.toString(CryptoJS.enc.Utf8);
+             
+                         		}
+                         		else if ( private_data[element].nodeName == "DIV" || private_data[element].nodeName == "SPAN" ) {
+             
+                                   //console.log( private_data[element].nodeName + ': ' + private_data[element].innerHTML );
+             
+                                   decrypted = CryptoJS.AES.decrypt(private_data[element].innerHTML, pin_check);
+             
+                         	     private_data[element].innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
+             
+                         		}
+                             
+                             
+                              // Show
+                              private_data[element].classList.remove("obfuscated");
+                         			
+                         	});
+
+
+                         }
                         
-                    	// Put configged markets into a multi-dimensional array, calculate number of markets total
-                    	Object.keys(private_data).forEach(function(element) {
-                    	    
-                         //console.log( private_data[element].nodeName );
-                    		
-                    		
-                    		if ( private_data[element].nodeName == "INPUT" || private_data[element].nodeName == "TEXTAREA" ) {
-                    		    
-                              //console.log( private_data[element].nodeName + ': ' + private_data[element].value );
-                            
-                              decrypted = CryptoJS.AES.decrypt(private_data[element].value, pin_check);
-            	    
-            	               private_data[element].value = decrypted.toString(CryptoJS.enc.Utf8);
-        
-                    		}
-                    		else if ( private_data[element].nodeName == "DIV" || private_data[element].nodeName == "SPAN" ) {
-        
-                              //console.log( private_data[element].nodeName + ': ' + private_data[element].innerHTML );
-        
-                              decrypted = CryptoJS.AES.decrypt(private_data[element].innerHTML, pin_check);
-        
-                    	     private_data[element].innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
-        
-                    		}
-                        
-                        
-                         // Show
-                         private_data[element].classList.remove("obfuscated");
-                    			
-                    	});
-                
                 
                     //console.log('Privacy Mode: Off');
                     
@@ -4516,29 +4548,34 @@ private_data = document.getElementsByClassName('private_data');
                     
                     $('.update_portfolio_link').attr('title', 'Update your portfolio data.');
         
-                    safe_add_remove_class('hidden', 'crypto_val', 'remove');
-                    safe_add_remove_class('hidden', 'fiat_val', 'remove');
-                    safe_add_remove_class('hidden', 'portfolio_gain_loss', 'remove');
-                    safe_add_remove_class('hidden', 'balance_stats', 'remove');
-                    
-                    // https://mottie.github.io/tablesorter/docs/
-                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").removeClass("no-sort");
-                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").removeClass("no-sort");
-                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").removeClass("no-sort");
-                    
-                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").addClass("num-sort");
-                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").addClass("num-sort");
-                    $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").addClass("num-sort");
-                    
-                    //$("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").data('sorter', 'sortprices');
-                    
-                    reset_tablesorter('off', user_click, 'coins_table', 2);
-                    
-                    var lvrg_info = document.querySelectorAll(".lvrg_info");
+        
+                         if ( !is_plugin ) {
+                 
+                         safe_add_remove_class('hidden', 'crypto_val', 'remove');
+                         safe_add_remove_class('hidden', 'fiat_val', 'remove');
+                         safe_add_remove_class('hidden', 'portfolio_gain_loss', 'remove');
+                         safe_add_remove_class('hidden', 'balance_stats', 'remove');
+                         
+                         // https://mottie.github.io/tablesorter/docs/
+                         $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").removeClass("no-sort");
+                         $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").removeClass("no-sort");
+                         $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").removeClass("no-sort");
+                         
+                         $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").addClass("num-sort");
+                         $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").addClass("num-sort");
+                         $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").addClass("num-sort");
+                         
+                         //$("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").data('sorter', 'sortprices');
+                         
+                         reset_tablesorter('off', user_click, 'coins_table', 2);
+                         
+                         var lvrg_info = document.querySelectorAll(".lvrg_info");
+                             
+                             lvrg_info.forEach(function(info, index){
+                             info.style.visibility = "visible";
+                             });
                         
-                        lvrg_info.forEach(function(info, index){
-                        info.style.visibility = "visible";
-                        });
+                        }
                         
                         
                     document.oncontextmenu = document.body.oncontextmenu = function() {return true;};
@@ -4636,37 +4673,46 @@ private_data = document.getElementsByClassName('private_data');
         && user_click == false
         && localStorage.getItem(priv_toggle_storage) == 'on'
         ) {
-                    
-        pin = atob( localStorage.getItem(priv_sec_storage) );
-        
-            
-            // Put configged markets into a multi-dimensional array, calculate number of markets total
-            Object.keys(private_data).forEach(function(element) {
-            	    
-            //console.log( private_data[element].nodeName );
-            		
-            		if ( private_data[element].nodeName == "INPUT" || private_data[element].nodeName == "TEXTAREA" ) {
+    
+    
+            if ( private_data.length < 1 ) {
+            console.log("Nothing marked as private data found.");
+            }
+            else {
+                 
+            pin = atob( localStorage.getItem(priv_sec_storage) );
+             
+                 
+                 // Put configged markets into a multi-dimensional array, calculate number of markets total
+                 Object.keys(private_data).forEach(function(element) {
+                 	    
+                 //console.log( private_data[element].nodeName );
+                 		
+                 		if ( private_data[element].nodeName == "INPUT" || private_data[element].nodeName == "TEXTAREA" ) {
+     
+                         //console.log( private_data[element].nodeName + ': ' + private_data[element].value );
+                 	    
+                 	    private_data[element].value = CryptoJS.AES.encrypt(private_data[element].value, pin);
+     
+                 		}
+                 		else if ( private_data[element].nodeName == "DIV" || private_data[element].nodeName == "SPAN" ) {
+     
+                         //console.log( private_data[element].nodeName + ': ' + private_data[element].innerHTML );
+     
+                 	    private_data[element].innerHTML = CryptoJS.AES.encrypt(private_data[element].innerHTML, pin);
+     
+                 		}
+                 
+                 
+                 // Hide 
+                 private_data[element].classList.add("obfuscated");
+                 			
+                 });
+                 
 
-                    //console.log( private_data[element].nodeName + ': ' + private_data[element].value );
-            	    
-            	    private_data[element].value = CryptoJS.AES.encrypt(private_data[element].value, pin);
+            }
 
-            		}
-            		else if ( private_data[element].nodeName == "DIV" || private_data[element].nodeName == "SPAN" ) {
 
-                    //console.log( private_data[element].nodeName + ': ' + private_data[element].innerHTML );
-
-            	    private_data[element].innerHTML = CryptoJS.AES.encrypt(private_data[element].innerHTML, pin);
-
-            		}
-            
-            
-            // Hide 
-            private_data[element].classList.add("obfuscated");
-            			
-            });
-        
-        
         //console.log('Privacy Mode: On');
         
         localStorage.setItem(priv_toggle_storage, 'on');
@@ -4706,29 +4752,35 @@ private_data = document.getElementsByClassName('private_data');
                     
         $('.update_portfolio_link').attr('title', 'Disabled in privacy mode.');
         
-        safe_add_remove_class('hidden', 'crypto_val', 'add');
-        safe_add_remove_class('hidden', 'fiat_val', 'add');
-        safe_add_remove_class('hidden', 'portfolio_gain_loss', 'add');
-        safe_add_remove_class('hidden', 'balance_stats', 'add');
         
-        // https://mottie.github.io/tablesorter/docs/
-        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").addClass("no-sort");
-        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").addClass("no-sort");
-        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").addClass("no-sort");
-                    
-        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").removeClass("num-sort");
-        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").removeClass("num-sort");
-        $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").removeClass("num-sort");
-                    
-        //$("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").data('sorter', false);
-        
-        reset_tablesorter('on', user_click, 'coins_table', 2);
-                    
-        var lvrg_info = document.querySelectorAll(".lvrg_info");
-                        
-             lvrg_info.forEach(function(info, index){
-             info.style.visibility = "hidden";
-             });
+            if ( !is_plugin ) {
+                 
+             safe_add_remove_class('hidden', 'crypto_val', 'add');
+             safe_add_remove_class('hidden', 'fiat_val', 'add');
+             safe_add_remove_class('hidden', 'portfolio_gain_loss', 'add');
+             safe_add_remove_class('hidden', 'balance_stats', 'add');
+             
+             // https://mottie.github.io/tablesorter/docs/
+             $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").addClass("no-sort");
+             $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").addClass("no-sort");
+             $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").addClass("no-sort");
+                         
+             $("#coins_table").find("thead > tr:nth-child(2) > th:eq(7)").removeClass("num-sort");
+             $("#coins_table").find("thead > tr:nth-child(2) > th:eq(9)").removeClass("num-sort");
+             $("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").removeClass("num-sort");
+                         
+             //$("#coins_table").find("thead > tr:nth-child(2) > th:eq(10)").data('sorter', false);
+             
+             reset_tablesorter('on', user_click, 'coins_table', 2);
+                         
+             var lvrg_info = document.querySelectorAll(".lvrg_info");
+                             
+                  lvrg_info.forEach(function(info, index){
+                  info.style.visibility = "hidden";
+                  });
+
+            }
+            
              
         document.oncontextmenu = document.body.oncontextmenu = function() {return false;};    
         

@@ -44,16 +44,28 @@
 	
 	ct_id = '<?=base64_encode( $ct['sec']->id() )?>';
 	
-	// Are we running windows?
 	<?php
+	
+	if ( $is_plugin ) {
+	?>
+	
+     // Is this the plugin UI section?
+	is_plugin = true;
+	
+	<?php
+	}
+	
+	
 	if ( $ct['ms_windows_server'] ) {
      $is_windows = 'yes';
      }
      else {
      $is_windows = 'no';
      }
+     
 	?>
 	
+	// Are we running windows?
 	is_windows = '<?=base64_encode($is_windows)?>';
 	
 	app_edition = '<?=base64_encode($ct['app_edition'])?>';

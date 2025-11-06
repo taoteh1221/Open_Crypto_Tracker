@@ -79,6 +79,11 @@ responsive_menu_override();
 	
 // For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
 // nav item is active and it's associated content, and display it / mark nav links as active in interface
+    
+    if ( is_plugin ) {
+    nav_menu('.plugin-nav');
+    }
+    
 nav_menu('.admin-nav');
 nav_menu('.user-nav');
 
@@ -762,7 +767,22 @@ nav_menu('.user-nav');
 
 	var nav_unselector = $('.user-nav-wrapper');
 	
+	    if ( $(".plugin-nav-wrapper").length > 0 ) {
+	    var nav_unselector2 = $('.plugin-nav-wrapper');
+	    }
+	
      $('#adminSubmenu').toggleClass('show');
+
+	}
+	else if ( is_plugin ) {
+
+	var nav_selector = $('.plugin-nav-wrapper');
+	     
+	var nav_unselector = $('.user-nav-wrapper');
+	
+	var nav_unselector2 = $('.admin-nav-wrapper');
+	
+     $('#pluginSubmenu').toggleClass('show');
 
 	}
 	else if ( !is_iframe ) {
@@ -770,6 +790,10 @@ nav_menu('.user-nav');
 	var nav_selector = $('.user-nav-wrapper');
 	
 	var nav_unselector = $('.admin-nav-wrapper');
+	
+	    if ( $(".plugin-nav-wrapper").length > 0 ) {
+	    var nav_unselector2 = $('.plugin-nav-wrapper');
+	    }
 	
      $('#userSubmenu').toggleClass('show');
 
@@ -786,6 +810,16 @@ nav_menu('.user-nav');
      	nav_unselector.each(function(){
      	$(this).removeClass('active');
      	});
+     	
+     	
+     	if ( typeof nav_unselector2 != 'undefined' ) {
+     	
+          	nav_unselector2.each(function(){
+          	$(this).removeClass('active');
+          	});
+     	
+     	}
+     	
 	
 	}
 
@@ -1088,6 +1122,31 @@ nav_menu('.user-nav');
        
          
          
+         // SET PLUGIN AREA ACTIVE: ALL sidebars 2-deep sub-menu
+         // (SYNCES WITH ANY OTHER MENU SELECTING)
+         $('.plugin-nav-wrapper a[aria-expanded="false"]').on({
+              "click":function(e){
+	
+               	$('.plugin-nav-wrapper').each(function(){
+               	$(this).addClass('active');
+               	});
+               	
+               	
+               	$('.admin-nav-wrapper').each(function(){
+               	$(this).removeClass('active');
+               	});    
+               	
+               	
+               	$('.user-nav-wrapper').each(function(){
+               	$(this).removeClass('active');
+               	});    
+	               
+                   
+              }
+          });
+       
+         
+         
          // SET ADMIN AREA ACTIVE: ALL sidebars 2-deep sub-menu
          // (SYNCES WITH ANY OTHER MENU SELECTING)
          $('.admin-nav-wrapper a[aria-expanded="false"]').on({
@@ -1101,6 +1160,16 @@ nav_menu('.user-nav');
                	$('.user-nav-wrapper').each(function(){
                	$(this).removeClass('active');
                	});    
+	               
+	               
+	               if ( $(".plugin-nav-wrapper").length > 0 ) {
+               	
+                    	$('.plugin-nav-wrapper').each(function(){
+                    	$(this).removeClass('active');
+                    	});    
+
+	               }
+	               
                    
               }
           });
@@ -1139,6 +1208,16 @@ nav_menu('.user-nav');
                	$('.admin-nav-wrapper').each(function(){
                	$(this).removeClass('active');
                	});    
+	               
+	               
+	               if ( $(".plugin-nav-wrapper").length > 0 ) {
+               	
+                    	$('.plugin-nav-wrapper').each(function(){
+                    	$(this).removeClass('active');
+                    	});    
+
+	               }
+	               
                    
               }
           });
@@ -1178,6 +1257,45 @@ nav_menu('.user-nav');
          
          
 
+         // Plugin submenu
+         $('.plugin-nav-wrapper a[aria-expanded]').on({
+              "click":function(e){
+              
+                   if ( $(this).hasClass("active") != true ) {
+                        
+                   $(this).addClass("active");
+                   
+                   $('.admin-nav-wrapper').removeClass("active");
+                   
+                   $('.admin-nav-wrapper a[aria-expanded]').removeClass("active");
+
+                   $('.admin-nav-wrapper a[aria-expanded="true"]').attr('aria-expanded', 'false');
+                   
+                   $('.user-nav-wrapper').removeClass("active");
+                   
+                   $('.user-nav-wrapper a[aria-expanded]').removeClass("active");
+
+                   $('.user-nav-wrapper a[aria-expanded="true"]').attr('aria-expanded', 'false');
+                   
+                        $("#pluginSubmenu").fadeIn(250, function() {
+                        $(this).addClass("show");
+                        });
+                        
+                        $("#adminSubmenu").fadeOut(250, function() {
+                        $(this).removeClass("show");
+                        });
+                        
+                        $("#userSubmenu").fadeOut(250, function() {
+                        $(this).removeClass("show");
+                        });
+                   
+                   }
+                   
+              }
+          });
+         
+         
+
          // Admin submenu
          $('.admin-nav-wrapper a[aria-expanded]').on({
               "click":function(e){
@@ -1199,6 +1317,22 @@ nav_menu('.user-nav');
                         $("#userSubmenu").fadeOut(250, function() {
                         $(this).removeClass("show");
                         });
+
+                   
+                        if ( $(".plugin-nav-wrapper").length > 0 ) {
+                   
+                        $('.plugin-nav-wrapper').removeClass("active");
+                        
+                        $('.plugin-nav-wrapper a[aria-expanded]').removeClass("active");
+     
+                        $('.plugin-nav-wrapper a[aria-expanded="true"]').attr('aria-expanded', 'false');
+                        
+                             $("#pluginSubmenu").fadeOut(250, function() {
+                             $(this).removeClass("show");
+                             });
+                             
+                        }
+                   
                    
                    }
                    
@@ -1229,6 +1363,22 @@ nav_menu('.user-nav');
                         $("#adminSubmenu").fadeOut(250, function() {
                         $(this).removeClass("show");
                         });
+
+                   
+                        if ( $(".plugin-nav-wrapper").length > 0 ) {
+                   
+                        $('.plugin-nav-wrapper').removeClass("active");
+                        
+                        $('.plugin-nav-wrapper a[aria-expanded]').removeClass("active");
+     
+                        $('.plugin-nav-wrapper a[aria-expanded="true"]').attr('aria-expanded', 'false');
+                        
+                             $("#pluginSubmenu").fadeOut(250, function() {
+                             $(this).removeClass("show");
+                             });
+                             
+                        }
+                   
 
                    }
                    

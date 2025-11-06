@@ -234,6 +234,8 @@ var running_setup_wizard = false;
 
 var is_admin = false;
 
+var is_plugin = false;
+
 var admin_logged_in = false;
 
 var admin_settings_save_init = false;

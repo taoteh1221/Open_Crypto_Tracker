@@ -1137,6 +1137,7 @@ $("#performance_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader
   
 zingchart.bind('performance_chart', 'load', function() {
 $("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 });
   
 
@@ -1148,6 +1149,7 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('performance_chart', 'complete', function() {
 	$("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+     fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 	$('#performance_chart').css('height', '<?=$asset_performance_chart_defaults[0]?>px');
 	});
 
@@ -1350,6 +1352,7 @@ $("#marketcap_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_i
   
 zingchart.bind('marketcap_chart', 'load', function() {
 $("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 });
   
 
@@ -1361,6 +1364,7 @@ $.get( "ajax.php?type=chart&mode=marketcap_data&mcap_type=circulating&mcap_compa
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('marketcap_chart', 'complete', function() {
 	$("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+     fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 	$('#marketcap_chart').css('height', '<?=$asset_marketcap_chart_defaults[0]?>px');
 	});
 

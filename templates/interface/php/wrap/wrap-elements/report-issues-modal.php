@@ -1247,10 +1247,10 @@ The webhook key is also available, in the auto-created variable: <pre class='rou
 
 
 
-<span class='blue'>10)</span> The PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
+<span class='blue'>10)</span> The PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'none' if not set).
 <br /><br />
 
-<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug['conf'][$this_plug]['ui_location'] = 'tools'; // 'none', 'nav_menu', 'tools', 'more_stats'</code></pre>
 <br /><br /><br />
 
 

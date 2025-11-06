@@ -44,6 +44,221 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
 
     
 	
+	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana TPS:</h4>
+	
+    <p>
+    
+    <?php
+    
+    $tps_chart_defaults = explode("||", $plug['conf'][$this_plug]['tps_chart_defaults']);
+    
+    	// Fallbacks
+    	
+    	if ( $tps_chart_defaults[0] >= 400 && $tps_chart_defaults[0] <= 900 ) {
+		// DO NOTHING    	
+    	}
+    	else {
+    	$tps_chart_defaults[0] = 600;
+    	}
+    	
+    	if ( $tps_chart_defaults[1] >= 7 && $tps_chart_defaults[1] <= 16 ) {
+		// DO NOTHING    	
+    	}
+    	else {
+    	$tps_chart_defaults[1] = 15;
+    	}
+    
+    ?>
+    
+    
+	<div class='align_left clear_both' style='white-space: nowrap;'>
+    
+    Time Period: <select class='browser-default custom-select' id='solana_tps_period' name='solana_tps_period' onchange="
+    
+		if ( this.value == 'all' ) {
+		$('.datepicker').datepicker('option', 'defaultDate', -7 );
+		}
+		else {
+		$('.datepicker').datepicker('option', 'defaultDate', -this.value );
+		}
+    
+    ">
+	<?php
+	foreach ($ct['light_chart_day_intervals'] as $light_chart_days) {
+	?>
+    <option value='<?=$light_chart_days?>' <?=( $light_chart_days == 'all' ? 'selected' : '' )?>> <?=$ct['gen']->light_chart_time_period($light_chart_days, 'long')?> </option>
+	<?php
+	}
+	?>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    Custom Start Date: <input type="text" id='solana_tps_date' name='solana_tps_date' class="datepicker" value='' placeholder="yyyy/mm/dd (optional)" style='width: 155px; display: inline;' /> 
+		
+			 &nbsp;&nbsp; 
+
+    
+    Chart Height: <select class='browser-default custom-select' id='solana_tps_chart_height' name='solana_tps_chart_height'>
+    <?php
+    $count = 400;
+    while ( $count <= 900 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $tps_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 100;
+    }
+    ?>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    Menu Size: <select class='browser-default custom-select' id='solana_tps_menu_size' name='solana_tps_menu_size'>
+    <?php
+    $count = 7;
+    while ( $count <= 16 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $tps_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 1;
+    }
+    ?>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    <input type='button' value='Update Solana TPS Chart' onclick="
+  
+  new_date = new Date();
+  
+  timestamp_offset = 60 * new_date.getTimezoneOffset(); // Local time offset (browser data), in seconds
+  
+  var solana_tps_chart_width = document.getElementById('solana_tps_chart').offsetWidth;
+  
+    
+  // Reset any user-adjusted zoom
+  zingchart.exec('solana_tps_chart', 'viewall', {
+    graphid: 0
+  });
+  
+  
+  $('#solana_tps_chart div.chart_reload div.chart_reload_msg').html('Loading Solana TPS Chart...');
+  
+	$('#solana_tps_chart div.chart_reload').fadeIn(100); // 0.1 seconds
+	
+  zingchart.bind('solana_tps_chart', 'complete', function() {
+  	
+	$('#solana_tps_chart div.chart_reload' ).fadeOut(2500); // 2.5 seconds
+	$('#solana_tps_chart').css('height', document.getElementById('solana_tps_chart_height').value + 'px');
+	$('#solana_tps_chart').css('background', '#f2f2f2');
+	
+		if ( document.getElementById('solana_tps_period').value == 'all' ) {
+		$('.datepicker').datepicker('option', 'defaultDate', -7 );
+		}
+		else {
+		$('.datepicker').datepicker('option', 'defaultDate', -document.getElementById('solana_tps_period').value );
+		}
+	
+	});
+	
+	var to_timestamp_var = ( document.getElementById('solana_tps_date').value ? document.getElementById('solana_tps_date').value : '1970/1/1' );
+	
+	date_array = to_timestamp_var.split('/');
+	
+	date_timestamp = to_timestamp(date_array[0],date_array[1],date_array[2],0,0,0) + timestamp_offset;
+  
+  // 'resize' MUST run before 'load'
+  zingchart.exec('solana_tps_chart', 'resize', {
+  width: '100%',
+  height: document.getElementById('solana_tps_chart_height').value
+  });
+  
+  // 'load'
+  zingchart.exec('solana_tps_chart', 'load', {
+  	dataurl: '<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_tps&time_period=' + document.getElementById('solana_tps_period').value + '&start_time=' + date_timestamp + '&chart_width=' + solana_tps_chart_width + '&chart_height=' + document.getElementById('solana_tps_chart_height').value + '&menu_size=' + document.getElementById('solana_tps_menu_size').value,
+    cache: {
+        data: true
+    }
+  });
+    
+    " /> 
+    
+    &nbsp; <img class="tooltip_style_control tps_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    
+    
+    </div>
+    
+    
+    </p>
+    
+  
+  <script>
+	$('.datepicker').datepicker({
+    dateFormat: 'yy/mm/dd',
+    defaultDate: -7
+	});
+  </script>
+  
+  <style>
+	.ui-datepicker .ui-datepicker-header {
+		background: #808080;
+	}
+ </style>
+ 
+ 
+  	<div style='min-width: 775px; width: 100%; min-height: 1px; display: flex; flex-flow: column wrap; overflow: hidden;' class='secondary_chart_wrapper' id='solana_tps_chart'>
+	
+	<span class='chart_loading' style='color: <?=$ct['conf']['charts_alerts']['charts_text']?>;'> &nbsp; Loading Solana TPS Chart...</span>
+	
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+		
+	</div>
+	
+	
+  <script>
+
+$("#solana_tps_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Solana TPS Chart...');
+	
+  
+zingchart.bind('solana_tps_chart', 'load', function() {
+$("#solana_tps_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+fix_zingchart_watermarks(); // Make sure watermarks are showing properly
+});
+  
+
+zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
+
+$.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mode=sol_tps&time_period=" + document.getElementById('solana_tps_period').value + "&start_time=0&chart_height=<?=$tps_chart_defaults[0]?>&menu_size=<?=$tps_chart_defaults[1]?>", function( json_data ) {
+ 
+
+	// Mark chart as loaded after it has rendered
+	zingchart.bind('solana_tps_chart', 'complete', function() {
+	$("#solana_tps_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+     fix_zingchart_watermarks(); // Make sure watermarks are showing properly
+	$('#solana_tps_chart').css('height', '<?=$tps_chart_defaults[0]?>px');
+	});
+
+	zingchart.render({
+  	id: 'solana_tps_chart',
+  	height: '<?=$tps_chart_defaults[0]?>',
+  	width: "100%",
+  	data: json_data
+	});
+
+ 
+});
+
+
+// Reset user-adjusted zoom
+zingchart.bind('solana_tps_chart', 'label_click', function(e){
+		
+  	zingchart.exec('solana_tps_chart', 'viewall', {
+   graphid: 0
+  	});
+		
+});
+
+    
+  </script>
+
+	
 	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node Count:</h4>
 	
     <p>
@@ -219,6 +434,7 @@ $("#solana_node_count_chart span.chart_loading").html(' &nbsp; <img class="ajax_
   
 zingchart.bind('solana_node_count_chart', 'load', function() {
 $("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 });
   
 
@@ -230,6 +446,7 @@ $.get( "<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-ajax.php?type=chart&mo
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('solana_node_count_chart', 'complete', function() {
 	$("#solana_node_count_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
+     fix_zingchart_watermarks(); // Make sure watermarks are showing properly
 	$('#solana_node_count_chart').css('height', '<?=$node_count_chart_defaults[0]?>px');
 	});
 
