@@ -131,6 +131,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Make sure enabling privacy mode while logged into the admin area still logs us out, including when in the user area.
+
+
 Login to admin area, to assure our nav menu logic additions for plugin menu entries did not mess that area up. Test with a nav menu plugin enabled AND disabled.
 
 
