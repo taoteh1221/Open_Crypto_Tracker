@@ -45,7 +45,7 @@ var $array1 = array();
      
      global $ct;
      
-     $results = 'system,light,'; // Don't include system and any light charts as well
+     $results = 'system,light,temp,'; // Don't include system and any light charts as well
      						
           foreach( $ct['conf']['assets'] as $key => $unused ) {
           

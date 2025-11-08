@@ -131,13 +131,30 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Make sure enabling privacy mode while logged into the admin area still logs us out, including when in the user area.
+The 'unsaved changes' notice does NOT work clicking on a plugin nav menu entry, after updating the user OR admin areas. 
+
+
+Make sure enabling privacy mode while logged into the admin area still logs us out, including when in the user area. In any admin area (including the login page), enabling or disabling privacy mode currently throws a JavaScript error.
+
 
 
 Login to admin area, to assure our nav menu logic additions for plugin menu entries did not mess that area up. Test with a nav menu plugin enabled AND disabled.
 
 
 Move ALL $ct['dev']['tasks_time_offset'] logic into the update_cache() function, BUT only activates IF cache time is 30 minutes or higher.
+
+
+=================================================================
+
+Add the reposition animation to the other compct submenu logic, where it's only moved slightly.
+
+The final 'else if' condition after !parent_showing should be !elm_showing, which probably would solve the bad offset we are having in the ADMIN area (when viewing on my laptop).
+
+Ideally, instead of sliding all the way to the top of the visible screen, we should try and accurately calculate just sliding up enough to show the entire compact submenu (for better UX). This can be accomplised by getting the CURRENT 'top' CSS value of the element, parsing out the numeric value, and adjusting it based off our existing 'diff' var value. 
+
+When in the ADMIN area, the INITIAL compact submenu showing is very low (barely or cannot see it on bottom left, until scrolling auto-positions it much better). At least on my laptop...the user and plugin areas render ok.
+
+=================================================================
 
 
 Do a pie chart for the Solana Version data.
@@ -152,7 +169,44 @@ Find out why solana node counts in historical chart don't match the counts in th
 Put days / hours left in current Solana epoch in the epoch info area, and try and squeeze in color maps for the types of Solana nodes into the map footer.
 
 
+On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
+
+
+In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
+
+
+Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
+
+
+If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
+
+
+Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)
+
+
+See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
+
+
+Create a function is_valid_plugin(), to use in plugins-init.php, in $ct['gen']->refresh_plugins_list(), and in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case).
+
+
+Convert all my bash vars to lower case, as only system vars should be uppercase.
+
+
+Add full redhat support for auto-installer.
+
+
+Fedora's news feed:
+https://fedoramagazine.org/feed/
+
+
+Add an admin config setting, to enable BTC / ETH / SOL on-chain-stats, with checkbox choices.
 
 
 Add a cron runtime mode to the developer-only-maintenance plugin, that scans / emails results of market checks. Also add ability to skip zero volume alerts (so only offline markets show).
@@ -166,41 +220,7 @@ I have already created the arrays $ct['dev']['special_asset_exchange_keys'] AND 
           	                     'ALTNFTS',
 
 
-See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
-
-
-Create a function is_valid_plugin(), to use in plugins-init.php, in $ct['gen']->refresh_plugins_list(), and in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case).
-
-
-On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
-
-
-On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
-
-
-In step #6 within the plugin development documentation, add notes on creating a READ-ONLY plugin config in the INTERFACE, for PLACEHOLDER settings you want to dynamically change later in initiation logic.
-
-
-Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
-
-
-Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)
-
-
-If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Add full redhat support for auto-installer.
-
-
-Fedora's news feed:
-https://fedoramagazine.org/feed/
-
-
-Add an admin config setting, to enable BTC / ETH / SOL on-chain-stats, with checkbox choices.
 
 
 ===============================================================================

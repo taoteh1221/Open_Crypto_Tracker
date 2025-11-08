@@ -35,7 +35,7 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
 		                             $ct['base_dir'] . '/cache/charts/',
 		                             $ct['conf']['power']['backup_archive_frequency'],
 		                             false,
-		                             'light' // Comma delimited, to exclude more than one dirname
+		                             'light,temp' // Comma delimited, to exclude more than one dirname
 		                             ); 
 
 		}
