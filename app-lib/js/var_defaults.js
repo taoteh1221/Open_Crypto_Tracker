@@ -215,6 +215,8 @@ var cookie_path;
 // With defaults
 	
 var gen_csrf_sec_token = Base64.encode('none');
+
+var orig_compact_side_menu_top = false;
 	
 var background_tasks_recheck = false;
 

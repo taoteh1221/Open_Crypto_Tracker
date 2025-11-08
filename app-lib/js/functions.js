@@ -223,7 +223,7 @@ function responsive_menu_override() {
 
      if ( localStorage.getItem(sidebar_toggle_storage) == "closed" ) {
      $('link[title=responsive-menus]')[0].disabled=true;
-     console.log('Overriding responsive menu CSS (user explicitly chose the COMPACT sidebar)...');
+     //console.log('Overriding responsive menu CSS (user explicitly chose the COMPACT sidebar)...');
      }
      else {
      $('link[title=responsive-menus]')[0].disabled=false;
@@ -2887,29 +2887,37 @@ function dynamic_position(elm, mode=false, compact_sidebar=false) {
      return;
      }
 
+
 var docViewTop = $(window).scrollTop();
+
 var docViewBottom = docViewTop + $(window).height();
 
-var elmTop = $(elm).offset().top;
-var elmBottom = elmTop + $(elm).height();
-
-var is_hidden = $(elm).is(":hidden");
-
-var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
-
+var elm_height = $(elm).height();
+     
      
      // IF compact sidebar, we tweak things differently
      if ( compact_sidebar == true ) {
+     elm_height = elm_height;
      var elmTopParent = get_coords($(elm)[0].parentElement)['top'];
-     var elmBottomParent = elmTopParent + $(elm).height();
+     var elmBottomParent = elmTopParent + $(elm).parent().height();
+     var parent_showing = ( (elmBottomParent < docViewBottom) && (elmTopParent > docViewTop) );
      }
+
+
+var elmTop = $(elm).offset().top;
+
+var elmBottom = elmTop + elm_height;
+
+var is_hidden = $(elm).is(":hidden");
+
+var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
 
 
      // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT +50 px
      // (otherwise we allow scrolling the elements contents to be fully viewable)
      if (
      is_hidden && mode == 'emulate_sticky'
-     || !is_hidden && mode == 'emulate_sticky' && ( $(elm).height() + 50 ) < $(window).height()
+     || !is_hidden && mode == 'emulate_sticky' && ( elm_height + 50 ) < $(window).height()
      ) {
           
           // Set top of element's POSITION, ONLY TO BE USED if there is a content height overflow
@@ -2925,7 +2933,7 @@ var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
      // BUT height is greater then viewport's height,
      // 'stick' it to the top of viewport's SCROLLED position ONE TIME (IF not already set),
      // so you can scroll and see the ENTIRE element contents that overflow the viewport height
-     else if ( mode == 'emulate_sticky' && ( $(elm).height() + 50 ) >= $(window).height() ) {
+     else if ( mode == 'emulate_sticky' && ( elm_height + 50 ) >= $(window).height() ) {
           
           // IF top position NOT ALREADY SET for content height overflow situations
           if ( $(elm).attr('id') && !dynamic_position_overflow[$(elm).attr('id')] ) {
@@ -2937,23 +2945,43 @@ var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
      //console.log( 'SHOWING dynamic_position_overflow['+$(elm).attr('id')+'] = ' + dynamic_position_overflow[$(elm).attr('id')] );
      
      }
-     // If element isn't fully showing on page (and we are NOT emulating sticky), try to make it show as fully as possible
-     else if( !fully_showing && mode != 'emulate_sticky' ) {
+     else if (
+     compact_sidebar == true
+     && parent_showing
+     && orig_compact_side_menu_top != false
+     ) {
      
-     console.log('A page element is not FULLY showing on the screen, attempting to auto-adjust now (as best as we can)...');
+     $(elm).animate({top: orig_compact_side_menu_top});
+
+     orig_compact_side_menu_top = false;
+
+     console.log('Resetting compact side menu.');
+
+     }
+     // If element isn't fully showing on page (and we are NOT emulating sticky), try to make it show as fully as possible
+     else if( !elm_showing && mode != 'emulate_sticky' ) {
+     
+     //console.log('A page element is not FULLY showing on the screen, attempting to auto-adjust now (as best as we can)...');
           
      
           // IF compact sidebar, we tweak things differently
-          if ( compact_sidebar == true ) {
+          if ( compact_sidebar == true && !parent_showing ) {
      
-          var extra_top_up = $(elm).height() > $(window).height() ? 0 : 25;
-          
-          var top_val = Math.round(elmBottomParent - docViewBottom + extra_top_up);
-          
-          // HERE WE NEED TO COMPLETELY REWRITE ENTIRE STYLE FOR ELEMENT, TO FORCE CSS STYLE CHANGES
-          $(elm).attr('style', 'top: -' + top_val + 'px !important; left: 55px !important;'); 
-          
-          console.log('Page element auto-adjusted to CSS "top" value of: -' + top_val);
+          //console.log('compact sidebar PARENT not showing.');
+
+          var diff = (elmTopParent - docViewTop);
+          diff = Math.abs(diff - 60);
+
+          var desc = diff + ' bottom';
+          var attrib_val = diff;
+                   
+               if ( orig_compact_side_menu_top == false ) {
+               orig_compact_side_menu_top = $(elm).css("top");
+               }
+
+          $(elm).animate({top: '-' + attrib_val + 'px'});
+                   
+          //console.log('Page element auto-adjusted ('+desc+' overlap, docViewTop = '+docViewTop+', docViewBottom = '+docViewBottom+') to CSS "top" value of: -' + attrib_val);
           
           }
           // Everything else
@@ -2963,10 +2991,9 @@ var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
 
           $(elm).css("top", top_val + "px", "important");
 
-          console.log('Page element auto-adjusted to CSS "top" value of: ' + top_val);
+          //console.log('Page element auto-adjusted to CSS "top" value of: ' + top_val);
 
           }
-          
      
      
      }

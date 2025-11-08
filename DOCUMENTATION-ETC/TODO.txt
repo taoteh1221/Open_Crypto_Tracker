@@ -131,9 +131,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Add plugins menu to the compact sidebar.
-
-
 Login to admin area, to assure our nav menu logic additions for plugin menu entries did not mess that area up. Test with a nav menu plugin enabled AND disabled.
 
 

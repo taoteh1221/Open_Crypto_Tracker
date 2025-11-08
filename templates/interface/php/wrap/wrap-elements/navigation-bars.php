@@ -55,7 +55,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    
    <?php
    }
-   else if ( !$is_admin ) {
+   else if ( !$is_admin && !$is_plugin ) {
    ?>
    
    <div class="align_center"><a href='javascript:' class='user_settings_save settings_save bitcoin' style='font-weight: bold;' title='Save settings for the user area.'><img src='templates/interface/media/images/auto-preloaded/icons8-save-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
@@ -218,12 +218,58 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
    
    
    <div class="smallnav_spacer"></div>
+            
+            
+           <?php 
+          foreach ( $plug['activated']['ui'] as $plugin_key => $plugin_init ) {
+                      		
+          $this_plug = $plugin_key;
+               
+               if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu' ) {
+               
+               $is_plugin_nav_menu = true;
+               
+               $render_plugin_nav_menu_compact .= "\n <li><a class='dropdown-item' href='plugins.php#plugin_" . $this_plug . "' title='Plugin interface for: " . htmlspecialchars($plug['conf'][$this_plug]['ui_name']) . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a></li> \n";
+
+               }
+          
+          // Reset $this_plug at end of loop
+          unset($this_plug); 
+            	
+          }
+               
+               
+          if ( $is_plugin_nav_menu ) {
+          ?>
+                 
+               <!-- plugin area -->
+               <div class="plugin-nav-wrapper btn-group dropend">
+               
+                    <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-plugin-96-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Plugin area.' /></a>
+               
+                    <ul class="plugin-nav all-nav dropdown-menu" style="">
+                     
+                     <?=$render_plugin_nav_menu_compact?>
+               
+                    </ul>
+                
+               </div>
    
+                 
+          <?php
+          }
+          ?>
+            
    
+   <div class="smallnav_spacer"></div>
+            
+            
    <div class="align_center"><a href="javascript: return false;" class="modal_style_control show_report_issues" title='Report issues with this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Report issues with this app, view answers to common issues in FAQ help format, AND check Development Status (for info about UPCOMING fixes / features, that are not released yet).' /></a></div>
 
 
    <br clear='all' />
+   
+   <div style='padding: 0px !important; margin: 0px !important;' class='icons8_link_small yellow'>Icons By:</div><a style='text-decoration: underline !important;' class='icons8_link_small' href='https://icons8.com' target='_BLANK'>Icons8</a>
 
 </div>
 <!-- END collapsed sidebar -->
@@ -294,7 +340,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
         
 
         <div class="sidebar-header">
+        
+           <div style='margin: 0px !important; padding: 0px !important;' class='icons8_link align_center'>Icons By: <a style='text-decoration: underline !important;' href='https://icons8.com' target='_BLANK'>Icons8</a></div>
+   
             <h1 class='align_center' style='margin: 0px;'>Open Crypto Tracker</h1>
+            
         </div>
         
         <div class="sidebar-slogan align_center">

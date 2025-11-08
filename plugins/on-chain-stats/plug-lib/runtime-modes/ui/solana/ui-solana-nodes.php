@@ -564,7 +564,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     
     &nbsp; <img class="tooltip_style_control geolocation_filter" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
-    <div id="solana_map" class="secondary_chart_wrapper geolocation_map" style="position: relative; width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important;"></div>
+    <div id="solana_map" class="secondary_chart_wrapper geolocation_map" style="position: relative; width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important; position: relative !important; z-index: 1 !important;"></div>
 
     <script>
     

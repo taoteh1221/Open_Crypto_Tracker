@@ -223,6 +223,20 @@ CLASSES
 ////////////////////////////// */
 
 
+.icons8_link {
+font-size: 0.8em !important;
+font-weight: bold;
+color: #ffb83f !important;
+}
+
+
+.icons8_link_small {
+font-size: 0.65em !important;
+line-height: 0.1em !important;
+font-weight: bold;
+}
+
+
 /*
 Fixes highlight.js horizontal overflow NOT force-wrapping
 (to avoid overly-wide code areas, when a line does not want to wrap easily)
@@ -1622,15 +1636,17 @@ min-height: 9px;
 
 
 #collapsed_sidebar .dropdown-menu {
-top: 0px !important;
+top: 0px;
 left: 3px !important; 
 border-top-left-radius: 0px;
 border-bottom-left-radius: 0px;
+height: max-content !important;
+z-index: 99999999 !important;
 }
 
 
 #collapsed_sidebar div.active .dropdown-menu {
-top: -8px !important;
+top: -8px;
 }
 
 

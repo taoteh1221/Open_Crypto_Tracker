@@ -319,6 +319,8 @@ nav_menu('.user-nav');
 	if ( !is_iframe ) {
 	     
           window.addEventListener('scroll', function (e) {
+               
+          //console.log('Scrolling detected.');
      
           dynamic_position('#alert_bell_area', 'emulate_sticky');
      
@@ -329,6 +331,12 @@ nav_menu('.user-nav');
           dynamic_position('.page_title', 'emulate_sticky');
      
           dynamic_position('.countdown_notice', 'emulate_sticky');
+          
+          
+               if ( $('#collapsed_sidebar .dropdown-menu.show').is(":visible") ) {
+               dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true );
+               }
+
           
           });
      
