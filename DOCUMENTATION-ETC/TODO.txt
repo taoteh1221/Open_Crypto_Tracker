@@ -137,13 +137,13 @@ Make sure all on-chain-stats events / charts / etc cache files are deleted, IF t
 Move ALL $ct['dev']['tasks_time_offset'] logic into the update_cache() function, BUT only activates IF cache time is 30 minutes or higher.
 
 
+Find out why solana node counts in historical chart don't match the counts in the geolocation map. This LIKELY indicates a bug somewhere.
+
+
 Do a pie chart for the Solana Version data.
 
 
 Store "Transactions Since Genesis", and every 24 hours see how many more TXs there are, for a Daily TXs chart.
-
-
-Find out why solana node counts in historical chart don't match the counts in the geolocation map. This LIKELY indicates a bug somewhere.
 
 
 Put days / hours left in current Solana epoch in the epoch info area, and try and squeeze in color maps for the types of Solana nodes into the map footer.
