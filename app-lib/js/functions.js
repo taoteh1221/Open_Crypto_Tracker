@@ -449,20 +449,38 @@ function load_highlightjs(id=false) {
 
 
 // Modded from: https://medium.com/@theredwillows/moving-an-element-with-javascript-part-1-765c6a083d45
-function adjust_vertical_position(element, amount) {
+function adjust_vertical_position(element, amount=false) {
 
 var topValue = Number( element.css("top").replace("px", "") );
      
-var element_top = Math.round(topValue + amount);
+     
+     if ( amount ) {
+     var element_top = Math.round(topValue + amount) + 'px';
+     }
+     else {
+     var element_top = 'unset'; // CSS UNSET for this attribute
+     }
+     
+     
+// Animate moving vertical position over X.XXX seconds
+element.animate(      
+                      // CSS to animate
+                      {
+                      top: element_top 
+                      },
+                      // Milliseconds to animate for
+                      1250, 
+                      "linear",
+                      function() {
+                      // Nothing to run when finished for now, as we throttle a listening loop
+                      // until the MENU is closed in compact_submenu(), but we may want this later
+                      }
+               );
 
-// Animate moving vertical position over 0.5 seconds
-element.animate({
-                 top: element_top + 'px'
-                 }, 500);
      
 //console.log('topValue = ' + topValue);
 
-//console.log('SET CSS "top" value of: ' + element_top + 'px');
+//console.log('SET CSS "top" value of: ' + element_top);
 
 }
 
@@ -1050,6 +1068,9 @@ function compact_submenu(elm=false) {
      
      }
      else {
+     
+     // Stop listening onscroll, for vertical positioning correction
+     clearInterval(onscroll_compact_submenu_adjusting);
                    
      $('#collapsed_sidebar a[aria-expanded]').removeClass("active");
                    
@@ -2975,9 +2996,8 @@ var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
           // IF compact sidebar, we tweak things differently
           if ( compact_sidebar == true ) {
           
-          // Add some padding
-          elmTop = elmTop - 20;
-          elmBottom = elmBottom + 20;
+          // Add some slight bottom padding, to always show bottom border too
+          elmBottom = elmBottom + 2;
                
                
                // IF we are hidden at bottom AND top, skip
@@ -3016,6 +3036,11 @@ var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
           }
      
      
+     }
+     // Otherwise, IF the compact sidebar, UNSET THE TOP CSS 
+     // (so it goes back to normal behaviour, since it now can show near it's parent element)
+     else if( elm_showing && compact_sidebar == true ) {
+     adjust_vertical_position( $(elm) );
      }
 
     

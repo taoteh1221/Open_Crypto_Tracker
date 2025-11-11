@@ -332,32 +332,31 @@ nav_menu('.user-nav');
           
           dynamic_position('.countdown_notice', 'emulate_sticky');
 
-              // THROTTLED scrolling logic (that freaks out running over and over ALOT)
-              if ( scroll_listener_throttle ) {
-              return;
+
+              // RESET scrolling compact submenu listening LOOP, if already running
+              // (we do NOT want multiple instances looping!)
+              if ( onscroll_compact_submenu_adjusting ) {
+              clearInterval(onscroll_compact_submenu_adjusting);
+              }
+
+                                    
+              // THROTTLED / LOOPING onscrolling compact submenu logic, IF MENU IS OPEN,
+              // which runs in a loop until re-scrolling, OR until menu is closed in compact_submenu()
+              if ( $('#collapsed_sidebar .dropdown-menu.show').is(":visible") ) {
+              
+                   // Every X.XXX seconds, let the check run
+                   onscroll_compact_submenu_adjusting = setInterval(function () {
+
+                   //console.log("Throttled on-scroll loop for compact_submenu processed at:", new Date().toLocaleTimeString());
+
+                   dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true ); // Position check
+                   
+                   }, 1500);
+
               }
           
-          
-          scroll_listener_throttle = true;
-              
-              
-              // Every 0.25 seconds, let the logic run
-              setTimeout(() => {
-                 
-              //console.log("Throttled scrolling event processed at:", new Date().toLocaleTimeString());
-               
-                    
-                   if ( $('#collapsed_sidebar .dropdown-menu.show').is(":visible") ) {
-                   dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true );
-                   }
-
-          
-              scroll_listener_throttle = false; // Reset the flag after the interval
-              
-              }, 250);
-
-          
           });
+
      
      }
 	

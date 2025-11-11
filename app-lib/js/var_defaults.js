@@ -76,6 +76,8 @@ var app_container;
 
 var is_windows;
 	
+var onscroll_compact_submenu_adjusting;
+	
 var logs_csrf_sec_token;
 
 var medium_sec_token;
@@ -215,8 +217,6 @@ var cookie_path;
 // With defaults
 	
 var gen_csrf_sec_token = Base64.encode('none');
-	
-var scroll_listener_throttle = false;
 	
 var background_tasks_recheck = false;
 
