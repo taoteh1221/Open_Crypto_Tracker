@@ -319,16 +319,43 @@ nav_menu('.user-nav');
 	if ( !is_iframe ) {
 	     
           window.addEventListener('scroll', function (e) {
-     
+               
+          //console.log('Scrolling detected.');
+          
           dynamic_position('#alert_bell_area', 'emulate_sticky');
-     
+          
           dynamic_position('#background_loading', 'emulate_sticky');
-     
+          
           dynamic_position('.iframe_loading_placeholder', 'emulate_sticky');
-     
+          
           dynamic_position('.page_title', 'emulate_sticky');
-     
+          
           dynamic_position('.countdown_notice', 'emulate_sticky');
+
+              // THROTTLED scrolling logic (that freaks out running over and over ALOT)
+              if ( scroll_listener_throttle ) {
+              return;
+              }
+          
+          
+          scroll_listener_throttle = true;
+              
+              
+              // Every 0.25 seconds, let the logic run
+              setTimeout(() => {
+                 
+              //console.log("Throttled scrolling event processed at:", new Date().toLocaleTimeString());
+               
+                    
+                   if ( $('#collapsed_sidebar .dropdown-menu.show').is(":visible") ) {
+                   dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true );
+                   }
+
+          
+              scroll_listener_throttle = false; // Reset the flag after the interval
+              
+              }, 250);
+
           
           });
      
@@ -486,7 +513,7 @@ nav_menu('.user-nav');
              
               // IF user CHANGED admin config settings data via interface,
               // confirm whether or not they want to skip saving their changes
-              if ( is_admin && unsaved_admin_config ) {
+              if ( unsaved_admin_config ) {
                        
               var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
                   
@@ -511,7 +538,7 @@ nav_menu('.user-nav');
                   }
 
               }
-              else if ( !is_admin && unsaved_user_config ) {
+              else if ( unsaved_user_config ) {
                        
               var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
                   

@@ -223,7 +223,7 @@ function responsive_menu_override() {
 
      if ( localStorage.getItem(sidebar_toggle_storage) == "closed" ) {
      $('link[title=responsive-menus]')[0].disabled=true;
-     console.log('Overriding responsive menu CSS (user explicitly chose the COMPACT sidebar)...');
+     //console.log('Overriding responsive menu CSS (user explicitly chose the COMPACT sidebar)...');
      }
      else {
      $('link[title=responsive-menus]')[0].disabled=false;
@@ -441,6 +441,28 @@ function load_highlightjs(id=false) {
      hljs.highlightElement( document.getElementById(id) );
      //hljs.highlightBlock();
      }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// Modded from: https://medium.com/@theredwillows/moving-an-element-with-javascript-part-1-765c6a083d45
+function adjust_vertical_position(element, amount) {
+
+var topValue = Number( element.css("top").replace("px", "") );
+     
+var element_top = Math.round(topValue + amount);
+
+// Animate moving vertical position over 0.5 seconds
+element.animate({
+                 top: element_top + 'px'
+                 }, 500);
+     
+//console.log('topValue = ' + topValue);
+
+//console.log('SET CSS "top" value of: ' + element_top + 'px');
 
 }
 
@@ -2883,33 +2905,40 @@ promptCount = 0;
 
 function dynamic_position(elm, mode=false, compact_sidebar=false) {
      
+     
      if ( typeof $(elm).offset() == 'undefined' ) {
      return;
      }
 
+
 var docViewTop = $(window).scrollTop();
+
 var docViewBottom = docViewTop + $(window).height();
 
+var elm_height = $(elm).height();
+
 var elmTop = $(elm).offset().top;
-var elmBottom = elmTop + $(elm).height();
 
-var is_hidden = $(elm).is(":hidden");
-
-var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
+var elmBottom = elmTop + elm_height;
+                 
+                 
+     // Add some padding for the compact sidebar submenu
+     if ( compact_sidebar == true ) {   
+     elmTop = elmTop - 20;
+     elmBottom = elmBottom + 20;
+     }
 
      
-     // IF compact sidebar, we tweak things differently
-     if ( compact_sidebar == true ) {
-     var elmTopParent = get_coords($(elm)[0].parentElement)['top'];
-     var elmBottomParent = elmTopParent + $(elm).height();
-     }
+var is_hidden = $(elm).is(":hidden");
+
+var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
 
 
      // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT +50 px
      // (otherwise we allow scrolling the elements contents to be fully viewable)
      if (
      is_hidden && mode == 'emulate_sticky'
-     || !is_hidden && mode == 'emulate_sticky' && ( $(elm).height() + 50 ) < $(window).height()
+     || !is_hidden && mode == 'emulate_sticky' && ( elm_height + 50 ) < $(window).height()
      ) {
           
           // Set top of element's POSITION, ONLY TO BE USED if there is a content height overflow
@@ -2925,7 +2954,7 @@ var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
      // BUT height is greater then viewport's height,
      // 'stick' it to the top of viewport's SCROLLED position ONE TIME (IF not already set),
      // so you can scroll and see the ENTIRE element contents that overflow the viewport height
-     else if ( mode == 'emulate_sticky' && ( $(elm).height() + 50 ) >= $(window).height() ) {
+     else if ( mode == 'emulate_sticky' && ( elm_height + 50 ) >= $(window).height() ) {
           
           // IF top position NOT ALREADY SET for content height overflow situations
           if ( $(elm).attr('id') && !dynamic_position_overflow[$(elm).attr('id')] ) {
@@ -2938,22 +2967,41 @@ var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
      
      }
      // If element isn't fully showing on page (and we are NOT emulating sticky), try to make it show as fully as possible
-     else if( !fully_showing && mode != 'emulate_sticky' ) {
+     else if( !elm_showing && mode != 'emulate_sticky' ) {
      
-     console.log('A page element is not FULLY showing on the screen, attempting to auto-adjust now (as best as we can)...');
+     //console.log('A page element is not FULLY showing on the screen, attempting to auto-adjust now (as best as we can)...');
           
      
           // IF compact sidebar, we tweak things differently
           if ( compact_sidebar == true ) {
-     
-          var extra_top_up = $(elm).height() > $(window).height() ? 0 : 25;
           
-          var top_val = Math.round(elmBottomParent - docViewBottom + extra_top_up);
+          // Add some padding
+          elmTop = elmTop - 20;
+          elmBottom = elmBottom + 20;
+               
+               
+               // IF we are hidden at bottom AND top, skip
+               if (
+               elmBottom > docViewBottom
+               && elmTop < docViewTop
+               ) {
+               return;
+               }
+               // Otherwise, line up at bottom
+               else {
+
+               elmBottom = elmBottom; // Padding
+
+               var diff = Math.round(docViewBottom - elmBottom);
+                   
+               //console.log('Page element auto-adjusted (elmBottom = '+elmBottom+', docViewBottom = '+docViewBottom+', diff = '+diff+')');
+               
+               }
+
           
-          // HERE WE NEED TO COMPLETELY REWRITE ENTIRE STYLE FOR ELEMENT, TO FORCE CSS STYLE CHANGES
-          $(elm).attr('style', 'top: -' + top_val + 'px !important; left: 55px !important;'); 
-          
-          console.log('Page element auto-adjusted to CSS "top" value of: -' + top_val);
+          //console.log('compact sidebar ELEMENT not showing.');
+
+          adjust_vertical_position( $(elm) , diff );
           
           }
           // Everything else
@@ -2963,17 +3011,15 @@ var fully_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
 
           $(elm).css("top", top_val + "px", "important");
 
-          console.log('Page element auto-adjusted to CSS "top" value of: ' + top_val);
+          //console.log('Page element auto-adjusted to CSS "top" value of: ' + top_val);
 
           }
-          
      
      
      }
 
     
 }
-
 
 /////////////////////////////////////////////////////////////
 
@@ -4305,7 +4351,7 @@ function nav_menu($chosen_menu) {
                   
                   // IF user CHANGED admin config settings data via interface,
                   // confirm whether or not they want to skip saving their changes
-                  if ( is_admin && unsaved_admin_config ) {
+                  if ( unsaved_admin_config ) {
                        
                   var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
                   
@@ -4320,7 +4366,7 @@ function nav_menu($chosen_menu) {
                       }
 
                   }
-                  else if ( !is_admin && unsaved_user_config ) {
+                  else if ( unsaved_user_config ) {
                        
                   var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
                   
@@ -4549,7 +4595,7 @@ private_data = document.getElementsByClassName('private_data');
                     $('.update_portfolio_link').attr('title', 'Update your portfolio data.');
         
         
-                         if ( !is_plugin ) {
+                         if ( !is_admin && !is_plugin ) {
                  
                          safe_add_remove_class('hidden', 'crypto_val', 'remove');
                          safe_add_remove_class('hidden', 'fiat_val', 'remove');
@@ -4753,7 +4799,7 @@ private_data = document.getElementsByClassName('private_data');
         $('.update_portfolio_link').attr('title', 'Disabled in privacy mode.');
         
         
-            if ( !is_plugin ) {
+            if ( !is_admin && !is_plugin ) {
                  
              safe_add_remove_class('hidden', 'crypto_val', 'add');
              safe_add_remove_class('hidden', 'fiat_val', 'add');

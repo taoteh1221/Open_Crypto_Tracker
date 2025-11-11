@@ -171,6 +171,23 @@ unset($webhook_plug);
 	
 	<b class='blue'>INTERNAL API DOCUMENTATION / KEYS:</b> <br /><br />
 	
+	
+     <?php
+     // ALERT for WINDOWS DESKTOP EDITIONS
+     if ( $ct['app_container'] == 'phpdesktop' && $ct['app_platform'] == 'windows' ) {
+     ?>
+
+	<p class='red red_dotted'>
+	
+	WINDOWS DESKTOP EDITION ALERT: PHPdesktop (used by Desktop Editions) server config sends MALFORMED header responses in the Windows version! This affects using CURL to parse server responses (Javascript and other request clients MAY still work fine, unless they can't handle malformed headers gracefully).
+	
+	</p>
+	
+     <?php
+     }
+     ?>
+
+
 	This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairs).</p>
 		
 		<p>To see a list of the supported assets in the API, use the endpoint: <br /><br />

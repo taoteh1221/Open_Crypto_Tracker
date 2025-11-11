@@ -7,3 +7,8 @@ margin: 0.75em !important;
 .sol_epoch_data {
 padding: 1.5em !important;
 }
+
+.leaflet_zindex_fix {
+position: relative !important;
+z-index: 1 !important;
+}

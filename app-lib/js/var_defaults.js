@@ -216,6 +216,8 @@ var cookie_path;
 	
 var gen_csrf_sec_token = Base64.encode('none');
 	
+var scroll_listener_throttle = false;
+	
 var background_tasks_recheck = false;
 
 var disable_nav_save_buttons = false;
