@@ -448,6 +448,28 @@ function load_highlightjs(id=false) {
 /////////////////////////////////////////////////////////////
 
 
+// Modded from: https://medium.com/@theredwillows/moving-an-element-with-javascript-part-1-765c6a083d45
+function adjust_vertical_position(element, amount) {
+
+var topValue = Number( element.css("top").replace("px", "") );
+     
+var element_top = Math.round(topValue + amount);
+
+// Animate moving vertical position over 0.5 seconds
+element.animate({
+                 top: element_top + 'px'
+                 }, 500);
+     
+//console.log('topValue = ' + topValue);
+
+//console.log('SET CSS "top" value of: ' + element_top + 'px');
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function charts_loading_check() {
 	
 //console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
@@ -2883,6 +2905,7 @@ promptCount = 0;
 
 function dynamic_position(elm, mode=false, compact_sidebar=false) {
      
+     
      if ( typeof $(elm).offset() == 'undefined' ) {
      return;
      }
@@ -2893,21 +2916,19 @@ var docViewTop = $(window).scrollTop();
 var docViewBottom = docViewTop + $(window).height();
 
 var elm_height = $(elm).height();
-     
-     
-     // IF compact sidebar, we tweak things differently
-     if ( compact_sidebar == true ) {
-     elm_height = elm_height;
-     var elmTopParent = get_coords($(elm)[0].parentElement)['top'];
-     var elmBottomParent = elmTopParent + $(elm).parent().height();
-     var parent_showing = ( (elmBottomParent < docViewBottom) && (elmTopParent > docViewTop) );
-     }
-
 
 var elmTop = $(elm).offset().top;
 
 var elmBottom = elmTop + elm_height;
+                 
+                 
+     // Add some padding for the compact sidebar submenu
+     if ( compact_sidebar == true ) {   
+     elmTop = elmTop - 20;
+     elmBottom = elmBottom + 20;
+     }
 
+     
 var is_hidden = $(elm).is(":hidden");
 
 var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
@@ -2945,19 +2966,6 @@ var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
      //console.log( 'SHOWING dynamic_position_overflow['+$(elm).attr('id')+'] = ' + dynamic_position_overflow[$(elm).attr('id')] );
      
      }
-     else if (
-     compact_sidebar == true
-     && parent_showing
-     && orig_compact_side_menu_top != false
-     ) {
-     
-     $(elm).animate({top: orig_compact_side_menu_top});
-
-     orig_compact_side_menu_top = false;
-
-     console.log('Resetting compact side menu.');
-
-     }
      // If element isn't fully showing on page (and we are NOT emulating sticky), try to make it show as fully as possible
      else if( !elm_showing && mode != 'emulate_sticky' ) {
      
@@ -2965,23 +2973,35 @@ var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
           
      
           // IF compact sidebar, we tweak things differently
-          if ( compact_sidebar == true && !parent_showing ) {
-     
-          //console.log('compact sidebar PARENT not showing.');
+          if ( compact_sidebar == true ) {
+          
+          // Add some padding
+          elmTop = elmTop - 20;
+          elmBottom = elmBottom + 20;
+               
+               
+               // IF we are hidden at bottom AND top, skip
+               if (
+               elmBottom > docViewBottom
+               && elmTop < docViewTop
+               ) {
+               return;
+               }
+               // Otherwise, line up at bottom
+               else {
 
-          var diff = (elmTopParent - docViewTop);
-          diff = Math.abs(diff - 60);
+               elmBottom = elmBottom; // Padding
 
-          var desc = diff + ' bottom';
-          var attrib_val = diff;
+               var diff = Math.round(docViewBottom - elmBottom);
                    
-               if ( orig_compact_side_menu_top == false ) {
-               orig_compact_side_menu_top = $(elm).css("top");
+               //console.log('Page element auto-adjusted (elmBottom = '+elmBottom+', docViewBottom = '+docViewBottom+', diff = '+diff+')');
+               
                }
 
-          $(elm).animate({top: '-' + attrib_val + 'px'});
-                   
-          //console.log('Page element auto-adjusted ('+desc+' overlap, docViewTop = '+docViewTop+', docViewBottom = '+docViewBottom+') to CSS "top" value of: -' + attrib_val);
+          
+          //console.log('compact sidebar ELEMENT not showing.');
+
+          adjust_vertical_position( $(elm) , diff );
           
           }
           // Everything else
@@ -3000,7 +3020,6 @@ var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
 
     
 }
-
 
 /////////////////////////////////////////////////////////////
 
@@ -4332,7 +4351,7 @@ function nav_menu($chosen_menu) {
                   
                   // IF user CHANGED admin config settings data via interface,
                   // confirm whether or not they want to skip saving their changes
-                  if ( is_admin && unsaved_admin_config ) {
+                  if ( unsaved_admin_config ) {
                        
                   var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
                   
@@ -4347,7 +4366,7 @@ function nav_menu($chosen_menu) {
                       }
 
                   }
-                  else if ( !is_admin && unsaved_user_config ) {
+                  else if ( unsaved_user_config ) {
                        
                   var confirm_skip_saving_changes = confirm("You have UN-SAVED setting changes. Are you sure you want to leave this section without saving your changes (using the RED SAVE BUTTON in the menu area)?");
                   
@@ -4576,7 +4595,7 @@ private_data = document.getElementsByClassName('private_data');
                     $('.update_portfolio_link').attr('title', 'Update your portfolio data.');
         
         
-                         if ( !is_plugin ) {
+                         if ( !is_admin && !is_plugin ) {
                  
                          safe_add_remove_class('hidden', 'crypto_val', 'remove');
                          safe_add_remove_class('hidden', 'fiat_val', 'remove');
@@ -4780,7 +4799,7 @@ private_data = document.getElementsByClassName('private_data');
         $('.update_portfolio_link').attr('title', 'Disabled in privacy mode.');
         
         
-            if ( !is_plugin ) {
+            if ( !is_admin && !is_plugin ) {
                  
              safe_add_remove_class('hidden', 'crypto_val', 'add');
              safe_add_remove_class('hidden', 'fiat_val', 'add');

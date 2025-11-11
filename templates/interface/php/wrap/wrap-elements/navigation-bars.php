@@ -340,8 +340,6 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
         
 
         <div class="sidebar-header">
-        
-           <div style='margin: 0px !important; padding: 0px !important;' class='icons8_link align_center'>Icons By: <a style='text-decoration: underline !important;' href='https://icons8.com' target='_BLANK'>Icons8</a></div>
    
             <h1 class='align_center' style='margin: 0px;'>Open Crypto Tracker</h1>
             
@@ -706,6 +704,8 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
             
         </ul>
 
+        
+           <div style='margin: 0px !important; padding: 0px !important;' class='icons8_link align_center'>Icons By: <a style='text-decoration: underline !important;' href='https://icons8.com' target='_BLANK'>Icons8</a></div>
 
 </nav>
 <!-- END regular sidebar -->

@@ -478,6 +478,8 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     
     <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation:</h4>
     
+    <p class='bitcoin'>Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.</p>
+    
     
     <?php
     if ( !file_exists( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) ) ) {
@@ -564,7 +566,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     
     &nbsp; <img class="tooltip_style_control geolocation_filter" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
-    <div id="solana_map" class="secondary_chart_wrapper geolocation_map" style="position: relative; width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important; position: relative !important; z-index: 1 !important;"></div>
+    <div id="solana_map" class="secondary_chart_wrapper geolocation_map leaflet_zindex_fix" style="width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important;"></div>
 
     <script>
     

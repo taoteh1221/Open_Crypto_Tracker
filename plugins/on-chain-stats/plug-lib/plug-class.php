@@ -20,13 +20,63 @@ var $array1 = array();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
    
+     
+     // Validating user input in the admin interface
+	function admin_input_validation() {
+		 
+	global $ct, $plug, $this_plug;
+     
+     $update_config_error_seperator = '<br /> ';
+		
+     $node_count_chart_defaults = array_map('trim', explode('||', $_POST[$this_plug]['node_count_chart_defaults']) );
+  
+  
+          // Make sure Node Count chart config is set
+          if ( isset($_POST[$this_plug]['node_count_chart_defaults']) && trim($_POST[$this_plug]['node_count_chart_defaults']) == '' ) {
+          $ct['update_config_error'] .= $update_config_error_seperator . '"Node Count Chart Defaults" MUST be filled in';
+          }
+          else if (
+          !isset($node_count_chart_defaults[0]) || !$ct['var']->whole_int($node_count_chart_defaults[0]) || $node_count_chart_defaults[0] < 400 || $node_count_chart_defaults[0] > 900 
+          || !isset($node_count_chart_defaults[1]) || !$ct['var']->whole_int($node_count_chart_defaults[1]) || $node_count_chart_defaults[1] < 7 || $node_count_chart_defaults[1] > 16
+          || !$ct['var']->whole_int($node_count_chart_defaults[0] / 100)
+          ) {
+          $ct['update_config_error'] .= $update_config_error_seperator . '"Node Count Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
+          }
+		
+		
+     $tps_chart_defaults = array_map('trim', explode('||', $_POST[$this_plug]['tps_chart_defaults']) );
+  
+  
+          // Make sure TPS Count chart config is set
+          if ( isset($_POST[$this_plug]['tps_chart_defaults']) && trim($_POST[$this_plug]['tps_chart_defaults']) == '' ) {
+          $ct['update_config_error'] .= $update_config_error_seperator . '"TPS Chart Defaults" MUST be filled in';
+          }
+          else if (
+          !isset($tps_chart_defaults[0]) || !$ct['var']->whole_int($tps_chart_defaults[0]) || $tps_chart_defaults[0] < 400 || $tps_chart_defaults[0] > 900 
+          || !isset($tps_chart_defaults[1]) || !$ct['var']->whole_int($tps_chart_defaults[1]) || $tps_chart_defaults[1] < 7 || $tps_chart_defaults[1] > 16
+          || !$ct['var']->whole_int($tps_chart_defaults[0] / 100)
+          ) {
+          $ct['update_config_error'] .= $update_config_error_seperator . '"TPS Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
+          }
+		
+     
+     return $ct['update_config_error'];
+		
+	}
+	
+		
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+   
+   
+   
      function solana_tps() {
      
      global $ct, $this_plug;
      
      $results = array();     
      
-     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(1), 15); // 15 MINUTE CACHE
+     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(1), 4); // 4 MINUTE CACHE
      
      
           if (
@@ -146,38 +196,6 @@ var $array1 = array();
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
-   
-     
-     // Validating user input in the admin interface
-	function admin_input_validation() {
-		 
-	global $ct, $plug, $this_plug;
-     
-     $update_config_error_seperator = '<br /> ';
-		
-     $node_count_chart_defaults = array_map('trim', explode('||', $_POST[$this_plug]['node_count_chart_defaults']) );
-  
-  
-          // Make sure Node Count chart config is set
-          if ( isset($_POST[$this_plug]['node_count_chart_defaults']) && trim($_POST[$this_plug]['node_count_chart_defaults']) == '' ) {
-          $ct['update_config_error'] .= $update_config_error_seperator . '"Node Count Chart Defaults" MUST be filled in';
-          }
-          else if (
-          !isset($node_count_chart_defaults[0]) || !$ct['var']->whole_int($node_count_chart_defaults[0]) || $node_count_chart_defaults[0] < 400 || $node_count_chart_defaults[0] > 900 
-          || !isset($node_count_chart_defaults[1]) || !$ct['var']->whole_int($node_count_chart_defaults[1]) || $node_count_chart_defaults[1] < 7 || $node_count_chart_defaults[1] > 16
-          || !$ct['var']->whole_int($node_count_chart_defaults[0] / 100)
-          ) {
-          $ct['update_config_error'] .= $update_config_error_seperator . '"Node Count Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
-          }
-		
-     
-     return $ct['update_config_error'];
-		
-	}
-	
-		
-   ////////////////////////////////////////////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////////////////////////////////////////////
    
    
      function solana_nodes_onchain() {

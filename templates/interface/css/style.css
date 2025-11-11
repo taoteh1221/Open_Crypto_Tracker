@@ -224,6 +224,8 @@ CLASSES
 
 
 .icons8_link {
+     position: relative;
+    top: -1.5em;
 font-size: 0.8em !important;
 font-weight: bold;
 color: #ffb83f !important;
