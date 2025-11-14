@@ -131,25 +131,8 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Register a 'gateio_usdt_futures' exchanges entry for usdt (and test with MON as a demo config):
-https://api.gateio.ws/api/v4/futures/usdt/contracts
-
-
 Fedora's news feed:
 https://fedoramagazine.org/feed/
-
-
-Alphabetically sort activated plugins that run in the interface ('ui' and 'all' runtime mode flags), so the plugin nav menus scale, by being alphabetically ordered.
-
-
-========================================================
-Put all our listening loop logic that's currently in the "on scroll" listener, including the reset logic, into it's own function. Then we should be able to move it into the compact menu function instead, where it opens the menu. 
-
-In this way, it will ALWAYS be listening for changes as soon as the menu is opened, without having to wait for scrolling, which should be helpful when changing orientation on a tablet etc etc...and it will still stop listening when the menu is closed.
-========================================================
-
-
-Try adding a different color title, inside the compact submenu, at the top. Maybe style it with a wide downward arrow underneath. This may be less confusing, once the icon slides down on smaller height screens.
 
 
 ========================================================

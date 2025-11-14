@@ -93,7 +93,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
      
           <a href="admin.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Admin Config area.' /></a>
      
-          <ul class="admin-nav all-nav dropdown-menu" style="">
+          <ul class="admin-nav all-nav dropdown-menu" style="" title="Admin Area">
 
         
                     <?php
@@ -188,7 +188,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
      
           <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-user-96-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='User area.' /></a>
      
-          <ul class="user-nav all-nav dropdown-menu" style="">
+          <ul class="user-nav all-nav dropdown-menu" style="" title="User Area">
           
            <li><a class="dropdown-item" href='index.php#portfolio' title='View your portfolio.'>My Portfolio</a></li>
            
@@ -247,7 +247,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                
                     <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-plugin-96-<?=$ct['sel_opt']['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Plugin area.' /></a>
                
-                    <ul class="plugin-nav all-nav dropdown-menu" style="">
+                    <ul class="plugin-nav all-nav dropdown-menu" style="" title="Plugin Area">
                      
                      <?=$render_plugin_nav_menu_compact?>
                

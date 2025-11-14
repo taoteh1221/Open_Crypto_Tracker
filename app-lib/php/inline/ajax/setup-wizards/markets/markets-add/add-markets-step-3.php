@@ -89,12 +89,12 @@ foreach ( $search_results as $exchange_key => $exchange_data ) {
                ) {
                     
                     
-                    if ( isset($duplicate_check[ $market_data['asset'] ][ $market_data['pairing'] ][ $market_data['id'] ]) ) {
+                    if ( isset($duplicate_check[ $market_data['asset'] ][ $market_data['pairing'] ][ $market_data['id'] ][$exchange_key]) ) {
                     continue; // Skip duplicate
                     }
                     // Make sure we don't include duplicates
                     else {
-                    $duplicate_check[ $market_data['asset'] ][ $market_data['pairing'] ][ $market_data['id'] ] = true;
+                    $duplicate_check[ $market_data['asset'] ][ $market_data['pairing'] ][ $market_data['id'] ][$exchange_key] = true;
                     }
                
                     

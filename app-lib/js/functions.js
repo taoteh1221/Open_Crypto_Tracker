@@ -1014,6 +1014,37 @@ var stored_state = localStorage.getItem(js_storage);
 /////////////////////////////////////////////////////////////
 
 
+function adjust_compact_submenu() {
+
+ 
+      // RESET scrolling compact submenu listening LOOP, if already running
+      // (we do NOT want multiple instances looping!)
+      if ( onscroll_compact_submenu_adjusting ) {
+      clearInterval(onscroll_compact_submenu_adjusting);
+      }
+
+                                    
+      // THROTTLED / LOOPING compact submenu logic, IF MENU IS OPEN,
+      // which runs in a loop, until menu is closed in compact_submenu()
+      if ( $('#collapsed_sidebar .dropdown-menu.show').is(":visible") ) {
+              
+          // Every X.XXX seconds, let the check run
+          onscroll_compact_submenu_adjusting = setInterval(function () {
+
+          //console.log("Throttled on-scroll loop for compact_submenu processed at:", new Date().toLocaleTimeString());
+
+          dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true ); // Position check
+                   
+          }, 1500);
+
+      }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 /*
 Usage:
 convert_numbers('selected_css'); // Automatically uses browser's locale
@@ -1064,7 +1095,7 @@ function compact_submenu(elm=false) {
      
      $("#collapsed_sidebar").css('overflow','unset');
      
-     dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true );
+     adjust_compact_submenu();
      
      }
      else {
@@ -2945,8 +2976,8 @@ var elmBottom = elmTop + elm_height;
                  
      // Add some padding for the compact sidebar submenu
      if ( compact_sidebar == true ) {   
-     elmTop = elmTop - 20;
-     elmBottom = elmBottom + 20;
+     elmTop = elmTop - 22;
+     elmBottom = elmBottom + 22;
      }
 
      
@@ -2995,9 +3026,6 @@ var elm_showing = ( (elmBottom < docViewBottom) && (elmTop > docViewTop) );
      
           // IF compact sidebar, we tweak things differently
           if ( compact_sidebar == true ) {
-          
-          // Add some slight bottom padding, to always show bottom border too
-          elmBottom = elmBottom + 2;
                
                
                // IF we are hidden at bottom AND top, skip

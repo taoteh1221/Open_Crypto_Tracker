@@ -174,6 +174,11 @@ var $array1 = array();
 	$refresh_cache = ( $calc >= 0 ? $calc : 0 );
      
      $data = $ct['api']->solana_rpc( ( $spl_token == false ? 'getBalance' : 'getTokenAccountBalance' ) , array($address) , $refresh_cache )['result'];
+     
+     // DEBUGGING
+	//$debug_data = json_encode($data, JSON_PRETTY_PRINT);
+	//$debug_cache_file = $ct['plug']->debug_cache('sol_addr_bal_'.$address.'.dat', $this_plug);
+	//$ct['cache']->save_file($debug_cache_file, $debug_data);
 		   
 		   
 		if ( isset($data['value']) ) {

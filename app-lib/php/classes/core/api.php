@@ -11,6 +11,7 @@ class ct_api {
 var $prefixing_blacklist = array(
                              'binance', // Because 'binance_us' is a separate API
                              'coingecko', // Because 'coingecko_terminal' is a separate API
+                             'gateio', // Because 'gateio_usdt_futures' is a separate API
                             );
 
 
@@ -222,6 +223,14 @@ var $exchange_apis = array(
                                                    'markets_endpoint' => 'https://api.gateio.ws/api/v4/spot/tickers',
                                                    'markets_nested_path' => false, // Delimit multiple depths with >
                                                    'all_markets_support' => 'currency_pair', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
+                                                  ),
+
+
+                           'gateio_usdt_futures' => array(
+                                                   'markets_endpoint' => 'https://api.gateio.ws/api/v4/futures/usdt/contracts',
+                                                   'markets_nested_path' => false, // Delimit multiple depths with >
+                                                   'all_markets_support' => 'name', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -3611,6 +3620,22 @@ var $exchange_apis = array(
                               'last_trade' => $data["last"],
                               '24hr_asset_vol' => $data["base_volume"],
                               '24hr_pair_vol' => $data["quote_volume"]
+                              );
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( $sel_exchange == 'gateio_usdt_futures' ) {
+      
+      $result = array(
+                              'last_trade' => $data["last_price"],
+                              '24hr_asset_vol' => null, // Unavailable, set null
+                              '24hr_pair_vol' => null // Unavailable, set null
                               );
       
       }

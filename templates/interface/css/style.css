@@ -223,6 +223,23 @@ CLASSES
 ////////////////////////////// */
 
 
+/*
+IF a TITLE attribute is added to the opening UL tag
+in our COMPACT submenus, add it as a VISIBLE label
+above the submenu list (for UX)
+*/
+ul.all-nav.dropdown-menu[title]::before {
+  content: attr(title);
+  display: block;
+  font-weight: bold;    
+  padding-left: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    color: #F7931A;
+    border-bottom: 1px dotted #F7931A;
+}
+
+
 .icons8_link {
      position: relative;
     top: -1.5em;

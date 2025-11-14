@@ -322,6 +322,111 @@ $ct['dev']['limited_apis'] = array(
           				     );
      
      
+// Exchange APIs that have NO TRADE VOLUME DATA (for UX on trade volume data in interface)
+$ct['dev']['no_trade_volume_api_data'] = array(
+                                                // 'exchange-config-key-name-here',
+                                                'misc_assets',
+                                                'presale_usd_value',
+                                                'gateio_usdt_futures',
+                                                'btc_nfts',
+                                                'eth_nfts',
+                                                'sol_nfts',
+                                                'alt_nfts',
+                                                'coinspot',
+                                                'unocoin',
+                                               );
+
+        
+// Market ID delimiters (for coin exchange market IDs)
+// (USED FOR PARSING OUT PAIRING VALUE, WHEN ADDING NEW MARKETS IN ADMIN 'PORTFOLIO ASSETS' INTERFACE)
+$ct['dev']['hyphen_delimited_markets'] = array(
+                                                 'coinbase',
+                                                 'okex',
+                                                 'kucoin',
+                                                 'okcoin',
+                                                 'loopring',
+                                                 'kuma',
+                                                 'zebpay',
+                                                 'aevo',
+                                                );
+        
+        
+$ct['dev']['reverse_hyphen_delimited_markets'] = array(
+                                                      'upbit',
+                                                      'buyucoin',
+                                                     );
+        
+        
+$ct['dev']['underscore_delimited_markets'] = array(
+                                                      'bitflyer',
+                                                      'korbit',
+                                                      'bitso',
+                                                      'poloniex',
+                                                      'crypto.com',
+                                                      'gateio',
+                                                      'gateio_usdt_futures',
+                                                      'bitmart',
+                                                     );
+        
+        
+$ct['dev']['forwardlash_delimited_markets'] = array(
+                                                      'btcmarkets',
+                                                      'jupiter_ag',
+                                                     );
+        
+        
+$ct['dev']['colon_delimited_markets'] = array(
+                                                 'cex',
+                                                );
+        
+
+// Market IDs HAVE PAIRING IN FRONT OF ASSET
+$ct['dev']['reverse_id_markets'] = array(
+                                            'upbit',
+                                            'buyucoin',
+                                      );
+                            
+
+// Auto-correct for end user market searches, when adding new markets
+// NOTE: We don't include jupiter ag, as their tickers are case-sensitive!
+$ct['dev']['markets_uppercase_search'] = array(
+                                                 'alphavantage_stock',
+                                                 'gateio',
+                                                 'gateio_usdt_futures',
+                                                 'binance',
+                                                 'binance_us',
+                                                 'bitbns',
+                                                 'bitflyer',
+                                                 'bitmex',
+                                                 'btcmarkets',
+                                                 'btcturk',
+                                                 'buyucoin',
+                                                 'cex',
+                                                 'coinbase',
+                                                 'coindcx',
+                                                 'hitbtc',
+                                                 'kraken',
+                                                 'loopring',
+                                                 'luno',
+                                                 'okcoin',
+                                                 'okex',
+                                                 'unocoin',
+                                                 'upbit',
+                                                );
+
+            
+$ct['dev']['markets_lowercase_search'] = array(
+                                                 'bitstamp',
+                                                 'coingecko',
+                                                 'gemini',
+                                                 'huobi',
+                                                 'wazirx',
+                                                 'bitso',
+                                                 'korbit',
+                                                 'coinspot',
+                                                );
+     
+     
 // Servers which are known to block API access by location / jurisdiction
 // (we alert end-users in error logs, when a corresponding API server connection fails [one-time notice per-runtime])
 $ct['dev']['location_blocked_servers'] = array(
@@ -434,108 +539,7 @@ $ct['dev']['script_injection_checks'] = array(
                                                "onsubmit",
                                                "onunload",
                                              );
-     
-     
-// Exchange APIs that have NO TRADE VOLUME DATA (for UX on trade volume data in interface)
-$ct['dev']['no_trade_volume_api_data'] = array(
-                                                // 'exchange-config-key-name-here',
-                                                'misc_assets',
-                                                'presale_usd_value',
-                                                'btc_nfts',
-                                                'eth_nfts',
-                                                'sol_nfts',
-                                                'alt_nfts',
-                                                'coinspot',
-                                                'unocoin',
-                                               );
-
-        
-// Market ID delimiters (for coin exchange market IDs)
-// (USED FOR PARSING OUT PAIRING VALUE, WHEN ADDING NEW MARKETS IN ADMIN 'PORTFOLIO ASSETS' INTERFACE)
-$ct['dev']['hyphen_delimited_markets'] = array(
-                                                 'coinbase',
-                                                 'okex',
-                                                 'kucoin',
-                                                 'okcoin',
-                                                 'loopring',
-                                                 'kuma',
-                                                 'zebpay',
-                                                 'aevo',
-                                                );
-        
-        
-$ct['dev']['reverse_hyphen_delimited_markets'] = array(
-                                                      'upbit',
-                                                      'buyucoin',
-                                                     );
-        
-        
-$ct['dev']['underscore_delimited_markets'] = array(
-                                                      'bitflyer',
-                                                      'korbit',
-                                                      'bitso',
-                                                      'poloniex',
-                                                      'crypto.com',
-                                                      'gateio',
-                                                      'bitmart',
-                                                     );
-        
-        
-$ct['dev']['forwardlash_delimited_markets'] = array(
-                                                      'btcmarkets',
-                                                      'jupiter_ag',
-                                                     );
-        
-        
-$ct['dev']['colon_delimited_markets'] = array(
-                                                 'cex',
-                                                );
-        
-
-// Market IDs HAVE PAIRING IN FRONT OF ASSET
-$ct['dev']['reverse_id_markets'] = array(
-                                            'upbit',
-                                            'buyucoin',
-                                      );
-                            
-
-// Auto-correct for end user market searches, when adding new markets
-// NOTE: We don't include jupiter ag, as their tickers are case-sensitive!
-$ct['dev']['markets_uppercase_search'] = array(
-                                                 'alphavantage_stock',
-                                                 'binance',
-                                                 'binance_us',
-                                                 'bitbns',
-                                                 'bitflyer',
-                                                 'bitmex',
-                                                 'btcmarkets',
-                                                 'btcturk',
-                                                 'buyucoin',
-                                                 'cex',
-                                                 'coinbase',
-                                                 'coindcx',
-                                                 'hitbtc',
-                                                 'kraken',
-                                                 'loopring',
-                                                 'luno',
-                                                 'okcoin',
-                                                 'okex',
-                                                 'unocoin',
-                                                 'upbit',
-                                                );
-
-            
-$ct['dev']['markets_lowercase_search'] = array(
-                                                 'bitstamp',
-                                                 'coingecko',
-                                                 'gemini',
-                                                 'huobi',
-                                                 'wazirx',
-                                                 'bitso',
-                                                 'korbit',
-                                                 'coinspot',
-                                                );
-
+                                             
 
 // Default charset used
 $ct['dev']['charset_default'] = 'UTF-8'; 
