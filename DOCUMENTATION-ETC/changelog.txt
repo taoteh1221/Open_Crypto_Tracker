@@ -7032,6 +7032,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed issues in the throttling system, including sub-second throttling profiles, and deleting stale cache data
 
+-BUG FIX: Fixes for duplicate asset search result detection (per-registered-exchange API)
+
 -BUG FIX: Fixes for the plugin system
 
 -BUG FIX: Miscellaneous
@@ -7047,6 +7049,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -Tweaks to coingecko API throttling, for a better user experience
 
 -Better AlphaVantage "Stock Overview" API integration / UX
+
+-Added support for Gate.io USDT Futures markets
 
 -Buildout of developer-only-maintenance plugin
 

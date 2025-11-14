@@ -331,33 +331,9 @@ nav_menu('.user-nav');
           dynamic_position('.page_title', 'emulate_sticky');
           
           dynamic_position('.countdown_notice', 'emulate_sticky');
-
-              // THROTTLED scrolling logic (that freaks out running over and over ALOT)
-              if ( scroll_listener_throttle ) {
-              return;
-              }
-          
-          
-          scroll_listener_throttle = true;
-              
-              
-              // Every 0.25 seconds, let the logic run
-              setTimeout(() => {
-                 
-              //console.log("Throttled scrolling event processed at:", new Date().toLocaleTimeString());
-               
-                    
-                   if ( $('#collapsed_sidebar .dropdown-menu.show').is(":visible") ) {
-                   dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true );
-                   }
-
-          
-              scroll_listener_throttle = false; // Reset the flag after the interval
-              
-              }, 250);
-
           
           });
+
      
      }
 	
