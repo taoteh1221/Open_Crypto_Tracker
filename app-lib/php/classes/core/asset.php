@@ -1768,9 +1768,6 @@ var $ct_array = array();
    
    // Globals
    global $ct;
-
-   // Make sure light chart path is registered
-   $ct['cache']->manage_light_charts($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
       
       
       // RUN BASIC CHECKS FIRST...
@@ -1803,9 +1800,11 @@ var $ct_array = array();
       // Make sure the exchange key still exists
       if (
       !in_array($exchange, $ct['dev']['special_asset_exchange_keys'])
+      && !in_array( preg_replace("/_(.*)/i", "", $exchange) , $ct['api']->prefixing_blacklist)
       && !isset($ct['api']->exchange_apis[$exchange])
       ) {
-          
+      
+      
       $try_exchange_key = preg_replace("/_(.*)/i", "", $exchange);
       	
       	
@@ -1880,8 +1879,10 @@ var $ct_array = array();
       }
    
       
-   // IF BASIC CHECKS PASSED, CHECK THE PRIMARY CURRENCY VALUE NEXT...
-      
+   // IF BASIC CHECKS PASSED...
+
+   // Make sure light chart path is registered
+   $ct['cache']->manage_light_charts($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
         
    $pair_btc_val = $this->pair_btc_val($pair); 
    

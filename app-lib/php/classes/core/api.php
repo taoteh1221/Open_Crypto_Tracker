@@ -3029,6 +3029,7 @@ var $exchange_apis = array(
      // Make sure the exchange key still exists
      if (
      !in_array($sel_exchange, $ct['dev']['special_asset_exchange_keys'])
+     && !in_array( preg_replace("/_(.*)/i", "", $sel_exchange) , $this->prefixing_blacklist)
      && !isset($this->exchange_apis[$sel_exchange]) 
      ) {
           
