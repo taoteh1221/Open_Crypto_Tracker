@@ -15,7 +15,7 @@ $solana_tps_stats_tracking_file = $ct['plug']->event_cache('update_solana_tps_st
 if ( $now > 0 && $ct['cache']->update_cache($solana_tps_stats_tracking_file, 15) == true ) {
 
 // Get on-chain Solana TPS
-$solana_tps = $plug['class'][$this_plug]->solana_tps();
+$solana_tps = $plug['class'][$this_plug]->solana_performance('tps');
 
 
      // ALL TPS

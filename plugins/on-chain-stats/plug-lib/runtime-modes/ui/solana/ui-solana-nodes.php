@@ -8,6 +8,36 @@
 if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
      
 $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; // 5 MINUTE CACHE
+
+// Get on-chain Solana slot time average
+$solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
+     
+     if ( isset($solana_slot_time['slot_time_seconds']) && is_numeric($solana_slot_time['slot_time_seconds']) ) {
+     
+     $sol_epoch_slots_left = $ct['var']->num_to_str($sol_epoch_info['slotsInEpoch'] - $sol_epoch_info['slotIndex']);
+     
+     $sol_epoch_seconds_left = (float)$sol_epoch_slots_left * (float)$solana_slot_time;
+     
+     $sol_epoch_seconds_left = round($sol_epoch_seconds_left);
+          
+          // Days
+          if ( $sol_epoch_seconds_left > 86400 ) {
+          $sol_epoch_time_left = '(~' . round( ($sol_epoch_seconds_left / 86400) , 2) . ' days remaining)';
+          }
+          // Hours
+          elseif ( $sol_epoch_seconds_left > 3600 ) {
+          $sol_epoch_time_left = '(~' . round( ($sol_epoch_seconds_left / 3600) , 2) . ' hours remaining)';
+          }
+          // Minutes
+          elseif ( $sol_epoch_seconds_left > 60 ) {
+          $sol_epoch_time_left = '(~' . round( ($sol_epoch_seconds_left / 60) , 2) . ' minutes remaining)';
+          }
+          // Seconds
+          else {
+          $sol_epoch_time_left = '(~' . round($sol_epoch_seconds_left, 2) . ' seconds remaining)';
+          }
+     
+     }
      
 ?>
 	
@@ -25,7 +55,7 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
     </p>
 	
     <p>
-    <b class='yellow'>Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?>
+    <b class='yellow'>Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?> <?=( isset($sol_epoch_time_left) ? $sol_epoch_time_left : '' )?>
     </p>
 	
     <p>

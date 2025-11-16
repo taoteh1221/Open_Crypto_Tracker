@@ -70,30 +70,45 @@ var $array1 = array();
    
    
    
-     function solana_tps() {
+     function solana_performance($telemetry_for) {
      
      global $ct, $this_plug;
      
      $results = array();     
-     
+               
      $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(1), 4); // 4 MINUTE CACHE
      
-     
+          
+          // IF no data, return false
           if (
-          is_array($network_performance['result'])
-          && sizeof($network_performance['result']) > 0
+          !is_array($network_performance['result'])
+          || sizeof($network_performance['result']) < 1
           ) {
+          return false;
+          }
+          // TPS data
+          elseif ( $telemetry_for == 'tps' ) {
           
-               foreach ( $network_performance['result'] as $val ) {
-          
-               $results['all_tps'] = round( $ct['var']->num_to_str($val['numTransactions'] / $val['samplePeriodSecs']) );
-          
-               $results['real_tps'] = round( $ct['var']->num_to_str($val['numNonVoteTransactions'] / $val['samplePeriodSecs']) );
-          
-               $results['vote_tps'] = round( $ct['var']->num_to_str($results['all_tps'] - $results['real_tps']) );
+              foreach ( $network_performance['result'] as $val ) {
                
-               }
-
+              $results['all_tps'] = round( $ct['var']->num_to_str($val['numTransactions'] / $val['samplePeriodSecs']) );
+               
+              $results['real_tps'] = round( $ct['var']->num_to_str($val['numNonVoteTransactions'] / $val['samplePeriodSecs']) );
+               
+              $results['vote_tps'] = round( $ct['var']->num_to_str($results['all_tps'] - $results['real_tps']) );
+                    
+              }
+               
+          }
+          // Slot time data
+          elseif ( $telemetry_for == 'slot_time' ) {
+          
+              foreach ( $network_performance['result'] as $val ) {
+               
+              $results['slot_time_seconds'] = $ct['var']->num_to_str($val['samplePeriodSecs'] / $val['numSlots']);
+                    
+              }
+               
           }
      
      

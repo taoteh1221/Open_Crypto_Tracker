@@ -7050,6 +7050,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Better AlphaVantage "Stock Overview" API integration / UX
 
+-Added support for OkEx perpetual (futures) markets
+
 -Added support for Gate.io USDT Futures markets
 
 -Buildout of developer-only-maintenance plugin

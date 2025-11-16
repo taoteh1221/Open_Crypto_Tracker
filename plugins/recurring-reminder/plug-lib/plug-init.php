@@ -75,18 +75,12 @@ $digest = md5($val['days'] . $val['message']);
 //$ct['cache']->save_file( $ct['plug']->event_cache('debugging-' . $key . '.dat') , $digest );
 
 
-// Recurring reminder time in minutes
-// With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-$in_minutes = round( $ct['var']->num_to_str(1440 * $val['days']) + $ct['dev']['tasks_time_offset'] );
-
-
-// Offset -1 anything 20 minutes or higher, so recurring reminder is triggered at same EXACT cron job interval consistently 
-// (example: every 2 days at 12:00pm...NOT same cron job interval + 1, like 12:20pm / 12:40pm / etc)
-$in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
-
 	
 	// If it's time to send a reminder...
-	if ( $run_reminder || $ct['cache']->update_cache($recurring_reminder_cache_file, $in_minutes_offset) == true ) {
+	if (
+	$run_reminder
+	|| $ct['cache']->update_cache($recurring_reminder_cache_file, $ct['var']->num_to_str(1440 * $val['days']), 'tasks_time_offset') == true
+	) {
 		
 		
 		// If 'do not disturb' enabled with valid time fomats in plug conf

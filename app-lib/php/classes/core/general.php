@@ -1854,7 +1854,7 @@ var $ct_array = array();
    
    
 	  // With offset, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
-      if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/system/warning-' . $type . '.dat', ($ct['system_warnings_cron_interval'][$type] * 60) + $ct['dev']['tasks_time_offset'] ) == true ) {
+      if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/system/warning-' . $type . '.dat', ($ct['system_warnings_cron_interval'][$type] * 60), 'tasks_time_offset') == true ) {
           
       $this->log('system_error', $ct['system_warnings'][$type]);
       
@@ -2690,7 +2690,7 @@ var $ct_array = array();
   
   
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/news-feed-email.dat', ($interval * 1440) + $ct['dev']['tasks_time_offset'] ) == true ) {
+      if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/news-feed-email.dat', ($interval * 1440), 'tasks_time_offset') == true ) {
       
       // Reset feed fetch telemetry 
       $_SESSION[$fetched_feeds] = false;

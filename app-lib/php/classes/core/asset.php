@@ -1456,6 +1456,9 @@ var $ct_array = array();
                    $cleaned_market_id = preg_replace("/-PERP(.*)/i", "", $cleaned_market_id);
                    $cleaned_market_id = preg_replace("/USD-(.*)/i", "USD", $cleaned_market_id);
                    }
+                   elseif ( $exchange_key == 'okex_perps' ) {
+                   $cleaned_market_id = preg_replace("/-SWAP/i", "", $cleaned_market_id);
+                   }
                    // WTF Kraken, LMFAO :)
                    elseif ( $exchange_key == 'kraken' ) {
                    
@@ -2450,7 +2453,7 @@ var $ct_array = array();
      	      // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
              	 elseif ( 
              	 $ct['conf']['charts_alerts']['price_alert_fixed_reset'] >= 1 
-             	 && $ct['cache']->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true
+             	 && $ct['cache']->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] * 1440 ), 'tasks_time_offset') == true
              	 ) {
                
              	 $ct['cache']->save_file($ct['base_dir'] . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
