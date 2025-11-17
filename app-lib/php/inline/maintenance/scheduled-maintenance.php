@@ -69,6 +69,9 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
      
      // Cleanup price charts (delete charts for removed assets)
      $ct['cache']->price_chart_cleanup();
+     
+     // Cleanup price alerts (delete price alerts for removed price alert configs)
+     $ct['cache']->price_alert_cleanup();
    
 	}
 	////////////////////////////////////////////////////////////

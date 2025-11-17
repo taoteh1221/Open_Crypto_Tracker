@@ -131,9 +131,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-solana_tps.dat hasn't been updated in 2 days.
-
-
 Verticle scroll position is wonky in the plugins area, IF last-visted beforehand was a user area subsection.
 
 

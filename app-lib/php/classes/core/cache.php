@@ -17,8 +17,48 @@ var $ct_array = array();
   
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
+
+
+  function price_alert_cleanup() {
+  
+  global $ct;
+  
+  $config_array = array();
+  
+  // Price alert cache files
+  $price_alert_cache_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/alerts/fiat_price', 'dat', 'desc');
+     
+     
+     foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $tracked_asset_config ) {
+          
+     $parse_array = array_map('trim', explode('||', $tracked_asset_config) );
+     
+          if ( isset($parse_array[0]) && $parse_array[0] != '' ) {
+          $config_array[] = $parse_array[0];
+          }
+
+     }
+
+     
+     foreach( $price_alert_cache_files as $price_alert_file ) {
+     
+     $price_alert_check = preg_replace("/\.dat/i", "", $price_alert_file);
+          
+          // IF the config has been removed, delete the corresponding cache file
+     	if ( !in_array($price_alert_check, $config_array) ) {
+     	unlink($ct['base_dir'] . '/cache/alerts/fiat_price/' . $price_alert_file);
+     	}
+
+     }
   
   
+  }
+  
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+
+
   function api_is_throttled($tld_or_ip) {
   
   global $ct;

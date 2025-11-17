@@ -2170,12 +2170,23 @@ var $ct_array = array();
       // PRIMARY CURRENCY CONFIG token value
       $cached_asset_prim_currency_val = $ct['var']->num_to_str($cached_array[0]);  
       
-      // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
-      $cached_prim_currency_vol = $ct['var']->num_to_str( round($cached_array[1]) ); 
+          
+          // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
+          if ( is_numeric($cached_array[1]) ) {
+          $cached_prim_currency_vol = $ct['var']->num_to_str( round( (float)$cached_array[1] ) );
+          }
+          else {
+          $cached_prim_currency_vol = 0;
+          }
+       
       
-      // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
-      $cached_pair_vol = $ct['var']->num_to_str($cached_array[2]); 
-        
+          // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
+          if ( is_numeric($cached_array[2]) ) {
+          $cached_pair_vol = $ct['var']->num_to_str($cached_array[2]); 
+          }
+          else {
+          $cached_pair_vol = 0;
+          }
         
         
           // Price checks (done early for including with price alert reset logic)
