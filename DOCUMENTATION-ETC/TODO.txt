@@ -134,19 +134,22 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Verticle scroll position is wonky in the plugins area, IF last-visted beforehand was a user area subsection.
 
 
-Do a pie chart for the Solana Version data.
-
-
 Store Solana "Transactions Since Genesis", and every 24 hours see how many more TXs there are, for a Daily TXs chart.
 
 
 Try and squeeze in color maps for the types of Solana nodes into the map footer.
 
 
+Do a pie chart for the Solana Version data.
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)
+
+
+Write a maintenance routine (run every 72 hours, in case user restores the plugin soon after deactivating it), that scans ALL plugin cache standardized ROOT directories, and deletes any subdirectory NOT matching any ACTIVATED plugins.
 
 
 Create a function is_valid_plugin(), to use in plugins-init.php, in $ct['gen']->refresh_plugins_list(), and in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case).
