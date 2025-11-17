@@ -1456,6 +1456,9 @@ var $ct_array = array();
                    $cleaned_market_id = preg_replace("/-PERP(.*)/i", "", $cleaned_market_id);
                    $cleaned_market_id = preg_replace("/USD-(.*)/i", "USD", $cleaned_market_id);
                    }
+                   elseif ( $exchange_key == 'okex_perps' ) {
+                   $cleaned_market_id = preg_replace("/-SWAP/i", "", $cleaned_market_id);
+                   }
                    // WTF Kraken, LMFAO :)
                    elseif ( $exchange_key == 'kraken' ) {
                    
@@ -1765,9 +1768,6 @@ var $ct_array = array();
    
    // Globals
    global $ct;
-
-   // Make sure light chart path is registered
-   $ct['cache']->manage_light_charts($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
       
       
       // RUN BASIC CHECKS FIRST...
@@ -1800,9 +1800,11 @@ var $ct_array = array();
       // Make sure the exchange key still exists
       if (
       !in_array($exchange, $ct['dev']['special_asset_exchange_keys'])
+      && !in_array( preg_replace("/_(.*)/i", "", $exchange) , $ct['api']->prefixing_blacklist)
       && !isset($ct['api']->exchange_apis[$exchange])
       ) {
-          
+      
+      
       $try_exchange_key = preg_replace("/_(.*)/i", "", $exchange);
       	
       	
@@ -1877,8 +1879,10 @@ var $ct_array = array();
       }
    
       
-   // IF BASIC CHECKS PASSED, CHECK THE PRIMARY CURRENCY VALUE NEXT...
-      
+   // IF BASIC CHECKS PASSED...
+
+   // Make sure light chart path is registered
+   $ct['cache']->manage_light_charts($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
         
    $pair_btc_val = $this->pair_btc_val($pair); 
    
@@ -2166,12 +2170,23 @@ var $ct_array = array();
       // PRIMARY CURRENCY CONFIG token value
       $cached_asset_prim_currency_val = $ct['var']->num_to_str($cached_array[0]);  
       
-      // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
-      $cached_prim_currency_vol = $ct['var']->num_to_str( round($cached_array[1]) ); 
+          
+          // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
+          if ( is_numeric($cached_array[1]) ) {
+          $cached_prim_currency_vol = $ct['var']->num_to_str( round( (float)$cached_array[1] ) );
+          }
+          else {
+          $cached_prim_currency_vol = 0;
+          }
+       
       
-      // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
-      $cached_pair_vol = $ct['var']->num_to_str($cached_array[2]); 
-        
+          // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
+          if ( is_numeric($cached_array[2]) ) {
+          $cached_pair_vol = $ct['var']->num_to_str($cached_array[2]); 
+          }
+          else {
+          $cached_pair_vol = 0;
+          }
         
         
           // Price checks (done early for including with price alert reset logic)
@@ -2450,7 +2465,7 @@ var $ct_array = array();
      	      // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
              	 elseif ( 
              	 $ct['conf']['charts_alerts']['price_alert_fixed_reset'] >= 1 
-             	 && $ct['cache']->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true
+             	 && $ct['cache']->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] * 1440 ), 'tasks_time_offset') == true
              	 ) {
                
              	 $ct['cache']->save_file($ct['base_dir'] . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 

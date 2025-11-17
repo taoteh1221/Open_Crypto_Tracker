@@ -29,7 +29,9 @@ $ct['dev']['debug_php_errors'] = (0);
 
 // Time offset on daily background tasks (IN MINUTES...MUST BE A NEGATIVE NUMBER)
 // (so they run at the same time everyday [without 'creeping' up for it's time-of-day run])
-$ct['dev']['tasks_time_offset'] = -3; // Auto-adjusts for systems with LOW CORE COUNTS in config-init.php
+// ONLY AUTO-USED if the 3rd OPTIONAL PARAMETER IN $ct['cache']->update_cache() IS SET AS 'tasks_time_offset'
+// Auto-adjusts FURTHER (with a multiplier) for systems with LOW CORE COUNTS in config-init.php
+$ct['dev']['tasks_time_offset'] = -2; // DEFAULT = -2, MIN = -3, MAX = -1
 
 
 // min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)
@@ -342,6 +344,7 @@ $ct['dev']['no_trade_volume_api_data'] = array(
 $ct['dev']['hyphen_delimited_markets'] = array(
                                                  'coinbase',
                                                  'okex',
+                                                 'okex_perps',
                                                  'kucoin',
                                                  'okcoin',
                                                  'loopring',
@@ -410,6 +413,7 @@ $ct['dev']['markets_uppercase_search'] = array(
                                                  'luno',
                                                  'okcoin',
                                                  'okex',
+                                                 'okex_perps',
                                                  'unocoin',
                                                  'upbit',
                                                 );

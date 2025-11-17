@@ -9,7 +9,7 @@
 	// If upgrade check is enabled, check daily for upgrades
 	////////////////////////////////////////////////////////////
 	// With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-	if ( isset($ct['conf']['comms']['upgrade_alert_channels']) && $ct['conf']['comms']['upgrade_alert_channels'] != 'off' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat', (1440 + $ct['dev']['tasks_time_offset']) ) == true ) {
+	if ( isset($ct['conf']['comms']['upgrade_alert_channels']) && $ct['conf']['comms']['upgrade_alert_channels'] != 'off' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat', 1440, 'tasks_time_offset') == true ) {
 	
 	
 	$upgrade_check_jsondata = @$ct['cache']->ext_data('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest', 0); // Don't cache API data
@@ -62,7 +62,7 @@
 		
 			// Email / text / alexa notification reminders (if it's been $ct['conf']['comms']['upgrade_alert_reminder'] days since any previous reminder)
 			// With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-			if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/upgrading/upgrade_check_reminder.dat', ( $ct['conf']['comms']['upgrade_alert_reminder'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
+			if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/upgrading/upgrade_check_reminder.dat', ( $ct['conf']['comms']['upgrade_alert_reminder'] * 1440 ), 'tasks_time_offset') == true ) {
 			
 			
 				if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/upgrade_check_reminder.dat') ) {

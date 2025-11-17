@@ -12,6 +12,7 @@ var $prefixing_blacklist = array(
                              'binance', // Because 'binance_us' is a separate API
                              'coingecko', // Because 'coingecko_terminal' is a separate API
                              'gateio', // Because 'gateio_usdt_futures' is a separate API
+                             'okex', // Because 'okex_perps' is a separate API
                             );
 
 
@@ -328,6 +329,14 @@ var $exchange_apis = array(
 
                            'okex' => array(
                                                    'markets_endpoint' => 'https://www.okx.com/api/v5/market/tickers?instType=SPOT',
+                                                   'markets_nested_path' => 'data', // Delimit multiple depths with >
+                                                   'all_markets_support' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
+                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
+                                                  ),
+
+
+                           'okex_perps' => array(
+                                                   'markets_endpoint' => 'https://www.okx.com/api/v5/market/tickers?instType=SWAP',
                                                    'markets_nested_path' => 'data', // Delimit multiple depths with >
                                                    'all_markets_support' => 'instId', // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
@@ -2824,12 +2833,12 @@ var $exchange_apis = array(
 			                  
 				     // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
 				     // With offset, to try to catch any that would have been missed from runtime
-				     if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['mark_as_new'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
+				     if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['mark_as_new'] * 86400) ) ) {
 				     $mark_new = null;
 				     }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_frequency' days old)
 				     // With offset, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['news_feed_email_frequency'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) { 
+				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['news_feed_email_frequency'] * 86400) ) ) { 
 				     
     				     if ($count < $ct['conf']['news']['news_feed_email_entries_include']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
@@ -2938,12 +2947,12 @@ var $exchange_apis = array(
 		                  
 			         // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
 				     // With offset, to try to catch any that would have been missed from runtime
-			         if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['mark_as_new'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
+			         if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['mark_as_new'] * 86400) ) ) {
 			         $mark_new = null;
 			         }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_frequency' days old)
 				     // With offset, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['news_feed_email_frequency'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
+				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['news_feed_email_frequency'] * 86400) ) ) {
     			     
     				     if ($count < $ct['conf']['news']['news_feed_email_entries_include']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
@@ -3020,6 +3029,7 @@ var $exchange_apis = array(
      // Make sure the exchange key still exists
      if (
      !in_array($sel_exchange, $ct['dev']['special_asset_exchange_keys'])
+     && !in_array( preg_replace("/_(.*)/i", "", $sel_exchange) , $this->prefixing_blacklist)
      && !isset($this->exchange_apis[$sel_exchange]) 
      ) {
           
@@ -3849,7 +3859,7 @@ var $exchange_apis = array(
       
     
     
-      elseif ( $sel_exchange == 'okex' ) {
+      elseif ( $sel_exchange == 'okex' || $sel_exchange == 'okex_perps' ) {
        
       $result = array(
                               'last_trade' => $data["last"],

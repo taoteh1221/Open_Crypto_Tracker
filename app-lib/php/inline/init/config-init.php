@@ -281,6 +281,12 @@ $secure_256bit_hash = $ct['sec']->rand_hash(32); // 256-bit (32-byte) hash conve
 
 
 // Auto-increase time offset on daily background tasks for systems with low core counts
+
+// Auto-correct dev config first
+if ( $ct['dev']['tasks_time_offset'] < -3 || $ct['dev']['tasks_time_offset'] > -1 ) {
+$ct['dev']['tasks_time_offset'] = -2; // RESET to default
+}
+
 if ( $ct['system_info']['cpu_threads'] <= 2 ) {
 $ct['dev']['tasks_time_offset'] = ceil($ct['dev']['tasks_time_offset'] * 3);
 }

@@ -7034,6 +7034,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixes for duplicate asset search result detection (per-registered-exchange API)
 
+-BUG FIX: Fixed edge-case, where price alert checks would crash the runtime
+
 -BUG FIX: Fixes for the plugin system
 
 -BUG FIX: Miscellaneous
@@ -7050,6 +7052,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Better AlphaVantage "Stock Overview" API integration / UX
 
+-Added support for OkEx perpetual (futures) markets
+
 -Added support for Gate.io USDT Futures markets
 
 -Buildout of developer-only-maintenance plugin
@@ -7059,6 +7063,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -Better Server Edition auto-installer UX
 
 -Minor user experience improvements
+
+-Better stale cache files cleanup
 
 -Miscellaneous optimizations
 

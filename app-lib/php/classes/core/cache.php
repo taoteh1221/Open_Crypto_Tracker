@@ -17,8 +17,48 @@ var $ct_array = array();
   
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
+
+
+  function price_alert_cleanup() {
+  
+  global $ct;
+  
+  $config_array = array();
+  
+  // Price alert cache files
+  $price_alert_cache_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/alerts/fiat_price', 'dat', 'desc');
+     
+     
+     foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $tracked_asset_config ) {
+          
+     $parse_array = array_map('trim', explode('||', $tracked_asset_config) );
+     
+          if ( isset($parse_array[0]) && $parse_array[0] != '' ) {
+          $config_array[] = $parse_array[0];
+          }
+
+     }
+
+     
+     foreach( $price_alert_cache_files as $price_alert_file ) {
+     
+     $price_alert_check = preg_replace("/\.dat/i", "", $price_alert_file);
+          
+          // IF the config has been removed, delete the corresponding cache file
+     	if ( !in_array($price_alert_check, $config_array) ) {
+     	unlink($ct['base_dir'] . '/cache/alerts/fiat_price/' . $price_alert_file);
+     	}
+
+     }
   
   
+  }
+  
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+
+
   function api_is_throttled($tld_or_ip) {
   
   global $ct;
@@ -167,7 +207,14 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function update_cache($cache_file, $minutes) {
+  function update_cache($cache_file, $minutes, $check_mode='default') {
+       
+  global $ct;
+    
+    // Offset is ALWAYS negative (so we ADD it), BUT only if cachetime is OVER 30 minutes
+    if ( $check_mode == 'tasks_time_offset' ) {
+    $minutes = ( $minutes > 30 ? ($minutes + $ct['dev']['tasks_time_offset']) : $minutes ); 
+    }
     
     // We ROUND (60 * $minutes), to also support SECONDS if needed
     // ($minutes is allowed to be DECIMALS, including BEING LESS THAN 1.00)
@@ -1202,7 +1249,7 @@ var $ct_array = array();
   
   
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache($ct['base_dir'] . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
+      if ( $this->update_cache($ct['base_dir'] . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ), 'tasks_time_offset') == true ) {
      
       $secure_128bit_hash = $ct['sec']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
       
@@ -2401,7 +2448,7 @@ var $ct_array = array();
     
       // If it's time to email error logs...
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct['conf']['comms']['logs_email'] > 0 && $this->update_cache('cache/events/logging/email-app-logs.dat', ( $ct['conf']['comms']['logs_email'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
+      if ( $ct['conf']['comms']['logs_email'] > 0 && $this->update_cache('cache/events/logging/email-app-logs.dat', ( $ct['conf']['comms']['logs_email'] * 1440 ), 'tasks_time_offset') == true ) {
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/app_log.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
@@ -2425,7 +2472,7 @@ var $ct_array = array();
       
       // Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache('cache/events/logging/purge-app-logs.dat', ( $ct['conf']['power']['logs_purge'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
+      if ( $this->update_cache('cache/events/logging/purge-app-logs.dat', ( $ct['conf']['power']['logs_purge'] * 1440 ), 'tasks_time_offset') == true ) {
       
       unlink($ct['base_dir'] . '/cache/logs/smtp_error.log');
       unlink($ct['base_dir'] . '/cache/logs/app_log.log');

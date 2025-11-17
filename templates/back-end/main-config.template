@@ -1216,6 +1216,12 @@ $ct['conf']['news']['feeds'] = array(
         
         
         				array(
+            			      "title" => "News - Fedora (SECURE operating system [for crypto wallets])",
+            			      "url" => "https://fedoramagazine.org/feed/"
+        				     ),
+        
+        
+        				array(
             			      "title" => "News - Slashdot",
             			      "url" => "https://rss.slashdot.org/Slashdot/slashdot"
         				     ),

@@ -232,15 +232,15 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         
         // (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
         if ( $now > 0 ) {
-             
-        // Make sure light chart path is registered
-        $ct['cache']->manage_light_charts($ct['base_dir'] . '/cache/charts/system/light');
         
         // Store system data to archival / light charts
         $sys_stats_path = $ct['base_dir'] . '/cache/charts/system/archival/system_stats.dat';
         $sys_stats_data = $now . $chart_data_set;
         
         $ct['cache']->save_file($sys_stats_path, $sys_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
+             
+        // Make sure light chart path is registered
+        $ct['cache']->manage_light_charts($ct['base_dir'] . '/cache/charts/system/light');
             		
         // Light charts (update time dynamically determined in $ct['cache']->update_light_chart() logic)
         // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating light charts

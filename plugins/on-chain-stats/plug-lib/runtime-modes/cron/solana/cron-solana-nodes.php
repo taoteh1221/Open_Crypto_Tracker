@@ -4,6 +4,12 @@
  */
 		
 
+// DEBUGGING
+//$debug_data = $this_plug . ' cron SOLANA init successful';
+//$debug_cache_file = $ct['plug']->debug_cache($this_plug . '_cron_solana_init.dat', $this_plug);
+//$ct['cache']->save_file($debug_cache_file, $debug_data);
+
+
 // In case a rare error occurred from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
 // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
 $now = time();
@@ -15,7 +21,7 @@ $solana_tps_stats_tracking_file = $ct['plug']->event_cache('update_solana_tps_st
 if ( $now > 0 && $ct['cache']->update_cache($solana_tps_stats_tracking_file, 15) == true ) {
 
 // Get on-chain Solana TPS
-$solana_tps = $plug['class'][$this_plug]->solana_tps();
+$solana_tps = $plug['class'][$this_plug]->solana_performance('tps');
 
 
      // ALL TPS
