@@ -11,14 +11,17 @@ $sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
 
 // Get on-chain Solana slot time average
 $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
+
      
      if ( isset($solana_slot_time['slot_time_seconds']) && is_numeric($solana_slot_time['slot_time_seconds']) ) {
      
      $sol_epoch_slots_left = $ct['var']->num_to_str($sol_epoch_info['slotsInEpoch'] - $sol_epoch_info['slotIndex']);
      
-     $sol_epoch_seconds_left = (float)$sol_epoch_slots_left * (float)$solana_slot_time;
+     $sol_epoch_seconds_left = (float)$solana_slot_time['slot_time_seconds'] * (float)$sol_epoch_slots_left;
      
      $sol_epoch_seconds_left = round($sol_epoch_seconds_left);
+     
+     $solana_slot_time_milliseconds = round( ($solana_slot_time['slot_time_seconds'] * 1000) , 0);
           
           // Days
           if ( $sol_epoch_seconds_left > 86400 ) {
@@ -57,7 +60,19 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
     <p>
     <b class='yellow'>Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?> <?=( isset($sol_epoch_time_left) ? $sol_epoch_time_left : '' )?>
     </p>
-	
+
+    <?php
+    if ( isset($solana_slot_time['slot_time_seconds']) && is_numeric($solana_slot_time['slot_time_seconds']) ) {
+    ?>
+    
+    <p>
+    <b class='yellow'>Slot Time Average:</b> <?=$solana_slot_time_milliseconds?> Milliseconds
+    </p>
+
+    <?php
+    }
+    ?>
+    
     <p>
     <b class='yellow'>Slot Index:</b> <?=$ct['var']->num_pretty($sol_epoch_info['slotIndex'], 0)?>
     </p>
@@ -69,6 +84,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
     <p>
     <b class='yellow'>Transactions Since Genesis:</b> <?=$ct['var']->num_pretty($sol_epoch_info['transactionCount'], 0)?>
     </p>
+    
     
    </div>
 

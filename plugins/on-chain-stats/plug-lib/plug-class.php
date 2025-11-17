@@ -78,8 +78,8 @@ var $array1 = array();
      
      $results = array();     
      
-     // 4 MINUTE CACHE, OF 60 SAMPLES
-     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(60), 4); 
+     // 4 MINUTE CACHE, OF 240 SAMPLES
+     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(240), 4); 
      
      // DEBUGGING
 	//$debug_data = json_encode($network_performance, JSON_PRETTY_PRINT);
@@ -97,22 +97,37 @@ var $array1 = array();
           // TPS data
           elseif ( $telemetry_for == 'tps' ) {
           
+          
+              $loop = 0;
               foreach ( $network_performance['result'] as $val ) {
-
-              $temp['numTransactions'] = ( isset($temp['numTransactions']) ? ($temp['numTransactions'] + $val['numTransactions']) : $val['numTransactions'] );
-              
-              $temp['samplePeriodSecs'] = ( isset($temp['samplePeriodSecs']) ? ($temp['samplePeriodSecs'] + $val['samplePeriodSecs']) : $val['samplePeriodSecs'] );
-
-              $temp['numNonVoteTransactions'] = ( isset($temp['numNonVoteTransactions']) ? ($temp['numNonVoteTransactions'] + $val['numNonVoteTransactions']) : $val['numNonVoteTransactions'] );
+                   
+                   
+                   if ( 
+                   isset($val['numTransactions']) && is_numeric( trim($val['numTransactions']) )
+                   && isset($val['samplePeriodSecs']) && is_numeric( trim($val['samplePeriodSecs']) )
+                   && isset($val['numNonVoteTransactions']) && is_numeric( trim($val['numNonVoteTransactions']) )
+                   ) {
+     
+                   $temp['numTransactions'] = ( isset($temp['numTransactions']) ? ($temp['numTransactions'] + $val['numTransactions']) : $val['numTransactions'] );
+                   
+                   $temp['samplePeriodSecs'] = ( isset($temp['samplePeriodSecs']) ? ($temp['samplePeriodSecs'] + $val['samplePeriodSecs']) : $val['samplePeriodSecs'] );
+     
+                   $temp['numNonVoteTransactions'] = ( isset($temp['numNonVoteTransactions']) ? ($temp['numNonVoteTransactions'] + $val['numNonVoteTransactions']) : $val['numNonVoteTransactions'] );
+                   
+                   $loop = $loop + 1;
+                   
+                   }
+                   
               
               }
           
-          // Averages
-          $temp['numTransactions'] = $temp['numTransactions'] / sizeof($network_performance['result']); 
-          
-          $temp['samplePeriodSecs'] = $temp['samplePeriodSecs'] / sizeof($network_performance['result']); 
 
-          $temp['numNonVoteTransactions'] = $temp['numNonVoteTransactions'] / sizeof($network_performance['result']); 
+          // Averages
+          $temp['numTransactions'] = $temp['numTransactions'] / $loop; 
+          
+          $temp['samplePeriodSecs'] = $temp['samplePeriodSecs'] / $loop; 
+
+          $temp['numNonVoteTransactions'] = $temp['numNonVoteTransactions'] / $loop; 
           
           // Results     
           $results['all_tps'] = round( $ct['var']->num_to_str($temp['numTransactions'] / $temp['samplePeriodSecs']) );
@@ -124,19 +139,33 @@ var $array1 = array();
           }
           // Slot time data
           elseif ( $telemetry_for == 'slot_time' ) {
-          
+              
+              
+              $loop = 0;
               foreach ( $network_performance['result'] as $val ) {
-                    
-              $temp['samplePeriodSecs'] = ( isset($temp['samplePeriodSecs']) ? ($temp['samplePeriodSecs'] + $val['samplePeriodSecs']) : $val['samplePeriodSecs'] );
 
-              $temp['numSlots'] = ( isset($temp['numSlots']) ? ($temp['numSlots'] + $val['numSlots']) : $val['numSlots'] );
+                   
+                   if ( 
+                   isset($val['samplePeriodSecs']) && is_numeric( trim($val['samplePeriodSecs']) )
+                   && isset($val['numSlots']) && is_numeric( trim($val['numSlots']) )
+                   ) {
+                         
+                   $temp['samplePeriodSecs'] = ( isset($temp['samplePeriodSecs']) ? ( $temp['samplePeriodSecs'] + trim($val['samplePeriodSecs']) ) : trim($val['samplePeriodSecs']) );
+     
+                   $temp['numSlots'] = ( isset($temp['numSlots']) ? ( $temp['numSlots'] + trim($val['numSlots']) ) : trim($val['numSlots']) );
+                   
+                   $loop = $loop + 1;
+                   
+                   }
+
               
               }
+
               
           // Averages
-          $temp['samplePeriodSecs'] = $temp['samplePeriodSecs'] / sizeof($network_performance['result']); 
+          $temp['samplePeriodSecs'] = $temp['samplePeriodSecs'] / $loop; 
           
-          $temp['numSlots'] = $temp['numSlots'] / sizeof($network_performance['result']); 
+          $temp['numSlots'] = $temp['numSlots'] / $loop; 
           
           // Results     
           $results['slot_time_seconds'] = $ct['var']->num_to_str($temp['samplePeriodSecs'] / $temp['numSlots']);

@@ -13,9 +13,9 @@
 //$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 // DEBUGGING
-$debug_data = $this_plug . ' init successful';
-$debug_cache_file = $ct['plug']->debug_cache($this_plug . '_init.dat', $this_plug);
-$ct['cache']->save_file($debug_cache_file, $debug_data);
+//$debug_data = $this_plug . ' init successful';
+//$debug_cache_file = $ct['plug']->debug_cache($this_plug . '_init.dat', $this_plug);
+//$ct['cache']->save_file($debug_cache_file, $debug_data);
 	
 
 // Only per-minute limits in docs, BUT we add per-second to keep the API server happy
