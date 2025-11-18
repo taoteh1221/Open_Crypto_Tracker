@@ -146,6 +146,15 @@ Do a pie chart for the Solana Version data.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+=============================================
+Getting Bitcoin RPC data:
+https://bitcoin-rpc.publicnode.com/
+
+Getting peer ip addresses:
+https://www.google.com/search?q=bitcoin+rpc+get+list+of+peer+ip+addresses
+=============================================
+
+
 Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)
 
 

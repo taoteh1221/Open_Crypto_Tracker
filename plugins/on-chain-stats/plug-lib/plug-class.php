@@ -78,8 +78,8 @@ var $array1 = array();
      
      $results = array();     
      
-     // 5 MINUTE CACHE, OF 240 SAMPLES
-     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(240), 5); 
+     // 5 MINUTE CACHE, OF 10 SAMPLES
+     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(10), 5); 
      
      // DEBUGGING
 	//$debug_data = json_encode($network_performance, JSON_PRETTY_PRINT);
