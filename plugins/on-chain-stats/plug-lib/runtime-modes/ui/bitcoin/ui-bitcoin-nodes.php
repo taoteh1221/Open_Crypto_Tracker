@@ -8,7 +8,7 @@
 if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
 
 // Bitcoin mining data (5 minute cache)
-$bitcoin_mining = $ct['api']->bitcoin_rpc('getmininginfo', false, 5)['result'];
+$bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
     
     
      if ( isset($bitcoin_mining['currentblocktx']) && is_numeric($bitcoin_mining['currentblocktx']) ) {
@@ -22,7 +22,7 @@ $bitcoin_mining = $ct['api']->bitcoin_rpc('getmininginfo', false, 5)['result'];
      $bitcoin_nodes_info = json_decode( trim( file_get_contents( $bitcoin_nodes_info_file ) ) , true);
      }
      
-//$possible_nodes = $ct['api']->bitcoin_rpc('getnodeaddresses', array(0), 480);
+//$possible_nodes = $ct['api']->blockchain_rpc('bitcoin', 'getnodeaddresses', array(0), 480);
      
 //$ct['gen']->array_debugging($possible_nodes, true);
 

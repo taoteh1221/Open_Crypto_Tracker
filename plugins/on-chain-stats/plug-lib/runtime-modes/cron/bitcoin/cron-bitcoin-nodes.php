@@ -21,7 +21,7 @@ $bitcoin_tps_stats_tracking_file = $ct['plug']->event_cache('update_bitcoin_tps_
 if ( $now > 0 && $ct['cache']->update_cache($bitcoin_tps_stats_tracking_file, 15) == true ) {
 
 // Bitcoin mining data
-$bitcoin_mining = $ct['api']->bitcoin_rpc('getmininginfo', false, 5)['result'];
+$bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
     
     
      // Get on-chain Bitcoin TPS

@@ -8,7 +8,7 @@
 if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
     
 // Epoch info, 5 MINUTE CACHE
-$sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; 
+$sol_epoch_info = $ct['api']->blockchain_rpc('solana', 'getEpochInfo', array(), 5)['result']; 
 
 // Get on-chain Solana TPS
 $solana_tps = $plug['class'][$this_plug]->solana_performance('tps');

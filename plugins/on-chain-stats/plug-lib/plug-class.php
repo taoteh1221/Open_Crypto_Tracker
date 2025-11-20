@@ -92,7 +92,7 @@ var $array1 = array();
      $results = array();     
      
      // 5 MINUTE CACHE, OF 5 SAMPLES
-     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(5), 5); 
+     $network_performance = $ct['api']->blockchain_rpc('solana', 'getRecentPerformanceSamples', array(5), 5); 
      
      // DEBUGGING
 	//$debug_data = json_encode($network_performance, JSON_PRETTY_PRINT);
@@ -292,7 +292,7 @@ var $array1 = array();
      
      $validators = $ct['api']->solana_rpc('getVoteAccounts', array(), 480); // 8 HOUR (480 MINUTE) CACHE
      
-     $all_nodes = $ct['api']->solana_rpc('getClusterNodes', array(), 480); // 8 HOUR (480 MINUTE) CACHE
+     $all_nodes = $ct['api']->blockchain_rpc('solana', 'getClusterNodes', array(), 480); // 8 HOUR (480 MINUTE) CACHE
      
      // Target results array paths
      
@@ -400,7 +400,7 @@ var $array1 = array();
      
      // 0 param asks for ALL known, 8 HOUR (480 MINUTE) CACHE
      // https://developer.bitcoin.org/reference/rpc/getnodeaddresses.html
-     $all_nodes = $ct['api']->bitcoin_rpc('getnodeaddresses', array(0), 480); 
+     $all_nodes = $ct['api']->blockchain_rpc('bitcoin', 'getnodeaddresses', array(0), 480); 
      
      // Target results array paths
      

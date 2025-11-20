@@ -41,10 +41,11 @@ $ct['opt_conf']['mining_calculators'] = array(
 
 // MINING DYNAMIC CONFIGS
 
-// Bitcoin mining data
-$bitcoin_mining = $ct['api']->bitcoin_rpc('getmininginfo', false, 5)['result'];
+// BTC
 
-// BTC (5 minute cache)
+// Bitcoin mining data (5 minute cache)
+$bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
+
 $ct['opt_conf']['mining_calculators']['pow']['btc']['height'] = $bitcoin_mining['blocks'];
 $ct['opt_conf']['mining_calculators']['pow']['btc']['difficulty'] = $bitcoin_mining['difficulty'];
 

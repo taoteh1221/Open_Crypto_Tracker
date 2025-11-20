@@ -581,64 +581,28 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////////////////////////////////////////////
 		
    
-   // https://developer.bitcoin.org/reference/rpc
-   function bitcoin_rpc($method, $params=false, $cache_time=0, $rpc_test='') {
+   function blockchain_rpc($network, $method, $params=false, $cache_time=0, $rpc_test='') {
 		 
    global $ct;
    
    $rpc_test = trim($rpc_test);
 
-                                
+        
+        // RCP test
         if ( $rpc_test != '' ) {
         $rpc_server = $rpc_test;
         }
-        else {    
+        // Bitcoin RCP server address in admin config
+        // https://developer.bitcoin.org/reference/rpc
+        elseif ( $network == 'bitcoin' ) {    
         $rpc_server = trim($ct['conf']['ext_apis']['bitcoin_rpc_server']);
         }
-
-	
-   $headers = array(
-                    'Content-Type: application/json'
-                    );
-               
-   $request_params = array(
-                           'jsonrpc' => '2.0', // Setting this right before sending
-                           'id' => 1,
-                           'method' => $method,
-                          );
-                    
-                    
-        if ( is_array($params) && sizeof($params) > 0 ) {
-        $request_params['params'] = $params;
-        }
-
-     
-   $response = @$ct['cache']->ext_data('params', $request_params, $cache_time, $rpc_server, 3, null, $headers);
-			 
-   return json_decode($response, true);
-		
-   }
-		
-		
-   ////////////////////////////////////////////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////////////////////////////////////////////
-		
-   
-   // https://solana.com/docs/rpc/http
-   function solana_rpc($method, $params=false, $cache_time=0, $rpc_test='') {
-		 
-   global $ct;
-   
-   $rpc_test = trim($rpc_test);
-
-                                
-        if ( $rpc_test != '' ) {
-        $rpc_server = $rpc_test;
-        }
-        else {    
+        // Solana RCP server address in admin config
+        // https://solana.com/docs/rpc/http
+        elseif ( $network == 'solana' ) {    
         $rpc_server = trim($ct['conf']['ext_apis']['solana_rpc_server']);
         }
-   
+
 	
    $headers = array(
                     'Content-Type: application/json'

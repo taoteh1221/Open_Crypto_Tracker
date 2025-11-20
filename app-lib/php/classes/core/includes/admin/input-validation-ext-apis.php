@@ -7,7 +7,7 @@
 // Test mode (retrieves current BITCOIN block height)    
 if ( trim($_POST['ext_apis']['bitcoin_rpc_server']) != '' ) {
      
-$bitcoin_block_height_test = $ct['api']->bitcoin_rpc('getblockcount', false, 0, $_POST['ext_apis']['bitcoin_rpc_server']);
+$bitcoin_block_height_test = $ct['api']->blockchain_rpc('bitcoin', 'getblockcount', false, 0, $_POST['ext_apis']['bitcoin_rpc_server']);
 
 var_dump($bitcoin_block_height_test);
 
@@ -30,7 +30,7 @@ $ct['update_config_error'] .= '<br />Bitcoin RPC Server address is BLANK';
 // Test mode (retrieves current SOLANA block height)    
 if ( trim($_POST['ext_apis']['solana_rpc_server']) != '' ) {
      
-$solana_block_height_test = $ct['api']->solana_rpc('getBlockHeight', false, 0, $_POST['ext_apis']['solana_rpc_server']);
+$solana_block_height_test = $ct['api']->blockchain_rpc('solana', 'getBlockHeight', false, 0, $_POST['ext_apis']['solana_rpc_server']);
 
 
      if (
