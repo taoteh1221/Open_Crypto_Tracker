@@ -5,6 +5,8 @@
 
 
 $chart_file = $ct['plug']->chart_cache('/bitcoin/light/' . $_GET['time_period'] . '_days/bitcoin_nodes_count.dat', 'on-chain-stats');
+
+gc_collect_cycles(); // Clean memory cache
 						
 
 // NO EARLIER THAN A CERTAIN TIMESTAMP
@@ -67,7 +69,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Bitcoin Node Count (the last 24 hours)",
+        text: "Bitcoin Node Count (last 24 hours)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -180,7 +182,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "Bitcoin Node Count (the last 24 hours)",
+        text: "Bitcoin Node Count (last 24 hours)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -322,4 +324,7 @@ gui: {
   
     }
 
+<?php
+gc_collect_cycles(); // Clean memory cache
+?>
 

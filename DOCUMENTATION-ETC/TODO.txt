@@ -58,21 +58,21 @@ TO-DO NOTES
 !!!!
 ===> Use gc_collect_cycles() conservatively, as it slows runtime (especially in loops!)
 !!!!
+===> Make sure you ESCAPE special characters in regular expressions (regex)!
+===> https://www.threesl.com/blog/special-characters-regular-expressions-escape/
+!!!!
 ===> Try to wrap up tests / UX / QA / debugging before adding new architecture
 ===> (find every flaming turd before you start a dumpster fire!).
+!!!!
+===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
+!!!!
+===> "developer-config.php" contains MANY MANY MANY developer-only configs!
 !!!!
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
 ===> Occasionally update cacert.pem in the main directory:
 ===> https://curl.se/ca/cacert.pem
-!!!!
-===> "developer-config.php" contains MANY MANY MANY developer-only configs!
-!!!!
-===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
-!!!!
-===> Make sure you ESCAPE special characters in regular expressions (regex)!
-===> https://www.threesl.com/blog/special-characters-regular-expressions-escape/
 !!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -131,16 +131,34 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Add FSOL.
+Update copyright year.
+
+
+Look into reducing by 250-500 milliseconds BOTH the compact submenu listener AND animated vertical adjustment.
+
+
+Add 'coming soon' fieldset, at bottom of each stats modal, showing what charts will be added in the NEXT release.
+
+
+Add a 'selected_networks' config, that's comma-delimited, and requires at least one valid network be selected. Add "coming soon" for Ethereum / Monad.
 
 
 Verticle scroll position is wonky in the plugins area, IF last-visted beforehand was a user area subsection.
 
 
+Add FSOL and MON.
+
+
 Try and squeeze in color maps for the types of Solana nodes into the map footer.
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Add bitcoin difficulty, mempool, and hashrate charts. 
+
+
+Do a mining revenue chart for Bitcoin, by getting the block reward and TX fee totals (same way we get TX count). Have it charted in BTC and USD, in a single chart.
 
 
 Store Solana "Transactions Since Genesis", and every 24 hours see how many more TXs there are, for a Daily TXs chart.
@@ -149,11 +167,8 @@ Store Solana "Transactions Since Genesis", and every 24 hours see how many more 
 Do a pie chart for the Solana Version data.
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 ==========================================
-Data in getblockstats:
+Data in getblockstats, that we may want for charts:
 
 {"jsonrpc":"2.0",
 "result":{"avgfee":940,

@@ -300,6 +300,8 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         $ct['cache']->app_log();
         $ct['cache']->send_notifications();
         
+        gc_collect_cycles(); // Clean memory cache
+        
         
         // Give a bit of time for the "core runtime" error / debugging logs to 
         // close their file locks, before we append "plugin runtime" log data
