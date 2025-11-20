@@ -23,7 +23,7 @@ $ct['opt_conf']['mining_calculators'] = array(
 									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
 									'exchange_mrkt' => 'BTCUSDT', // Market pair name (for price data)
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-									'block_reward' => 3.125, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
+									'block_reward' => 'PLACEHOLDER', // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED (for a clean / non-confusing PRIMARY config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
@@ -46,6 +46,13 @@ $ct['opt_conf']['mining_calculators'] = array(
 // Bitcoin mining data (5 minute cache)
 $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
 
+// Bitcoin get latest block hash (5 minute cache)
+$bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
+
+// Bitcoin get latest block stats (5 minute cache)
+$bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 5)['result'];
+
+$ct['opt_conf']['mining_calculators']['pow']['btc']['block_reward'] = $ct['var']->num_to_str($bitcoin_last_block_stats['subsidy'] / 100000000);
 $ct['opt_conf']['mining_calculators']['pow']['btc']['height'] = $bitcoin_mining['blocks'];
 $ct['opt_conf']['mining_calculators']['pow']['btc']['difficulty'] = $bitcoin_mining['difficulty'];
 

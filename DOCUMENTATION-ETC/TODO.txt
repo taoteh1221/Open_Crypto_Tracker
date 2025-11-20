@@ -140,7 +140,7 @@ Verticle scroll position is wonky in the plugins area, IF last-visted beforehand
 Try and squeeze in color maps for the types of Solana nodes into the map footer.
 
 
-Add bitcoin difficulty and hashrate charts. 
+Add bitcoin difficulty, mempool, and hashrate charts. 
 
 
 Store Solana "Transactions Since Genesis", and every 24 hours see how many more TXs there are, for a Daily TXs chart.
@@ -150,6 +150,45 @@ Do a pie chart for the Solana Version data.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+==========================================
+Data in getblockstats:
+
+{"jsonrpc":"2.0",
+"result":{"avgfee":940,
+"avgfeerate":3,
+"avgtxsize":488,
+"blockhash":"00000000000000000001d48403bfc706c2c0eafa69972225f7bd49aeb821a0b7",
+"feerate_percentiles":[1,1,2,3,5],
+"height":924369,
+"ins":7915,
+"maxfee":80671,
+"maxfeerate":265,
+"maxtxsize":91347,
+"medianfee":339,
+"mediantime":1763606779,
+"mediantxsize":225,
+"minfee":99,
+"minfeerate":1,
+"mintxsize":139,
+"outs":8973,
+"subsidy":312500000,
+"swtotal_size":1448733,
+"swtotal_weight":3356988,
+"swtxs":2977,
+"time":1763610343,
+"total_out":1124623146452,
+"total_size":1607402,
+"total_weight":3991664,
+"totalfee":3095514,
+"txs":3294,
+"utxo_increase":1058,
+"utxo_size_inc":86408,
+"utxo_increase_actual":889,
+"utxo_size_inc_actual":72234},
+"id":1}
+==========================================
 
 
 Convert all single stat charts for bitcoin network stats, to our price chart format (minus the volume). We don't need to support multiple chart data points in bitcoin stat charts.

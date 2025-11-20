@@ -9,10 +9,18 @@ if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
 
 // Bitcoin mining data (5 minute cache)
 $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
+
+// Bitcoin get latest block hash (5 minute cache)
+$bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
+
+// Bitcoin get latest block stats (5 minute cache)
+$bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 5)['result'];
+
+//var_dump($bitcoin_last_block_stats);
     
     
-     if ( isset($bitcoin_mining['currentblocktx']) && is_numeric($bitcoin_mining['currentblocktx']) ) {
-     $bitcoin_tps = round( ($bitcoin_mining['currentblocktx'] / 600) , 2 );
+     if ( isset($bitcoin_last_block_stats['txs']) && is_numeric($bitcoin_last_block_stats['txs']) ) {
+     $bitcoin_tps = round( ($bitcoin_last_block_stats['txs'] / 600) , 2 );
      }
 
 
@@ -126,7 +134,7 @@ $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 
     </p>
 
     <p>
-    <b class='yellow'>Transactions in Last Block:</b>  <?=$ct['var']->num_pretty($bitcoin_mining['currentblocktx'], 0)?> (<?=$bitcoin_tps?> TPS)
+    <b class='yellow'>Transactions in Last Block:</b>  <?=$ct['var']->num_pretty($bitcoin_last_block_stats['txs'], 0)?> (<?=$bitcoin_tps?> TPS)
     </p>
     
     

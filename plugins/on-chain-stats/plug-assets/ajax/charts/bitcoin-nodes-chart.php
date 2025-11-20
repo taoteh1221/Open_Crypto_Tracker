@@ -67,7 +67,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Bitcoin Node Count (active over past 24 hours)",
+        text: "Bitcoin Node Count (the last 24 hours)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -180,7 +180,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "Bitcoin Node Count (active over past 24 hours)",
+        text: "Bitcoin Node Count (the last 24 hours)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -272,7 +272,7 @@ gui: {
           borderRadius: '2px',
           borderWidth: '2px',
           multiple: true,
-      	text: " %t: %v Online",
+      	text: " %t: %v Active",
         },
     	  scaleLabel:{
    	  	 alpha: 1.0,
