@@ -20,6 +20,19 @@ var $array1 = array();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
    
+   
+   
+   function solana_node_version_chart() {
+   
+   global $ct, $this_plug;
+   
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
      
      // Validating user input in the admin interface
 	function admin_input_validation() {
@@ -78,8 +91,8 @@ var $array1 = array();
      
      $results = array();     
      
-     // 5 MINUTE CACHE, OF 10 SAMPLES
-     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(10), 5); 
+     // 5 MINUTE CACHE, OF 5 SAMPLES
+     $network_performance = $ct['api']->solana_rpc('getRecentPerformanceSamples', array(5), 5); 
      
      // DEBUGGING
 	//$debug_data = json_encode($network_performance, JSON_PRETTY_PRINT);
@@ -182,44 +195,41 @@ var $array1 = array();
    ////////////////////////////////////////////////////////////////////////////////////////////////
    
    
-   
-   function solana_node_version_chart() {
-   
-   global $ct, $this_plug;
-   
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function solana_node_geolocation_cleanup() {
+   function node_geolocation_cleanup($network_name) {
    
    global $ct, $this_plug;
    
    $results = array();
    
-   $solana_validators_info_file = $ct['plug']->chart_cache('/solana/overwrites/solana_validators_info.dat', $this_plug);
-   $solana_validators_info = json_decode( trim( file_get_contents( $solana_validators_info_file ) ) , true);
+   $validators_info_file = $ct['plug']->chart_cache('/'.$network_name.'/overwrites/'.$network_name.'_validators_info.dat', $this_plug);
    
-   $solana_validators_without_epoch_votes_info_file = $ct['plug']->chart_cache('/solana/overwrites/solana_validators_without_epoch_votes_info.dat', $this_plug);
-   $solana_validators_without_epoch_votes_info = json_decode( trim( file_get_contents( $solana_validators_without_epoch_votes_info_file ) ) , true);
    
-   $solana_nodes_info_file = $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info.dat', $this_plug);
-   $solana_nodes_info = json_decode( trim( file_get_contents( $solana_nodes_info_file ) ) , true);
+      if ( file_exists($validators_info_file) ) {
+      $validators_info = json_decode( trim( file_get_contents( $validators_info_file ) ) , true);
+      }
+   
+   
+   $validators_without_epoch_votes_info_file = $ct['plug']->chart_cache('/'.$network_name.'/overwrites/'.$network_name.'_validators_without_epoch_votes_info.dat', $this_plug);
+   
+   
+      if ( file_exists($validators_without_epoch_votes_info_file) ) {
+      $validators_without_epoch_votes_info = json_decode( trim( file_get_contents( $validators_without_epoch_votes_info_file ) ) , true);
+      }
+      
+   
+   $nodes_info_file = $ct['plug']->chart_cache('/'.$network_name.'/overwrites/'.$network_name.'_nodes_info.dat', $this_plug);
+   $nodes_info = json_decode( trim( file_get_contents( $nodes_info_file ) ) , true);
    
    // Geolocation TEMPORARY cache files
-   $files = $ct['gen']->sort_files( $ct['plug']->chart_cache('solana/temp/solana_nodes_geolocation', $this_plug) , 'dat', 'asc');
+   $files = $ct['gen']->sort_files( $ct['plug']->chart_cache($network_name.'/temp/'.$network_name.'_nodes_geolocation', $this_plug) , 'dat', 'asc');
         
        
-       // Combine batched files
+      // Combine batched files
       foreach( $files as $geolocation_file ) {
         
         	if ( preg_match("/_locations_processed/i", $geolocation_file) ) {
         	
-          $temp_array = json_decode( trim( file_get_contents($ct['plug']->chart_cache('solana/temp/solana_nodes_geolocation', $this_plug) . '/' . $geolocation_file) ) , true);
+          $temp_array = json_decode( trim( file_get_contents($ct['plug']->chart_cache(''.$network_name.'/temp/'.$network_name.'_nodes_geolocation', $this_plug) . '/' . $geolocation_file) ) , true);
           
                if ( is_array($temp_array) ) {
                $results = array_merge($results, $temp_array);
@@ -230,7 +240,7 @@ var $array1 = array();
       }
       
       
-      // Remove unneeded data, and merge in solana data
+      // Remove unneeded data, and merge in network data
       foreach ( $results as $key => $unused ) {
            
       unset($results[$key]['status']);
@@ -240,17 +250,17 @@ var $array1 = array();
       unset($results[$key]['org']);
       unset($results[$key]['as']);
       
-      $results[$key]['solanaNodeInfo'] = $solana_nodes_info[ $results[$key]['query'] ];
+      $results[$key]['networkNodeInfo'] = $nodes_info[ $results[$key]['query'] ];
       
       
-          if ( isset($solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
-          $results[$key]['solanaNodeInfo']['validator_data'] = $solana_validators_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
+          if ( isset($validators_info[ md5($results[$key]['networkNodeInfo']['pubkey']) ]) ) {
+          $results[$key]['networkNodeInfo']['validator_data'] = $validators_info[ md5($results[$key]['networkNodeInfo']['pubkey']) ];
           }
           
           
-          // We strip non-voting validators out of $solana_validators_info, so this cannot be an elseif
-          if ( isset($solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ]) ) {
-          $results[$key]['solanaNodeInfo']['no_epoch_vote_validator_data'] = $solana_validators_without_epoch_votes_info[ md5($results[$key]['solanaNodeInfo']['pubkey']) ];
+          // We strip non-voting validators out of $validators_info, so this cannot be an elseif
+          if ( isset($validators_without_epoch_votes_info[ md5($results[$key]['networkNodeInfo']['pubkey']) ]) ) {
+          $results[$key]['networkNodeInfo']['no_epoch_vote_validator_data'] = $validators_without_epoch_votes_info[ md5($results[$key]['networkNodeInfo']['pubkey']) ];
           }
 
 
@@ -259,13 +269,13 @@ var $array1 = array();
    
    // Save node data, with geolocation included
    $results_data_set = json_encode($results, JSON_PRETTY_PRINT);
-   $ct['cache']->save_file( $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info_with_geolocation.dat', $this_plug) , $results_data_set);
+   $ct['cache']->save_file( $ct['plug']->chart_cache('/'.$network_name.'/overwrites/'.$network_name.'_nodes_info_with_geolocation.dat', $this_plug) , $results_data_set);
    
    // Delete temp batch files
-   $ct['cache']->remove_dir( $ct['plug']->chart_cache('solana/temp/solana_nodes_geolocation', $this_plug) );
+   $ct['cache']->remove_dir( $ct['plug']->chart_cache(''.$network_name.'/temp/'.$network_name.'_nodes_geolocation', $this_plug) );
    
    // Update the event tracking
-   $ct['cache']->save_file( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) , $ct['gen']->time_date_format(false, 'pretty_date_time') );    
+   $ct['cache']->save_file( $ct['plug']->event_cache(''.$network_name.'_node_geolocation_cleanup.dat', $this_plug) , $ct['gen']->time_date_format(false, 'pretty_date_time') );    
    
    }
 		
@@ -362,13 +372,78 @@ var $array1 = array();
      return $results;
     
      }
+		
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+     function bitcoin_nodes_onchain() {
+     
+     global $ct, $this_plug;
+     
+     $results = array();  
+     
+     $now = time();  
+
+
+          // Make sure we're not having an edge-case low-voltage issue
+          // on low power devices, and assure we have a current timestamp     
+          if ( $now > 0 ) {
+          // All set, do nothing
+          }
+          // Skip
+          else {
+          return false;
+          }
+     
+     
+     // 0 param asks for ALL known, 8 HOUR (480 MINUTE) CACHE
+     // https://developer.bitcoin.org/reference/rpc/getnodeaddresses.html
+     $all_nodes = $ct['api']->bitcoin_rpc('getnodeaddresses', array(0), 480); 
+     
+     // Target results array paths
+     
+     $all_nodes = $all_nodes['result'];
+	
+	
+	     if ( is_array($all_nodes) && sizeof($all_nodes) > 0 ) {
+          
+               foreach ( $all_nodes as $node ) {
+                    
+                    // IF see in the past 24 hours, included it
+                    if ( $ct['var']->num_to_str($node['time'] + 86400) >= $now ) {
+                    
+                         // Don't count any duplicate ip addresses as another node
+                         if (
+                         !is_array($results['geolocation'])
+                         || !array_key_exists($node['address'], $results['geolocation'])
+                         ) {
+
+                         // Register as an active node                         
+                         $results['active_nodes'][ $node['address'] ] = $node;
+     
+                         }
+                         
+                    }
+
+               }
+
+	     }
+     
+  
+     gc_collect_cycles(); // Clean memory cache
+     
+     return $results;
+    
+     }
    
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function solana_tps_chart($file, $node_type, $start_timestamp=0) {
+   function tps_chart($file, $node_type, $start_timestamp=0) {
    
    global $ct;
    
@@ -438,7 +513,7 @@ var $array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function solana_node_count_chart($file, $node_type, $start_timestamp=0) {
+   function node_count_chart($file, $node_type, $start_timestamp=0) {
    
    global $ct;
    
@@ -511,7 +586,7 @@ var $array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function solana_node_geolocation_cache($solana_nodes_info=false) {
+   function node_geolocation_cache($network_name, $nodes_info=false) {
    
    global $ct, $this_plug;
    
@@ -521,16 +596,16 @@ var $array1 = array();
 
    
        // Make sure we haven't run the geolocation cleanup routine in a day + 1 hour (1500 minutes)
-       if ( $ct['cache']->update_cache( $ct['plug']->event_cache('solana_node_geolocation_cleanup.dat', $this_plug) , 1500) == false ) {
+       if ( $ct['cache']->update_cache( $ct['plug']->event_cache($network_name . '_node_geolocation_cleanup.dat', $this_plug) , 1500) == false ) {
        return false;
        }
    
        
        // IF API throttling prevented FULL caching of the geolocation data set,
        // we use the CACHED ip address data set
-       if ( !is_array($solana_nodes_info) ) {
-       $data_file = $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info.dat', $this_plug);
-       $solana_nodes_info = json_decode( trim( file_get_contents( $data_file ) ) , true);
+       if ( !is_array($nodes_info) ) {
+       $data_file = $ct['plug']->chart_cache('/'.$network_name.'/overwrites/'.$network_name.'_nodes_info.dat', $this_plug);
+       $nodes_info = json_decode( trim( file_get_contents( $data_file ) ) , true);
        }
                
        
@@ -538,7 +613,7 @@ var $array1 = array();
        // (MUST be batched, to build over MULTIPLE runtimes [to avoid ip-api.com API limits])
        $batch_count = 0;
        $processed = 0;
-       foreach( $solana_nodes_info as $ip => $unused ) {
+       foreach( $nodes_info as $ip => $unused ) {
             
        $params[] = $ip;
 
@@ -548,12 +623,12 @@ var $array1 = array();
            // IF we are ready to batch to cache file
            if (
            $batch_count == 100
-           || ($processed + $batch_count) >= sizeof($solana_nodes_info)
+           || ($processed + $batch_count) >= sizeof($nodes_info)
            ) {
            
            $processed = $processed + $batch_count;
            
-           $cache_path = 'solana/temp/solana_nodes_geolocation/' . $processed . '_locations_processed.dat';
+           $cache_path = $network_name . '/temp/'.$network_name.'_nodes_geolocation/' . $processed . '_locations_processed.dat';
            
                
                // IF it's been at least 8 hours (480 minutes), then we update the geolocation cache file(s)
@@ -580,7 +655,7 @@ var $array1 = array();
 
                          
                          // IF we are done getting all geolocation data
-                         if ( ($processed + $batch_count) >= sizeof($solana_nodes_info) ) {
+                         if ( ($processed + $batch_count) >= sizeof($nodes_info) ) {
                          $run_geolocation_cleanup = true;
                          }
 
@@ -605,7 +680,7 @@ var $array1 = array();
 
        
        if ( $run_geolocation_cleanup ) {
-       $this->solana_node_geolocation_cleanup();
+       $this->node_geolocation_cleanup();
        }
 
    

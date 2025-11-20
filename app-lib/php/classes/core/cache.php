@@ -3438,7 +3438,7 @@ var $ct_array = array();
   global $ct, $htaccess_username, $htaccess_password;
    
   // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
-  $hash_check = ( $mode == 'params' ? md5( serialize($request_params) ) : md5($request_params) );
+  $hash_check = ( $mode == 'params' ? md5( $api_server . serialize($request_params) ) : md5($api_server . $request_params) );
   
   // Cache path, for checks etc
   $cached_path = $ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat';
@@ -4052,6 +4052,7 @@ var $ct_array = array();
         if ( 
         preg_match("/xml version/i", $data) // RSS feeds (that are likely intact)
         || preg_match("/\"error\":\[\],/i", $data) // kraken.com / generic
+        || preg_match("/\"error\":null,/i", $data) // Bitcoin RPC / generic
         || preg_match("/warning-icon/i", $data)  // Medium.com RSS feeds
         || preg_match("/\"error_code\":0/i", $data) // Generic
         || preg_match("/\{\}/i", $data) // Generic /Alphavantage

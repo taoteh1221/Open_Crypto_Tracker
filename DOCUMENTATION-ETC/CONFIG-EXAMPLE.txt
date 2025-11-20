@@ -216,6 +216,11 @@ $ct['conf']['ext_apis']['google_fonts_api_key'] = '';
 $ct['conf']['ext_apis']['google_fonts_cache_time'] = 24;  // (default = 24)
 
 
+// IF you are using on-chain data from the Bitcoin blockchain, you can choose which RPC server you want to use.
+// DEFAULT = 'https://bitcoin-rpc.publicnode.com'
+$ct['conf']['ext_apis']['bitcoin_rpc_server'] = 'https://bitcoin-rpc.publicnode.com';
+
+
 // IF you are using on-chain data from the Solana blockchain, you can choose which RPC server you want to use.
 // DEFAULT = 'https://api.mainnet-beta.solana.com'
 $ct['conf']['ext_apis']['solana_rpc_server'] = 'https://api.mainnet-beta.solana.com';
@@ -1001,10 +1006,6 @@ $ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4, MAX = 60)
 
 // MINUTES to cache data, for exchange "search" mode, when adding new asset markets in the admin interface
 $ct['conf']['power']['exchange_search_cache_time'] = 30; // Default = 30
-
-
-// MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-$ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60, MAX = 100)
 
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT

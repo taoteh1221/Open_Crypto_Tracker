@@ -4,19 +4,13 @@
  */
 
 
-$chart_file = $ct['plug']->chart_cache('/solana/light/' . $_GET['time_period'] . '_days/solana_nodes_count.dat', 'on-chain-stats');
+$chart_file = $ct['plug']->chart_cache('/bitcoin/light/' . $_GET['time_period'] . '_days/bitcoin_tps.dat', 'on-chain-stats');
 						
 
 // NO EARLIER THAN A CERTAIN TIMESTAMP
 if ( file_exists($chart_file) ) {
      
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['all_nodes'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'all_nodes', $_GET['start_time']); 
-
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['rpcs'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'rpcs', $_GET['start_time']); 
-
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'validators', $_GET['start_time']); 
-
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators_without_epoch_votes'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'validators_without_epoch_votes', $_GET['start_time']); 
+$ct['plug_runtime_data']['on-chain-stats']['tps_stats']['tps'] = $plug['class']['on-chain-stats']->tps_chart($chart_file, 'all_tps', $_GET['start_time']); 
 
 }
 
@@ -24,8 +18,8 @@ $ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators_without_epo
 // If no chart data available...
 
 if (
-!is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats'])
-|| is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats']) && sizeof($ct['plug_runtime_data']['on-chain-stats']['node_stats']) < 1
+!is_array($ct['plug_runtime_data']['on-chain-stats']['tps_stats'])
+|| is_array($ct['plug_runtime_data']['on-chain-stats']['tps_stats']) && sizeof($ct['plug_runtime_data']['on-chain-stats']['tps_stats']) < 1
 ) {
 ?>
 			
@@ -59,7 +53,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No '<?=$ct['gen']->light_chart_time_period($_GET['time_period'], 'long')?>' light chart data for any Solana nodes yet, please check back in awhile.",
+     text: "No '<?=$ct['gen']->light_chart_time_period($_GET['time_period'], 'long')?>' light chart data for any Bitcoin TPS yet, please check back in awhile.",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,
@@ -73,7 +67,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Solana Node Count",
+        text: "Bitcoin TPS (10 minute average)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -96,16 +90,16 @@ exit;
 $sorted_by_last_chart_data = array();
 
 $loop = 0;
-foreach ( $ct['plug_runtime_data']['on-chain-stats']['node_stats'] as $chart_key => $chart_val ) {
+foreach ( $ct['plug_runtime_data']['on-chain-stats']['tps_stats'] as $chart_key => $chart_val ) {
 
-$count_sample_newest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_val['count'], ',', 'last') );
+$tps_sample_newest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_val['tps'], ',', 'last') );
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
-	if ( !array_key_exists($count_sample_newest, $sorted_by_last_chart_data) ) {
-	$sorted_by_last_chart_data[$count_sample_newest] = array($chart_key, $chart_val);
+	if ( !array_key_exists($tps_sample_newest, $sorted_by_last_chart_data) ) {
+	$sorted_by_last_chart_data[$tps_sample_newest] = array($chart_key, $chart_val);
 	}
 	else {
-	$sorted_by_last_chart_data[$count_sample_newest . $loop] = array($chart_key, $chart_val);
+	$sorted_by_last_chart_data[$tps_sample_newest . $loop] = array($chart_key, $chart_val);
 	$loop = $loop + 1;
 	}
 
@@ -124,7 +118,7 @@ ksort($sorted_by_last_chart_data);
 					
 				$chart_conf = "{
 			  text: '" . $ct['gen']->key_to_name($chart_array[0]) . "',
-			  values: [".$chart_array[1]['count']."],
+			  values: [".$chart_array[1]['tps']."],
 			  visible: true,
 			  lineColor: '".$rand_color."',
 				 marker: {
@@ -186,7 +180,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "Solana Node Count",
+        text: "Bitcoin TPS (10 minute average)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -251,13 +245,14 @@ gui: {
       },
       scaleY: {
     "thousands-separator": ",",
+    "decimals": "0",
         guide: {
       	visible: true,
      		lineStyle: 'solid',
       	lineColor: "#444444"
         },
         label: {
-          text: "Node Count Change"
+          text: "TPS Change"
         },
     	zooming: true
       },
@@ -271,6 +266,7 @@ gui: {
         },
         plotLabel: {
       "thousands-separator": ",",
+      "decimals": "2",
       	 backgroundColor: "white",
       	 fontColor: "black",
 	 		 fontSize: "20",
@@ -278,7 +274,7 @@ gui: {
           borderRadius: '2px',
           borderWidth: '2px',
           multiple: true,
-      	text: " %t: %v Online",
+      	text: " %t: %v",
         },
     	  scaleLabel:{
    	  	 alpha: 1.0,

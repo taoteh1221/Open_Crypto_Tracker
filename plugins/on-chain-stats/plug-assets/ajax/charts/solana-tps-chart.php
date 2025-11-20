@@ -10,11 +10,11 @@ $chart_file = $ct['plug']->chart_cache('/solana/light/' . $_GET['time_period'] .
 // NO EARLIER THAN A CERTAIN TIMESTAMP
 if ( file_exists($chart_file) ) {
      
-$ct['plug_runtime_data']['on-chain-stats']['tps_stats']['all_tps'] = $plug['class']['on-chain-stats']->solana_tps_chart($chart_file, 'all_tps', $_GET['start_time']); 
+$ct['plug_runtime_data']['on-chain-stats']['tps_stats']['all_tps'] = $plug['class']['on-chain-stats']->tps_chart($chart_file, 'all_tps', $_GET['start_time']); 
 
-$ct['plug_runtime_data']['on-chain-stats']['tps_stats']['real_tps'] = $plug['class']['on-chain-stats']->solana_tps_chart($chart_file, 'real_tps', $_GET['start_time']); 
+$ct['plug_runtime_data']['on-chain-stats']['tps_stats']['real_tps'] = $plug['class']['on-chain-stats']->tps_chart($chart_file, 'real_tps', $_GET['start_time']); 
 
-$ct['plug_runtime_data']['on-chain-stats']['tps_stats']['vote_tps'] = $plug['class']['on-chain-stats']->solana_tps_chart($chart_file, 'vote_tps', $_GET['start_time']); 
+$ct['plug_runtime_data']['on-chain-stats']['tps_stats']['vote_tps'] = $plug['class']['on-chain-stats']->tps_chart($chart_file, 'vote_tps', $_GET['start_time']); 
 
 }
 

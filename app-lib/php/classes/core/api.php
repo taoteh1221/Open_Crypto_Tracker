@@ -393,23 +393,6 @@ var $exchange_apis = array(
                                                   
                                                   
                            );
-   
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function bitcoin($request) {
-    
-   global $ct;
-         
-   $url = 'https://blockchain.info/q/' . $request;
-         
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
-       
-   return (float)$response;
-     
-   }
 
    
    ////////////////////////////////////////////////////////
@@ -598,19 +581,64 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////////////////////////////////////////////
 		
    
-   // https://solana.com/docs/rpc/http
-   function solana_rpc($method, $params=false, $cache_time=0, $rpc_test=false) {
+   // https://developer.bitcoin.org/reference/rpc
+   function bitcoin_rpc($method, $params=false, $cache_time=0, $rpc_test='') {
 		 
    global $ct;
+   
+   $rpc_test = trim($rpc_test);
 
                                 
-        if ( $rpc_test != false ) {
+        if ( $rpc_test != '' ) {
         $rpc_server = $rpc_test;
         }
         else {    
-        $rpc_server = $ct['conf']['ext_apis']['solana_rpc_server'];
+        $rpc_server = trim($ct['conf']['ext_apis']['bitcoin_rpc_server']);
         }
 
+	
+   $headers = array(
+                    'Content-Type: application/json'
+                    );
+               
+   $request_params = array(
+                           'jsonrpc' => '2.0', // Setting this right before sending
+                           'id' => 1,
+                           'method' => $method,
+                          );
+                    
+                    
+        if ( is_array($params) && sizeof($params) > 0 ) {
+        $request_params['params'] = $params;
+        }
+
+     
+   $response = @$ct['cache']->ext_data('params', $request_params, $cache_time, $rpc_server, 3, null, $headers);
+			 
+   return json_decode($response, true);
+		
+   }
+		
+		
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+		
+   
+   // https://solana.com/docs/rpc/http
+   function solana_rpc($method, $params=false, $cache_time=0, $rpc_test='') {
+		 
+   global $ct;
+   
+   $rpc_test = trim($rpc_test);
+
+                                
+        if ( $rpc_test != '' ) {
+        $rpc_server = $rpc_test;
+        }
+        else {    
+        $rpc_server = trim($ct['conf']['ext_apis']['solana_rpc_server']);
+        }
+   
 	
    $headers = array(
                     'Content-Type: application/json'
@@ -688,8 +716,9 @@ var $exchange_apis = array(
    global $ct;
    
    $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
-     
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
+   
+   // 5 minute cache
+   $response = @$ct['cache']->ext_data('url', $url, 5);
        
    $data = json_decode($response, true);
      
@@ -702,7 +731,7 @@ var $exchange_apis = array(
       else {
             
           // Non-dynamic cache file name, because filename would change every recache and create cache bloat
-          if ( $ct['cache']->update_cache('cache/secured/external_data/eth-stats.dat', $ct['conf']['power']['blockchain_stats_cache_time'] ) == true ) {
+          if ( $ct['cache']->update_cache('cache/secured/external_data/eth-stats.dat', 5) == true ) {
             
           $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
           $response = @$ct['cache']->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)

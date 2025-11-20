@@ -35,6 +35,8 @@ header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 
 
 // Running AFTER calling init.php
+
+// Solana
 if ( $_GET['type'] == 'chart' && $_GET['mode'] == 'sol_nodes' ) {
 require_once($ct['plug']->plug_dir(false, 'on-chain-stats') . '/plug-assets/ajax/charts/solana-nodes-chart.php');
 }
@@ -43,6 +45,16 @@ require_once($ct['plug']->plug_dir(false, 'on-chain-stats') . '/plug-assets/ajax
 }
 elseif ( $_GET['type'] == 'map' && $_GET['mode'] == 'geolocation' && $_GET['map_key'] == 'solana_map' ) {
 require_once($ct['plug']->plug_dir(false, 'on-chain-stats') . '/plug-assets/ajax/maps/solana-nodes-map.php');
+}
+// Bitcoin
+elseif ( $_GET['type'] == 'chart' && $_GET['mode'] == 'btc_nodes' ) {
+require_once($ct['plug']->plug_dir(false, 'on-chain-stats') . '/plug-assets/ajax/charts/bitcoin-nodes-chart.php');
+}
+elseif ( $_GET['type'] == 'chart' && $_GET['mode'] == 'btc_tps' ) {
+require_once($ct['plug']->plug_dir(false, 'on-chain-stats') . '/plug-assets/ajax/charts/bitcoin-tps-chart.php');
+}
+elseif ( $_GET['type'] == 'map' && $_GET['mode'] == 'geolocation' && $_GET['map_key'] == 'bitcoin_map' ) {
+require_once($ct['plug']->plug_dir(false, 'on-chain-stats') . '/plug-assets/ajax/maps/bitcoin-nodes-map.php');
 }
 
 

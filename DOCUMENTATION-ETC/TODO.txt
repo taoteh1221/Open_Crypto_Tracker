@@ -131,6 +131,12 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Add FSOL.
+
+
+Add bitcoin difficulty and hashrate charts. 
+
+
 Verticle scroll position is wonky in the plugins area, IF last-visted beforehand was a user area subsection.
 
 
@@ -146,13 +152,7 @@ Do a pie chart for the Solana Version data.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-=============================================
-Getting Bitcoin RPC data:
-https://bitcoin-rpc.publicnode.com/
-
-Getting peer ip addresses:
-https://www.google.com/search?q=bitcoin+rpc+get+list+of+peer+ip+addresses
-=============================================
+Convert all single stat charts for bitcoin network stats, to our price chart format (minus the volume). We don't need to support multiple chart data points in bitcoin stat charts.
 
 
 Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)

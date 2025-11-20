@@ -27,36 +27,13 @@ $ct['dev']['throttled_apis']['ip-api.com'] = array(
                                                    );
 
 
-// Check for cache directory path creation, create if needed...if it fails, log the error
-if (
-$ct['gen']->dir_struct( $ct['plug']->chart_cache('/solana/archival/') ) != true
-|| $ct['gen']->dir_struct( $ct['plug']->chart_cache('/solana/overwrites/') ) != true
-|| $ct['gen']->dir_struct( $ct['plug']->chart_cache('/solana/temp/solana_nodes_geolocation/') ) != true
-) {
+// Setup directory structure for network caches...
 
-$ct['gen']->log(
-        			'system_error',
-        			'cannot create "'.$this_plug.'" plugin directories'
-        			);
-        
-}
+$network_name_key = 'bitcoin';
+require($ct['plug']->plug_dir() . '/plug-lib/cache-dirs.php');
 
-		
-// Light charts
-
-// Make sure light chart path is registered
-$ct['cache']->manage_light_charts( $ct['plug']->chart_cache('/solana/light') );
-
-
-// Light chart structure
-foreach( $ct['light_chart_day_intervals'] as $light_chart_days ) {
-			
-	// Attempt to create directory if it doesn't exist
-	if ( $ct['gen']->dir_struct( $ct['plug']->chart_cache('/solana/light/'.$light_chart_days.'_days/') ) != true ) { 
-	$no_onchain_stat_light_charts = true;
-	}
-			
-}
+$network_name_key = 'solana';
+require($ct['plug']->plug_dir() . '/plug-lib/cache-dirs.php');
 
 
 if ( $no_onchain_stat_light_charts ) {

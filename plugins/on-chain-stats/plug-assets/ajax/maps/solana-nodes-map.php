@@ -20,14 +20,14 @@ unset($solana_validator_info);
      
      
      // IF active validator this epoch, mark as a validator
-     if ( isset($node_data['solanaNodeInfo']['validator_data']) ) {
+     if ( isset($node_data['networkNodeInfo']['validator_data']) ) {
      $is_validator = true;
-     $solana_validator_info = $node_data['solanaNodeInfo']['validator_data'];
+     $solana_validator_info = $node_data['networkNodeInfo']['validator_data'];
      }
-     elseif ( isset($node_data['solanaNodeInfo']['no_epoch_vote_validator_data']) ) {
+     elseif ( isset($node_data['networkNodeInfo']['no_epoch_vote_validator_data']) ) {
      $is_validator = true;
      $no_epoch_vote_validator = true;
-     $solana_validator_info = $node_data['solanaNodeInfo']['no_epoch_vote_validator_data'];
+     $solana_validator_info = $node_data['networkNodeInfo']['no_epoch_vote_validator_data'];
      }
 
 
@@ -95,7 +95,7 @@ unset($solana_validator_info);
           }
           elseif ( $_GET['secondary_filter_type'] == 'node_version' ) {
           
-              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['solanaNodeInfo']['version']) ) {
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['networkNodeInfo']['version']) ) {
               // Do nothing, all set
               }
               else {
@@ -105,7 +105,7 @@ unset($solana_validator_info);
           }
           elseif ( $_GET['secondary_filter_type'] == 'node_shred_version' ) {
           
-              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['solanaNodeInfo']['shredVersion']) ) {
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['networkNodeInfo']['shredVersion']) ) {
               // Do nothing, all set
               }
               else {
@@ -115,7 +115,7 @@ unset($solana_validator_info);
           }
           elseif ( $_GET['secondary_filter_type'] == 'node_feature_set' ) {
           
-              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['solanaNodeInfo']['featureSet']) ) {
+              if ( preg_match("/" . preg_quote( trim($_GET['secondary_filter']) , '/') . "/i", $node_data['networkNodeInfo']['featureSet']) ) {
               // Do nothing, all set
               }
               else {
@@ -126,7 +126,7 @@ unset($solana_validator_info);
           elseif ( $_GET['secondary_filter_type'] == 'public_key' ) {
           
               if ( 
-              trim($_GET['secondary_filter']) == $node_data['solanaNodeInfo']['pubkey']
+              trim($_GET['secondary_filter']) == $node_data['networkNodeInfo']['pubkey']
               || isset($solana_validator_info['votePubkey']) && trim($_GET['secondary_filter']) == $solana_validator_info['votePubkey']
               ) {
               // Do nothing, all set
@@ -157,15 +157,15 @@ $results[] = array(
                    
                    '<div class="map_point_data"> <b>Longitude:</b> ' . $node_data['lon'] . '</div>' .
                    
-                   '<div class="map_point_data"> <b>Node Version:</b> v' . $node_data['solanaNodeInfo']['version'] . '</div>' .
+                   '<div class="map_point_data"> <b>Node Version:</b> v' . $node_data['networkNodeInfo']['version'] . '</div>' .
                    
-                   '<div class="map_point_data"> <b>Node Shred Version:</b> v' . $node_data['solanaNodeInfo']['shredVersion'] . '</div>' .
+                   '<div class="map_point_data"> <b>Node Shred Version:</b> v' . $node_data['networkNodeInfo']['shredVersion'] . '</div>' .
                    
-                   '<div class="map_point_data"> <b>Node Feature Set:</b> ' . $node_data['solanaNodeInfo']['featureSet'] . '</div>' .
+                   '<div class="map_point_data"> <b>Node Feature Set:</b> ' . $node_data['networkNodeInfo']['featureSet'] . '</div>' .
                    
-                   '<div class="map_point_data"> <b>Node Gossip:</b> ' . $node_data['solanaNodeInfo']['gossip'] . '</div>' .
+                   '<div class="map_point_data"> <b>Node Gossip:</b> ' . $node_data['networkNodeInfo']['gossip'] . '</div>' .
                    
-                   '<div class="map_point_data" style="overflow-wrap: break-word !important;"> <b>Node Public Key:</b><br />' . $node_data['solanaNodeInfo']['pubkey'] . '</div>' .
+                   '<div class="map_point_data" style="overflow-wrap: break-word !important;"> <b>Node Public Key:</b><br />' . $node_data['networkNodeInfo']['pubkey'] . '</div>' .
                    
                    ( $is_validator ? '<div data_flag="is_validator" class="map_point_data bitcoin" style="overflow-wrap: break-word !important;"> <b>Validator Voting Public Key:</b><br />' . $solana_validator_info['votePubkey'] . '</div>' : '' ) .
                    
