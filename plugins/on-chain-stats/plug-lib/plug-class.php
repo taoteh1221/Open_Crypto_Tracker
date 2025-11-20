@@ -290,7 +290,7 @@ var $array1 = array();
      
      $results = array();     
      
-     $validators = $ct['api']->solana_rpc('getVoteAccounts', array(), 480); // 8 HOUR (480 MINUTE) CACHE
+     $validators = $ct['api']->blockchain_rpc('solana', 'getVoteAccounts', array(), 480); // 8 HOUR (480 MINUTE) CACHE
      
      $all_nodes = $ct['api']->blockchain_rpc('solana', 'getClusterNodes', array(), 480); // 8 HOUR (480 MINUTE) CACHE
      
