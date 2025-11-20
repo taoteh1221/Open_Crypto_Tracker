@@ -658,6 +658,13 @@ var $array1 = array();
                     
                     $ct['cache']->save_file( $ct['plug']->chart_cache($cache_path, $this_plug) , $results_json);
                     
+                         
+                         // IF last few have been processed, flag merging / cleanup
+                         if ( ($processed + $batch_count) >= sizeof($nodes_info) ) {
+                         $run_node_geolocation_cleanup = true;
+                         }
+
+                    
                     }
                     
                 
@@ -675,12 +682,12 @@ var $array1 = array();
        }
 
 
-     gc_collect_cycles(); // Clean memory cache
+   gc_collect_cycles(); // Clean memory cache
      
                          
        // IF we are done getting all geolocation data,
        // run processing batched files / cleanup
-       if ( $processed >= sizeof($nodes_info) ) {
+       if ( $run_node_geolocation_cleanup ) {
        $this->node_geolocation_cleanup($network_name);
        }
 
