@@ -52,7 +52,12 @@ $bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockha
 // Bitcoin get latest block stats (5 minute cache)
 $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 5)['result'];
 
-$ct['opt_conf']['mining_calculators']['pow']['btc']['block_reward'] = $ct['var']->num_to_str($bitcoin_last_block_stats['subsidy'] / 100000000);
+
+     if ( isset($bitcoin_last_block_stats['subsidy']) && is_numeric($bitcoin_last_block_stats['subsidy']) ) {
+     $ct['opt_conf']['mining_calculators']['pow']['btc']['block_reward'] = $ct['var']->num_to_str($bitcoin_last_block_stats['subsidy'] / 100000000);
+     }
+     
+     
 $ct['opt_conf']['mining_calculators']['pow']['btc']['height'] = $bitcoin_mining['blocks'];
 $ct['opt_conf']['mining_calculators']['pow']['btc']['difficulty'] = $bitcoin_mining['difficulty'];
 
