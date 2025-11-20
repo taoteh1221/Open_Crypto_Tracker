@@ -393,23 +393,6 @@ var $exchange_apis = array(
                                                   
                                                   
                            );
-   
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function bitcoin($request) {
-    
-   global $ct;
-         
-   $url = 'https://blockchain.info/q/' . $request;
-         
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
-       
-   return (float)$response;
-     
-   }
 
    
    ////////////////////////////////////////////////////////
@@ -598,17 +581,26 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////////////////////////////////////////////
 		
    
-   // https://solana.com/docs/rpc/http
-   function solana_rpc($method, $params=false, $cache_time=0, $rpc_test=false) {
+   function blockchain_rpc($network, $method, $params=false, $cache_time=0, $rpc_test='') {
 		 
    global $ct;
+   
+   $rpc_test = trim($rpc_test);
 
-                                
-        if ( $rpc_test != false ) {
+        
+        // RCP test
+        if ( $rpc_test != '' ) {
         $rpc_server = $rpc_test;
         }
-        else {    
-        $rpc_server = $ct['conf']['ext_apis']['solana_rpc_server'];
+        // Bitcoin RCP server address in admin config
+        // https://developer.bitcoin.org/reference/rpc
+        elseif ( $network == 'bitcoin' ) {    
+        $rpc_server = trim($ct['conf']['ext_apis']['bitcoin_rpc_server']);
+        }
+        // Solana RCP server address in admin config
+        // https://solana.com/docs/rpc/http
+        elseif ( $network == 'solana' ) {    
+        $rpc_server = trim($ct['conf']['ext_apis']['solana_rpc_server']);
         }
 
 	
@@ -688,8 +680,9 @@ var $exchange_apis = array(
    global $ct;
    
    $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
-     
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
+   
+   // 5 minute cache
+   $response = @$ct['cache']->ext_data('url', $url, 5);
        
    $data = json_decode($response, true);
      
@@ -702,7 +695,7 @@ var $exchange_apis = array(
       else {
             
           // Non-dynamic cache file name, because filename would change every recache and create cache bloat
-          if ( $ct['cache']->update_cache('cache/secured/external_data/eth-stats.dat', $ct['conf']['power']['blockchain_stats_cache_time'] ) == true ) {
+          if ( $ct['cache']->update_cache('cache/secured/external_data/eth-stats.dat', 5) == true ) {
             
           $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
           $response = @$ct['cache']->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)

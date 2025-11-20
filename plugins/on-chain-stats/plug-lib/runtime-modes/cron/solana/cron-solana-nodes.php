@@ -188,14 +188,14 @@ usleep(50000); // Wait 0.05 seconds
      
      
      // NODE GEOLOCATION
-     if ( isset($solana_nodes_onchain['geolocation']) ) {
+     if ( is_array($solana_nodes_onchain['geolocation']) ) {
      
      // Save IPs to cache, in case we need to finish up later (because of API throttling)
      $solana_nodes_ip_data_set = json_encode($solana_nodes_onchain['geolocation'], JSON_PRETTY_PRINT);
      $ct['cache']->save_file( $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info.dat') , $solana_nodes_ip_data_set);
      
      // SAVE CHART DATA 
-     $plug['class'][$this_plug]->solana_node_geolocation_cache($solana_nodes_onchain['geolocation']); 
+     $plug['class'][$this_plug]->node_geolocation_cache('solana', $solana_nodes_onchain['geolocation']); 
      
      }
      
@@ -204,7 +204,7 @@ usleep(50000); // Wait 0.05 seconds
      
      
      // NODE VERSION, SAVE CHART DATA 
-     if ( isset($solana_nodes_onchain['version']) ) {
+     if ( is_array($solana_nodes_onchain['version']) ) {
      $solana_node_version_data_set = json_encode($solana_nodes_onchain['version'], JSON_PRETTY_PRINT);
      $ct['cache']->save_file( $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_version.dat') , $solana_node_version_data_set); 
      }
@@ -220,7 +220,7 @@ $ct['cache']->save_file($solana_node_stats_tracking_file, $ct['gen']->time_date_
 // Otherwise, see if API throttling prevented FULL caching of the geolocation data set
 // SAVE CHART DATA 
 else {
-$plug['class'][$this_plug]->solana_node_geolocation_cache();
+$plug['class'][$this_plug]->node_geolocation_cache('solana');
 }
 
 

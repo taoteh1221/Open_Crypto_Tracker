@@ -35,7 +35,7 @@
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
 	
-	<li class='bitcoin' style='font-weight: bold;'>Chain data (block height, difficulty, etc) is cached for <?=$ct['conf']['power']['blockchain_stats_cache_time']?> minute(s).</li>
+	<li class='bitcoin' style='font-weight: bold;'>Chain data MAY be cached for a few minutes.</li>
 	
 	<li class='bitcoin' style='font-weight: bold;'>*CUSTOM* POW mining calculators can be added in the file "dynamic-config.php" (in the app's main directory).</li>	
    

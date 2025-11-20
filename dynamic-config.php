@@ -41,10 +41,13 @@ $ct['opt_conf']['mining_calculators'] = array(
 
 // MINING DYNAMIC CONFIGS
 
-
 // BTC
-$ct['opt_conf']['mining_calculators']['pow']['btc']['height'] = $ct['api']->bitcoin('getblockcount');
-$ct['opt_conf']['mining_calculators']['pow']['btc']['difficulty'] = $ct['api']->bitcoin('getdifficulty');
+
+// Bitcoin mining data (5 minute cache)
+$bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
+
+$ct['opt_conf']['mining_calculators']['pow']['btc']['height'] = $bitcoin_mining['blocks'];
+$ct['opt_conf']['mining_calculators']['pow']['btc']['difficulty'] = $bitcoin_mining['difficulty'];
 
 
 /* // ETH (NO LONGER USED, BUT LEAVE AS EXAMPLE FOR FUTURE POW CALCS)

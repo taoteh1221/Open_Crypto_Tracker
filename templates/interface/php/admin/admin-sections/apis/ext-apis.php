@@ -202,6 +202,18 @@ $ct['admin_render_settings']['google_fonts_cache_time']['range_ui_suffix'] = ' H
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['bitcoin_rpc_server']['is_text'] = true;
+
+$ct['admin_render_settings']['bitcoin_rpc_server']['is_trim'] = true;
+
+$ct['admin_render_settings']['bitcoin_rpc_server']['text_field_size'] = 50;
+
+$ct['admin_render_settings']['bitcoin_rpc_server']['is_notes'] = 'What <a href="https://developer.bitcoin.org/reference/rpc" target="_BLANK">Bitcoin RPC Server</a> to query, for on-chain data.<br />The default one is provided by <a href="https://publicnode.com/" target="_BLANK">PublicNode.com</a> FOR FREE:<br />https://bitcoin-rpc.publicnode.com';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 $ct['admin_render_settings']['solana_rpc_server']['is_text'] = true;
 
 $ct['admin_render_settings']['solana_rpc_server']['is_trim'] = true;

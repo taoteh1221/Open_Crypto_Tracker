@@ -4,19 +4,13 @@
  */
 
 
-$chart_file = $ct['plug']->chart_cache('/solana/light/' . $_GET['time_period'] . '_days/solana_nodes_count.dat', 'on-chain-stats');
+$chart_file = $ct['plug']->chart_cache('/bitcoin/light/' . $_GET['time_period'] . '_days/bitcoin_nodes_count.dat', 'on-chain-stats');
 						
 
 // NO EARLIER THAN A CERTAIN TIMESTAMP
 if ( file_exists($chart_file) ) {
      
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['all_nodes'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'all_nodes', $_GET['start_time']); 
-
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['rpcs'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'rpcs', $_GET['start_time']); 
-
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'validators', $_GET['start_time']); 
-
-$ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators_without_epoch_votes'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'validators_without_epoch_votes', $_GET['start_time']); 
+$ct['plug_runtime_data']['on-chain-stats']['node_stats']['nodes'] = $plug['class']['on-chain-stats']->node_count_chart($chart_file, 'all_nodes', $_GET['start_time']); 
 
 }
 
@@ -59,7 +53,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No '<?=$ct['gen']->light_chart_time_period($_GET['time_period'], 'long')?>' light chart data for any Solana nodes yet, please check back in awhile.",
+     text: "No '<?=$ct['gen']->light_chart_time_period($_GET['time_period'], 'long')?>' light chart data for any Bitcoin nodes yet, please check back in awhile.",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,
@@ -73,7 +67,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Solana Node Count",
+        text: "Bitcoin Node Count (active over past 24 hours)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -186,7 +180,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "Solana Node Count",
+        text: "Bitcoin Node Count (active over past 24 hours)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,

@@ -1,5 +1,10 @@
 
 
+
+#show_more_bitcoin_stats, #show_more_solana_stats {
+display: none;
+}
+
 .map_point_data {
 margin: 0.75em !important; 
 }

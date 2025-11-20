@@ -28,7 +28,11 @@ plugin_assets_path['<?=$this_plug?>'] = '<?=$ct['plug']->plug_dir(true)?>/plug-a
 <script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.markercluster.js"></script>
 	
 <?php
+
+require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/ui/bitcoin/ui-bitcoin-nodes.php');
+
 require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/ui/solana/ui-solana-nodes.php');
+
 ?>
 
 

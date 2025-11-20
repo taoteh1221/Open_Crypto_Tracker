@@ -209,24 +209,6 @@ $ct['admin_render_settings']['exchange_search_cache_time']['is_notes'] = 'MINUTE
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
      
-$ct['admin_render_settings']['blockchain_stats_cache_time']['is_range'] = true;
-
-$ct['admin_render_settings']['blockchain_stats_cache_time']['range_ui_meta_data'] .= 'zero_is_disabled;';
-
-$ct['admin_render_settings']['blockchain_stats_cache_time']['range_min'] = 0;
-
-$ct['admin_render_settings']['blockchain_stats_cache_time']['range_max'] = 100;
-
-$ct['admin_render_settings']['blockchain_stats_cache_time']['range_step'] = 20;
-
-$ct['admin_render_settings']['blockchain_stats_cache_time']['range_ui_suffix'] = ' Minutes';
-
-$ct['admin_render_settings']['blockchain_stats_cache_time']['is_notes'] = 'MINUTES to cache blockchain stats (for mining calculators)...can be zero to DISABLE cache, but set to at least 60 minutes TO AVOID YOUR IP ADDRESS GETTING BLOCKED!';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
 $ct['admin_render_settings']['marketcap_cache_time']['is_range'] = true;
 
 $ct['admin_render_settings']['marketcap_cache_time']['range_ui_meta_data'] .= 'zero_is_disabled;';

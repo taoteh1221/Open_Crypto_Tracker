@@ -167,12 +167,6 @@ $ct['conf']['power']['access_stats_delete_old'] = 15;
 }
 
 
-// Idiot-proof blockchain_stats_cache_time
-if ( abs($ct['conf']['power']['blockchain_stats_cache_time']) > 100 || $ct['conf']['power']['blockchain_stats_cache_time'] < 0 ) {
-$ct['conf']['power']['blockchain_stats_cache_time'] = 100;
-}
-
-
 // Idiot-proof marketcap_cache_time
 if ( $ct['conf']['power']['marketcap_cache_time'] > 200 ) {
 $ct['conf']['power']['marketcap_cache_time'] = 200;

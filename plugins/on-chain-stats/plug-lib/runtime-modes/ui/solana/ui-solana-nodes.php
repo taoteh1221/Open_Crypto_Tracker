@@ -6,12 +6,30 @@
 
 // Solana Node stats START (requires price charts)
 if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
-     
-$sol_epoch_info = $ct['api']->solana_rpc('getEpochInfo', array(), 5)['result']; // 5 MINUTE CACHE
+    
+// Epoch info, 5 MINUTE CACHE
+$sol_epoch_info = $ct['api']->blockchain_rpc('solana', 'getEpochInfo', array(), 5)['result']; 
+
+// Get on-chain Solana TPS
+$solana_tps = $plug['class'][$this_plug]->solana_performance('tps');
 
 // Get on-chain Solana slot time average
 $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
 
+
+     // Get all nodes info
+     if ( file_exists( $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info.dat', $this_plug) ) ) {
+     $solana_nodes_info_file = $ct['plug']->chart_cache('/solana/overwrites/solana_nodes_info.dat', $this_plug);
+     $solana_nodes_info = json_decode( trim( file_get_contents( $solana_nodes_info_file ) ) , true);
+     }
+
+
+     // Get validator info
+     if ( file_exists( $ct['plug']->chart_cache('/solana/overwrites/solana_validators_info.dat', $this_plug) ) ) {
+     $solana_validators_info_file = $ct['plug']->chart_cache('/solana/overwrites/solana_validators_info.dat', $this_plug);
+     $solana_validators_info = json_decode( trim( file_get_contents( $solana_validators_info_file ) ) , true);
+     }
+   
      
      if ( isset($solana_slot_time['slot_time_seconds']) && is_numeric($solana_slot_time['slot_time_seconds']) ) {
      
@@ -43,6 +61,73 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
      }
      
 ?>
+
+<fieldset class='subsection_fieldset'>
+	<legend class='subsection_legend'> <b>Solana Network Statistics</b> </legend>
+		    
+		
+    <p>
+    <b class='yellow'>Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?> <?=( isset($sol_epoch_time_left) ? $sol_epoch_time_left : '' )?>
+    </p>
+    
+    
+    <p>
+    <b class='yellow'>Block Height:</b> <?=$ct['var']->num_pretty($sol_epoch_info['blockHeight'], 0)?>
+    </p>
+
+    <?php    
+    if ( is_array($solana_nodes_info) ) {
+    ?>
+    
+    <p>
+    <b class='yellow'>All Nodes Count:</b>  <?=$ct['var']->num_pretty( sizeof($solana_nodes_info) , 0)?>
+    </p>
+
+    <?php
+    }
+    
+    
+    if ( is_array($solana_validators_info) ) {
+    ?>
+    
+    <p>
+    <b class='yellow'>Validator Nodes Count:</b>  <?=$ct['var']->num_pretty( sizeof($solana_validators_info) , 0)?>
+    </p>
+
+    <?php
+    }
+    
+    
+    if ( isset($solana_tps['real_tps']) && is_numeric($solana_tps['real_tps']) ) {
+    ?>
+    
+    <p>
+    <b class='yellow'>Real TPS:</b>  <?=$ct['var']->num_pretty($solana_tps['real_tps'], 0)?>
+    </p>
+
+    <?php
+    }
+    ?>
+    
+    
+    <b><a href="javascript: return false;" class="modal_style_control show_more_solana_stats blue" title="View More Solana Network Statistics">View More Solana Network Statistics</a></b>
+		
+</fieldset>
+
+		
+
+	<!-- START MORE PORTFOLIO STATS MODAL -->
+	<div class='' id="show_more_solana_stats">
+	
+		<h3 class='blue' style='display: inline;'>More Solana Network Statistics</h3>
+	
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
+	
+	<br clear='all' />
+	
+	<br clear='all' />
+	
+	<br clear='all' />
 	
 	
 	<h4 class='yellow'>Solana Epoch Information (cached for 5 minutes):</h4>
@@ -533,7 +618,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
              	
              	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
              	
-             	It may take an hour or longer to show GeoLocation data, after enabling the On-Chain Stats plugin.
+             	It may take an hour or longer to show Solana GeoLocation data, after enabling the On-Chain Stats plugin.
              	
              	</p>
              	
@@ -614,7 +699,11 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     
     <div id="solana_map" class="secondary_chart_wrapper geolocation_map leaflet_zindex_fix" style="width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important;"></div>
 
-    <script>
+	
+  </div>
+  
+  
+     <script>
     
     // Render map
     map_init(
@@ -626,6 +715,31 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     </script>
   
 
+	
+  <p> &nbsp; </p>
+	
+	</div>
+	<!-- END MORE SOLANA STATS MODAL -->
+	
+	<script>
+	
+	modal_windows.push('.show_more_solana_stats'); // Add to modal window tracking (for closing all dynaimically on app reloads) 
+	
+	$('.show_more_solana_stats').modaal({
+	fullscreen: true,
+	content_source: '#show_more_solana_stats',
+         after_open: function() {
+             
+             // IF we need to run logic, AFTER OPENING THE MODAL
+             setTimeout(function(){
+             // Logic goes here
+             }, 500);
+
+         }
+	});
+	
+	</script>
+	
 <?php
 }
 // Solana Node stats END

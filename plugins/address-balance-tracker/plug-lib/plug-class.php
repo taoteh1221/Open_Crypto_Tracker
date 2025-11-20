@@ -173,7 +173,7 @@ var $array1 = array();
 	$calc = ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
 	$refresh_cache = ( $calc >= 0 ? $calc : 0 );
      
-     $data = $ct['api']->solana_rpc( ( $spl_token == false ? 'getBalance' : 'getTokenAccountBalance' ) , array($address) , $refresh_cache )['result'];
+     $data = $ct['api']->blockchain_rpc('solana', ( $spl_token == false ? 'getBalance' : 'getTokenAccountBalance' ) , array($address) , $refresh_cache )['result'];
      
      // DEBUGGING
 	//$debug_data = json_encode($data, JSON_PRETTY_PRINT);

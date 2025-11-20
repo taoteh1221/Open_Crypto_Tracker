@@ -56,17 +56,6 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
           }
     	 
     	 
-     // Re-cache chain data for faster UI runtimes later
-    
-     // Bitcoin
-     $ct['api']->bitcoin('getblockcount');
-     $ct['api']->bitcoin('getdifficulty');
-    
-     // Ethereum
-     //$ct['api']->etherscan('gasLimit');
-    
-     // Chain data END
-     
      // Cleanup price charts (delete charts for removed assets)
      $ct['cache']->price_chart_cleanup();
      

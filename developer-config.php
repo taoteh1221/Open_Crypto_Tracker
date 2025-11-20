@@ -261,6 +261,15 @@ $ct['dev']['throttled_apis'] = array(
                                                       ),
 
 
+                                     // NO DOCS NOTED, BUT WE PRESUME 3 REQUESTS PER SECOND / 30 PER MINUTE
+                                     'publicnode.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 30,
+                                                       'per_second' => 3, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                      ),
+
+
 // https://www.reddit.com/r/redditdev/comments/14nbw6g/updated_rate_limits_going_into_effect_over_the/
                                      'reddit.com' => array(
                                                        'min_cache_time' => null,
