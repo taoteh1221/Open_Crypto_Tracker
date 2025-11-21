@@ -2484,6 +2484,8 @@ var $ct_array = array();
       
       /////////////////////////////////////////////////////////////////
      
+  
+   gc_collect_cycles(); // Clean memory cache
    
    // If we haven't returned false yet because of any issues being detected, return true to indicate all seems ok
    return true;

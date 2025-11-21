@@ -1,6 +1,6 @@
 
 
-memory_limit = "128M"
+memory_limit = "256M"
 
 upload_max_filesize = "7M"
 

@@ -5,6 +5,8 @@
 
 
 $chart_file = $ct['plug']->chart_cache('/solana/light/' . $_GET['time_period'] . '_days/solana_tps.dat', 'on-chain-stats');
+
+gc_collect_cycles(); // Clean memory cache
 						
 
 // NO EARLIER THAN A CERTAIN TIMESTAMP
@@ -328,4 +330,7 @@ gui: {
   
     }
 
+<?php
+gc_collect_cycles(); // Clean memory cache
+?>
 

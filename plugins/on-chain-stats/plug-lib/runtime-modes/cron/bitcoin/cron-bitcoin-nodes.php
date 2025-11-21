@@ -20,13 +20,17 @@ $bitcoin_tps_stats_tracking_file = $ct['plug']->event_cache('update_bitcoin_tps_
 // TPS update every 15+ minutes, AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
 if ( $now > 0 && $ct['cache']->update_cache($bitcoin_tps_stats_tracking_file, 15) == true ) {
 
-// Bitcoin mining data
-$bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
+// Bitcoin get latest block hash (5 minute cache)
+$bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
+
+// Bitcoin get latest block stats (5 minute cache)
+$bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 5)['result'];
+
+//var_dump($bitcoin_last_block_stats);
     
     
-     // Get on-chain Bitcoin TPS
-     if ( isset($bitcoin_mining['currentblocktx']) && is_numeric($bitcoin_mining['currentblocktx']) ) {
-     $bitcoin_tps = round( ($bitcoin_mining['currentblocktx'] / 600) , 2 );
+     if ( isset($bitcoin_last_block_stats['txs']) && is_numeric($bitcoin_last_block_stats['txs']) ) {
+     $bitcoin_tps = round( ($bitcoin_last_block_stats['txs'] / 600) , 2 );
      }
 
 
