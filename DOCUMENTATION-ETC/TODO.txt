@@ -134,6 +134,16 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 Update copyright year.
 
 
+Upgrade to bootstrap v5.3.8: 
+https://getbootstrap.com/docs/5.3/getting-started/download/
+
+
+Increase the default in 'light_chart_first_build_hard_limit' to 25, so a decent VPS system with 1 core can still rebuild them in a timely manner, EVEN IF CHARTS ARE ONLY UPDATED DAILY. Also have that setting reset for v6.01.07 during upgrades of existing installations. THIS SEEMS TO BE WHY BITCOIN STATS LIGHT CHARTS AREN'T BUILDING ON 'FIRST-RUN' ON MY VPS.
+
+
+Create a function is_valid_plugin($plugin_id), and add in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case). Additionally, consider adding 'plugin_status' to be ignored during cached config upgrades, like we do for assets and price alerts / charts.
+
+
 Look into reducing by 250-500 milliseconds BOTH the compact submenu listener AND animated vertical adjustment.
 
 
@@ -153,6 +163,9 @@ Try and squeeze in color maps for the types of Solana nodes into the map footer.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Build a SECONDARY cache for RAW geolocation results from ip-api.com (no node info included for any crypto network), that only refeshes after 90 days. Key each array item with the ip address (like we do for node data in onchain stats), so we can easily look for entries. Then we can check this secondary cache FIRST, before queueing into a query for an ip-api.com API batch data request.
 
 
 Add bitcoin difficulty, mempool, and hashrate charts. 
@@ -215,7 +228,7 @@ Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especi
 Write a maintenance routine (run every 72 hours, in case user restores the plugin soon after deactivating it), that scans ALL plugin cache standardized ROOT directories, and deletes any subdirectory NOT matching any ACTIVATED plugins.
 
 
-Create a function is_valid_plugin(), to use in plugins-init.php, in $ct['gen']->refresh_plugins_list(), and in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case).
+Add is_valid_plugin() to plugins-init.php, in $ct['gen']->refresh_plugins_list(). 
 
 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
