@@ -58,21 +58,21 @@ TO-DO NOTES
 !!!!
 ===> Use gc_collect_cycles() conservatively, as it slows runtime (especially in loops!)
 !!!!
+===> Make sure you ESCAPE special characters in regular expressions (regex)!
+===> https://www.threesl.com/blog/special-characters-regular-expressions-escape/
+!!!!
 ===> Try to wrap up tests / UX / QA / debugging before adding new architecture
 ===> (find every flaming turd before you start a dumpster fire!).
+!!!!
+===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
+!!!!
+===> "developer-config.php" contains MANY MANY MANY developer-only configs!
 !!!!
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
 ===> Occasionally update cacert.pem in the main directory:
 ===> https://curl.se/ca/cacert.pem
-!!!!
-===> "developer-config.php" contains MANY MANY MANY developer-only configs!
-!!!!
-===> Don't require any higher than PHP v7.2 until PHP v9 has been out awhile.
-!!!!
-===> Make sure you ESCAPE special characters in regular expressions (regex)!
-===> https://www.threesl.com/blog/special-characters-regular-expressions-escape/
 !!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -131,25 +131,78 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Add FSOL.
+Upgrade to bootstrap v5.3.8: 
+https://getbootstrap.com/docs/5.3/getting-started/download/
 
 
-Add bitcoin difficulty and hashrate charts. 
+Create a function is_valid_plugin($plugin_id), and add in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case). Additionally, consider adding 'plugin_status' to be ignored during cached config upgrades, like we do for assets and price alerts / charts.
+
+
+Add a 'selected_networks' config, that's comma-delimited, and requires at least one valid network be selected. Add "coming soon" for Ethereum / Monad.
 
 
 Verticle scroll position is wonky in the plugins area, IF last-visted beforehand was a user area subsection.
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+So far, I've found very little data on how to parse out any data from the "services" value in Bitcoin "getnodeaddresses" RPC response. I have opened an issue here, requesting more documentation:
+https://github.com/bitcoin/bitcoin/issues/33930
+
+
+Build a SECONDARY cache for RAW geolocation results from ip-api.com (no node info included for any crypto network), that only refeshes after 90 days. Key each array item with the ip address (like we do for node data in onchain stats), so we can easily look for entries. Then we can check this secondary cache FIRST, before queueing into a query for an ip-api.com API batch data request.
+
+
+Add bitcoin difficulty, mempool, and hashrate charts. 
+
+
+Do a mining revenue chart for Bitcoin, by getting the block reward and TX fee totals (same way we get TX count). Have it charted in BTC and USD, in a single chart.
+
+
 Store Solana "Transactions Since Genesis", and every 24 hours see how many more TXs there are, for a Daily TXs chart.
-
-
-Try and squeeze in color maps for the types of Solana nodes into the map footer.
 
 
 Do a pie chart for the Solana Version data.
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==========================================
+Data in getblockstats, that we may want for charts:
+
+{"jsonrpc":"2.0",
+"result":{"avgfee":940,
+"avgfeerate":3,
+"avgtxsize":488,
+"blockhash":"00000000000000000001d48403bfc706c2c0eafa69972225f7bd49aeb821a0b7",
+"feerate_percentiles":[1,1,2,3,5],
+"height":924369,
+"ins":7915,
+"maxfee":80671,
+"maxfeerate":265,
+"maxtxsize":91347,
+"medianfee":339,
+"mediantime":1763606779,
+"mediantxsize":225,
+"minfee":99,
+"minfeerate":1,
+"mintxsize":139,
+"outs":8973,
+"subsidy":312500000,
+"swtotal_size":1448733,
+"swtotal_weight":3356988,
+"swtxs":2977,
+"time":1763610343,
+"total_out":1124623146452,
+"total_size":1607402,
+"total_weight":3991664,
+"totalfee":3095514,
+"txs":3294,
+"utxo_increase":1058,
+"utxo_size_inc":86408,
+"utxo_increase_actual":889,
+"utxo_size_inc_actual":72234},
+"id":1}
+==========================================
 
 
 Convert all single stat charts for bitcoin network stats, to our price chart format (minus the volume). We don't need to support multiple chart data points in bitcoin stat charts.
@@ -161,7 +214,7 @@ Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especi
 Write a maintenance routine (run every 72 hours, in case user restores the plugin soon after deactivating it), that scans ALL plugin cache standardized ROOT directories, and deletes any subdirectory NOT matching any ACTIVATED plugins.
 
 
-Create a function is_valid_plugin(), to use in plugins-init.php, in $ct['gen']->refresh_plugins_list(), and in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case).
+Add is_valid_plugin() to plugins-init.php, in $ct['gen']->refresh_plugins_list(). 
 
 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).

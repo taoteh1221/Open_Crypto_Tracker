@@ -5,15 +5,52 @@
 display: none;
 }
 
+
 .map_point_data {
 margin: 0.75em !important; 
 }
+
 
 .sol_epoch_data {
 padding: 1.5em !important;
 }
 
+
 .leaflet_zindex_fix {
 position: relative !important;
 z-index: 1 !important;
 }
+
+
+.color-map-container {
+    position: relative !important;
+margin-bottom: 1.5em !important;
+}
+
+
+.color-square {
+    position: relative !important;
+    display: inline-block !important;
+    width: 20px !important;
+    height: 20px !important;
+    border: 1px solid #ccc !important;
+    margin: 4px !important;
+    bottom: -0.5em !important;
+}
+
+
+.color-square.bg-red {
+background-color: red !important;
+}
+
+
+.color-square.bg-orange {
+background-color: orange !important;
+}
+
+
+.color-square.bg-blue {
+background-color: blue !important;
+}
+
+

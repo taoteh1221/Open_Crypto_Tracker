@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -299,6 +299,8 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
         // RUN BEFORE any activated plugins (in case a custom plugin crashes)
         $ct['cache']->app_log();
         $ct['cache']->send_notifications();
+        
+        gc_collect_cycles(); // Clean memory cache
         
         
         // Give a bit of time for the "core runtime" error / debugging logs to 

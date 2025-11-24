@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -1669,16 +1669,21 @@ var $ct_array = array();
         elseif ( trim($results['pairing']) == '' ) {
         $results['asset'] = ''; 
         }
-        // We flag stocks in this app with the suffix: STOCK [TICKERSTOCK]
-        elseif ( $exchange_key == 'alphavantage_stock' ) {
-        $results['asset'] = preg_replace("/\.(.*)/i", "", $market_id) . 'STOCK'; 
-        }
         else {
              
         $parsed_asset = ( $cleaned_market_id ? $cleaned_market_id : $market_id );
              
         $results['asset'] = preg_replace("/".$results['pairing']."/i", "", $parsed_asset);
         
+        }
+        
+        
+   // ASSET SPECIAL CASES AND CLEANUP CAN BE PROCESSED NOW...
+        
+        
+        // We flag stocks in this app with the suffix: STOCK [TICKERSTOCK]
+        if ( $exchange_key == 'alphavantage_stock' ) {
+        $results['asset'] = preg_replace("/\.(.*)/i", "", $market_id) . 'STOCK'; 
         }
         
         
@@ -1692,6 +1697,9 @@ var $ct_array = array();
    // Lowercase / Trim any whitespace off ends
    $results['asset'] = strtolower( trim($results['asset']) );
       
+        
+   // PAIRING SPECIAL CASES AND CLEANUP CAN BE PROCESSED NOW...
+        
         
    // Remove everything NOT alphanumeric, Lowercase / Trim any whitespace off ends
    $results['pairing'] = preg_replace("/[^0-9a-zA-Z]+/i", "", $results['pairing']);
@@ -1729,6 +1737,8 @@ var $ct_array = array();
         $results['orig_pairing'] = '';
         }
         
+        
+   // MARKET FLAGGING CAN BE PROCESSED NOW...
         
    
         // If already added
@@ -2484,6 +2494,8 @@ var $ct_array = array();
       
       /////////////////////////////////////////////////////////////////
      
+  
+   gc_collect_cycles(); // Clean memory cache
    
    // If we haven't returned false yet because of any issues being detected, return true to indicate all seems ok
    return true;

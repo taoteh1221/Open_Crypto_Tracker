@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
  
  
@@ -91,8 +91,8 @@ var $array1 = array();
      
      $results = array();     
      
-     // 5 MINUTE CACHE, OF 5 SAMPLES
-     $network_performance = $ct['api']->blockchain_rpc('solana', 'getRecentPerformanceSamples', array(5), 5); 
+     // 5 MINUTE CACHE, OF 3 SAMPLES
+     $network_performance = $ct['api']->blockchain_rpc('solana', 'getRecentPerformanceSamples', array(3), 5); 
      
      // DEBUGGING
 	//$debug_data = json_encode($network_performance, JSON_PRETTY_PRINT);
@@ -186,6 +186,8 @@ var $array1 = array();
           }
      
      
+     gc_collect_cycles(); // Clean memory cache
+     
      return $results;
    
      }
@@ -276,6 +278,9 @@ var $array1 = array();
    
    // Update the event tracking
    $ct['cache']->save_file( $ct['plug']->event_cache(''.$network_name.'_node_geolocation_cleanup.dat', $this_plug) , $ct['gen']->time_date_format(false, 'pretty_date_time') );    
+   
+   gc_collect_cycles(); // Clean memory cache
+     
    
    }
 		
@@ -622,8 +627,8 @@ var $array1 = array();
            
            // IF we are ready to batch to cache file
            if (
-           $batch_count == 100
-           || ($processed + $batch_count) >= sizeof($nodes_info)
+           $batch_count == 100 // 100 max per batch limit for ip-api.com
+           || ($processed + $batch_count) >= sizeof($nodes_info) // IF last few are under 100 total
            ) {
            
            $processed = $processed + $batch_count;
@@ -631,8 +636,8 @@ var $array1 = array();
            $cache_path = $network_name . '/temp/'.$network_name.'_nodes_geolocation/' . $processed . '_locations_processed.dat';
            
                
-               // IF it's been at least 8 hours (480 minutes), then we update the geolocation cache file(s)
-               if ( $ct['cache']->update_cache( $ct['plug']->chart_cache($cache_path, $this_plug) , 480) == true ) {
+               // IF it's been at least 12 hours (720 minutes), then we update the geolocation cache file(s)
+               if ( $ct['cache']->update_cache( $ct['plug']->chart_cache($cache_path, $this_plug) , 720) == true ) {
                
                // Cache results for 7 days (10080 minutes, IF ip addresses are EXACTLY the same as prev. request)
                $response = @$ct['cache']->ext_data('params', $params, 10080, 'http://ip-api.com/batch');
@@ -652,11 +657,11 @@ var $array1 = array();
                     $results_json = json_encode($results, JSON_PRETTY_PRINT);
                     
                     $ct['cache']->save_file( $ct['plug']->chart_cache($cache_path, $this_plug) , $results_json);
-
+                    
                          
-                         // IF we are done getting all geolocation data
+                         // IF last few have been processed, flag merging / cleanup
                          if ( ($processed + $batch_count) >= sizeof($nodes_info) ) {
-                         $run_geolocation_cleanup = true;
+                         $run_node_geolocation_cleanup = true;
                          }
 
                     
@@ -671,16 +676,19 @@ var $array1 = array();
            $results = array();
            $params = array();
            
-           gc_collect_cycles(); // Clean memory cache                  
-           
            }
 
        
        }
 
-       
-       if ( $run_geolocation_cleanup ) {
-       $this->node_geolocation_cleanup();
+
+   gc_collect_cycles(); // Clean memory cache
+     
+                         
+       // IF we are done getting all geolocation data,
+       // run processing batched files / cleanup
+       if ( $run_node_geolocation_cleanup ) {
+       $this->node_geolocation_cleanup($network_name);
        }
 
    

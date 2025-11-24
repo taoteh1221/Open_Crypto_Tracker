@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -9,10 +9,18 @@ if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
 
 // Bitcoin mining data (5 minute cache)
 $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
+
+// Bitcoin get latest block hash (5 minute cache)
+$bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
+
+// Bitcoin get latest block stats (5 minute cache)
+$bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 5)['result'];
+
+//var_dump($bitcoin_last_block_stats);
     
     
-     if ( isset($bitcoin_mining['currentblocktx']) && is_numeric($bitcoin_mining['currentblocktx']) ) {
-     $bitcoin_tps = round( ($bitcoin_mining['currentblocktx'] / 600) , 2 );
+     if ( isset($bitcoin_last_block_stats['txs']) && is_numeric($bitcoin_last_block_stats['txs']) ) {
+     $bitcoin_tps = round( ($bitcoin_last_block_stats['txs'] / 600) , 2 );
      }
 
 
@@ -28,6 +36,7 @@ $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 
 
 ?>
 
+  
 <fieldset class='subsection_fieldset'>
 	<legend class='subsection_legend'> <b>Bitcoin Network Statistics</b> </legend>
 		    
@@ -98,6 +107,9 @@ $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 
 	
 	<br clear='all' />
 	
+
+<p style='font-weight: bold;' class='bitcoin'>Difficulty, mempool, and hashrate charts coming soon&trade;</p>
+
 	
     <?php    
     if ( isset($bitcoin_mining['blocks']) && is_numeric($bitcoin_mining['blocks']) ) {
@@ -126,7 +138,7 @@ $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 
     </p>
 
     <p>
-    <b class='yellow'>Transactions in Last Block:</b>  <?=$ct['var']->num_pretty($bitcoin_mining['currentblocktx'], 0)?> (<?=$bitcoin_tps?> TPS)
+    <b class='yellow'>Transactions in Last Block:</b>  <?=$ct['var']->num_pretty($bitcoin_last_block_stats['txs'], 0)?> (<?=$bitcoin_tps?> TPS)
     </p>
     
     
@@ -275,7 +287,7 @@ $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 
     
     " /> 
     
-    &nbsp; <img class="tooltip_style_control tps_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    &nbsp; <img class="tooltip_style_control tps_charts" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
     
     </div>
@@ -630,6 +642,7 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
     <option value='city'> City </option>
     <option value='time_zone'> Time Zone </option>
     <option value='isp'> ISP </option>
+    <option value='node_services_running'> Node Services Running </option>
     </select>  &nbsp;&nbsp; 
     
     <input type='text' size='20' name='bitcoin_results_filter' id='bitcoin_results_filter' placeholder="(optional)" />
@@ -669,9 +682,8 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
              );
 		
     </script>
-  
-
-
+    
+    
   <p> &nbsp; </p>
 	
 	</div>

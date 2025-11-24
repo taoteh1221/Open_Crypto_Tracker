@@ -1,5 +1,5 @@
 
-// Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+// Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 
 /////////////////////////////////////////////////////////////
@@ -469,7 +469,7 @@ element.animate(
                       top: element_top 
                       },
                       // Milliseconds to animate for
-                      1250, 
+                      500, 
                       "linear",
                       function() {
                       // Nothing to run when finished for now, as we throttle a listening loop
@@ -1035,7 +1035,7 @@ function adjust_compact_submenu() {
 
           dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true ); // Position check
                    
-          }, 1500);
+          }, 650);
 
       }
 

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -460,7 +460,8 @@ $ct['dev']['config_allow_resets'] = array(
                                           // NO DUPLICATES, REPLACE KEY'S VALUE WITH LATEST AFFECTED VERSION!
                                           // 'setting-key-1' => '0.90.00',
                                           // 'setting-key-2' => '1.23.45',
-                                          // 'upgrade_alert_reminder' => '6.01.06', // DEBUG TESTING ONLY!
+                                          // Better low-cpu-count support (auto-multiplied by num of cores in logic)
+                                          'light_chart_first_build_hard_limit' => '6.01.07', 
                                           );
 
 

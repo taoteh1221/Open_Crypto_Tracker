@@ -2,7 +2,7 @@
 // DON'T LEAVE ANY WHITESPACE ABOVE THE OPENING PHP TAG!
 
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -773,8 +773,12 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'sol-4||binance||eth||chart',
 					
 					
-					// OSOLSTOCK (Osprey Solana Trust stock)
-					'osolstock||alphavantage_stock||usd||both',
+					// FSOLSTOCK (Fidelity Solana Fund)
+					'fsolstock||alphavantage_stock||usd||both',
+					
+					
+					// Monad
+					'mon||okex_perps||usdt||both',
 					
 					
 					// USDC
@@ -1063,7 +1067,8 @@ $ct['conf']['power']['light_chart_link_font_offset'] = 4; // (default = 4), ADJU
 ////
 // Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
 // (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
-$ct['conf']['power']['light_chart_first_build_hard_limit'] = 15; // (default = 15), ADJUST WITH CARE!!!
+// LOW POWER DEVICES should NEVER exceed 25 new builds per CPU core
+$ct['conf']['power']['light_chart_first_build_hard_limit'] = 25; // (default = 25), ADJUST WITH CARE!!!
 ////
 // Randomly rebuild the 'ALL' light chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTENT CRON JOB RUNTIME SPEED!!
@@ -2249,16 +2254,38 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // OSOLSTOCK
-                    'OSOLSTOCK' => array(
+                    // FSOLSTOCK
+                    'FSOLSTOCK' => array(
                         
-                        'name' => 'Osprey Solana Trust',
-                        'mcap_slug' => 'OSOL:OTCMKTS',
+                        'name' => 'Fidelity Solana Fund',
+                        'mcap_slug' => 'FSOL:NYSEARCA',
                         'pair' => array(
 
                         
                                     'usd' => array(
-                                        'alphavantage_stock' => 'OSOL',
+                                        'alphavantage_stock' => 'FSOL',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MON
+                    'MON' => array(
+                        
+                        'name' => 'Monad',
+                        'mcap_slug' => 'monad',
+                        'pair' => array(
+
+                        
+                                    'usdt' => array(
+                                          'gateio_usdt_futures' => 'MON_USDT',
+                                          'okex_perps' => 'MON-USDT-SWAP',
                                                     ),
 
                                                     
