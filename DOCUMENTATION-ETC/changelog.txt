@@ -7028,6 +7028,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed the "Compact" (narrow) navigation menu's SUBMENU height rendering, and the auto-adjusting of it's vertical position, when it's detected that it's partially hidden
 
+-BUG FIX: Fixed adding the 'STOCK' flag in asset searches (when adding a NEW asset in the admin interface), for stock market assets, during SPECIFIC exchange searches
+
 -BUG FIX: Fixed AlphaVantage Stock (FREE tier) issues, related to preserving cached data, after the daily live requests limits have been reached
 
 -BUG FIX: Fixed edge-case in API data caching, when switching to a different server for THE SAME EXACT RPC DATA (for blockchain node RPCs, etc)

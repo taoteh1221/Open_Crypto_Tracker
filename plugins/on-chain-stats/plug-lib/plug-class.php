@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
  
  
@@ -91,8 +91,8 @@ var $array1 = array();
      
      $results = array();     
      
-     // 5 MINUTE CACHE, OF 5 SAMPLES
-     $network_performance = $ct['api']->blockchain_rpc('solana', 'getRecentPerformanceSamples', array(5), 5); 
+     // 5 MINUTE CACHE, OF 3 SAMPLES
+     $network_performance = $ct['api']->blockchain_rpc('solana', 'getRecentPerformanceSamples', array(3), 5); 
      
      // DEBUGGING
 	//$debug_data = json_encode($network_performance, JSON_PRETTY_PRINT);

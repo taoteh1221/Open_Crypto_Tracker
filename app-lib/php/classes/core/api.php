@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -1690,8 +1690,22 @@ var $exchange_apis = array(
    
    //var_dump($url);
    
+       
+       // IF it's an alphavantage API request, AND it's minimum cache time
+       // is higher than our global exchange search cache time, use that instead
+       if (
+       $exchange_key == 'alphavantage_stock'
+       && $ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'] > $ct['conf']['power']['exchange_search_cache_time']
+       ) {
+       $cache_time = $ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'];
+       }
+       else {
+       $cache_time = $ct['conf']['power']['exchange_search_cache_time'];
+       }
+       
+   
    // API response data
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['exchange_search_cache_time']);
+   $response = @$ct['cache']->ext_data('url', $url, $cache_time);
    
    gc_collect_cycles(); // Clean memory cache
    

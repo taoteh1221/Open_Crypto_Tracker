@@ -131,23 +131,11 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Update copyright year.
-
-
 Upgrade to bootstrap v5.3.8: 
 https://getbootstrap.com/docs/5.3/getting-started/download/
 
 
-Increase the default in 'light_chart_first_build_hard_limit' to 25, so a decent VPS system with 1 core can still rebuild them in a timely manner, EVEN IF CHARTS ARE ONLY UPDATED DAILY. Also have that setting reset for v6.01.07 during upgrades of existing installations. THIS SEEMS TO BE WHY BITCOIN STATS LIGHT CHARTS AREN'T BUILDING ON 'FIRST-RUN' ON MY VPS.
-
-
 Create a function is_valid_plugin($plugin_id), and add in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case). Additionally, consider adding 'plugin_status' to be ignored during cached config upgrades, like we do for assets and price alerts / charts.
-
-
-Look into reducing by 250-500 milliseconds BOTH the compact submenu listener AND animated vertical adjustment.
-
-
-Add 'coming soon' fieldset, at bottom of each stats modal, showing what charts will be added in the NEXT release.
 
 
 Add a 'selected_networks' config, that's comma-delimited, and requires at least one valid network be selected. Add "coming soon" for Ethereum / Monad.
@@ -156,13 +144,11 @@ Add a 'selected_networks' config, that's comma-delimited, and requires at least 
 Verticle scroll position is wonky in the plugins area, IF last-visted beforehand was a user area subsection.
 
 
-Add FSOL and MON.
-
-
-Try and squeeze in color maps for the types of Solana nodes into the map footer.
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+So far, I've found very little data on how to parse out any data from the "services" value in Bitcoin "getnodeaddresses" RPC response. I have opened an issue here, requesting more documentation:
+https://github.com/bitcoin/bitcoin/issues/33930
 
 
 Build a SECONDARY cache for RAW geolocation results from ip-api.com (no node info included for any crypto network), that only refeshes after 90 days. Key each array item with the ip address (like we do for node data in onchain stats), so we can easily look for entries. Then we can check this secondary cache FIRST, before queueing into a query for an ip-api.com API batch data request.

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -393,13 +393,13 @@ $ct['admin_render_settings']['light_chart_link_font_offset']['is_notes'] = 'GUES
      
 $ct['admin_render_settings']['light_chart_first_build_hard_limit']['is_range'] = true;
 
-$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_min'] = 5;
+$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_min'] = 25;
 
-$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_max'] = 30;
+$ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_max'] = 50;
 
 $ct['admin_render_settings']['light_chart_first_build_hard_limit']['range_step'] = 5;
 
-$ct['admin_render_settings']['light_chart_first_build_hard_limit']['is_notes'] = 'Maximum number of light chart NEW BUILDS allowed during background tasks (PER CPU CORE)<br />(LOW POWER DEVICES should NEVER exceed 15 new builds per CPU core)';
+$ct['admin_render_settings']['light_chart_first_build_hard_limit']['is_notes'] = 'Maximum number of light chart NEW BUILDS allowed during background tasks (PER CPU CORE)<br /><b class="red">(LOW POWER DEVICES should NEVER exceed 25 new builds per CPU core)</b>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

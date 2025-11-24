@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -36,6 +36,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
 
 ?>
 
+  
 <fieldset class='subsection_fieldset'>
 	<legend class='subsection_legend'> <b>Bitcoin Network Statistics</b> </legend>
 		    
@@ -106,6 +107,9 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
 	
 	<br clear='all' />
 	
+
+<p style='font-weight: bold;' class='bitcoin'>Difficulty, mempool, and hashrate charts coming soon&trade;</p>
+
 	
     <?php    
     if ( isset($bitcoin_mining['blocks']) && is_numeric($bitcoin_mining['blocks']) ) {
@@ -283,7 +287,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
     
     " /> 
     
-    &nbsp; <img class="tooltip_style_control tps_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    &nbsp; <img class="tooltip_style_control tps_charts" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
     
     </div>
@@ -638,6 +642,7 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
     <option value='city'> City </option>
     <option value='time_zone'> Time Zone </option>
     <option value='isp'> ISP </option>
+    <option value='node_services_running'> Node Services Running </option>
     </select>  &nbsp;&nbsp; 
     
     <input type='text' size='20' name='bitcoin_results_filter' id='bitcoin_results_filter' placeholder="(optional)" />
@@ -677,9 +682,8 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
              );
 		
     </script>
-  
-
-
+    
+    
   <p> &nbsp; </p>
 	
 	</div>

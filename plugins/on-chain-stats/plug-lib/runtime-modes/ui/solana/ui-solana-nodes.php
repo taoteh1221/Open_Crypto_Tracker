@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -61,6 +61,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
      }
      
 ?>
+
 
 <fieldset class='subsection_fieldset'>
 	<legend class='subsection_legend'> <b>Solana Network Statistics</b> </legend>
@@ -128,7 +129,9 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
 	<br clear='all' />
 	
 	<br clear='all' />
-	
+  
+<p style='font-weight: bold;' class='bitcoin'>Node version pie chart / daily transactions chart coming soon&trade;</p>
+
 	
 	<h4 class='yellow'>Solana Epoch Information (cached for 5 minutes):</h4>
 	
@@ -311,7 +314,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
     
     " /> 
     
-    &nbsp; <img class="tooltip_style_control tps_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    &nbsp; <img class="tooltip_style_control tps_charts" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
     
     </div>
@@ -609,6 +612,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     
     <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation:</h4>
     
+
     <p class='bitcoin'>Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.</p>
     
     
@@ -697,6 +701,15 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     
     &nbsp; <img class="tooltip_style_control geolocation_filter" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
+
+     <div class="color-map-container">
+         <div class="color-square bg-blue"></div> <span class='blue'>RPC Nodes</span> 
+         <div class="color-square bg-orange"></div> <span class='bitcoin'>Validator Nodes</span> 
+         <div class="color-square bg-red"></div> <span class='red'>Validators With No Epoch Votes</span> 
+         <!-- Add more squares as needed for the map -->
+     </div>
+
+
     <div id="solana_map" class="secondary_chart_wrapper geolocation_map leaflet_zindex_fix" style="width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important;"></div>
 
 	
@@ -713,8 +726,6 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
              );
 		
     </script>
-  
-
 	
   <p> &nbsp; </p>
 	

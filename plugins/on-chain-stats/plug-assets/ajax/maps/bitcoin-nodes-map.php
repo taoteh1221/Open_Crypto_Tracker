@@ -61,6 +61,16 @@ foreach ( $bitcoin_nodes_geolocation as $unused => &$node_data ) {
               }
               
           }
+          elseif ( $_GET['results_filter_type'] == 'node_services_running' ) {
+          
+              if ( preg_match("/" . preg_quote( trim($_GET['results_filter']) , '/') . "/i", $node_data['networkNodeInfo']['services']) ) {
+              // Do nothing, all set
+              }
+              else {
+              continue; // Skip this loop
+              }
+              
+          }
       
       
       }
@@ -89,6 +99,8 @@ $results[] = array(
                    '<div class="map_point_data"> <b>Longitude:</b> ' . $node_data['lon'] . '</div>' .
                    
                    '<div class="map_point_data"> <b>P2P Network Address:</b> ' . $p2p_address . '</div>' .
+                   
+                   '<div class="map_point_data"> <b>Node Services Running:</b> ' . $node_data['networkNodeInfo']['services'] . '</div>' .
                    
                    '<div class="map_point_data"> <b>Last Seen Online:</b> ' . date("Y-m-d H:i:s", $node_data['networkNodeInfo']['time']) . ' (UTC)</div>',
                    

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
  
 header('Content-type: text/html; charset=' . $ct['dev']['charset_default']);
@@ -21,7 +21,7 @@ header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 <html lang="en">
 
 <!-- /*
- * Copyright 2014-2025 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
+ * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */ -->
 
 <?=( isset($ct['system_info']['portfolio_cookies']) ? '<!-- CURRENT COOKIES SIZE TOTAL: ' . $ct['var']->num_pretty( ($ct['system_info']['portfolio_cookies'] / 1000) , 2) . ' kilobytes -->' : '' )?>	
@@ -102,6 +102,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 		<div class='align_left' id='content_wrapper'>
 				
 				<?php
+				 
 
                      // If we are queued to run a UI alert that an upgrade is available, IF ADMIN LOGGED IN
                      // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
@@ -116,7 +117,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
                      }
                      
                 
-			      // show the upgrade notice one time until the next reminder period
+			      // Show the upgrade notice one time until the next reminder period
 				 if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' ) {
 				    
                      // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
@@ -201,5 +202,34 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 			
 
 <?php
+				 
+	// If INITIAL CRON-RELATED cache setup has just started FOR NEW INSTALLS, BUT has NOT completed yet,
+	// show a UI notice that background tasks take awhile, for the first few runs on new installs
+	if (
+	file_exists($ct['base_dir'] . '/cache/events/first_run/cron-first-run.dat')
+	&& !file_exists($ct['base_dir'] . '/cache/events/first_run/charts-first-run.dat')
+	) {
+	?>
+               				 
+       <div style='margin-left: 3em !important;' class='bitcoin bitcoin_dotted'>
+               	
+               	
+             <p>Initial data caching is being setup. This may take awhile during the first few <?=( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 ? 'emulated ' : '' )?><?=( $ct['ms_windows_server'] ? 'scheduled task' : 'cron job' )?> instances. This notice will disappear, when the data caching setup has been completed.</p> 
+
+             
+             <?php
+             if ( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 ) {
+             ?>
+             <p>PRO TIP: ALWAYS stay in whatever area you're in (Admin / User / Plugin), when background tasks show as running near the top of this interface.</p>
+             <?php
+             }
+             ?>
+
+               	
+       </div>
+
+	<?php
+	}
+				 
 }
 ?>
