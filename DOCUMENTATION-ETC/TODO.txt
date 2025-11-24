@@ -147,12 +147,7 @@ Verticle scroll position is wonky in the plugins area, IF last-visted beforehand
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-===========================================================
-So far, I've found very little data on how to parse out any data from the "services" value in Bitcoin "getnodeaddresses" RPC response. I have opened an issue here, requesting more documentation:
-https://github.com/bitcoin/bitcoin/issues/33930
-
-Got a response pretty quick there, and it SEEMS to only be P2P-related data. Will probably have to research the RPC specs deeper, and see if it's possible to get details on mining, ln network, etc, at some other endpoint.
-===========================================================
+Now that nearly all the bundled plugins are built out well, populate their documentation pages (that show in the admin interfaces).
 
 
 Build a SECONDARY cache for RAW geolocation results from ip-api.com (no node info included for any crypto network), that only refeshes after 90 days. Key each array item with the ip address (like we do for node data in onchain stats), so we can easily look for entries. Then we can check this secondary cache FIRST, before queueing into a query for an ip-api.com API batch data request.
