@@ -131,11 +131,23 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+All we need to do to cleanly 'fix' 'plugin_status' during config upgrade scans, is treat it the same as assets, news feeds, and price charts / alerts, by marking it in developer-config.php as personalized data that users don't want 'upgraded' (as that's exactly what it is). We can safely hold off building our code-consolidating plugin check function for another release.
+
+
+Make sure our light chart "missing time intervals check" added in the last release, isn't buggy with ARCHIVAL chart inputs, that only gather data once or twice daily (like our on chain stats node count charts).
+
+
+In the address-balance-tracker plugin, switch to using our new bitcoin RCP function to get balance changes, in the function: btc_addr_bal()
+
+
+For price charts / alerts config validation, IF it's alphavantage as the exchange, BUT 'stock' is NOT appended to the ticker, alert the user about the input error.
+
+
+Instead of having load_cached_config() RESET TO DEFAULT CONFIG IF the cached config is CORRUPT, rewrite it so we have any 'restore_conf' file path ALREADY LOADED INTO A VAR, and IF set AND we test it and it's NOT corrupt, load that as the config INSTEAD, AND INCLUDE AN ERROR LOG ABOUT WHAT HAPPENED. IF instead, 'restore_conf' IS ALSO CORRUPT, THEN GO AHEAD AND RESET TO THE DEFAULT CONFIG. Right now, we loop through the list of secure files, so it's NOT ASSURED WE LOADED THE RESTORE CONFIG PATH FIRST. This needs to load seperately / earlier, so it's ready to use if needed.
+
+
 Upgrade to bootstrap v5.3.8: 
 https://getbootstrap.com/docs/5.3/getting-started/download/
-
-
-Create a function is_valid_plugin($plugin_id), and add in the cached config upgrade system (make sure the cached config upgrade routine leaves alone "plugin_status" == off plugins that exist in the plugins directory, that were added by the plugins directory scanner [NOT hard-coded in the DEFAULT config]. Right now, that does NOT seem to be the case). Additionally, consider adding 'plugin_status' to be ignored during cached config upgrades, like we do for assets and price alerts / charts.
 
 
 Add a 'selected_networks' config, that's comma-delimited, and requires at least one valid network be selected. Add "coming soon" for Ethereum / Monad.
@@ -166,6 +178,11 @@ Do a pie chart for the Solana Version data.
 
 
 ==========================================
+We can filter what TYPE OF P2P NODE is being used, and add the counts to the node count chart. We just have to look into parsing the 'services' bitfield (uint64_t) number in the RCP data. We are limited ONLY TO P2P INFO:
+https://github.com/bitcoin/bitcoin/issues/33930
+https://en.bitcoin.it/wiki/Protocol_documentation#version
+https://bitcoin.stackexchange.com/search?q=service+bits
+
 Data in getblockstats, that we may want for charts:
 
 {"jsonrpc":"2.0",
@@ -213,7 +230,7 @@ Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especi
 Write a maintenance routine (run every 72 hours, in case user restores the plugin soon after deactivating it), that scans ALL plugin cache standardized ROOT directories, and deletes any subdirectory NOT matching any ACTIVATED plugins.
 
 
-Add is_valid_plugin() to plugins-init.php, in $ct['gen']->refresh_plugins_list(). 
+Create a function is_valid_plugin($plugin_id), to consolidate all plugin checking code into one function call. Add to plugins-init.php, and in $ct['gen']->refresh_plugins_list().
 
 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
