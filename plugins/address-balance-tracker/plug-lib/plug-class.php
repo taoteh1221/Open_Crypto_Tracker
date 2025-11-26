@@ -96,7 +96,9 @@ var $array1 = array();
 	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
 	$calc = ($plug['conf'][$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
 	$refresh_cache = ( $calc >= 0 ? $calc : 0 );
-		
+	
+	// Bitcoin RPC does NOT have a way to get arbitrary address balances,
+	// so we need to use a centralized service
 	$url = 'https://blockchain.info/rawaddr/' . $address;
 			 
 	$response = @$ct['cache']->ext_data('url', $url, $refresh_cache);
