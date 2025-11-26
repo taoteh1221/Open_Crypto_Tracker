@@ -217,6 +217,8 @@ var cookie_path;
 // With defaults
 	
 var gen_csrf_sec_token = Base64.encode('none');
+
+var ui_scroll_area_changed = false;
 	
 var background_tasks_recheck = false;
 
@@ -237,6 +239,8 @@ var running_setup_wizard = false;
 var is_admin = false;
 
 var is_plugin = false;
+
+var is_plugin_nav_menu = false;
 
 var admin_logged_in = false;
 

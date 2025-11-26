@@ -778,7 +778,8 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// Monad
-					'mon||okex_perps||usdt||both',
+					'mon||coinbase||usd||both',
+					'mon-2||jupiter_ag||sol||chart',
 					
 					
 					// USDC
@@ -2281,11 +2282,57 @@ $ct['conf']['assets'] = array(
                         'name' => 'Monad',
                         'mcap_slug' => 'monad',
                         'pair' => array(
+                        
+                        
+                                    "btc" => array(
+                                        "coingecko_btc" => "monad",
+                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/zBTCug3er3tLyffELcvDNrKkCymbPWysGcWihESYfLg",
+                                        "upbit" => "BTC-MON",
+                                    ),
+                                    
+                                    
+                                    "eth" => array(
+                                        "coingecko_eth" => "monad",
+                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs",
+                                    ),
+                                    
+                                    
+                                    "eur" => array(
+                                        "kraken" => "MONEUR",
+                                    ),
+                                    
+                                    
+                                    "krw" => array(
+                                        "upbit" => "KRW-MON",
+                                    ),
+                                    
+                                    
+                                    "sol" => array(
+                                        "coingecko_sol" => "monad",
+                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/So11111111111111111111111111111111111111112",
+                                    ),
+                                    
+                                    
+                                    "usd" => array(
+                                        "coinbase" => "MON-USD",
+                                        "crypto.com" => "MON_USD",
+                                        "kraken" => "MONUSD",
+                                    ),
+                                    
+                                    
+                                    "usdc" => array(
+                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                                    ),
 
                         
                                     'usdt' => array(
-                                          'gateio_usdt_futures' => 'MON_USDT',
-                                          'okex_perps' => 'MON-USDT-SWAP',
+                                        "bitmart" => "MON_USDT",
+                                        "coinex" => "MONUSDT",
+                                        "gateio" => "MON_USDT",
+                                        "gateio_usdt_futures" => "MON_USDT",
+                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+                                        "kucoin" => "MON-USDT",
+                                        "okex_perps" => "MON-USDT-SWAP",
                                                     ),
 
                                                     

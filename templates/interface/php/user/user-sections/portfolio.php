@@ -123,17 +123,17 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
          </th>
     </tr>
     <tr>
-<th class='border_lb num-sort'>Rank</th>
-<th class='border_lb blue al_right'><span>Asset Name</span></th>
-<th class='border_b num-sort'>Unit Value</th>
-<th class='border_lb num-sort al_right'>Trade Value</th>
-<th class='border_b blue'>Market</th>
-<th class='border_b blue'>Exchange</th>
-<th class='border_b num-sort'>24hr Volume</th>
-<th class='border_lb blue num-sort al_right'>Holdings</th>
-<th class='border_b'>Ticker</th>
-<th class='border_b blue num-sort'>Holdings Value</th>
-<th class='border_rb blue num-sort'>(in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>)</th>
+<th class='border_lb num-sort'> &nbsp; Rank &nbsp; </th>
+<th class='border_lb blue al_right'><span> &nbsp;&nbsp; Asset Name</span></th>
+<th class='border_b num-sort'> &nbsp; Unit Value &nbsp; </th>
+<th class='border_lb num-sort al_right'> &nbsp; Trade Value &nbsp; </th>
+<th class='border_b blue'> &nbsp; Market &nbsp; </th>
+<th class='border_b blue'> &nbsp; Exchange &nbsp; </th>
+<th class='border_b num-sort'> &nbsp; 24hr Volume &nbsp; </th>
+<th class='border_lb blue num-sort al_right'> &nbsp; Holdings &nbsp; </th>
+<th class='border_b'> &nbsp; Ticker &nbsp; </th>
+<th class='border_b blue num-sort'> &nbsp; Holdings Value &nbsp; </th>
+<th class='border_rb blue num-sort'> &nbsp; (in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) &nbsp; </th>
     </tr>
   </thead>
  <tbody>

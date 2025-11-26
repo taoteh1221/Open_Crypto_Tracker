@@ -79,26 +79,13 @@ responsive_menu_override();
 	
 // For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
 // nav item is active and it's associated content, and display it / mark nav links as active in interface
-    
-    if ( is_plugin ) {
-    nav_menu('.plugin-nav');
-    }
-    
 nav_menu('.admin-nav');
 nav_menu('.user-nav');
-
-
-     /////////////////////////////////////////////////////////////////////////////////////////////////////
-     
-
-     // Monitor admin iframes for load / unload events
-     // MUST BE SET VERY EARLY, TO USE FURTHER BELOW!!!
-     if ( is_iframe ) {
-     admin_iframe_dom = window.parent.document.querySelectorAll('.admin_iframe');
-     }
-     else {
-     admin_iframe_dom = document.querySelectorAll('.admin_iframe');
-     }
+    
+    
+    if ( is_plugin_nav_menu ) {
+    nav_menu('.plugin-nav');
+    }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,6 +104,26 @@ nav_menu('.user-nav');
 	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
      $("#notes").val( localStorage.getItem(notes_storage) );
 	}
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// On resize of browser viewport
+	addEventListener("resize", (event) => {
+     // If overriding any responsive menu CSS is needed
+     responsive_menu_override();
+	});
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+     // Emulate a cron job every X minutes...
+	if ( emulated_cron_enabled && !is_iframe ) {
+     cron_already_ran = false;
+     emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
+	}
      
 
      /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,24 +137,66 @@ nav_menu('.user-nav');
      }
 
 
+     /////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+
+     // Monitor admin iframes for load / unload events
+     // MUST BE SET VERY EARLY, TO USE FURTHER BELOW!!!
+     if ( is_iframe ) {
+     admin_iframe_dom = window.parent.document.querySelectorAll('.admin_iframe');
+     }
+     else {
+     admin_iframe_dom = document.querySelectorAll('.admin_iframe');
+     }
+                     
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+     // INITIAL vertical scroll should always start at top for UX
+     $('html, body').animate({
+     scrollTop: 0
+     }, 'slow');
+	
+     // Load our vertical scroll position (if checks pass within the function's logic)
+     // (WE ALREADY LOAD load_scroll_position() in background_tasks_check() FOR NEWS / CHARTS PAGES [ONLY AFTER THEY ARE FULLY LOADED])
+     if (
+     $(location).attr('hash') != ''
+     && $(location).attr('hash') != '#news'
+     && $(location).attr('hash') != '#charts'
+     ) {
+     load_scroll_position(); // Run AFTER showing content
+     }
+
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-     // Emulate a cron job every X minutes...
-	if ( emulated_cron_enabled && !is_iframe ) {
-     cron_already_ran = false;
-     emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
-	}
+    // open or close alerts
+    $('.toggle_alerts').on('click', function () {
+             $('#alert_bell_area').toggleClass('hidden');
+    });
 	
 	
+    $('#alert_bell_area').on('click', function () {
+             $('#alert_bell_area').toggleClass('hidden');
+    });
+	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
-	// On resize of browser viewport
-	addEventListener("resize", (event) => {
-     // If overriding any responsive menu CSS is needed
-     responsive_menu_override();
-	});
+     
+     // Dynamically style modals AFTER THEY OPEN (AFTER the dynamically-created elements are created)
+     $('.modal_style_control').on({
+        "click":function(e){
+             
+             // Wait 0.1 seconds
+             setTimeout(function(){
+             interface_font_percent( (set_font_size * 100), false, '.modaal-content-container', 'reg' );
+     	   }, 100);
+              
+         }
+     });
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,51 +216,6 @@ nav_menu('.user-nav');
          ct_ajax_load('type=access_stats&mode=ip', '#access_stats_data', 'PER-IP access stats', false, true, true); // Secured / tablesorter
          }
      });
-                     
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
-     // INITIAL vertical scroll should always start at top for UX
-     $('html, body').animate({
-     scrollTop: 0
-     }, 'slow');
-	
-     // Load our vertical scroll position (if checks pass within the function's logic)
-     // (WE ALREADY LOAD set_scroll_position() in background_tasks_check() FOR NEWS / CHARTS PAGES [ONLY AFTER THEY ARE FULLY LOADED])
-     if ( !is_admin && $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
-     set_scroll_position(); // Run AFTER showing content
-     }
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-     
-     // Dynamically style modals AFTER THEY OPEN (AFTER the dynamically-created elements are created)
-     $('.modal_style_control').on({
-        "click":function(e){
-             
-             // Wait 0.1 seconds
-             setTimeout(function(){
-             interface_font_percent( (set_font_size * 100), false, '.modaal-content-container', 'reg' );
-     	   }, 100);
-              
-         }
-     });
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // open or close alerts
-    $('.toggle_alerts').on('click', function () {
-             $('#alert_bell_area').toggleClass('hidden');
-    });
-	
-	
-    $('#alert_bell_area').on('click', function () {
-             $('#alert_bell_area').toggleClass('hidden');
-    });
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -312,6 +316,30 @@ nav_menu('.user-nav');
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+     
+     // Show / hide password
+     $('.toggle-show-password').on({
+         "click":function(e){
+
+         $(this).toggleClass("gg-eye");
+
+         $(this).toggleClass("gg-eye-alt");
+       
+         var input_elm = $("input[data-name=" + $(this).attr('data-name') + "]");
+       
+             if ( input_elm.attr("type") === "password" ) {
+             input_elm.attr("type", "text");
+             }
+             else if ( input_elm.attr("type") === "text" ) {
+             input_elm.attr("type", "password");
+             }
+              
+          }
+     });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	// Emulate sticky-positioned elements in #secondary_wrapper,
 	// IF we set overflow: auto; CSS to automate controlling scroll positioning
@@ -336,30 +364,6 @@ nav_menu('.user-nav');
 
      
      }
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-     
-     // Show / hide password
-     $('.toggle-show-password').on({
-         "click":function(e){
-
-         $(this).toggleClass("gg-eye");
-
-         $(this).toggleClass("gg-eye-alt");
-       
-         var input_elm = $("input[data-name=" + $(this).attr('data-name') + "]");
-       
-             if ( input_elm.attr("type") === "password" ) {
-             input_elm.attr("type", "text");
-             }
-             else if ( input_elm.attr("type") === "text" ) {
-             input_elm.attr("type", "password");
-             }
-              
-          }
-     });
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -433,6 +437,96 @@ nav_menu('.user-nav');
      $(".show_report_issues").css({ "border-radius": '1em'});
      $(".show_report_issues .nav-image").css({ "border-radius": '0.3em'});
      $(".show_report_issues .nav-image").css({ "background-color": 'red'});
+     }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Before page unload
+    window.addEventListener('beforeunload', function (event) {
+        
+    // (suppress the 'loading' subsection for iframes from showing, when leaving the admin area)
+    // (worse case is cancelled, and 'loading...' doesn't show for admin iframes again until parent page reload)
+    $("div#admin_tab_content div div.iframe_loading_placeholder").html('');
+    $("div#admin_tab_content div div.iframe_loading_placeholder").removeClass("loading");
+    
+    // Scroll position for secondary user area pages
+    store_scroll_position(); 
+        
+        // If background tasks are still running, force a browser confirmation to refresh / leave / close
+        if ( background_tasks_status == 'wait' ) {
+            
+            if ( form_submit_queued == true ) {
+            form_submit_queued = false;
+            }
+                 
+        app_reloading_check();
+        
+        event.preventDefault();
+        
+        console.log('Default action stopped for: beforeunload');
+        
+        event.returnValue = '';
+        
+        return false;
+        
+        }
+        else {
+        app_reload_notice('Reloading...');
+        }
+        
+    }); 
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Admin hashed nonce inserted in admin iframe forms
+    if ( is_iframe && is_admin && !is_login_form ) {
+    
+     
+         if ( Base64.decode(admin_area_sec_level) == 'medium' ) {
+     
+         var forms_array = document.getElementsByTagName("form");
+         
+         
+             for (var form_count = 0; form_count < forms_array.length; form_count++) {
+                     
+             has_medium_security_nonce = false;
+                 
+             inputs_array = forms_array[form_count].getElementsByTagName("input");
+                 
+                 
+                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
+                     
+                     if ( inputs_array[input_count].name == 'medium_security_nonce' ) {
+                     has_medium_security_nonce = true;
+                     }
+                 
+                 }
+                 
+                 
+                 if ( has_medium_security_nonce == false ) {
+                     
+                 new_input = document.createElement("input");
+             
+                 new_input.setAttribute("type", "hidden");
+                 
+                 new_input.setAttribute("name", "medium_security_nonce");
+                 
+                 new_input.setAttribute("value", Base64.decode(medium_sec_token) );
+                 
+                 forms_array[form_count].appendChild(new_input);
+                 
+                 }
+                 
+             
+             }
+             
+         
+         }
+         
      }
     
 
@@ -542,7 +636,218 @@ nav_menu('.user-nav');
                   
               
          }
+         
+         
      });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+    // Admin iframes LOADING
+    admin_iframe_dom.forEach(function(iframe) {
+         
+    
+          // Store an array of all admin iframe IDs, for use in footer.php
+          if ( typeof iframe.id != 'undefined' ) {
+
+          all_admin_iframe_ids.push(iframe.id);
+          
+               if ( is_iframe ) {
+               var iframe_desc = '(scanned from iframe)';
+               }
+               else {
+               var iframe_desc = '(scanned from parent)';
+               }
+
+          //console.log('admin iframe ID '+iframe_desc+' = ' + iframe.id);
+          
+          }
+          
+       
+          // When admin iframe loads / reloads
+          iframe.addEventListener('load', function() {
+          
+          // Reset selected dropdown navs being selected in 3-deep nav
+          $(".custom-3deep a.dropdown-item").removeClass("secondary-select");
+          
+          // Reset admin 'save settings' tracking
+          unsaved_admin_config = false;
+
+          $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
+          $('#sidebar .admin_settings_save').addClass('blue');
+          $('#sidebar .admin_settings_save').removeClass('red_bright');
+          
+          // Always scroll to top left on load / reload for UX
+          iframe.contentWindow.scrollTo(0,0);
+    
+          iframe_size_adjust(iframe);
+          $("#"+iframe.id+"_loading").fadeOut(250);
+          $("#"+iframe.id).fadeIn(250);
+          
+          
+              // Before admin iframe unloads
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('beforeunload', function() {
+              $("#"+iframe.id+"_loading").fadeIn(250);
+              $("#"+iframe.id).fadeOut(250);
+              scroll(0,0); // Force scrolling to top of iframe (so end-user always sees notices above iframe [iframe loading / background tasks, etc])
+              });
+
+          
+              // Before admin iframe submits
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('submit', function() {
+                   // logic here if needed
+              });
+
+          
+          });
+      
+    });
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// Mark correct nav wrapper as active in interface
+	if ( is_admin && !is_iframe ) {
+
+	var nav_selector = $('.admin-nav-wrapper');
+
+	var nav_unselector = $('.user-nav-wrapper');
+	
+	    if ( $(".plugin-nav-wrapper").length > 0 ) {
+	    var nav_unselector2 = $('.plugin-nav-wrapper');
+	    }
+	
+     $('#adminSubmenu').toggleClass('show');
+
+	}
+	else if ( is_plugin && is_plugin_nav_menu ) {
+
+	var nav_selector = $('.plugin-nav-wrapper');
+	     
+	var nav_unselector = $('.user-nav-wrapper');
+	
+	var nav_unselector2 = $('.admin-nav-wrapper');
+	
+     $('#pluginSubmenu').toggleClass('show');
+
+	}
+	else if ( !is_iframe ) {
+	     
+	var nav_selector = $('.user-nav-wrapper');
+	
+	var nav_unselector = $('.admin-nav-wrapper');
+	
+	    if ( $(".plugin-nav-wrapper").length > 0 ) {
+	    var nav_unselector2 = $('.plugin-nav-wrapper');
+	    }
+	
+     $('#userSubmenu').toggleClass('show');
+
+	}
+	
+	
+	if ( !is_iframe ) {
+	     
+     	nav_selector.each(function(){
+     	$(this).addClass('active');
+     	});
+     	
+     	
+     	nav_unselector.each(function(){
+     	$(this).removeClass('active');
+     	});
+     	
+     	
+     	if ( typeof nav_unselector2 != 'undefined' ) {
+     	
+          	nav_unselector2.each(function(){
+          	$(this).removeClass('active');
+          	});
+     	
+     	}
+     	
+	
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // 2FA field / ID info (for UX) inserted in admin iframe forms
+    // (so a value is propigated for each form, from the 2FA input field)
+    if ( is_iframe && is_admin && !is_login_form ) {
+         
+     
+         if ( Base64.decode(admin_area_2fa) != 'off' || $(window.parent.document.location).attr('hash') == '#admin_security' ) {
+     
+         var forms_array = document.getElementsByTagName("form");
+         
+         
+             for (var form_count = 0; form_count < forms_array.length; form_count++) {
+                     
+             has_2fa_input = false;
+                 
+             inputs_array = forms_array[form_count].getElementsByTagName("input");
+                 
+                 
+                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
+                     
+                     if ( inputs_array[input_count].name == '2fa_code' ) {
+                     has_2fa_input = true;
+                     }
+                 
+                 }
+                 
+                 
+                 if ( has_2fa_input == false ) {
+                     
+                 new_input = document.createElement("input");
+             
+                 new_input.setAttribute("type", "hidden");
+                 
+                 new_input.setAttribute("name", "2fa_code");
+                 
+                 new_input.setAttribute("value", "");
+                 
+                 new_input.setAttribute("class","2fa_code_target");
+                 
+                 forms_array[form_count].appendChild(new_input);
+                 
+                 //////////////////////////////////////////////
+                     
+                 new_input = document.createElement("input");
+             
+                 new_input.setAttribute("type", "hidden");
+                 
+                 new_input.setAttribute("name", "2fa_code_id");
+                 
+                 new_input.setAttribute("value", "2fa_code_0"); // Default (still changes if user input is from another ID)
+                 
+                 new_input.setAttribute("class","2fa_code_id_target");
+                 
+                 forms_array[form_count].appendChild(new_input);
+                 
+                 }
+                 
+             
+             }
+         
+     
+             $( "input.2fa_code_input" ).on( "input", function() {
+             $('input:text[name=2fa_code]').val( $(this).val() ); // Automatically copy it to any other 2FA fields on the page
+             $('input.2fa_code_target').val( $(this).val() );
+             $('input.2fa_code_id_target').val( $(this).attr('id') );
+             });
+              
+         
+         }
+         
+
+     }
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -652,305 +957,6 @@ nav_menu('.user-nav');
           }
 
      
-     }
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
-    // Admin iframes LOADING
-    admin_iframe_dom.forEach(function(iframe) {
-         
-    
-          // Store an array of all admin iframe IDs, for use in footer.php
-          if ( typeof iframe.id != 'undefined' ) {
-
-          all_admin_iframe_ids.push(iframe.id);
-          
-               if ( is_iframe ) {
-               var iframe_desc = '(scanned from iframe)';
-               }
-               else {
-               var iframe_desc = '(scanned from parent)';
-               }
-
-          //console.log('admin iframe ID '+iframe_desc+' = ' + iframe.id);
-          
-          }
-          
-       
-          // When admin iframe loads / reloads
-          iframe.addEventListener('load', function() {
-          
-          // Reset selected dropdown navs being selected in 3-deep nav
-          $(".custom-3deep a.dropdown-item").removeClass("secondary-select");
-          
-          // Reset admin 'save settings' tracking
-          unsaved_admin_config = false;
-
-          $('#collapsed_sidebar .admin_settings_save img').attr("src","templates/interface/media/images/auto-preloaded/icons8-save-100-" + theme_selected + ".png");
-          $('#sidebar .admin_settings_save').addClass('blue');
-          $('#sidebar .admin_settings_save').removeClass('red_bright');
-          
-          // Always scroll to top left on load / reload for UX
-          iframe.contentWindow.scrollTo(0,0);
-    
-          iframe_size_adjust(iframe);
-          $("#"+iframe.id+"_loading").fadeOut(250);
-          $("#"+iframe.id).fadeIn(250);
-          
-          
-              // Before admin iframe unloads
-              // (MUST BE NESTED IN 'load', AND USE contentWindow)
-              iframe.contentWindow.addEventListener('beforeunload', function() {
-              $("#"+iframe.id+"_loading").fadeIn(250);
-              $("#"+iframe.id).fadeOut(250);
-              scroll(0,0); // Force scrolling to top of iframe (so end-user always sees notices above iframe [iframe loading / background tasks, etc])
-              });
-
-          
-              // Before admin iframe submits
-              // (MUST BE NESTED IN 'load', AND USE contentWindow)
-              iframe.contentWindow.addEventListener('submit', function() {
-                   // logic here if needed
-              });
-
-          
-          });
-      
-    });
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // Before page unload
-    window.addEventListener('beforeunload', function (event) {
-        
-    // (suppress the 'loading' subsection for iframes from showing, when leaving the admin area)
-    // (worse case is cancelled, and 'loading...' doesn't show for admin iframes again until parent page reload)
-    $("div#admin_tab_content div div.iframe_loading_placeholder").html('');
-    $("div#admin_tab_content div div.iframe_loading_placeholder").removeClass("loading");
-    
-    // Scroll position for secondary user area pages
-    store_scroll_position(); 
-        
-        // If background tasks are still running, force a browser confirmation to refresh / leave / close
-        if ( background_tasks_status == 'wait' ) {
-            
-            if ( form_submit_queued == true ) {
-            form_submit_queued = false;
-            }
-                 
-        app_reloading_check();
-        
-        event.preventDefault();
-        
-        console.log('Default action stopped for: beforeunload');
-        
-        event.returnValue = '';
-        
-        return false;
-        
-        }
-        else {
-        app_reload_notice('Reloading...');
-        }
-        
-    }); 
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	// Mark correct nav wrapper as active in interface
-	if ( is_admin && !is_iframe ) {
-
-	var nav_selector = $('.admin-nav-wrapper');
-
-	var nav_unselector = $('.user-nav-wrapper');
-	
-	    if ( $(".plugin-nav-wrapper").length > 0 ) {
-	    var nav_unselector2 = $('.plugin-nav-wrapper');
-	    }
-	
-     $('#adminSubmenu').toggleClass('show');
-
-	}
-	else if ( is_plugin ) {
-
-	var nav_selector = $('.plugin-nav-wrapper');
-	     
-	var nav_unselector = $('.user-nav-wrapper');
-	
-	var nav_unselector2 = $('.admin-nav-wrapper');
-	
-     $('#pluginSubmenu').toggleClass('show');
-
-	}
-	else if ( !is_iframe ) {
-	     
-	var nav_selector = $('.user-nav-wrapper');
-	
-	var nav_unselector = $('.admin-nav-wrapper');
-	
-	    if ( $(".plugin-nav-wrapper").length > 0 ) {
-	    var nav_unselector2 = $('.plugin-nav-wrapper');
-	    }
-	
-     $('#userSubmenu').toggleClass('show');
-
-	}
-	
-	
-	if ( !is_iframe ) {
-	     
-     	nav_selector.each(function(){
-     	$(this).addClass('active');
-     	});
-     	
-     	
-     	nav_unselector.each(function(){
-     	$(this).removeClass('active');
-     	});
-     	
-     	
-     	if ( typeof nav_unselector2 != 'undefined' ) {
-     	
-          	nav_unselector2.each(function(){
-          	$(this).removeClass('active');
-          	});
-     	
-     	}
-     	
-	
-	}
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // Admin hashed nonce inserted in admin iframe forms
-    if ( is_iframe && is_admin && !is_login_form ) {
-    
-     
-         if ( Base64.decode(admin_area_sec_level) == 'medium' ) {
-     
-         var forms_array = document.getElementsByTagName("form");
-         
-         
-             for (var form_count = 0; form_count < forms_array.length; form_count++) {
-                     
-             has_medium_security_nonce = false;
-                 
-             inputs_array = forms_array[form_count].getElementsByTagName("input");
-                 
-                 
-                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
-                     
-                     if ( inputs_array[input_count].name == 'medium_security_nonce' ) {
-                     has_medium_security_nonce = true;
-                     }
-                 
-                 }
-                 
-                 
-                 if ( has_medium_security_nonce == false ) {
-                     
-                 new_input = document.createElement("input");
-             
-                 new_input.setAttribute("type", "hidden");
-                 
-                 new_input.setAttribute("name", "medium_security_nonce");
-                 
-                 new_input.setAttribute("value", Base64.decode(medium_sec_token) );
-                 
-                 forms_array[form_count].appendChild(new_input);
-                 
-                 }
-                 
-             
-             }
-             
-         
-         }
-         
-     }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // 2FA field / ID info (for UX) inserted in admin iframe forms
-    // (so a value is propigated for each form, from the 2FA input field)
-    if ( is_iframe && is_admin && !is_login_form ) {
-         
-     
-         if ( Base64.decode(admin_area_2fa) != 'off' || $(window.parent.document.location).attr('hash') == '#admin_security' ) {
-     
-         var forms_array = document.getElementsByTagName("form");
-         
-         
-             for (var form_count = 0; form_count < forms_array.length; form_count++) {
-                     
-             has_2fa_input = false;
-                 
-             inputs_array = forms_array[form_count].getElementsByTagName("input");
-                 
-                 
-                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
-                     
-                     if ( inputs_array[input_count].name == '2fa_code' ) {
-                     has_2fa_input = true;
-                     }
-                 
-                 }
-                 
-                 
-                 if ( has_2fa_input == false ) {
-                     
-                 new_input = document.createElement("input");
-             
-                 new_input.setAttribute("type", "hidden");
-                 
-                 new_input.setAttribute("name", "2fa_code");
-                 
-                 new_input.setAttribute("value", "");
-                 
-                 new_input.setAttribute("class","2fa_code_target");
-                 
-                 forms_array[form_count].appendChild(new_input);
-                 
-                 //////////////////////////////////////////////
-                     
-                 new_input = document.createElement("input");
-             
-                 new_input.setAttribute("type", "hidden");
-                 
-                 new_input.setAttribute("name", "2fa_code_id");
-                 
-                 new_input.setAttribute("value", "2fa_code_0"); // Default (still changes if user input is from another ID)
-                 
-                 new_input.setAttribute("class","2fa_code_id_target");
-                 
-                 forms_array[form_count].appendChild(new_input);
-                 
-                 }
-                 
-             
-             }
-         
-     
-             $( "input.2fa_code_input" ).on( "input", function() {
-             $('input:text[name=2fa_code]').val( $(this).val() ); // Automatically copy it to any other 2FA fields on the page
-             $('input.2fa_code_target').val( $(this).val() );
-             $('input.2fa_code_id_target').val( $(this).attr('id') );
-             });
-              
-         
-         }
-         
-
      }
 
 

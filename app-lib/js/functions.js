@@ -846,31 +846,6 @@ return {
 /////////////////////////////////////////////////////////////
 
 
-function store_scroll_position() {
-     
-     if ( is_iframe ) {
-     return;
-     }
-     
-     
-var hash_check = $(location).attr('hash');
-
-
-     // STORE the current scroll position before the page reload (IF CONDITIONS MET, OTHERWISE RESET)
-     // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
-     if ( !is_admin && typeof hash_check != 'undefined' && hash_check != 'update'  && hash_check != 'settings' && hash_check != 'portfolio' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
-     localStorage.setItem(scroll_position_storage, window.scrollY);
-     }
-     else {
-     localStorage.setItem(scroll_position_storage, 0);
-     }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function crypto_val_toggle(obj_var) {
   
 show_crypto_val = $("#show_crypto_val").val();
@@ -952,7 +927,42 @@ head.appendChild(link);
 /////////////////////////////////////////////////////////////
 
 
-function set_scroll_position() {
+function store_scroll_position() {
+     
+     
+     if ( is_iframe ) {
+     return;
+     }
+     
+     
+var hash_check = $(location).attr('hash');
+
+
+     // STORE the current scroll position before the page reload (IF CONDITIONS MET, OTHERWISE RESET)
+     // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
+     if (
+     !is_admin
+     && !ui_scroll_area_changed
+     && !isNaN( localStorage.getItem(scroll_position_storage)
+     && typeof hash_check != 'undefined'
+     && hash_check != '#update'
+     && hash_check != '#settings'
+     && hash_check != '#portfolio' )
+     ) {
+     localStorage.setItem(scroll_position_storage, window.scrollY);
+     }
+     else {
+     localStorage.setItem(scroll_position_storage, 0);
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function load_scroll_position() {
+     
      
      if ( is_iframe ) {
      return;
@@ -964,17 +974,33 @@ var hash_check = $(location).attr('hash');
 
 	// IF ther is a location hash, RETRIEVE any stored scroll position we were at before the page reload
 	// (EXCEPT FOR ADMIN AREA, AND A FEW USER AREA PAGES WE *ALWAYS* WANT SCROLLED BACK UP TO THE TOP)
-    if ( !is_admin && typeof hash_check != 'undefined' && hash_check != 'update'  && hash_check != 'settings' && hash_check != 'portfolio' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
-    	     
-         	$('html, body').animate({
-         	scrollTop: localStorage.getItem(scroll_position_storage)
-         	}, 'slow');
-    		
+    if (
+    !is_admin
+    && !ui_scroll_area_changed
+    && !isNaN( localStorage.getItem(scroll_position_storage) )
+    && typeof hash_check != 'undefined'
+    && hash_check != '#update'
+    && hash_check != '#settings'
+    && hash_check != '#portfolio'
+    ) {
+    var scroll_top = localStorage.getItem(scroll_position_storage);
     }
     // Reset if we're NOT starting on a page with a location hash we want vertical scroll position saved for
     else {
-	localStorage.setItem(scroll_position_storage, 0);
+         
+    var scroll_top = 0;
+    
+    localStorage.setItem(scroll_position_storage, scroll_top);
+     
     }
+
+    
+    $('html, body').animate({
+    scrollTop: scroll_top
+    }, 'slow');
+
+
+console.log('scroll_top = ' + scroll_top + ' (for ' + hash_check + ')');
 
 }
 
@@ -2730,8 +2756,13 @@ function background_tasks_check(runtime_id) {
          	// Run setting scroll position AGAIN if we are on the news / charts page,
          	// as we start out with no scroll height before the news feeds / price charts load
          	// SKIP IF THIS IS JUST THE EMULATED CRON CHECKING EVERY MINUTE (so we don't reset the scroll position every minute)
-         	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
-         	set_scroll_position(); 
+         	if (
+         	!emulated_cron_task_only
+         	&& $(location).attr('hash') == '#news'
+         	|| !emulated_cron_task_only
+         	&& $(location).attr('hash') == '#charts'
+         	) {
+         	load_scroll_position(); 
          	}
 		
      }
@@ -4336,41 +4367,40 @@ function auto_reload(select_elm=false) {
 // For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
 // nav item is active and it's associated content, and display it / mark nav links as active in interface
 function nav_menu($chosen_menu) {
+     	    
+     	
+     	if ( $chosen_menu == '.admin-nav' ) {
+     	var $area_file = 'admin.php';
+     	}
+     	else if ( $chosen_menu == '.user-nav' ) {
+     	var $area_file = 'index.php';
+     	}
+     	else if ( $chosen_menu == '.plugin-nav' ) {
+     	var $area_file = 'plugins.php';
+     	}
+     	else {
+     	return;
+     	}
 
-
+          
+          var menu_count = 1;
+          
      	$($chosen_menu).each(function(){
      		
      	var $active, $content, $curr_content_id, $links = $(this).find('a');
-
-     	
-     	    if ( $chosen_menu == '.admin-nav' ) {
-     	    var $area_file = 'admin.php';
-     	    }
-     	    else if ( $chosen_menu == '.plugin-nav' ) {
-     	    var $area_file = 'plugins.php';
-     	    }
-     	    else {
-     	    var $area_file = 'index.php';
-     	    }
-     	    
      
      	// If the location.hash matches one of the links, use that as the active nav item.
-     	// If no match is found, use the first link as the initial active nav item.
-     	
      	$active = $($links.filter('[href="' + $area_file + window.location.hash + '"]')[0] || $links[0]);
-     	  
-     	    
-     	    // Show INITIAL nav element (IF NO MATCHING CONTENT FOR URL HASH FOUND)
-     	    if ( typeof $curr_content_id == 'undefined' ) {
-     	    $active.addClass('active');
-     	    }
-     	
      
      	$content = $($active[0].hash);
-     
-         
-     	    // Hide all other content
-     	    $links.not($active).each(function () {
+          
+          console.log('styling ' + $chosen_menu + ' menu #' + menu_count + '...');
+          
+          //console.log( '$active[0] = ' + $active[0]);
+     	    
+     	         
+     	    // Hide all content
+     	    $links.each(function () {
               $(this).removeClass('active');
      	    $(this.hash).hide();
      	    });
@@ -4378,18 +4408,25 @@ function nav_menu($chosen_menu) {
      	
      	    // Get CURRENT content ID (if the attribute exists)
      	    if ( typeof $content.attr('id') !== 'undefined' ) {
+     	         
      	    $curr_content_id = '#' + $content.attr('id');
+     	    
+     	    // Show / style nav element
+     	    $active.addClass('active');
+     	    
+              // Show content element
+              $($curr_content_id).addClass('active');
+              $($curr_content_id).show();
+
+              //console.log('$area_file = ' + $area_file);
+              //console.log( 'content ID = ' + $curr_content_id);
+
      	    }
               // Otherwise, CLEANLY force value as undefined
               else {
               $curr_content_id = (function () { return; })();
-              console.log('No content ID / URL hash match for: ' + $chosen_menu);
+              console.log('No content ID match found for: ' + $chosen_menu);
               }
-     	    
-     	
-     	// Show INITIAL content element
-     	$($curr_content_id).addClass('active');
-     	$($curr_content_id).show();
               
               
               // Set the page's title to top of page
@@ -4400,6 +4437,8 @@ function nav_menu($chosen_menu) {
      
      	    // Bind the click event handling for clicking different nav item's 'a' tags
      	    $(this).on('click', 'a', function(e){
+     	    
+              //console.log('nav click...');
               
                   
                   // IF user CHANGED admin config settings data via interface,
@@ -4445,9 +4484,14 @@ function nav_menu($chosen_menu) {
                   scan_href = scan_href.substring(0, scan_href.indexOf("#"));
                   }
                   
+          	   
+              //console.log('scan_href = ' + scan_href);
                   
+              
                   // IF we are not ALREADY in the corresponding user / admin area
                   if ( scan_href != $area_file ) {
+          	   ui_scroll_area_changed = true;
+          	   console.log('ui_scroll_area_changed = true');
                   app_reloading_check(0, click_href);
                   }
                   else {
@@ -4473,9 +4517,17 @@ function nav_menu($chosen_menu) {
                	    }
                	    // Otherwise, redirect to the clicked link (if no content id was found on the page)
                	    else {
-               	    console.log('No content ID / URL hash match for: ' + $chosen_menu + ', redirecting to clicked link');
+               	         
+               	    console.log('No content ID match found for: ' + $chosen_menu + ', redirecting to clicked link');
+
+          	         ui_scroll_area_changed = true;
+
+          	         console.log('ui_scroll_area_changed = true');
+
                         app_reloading_check( 0, $(this).attr('href') );
+
                         return;
+
                	    }
           
           	         
@@ -4490,8 +4542,10 @@ function nav_menu($chosen_menu) {
                                     // ONLY IF NO START PAGE IS EXPLICITLY SET!
                                     if ( get_url_param('start_page') == null ) {
                                     
-                                    // MAIN submit form (also stores and updates chosen charts / news feeds / etc)
-                                    $("#user_area_settings").attr('action', $area_file + $curr_content_id);
+                                        // MAIN submit form (also stores and updates chosen charts / news feeds / etc)
+                                        if ( $area_file == 'index.php' ) {
+                                        $("#user_area_settings").attr('action', $area_file + $curr_content_id);
+                                        }
                                     
                                     // Page URL
                                     window.location = $area_file + $curr_content_id; 
@@ -4540,6 +4594,8 @@ function nav_menu($chosen_menu) {
      	    
      	    });
      	    
+     	
+     	menu_count = menu_count + 1;
      	
      	});
      	

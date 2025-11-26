@@ -55,6 +55,26 @@
 	<?php
 	}
 	
+     foreach ( $plug['activated']['ui'] as $plugin_key => $plugin_init ) {
+                      		
+     $this_plug = $plugin_key;
+               
+          if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu' ) {
+
+          $is_plugin_nav_menu = true;
+          
+          ?>
+          
+         // Is there a plugin nav menu section?
+          is_plugin_nav_menu = true;
+
+          <?php
+          }
+               
+     unset($this_plug);
+                    
+	}
+	
 	
 	if ( $ct['ms_windows_server'] ) {
      $is_windows = 'yes';
