@@ -147,11 +147,11 @@ Add a 'selected_networks' config, that's comma-delimited, and requires at least 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-dyn_light_chart_update() should FIRST check to see IF THE PREVIOUS ARCHIVAL LINE MATCHES THE PREVIOUS LIGHT CHART LINE, before initiating a 'full scan' (which is essentially a FULL LIGHT CHART REBUIULD). The reasoning is some charts do NOT get new data more than once or twice DAILY (on-chain node count charts, etc), and may have the latest available archival interval IN THE LIGH CHART ALREADY (currently, we presume the interval should line up with that particular light chart's '$min_data_interval', as we get PRICE CHART data every 20 minutes).
-
-
 Monad PUBLIC RPCs:
 https://docs.monad.xyz/developer-essentials/network-information
+
+
+dyn_light_chart_update() should FIRST check to see IF THE PREVIOUS ARCHIVAL LINE MATCHES THE PREVIOUS LIGHT CHART LINE, before initiating a 'full scan' (which is essentially a FULL LIGHT CHART REBUIULD). The reasoning is some charts do NOT get new data more than once or twice DAILY (on-chain node count charts, etc), and may have the latest available archival interval IN THE LIGH CHART ALREADY (currently, we presume the interval should line up with that particular light chart's '$min_data_interval', as we get PRICE CHART data every 20 minutes).
 
 
 Instead of having load_cached_config() RESET TO DEFAULT CONFIG IF the cached config is CORRUPT, rewrite it so we have any 'restore_conf' file path ALREADY LOADED INTO A VAR, and IF set AND we test it and it's NOT corrupt, load that as the config INSTEAD, AND INCLUDE AN ERROR LOG ABOUT WHAT HAPPENED. IF instead, 'restore_conf' IS ALSO CORRUPT, THEN GO AHEAD AND RESET TO THE DEFAULT CONFIG. Right now, we loop through the list of secure files, so it's NOT ASSURED WE LOADED THE RESTORE CONFIG PATH FIRST. This needs to load seperately / earlier, so it's ready to use if needed.
