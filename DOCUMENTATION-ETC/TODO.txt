@@ -131,17 +131,17 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Turn off ALL plugins, open browser console, and look through EVERY area, to make sure there are no errors / issues.
+Add a notice in high security mode, in the internal API / webhook admin section, that they need to temporarily enable normal security mode, to see their API / webhook keys, and documentation on usage.
 
 
 For price charts / alerts config validation, IF it's alphavantage as the exchange, BUT 'stock' is NOT appended to the ticker, alert the user about the input error.
 
 
+Add a 'selected_networks' config, that's comma-delimited, and requires at least one valid network be selected. Add "More networks coming soon™" in the notes area.
+
+
 Upgrade to bootstrap v5.3.8: 
 https://getbootstrap.com/docs/5.3/getting-started/download/
-
-
-Add a 'selected_networks' config, that's comma-delimited, and requires at least one valid network be selected. Add "coming soon" for Ethereum / Monad.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
