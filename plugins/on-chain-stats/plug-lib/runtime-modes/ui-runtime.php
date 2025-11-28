@@ -29,9 +29,11 @@ plugin_assets_path['<?=$this_plug?>'] = '<?=$ct['plug']->plug_dir(true)?>/plug-a
 	
 <?php
 
-require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/ui/bitcoin/ui-bitcoin-nodes.php');
 
-require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/ui/solana/ui-solana-nodes.php');
+foreach ( $onchain_stat_selected_networks as $network_name_key ) {
+require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/ui/'.$network_name_key.'/ui-'.$network_name_key.'-nodes.php');
+}
+
 
 ?>
 

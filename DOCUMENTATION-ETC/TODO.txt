@@ -131,27 +131,11 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Turn off ALL plugins, open browser console, and look through EVERY area, to make sure there are no errors / issues.
-
-
-For price charts / alerts config validation, IF it's alphavantage as the exchange, BUT 'stock' is NOT appended to the ticker, alert the user about the input error.
-
-
-Upgrade to bootstrap v5.3.8: 
-https://getbootstrap.com/docs/5.3/getting-started/download/
-
-
-Add a 'selected_networks' config, that's comma-delimited, and requires at least one valid network be selected. Add "coming soon" for Ethereum / Monad.
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Monad PUBLIC RPCs:
+https://docs.monad.xyz/developer-essentials/network-information
 
 
 dyn_light_chart_update() should FIRST check to see IF THE PREVIOUS ARCHIVAL LINE MATCHES THE PREVIOUS LIGHT CHART LINE, before initiating a 'full scan' (which is essentially a FULL LIGHT CHART REBUIULD). The reasoning is some charts do NOT get new data more than once or twice DAILY (on-chain node count charts, etc), and may have the latest available archival interval IN THE LIGH CHART ALREADY (currently, we presume the interval should line up with that particular light chart's '$min_data_interval', as we get PRICE CHART data every 20 minutes).
-
-
-Monad PUBLIC RPCs:
-https://docs.monad.xyz/developer-essentials/network-information
 
 
 Instead of having load_cached_config() RESET TO DEFAULT CONFIG IF the cached config is CORRUPT, rewrite it so we have any 'restore_conf' file path ALREADY LOADED INTO A VAR, and IF set AND we test it and it's NOT corrupt, load that as the config INSTEAD, AND INCLUDE AN ERROR LOG ABOUT WHAT HAPPENED. IF instead, 'restore_conf' IS ALSO CORRUPT, THEN GO AHEAD AND RESET TO THE DEFAULT CONFIG. Right now, we loop through the list of secure files, so it's NOT ASSURED WE LOADED THE RESTORE CONFIG PATH FIRST. This needs to load seperately / earlier, so it's ready to use if needed.
@@ -225,7 +209,7 @@ Convert all single stat charts for bitcoin network stats, to our price chart for
 Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)
 
 
-Write a maintenance routine (run every 72 hours, in case user restores the plugin soon after deactivating it), that scans ALL plugin cache standardized ROOT directories, and deletes any subdirectory NOT matching any ACTIVATED plugins.
+Write a maintenance routine (run on 1st day of every month, in case user restores the plugin soon after deactivating it), that scans ALL plugin cache standardized ROOT directories, and deletes any subdirectory NOT matching any ACTIVATED plugins. 1st day of the next month should be the grace period, before deleting any related cache files. Additionally, this should be mentioned in the js confirm dialogue, when disabling any plugin.
 
 
 Create a function is_valid_plugin($plugin_id), to consolidate all plugin checking code into one function call. Add to plugins-init.php, and in $ct['gen']->refresh_plugins_list().

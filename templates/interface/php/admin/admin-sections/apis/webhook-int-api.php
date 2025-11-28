@@ -15,6 +15,12 @@ if ( $ct['admin_area_sec_level'] == 'high' ) {
 	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor. You can change the security level in the "Security" section.
 	
 	</p>
+	
+	<p class='red red_dotted'>
+	
+	TO SEE YOUR WEBHOOK / INTERNAL API ACCESS KEYS, and documentation with examples, you'll need to temporarily enable NORMAL security mode.
+	
+	</p>
 
 <?php
 }

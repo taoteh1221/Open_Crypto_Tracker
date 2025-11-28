@@ -62,6 +62,9 @@ $plug['conf'][$this_plug]['tps_chart_defaults'] = '400||16'; // 'chart_height||m
 $plug['conf'][$this_plug]['node_geolocation_map_height_default'] = '500'; // (default = '500')
 
 
+// Comma-separated list of the blockchain networks you want to track onchain stats for
+$plug['conf'][$this_plug]['selected_networks'] = 'bitcoin,solana'; // (all options = 'bitcoin,solana')
+
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>

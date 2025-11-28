@@ -52,8 +52,8 @@ $val = $ct['var']->auto_correct_str($val, 'lower');
 $val_config = array_map( "trim", explode("||", $val) ); // Convert $val into an array
 			
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-$chart_asset = ( stristr($val_config[0], "-") == false ? $val_config[0] : substr( $val_config[0], 0, mb_strpos($val_config[0], "-", 0, 'utf-8') ) );
-$chart_asset = strtoupper($chart_asset);
+$parsed_asset = ( stristr($val_config[0], "-") == false ? $val_config[0] : substr( $val_config[0], 0, mb_strpos($val_config[0], "-", 0, 'utf-8') ) );
+$parsed_asset = strtoupper($parsed_asset);
  
 $exchange = $val_config[1];
 
@@ -61,9 +61,9 @@ $pair = $val_config[2];
 
 $mode = $val_config[3];
      
-$mrkt_id = $ct['conf']['assets'][$chart_asset]['pair'][$pair][$exchange];
+$mrkt_id = $ct['conf']['assets'][$parsed_asset]['pair'][$pair][$exchange];
     
-$mrkt_val = $ct['var']->num_to_str( $ct['api']->market($chart_asset, $exchange, $mrkt_id)['last_trade'] );
+$mrkt_val = $ct['var']->num_to_str( $ct['api']->market($parsed_asset, $exchange, $mrkt_id)['last_trade'] );
      	
      	     
       if ( sizeof($_POST['charts_alerts']['tracked_markets']) == 1 && trim($val) == '' ) {
@@ -73,7 +73,19 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($chart_asset, $exchange, 
       $ct['update_config_error'] .= $update_config_error_seperator . 'Charts / Alerts KEY was USED TWICE (DUPLICATE): "'.$val_config[0].'" (no duplicate keys allowed)';
       }
       elseif ( !isset($mrkt_val) || isset($mrkt_val) && !is_numeric($mrkt_val) || isset($mrkt_val) && $mrkt_val == 0.00000000000000000000 ) {
-      $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $chart_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'"); Market MAY be down *temporarily* for maintenance, OR permanently removed (please verify on the exchange website)';
+           
+      $ct['update_config_error'] .= $update_config_error_seperator . 'No market data found for ' . $parsed_asset . ' / ' . strtoupper($pair) . ' @ ' . $ct['gen']->key_to_name($exchange) . ' (in submission: "'.$val.'"); Market MAY be down *temporarily* for maintenance, OR permanently removed (please verify on the exchange website)';
+      
+           
+           // UX for stocks
+           if (
+           $exchange == 'alphavantage_stock'
+           && !preg_match("/stock/i", $parsed_asset)
+           ) {
+           $ct['update_config_error'] .= $update_config_error_seperator . 'You forgot to append "stock" to the end of the ticker (to flag this asset as a stock [NOT crypto], eg: tickerstock)';
+           }
+      
+      
       }
       elseif ( !in_array($mode, $allowed_modes) ) {
       $ct['update_config_error'] .= $update_config_error_seperator . 'Unknown mode (in submission: "'.$val.'")';

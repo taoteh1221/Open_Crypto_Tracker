@@ -7070,6 +7070,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Better stale cache files cleanup
 
+-Upgraded BootStrap to v5.3.8
+
 -Miscellaneous optimizations
 
 -Refactoring
