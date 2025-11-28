@@ -10,9 +10,10 @@
 //$ct['cache']->save_file($debug_cache_file, $debug_data);
 
 
-require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/cron/bitcoin/cron-bitcoin-nodes.php');
+foreach ( $onchain_stat_selected_networks as $network_name_key ) {
+require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/cron/'.$network_name_key.'/cron-'.$network_name_key.'-nodes.php');
+}
 
-require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/cron/solana/cron-solana-nodes.php');
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 

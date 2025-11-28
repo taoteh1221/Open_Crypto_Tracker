@@ -131,22 +131,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Add a notice in high security mode, in the internal API / webhook admin section, that they need to temporarily enable normal security mode, to see their API / webhook keys, and documentation on usage.
-
-
-For price charts / alerts config validation, IF it's alphavantage as the exchange, BUT 'stock' is NOT appended to the ticker, alert the user about the input error.
-
-
-Add a 'selected_networks' config, that's comma-delimited, and requires at least one valid network be selected. Add "More networks coming soon™" in the notes area.
-
-
-Upgrade to bootstrap v5.3.8: 
-https://getbootstrap.com/docs/5.3/getting-started/download/
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 Monad PUBLIC RPCs:
 https://docs.monad.xyz/developer-essentials/network-information
 
@@ -225,7 +209,7 @@ Convert all single stat charts for bitcoin network stats, to our price chart for
 Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)
 
 
-Write a maintenance routine (run every 72 hours, in case user restores the plugin soon after deactivating it), that scans ALL plugin cache standardized ROOT directories, and deletes any subdirectory NOT matching any ACTIVATED plugins.
+Write a maintenance routine (run on 1st day of every month, in case user restores the plugin soon after deactivating it), that scans ALL plugin cache standardized ROOT directories, and deletes any subdirectory NOT matching any ACTIVATED plugins. 1st day of the next month should be the grace period, before deleting any related cache files. Additionally, this should be mentioned in the js confirm dialogue, when disabling any plugin.
 
 
 Create a function is_valid_plugin($plugin_id), to consolidate all plugin checking code into one function call. Add to plugins-init.php, and in $ct['gen']->refresh_plugins_list().

@@ -72,6 +72,33 @@ var $array1 = array();
           $ct['update_config_error'] .= $update_config_error_seperator . '"TPS Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
           }
 		
+		
+     $selected_networks = array_map('trim', explode(',', $_POST[$this_plug]['selected_networks']) );
+     
+     $valid_networks = array(
+                            'bitcoin',
+                            'solana',
+                            );
+  
+  
+          // Make enabled networks are valid
+          if (
+          !isset($_POST[$this_plug]['selected_networks'])
+          || trim($_POST[$this_plug]['selected_networks']) == '' ) {
+          $ct['update_config_error'] .= $update_config_error_seperator . '"Selected Networks" MUST be filled in';
+          }
+          else {
+          
+               foreach ( $selected_networks as $enabled_network ) {
+               
+                    if ( !in_array($enabled_network, $valid_networks) ) {
+                    $ct['update_config_error'] .= $update_config_error_seperator . 'The network "'.$enabled_network.'" is NOT a valid option';
+                    }
+               
+               }
+          
+          }
+		
      
      return $ct['update_config_error'];
 		

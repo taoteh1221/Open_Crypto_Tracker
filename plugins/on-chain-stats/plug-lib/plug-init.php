@@ -27,13 +27,13 @@ $ct['dev']['throttled_apis']['ip-api.com'] = array(
                                                    );
 
 
+$onchain_stat_selected_networks = array_map('trim', explode(',', $plug['conf'][$this_plug]['selected_networks']) );
+
+
 // Setup directory structure for network caches...
-
-$network_name_key = 'bitcoin';
+foreach ( $onchain_stat_selected_networks as $network_name_key ) {
 require($ct['plug']->plug_dir() . '/plug-lib/cache-dirs.php');
-
-$network_name_key = 'solana';
-require($ct['plug']->plug_dir() . '/plug-lib/cache-dirs.php');
+}
 
 
 if ( $no_onchain_stat_light_charts ) {
