@@ -123,6 +123,16 @@ $ct['dev']['throttled_apis'] = array(
                                                       ),
 
 
+                                     // https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits
+                                     // (added 5/sec, PRESUMING some type of throttling under heavier loads)
+                                     'ankr.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 50,
+                                                       'per_second' => 5, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                      ),
+
+
                                      // https://www.binance.com/en-ZA/support/faq/detail/360004492232
                                      'binance.com' => array(
                                                        'min_cache_time' => null,
@@ -655,6 +665,8 @@ $ct['dev']['data_obfuscating'] = array(
                                       $ct['conf']['ext_apis']['google_fonts_api_key'],
                                       $ct['conf']['ext_apis']['etherscan_api_key'],
                                       $ct['conf']['ext_apis']['alphavantage_api_key'],
+                                      $ct['conf']['ext_apis']['bitcoin_rpc_server'],
+                                      $ct['conf']['ext_apis']['solana_rpc_server'],
                                      );
                                      
                                      

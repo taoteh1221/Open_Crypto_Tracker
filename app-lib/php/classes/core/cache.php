@@ -1628,7 +1628,7 @@ var $ct_array = array();
                          elseif ( stristr($user_agent_val, 'firefox/') ) {
                          $user_agent_desc = 'FireFox';
                          }
-                         elseif ( stristr($user_agent_val, 'edge/') ) {
+                         elseif ( stristr($user_agent_val, 'edg/') ) {
                          $user_agent_desc = 'Edge';
                          }
                          elseif ( stristr($user_agent_val, 'epiphany/') ) {
@@ -1650,7 +1650,7 @@ var $ct_array = array();
                          $user_agent_desc = 'Curl';
                          }
                          else {
-                         $user_agent_desc = 'Other';
+                         $user_agent_desc = 'Unknown';
                          }
                      
                      
@@ -1671,7 +1671,7 @@ var $ct_array = array();
                          $os_desc = 'Windows';
                          }
                          else {
-                         $os_desc = 'Other';
+                         $os_desc = 'Unknown';
                          }
                          
                          
@@ -3554,7 +3554,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'cache_error',
       							
-      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
       							
       			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';',
       							
@@ -3580,7 +3580,7 @@ var $ct_array = array();
       $ct['gen']->log(
       			'cache_debug',
       							
-      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
       							
       			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';',
       							
@@ -3648,7 +3648,7 @@ var $ct_array = array();
              	
                $ct['gen']->log(
              			'ext_data_error',
-             			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+             			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
              			'data_size_bytes: ' . strlen($ct['api_runtime_cache'][$hash_check]) . ' bytes'
              			);
              
@@ -3955,7 +3955,7 @@ var $ct_array = array();
       $ct['gen']->log(
         			'ext_data_debug',
         								
-        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
         								
         			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';'
         			);
@@ -4002,7 +4002,7 @@ var $ct_array = array();
       
       			'ext_data_error',
       							
-      			$ip_description . ' connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
+      			$ip_description . ' connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip . $log_append,
       							
       			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';'
       			
@@ -4032,7 +4032,7 @@ var $ct_array = array();
         if ( $ct['activate_proxies'] == 'on' && is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $ct['proxy_checkup'][] = array(
-                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
                     			'proxy' => $current_proxy
                     			);
                     
@@ -4084,7 +4084,7 @@ var $ct_array = array();
              
              			'ext_data_error',
              							
-             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
              							
              			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['currency']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['currency']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';'
              			
@@ -4120,6 +4120,7 @@ var $ct_array = array();
             || preg_match("/Request failed/i", $data) // generic
             || preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
             || preg_match("/EService:Busy/i", $data) // Kraken.com / generic
+            || preg_match("/\"result\":null/i", $data) // Bitcoin RPC / generic
             || preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
             || preg_match("/\"result\":\[\],/i", $data) // Generic
             || preg_match("/\"results\":\[\],/i", $data) // generic
@@ -4140,6 +4141,7 @@ var $ct_array = array();
             || $tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 
             || $tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data)  
             || $tld_or_ip == 'coingecko.com' && preg_match("/coins/i", $request_params) && !preg_match("/name/i", $data) 
+            || is_array($request_params) && in_array('bitcoin_rpc', $request_params) && preg_match("/\"error\":\{\"code\":/i", $data) 
             ) {
                  
             // Tighten throttling
@@ -4165,9 +4167,40 @@ var $ct_array = array();
                 }
                      
                  
+                // (sometimes no data is returned, for some endpoints)
+                if (
+                is_array($request_params)
+                && in_array('bitcoin_rpc', $request_params)
+                ) {
+                     
+                $parse_message = json_decode($data, true);
+                
+                
+                    if ( isset($parse_message['error']['message']) ) {
+                    
+                    // Remove ALL quotes
+                    $parse_message['error']['message'] = str_replace("'", "", $parse_message['error']['message']);
+                    $parse_message['error']['message'] = str_replace('"', "", $parse_message['error']['message']);
+
+                    $api_error_message = $parse_message['error']['message'];
+
+                    }
+                    else {
+                    $api_error_message = 'unknown error, endpoint MAY be disabled OR require PAID account';
+                    }
+
+                
+                $ct['gen']->log(
+                   		    'notify_error',
+                   		    $tld_or_ip . ' bitcoin RPC error (using "'.$request_params['method'].'" method): ' . $api_error_message,
+                   		    false,
+                   		    'no_api_data_' . $api_endpoint // Unique, since we might use $tld_or_ip for othr chain RPCs
+                   		    );
+                   		    
+                }
                 // alphavantage API ERROR LOGGING
                 // (sometimes no data is returned, IF you go over their limits)
-                if ( $tld_or_ip == 'alphavantage.co' ) {
+                elseif ( $tld_or_ip == 'alphavantage.co' ) {
                      
                 $data_check = json_decode($data, true);
                           
@@ -4196,7 +4229,7 @@ var $ct_array = array();
             
             			'ext_data_error',
             							
-            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
+            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip . $log_append,
             							
             			'requested_from: server (' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['currency']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['currency']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($ct['sel_opt']['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';'
             			
@@ -4257,7 +4290,7 @@ var $ct_array = array();
         	
         $ct['gen']->log(
         			'ext_data_error',
-        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
         			'data_size_bytes: ' . strlen($ct['api_runtime_cache'][$hash_check]) . ' bytes'
         			);
         
@@ -4266,7 +4299,7 @@ var $ct_array = array();
         	
         $ct['gen']->log(
         			'ext_data_error',
-        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
         			'data_size_bytes: ' . strlen($ct['api_runtime_cache'][$hash_check]) . ' bytes'
         			);
         
@@ -4287,7 +4320,7 @@ var $ct_array = array();
       
       			'notify_error',
       							
-      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in EXTERNAL APIS config *IF* this persists OFTEN',
+      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in EXTERNAL APIS config *IF* this persists OFTEN',
       							
       			'remote_api_timeout: ' . $ct['conf']['ext_apis']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
@@ -4377,7 +4410,7 @@ var $ct_array = array();
       
       			'cache_error',
       							
-      			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint,
+      			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip,
       							
       			'requested_from: cache ('.$ct['log_errors']['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';',
       							
@@ -4409,7 +4442,7 @@ var $ct_array = array();
       
       			'cache_debug',
       							
-      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $api_endpoint . $log_append,
+      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $tld_or_ip . $log_append,
       							
       			'requested_from: cache ('.$ct['log_debugging']['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; hash_check: ' . $ct['sec']->obfusc_str($hash_check, 4) . ';',
       							

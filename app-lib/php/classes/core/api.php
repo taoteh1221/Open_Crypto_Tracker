@@ -586,6 +586,8 @@ var $exchange_apis = array(
    global $ct;
    
    $rpc_test = trim($rpc_test);
+   
+   $rpc_id = $network . '_rpc';
 
         
         // RCP test
@@ -602,7 +604,23 @@ var $exchange_apis = array(
         elseif ( $network == 'solana' ) {    
         $rpc_server = trim($ct['conf']['ext_apis']['solana_rpc_server']);
         }
-
+   
+   
+   $tld_or_ip = $ct['gen']->get_tld_or_ip($rpc_server);
+   
+   
+        // Educated guess on a decent throttling profile, IF none exists
+        if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
+        
+        $ct['dev']['throttled_apis'][$tld_or_ip] = array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 15,
+                                                       'per_second' => 0.9, // 100000 maximum, decimals (0.25 minimum) supported
+                                                   );
+        
+        }
+	
 	
    $headers = array(
                     'Content-Type: application/json'
@@ -610,7 +628,7 @@ var $exchange_apis = array(
                
    $request_params = array(
                            'jsonrpc' => '2.0', // Setting this right before sending
-                           'id' => 1,
+                           'id' => $rpc_id,
                            'method' => $method,
                           );
                     

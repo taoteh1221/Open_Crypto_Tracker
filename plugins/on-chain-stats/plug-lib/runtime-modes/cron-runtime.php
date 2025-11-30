@@ -11,7 +11,13 @@
 
 
 foreach ( $onchain_stat_selected_networks as $network_name_key ) {
+     
+     if ( $network_name_key == '' ) {
+     continue;
+     }
+
 require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/cron/'.$network_name_key.'/cron-'.$network_name_key.'-nodes.php');
+
 }
 
 

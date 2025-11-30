@@ -7050,6 +7050,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Loosened username restrictions for the "Admin Area => Security => Interface Login" setting (so only validity check is a 4 character MINIMUM)
 
+-Tighter obfuscation in API error logging (only the API's top-level-domain is shown in logs, any subdomain / path data is FULLY REMOVED)
+
 -Increased amount of currency / crypto maximum decimals allowed (in the "Asset Tracking => Currency Support" Admin Config)
 
 -Tweaks to coingecko API throttling, for a better user experience

@@ -32,7 +32,13 @@ $onchain_stat_selected_networks = array_map('trim', explode(',', $plug['conf'][$
 
 // Setup directory structure for network caches...
 foreach ( $onchain_stat_selected_networks as $network_name_key ) {
+     
+     if ( $network_name_key == '' ) {
+     continue;
+     }
+
 require($ct['plug']->plug_dir() . '/plug-lib/cache-dirs.php');
+
 }
 
 

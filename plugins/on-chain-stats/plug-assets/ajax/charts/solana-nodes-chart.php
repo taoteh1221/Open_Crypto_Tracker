@@ -27,7 +27,7 @@ $ct['plug_runtime_data']['on-chain-stats']['node_stats']['validators_without_epo
 
 if (
 !is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats'])
-|| is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats']) && sizeof($ct['plug_runtime_data']['on-chain-stats']['node_stats']) < 1
+|| is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats']['all_nodes']) && sizeof($ct['plug_runtime_data']['on-chain-stats']['node_stats']['all_nodes']) < 1
 ) {
 ?>
 			
