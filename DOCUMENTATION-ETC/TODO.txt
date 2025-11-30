@@ -131,6 +131,15 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Put a "valid_networks" array atop the php class, and use it in the admin input validation function, as well as in the 'available networks' loops as an in_array() check, to make sure each user entry is a valid network.
+
+
+Write into UI notice for Bitcoin node count issues, for users to check the app logs in the system monitoring section, to confirm whether the endpoint seems unavailable, if it's still not displaying in the interface after ~12 hours.
+
+
+Double check the caching and cache cleanup of throttling counts. Ideally, we'd like to cleanly assure purging of TEMPORARY throttle profile's count caches, as long as it won't impact permanent ones.
+
+
 Have the new "selected_networks" config always be forced to lowercase, in the admin interface, AND in the plugin logic.
 
 
