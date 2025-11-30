@@ -549,7 +549,9 @@ var $array1 = array();
    
    global $ct;
    
-   $data = array();
+   $data_check = array();
+   
+   $data_return = array();
    
    
    $fn = fopen($file,"r");
@@ -584,7 +586,7 @@ var $array1 = array();
       
          if ( trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
             
-         $data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
+         $data_check['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
          
          
             if (
@@ -592,8 +594,10 @@ var $array1 = array();
             && trim($node_data) != ''
             && is_numeric($node_data)
             ) {
+
             // Zingchart wants 3 more zeros with unix time (milliseconds)
-            $data['count'] .= '[' . trim($result[0]) . '000' . ', ' . trim($node_data) . '],';  
+            $data_check['count'] .= '[' . trim($result[0]) . '000' . ', ' . trim($node_data) . '],';  
+
             }
          
          
@@ -603,13 +607,16 @@ var $array1 = array();
    
    fclose($fn);
    
-   // Trim away extra commas
-   $data['time'] = rtrim($data['time'],',');
-   $data['count'] = rtrim($data['count'],',');
+     // Trim away extra commas in results...
+     // (IF more than $data_check['time'] was set)
+     if ( sizeof($data_check) > 1 ) {
+     $data_return['time'] = rtrim($data_check['time'],',');
+     $data_return['count'] = rtrim($data_check['count'],',');
+     }
   
    gc_collect_cycles(); // Clean memory cache
    
-   return $data;
+   return $data_return;
    
    }
    

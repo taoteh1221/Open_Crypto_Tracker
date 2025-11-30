@@ -21,7 +21,7 @@ $ct['plug_runtime_data']['on-chain-stats']['node_stats']['nodes'] = $plug['class
 
 if (
 !is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats'])
-|| is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats']) && sizeof($ct['plug_runtime_data']['on-chain-stats']['node_stats']) < 1
+|| is_array($ct['plug_runtime_data']['on-chain-stats']['node_stats']['nodes']) && sizeof($ct['plug_runtime_data']['on-chain-stats']['node_stats']['nodes']) < 1
 ) {
 ?>
 			

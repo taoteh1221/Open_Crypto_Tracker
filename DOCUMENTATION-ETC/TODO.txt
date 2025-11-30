@@ -131,6 +131,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+When any NON-compact main nav menu is ALREADY EXPANDED OPEN, and it's root entry is clicked, it should UN-EXPAND.
+
+
 Instead of having load_cached_config() RESET TO DEFAULT CONFIG IF the cached config is CORRUPT, rewrite it so we have any 'restore_conf' file path ALREADY LOADED INTO A VAR, and IF set AND we test it and it's NOT corrupt, load that as the config INSTEAD, AND INCLUDE AN ERROR LOG ABOUT WHAT HAPPENED. IF instead, 'restore_conf' IS ALSO CORRUPT, THEN GO AHEAD AND RESET TO THE DEFAULT CONFIG. Right now, we loop through the list of secure files, so it's NOT ASSURED WE LOADED THE RESTORE CONFIG PATH FIRST. This needs to load seperately / earlier, so it's ready to use if needed.
 
 

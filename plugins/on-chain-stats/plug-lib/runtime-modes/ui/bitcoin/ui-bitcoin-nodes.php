@@ -392,6 +392,23 @@ zingchart.bind('bitcoin_tps_chart', 'label_click', function(e){
     	$node_count_chart_defaults[1] = 15;
     	}
     
+    
+    if (
+    preg_match("/publicnode\.com/i", $ct['conf']['ext_apis']['bitcoin_rpc_server'])
+    && !file_exists( $ct['plug']->chart_cache('/bitcoin/overwrites/bitcoin_nodes_info.dat', $this_plug) )
+    ) {
+    ?>
+             	
+             	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
+             	
+             	PublicNode.com's Bitcoin RPC service MAY require a DEDICATED node for the "getnodeaddresses" endpoint (used by this chart), IF you overuse their FREE API (on the same IP address).<br /><br />
+             	
+               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".
+             	
+             	</p>
+             	
+    <?php
+    }
     ?>
     
     
@@ -598,6 +615,20 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
              	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
              	
              	It may take a few hours or longer to show Bitcoin GeoLocation data, after enabling the On-Chain Stats plugin.
+             	
+             	<?php
+             	if ( preg_match("/publicnode\.com/i", $ct['conf']['ext_apis']['bitcoin_rpc_server']) ) {
+             	?>
+               
+               <br /><br />
+               
+             	PublicNode.com's Bitcoin RPC service MAY require a DEDICATED node for the "getnodeaddresses" endpoint (used by this map), IF you overuse their FREE API (on the same IP address).<br /><br />
+             	
+               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".
+             	
+             	<?php
+             	}
+             	?>
              	
              	</p>
              	

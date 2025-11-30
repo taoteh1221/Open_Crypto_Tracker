@@ -1628,7 +1628,7 @@ var $ct_array = array();
                          elseif ( stristr($user_agent_val, 'firefox/') ) {
                          $user_agent_desc = 'FireFox';
                          }
-                         elseif ( stristr($user_agent_val, 'edge/') ) {
+                         elseif ( stristr($user_agent_val, 'edg/') ) {
                          $user_agent_desc = 'Edge';
                          }
                          elseif ( stristr($user_agent_val, 'epiphany/') ) {
@@ -1650,7 +1650,7 @@ var $ct_array = array();
                          $user_agent_desc = 'Curl';
                          }
                          else {
-                         $user_agent_desc = 'Other';
+                         $user_agent_desc = 'Unknown';
                          }
                      
                      
@@ -1671,7 +1671,7 @@ var $ct_array = array();
                          $os_desc = 'Windows';
                          }
                          else {
-                         $os_desc = 'Other';
+                         $os_desc = 'Unknown';
                          }
                          
                          
@@ -4120,6 +4120,7 @@ var $ct_array = array();
             || preg_match("/Request failed/i", $data) // generic
             || preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
             || preg_match("/EService:Busy/i", $data) // Kraken.com / generic
+            || preg_match("/\"result\":null/i", $data) // Bitcoin RPC / generic
             || preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
             || preg_match("/\"result\":\[\],/i", $data) // Generic
             || preg_match("/\"results\":\[\],/i", $data) // generic
@@ -4140,6 +4141,7 @@ var $ct_array = array();
             || $tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 
             || $tld_or_ip == 'coingecko.com' && preg_match("/search/i", $request_params) && !preg_match("/api_symbol/i", $data)  
             || $tld_or_ip == 'coingecko.com' && preg_match("/coins/i", $request_params) && !preg_match("/name/i", $data) 
+            || is_array($request_params) && in_array('bitcoin_rpc', $request_params) && preg_match("/\"error\":\{\"code\":/i", $data) 
             ) {
                  
             // Tighten throttling
@@ -4165,9 +4167,40 @@ var $ct_array = array();
                 }
                      
                  
+                // (sometimes no data is returned, for some endpoints)
+                if (
+                is_array($request_params)
+                && in_array('bitcoin_rpc', $request_params)
+                ) {
+                     
+                $parse_message = json_decode($data, true);
+                
+                
+                    if ( isset($parse_message['error']['message']) ) {
+                    
+                    // Remove ALL quotes
+                    $parse_message['error']['message'] = str_replace("'", "", $parse_message['error']['message']);
+                    $parse_message['error']['message'] = str_replace('"', "", $parse_message['error']['message']);
+
+                    $api_error_message = $parse_message['error']['message'];
+
+                    }
+                    else {
+                    $api_error_message = 'unknown error, endpoint MAY be disabled OR require PAID account';
+                    }
+
+                
+                $ct['gen']->log(
+                   		    'notify_error',
+                   		    $tld_or_ip . ' bitcoin RPC error (using "'.$request_params['method'].'" method): ' . $api_error_message,
+                   		    false,
+                   		    'no_api_data_' . $tld_or_ip
+                   		    );
+                   		    
+                }
                 // alphavantage API ERROR LOGGING
                 // (sometimes no data is returned, IF you go over their limits)
-                if ( $tld_or_ip == 'alphavantage.co' ) {
+                elseif ( $tld_or_ip == 'alphavantage.co' ) {
                      
                 $data_check = json_decode($data, true);
                           

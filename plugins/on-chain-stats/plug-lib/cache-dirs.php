@@ -6,6 +6,7 @@
 
 // Check for cache directory path creation, create if needed...if it fails, log the error
 
+
 if (
 $ct['gen']->dir_struct( $ct['plug']->chart_cache('/'.$network_name_key.'/archival/') ) != true
 || $ct['gen']->dir_struct( $ct['plug']->chart_cache('/'.$network_name_key.'/overwrites/') ) != true

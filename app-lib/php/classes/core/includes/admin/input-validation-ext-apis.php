@@ -9,7 +9,7 @@ if ( trim($_POST['ext_apis']['bitcoin_rpc_server']) != '' ) {
      
 $bitcoin_block_height_test = $ct['api']->blockchain_rpc('bitcoin', 'getblockcount', false, 0, $_POST['ext_apis']['bitcoin_rpc_server']);
 
-var_dump($bitcoin_block_height_test);
+//var_dump($bitcoin_block_height_test);
 
 	
      if (

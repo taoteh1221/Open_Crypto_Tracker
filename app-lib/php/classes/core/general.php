@@ -3165,7 +3165,9 @@ var $ct_array = array();
    
    global $ct;
    
-   $data = array();
+   $data_check = array();
+   
+   $data_return = array();
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
       if ( array_key_exists($chart_format, $ct['conf']['assets']['BTC']['pair']) && !array_key_exists($chart_format, $ct['opt_conf']['crypto_pair']) ) {
@@ -3203,79 +3205,79 @@ var $ct_array = array();
       
          if ( trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
             
-         $data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
+         $data_check['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
          
          
             if ( $system_statistics_chart ) {
             
             
                 if ( trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' && is_numeric($result[1]) ) {
-                $data['load_average_15_minutes'] .= trim($result[1]) . ',';
+                $data_check['load_average_15_minutes'] .= trim($result[1]) . ',';
                 $ct['last_valid_chart_data']['load_average_15_minutes'] = $result[1];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
                 elseif ( isset($ct['last_valid_chart_data']['load_average_15_minutes']) ) {
-                $data['load_average_15_minutes'] .= trim($ct['last_valid_chart_data']['load_average_15_minutes']) . ',';
+                $data_check['load_average_15_minutes'] .= trim($ct['last_valid_chart_data']['load_average_15_minutes']) . ',';
                 }
             
             
                 if ( trim($result[2]) != 'NO_DATA' && trim($result[2]) != '' && is_numeric($result[2]) ) {
-                $data['temperature_celsius'] .= trim($result[2]) . ',';
+                $data_check['temperature_celsius'] .= trim($result[2]) . ',';
                 $ct['last_valid_chart_data']['temperature_celsius'] = $result[2];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
                 elseif ( isset($ct['last_valid_chart_data']['temperature_celsius']) ) {
-                $data['temperature_celsius'] .= trim($ct['last_valid_chart_data']['temperature_celsius']) . ',';
+                $data_check['temperature_celsius'] .= trim($ct['last_valid_chart_data']['temperature_celsius']) . ',';
                 }
             
             
                 if ( trim($result[3]) != 'NO_DATA' && trim($result[3]) != '' && is_numeric($result[3]) ) {
-                $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
+                $data_check['used_memory_gigabytes'] .= trim($result[3]) . ',';
                 $ct['last_valid_chart_data']['used_memory_gigabytes'] = $result[3];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
                 elseif ( isset($ct['last_valid_chart_data']['used_memory_gigabytes']) ) {
-                $data['used_memory_gigabytes'] .= trim($ct['last_valid_chart_data']['used_memory_gigabytes']) . ',';
+                $data_check['used_memory_gigabytes'] .= trim($ct['last_valid_chart_data']['used_memory_gigabytes']) . ',';
                 }
             
             
                 if ( trim($result[4]) != 'NO_DATA' && trim($result[4]) != '' && is_numeric($result[4]) ) {
-                $data['used_memory_percentage'] .= trim($result[4]) . ',';
+                $data_check['used_memory_percentage'] .= trim($result[4]) . ',';
                 $ct['last_valid_chart_data']['used_memory_percentage'] = $result[4];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
                 elseif ( isset($ct['last_valid_chart_data']['used_memory_percentage']) ) {
-                $data['used_memory_percentage'] .= trim($ct['last_valid_chart_data']['used_memory_percentage']) . ',';
+                $data_check['used_memory_percentage'] .= trim($ct['last_valid_chart_data']['used_memory_percentage']) . ',';
                 }
             
             
                 if ( trim($result[5]) != 'NO_DATA' && trim($result[5]) != '' && is_numeric($result[5]) ) {
-                $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
+                $data_check['free_disk_space_terabytes'] .= trim($result[5]) . ',';
                 $ct['last_valid_chart_data']['free_disk_space_terabytes'] = $result[5];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
                 elseif ( isset($ct['last_valid_chart_data']['free_disk_space_terabytes']) ) {
-                $data['free_disk_space_terabytes'] .= trim($ct['last_valid_chart_data']['free_disk_space_terabytes']) . ',';
+                $data_check['free_disk_space_terabytes'] .= trim($ct['last_valid_chart_data']['free_disk_space_terabytes']) . ',';
                 }
             
             
                 if ( trim($result[6]) != 'NO_DATA' && trim($result[6]) != '' && is_numeric($result[6]) ) {
-                $data['crypto_tracker_cache_size_gigabytes'] .= trim($result[6]) . ',';
+                $data_check['crypto_tracker_cache_size_gigabytes'] .= trim($result[6]) . ',';
                 $ct['last_valid_chart_data']['crypto_tracker_cache_size_gigabytes'] = $result[6];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
                 elseif ( isset($ct['last_valid_chart_data']['crypto_tracker_cache_size_gigabytes']) ) {
-                $data['crypto_tracker_cache_size_gigabytes'] .= trim($ct['last_valid_chart_data']['crypto_tracker_cache_size_gigabytes']) . ',';
+                $data_check['crypto_tracker_cache_size_gigabytes'] .= trim($ct['last_valid_chart_data']['crypto_tracker_cache_size_gigabytes']) . ',';
                 }
             
             
                 if ( trim($result[7]) != 'NO_DATA' && trim($result[7]) != '' && is_numeric($result[7]) ) {
-                $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
+                $data_check['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
                 $ct['last_valid_chart_data']['cron_core_runtime_seconds'] = $result[7];
                 }
                 // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
                 elseif ( isset($ct['last_valid_chart_data']['cron_core_runtime_seconds']) ) {
-                $data['cron_core_runtime_seconds'] .= trim($ct['last_valid_chart_data']['cron_core_runtime_seconds']) . ',';
+                $data_check['cron_core_runtime_seconds'] .= trim($ct['last_valid_chart_data']['cron_core_runtime_seconds']) . ',';
                 }
                 
             
@@ -3285,8 +3287,8 @@ var $ct_array = array();
                if ( !$ct['runtime_data']['performance_stats'][$asset]['start_val'] ) {
                $ct['runtime_data']['performance_stats'][$asset]['start_val'] = $result[1];
                
-               $data['percent'] .= '0.00,';
-               $data['combined'] .= '[' . trim($result[0]) . '000, 0.00],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
+               $data_check['percent'] .= '0.00,';
+               $data_check['combined'] .= '[' . trim($result[0]) . '000, 0.00],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
                }
                else {
                   
@@ -3295,8 +3297,8 @@ var $ct_array = array();
                // Better decimal support
                $percent_change = $ct['var']->num_to_str($percent_change); 
                
-               $data['percent'] .= round($percent_change, 2) . ',';
-               $data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . round($percent_change, 2) . '],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
+               $data_check['percent'] .= round($percent_change, 2) . ',';
+               $data_check['combined'] .= '[' . trim($result[0]) . '000' . ', ' . round($percent_change, 2) . '],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
                
                }
             
@@ -3310,13 +3312,13 @@ var $ct_array = array();
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
-               $data['spot'] .= $ct['var']->num_to_str($result[1]) . ',';
-               $data['volume'] .= round($result[2]) . ',';
+               $data_check['spot'] .= $ct['var']->num_to_str($result[1]) . ',';
+               $data_check['volume'] .= round($result[2]) . ',';
                }
                // Non-stablecoin crypto
                else {
-               $data['spot'] .= $ct['var']->num_to_str($result[1]) . ',';
-               $data['volume'] .= $ct['var']->num_to_str( round($result[2], $ct['conf']['charts_alerts']['chart_crypto_volume_decimals']) ) . ',';
+               $data_check['spot'] .= $ct['var']->num_to_str($result[1]) . ',';
+               $data_check['volume'] .= $ct['var']->num_to_str( round($result[2], $ct['conf']['charts_alerts']['chart_crypto_volume_decimals']) ) . ',';
                }
             
             }
@@ -3326,34 +3328,41 @@ var $ct_array = array();
       
      }
    
+
    fclose($fn);
    
-   // Trim away extra commas
-   $data['time'] = rtrim($data['time'],',');
    
-   
-      if ( $system_statistics_chart ) {
-      $data['temperature_celsius'] = rtrim($data['temperature_celsius'],',');
-      $data['used_memory_percentage'] = rtrim($data['used_memory_percentage'],',');
-      $data['cron_core_runtime_seconds'] = rtrim($data['cron_core_runtime_seconds'],',');
-      $data['used_memory_gigabytes'] = rtrim($data['used_memory_gigabytes'],',');
-      $data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
-      $data['free_disk_space_terabytes'] = rtrim($data['free_disk_space_terabytes'],',');
-      $data['crypto_tracker_cache_size_gigabytes'] = rtrim($data['crypto_tracker_cache_size_gigabytes'],',');
-      }
-      elseif ( $asset_perf_chart ) {
-      $data['percent'] = rtrim($data['percent'],',');
-      $data['combined'] = rtrim($data['combined'],',');
-      }
-      else {
-      $data['spot'] = rtrim($data['spot'],',');
-      $data['volume'] = rtrim($data['volume'],',');
-      }
-      
+     // Trim away extra commas in results...
+     // (IF more than $data_check['time'] was set)
+     if ( sizeof($data_check) > 1 ) {
+     
+     $data_return['time'] = rtrim($data_check['time'],',');
+        
+        
+           if ( $system_statistics_chart ) {
+           $data_return['temperature_celsius'] = rtrim($data_check['temperature_celsius'],',');
+           $data_return['used_memory_percentage'] = rtrim($data_check['used_memory_percentage'],',');
+           $data_return['cron_core_runtime_seconds'] = rtrim($data_check['cron_core_runtime_seconds'],',');
+           $data_return['used_memory_gigabytes'] = rtrim($data_check['used_memory_gigabytes'],',');
+           $data_return['load_average_15_minutes'] = rtrim($data_check['load_average_15_minutes'],',');
+           $data_return['free_disk_space_terabytes'] = rtrim($data_check['free_disk_space_terabytes'],',');
+           $data_return['crypto_tracker_cache_size_gigabytes'] = rtrim($data_check['crypto_tracker_cache_size_gigabytes'],',');
+           }
+           elseif ( $asset_perf_chart ) {
+           $data_return['percent'] = rtrim($data_check['percent'],',');
+           $data_return['combined'] = rtrim($data_check['combined'],',');
+           }
+           else {
+           $data_return['spot'] = rtrim($data_check['spot'],',');
+           $data_return['volume'] = rtrim($data_check['volume'],',');
+           }
+           
+     }
+     
    
    gc_collect_cycles(); // Clean memory cache
    
-   return $data;
+   return $data_return;
    
    }
    
