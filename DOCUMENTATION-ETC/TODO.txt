@@ -131,6 +131,9 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Have the new "selected_networks" config always be forced to lowercase, in the admin interface, AND in the plugin logic.
+
+
 Double-check we are fully validating every chosen network, in plug-init.php, directly after setting the $onchain_stat_selected_networks array.
 
 
