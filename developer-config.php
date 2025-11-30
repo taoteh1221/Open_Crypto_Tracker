@@ -665,6 +665,8 @@ $ct['dev']['data_obfuscating'] = array(
                                       $ct['conf']['ext_apis']['google_fonts_api_key'],
                                       $ct['conf']['ext_apis']['etherscan_api_key'],
                                       $ct['conf']['ext_apis']['alphavantage_api_key'],
+                                      $ct['conf']['ext_apis']['bitcoin_rpc_server'],
+                                      $ct['conf']['ext_apis']['solana_rpc_server'],
                                      );
                                      
                                      

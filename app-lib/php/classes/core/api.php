@@ -616,7 +616,7 @@ var $exchange_apis = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 15,
-                                                       'per_second' => 1.1, // 100000 maximum, decimals (0.25 minimum) supported
+                                                       'per_second' => 0.9, // 100000 maximum, decimals (0.25 minimum) supported
                                                    );
         
         }
