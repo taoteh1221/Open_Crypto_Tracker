@@ -3888,7 +3888,8 @@ var $ct_array = array();
       && in_array('bitcoin_rpc', $request_params)
       ) {
 
-      
+          
+          // SECURE config UPDATED 'bitcoin_rpc_server_login' in-progress
           if (
           $verified_update_request
           && isset($verified_update_request['bitcoin_rpc_server_login'])
@@ -3896,6 +3897,7 @@ var $ct_array = array();
           ) {
           $bitcoin_rpc_login = explode("||", $verified_update_request['bitcoin_rpc_server_login']);
           }
+          // Regular config
           elseif (
           isset($ct['conf']['ext_apis']['bitcoin_rpc_server_login'])
           && $ct['conf']['ext_apis']['bitcoin_rpc_server_login'] != ''
@@ -3925,6 +3927,7 @@ var $ct_array = array();
       ) {
 
       
+          // SECURE config UPDATED 'solana_rpc_server_login' in-progress
           if (
           $verified_update_request
           && isset($verified_update_request['solana_rpc_server_login'])
@@ -3932,6 +3935,7 @@ var $ct_array = array();
           ) {
           $solana_rpc_login = explode("||", $verified_update_request['solana_rpc_server_login']);
           }
+          // Regular config
           elseif (
           isset($ct['conf']['ext_apis']['solana_rpc_server_login'])
           && $ct['conf']['ext_apis']['solana_rpc_server_login'] != ''
