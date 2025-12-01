@@ -214,6 +214,19 @@ $ct['admin_render_settings']['bitcoin_rpc_server']['is_notes'] = 'What <a href="
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['bitcoin_rpc_server_login']['is_text'] = true;
+
+$ct['admin_render_settings']['bitcoin_rpc_server_login']['is_password'] = true;
+
+$ct['admin_render_settings']['bitcoin_rpc_server_login']['text_field_size'] = 45;
+
+
+$ct['admin_render_settings']['bitcoin_rpc_server_login']['is_notes'] = 'Username / password protection for access to the Bitcoin RPC Server.<br />This format MUST be used: username||password<br /><b class="red">LEAVE BLANK, if there is no login protection.</b>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 $ct['admin_render_settings']['solana_rpc_server']['is_text'] = true;
 
 $ct['admin_render_settings']['solana_rpc_server']['is_trim'] = true;
@@ -221,6 +234,19 @@ $ct['admin_render_settings']['solana_rpc_server']['is_trim'] = true;
 $ct['admin_render_settings']['solana_rpc_server']['text_field_size'] = 50;
 
 $ct['admin_render_settings']['solana_rpc_server']['is_notes'] = 'What <a href="https://solana.com/docs/core/clusters" target="_BLANK">Solana RPC Server</a> to query, for on-chain data.<br />The default one is provided by the Solana Foundation FOR FREE:<br />https://api.mainnet-beta.solana.com';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['solana_rpc_server_login']['is_text'] = true;
+
+$ct['admin_render_settings']['solana_rpc_server_login']['is_password'] = true;
+
+$ct['admin_render_settings']['solana_rpc_server_login']['text_field_size'] = 45;
+
+
+$ct['admin_render_settings']['solana_rpc_server_login']['is_notes'] = 'Username / password protection for access to the Solana RPC Server.<br />This format MUST be used: username||password<br /><b class="red">LEAVE BLANK, if there is no login protection.</b>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

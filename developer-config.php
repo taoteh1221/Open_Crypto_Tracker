@@ -178,6 +178,16 @@ $ct['dev']['throttled_apis'] = array(
                                                       ),
 
 
+                                     // https://support.chainstack.com/hc/en-us/articles/6955614349209-Node-and-connection-limitations
+                                     // We PRESUME per-minute throttling
+                                     'chainstack.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 1000,
+                                                       'per_second' => 25, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                      ),
+
+
                                      // https://docs.cdp.coinbase.com/exchange/docs/rate-limits
                                      'coinbase.com' => array(
                                                        'min_cache_time' => null,

@@ -87,7 +87,9 @@ if ( $now > 0 && $ct['cache']->update_cache($bitcoin_node_stats_tracking_file, 1
 $bitcoin_nodes_onchain = $plug['class'][$this_plug]->bitcoin_nodes_onchain();
 
 
-     // ALL NODE COUNT
+     // ALL NODES
+     // (skipped if no results, so end-user can switch to a better default
+     // Bitcoin RPC server, and not have to wait 24 hours for it to run again)
      if ( is_array($bitcoin_nodes_onchain['active_nodes']) ) {
      
      // Save IPs to cache, in case we need to finish up later (because of API throttling)
@@ -98,46 +100,40 @@ $bitcoin_nodes_onchain = $plug['class'][$this_plug]->bitcoin_nodes_onchain();
      $plug['class'][$this_plug]->node_geolocation_cache('bitcoin', $bitcoin_nodes_onchain['active_nodes']); 
      
      $bitcoin_nodes_count_data_set .= '||' . sizeof($bitcoin_nodes_onchain['active_nodes']);
-
+     
+     // SAVE CHART DATA 
+     $bitcoin_nodes_count_chart_file = $ct['plug']->chart_cache('/bitcoin/archival/bitcoin_nodes_count.dat');
+     
+     $bitcoin_nodes_count_data_set = $now . $bitcoin_nodes_count_data_set;
+     
+     // WITH newline (UNLOCKED file write)
+     $ct['cache']->save_file($bitcoin_nodes_count_chart_file, $bitcoin_nodes_count_data_set . "\n", "append", false);  
+             
+     // Light charts (update time dynamically determined in $ct['cache']->update_light_chart() logic)
+     // Wait 0.05 seconds before updating light charts (which reads archival data)
+     usleep(50000); // Wait 0.05 seconds
+             
+             
+          foreach ( $ct['light_chart_day_intervals'] as $light_chart_days ) {
+                
+     	     // If we reset light charts, just skip the rest of this update session
+     	     // (we already delete light chart data in plug-init.php, IF a reset is flagged)
+     	     if ( $ct['light_chart_reset'] ) {
+     	     continue;
+     	     }
+     	           
+          // Light charts, WITHOUT newline (var passing)
+          $ct['cache']->update_light_chart($bitcoin_nodes_count_chart_file, $bitcoin_nodes_count_data_set, $light_chart_days); 
+              
+          }
+          
+          
+     // Update the event tracking
+     $ct['cache']->save_file($bitcoin_node_stats_tracking_file, $ct['gen']->time_date_format(false, 'pretty_date_time') );
+     
      }
-     else {
-     $bitcoin_nodes_count_data_set .= '||NO_DATA';
-     }
-
-
-// SAVE CHART DATA 
-$bitcoin_nodes_count_chart_file = $ct['plug']->chart_cache('/bitcoin/archival/bitcoin_nodes_count.dat');
-
-$bitcoin_nodes_count_data_set = $now . $bitcoin_nodes_count_data_set;
-
-// WITH newline (UNLOCKED file write)
-$ct['cache']->save_file($bitcoin_nodes_count_chart_file, $bitcoin_nodes_count_data_set . "\n", "append", false);  
-        
-// Light charts (update time dynamically determined in $ct['cache']->update_light_chart() logic)
-// Wait 0.05 seconds before updating light charts (which reads archival data)
-usleep(50000); // Wait 0.05 seconds
-        
-        
-     foreach ( $ct['light_chart_day_intervals'] as $light_chart_days ) {
-           
-	     // If we reset light charts, just skip the rest of this update session
-	     // (we already delete light chart data in plug-init.php, IF a reset is flagged)
-	     if ( $ct['light_chart_reset'] ) {
-	     continue;
-	     }
-	           
-     // Light charts, WITHOUT newline (var passing)
-     $ct['cache']->update_light_chart($bitcoin_nodes_count_chart_file, $bitcoin_nodes_count_data_set, $light_chart_days); 
-         
-     }
      
      
-     ////////////////////////////////////////////
-     
-     
-// Update the event tracking
-$ct['cache']->save_file($bitcoin_node_stats_tracking_file, $ct['gen']->time_date_format(false, 'pretty_date_time') );
-
 }
 // Otherwise, see if API throttling prevented FULL caching of the geolocation data set
 // SAVE CHART DATA 

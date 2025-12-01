@@ -4,6 +4,36 @@
  */
 
 
+if ( isset($_POST['ext_apis']['bitcoin_rpc_server_login']) && $_POST['ext_apis']['bitcoin_rpc_server_login'] != '' ) {
+     
+$is_bitcoin_rpc_login = true;
+        
+$bitcoin_rpc_login_check = explode("||", $_POST['ext_apis']['bitcoin_rpc_server_login']);
+  
+}
+        
+  
+// Make sure login params are set properly
+if ( $is_bitcoin_rpc_login && sizeof($bitcoin_rpc_login_check) < 2 ) {
+$ct['update_config_error'] .= '<br />Bitcoin RPC Server Login formatting is NOT valid (format MUST be: username||password)';
+}
+
+
+if ( isset($_POST['ext_apis']['solana_rpc_server_login']) && $_POST['ext_apis']['solana_rpc_server_login'] != '' ) {
+     
+$is_solana_rpc_login = true;
+        
+$solana_rpc_login_check = explode("||", $_POST['ext_apis']['solana_rpc_server_login']);
+  
+}
+        
+  
+// Make sure login params are set properly
+if ( $is_solana_rpc_login && sizeof($solana_rpc_login_check) < 2 ) {
+$ct['update_config_error'] .= '<br />Solana RPC Server Login formatting is NOT valid (format MUST be: username||password)';
+}
+
+
 // Test mode (retrieves current BITCOIN block height)    
 if ( trim($_POST['ext_apis']['bitcoin_rpc_server']) != '' ) {
      

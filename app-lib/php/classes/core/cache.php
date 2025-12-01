@@ -1808,7 +1808,7 @@ var $ct_array = array();
                     && !in_array($conf_key, $ct['dev']['config_deny_additions'])
                     // If plugin status (we handle whitelisting for this in subarray_cached_ct_conf_upgrade())
                     // (WE CHECK $ct['active_plugins_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
-                    || $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
+                    || $ct['active_plugins_registered'] && $cat_key === 'plugins' && $conf_key === 'plugin_status' // Uses === for PHPv7.4 support
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                     }
@@ -1930,7 +1930,7 @@ var $ct_array = array();
                     && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
                     // Uses === for PHPv7.4 support
                     // (WE CHECK $ct['active_plugins_registered'] IN subarray_cached_ct_conf_upgrade() FOR CODE READABILITY)
-                    || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
+                    || $ct['active_plugins_registered'] && $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                     ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
                     }
@@ -3436,6 +3436,10 @@ var $ct_array = array();
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
   global $ct, $htaccess_username, $htaccess_password;
+  
+  // Checks on VALIDATED / SECURE config updates IN PROGRESS
+  // (in case we have to SECURELY use any NEWLY UPDATED config values on-the-fly)
+  $verified_update_request = $ct['sec']->valid_secure_config_update_request();
    
   // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
   $hash_check = ( $mode == 'params' ? md5( $api_server . serialize($request_params) ) : md5($api_server . $request_params) );
@@ -3737,6 +3741,9 @@ var $ct_array = array();
       if ( $headers != null ) {
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       }
+
+      
+      //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json') );
       
       
       // If proxies are configured FOR PRIVACY
@@ -3874,6 +3881,78 @@ var $ct_array = array();
       curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
       // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
       curl_setopt($ch, CURLOPT_USERPWD, $ct['conf']['ext_apis']['twilio_sid'] . ':' . $ct['conf']['ext_apis']['twilio_token']); 
+      }
+      // IF Bitcoin RPC requires a login
+      elseif (
+      is_array($request_params)
+      && in_array('bitcoin_rpc', $request_params)
+      ) {
+
+      
+          if (
+          $verified_update_request
+          && isset($verified_update_request['bitcoin_rpc_server_login'])
+          && $verified_update_request['bitcoin_rpc_server_login'] != ''
+          ) {
+          $bitcoin_rpc_login = explode("||", $verified_update_request['bitcoin_rpc_server_login']);
+          }
+          elseif (
+          isset($ct['conf']['ext_apis']['bitcoin_rpc_server_login'])
+          && $ct['conf']['ext_apis']['bitcoin_rpc_server_login'] != ''
+          ) {
+          $bitcoin_rpc_login = explode("||", $ct['conf']['ext_apis']['bitcoin_rpc_server_login']);
+          }
+          
+          
+          if (
+          is_array($bitcoin_rpc_login)
+          && sizeof($bitcoin_rpc_login) == 2
+          ) {
+          
+          curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); // MUST BE BASIC!
+          
+          // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
+          curl_setopt($ch, CURLOPT_USERPWD, $bitcoin_rpc_login[0] . ':' . $bitcoin_rpc_login[1]); 
+      
+          }
+          
+
+      }
+      // IF Solana RPC requires a login
+      elseif (
+      is_array($request_params)
+      && in_array('solana_rpc', $request_params)
+      ) {
+
+      
+          if (
+          $verified_update_request
+          && isset($verified_update_request['solana_rpc_server_login'])
+          && $verified_update_request['solana_rpc_server_login'] != ''
+          ) {
+          $solana_rpc_login = explode("||", $verified_update_request['solana_rpc_server_login']);
+          }
+          elseif (
+          isset($ct['conf']['ext_apis']['solana_rpc_server_login'])
+          && $ct['conf']['ext_apis']['solana_rpc_server_login'] != ''
+          ) {
+          $solana_rpc_login = explode("||", $ct['conf']['ext_apis']['solana_rpc_server_login']);
+          }
+          
+          
+          if (
+          is_array($solana_rpc_login)
+          && sizeof($solana_rpc_login) == 2
+          ) {
+          
+          curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); // MUST BE BASIC!
+          
+          // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
+          curl_setopt($ch, CURLOPT_USERPWD, $solana_rpc_login[0] . ':' . $solana_rpc_login[1]); 
+      
+          }
+          
+
       }
      
      
@@ -4060,10 +4139,33 @@ var $ct_array = array();
         $false_positive = true;
         }
        
-       
+        
+        // IF false positive, we're all set, BUT need to DELETE any previous flags on
+        // previously-disabled endpoints (end user upgraded crypto RPC service, etc etc)
+        if ( $false_positive ) {
+        
+        
+                // (FREE RPCs sometimes may have disabled some endpoints)
+                if (
+                is_array($request_params)
+                && in_array('bitcoin_rpc', $request_params)
+                ) {
+                
+                // Use digest hash for security / short filename
+                $disabled_rpc_cache = $ct['base_dir'] . '/cache/other/disabled_rpc_endpoints/' . $ct['sec']->digest($api_endpoint, 10) . '-bitcoin-method-' . $request_params['method'] . '.dat';
+                    
+                    // Remove the disabled method flag
+                    if ( file_exists($disabled_rpc_cache) ) {
+                    unlink($disabled_rpc_cache);
+                    }
+                
+                }
+                
+                
+        }
         // DON'T FLAG as a possible error if detected as a false positive already
         // (THIS LOGIC IS FOR STORING THE POSSIBLE ERROR IN /cache/logs/error/external_data FOR REVIEW)
-        if ( !$false_positive ) {
+        else {
          
             // MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
             // If response seems to contain an error message ('error' STRICTLY found once [no sentences containing ' error '])
@@ -4196,7 +4298,13 @@ var $ct_array = array();
                    		    false,
                    		    'no_api_data_' . $api_endpoint // Unique, since we might use $tld_or_ip for othr chain RPCs
                    		    );
-                   		    
+                
+                // Use digest hash for security / short filename
+                $disabled_rpc_cache = $ct['base_dir'] . '/cache/other/disabled_rpc_endpoints/' . $ct['sec']->digest($api_endpoint, 10) . '-bitcoin-method-' . $request_params['method'] . '.dat';
+                
+                // Flag the server's endpoint as disabled
+                $ct['cache']->save_file($disabled_rpc_cache, $ct['gen']->time_date_format(false, 'pretty_date_time') );
+
                 }
                 // alphavantage API ERROR LOGGING
                 // (sometimes no data is returned, IF you go over their limits)
