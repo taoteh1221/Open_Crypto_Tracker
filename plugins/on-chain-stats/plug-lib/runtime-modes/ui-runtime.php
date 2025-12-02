@@ -32,7 +32,7 @@ plugin_assets_path['<?=$this_plug?>'] = '<?=$ct['plug']->plug_dir(true)?>/plug-a
 
 foreach ( $onchain_stat_selected_networks as $network_name_key ) {
      
-     if ( $network_name_key == '' ) {
+     if ( !in_array($network_name_key, $plug['class'][$this_plug]->supported_networks) ) {
      continue;
      }
 
@@ -43,7 +43,7 @@ require($ct['plug']->plug_dir() . '/plug-lib/runtime-modes/ui/'.$network_name_ke
 
 ?>
 
-<p style='font-weight: bold;' class='bitcoin'>More networks coming soon&trade;</p>
+<p style='font-weight: bold;' class='bitcoin'>Activate more networks in "Admin Area => Plugins => <?=$plug['conf'][$this_plug]['ui_name']?>".</p>
 
     <script>
     

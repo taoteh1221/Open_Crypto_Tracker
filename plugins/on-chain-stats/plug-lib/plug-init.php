@@ -27,13 +27,17 @@ $ct['dev']['throttled_apis']['ip-api.com'] = array(
                                                    );
 
 
+// Make sure the network keys are lowercase
+$plug['conf'][$this_plug]['selected_networks'] = $ct['var']->auto_correct_str($plug['conf'][$this_plug]['selected_networks'], 'lower');
+
+// Put into an array, to loop with
 $onchain_stat_selected_networks = array_map('trim', explode(',', $plug['conf'][$this_plug]['selected_networks']) );
 
 
 // Setup directory structure for network caches...
 foreach ( $onchain_stat_selected_networks as $network_name_key ) {
      
-     if ( $network_name_key == '' ) {
+     if ( !in_array($network_name_key, $plug['class'][$this_plug]->supported_networks) ) {
      continue;
      }
 

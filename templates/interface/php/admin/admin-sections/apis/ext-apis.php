@@ -227,6 +227,18 @@ $ct['admin_render_settings']['bitcoin_rpc_server_login']['is_notes'] = 'Username
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$ct['admin_render_settings']['bitcoin_rpc_server_login_type']['is_radio'] = array(
+                                                            'basic',
+                                                            'any',
+                                                           );
+
+
+$ct['admin_render_settings']['bitcoin_rpc_server_login_type']['is_notes'] = 'Password-protected Bitcoin RPC server\'s login type<br /><b class="red">TRY CHANGING THIS, if the RPC server login does NOT work.</b>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 $ct['admin_render_settings']['solana_rpc_server']['is_text'] = true;
 
 $ct['admin_render_settings']['solana_rpc_server']['is_trim'] = true;
@@ -247,6 +259,18 @@ $ct['admin_render_settings']['solana_rpc_server_login']['text_field_size'] = 45;
 
 
 $ct['admin_render_settings']['solana_rpc_server_login']['is_notes'] = 'Username / password protection for access to the Solana RPC Server.<br />This format MUST be used: username||password<br /><b class="red">LEAVE BLANK, if there is no login protection.</b>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$ct['admin_render_settings']['solana_rpc_server_login_type']['is_radio'] = array(
+                                                            'basic',
+                                                            'any',
+                                                           );
+
+
+$ct['admin_render_settings']['solana_rpc_server_login_type']['is_notes'] = 'Password-protected Solana RPC server\'s login type<br /><b class="red">TRY CHANGING THIS, if the RPC server login does NOT work.</b>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

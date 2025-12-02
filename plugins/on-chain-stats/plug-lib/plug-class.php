@@ -8,12 +8,11 @@
 $plug['class'][$this_plug] = new class() {
 				
 	
-// Class variables / arrays
-
-var $var1;
-var $var2;
-var $var3;
-var $array1 = array();
+// Crypto networks supported
+var $supported_networks = array(
+                                'bitcoin',
+                                'solana',
+                                );
 
 	
 	// Class functions
@@ -71,27 +70,25 @@ var $array1 = array();
           ) {
           $ct['update_config_error'] .= $update_config_error_seperator . '"TPS Chart Defaults" FORMATTING incorrect (see corresponding setting\'s NOTES section)';
           }
-		
-		
-     $selected_networks = array_map('trim', explode(',', $_POST[$this_plug]['selected_networks']) );
-     
-     $valid_networks = array(
-                            'bitcoin',
-                            'solana',
-                            );
   
   
-          // Make enabled networks are valid
+          // Make sure enabled networks are supported
           if (
           !isset($_POST[$this_plug]['selected_networks'])
           || trim($_POST[$this_plug]['selected_networks']) == '' ) {
           $ct['update_config_error'] .= $update_config_error_seperator . '"Selected Networks" MUST be filled in';
           }
           else {
+     		
+          // Make sure the network keys are lowercase
+          $_POST[$this_plug]['selected_networks'] = $ct['var']->auto_correct_str($_POST[$this_plug]['selected_networks'], 'lower');
+     
+          $selected_networks = array_map('trim', explode(',', $_POST[$this_plug]['selected_networks']) );
+     
           
                foreach ( $selected_networks as $enabled_network ) {
                
-                    if ( !in_array($enabled_network, $valid_networks) ) {
+                    if ( !in_array($enabled_network, $this->supported_networks) ) {
                     $ct['update_config_error'] .= $update_config_error_seperator . 'The network "'.$enabled_network.'" is NOT a valid option';
                     }
                

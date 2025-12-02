@@ -12,7 +12,7 @@
 
 foreach ( $onchain_stat_selected_networks as $network_name_key ) {
      
-     if ( $network_name_key == '' ) {
+     if ( !in_array($network_name_key, $plug['class'][$this_plug]->supported_networks) ) {
      continue;
      }
 

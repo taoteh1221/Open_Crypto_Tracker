@@ -223,6 +223,10 @@ $ct['conf']['ext_apis']['bitcoin_rpc_server'] = 'https://bitcoin-rpc.publicnode.
 // IF the Bitcoin RPC server is password-protected
 // Leave blank to disable using a login. This format MUST be used: 'username||password'
 $ct['conf']['ext_apis']['bitcoin_rpc_server_login'] = '';
+////
+// Password-protected Bitcoin RPC server's login type
+// (TRY CHANGING THIS, if the RPC server login does NOT work)
+$ct['conf']['ext_apis']['bitcoin_rpc_server_login_type'] = 'basic'; // 'basic' / 'any'
 
 
 // IF you are using on-chain data from the Solana blockchain, you can choose which RPC server you want to use.
@@ -232,6 +236,10 @@ $ct['conf']['ext_apis']['solana_rpc_server'] = 'https://api.mainnet-beta.solana.
 // IF the Solana RPC server is password-protected
 // Leave blank to disable using a login. This format MUST be used: 'username||password'
 $ct['conf']['ext_apis']['solana_rpc_server_login'] = '';
+////
+// Password-protected Solana RPC server's login type
+// (TRY CHANGING THIS, if the RPC server login does NOT work)
+$ct['conf']['ext_apis']['solana_rpc_server_login_type'] = 'basic'; // 'basic' / 'any'
 
 
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 

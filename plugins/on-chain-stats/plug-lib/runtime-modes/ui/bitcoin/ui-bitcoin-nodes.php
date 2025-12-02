@@ -13,8 +13,12 @@ $disabled_rpc_getnodeaddresses = $ct['base_dir'] . '/cache/other/disabled_rpc_en
 // Bitcoin mining data (5 minute cache)
 $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
 
+//var_dump($bitcoin_mining);
+
 // Bitcoin get latest block hash (5 minute cache)
 $bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
+
+//var_dump($bitcoin_last_block_hash);
 
 // Bitcoin get latest block stats (5 minute cache)
 $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 5)['result'];
@@ -147,6 +151,21 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
     
    </div>
    
+    <?php
+    }
+    else {
+    ?>
+    
+             	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
+             	
+             	Your Bitcoin RPC service MAY have disabled the "getmininginfo" endpoint, which we NEED for mining stats. Consult your Bitcoin RPC Provider on using this endpoint, or try switching to another provider in "Admin Area => APIs => External APIs => Bitcoin RPC Server" (<a href='https://chainstack.com/pricing/' target='_BLANK'>ChainStack</a> has a FREE 'Developer' plan, which supports "getmininginfo"), to enable the additional Bitcoin stats mentioned.<br /><br />
+             	
+               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's RPC address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".<br /><br />
+             	
+               PRO TIP: You can check the app logs in the "Admin Area => System Monitoring" section, to see any error messages related to what Bitcoin RPC endpoints have been detected as unavailable. MANY "free" crypto RPC providers disable resource-intensive OR important endpoints, to monetize access to them.
+    
+             	</p>
+    
     <?php
     }
     ?>
@@ -378,9 +397,11 @@ zingchart.bind('bitcoin_tps_chart', 'label_click', function(e){
              	
              	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
              	
-             	Your Bitcoin RPC service seems to have disabled the "getnodeaddresses" endpoint, which we NEED for the Node Count chart, and the Node Geolocation map. Consult your Bitcoin RPC Provider on how to enable this endpoint, or switch to another provider in "Admin Area => APIs => External APIs => Bitcoin RPC Server" (<a href='https://chainstack.com/pricing/' target='_BLANK'>ChainStack</a> has a FREE 'Developer' plan, which supports "getnodeaddresses"), to enable the additional Bitcoin stats mentioned.<br /><br />
+             	Your Bitcoin RPC service seems to have disabled the "getnodeaddresses" endpoint, which we NEED for the Node Count chart, and the Node Geolocation map. Consult your Bitcoin RPC Provider on how to enable this endpoint, or try switching to another provider in "Admin Area => APIs => External APIs => Bitcoin RPC Server" (<a href='https://chainstack.com/pricing/' target='_BLANK'>ChainStack</a> has a FREE 'Developer' plan, which supports "getnodeaddresses"), to enable the additional Bitcoin stats mentioned.<br /><br />
              	
-               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".
+               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's RPC address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".<br /><br />
+             	
+               PRO TIP: You can check the app logs in the "Admin Area => System Monitoring" section, to see any error messages related to what Bitcoin RPC endpoints have been detected as unavailable. MANY "free" crypto RPC providers disable resource-intensive OR important endpoints, to monetize access to them.
              	
              	</p>
              	

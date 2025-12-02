@@ -3896,6 +3896,7 @@ var $ct_array = array();
           && $verified_update_request['bitcoin_rpc_server_login'] != ''
           ) {
           $bitcoin_rpc_login = explode("||", $verified_update_request['bitcoin_rpc_server_login']);
+          $bitcoin_rpc_login_type = $verified_update_request['bitcoin_rpc_server_login_type'];
           }
           // Regular config
           elseif (
@@ -3903,6 +3904,7 @@ var $ct_array = array();
           && $ct['conf']['ext_apis']['bitcoin_rpc_server_login'] != ''
           ) {
           $bitcoin_rpc_login = explode("||", $ct['conf']['ext_apis']['bitcoin_rpc_server_login']);
+          $bitcoin_rpc_login_type = $ct['conf']['ext_apis']['bitcoin_rpc_server_login_type'];
           }
           
           
@@ -3910,8 +3912,10 @@ var $ct_array = array();
           is_array($bitcoin_rpc_login)
           && sizeof($bitcoin_rpc_login) == 2
           ) {
+               
+          $curl_login_type = ( $bitcoin_rpc_login_type == 'basic' ? CURLAUTH_BASIC : CURLAUTH_ANY );
           
-          curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); // MUST BE BASIC!
+          curl_setopt($ch, CURLOPT_HTTPAUTH, $curl_login_type);
           
           // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
           curl_setopt($ch, CURLOPT_USERPWD, $bitcoin_rpc_login[0] . ':' . $bitcoin_rpc_login[1]); 
@@ -3934,6 +3938,7 @@ var $ct_array = array();
           && $verified_update_request['solana_rpc_server_login'] != ''
           ) {
           $solana_rpc_login = explode("||", $verified_update_request['solana_rpc_server_login']);
+          $solana_rpc_login_type = $verified_update_request['solana_rpc_server_login_type'];
           }
           // Regular config
           elseif (
@@ -3941,6 +3946,7 @@ var $ct_array = array();
           && $ct['conf']['ext_apis']['solana_rpc_server_login'] != ''
           ) {
           $solana_rpc_login = explode("||", $ct['conf']['ext_apis']['solana_rpc_server_login']);
+          $solana_rpc_login_type = $ct['conf']['ext_apis']['solana_rpc_server_login_type'];
           }
           
           
@@ -3948,8 +3954,10 @@ var $ct_array = array();
           is_array($solana_rpc_login)
           && sizeof($solana_rpc_login) == 2
           ) {
+               
+          $curl_login_type = ( $solana_rpc_login_type == 'basic' ? CURLAUTH_BASIC : CURLAUTH_ANY );
           
-          curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); // MUST BE BASIC!
+          curl_setopt($ch, CURLOPT_HTTPAUTH, $curl_login_type);
           
           // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
           curl_setopt($ch, CURLOPT_USERPWD, $solana_rpc_login[0] . ':' . $solana_rpc_login[1]); 
