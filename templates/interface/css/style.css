@@ -752,6 +752,10 @@ border: 0.4em dotted #F7931A !important;
 }
 
 
+/*
+.bitcoin IS ALREADY USED AS A NON-GRADIENT ABOVE,
+EVERYWHERE ACROSS THE APP FOR AN ORANGE-LIKE COLOR!
+ */
 .btc {
   background: -webkit-linear-gradient(#f27e02, #edb678);
   -webkit-background-clip: text;
@@ -759,14 +763,14 @@ border: 0.4em dotted #F7931A !important;
 }
 
 
-.eth {
+.eth, .ethereum {
   background: -webkit-linear-gradient(#4c4b4b, #9e9c9c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 
-.sol {
+.sol, .solana {
   background: -webkit-linear-gradient(#16E9AC, #CF2CFA);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

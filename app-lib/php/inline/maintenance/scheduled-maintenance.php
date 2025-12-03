@@ -100,6 +100,13 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/access_stats', $ct['conf']['power']['access_stats_delete_old'], 'dat'); 
 
 /////////////////////////
+// Every 90 days
+/////////////////////////
+
+// Delete OLD disabled RPC endpoint cache files
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/other/disabled_rpc_endpoints', 90, 'dat'); // ONLY .dat FILES
+
+/////////////////////////
 // Every 30 days
 /////////////////////////
 

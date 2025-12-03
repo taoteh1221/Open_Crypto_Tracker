@@ -60,6 +60,7 @@ $ct['gen']->dir_struct($ct['base_dir'] . '/cache/events/light_chart_rebuilds/') 
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/debug/cron/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/logs/error/external_data/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/market_id_parsing/') != true
+|| $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/disabled_rpc_endpoints/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/alerts/fiat_price/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/assets/stocks/overviews/') != true
 || $ct['gen']->dir_struct($ct['base_dir'] . '/cache/internal_api/') != true

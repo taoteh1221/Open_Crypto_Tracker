@@ -178,6 +178,16 @@ $ct['dev']['throttled_apis'] = array(
                                                       ),
 
 
+                                     // https://support.chainstack.com/hc/en-us/articles/6955614349209-Node-and-connection-limitations
+                                     // 67 per-minute throttling keeps us within 3mil requests per-month free 'developer' plan limits
+                                     'chainstack.com' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => 67,
+                                                       'per_second' => 25, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                      ),
+
+
                                      // https://docs.cdp.coinbase.com/exchange/docs/rate-limits
                                      'coinbase.com' => array(
                                                        'min_cache_time' => null,

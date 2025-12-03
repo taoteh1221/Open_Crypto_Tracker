@@ -61,7 +61,7 @@ $ct['admin_render_settings']['node_geolocation_map_height_default']['is_notes'] 
 
 $ct['admin_render_settings']['selected_networks']['is_text'] = true;
 
-$ct['admin_render_settings']['selected_networks']['is_notes'] = 'This format MUST be used: network_name_1,network_name_2<br />Comma-separated list of the blockchain networks you want to track onchain stats for (only Bitcoin and Solana are available...more networks coming soon™)';
+$ct['admin_render_settings']['selected_networks']['is_notes'] = 'This format MUST be used: network_name_1,network_name_2<br />Comma-separated list of the blockchain networks you want to track onchain stats for <b class="red">(only Bitcoin and Solana are available, more networks are coming soon™)</b>';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

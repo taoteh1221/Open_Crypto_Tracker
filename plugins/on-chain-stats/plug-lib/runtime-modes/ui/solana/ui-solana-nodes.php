@@ -64,7 +64,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
 
 
 <fieldset class='subsection_fieldset'>
-	<legend class='subsection_legend'> <b>Solana Network Statistics</b> </legend>
+	<legend class='subsection_legend'> <b class='sol'>Solana Network Statistics</b> </legend>
 		    
 		
     <p>
@@ -133,7 +133,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
 <p style='font-weight: bold;' class='bitcoin'>Node version pie chart / daily transactions chart coming soon&trade;</p>
 
 	
-	<h4 class='yellow'>Solana Epoch Information (cached for 5 minutes):</h4>
+	<h4 class='sol'>Solana Epoch Information (cached for 5 minutes):</h4>
 	
    <div class='secondary_chart_wrapper sol_epoch_data'>
 
@@ -178,7 +178,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
 
     
 	
-	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana TPS:</h4>
+	<h4 class='sol' style='margin-top: 2em; margin-bottom: 1em;'>Solana TPS:</h4>
 	
     <p>
     
@@ -393,7 +393,7 @@ zingchart.bind('solana_tps_chart', 'label_click', function(e){
   </script>
 
 	
-	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node Count:</h4>
+	<h4 class='sol' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node Count:</h4>
 	
     <p>
     
@@ -610,7 +610,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
 
 <!-- SOLANA NODES GEOLOCATION MAP  -->
     
-    <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation:</h4>
+    <h4 class='sol' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation:</h4>
     
 
     <p class='bitcoin'>Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.</p>

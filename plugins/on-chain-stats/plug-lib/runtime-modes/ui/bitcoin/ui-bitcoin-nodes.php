@@ -6,12 +6,19 @@
 
 // Bitcoin Node stats START (requires price charts)
 if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
+     
+// Used digest hash for security / short filename
+$disabled_rpc_getnodeaddresses = $ct['base_dir'] . '/cache/other/disabled_rpc_endpoints/' . $ct['sec']->digest($ct['conf']['ext_apis']['bitcoin_rpc_server'], 10) . '-bitcoin-method-getnodeaddresses.dat';
 
 // Bitcoin mining data (5 minute cache)
 $bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
 
+//var_dump($bitcoin_mining);
+
 // Bitcoin get latest block hash (5 minute cache)
 $bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
+
+//var_dump($bitcoin_last_block_hash);
 
 // Bitcoin get latest block stats (5 minute cache)
 $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 5)['result'];
@@ -38,7 +45,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
 
   
 <fieldset class='subsection_fieldset'>
-	<legend class='subsection_legend'> <b>Bitcoin Network Statistics</b> </legend>
+	<legend class='subsection_legend'> <b class='btc'>Bitcoin Network Statistics</b> </legend>
 		    
 	
     <?php    
@@ -116,7 +123,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
     ?>
     
 	
-	<h4 class='yellow'>Bitcoin Mining Information (cached for 5 minutes):</h4>
+	<h4 class='btc'>Bitcoin Mining Information (cached for 5 minutes):</h4>
 	
    <div class='secondary_chart_wrapper sol_epoch_data'>
     
@@ -146,12 +153,27 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
    
     <?php
     }
+    else {
+    ?>
+    
+             	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
+             	
+             	Your Bitcoin RPC service MAY have disabled the "getmininginfo" endpoint, which we NEED for mining stats. Consult your Bitcoin RPC Provider on using this endpoint, or try switching to another provider in "Admin Area => APIs => External APIs => Bitcoin RPC Server" (<a href='https://chainstack.com/pricing/' target='_BLANK'>ChainStack</a> has a FREE 'Developer' plan, which supports "getmininginfo"), to enable the additional Bitcoin stats mentioned.<br /><br />
+             	
+               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's RPC address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".<br /><br />
+             	
+               PRO TIP: You can check the app logs in the "Admin Area => System Monitoring" section, to see any error messages related to what Bitcoin RPC endpoints have been detected as unavailable. MANY "free" crypto RPC providers disable resource-intensive OR important endpoints, to monetize access to them.
+    
+             	</p>
+    
+    <?php
+    }
     ?>
 
 
     
 	
-	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin TPS:</h4>
+	<h4 class='btc' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin TPS:</h4>
 	
     <p>
     
@@ -365,10 +387,34 @@ zingchart.bind('bitcoin_tps_chart', 'label_click', function(e){
     
   </script>
 
-	
+
+    <?php
+    // Don't show node count chart / node geoloocation map,
+    // IF we detect the "getnodeaddresses" endpoint is disabled by the RPC provider
+    if ( file_exists($disabled_rpc_getnodeaddresses) ) {
+    ?>
+             	<br /><br />
+             	
+             	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
+             	
+             	Your Bitcoin RPC service seems to have disabled the "getnodeaddresses" endpoint, which we NEED for the Node Count chart, and the Node Geolocation map. Consult your Bitcoin RPC Provider on how to enable this endpoint, or try switching to another provider in "Admin Area => APIs => External APIs => Bitcoin RPC Server" (<a href='https://chainstack.com/pricing/' target='_BLANK'>ChainStack</a> has a FREE 'Developer' plan, which supports "getnodeaddresses"), to enable the additional Bitcoin stats mentioned.<br /><br />
+             	
+               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's RPC address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".<br /><br />
+             	
+               PRO TIP: You can check the app logs in the "Admin Area => System Monitoring" section, to see any error messages related to what Bitcoin RPC endpoints have been detected as unavailable. MANY "free" crypto RPC providers disable resource-intensive OR important endpoints, to monetize access to them.
+             	
+             	</p>
+             	
+    <?php
+    }
+    // Otherwise, show node count chart / node geoloocation map
+    else {
+    ?>
 
 	
-	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node Count:</h4>
+	<h4 class='btc' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node Count:</h4>
+    
+    <p class='bitcoin'>The number of Bitcoin nodes may vary, due to how long the Bitcoin RPC server (you are getting onchain data from) has been online connecting to other peers, or other factors.</p>
 	
     <p>
     
@@ -391,24 +437,7 @@ zingchart.bind('bitcoin_tps_chart', 'label_click', function(e){
     	else {
     	$node_count_chart_defaults[1] = 15;
     	}
-    
-    
-    if (
-    preg_match("/publicnode\.com/i", $ct['conf']['ext_apis']['bitcoin_rpc_server'])
-    && !file_exists( $ct['plug']->chart_cache('/bitcoin/overwrites/bitcoin_nodes_info.dat', $this_plug) )
-    ) {
-    ?>
-             	
-             	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
-             	
-             	PublicNode.com's Bitcoin RPC service MAY require a DEDICATED node for the "getnodeaddresses" endpoint (used by this chart), IF you overuse their FREE API (on the same IP address).<br /><br />
-             	
-               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".
-             	
-             	</p>
-             	
-    <?php
-    }
+
     ?>
     
     
@@ -603,9 +632,11 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
 
 <!-- BITCOIN NODES GEOLOCATION MAP  -->
     
-    <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node GeoLocation:</h4>
+    <h4 class='btc' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node GeoLocation:</h4>
     
     <p class='bitcoin'>Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.</p>
+    
+    <p class='bitcoin'>The number of Bitcoin nodes may vary, due to how long the Bitcoin RPC server (you are getting onchain data from) has been online connecting to other peers, or other factors.</p>
     
     
     <?php
@@ -615,20 +646,6 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
              	<p style='font-weight: bold; margin: 1em !important;' class='red red_dotted'>
              	
              	It may take a few hours or longer to show Bitcoin GeoLocation data, after enabling the On-Chain Stats plugin.
-             	
-             	<?php
-             	if ( preg_match("/publicnode\.com/i", $ct['conf']['ext_apis']['bitcoin_rpc_server']) ) {
-             	?>
-               
-               <br /><br />
-               
-             	PublicNode.com's Bitcoin RPC service MAY require a DEDICATED node for the "getnodeaddresses" endpoint (used by this map), IF you overuse their FREE API (on the same IP address).<br /><br />
-             	
-               ALTERNATIVELY, you can <a href='https://magitek.dev/articles/2023-02-22-how-to-setup-an-rpc-api-for-a-blockchain-node/' target='_BLANK'>run your own Bitcoin RPC node</a>, and enter it's address in "Admin Area => APIs => External APIs => Bitcoin RPC Server".
-             	
-             	<?php
-             	}
-             	?>
              	
              	</p>
              	
@@ -714,6 +731,12 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
 		
     </script>
     
+    
+    
+    <?php
+    }
+    ?>
+
     
   <p> &nbsp; </p>
 	

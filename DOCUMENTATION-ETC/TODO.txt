@@ -131,6 +131,19 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+======================================================================
+We could in many instances replace the get_tld_or_ip() function with a NEW / SEPERATE function get_domain_or_ip() to RELIABLY include the ENTIRE domain including any subdomains or weird tld.il.co TLD, no matter how many dots are in it, with:
+
+$var = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $var);
+$var = preg_replace("/\/(.*)/i", "", $var);
+
+We then would need to rewrite any hard-coded domain name instances that switch to using that function too, like the API throttle system domains, etc. ALSO, THIS NEEDS TO BE HEAVILY-TESTED OUTSIDE THE CODEBASE (IN A TEST-ONLY ENVIRONMENT), BEFORE USING THIS NEW FUNCTION IN ANY PART OF THE CODEBASE!
+======================================================================
+
+
+Double check the caching and cache cleanup of throttling counts. Ideally, we'd like to cleanly assure purging of TEMPORARY throttle profile's count caches, as long as it won't impact permanent ones.
+
+
 When any NON-compact main nav menu is ALREADY EXPANDED OPEN, and it's root entry is clicked, it should UN-EXPAND.
 
 
