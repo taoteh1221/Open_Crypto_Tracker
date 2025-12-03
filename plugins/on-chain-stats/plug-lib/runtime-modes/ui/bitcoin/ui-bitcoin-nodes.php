@@ -45,7 +45,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
 
   
 <fieldset class='subsection_fieldset'>
-	<legend class='subsection_legend'> <b>Bitcoin Network Statistics</b> </legend>
+	<legend class='subsection_legend'> <b class='btc'>Bitcoin Network Statistics</b> </legend>
 		    
 	
     <?php    
@@ -123,7 +123,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
     ?>
     
 	
-	<h4 class='yellow'>Bitcoin Mining Information (cached for 5 minutes):</h4>
+	<h4 class='btc'>Bitcoin Mining Information (cached for 5 minutes):</h4>
 	
    <div class='secondary_chart_wrapper sol_epoch_data'>
     
@@ -173,7 +173,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
 
     
 	
-	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin TPS:</h4>
+	<h4 class='btc' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin TPS:</h4>
 	
     <p>
     
@@ -412,7 +412,7 @@ zingchart.bind('bitcoin_tps_chart', 'label_click', function(e){
     ?>
 
 	
-	<h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node Count:</h4>
+	<h4 class='btc' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node Count:</h4>
     
     <p class='bitcoin'>The number of Bitcoin nodes may vary, due to how long the Bitcoin RPC server (you are getting onchain data from) has been online connecting to other peers, or other factors.</p>
 	
@@ -632,7 +632,7 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
 
 <!-- BITCOIN NODES GEOLOCATION MAP  -->
     
-    <h4 class='yellow' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node GeoLocation:</h4>
+    <h4 class='btc' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node GeoLocation:</h4>
     
     <p class='bitcoin'>Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.</p>
     
