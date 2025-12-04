@@ -131,6 +131,18 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Monad on coingecko terminal:
+https://www.geckoterminal.com/monad/pools
+
+
+Monad PUBLIC RPCs:
+https://docs.monad.xyz/developer-essentials/network-information
+
+
+Other Monad integrations:
+https://x.com/keoneHD/status/1995682158942331330
+
+
 Now that nearly all the bundled plugins are built out well, populate their documentation pages (that show in the admin interfaces).
 
 
@@ -144,18 +156,6 @@ Store Solana "Transactions Since Genesis", and every 24 hours see how many more 
 
 
 Do a pie chart for the Solana Version data.
-
-
-Monad on coingecko terminal:
-https://www.geckoterminal.com/monad/pools
-
-
-Monad PUBLIC RPCs:
-https://docs.monad.xyz/developer-essentials/network-information
-
-
-Other Monad integrations:
-https://x.com/keoneHD/status/1995682158942331330
 
 
 ======================================================================
