@@ -131,9 +131,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-When any NON-compact main nav menu is ALREADY EXPANDED OPEN, and it's root entry is clicked, it should UN-EXPAND.
-
-
 Now that nearly all the bundled plugins are built out well, populate their documentation pages (that show in the admin interfaces).
 
 
