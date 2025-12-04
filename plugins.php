@@ -23,59 +23,139 @@ require("templates/interface/php/wrap/header.php");
 }
 
 
-foreach ( $plug['activated']['ui'] as $plugin_key => $plugin_init ) {
-            		
-$this_plug = $plugin_key;
+// Page mode
+if (
+isset($_GET['plugin'])
+&& trim($_GET['plugin']) != ''
+&& isset($plug['activated']['ui'][ $_GET['plugin'] ])
+&& $plug['conf'][ $_GET['plugin'] ]['ui_location'] == 'nav_menu_page'
+) {
+
+$this_plug = $_GET['plugin'];
+
+?>
+
+
+
+     		<div class=''>
+     	
+     <h2 class='bitcoin page_title'><?=$plug['conf'][$this_plug]['ui_name']?></h2>
      
-     if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu' ) {
-     ?>
+     
+     <div class='full_width_wrapper'>
+     			
+     			
+     	   <div class='align_left' style='margin-top: 0.5em; margin-bottom: 2em;'>
+     	
+     	
+     	         <div style='display: inline;'>
+     	         
+     			&nbsp;<br /> &nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select select_auto_refresh' name='select_auto_refresh' onchange='
+     			 auto_reload(this);
+     			 '>
+     				<option value='0'> Manually </option>
+     				<option value='300'> 5 Minutes </option>
+     				<option value='600'> 10 Minutes </option>
+     				<option value='900'> 15 Minutes </option>
+     				<option value='1800'> 30 Minutes </option>
+     			</select> 
+     			
+     			</div>
+     			
+     			
+     			&nbsp; <span class='reload_notice red'></span>		
+     		
+     		
+     	   </div>
+     					
+                                 
+     
+                   	<?php
+                 	// This plugin's plug-init.php file (runs the plugin)
+                 	include($plug['activated']['ui'][$this_plug]);
+                    ?>
+     
+     		</div>
+     		
+     		
+     </div>
 
-		<div id='plugin_<?=$this_plug?>' class='tabdiv'>
-	
-<h2 class='bitcoin page_title'><?=$plug['conf'][$this_plug]['ui_name']?></h2>
+     
+<script>
+
+         // Highlight corresponding sidebar menu entry AFTER 3 SECONDS (for any core DOM manipulation to complete first)
+         setTimeout(function(){
+         $('a[nav-menu-page-id="<?=$this_plug?>"]').addClass("active");
+         }, 3000);
+
+</script>
 
 
-<div class='full_width_wrapper'>
-			
-			
-	   <div class='align_left' style='margin-top: 0.5em; margin-bottom: 2em;'>
-	
-	
-	         <div style='display: inline;'><?=$ct['gen']->start_page_html('plugin_' . $this_plug)?></div>
-			
-			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select select_auto_refresh' name='select_auto_refresh' onchange='
-			 auto_reload(this);
-			 '>
-				<option value='0'> Manually </option>
-				<option value='300'> 5 Minutes </option>
-				<option value='600'> 10 Minutes </option>
-				<option value='900'> 15 Minutes </option>
-				<option value='1800'> 30 Minutes </option>
-			</select> 
-			
-			&nbsp; <span class='reload_notice red'></span>		
-		
-		
-	   </div>
-					
-                            
+<?php
 
-              	<?php
-            	// This plugin's plug-init.php file (runs the plugin)
-            	include($plugin_init);
-               ?>
+unset($this_plug);
 
-		</div>
-		
-		
-</div>
+}
+// Tab mode
+else {
 
-     <?php
+     
+     foreach ( $plug['activated']['ui'] as $plugin_key => $plugin_init ) {
+                 		
+     $this_plug = $plugin_key;
+          
+          if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu_tab' ) {
+          ?>
+     
+     		<div id='plugin_<?=$this_plug?>' class='tabdiv'>
+     	
+     <h2 class='bitcoin page_title'><?=$plug['conf'][$this_plug]['ui_name']?></h2>
+     
+     
+     <div class='full_width_wrapper'>
+     			
+     			
+     	   <div class='align_left' style='margin-top: 0.5em; margin-bottom: 2em;'>
+     	
+     	
+     	         <div style='display: inline;'><?=$ct['gen']->start_page_html('plugin_' . $this_plug)?></div>
+     			
+     			&nbsp; &nbsp; <span class='blue' style='font-weight: bold;'>App Reload:</span> <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select select_auto_refresh' name='select_auto_refresh' onchange='
+     			 auto_reload(this);
+     			 '>
+     				<option value='0'> Manually </option>
+     				<option value='300'> 5 Minutes </option>
+     				<option value='600'> 10 Minutes </option>
+     				<option value='900'> 15 Minutes </option>
+     				<option value='1800'> 30 Minutes </option>
+     			</select> 
+     			
+     			&nbsp; <span class='reload_notice red'></span>		
+     		
+     		
+     	   </div>
+     					
+                                 
+     
+                   	<?php
+                 	// This plugin's plug-init.php file (runs the plugin)
+                 	include($plugin_init);
+                    ?>
+     
+     		</div>
+     		
+     		
+     </div>
+     
+          <?php
+          }
+     
+     // Reset $this_plug at end of loop
+     unset($this_plug); 
+                 	
      }
+     
 
-// Reset $this_plug at end of loop
-unset($this_plug); 
-            	
 }
 
 

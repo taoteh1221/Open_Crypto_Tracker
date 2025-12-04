@@ -41,7 +41,7 @@ $plug['conf'][$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 
 
 
 // If running in the UI, set the preferred location it should show in
-// 'none', 'nav_menu', 'tools', 'more_stats' (defaults to 'none' if not set)
+// 'none', 'nav_menu_tab', 'nav_menu_page', 'tools', 'more_stats' (defaults to 'none' if not set)
 $plug['conf'][$this_plug]['ui_location'] = 'none'; 
 
 

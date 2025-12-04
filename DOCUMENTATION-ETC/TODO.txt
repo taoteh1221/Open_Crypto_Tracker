@@ -131,28 +131,6 @@ Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-======================================================================
-We could in many instances replace the get_tld_or_ip() function with a NEW / SEPERATE function get_domain_or_ip() to RELIABLY include the ENTIRE domain including any subdomains or weird tld.il.co TLD, no matter how many dots are in it, with:
-
-$var = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $var);
-$var = preg_replace("/\/(.*)/i", "", $var);
-
-We then would need to rewrite any hard-coded domain name instances that switch to using that function too, like the API throttle system domains, etc. ALSO, THIS NEEDS TO BE HEAVILY-TESTED OUTSIDE THE CODEBASE (IN A TEST-ONLY ENVIRONMENT), BEFORE USING THIS NEW FUNCTION IN ANY PART OF THE CODEBASE!
-======================================================================
-
-
-Double check the caching and cache cleanup of throttling counts. Ideally, we'd like to cleanly assure purging of TEMPORARY throttle profile's count caches, as long as it won't impact permanent ones.
-
-
-When any NON-compact main nav menu is ALREADY EXPANDED OPEN, and it's root entry is clicked, it should UN-EXPAND.
-
-
-Instead of having load_cached_config() RESET TO DEFAULT CONFIG IF the cached config is CORRUPT, rewrite it so we have any 'restore_conf' file path ALREADY LOADED INTO A VAR, and IF set AND we test it and it's NOT corrupt, load that as the config INSTEAD, AND INCLUDE AN ERROR LOG ABOUT WHAT HAPPENED. IF instead, 'restore_conf' IS ALSO CORRUPT, THEN GO AHEAD AND RESET TO THE DEFAULT CONFIG. Right now, we loop through the list of secure files, so it's NOT ASSURED WE LOADED THE RESTORE CONFIG PATH FIRST. This needs to load seperately / earlier, so it's ready to use if needed.
-
-
-dyn_light_chart_update() should FIRST check to see IF THE PREVIOUS ARCHIVAL LINE MATCHES THE PREVIOUS LIGHT CHART LINE, before initiating a 'full scan' (which is essentially a FULL LIGHT CHART REBUIULD). The reasoning is some charts do NOT get new data more than once or twice DAILY (on-chain node count charts, etc), and may have the latest available archival interval IN THE LIGH CHART ALREADY (currently, we presume the interval should line up with that particular light chart's '$min_data_interval', as we get PRICE CHART data every 20 minutes).
-
-
 Now that nearly all the bundled plugins are built out well, populate their documentation pages (that show in the admin interfaces).
 
 
@@ -168,8 +146,35 @@ Store Solana "Transactions Since Genesis", and every 24 hours see how many more 
 Do a pie chart for the Solana Version data.
 
 
+Monad on coingecko terminal:
+https://www.geckoterminal.com/monad/pools
+
+
 Monad PUBLIC RPCs:
 https://docs.monad.xyz/developer-essentials/network-information
+
+
+Other Monad integrations:
+https://x.com/keoneHD/status/1995682158942331330
+
+
+======================================================================
+We could in many instances replace the get_tld_or_ip() function with a NEW / SEPERATE function get_domain_or_ip() to RELIABLY include the ENTIRE domain including any subdomains or weird tld.il.co TLD, no matter how many dots are in it, with:
+
+$var = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $var);
+$var = preg_replace("/\/(.*)/i", "", $var);
+
+We then would need to rewrite any hard-coded domain name instances that switch to using that function too, like the API throttle system domains, etc. ALSO, THIS NEEDS TO BE HEAVILY-TESTED OUTSIDE THE CODEBASE (IN A TEST-ONLY ENVIRONMENT), BEFORE USING THIS NEW FUNCTION IN ANY PART OF THE CODEBASE!
+======================================================================
+
+
+Double check the caching and cache cleanup of throttling counts. Ideally, we'd like to cleanly assure purging of TEMPORARY throttle profile's count caches, as long as it won't impact permanent ones.
+
+
+Instead of having load_cached_config() RESET TO DEFAULT CONFIG IF the cached config is CORRUPT, rewrite it so we have any 'restore_conf' file path ALREADY LOADED INTO A VAR, and IF set AND we test it and it's NOT corrupt, load that as the config INSTEAD, AND INCLUDE AN ERROR LOG ABOUT WHAT HAPPENED. IF instead, 'restore_conf' IS ALSO CORRUPT, THEN GO AHEAD AND RESET TO THE DEFAULT CONFIG. Right now, we loop through the list of secure files, so it's NOT ASSURED WE LOADED THE RESTORE CONFIG PATH FIRST. This needs to load seperately / earlier, so it's ready to use if needed.
+
+
+dyn_light_chart_update() should FIRST check to see IF THE PREVIOUS ARCHIVAL LINE MATCHES THE PREVIOUS LIGHT CHART LINE, before initiating a 'full scan' (which is essentially a FULL LIGHT CHART REBUIULD). The reasoning is some charts do NOT get new data more than once or twice DAILY (on-chain node count charts, etc), and may have the latest available archival interval IN THE LIGH CHART ALREADY (currently, we presume the interval should line up with that particular light chart's '$min_data_interval', as we get PRICE CHART data every 20 minutes).
 
 
 Build a SECONDARY cache for RAW geolocation results from ip-api.com (no node info included for any crypto network), that only refeshes after 90 days. Key each array item with the ip address (like we do for node data in onchain stats), so we can easily look for entries. Then we can check this secondary cache FIRST, before queueing into a query for an ip-api.com API batch data request.

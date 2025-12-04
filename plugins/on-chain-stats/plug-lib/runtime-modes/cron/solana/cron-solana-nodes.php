@@ -17,8 +17,8 @@ $now = time();
 $solana_tps_stats_tracking_file = $ct['plug']->event_cache('update_solana_tps_stats.dat');
    
    
-// TPS update every 15+ minutes, AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
-if ( $now > 0 && $ct['cache']->update_cache($solana_tps_stats_tracking_file, 15) == true ) {
+// TPS update every 4+ minutes, AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
+if ( $now > 0 && $ct['cache']->update_cache($solana_tps_stats_tracking_file, 4) == true ) {
 
 // Get on-chain Solana TPS
 $solana_tps = $plug['class'][$this_plug]->solana_performance('tps');

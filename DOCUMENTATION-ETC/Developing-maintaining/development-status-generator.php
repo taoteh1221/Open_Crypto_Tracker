@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2025-12-4'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.06',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => true,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'MANY bugs (issues / errors) have been fixed in the v6.01.07 release today, along with MANY user experience improvements (see changelog.txt for more details, in the documentation folder). Additionally, the "On-Chain Stats" plugin now has Bitcoin / Solana telemetry available (UPGRADED installs require you to enable this plugin in the admin area [NEW installs have it enabled by default]).',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2025-9-12'),
                    
                    'very_important' => true,
