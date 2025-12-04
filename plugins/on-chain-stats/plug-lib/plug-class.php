@@ -115,8 +115,8 @@ var $supported_networks = array(
      
      $results = array();     
      
-     // 5 MINUTE CACHE, OF 3 SAMPLES
-     $network_performance = $ct['api']->blockchain_rpc('solana', 'getRecentPerformanceSamples', array(3), 5); 
+     // 3 MINUTE CACHE, OF 3 SAMPLES
+     $network_performance = $ct['api']->blockchain_rpc('solana', 'getRecentPerformanceSamples', array(3), 3); 
      
      // DEBUGGING
 	//$debug_data = json_encode($network_performance, JSON_PRETTY_PRINT);
@@ -427,9 +427,9 @@ var $supported_networks = array(
           }
      
      
-     // 0 param asks for ALL known, 8 HOUR (480 MINUTE) CACHE
+     // 0 param asks for ALL known, 7 HOUR (420 MINUTE) CACHE
      // https://developer.bitcoin.org/reference/rpc/getnodeaddresses.html
-     $all_nodes = $ct['api']->blockchain_rpc('bitcoin', 'getnodeaddresses', array(0), 480); 
+     $all_nodes = $ct['api']->blockchain_rpc('bitcoin', 'getnodeaddresses', array(0), 420); 
      
      // Target results array paths
      
@@ -440,7 +440,7 @@ var $supported_networks = array(
           
                foreach ( $all_nodes as $node ) {
                     
-                    // IF see in the past 24 hours, included it
+                    // IF see in the past 24 hours (86400 seconds), include it
                     if ( $ct['var']->num_to_str($node['time'] + 86400) >= $now ) {
                     
                          // Don't count any duplicate ip addresses as another node

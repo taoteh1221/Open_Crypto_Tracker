@@ -84,7 +84,7 @@ var node_count_chart_defaults_content = '<h5 class="yellow tooltip_title">Settin
 		
 var geolocation_filter_content = '<h5 class="yellow tooltip_title">Settings For GeoLocation Maps</h5>'
 
-			+'<p class="coin_info extra_margins" style=" white-space: normal;">You can filter what nodes will show on the map. Choose between validator nodes, RPC nodes, recently offline validator nodes (that have NOT voted this epoch), or all nodes.</p>'
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">You can filter what nodes will show for results. See the "Filter By" field(s), directly above the map.</p>'
 			
 			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height, depending on your preferences. The default can be changed in "Admin Area => Plugins => On-Chain Stats => Node GeoLocation Map Height Default".</p>';
 		

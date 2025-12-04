@@ -186,7 +186,7 @@ footer_banner(donations_notice_storage, 'You can <a style="font-weight: bold; co
 // LINUX Desktop Edition SUCKS HARD (as of 2025/5/25, beyond our control [as we use SEVERELY OUTDATED 3rd party container PHPdesktop])
 if ( Base64.decode(app_platform) == 'linux' && Base64.decode(app_container) == 'phpdesktop' ) {
 
-footer_banner(linux_phpdesktop_notice_storage, 'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of May 25th 2025, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.');
+footer_banner(linux_phpdesktop_notice_storage, 'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of December 4th 2025, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.');
 
 }
 // Creates Safari notice footer banner (Safari on OLDER Macs SUCKS HARD)

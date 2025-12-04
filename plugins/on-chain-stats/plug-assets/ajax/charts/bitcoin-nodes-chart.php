@@ -55,7 +55,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No '<?=$ct['gen']->light_chart_time_period($_GET['time_period'], 'long')?>' light chart data for any Bitcoin nodes yet, please check back in awhile.",
+     text: "No '<?=$ct['gen']->light_chart_time_period($_GET['time_period'], 'long')?>' light chart data for any Bitcoin nodes yet, please check back in awhile (~16 hours).",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,

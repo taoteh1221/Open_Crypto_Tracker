@@ -17,14 +17,14 @@ $now = time();
 $bitcoin_tps_stats_tracking_file = $ct['plug']->event_cache('update_bitcoin_tps_stats.dat');
    
    
-// TPS update every 15+ minutes, AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
-if ( $now > 0 && $ct['cache']->update_cache($bitcoin_tps_stats_tracking_file, 15) == true ) {
+// TPS update every 4+ minutes, AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
+if ( $now > 0 && $ct['cache']->update_cache($bitcoin_tps_stats_tracking_file, 4) == true ) {
 
-// Bitcoin get latest block hash (5 minute cache)
-$bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
+// Bitcoin get latest block hash (3 minute cache)
+$bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 3)['result'];
 
-// Bitcoin get latest block stats (5 minute cache)
-$bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 5)['result'];
+// Bitcoin get latest block stats (3 minute cache)
+$bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats', array($bitcoin_last_block_hash), 3)['result'];
 
 //var_dump($bitcoin_last_block_stats);
     
@@ -80,8 +80,8 @@ $ct['cache']->save_file($bitcoin_tps_stats_tracking_file, $ct['gen']->time_date_
 $bitcoin_node_stats_tracking_file = $ct['plug']->event_cache('update_bitcoin_node_stats.dat');
 
    
-// Everything else only update every 24+ hours (1440 minutes), AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
-if ( $now > 0 && $ct['cache']->update_cache($bitcoin_node_stats_tracking_file, 1440) == true ) {
+// Everything else only update every 16+ hours (960 minutes), AND only if timestamp is NOT corrupt (indicating LIKELY system stability)
+if ( $now > 0 && $ct['cache']->update_cache($bitcoin_node_stats_tracking_file, 960) == true ) {
 
 // Get on-chain Bitcoin nodes data
 $bitcoin_nodes_onchain = $plug['class'][$this_plug]->bitcoin_nodes_onchain();
