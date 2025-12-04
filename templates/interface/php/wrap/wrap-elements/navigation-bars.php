@@ -225,9 +225,14 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                       		
           $this_plug = $plugin_key;
                
-               if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu' ) {
+               if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu_tab' ) {
                     
                $render_plugin_nav_menu_compact .= "\n <li><a class='dropdown-item' href='plugins.php#plugin_" . $this_plug . "' title='Plugin interface for: " . htmlspecialchars($plug['conf'][$this_plug]['ui_name']) . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a></li> \n";
+
+               }
+               elseif ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu_page' ) {
+                    
+               $render_plugin_nav_menu_compact .= "\n <li><a nav-menu-page-id='" . $this_plug . "' class='dropdown-item' href='plugins.php?plugin=" . $this_plug . "' title='Plugin interface for: " . htmlspecialchars($plug['conf'][$this_plug]['ui_name']) . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a></li> \n";
 
                }
           
@@ -660,9 +665,14 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                       		
           $this_plug = $plugin_key;
                
-               if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu' ) {
+               if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu_tab' ) {
                
                $render_plugin_nav_menu .= "\n <li class='sidebar-item'><a href='plugins.php#plugin_" . $this_plug . "' title='Plugin interface for: " . htmlspecialchars($plug['conf'][$this_plug]['ui_name']) . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a></li> \n";
+
+               }
+               elseif ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu_page' ) {
+               
+               $render_plugin_nav_menu .= "\n <li class='sidebar-item'><a nav-menu-page-id='" . $this_plug . "' href='plugins.php?plugin=" . $this_plug . "' title='Plugin interface for: " . htmlspecialchars($plug['conf'][$this_plug]['ui_name']) . "'>" . $plug['conf'][$this_plug]['ui_name'] . "</a></li> \n";
 
                }
           

@@ -610,10 +610,14 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
 
 <!-- SOLANA NODES GEOLOCATION MAP  -->
     
-    <h4 class='sol' style='margin-top: 2em; margin-bottom: 1em;'>Solana Node GeoLocation:</h4>
+    <h4 class='sol' style='margin-top: 2em; margin-bottom: 0em;'>Solana Node GeoLocation:</h4>
     
-
-    <p class='bitcoin'>Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.</p>
+    
+    <i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'>
+    
+    Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.
+    
+    </span>
     
     
     <?php

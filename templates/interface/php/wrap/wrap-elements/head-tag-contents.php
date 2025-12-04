@@ -59,7 +59,7 @@
                       		
      $this_plug = $plugin_key;
                
-          if ( $plug['conf'][$this_plug]['ui_location'] == 'nav_menu' ) {
+          if ( preg_match("/nav_menu/i", $plug['conf'][$this_plug]['ui_location']) ) {
 
           $is_plugin_nav_menu = true;
           

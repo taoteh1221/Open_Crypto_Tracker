@@ -412,9 +412,15 @@ zingchart.bind('bitcoin_tps_chart', 'label_click', function(e){
     ?>
 
 	
-	<h4 class='btc' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node Count:</h4>
+	<h4 class='btc' style='margin-top: 2em; margin-bottom: 0em;'>Bitcoin Node Count:</h4>
     
-    <p class='bitcoin'>The number of Bitcoin nodes may vary, due to how long the Bitcoin RPC server (you are getting onchain data from) has been online connecting to other peers, or other factors.</p>
+    
+    <i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'>
+    
+    The number of Bitcoin nodes may vary, due to how long the Bitcoin RPC server (you are getting onchain data from) has been online connecting to other peers, or other factors.
+    
+    </span>
+    
 	
     <p>
     
@@ -632,11 +638,16 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
 
 <!-- BITCOIN NODES GEOLOCATION MAP  -->
     
-    <h4 class='btc' style='margin-top: 2em; margin-bottom: 1em;'>Bitcoin Node GeoLocation:</h4>
+    <h4 class='btc' style='margin-top: 2em; margin-bottom: 0em;'>Bitcoin Node GeoLocation:</h4>
     
-    <p class='bitcoin'>Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.</p>
     
-    <p class='bitcoin'>The number of Bitcoin nodes may vary, due to how long the Bitcoin RPC server (you are getting onchain data from) has been online connecting to other peers, or other factors.</p>
+    <i class="notes_arrow arrow_up"></i><br /><span class='settings_notes bitcoin random_tip'>
+    
+    Geolocation is approximate. It may vary from actual physical location, due to internal networking behind the gateway, or other factors.<br /><br />
+    
+    The number of Bitcoin nodes may vary, due to how long the Bitcoin RPC server (you are getting onchain data from) has been online connecting to other peers, or other factors.
+    
+    </span>
     
     
     <?php
