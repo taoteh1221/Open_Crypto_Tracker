@@ -17,7 +17,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 // Application version
 // PLEASE ALSO UPDATE TIMESTAMP, TO DATE OF LATEST VERSION BUMP:
-$ct['app_version'] = '6.02.00'; // 2025/DECEMBER/4TH
+$ct['app_version'] = '6.01.08'; // 2025/DECEMBER/9TH
 
 
 // #PHP# ERROR LOGGING

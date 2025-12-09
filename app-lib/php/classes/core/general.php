@@ -3627,6 +3627,14 @@ var $ct_array = array();
            $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
                     
            $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+         			 
+         	 // RESET any 'upgrade available' UI notice flagged to show on next admin login, since we just upgraded
+           // Set to 'run' => 'no' 
+         	 // (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
+         	 $ui_upgrade_alert = array();
+         	 $ui_upgrade_alert['run'] = 'no';
+         						
+         	 $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 
 
                // Configure any developer-added plugin DB SETTING RESETS (for RELIABLE DB upgrading)
@@ -3702,6 +3710,14 @@ var $ct_array = array();
            $ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
           
           $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
+         			 
+         	 // RESET any 'upgrade available' UI notice flagged to show on next admin login, since we just upgraded
+           // Set to 'run' => 'no' 
+         	 // (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
+         	 $ui_upgrade_alert = array();
+         	 $ui_upgrade_alert['run'] = 'no';
+         						
+         	 $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
                
            // Process any developer-added APP DB SETTING RESETS (for RELIABLE DB upgrading)
            require($ct['base_dir'] . '/app-lib/php/classes/core/includes/config/setting-reset-config.php');
