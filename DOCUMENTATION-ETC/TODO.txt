@@ -136,7 +136,7 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Add NEAR network on-chain stats plugin, AND relevant resources page links.
+Add NEAR network to relevant resources page subsections.
 
 
 For app marketing, make a user account at https://buymeacoffee.com
