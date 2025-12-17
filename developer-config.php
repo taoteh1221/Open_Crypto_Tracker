@@ -17,7 +17,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 // Application version
 // PLEASE ALSO UPDATE TIMESTAMP, TO DATE OF LATEST VERSION BUMP:
-$ct['app_version'] = '6.01.07'; // 2025/SEPTEMBER/12TH
+$ct['app_version'] = '6.01.08'; // 2025/DECEMBER/9TH
 
 
 // #PHP# ERROR LOGGING
@@ -204,7 +204,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 5, // As they are OFTEN under heavy load, less than spec
-                                                       'per_second' => 0.75, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                       'per_second' => 0.5, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 

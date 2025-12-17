@@ -179,7 +179,7 @@
 	
 	desktop_windows_notice_storage = storage_app_id("desktop_windows_notice");
 	
-	donations_notice_storage = storage_app_id("donations_notice");
+	general_notice_storage = storage_app_id("general_notice");
 	
 	refresh_cache_upgrade_notice_storage = storage_app_id("refresh_cache_upgrade_notice_storage");
 	
