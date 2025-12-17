@@ -112,12 +112,12 @@
 					// UI alert logic
 					if ( $ct['conf']['comms']['upgrade_alert_channels'] == 'all' || $ct['conf']['comms']['upgrade_alert_channels'] == 'ui' ) {
 						
-					$ui_upgrade_alert_data = array(
+					$admin_ui_app_upgrade_alert_data = array(
 											  'run' => 'yes',
 											  'message' => $email_only_with_upgrade_command . $download_link_html . $changelog_link_html
 											  );
 						
-					$ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert_data, JSON_PRETTY_PRINT) );
+					$ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/admin_ui_app_upgrade_alert.dat', json_encode($admin_ui_app_upgrade_alert_data, JSON_PRETTY_PRINT) );
 					
 					}
 					

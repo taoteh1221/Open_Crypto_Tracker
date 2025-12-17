@@ -7087,6 +7087,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous
 
+-Cleaned up stale links, in the resources section
+
 -------------------------------------------------------------------
 
 

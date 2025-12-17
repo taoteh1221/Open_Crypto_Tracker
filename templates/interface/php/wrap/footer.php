@@ -156,14 +156,14 @@ require("templates/interface/php/wrap/wrap-elements/report-issues-modal.php");
      
             	
 <!--
-Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
+Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $admin_ui_app_upgrade_alert['message'] IN HEADER.PHP
 (so we render it in footer.php, near the end of rendering)
 -->
 <div id="app_upgrade_alert" style='display: none;'>
 <?php
 // For security, only display if a UI upgrade alert notice was triggered
 if ( $display_upgrade_alert ) {
-echo nl2br($ui_upgrade_alert['message']);
+echo nl2br($admin_ui_app_upgrade_alert['message']);
 }
 ?>
 </div>
@@ -176,23 +176,51 @@ echo nl2br($ui_upgrade_alert['message']);
 
 
 // Creates Cookie notice footer banner
-footer_banner(cookies_notice_storage, 'This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.');
+footer_banner(
+
+              cookies_notice_storage,
+
+              'This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.'
+
+              );
 
 
-// Donations reminder
-footer_banner(donations_notice_storage, '<h3 class="red">Small-Screen (mobile) support is coming soon&trade;</h3>You can <a style="font-weight: bold; color: red !important;" href="https://github.com/taoteh1221/Open_Crypto_Tracker/issues" target="_BLANK">report issues</a> (YES, I actually fix the REAL ones, if you submit a DETAILED report).<br />Please show your appreciation for my crypto apps, IF you enjoy using them. Leaving a review on the <a href="https://sourceforge.net/u/taoteh1221/profile/" target="_BLANK">SourceForge project pages</a>, or buying me a coffee / beer means WAY MORE to me than large donations. It\'s about <a href="https://taoteh1221.github.io/#donations" target="_BLANK">letting me know</a> you find them useful, NOT about making money. Think of it as a PRIVATE app usage survey anon! :) Crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...<br /><a href="https://taoteh1221.github.io/#donations" target="_BLANK"><img height="175" src="templates/interface/media/images/donate-banner.png" alt="" class="image_border" style="margin: 0.3em;" /></a>');
+// General reminders (dev status / bug report / donations, etc)
+footer_banner(
+
+              general_notice_storage,
+
+              '<h3 class="red">Small-Screen (mobile) support is coming soon&trade;</h3><h4>You can <a style="font-weight: bold; color: red !important;" href="https://github.com/taoteh1221/Open_Crypto_Tracker/issues" target="_BLANK">report issues</a>.<br />(I fix the REAL ones, if you submit a DETAILED report).</h4>Please show your appreciation for my crypto apps, IF you enjoy using them. Leaving a review on the <a href="https://sourceforge.net/u/taoteh1221/profile/" target="_BLANK">SourceForge project pages</a>, or buying me a coffee / beer means WAY MORE to me than large donations. It\'s about <a href="https://taoteh1221.github.io/#donations" target="_BLANK">letting me know</a> you find them useful, NOT about making money. Think of it as a PRIVATE app usage survey anon! :)<br /><br />Crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...<br /><br /><a href="https://taoteh1221.github.io/#donations" target="_BLANK"><img height="300" src="templates/interface/media/images/donate-banner.png" alt="" class="image_border" style="margin: 0.3em;" /></a>'
+
+              );
 
 
 // LINUX Desktop Edition SUCKS HARD (as of 2025/5/25, beyond our control [as we use SEVERELY OUTDATED 3rd party container PHPdesktop])
 if ( Base64.decode(app_platform) == 'linux' && Base64.decode(app_container) == 'phpdesktop' ) {
 
-footer_banner(linux_phpdesktop_notice_storage, 'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of December 4th 2025, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.');
+
+     footer_banner(
+     
+                   linux_phpdesktop_notice_storage,
+     
+                   'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of December 4th 2025, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.'
+                   
+                   );
+
 
 }
 // Creates Safari notice footer banner (Safari on OLDER Macs SUCKS HARD)
 else if ( is_safari ) {
 
-footer_banner(safari_notice_storage, 'This web app MAY NOT FULLY FUNCTION / DISPLAY PROPERLY, on some WebKit or Apple Safari web browsers. IF YOU ENCOUNTER ISSUES, FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are HIGHLY RECOMMENDED for the best user experience.');
+
+     footer_banner(
+     
+                   safari_notice_storage,
+     
+                   'This web app MAY NOT FULLY FUNCTION / DISPLAY PROPERLY, on some WebKit or Apple Safari web browsers. IF YOU ENCOUNTER ISSUES, FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are HIGHLY RECOMMENDED for the best user experience.'
+                   
+                   );
+
 
 }
 

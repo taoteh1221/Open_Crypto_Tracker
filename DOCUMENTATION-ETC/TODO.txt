@@ -136,6 +136,9 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Add NEAR network on-chain stats plugin, AND relevant resources page links.
+
+
 For app marketing, make a user account at https://buymeacoffee.com
 
 
@@ -593,6 +596,9 @@ Data in getblockstats, that we may want for charts:
 "utxo_size_inc_actual":72234},
 "id":1}
 ==========================================
+
+
+https://docs.coingecko.com/websocket
 
 
 https://api.coingecko.com/api/v3/simple/supported_vs_currencies

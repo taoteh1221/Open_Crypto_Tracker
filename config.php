@@ -598,6 +598,7 @@ $ct['conf']['currency']['crypto_pair'] = array( // START
                						// Bluechip native tokens...
                						'eth = Ξ ',
                						'sol = ◎ ',
+               						'near = ℕ',
 
                						// Bluechip ERC-20 tokens on Ethereum / SPL tokens on Solana, etc...
                						'jup = Ɉ ',
@@ -791,6 +792,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// FSOLSTOCK (Fidelity Solana Fund)
 					'fsolstock||alphavantage_stock||usd||both',
+					
+					
+					// Near
+					'near||coinbase||usd||both',
 					
 					
 					// Monad
@@ -1335,6 +1340,12 @@ $ct['conf']['news']['feeds'] = array(
     
     
         				array(
+            			      "title" => "Reddit - NEAR Protocol (hot)",
+            			      "url" => "https://www.reddit.com/r/nearprotocol/hot/.rss?format=xml"
+        				     ),
+    
+    
+        				array(
             			      "title" => "Reddit - Solana (hot)",
             			      "url" => "https://www.reddit.com/r/solana/hot/.rss?format=xml"
         				     ),
@@ -1349,6 +1360,12 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "StackExchange - Bitcoin (hot)",
             			      "url" => "https://bitcoin.stackexchange.com/feeds/hot"
+        				     ),
+    
+    
+        				array(
+            			      "title" => "StackOverflow - NEAR Protocol (hot)",
+            			      "url" => "https://stackoverflow.com/feeds/tag?tagnames=nearprotocol&sort=hot"
         				     ),
     
     
@@ -1409,6 +1426,12 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Youtube - Lightspeed (Solana / Alt L1 podcast)",
             			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCjsgQKPpR7ubPQhPqjf8kyA"
+        				     ),
+    
+    
+        				array(
+            			      "title" => "Youtube - NEAR Protocol (decentralized / high-speed L1, for AI)",
+            			      "url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCuKdIYVN8iE3fv8alyk1aMw"
         				     ),
     
     
@@ -2286,6 +2309,133 @@ $ct['conf']['assets'] = array(
                                                     
                         ) // pair END
                         
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // NEAR
+                    'NEAR' => array(
+                        
+                        'name' => 'NEAR Protocol',
+                        'mcap_slug' => 'near',
+                        'pair' => array(
+
+                                                                           
+                                         "aud" => array(
+                                             "coingecko_aud" => "near",
+                                             "zebpay" => "NEAR-AUD"
+                                         ),
+                                         
+                                         
+                                         "brl" => array(
+                                             "binance" => "NEARBRL",
+                                             "coingecko_brl" => "near"
+                                         ),
+
+
+                                         "btc" => array(
+                                             "binance" => "NEARBTC",
+                                             "coindcx" => "NEARBTC",
+                                             "coinex" => "NEARBTC",
+                                             "coingecko_btc" => "near",
+                                             "hitbtc" => "NEARBTC",
+                                             "kucoin" => "NEAR-BTC",
+                                             "upbit" => "BTC-NEAR"
+                                         ),
+
+
+                                         "eth" => array(
+                                             "binance" => "NEARETH",
+                                             "gateio" => "NEAR_ETH"
+                                         ),
+
+
+                                         "eur" => array(
+                                             "binance" => "NEAREUR",
+                                             "kraken" => "NEAREUR",
+                                             "zebpay" => "NEAR-EUR"
+                                         ),
+
+
+                                         "inr" => array(
+                                             "bitbns" => "NEAR",
+                                             "coindcx" => "NEARINR",
+                                             "coingecko_inr" => "near",
+                                             "wazirx" => "nearinr",
+                                             "zebpay" => "NEAR-INR"
+                                         ),
+
+
+                                         "jpy" => array(
+                                             "binance" => "NEARJPY",
+                                             "coingecko_jpy" => "near"
+                                         ),
+
+
+                                         "krw" => array(
+                                             "korbit" => "near_krw",
+                                             "upbit" => "KRW-NEAR"
+                                         ),
+
+
+                                         "rub" => array(
+                                             "binance" => "NEARRUB",
+                                             "coingecko_rub" => "near"
+                                         ),
+
+
+                                         "sol" => array(
+                                             "coingecko_sol" => "near"
+                                         ),
+
+
+                                         "try" => array(
+                                             "binance" => "NEARTRY",
+                                             "btcturk" => "NEARTRY"
+                                         ),
+
+
+                                         "usd" => array(
+                                             "binance_us" => "NEARUSD",
+                                             "coinbase" => "NEAR-USD",
+                                             "crypto.com" => "NEAR_USD",
+                                             "hitbtc" => "NEARUSD",
+                                             "kraken" => "NEARUSD",
+                                             "okex" => "NEAR-USD"
+                                         ),
+
+
+                                         "usdc" => array(
+                                             "binance" => "NEARUSDC",
+                                             "coinex" => "NEARUSDC",
+                                             "gateio" => "NEAR_USDC",
+                                             "kucoin" => "NEAR-USDC"
+                                         ),
+
+
+                                         "usdt" => array(
+                                             "binance" => "NEARUSDT",
+                                             "binance_us" => "NEARUSDT",
+                                             "bitmart" => "NEAR_USDT",
+                                             "btcturk" => "NEARUSDT",
+                                             "coinbase" => "NEAR-USDT",
+                                             "coindcx" => "NEARUSDT",
+                                             "coinex" => "NEARUSDT",
+                                             "crypto.com" => "NEAR_USDT",
+                                             "gateio" => "NEAR_USDT",
+                                             "huobi" => "nearusdt",
+                                             "kucoin" => "NEAR-USDT",
+                                             "okex" => "NEAR-USDT",
+                                             "okex_perps" => "NEAR-USDT-SWAP",
+                                             "poloniex" => "NEAR_USDT",
+                                             "wazirx" => "nearusdt"
+                                         ),
+
+                                                    
+                        ) // pair END
+                                        
                     ), // Asset END
                     
                     

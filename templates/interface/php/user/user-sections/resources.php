@@ -64,7 +64,7 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Other Stats</strong> </legend>
 	    <ul>
 	        
-	        <li class='links_list'><a href='https://dune.com/21co/solana-key-metrics' target='_blank'>21.co's Dune Metrics Page For Solana</a></li>
+	        <li class='links_list'><a href='https://chainspect.app' target='_blank'>ChainSpect</a></li>
 	        
 	        <li class='links_list'><a href='https://www.coinglass.com/' target='_blank'>CoinGlass</a></li>
 	        
@@ -72,15 +72,11 @@
 	        
 	        <li class='links_list'><a href='https://studio.glassnode.com/' target='_blank'>GlassNode</a></li>
 	        
-	        <li class='links_list'><a href='https://moon.ly/' target='_blank'>Moon.ly NFT Stats / Tracking</a></li>
-	        
-	        <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
-	        
-	        <li class='links_list'><a href='https://www.validators.app/' target='_blank'>Solana Validator Metrics</a></li>
-	        
-	        <li class='links_list'><a href='https://analytics.step.finance/' target='_blank'>Step Finance's Solana Dapp Stats</a></li>
+	        <li class='links_list'><a href='https://messari.io/screener' target='_blank'>Messari Screener</a></li>
 	        
 	        <li class='links_list'><a href='https://bitcoinvisuals.com/lightning' target='_blank'>Lightning Network Stats</a> <span class='yellow'>(Bitcoin Layer 2 Network)</span></li>
+	        
+	        <li class='links_list'><a href='https://solanacompass.com/statistics/decentralization' target='_blank'>Solana's Decentralization In Numbers</a> <span class='yellow'>(REAL data, NOT FUD)</span></li>
 	        
 	        
 	    </ul>
@@ -163,6 +159,8 @@
 	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io - Ethereum Explorer</a></li>
 	        
+	        <li class='links_list'><a href='https://orb.helius.dev/' target='_blank'>Orb - Solana Explorer</a></li>
+	        
 	        <li class='links_list'><a href='https://solana.fm/' target='_blank'>SolanaFM - Solana Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io - Solana Explorer</a></li>
@@ -208,8 +206,6 @@
 	        
 	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a>   <span class='yellow'>(Ethereum software wallet browser extension, with hardware wallet support)</span></li>
 	        
-	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a>   <span class='yellow'>(Ethereum software wallet, with hardware wallet support)</span></li>
-	        
 	        <li class='links_list'><a href='https://phantom.app/' target='_blank'>Phantom Wallet App</a>   <span class='yellow'>(Solana software wallet browser extension, with hardware wallet support)</span></li>
 	        
 	        <li class='links_list'><a href='https://solflare.com/' target='_blank'>Solflare Wallet App</a>   <span class='yellow'>(Solana software wallet browser extension, with hardware wallet support)</span></li>
@@ -233,19 +229,9 @@
 	        
 	        <li class='links_list'><a href='https://bitcoinops.org/en/newsletters/' target='_blank'>Bitcoin Optech Newsletter</a></li>
 	        
-	        <li class='links_list'><a href='https://lightninglabs.substack.com' target='_blank'>Lightning Labs</a></li>  
-	        
 	        <li class='links_list'><a href='https://ournetwork.substack.com/' target='_blank'>Our Network</a></li>  
 	        
-	        <li class='links_list'><a href='https://theblockcrypto.substack.com/' target='_blank'>The Block Newsletter</a></li>
-	        
 	        <li class='links_list'><a href='https://solanafloor.substack.com/' target='_blank'>The Solana Six Newsletter</a></li>
-	        
-	        <li class='links_list'><a href='https://unchainedpodcast.com/category/newsletters/' target='_blank'>Unchained Newsletter</a></li>
-	        
-	        <li class='links_list'><a href='https://weekinethereumnews.com/' target='_blank'>Week In Ethereum</a></li>
-	        
-	        
 	        
 	        
 	    </ul>
@@ -257,10 +243,6 @@
 	    <ul>
 	        
 	        
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/4VOhf9IRUYDMISnTSa4IR6' target='_blank'>Blockchain Insider</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/62PR1RigLG2YN5Pelq6UY9' target='_blank'>Chain Reaction</a></li>
 	        
@@ -278,8 +260,6 @@
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/16c6WR2znCZM1wveeeJoSz' target='_blank'>Bitcoin Audible</a></li>
 	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/7qwrgTJ5CYDXAaVILNZuEd' target='_blank'>The Scoop</a></li>
-	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/1cJrrfGY1SKBIRn5noKSAf' target='_blank'>Unchained</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/18Pixm6jNMATYXSO6cUnTH' target='_blank'>What Bitcoin Did</a></li>
@@ -295,8 +275,6 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>News Websites</strong> </legend>
 	    <ul>
 	        
-	        
-	        <li class='links_list'><a href='http://bitcoinist.com/' target='_blank'>Bitcoinist</a></li>
 	        
 	        <li class='links_list'><a href='https://bitcoinmagazine.com/' target='_blank'>Bitcoin Magazine</a></li>
 	        
@@ -346,7 +324,7 @@
 	        
 	        <li class='links_list'><a href='https://github.com/flashbots' target='_blank'>Flashbots</a>   <span class='yellow'>(Ethereum)</span></li>
 	        
-	        <li class='links_list'><a href='https://linktr.ee/jitosol' target='_blank'>Jito Labs</a>   <span class='yellow'>(Solana)</span></li>
+	        <li class='links_list'><a href='https://www.jito.wtf/' target='_blank'>Jito Labs</a>   <span class='yellow'>(Solana)</span></li>
 	        
 	        
 	    </ul>
@@ -371,13 +349,11 @@
 	        
 	        <li class='links_list'><a href='https://www.helius.dev/' target='_blank'>Helius</a>   <span class='yellow'>(Solana-based / advanced RPC-API endpoints [FREE tier available])</span></li>
 	        
-	        <li class='links_list'><a href='https://programmingbitcoin.com/' target='_blank'>Programming Bitcoin</a></li>
-	        
 	        <li class='links_list'><a href='https://remix.ethereum.org/' target='_blank'>Remix</a>   <span class='yellow'>(Ethereum development online IDE)</span></li>
 	        
 	        <li class='links_list'><a href='https://docs.solana.com/cluster/rpc-endpoints' target='_blank'>Solana API Endpoints / Documentation</a></li>
 	        
-	        <li class='links_list'><a href='https://solanacookbook.com/' target='_blank'>Solana Cook Book</a>   <span class='yellow'>(Solana program development resources)</span></li>
+	        <li class='links_list'><a href='https://solana.com/developers/cookbook' target='_blank'>Solana Cook Book</a>   <span class='yellow'>(Solana program development resources)</span></li>
 	        
 	        <li class='links_list'><a href='https://beta.solpg.io/' target='_blank'>Solana Playground</a>   <span class='yellow'>(Solana program development online IDE)</span></li>
 	        
@@ -432,15 +408,13 @@
 	        
 	        <li class='links_list'><a href='https://coinshares.com/' target='_blank'>CoinShares.com</a> <span class='yellow'>(professional cryptocurrency investing / advising)</span></li>
 	        
-	        <li class='links_list'><a href='https://x.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a> <span class='yellow'>(hands down, the BEST source for crypto news!)</span></li>
+	        <li class='links_list'><a href='https://x.com/search?q=crypto' target='_blank'>Crypto Twitter (X)</a> <span class='yellow'>(hands down, the BEST source for crypto news!)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.defieducationfund.org/' target='_blank'>DeFi Education Fund</a> <span class='yellow'>(non-profit cryptocurrency research and advocacy center)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='http://OpenCryptoTracker.org/' target='_blank'>OpenCryptoTracker.org</a> <span class='yellow'>(Open Crypto Tracker website shortcut)</span></li>
-	        
-	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a> <span class='yellow'>(Bitcoin educational resources)</span></li>
 	        
 	        <li class='links_list'><a href='https://nodewatch.io' target='_blank'>NodeWatch.io</a> <span class='yellow'>(ETH v2 Node Stats)</span></li>
 	        
@@ -463,8 +437,6 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Youtube Channels</strong> </legend>
 	    <ul>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a> (POW mining channel)</li>
 	        

@@ -1018,7 +1018,7 @@ var stored_state = localStorage.getItem(js_storage);
      
      showing_footer_notice = true;
      
-     document.write('<div class="footer_banner">' + notice_html + '<button class="footer_banner_button">I Understand</button></div>');
+     document.write('<div class="footer_banner align_center"><div class="align_center" style="margin: auto !important; max-width: 550px !important;">' + notice_html + '</div><button class="footer_banner_button">I Understand</button></div>');
 
      var footer_notice = $('.footer_banner');
      
@@ -4877,7 +4877,7 @@ private_data = document.getElementsByClassName('private_data');
         $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
         $("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
                   
-        document.title = ''; // Blank out document title
+        document.title = ' ... '; // Blank out document title (with dots, so browser will NOT show domain / other default tab title)
             		
         safe_add_remove_class('bitcoin', 'pm_link', 'remove');
         safe_add_remove_class('green', 'pm_link', 'add');

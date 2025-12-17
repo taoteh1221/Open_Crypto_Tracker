@@ -106,21 +106,21 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 
                      // If we are queued to run a UI alert that an upgrade is available, IF ADMIN LOGGED IN
                      // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
-                     if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat') && $ct['sec']->admin_logged_in() ) {
-                     $ui_upgrade_alert = json_decode( file_get_contents($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat') , true);
+                     if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/admin_ui_app_upgrade_alert.dat') && $ct['sec']->admin_logged_in() ) {
+                     $admin_ui_app_upgrade_alert = json_decode( file_get_contents($ct['base_dir'] . '/cache/events/upgrading/admin_ui_app_upgrade_alert.dat') , true);
                      }         
                      
                      
                      // WAS upgraded recently UI alerts
-                     if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat') ) {
-                     $ui_was_upgraded_alert = json_decode( file_get_contents($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat') , true);
+                     if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/any_ui_any_upgrade_alert.dat') ) {
+                     $any_ui_any_upgrade_alert = json_decode( file_get_contents($ct['base_dir'] . '/cache/events/upgrading/any_ui_any_upgrade_alert.dat') , true);
                      }
                      
                 
 			      // Show the upgrade notice one time until the next reminder period
-				 if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' ) {
+				 if ( isset($admin_ui_app_upgrade_alert) && $admin_ui_app_upgrade_alert['run'] == 'yes' ) {
 				    
-                     // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
+                     // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $admin_ui_app_upgrade_alert['message'] IN HEADER.PHP
                      // (so we render it in footer.php, near the end of rendering)
          			 $display_upgrade_alert = true;
     			
@@ -144,15 +144,15 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 				
          			 // Set to 'run' => 'no' 
          			 // (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
-         			 $ui_upgrade_alert['run'] = 'no';
+         			 $admin_ui_app_upgrade_alert['run'] = 'no';
          						
-         			 $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+         			 $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/admin_ui_app_upgrade_alert.dat', json_encode($admin_ui_app_upgrade_alert, JSON_PRETTY_PRINT) );
      					
 				 }
 				 // Otherwise, IF we just upgraded to a new version, show an alert to user that they may need to
 				 // refresh the page or clear the browser cache for any upgraded JS / CSS files to load properly
 				 // (as long as this page visit isn't a major search engine, crawling the app pages)     
-				 else if ( isset($ui_was_upgraded_alert) && $ui_was_upgraded_alert['run'] == 'yes' && stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false ) {
+				 else if ( isset($any_ui_any_upgrade_alert) && $any_ui_any_upgrade_alert['run'] == 'yes' && stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false ) {
 				?>
      	
      	
@@ -174,11 +174,19 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
                      // Make sure local storage data is parsed as an integer (for javascript to run math on it)
                      var upgrade_cache_refresh_last_notice = parseInt( localStorage.getItem(refresh_cache_upgrade_notice_storage) , 10);
                      
+                     
                          // If it's been 3 days since last notice (or never), then show it / set time shown to local storage  
                          if ( isNaN(upgrade_cache_refresh_last_notice) || Date.now() >= (upgrade_cache_refresh_last_notice + 259200000) ) {
+
+                         // RESET info / bug report / donations banner to show again
+                         localStorage.setItem(general_notice_storage, "");
+
                          $('#refresh_cache_upgrade_message').show();
+
                          localStorage.setItem(refresh_cache_upgrade_notice_storage, Date.now() );
+
                          }
+
                      
                      });
                      </script>
@@ -186,9 +194,9 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 			    <?php
 				
          			      // Set to 'run' => 'no' AFTER 5 DAYS
-         			      if ( time() >= $ct['var']->num_to_str($ui_was_upgraded_alert['time'] + 432000) ) {
-         			      $ui_was_upgraded_alert['run'] = 'no';
-         			      $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert, JSON_PRETTY_PRINT) );
+         			      if ( time() >= $ct['var']->num_to_str($any_ui_any_upgrade_alert['time'] + 432000) ) {
+         			      $any_ui_any_upgrade_alert['run'] = 'no';
+         			      $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/any_ui_any_upgrade_alert.dat', json_encode($any_ui_any_upgrade_alert, JSON_PRETTY_PRINT) );
          			      }
      					
 				 }
