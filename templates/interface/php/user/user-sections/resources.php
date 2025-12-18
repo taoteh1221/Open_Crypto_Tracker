@@ -95,6 +95,8 @@
 	        
 	        <li class='links_list'><a href='https://etherscan.io/chart/tx' target='_blank'>Ethereum Transactions Per Day</a></li>
 	        
+	        <li class='links_list'><a href='https://nearblocks.io/charts/txns' target='_blank'>NEAR Transactions Per Day</a></li>
+	        
 	        <li class='links_list'><a href='https://solscan.io/analytics' target='_blank'>Solana Network Statistics</a> <span class='yellow'>(SolScan)</span></li>
 	        
 	        <li class='links_list'><a href='https://solanabeach.io/' target='_blank'>Solana Network Statistics</a> <span class='yellow'>(solanabeach.io)</span></li>
@@ -158,6 +160,8 @@
 	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com - Bitcoin Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io - Ethereum Explorer</a></li>
+	        
+	        <li class='links_list'><a href='https://nearblocks.io/' target='_blank'>NearBlocks.io - NEAR Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://orb.helius.dev/' target='_blank'>Orb - Solana Explorer</a></li>
 	        
@@ -349,6 +353,8 @@
 	        
 	        <li class='links_list'><a href='https://www.helius.dev/' target='_blank'>Helius</a>   <span class='yellow'>(Solana-based / advanced RPC-API endpoints [FREE tier available])</span></li>
 	        
+	        <li class='links_list'><a href='https://docs.near.org/' target='_blank'>NEAR Protocol Documentation</a>   <span class='yellow'>(decentralized / high-speed L1, for AI)</span></li>
+	        
 	        <li class='links_list'><a href='https://remix.ethereum.org/' target='_blank'>Remix</a>   <span class='yellow'>(Ethereum development online IDE)</span></li>
 	        
 	        <li class='links_list'><a href='https://docs.solana.com/cluster/rpc-endpoints' target='_blank'>Solana API Endpoints / Documentation</a></li>
@@ -360,6 +366,8 @@
 	        <li class='links_list'><a href='https://bitcoin.stackexchange.com/' target='_blank'>StackExchange - Bitcoin</a></li>
 	        
 	        <li class='links_list'><a href='https://ethereum.stackexchange.com/' target='_blank'>StackExchange - Ethereum</a></li>
+	        
+	        <li class='links_list'><a href='https://stackoverflow.com/search?q=nearprotocol' target='_blank'>StackOverflow - NEAR Protocol</a></li>
 	        
 	        <li class='links_list'><a href='https://solana.stackexchange.com/' target='_blank'>StackExchange - Solana</a></li>
 	        
@@ -414,6 +422,8 @@
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
 	        
+	        <li class='links_list'><a href='https://www.reddit.com/r/nearprotocol/' target='_blank'>NEAR Protocol Subreddit</a></li>
+	        
 	        <li class='links_list'><a href='http://OpenCryptoTracker.org/' target='_blank'>OpenCryptoTracker.org</a> <span class='yellow'>(Open Crypto Tracker website shortcut)</span></li>
 	        
 	        <li class='links_list'><a href='https://nodewatch.io' target='_blank'>NodeWatch.io</a> <span class='yellow'>(ETH v2 Node Stats)</span></li>
@@ -455,6 +465,8 @@
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCNOfzGXD_C9YMYmnefmPH0g/featured' target='_blank'>Ethereum Foundation</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
+	        
+	        <li class='links_list'><a href='https://www.youtube.com/@NEARProtocol/featured' target='_blank'>NEAR Protocol</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/c/SolanaFndn/featured' target='_blank'>Solana Foundation</a></li>
 	        

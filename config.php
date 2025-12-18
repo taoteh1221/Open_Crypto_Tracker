@@ -500,7 +500,6 @@ $ct['conf']['currency']['token_presales_usd'] = array(
                                                       // 'TICKER = 1.23',
                                                       'eth = 0.3',
                                                       'sol = 0.22',
-                                                      'mana = 0.025',
                                                    );
                                                    
 
@@ -813,27 +812,9 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'jup-4||coingecko_btc||btc||both',
 					
 					
-					// MANA
-					'mana-2||binance||btc||both',
-					'mana-5||binance||eth||none',
-					
-					
-					// RENDER
-					'render||coingecko_btc||btc||chart',
-					'render-2||gateio||usdt||none',
-					
-					
 					// POLIS
 					'polis||coingecko_btc||btc||chart',
 					'polis-2||kraken||usd||both',
-					
-					
-					// DIO
-					'dio||gateio||usdt||both',
-					
-					
-					// SONIC
-					'sonic||coingecko_usd||usd||both',
 					
 					
 					// NEON
@@ -859,28 +840,12 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'shopstock||alphavantage_stock||cad||both',
 					
 					
-					// DTGSTOCK (Daimler Truck Holding stock)
-					'dtgstock||alphavantage_stock||eur||both',
-					
-					
 					// COINSTOCK (Coinbase stock)
 					'coinstock||alphavantage_stock||usd||both',
 					
 					
-					// MARASTOCK (MARA Holdings stock)
-					'marastock||alphavantage_stock||usd||both',
-					
-					
 					// AMZNSTOCK (Amazon stock)
 					'amznstock||alphavantage_stock||usd||both',
-					
-					
-					// NVDASTOCK (Advanced Micro Devices stock)
-					'nvdastock||alphavantage_stock||usd||both',
-					
-					
-					// AMDSTOCK (Advanced Micro Devices stock)
-					'amdstock||alphavantage_stock||usd||both',
 					
 					
 					// NFLXSTOCK (Netflix stock)
@@ -2608,118 +2573,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MANA
-                    'MANA' => array(
-                        
-                        'name' => 'Decentraland',
-                        'mcap_slug' => 'decentraland',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                          'binance' => 'MANABTC',
-                                          'upbit' => 'BTC-MANA',
-                                          'poloniex' => 'MANA_BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                          'binance' => 'MANAETH',
-                                          'hitbtc' => 'MANAETH',
-                                          'kucoin' => 'MANA-ETH',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                          'okex' => 'MANA-EUR',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                          'upbit' => 'KRW-MANA',
-                                                    ),
-
-                                                    
-                                    'mxn' => array(
-                                          'bitso' => 'mana_mxn',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                          'coinbase' => 'MANA-USD',
-                                          'bitfinex' => 'tMNAUSD',
-                                          'presale_usd_value' => 'mana',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                            'okex' => 'MANA-USDC',
-                                          			),
-
-                                                    
-                                    'usdt' => array(
-                                          'hitbtc' => 'MANAUSD',
-                                          'okex' => 'MANA-USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // RENDER
-                    'RENDER' => array(
-                        
-                        'name' => 'Render',
-                        'mcap_slug' => 'render-token',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                         'coingecko_btc' => 'render-token',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                         'coingecko_eth' => 'render-token',
-                                                    ),
-                                 
-
-                                    "sol" => array(
-                                    	'jupiter_ag' => 'rndrizKT3MK1iimdxRdWabcF7Zg7AR5T4nud4EkHBof/So11111111111111111111111111111111111111112',
-                                    ),
-
-                                                    
-                                    'usd' => array(
-                                         'coingecko_usd' => 'render-token',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                         'gateio' => 'RENDER_USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'huobi' => 'renderusdt',
-                                        'gateio' => 'RENDER_USDT',
-                                        'hitbtc' => 'RENDERUSDT',
-                                        'coinex' => 'RNDRUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // POLIS
                     'POLIS' => array(
                         
@@ -2757,83 +2610,6 @@ $ct['conf']['assets'] = array(
                                                     
                         ) // pair END
                                         
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DIO
-                    'DIO' => array(
-                        
-                        'name' => 'Decimated',
-                        'mcap_slug' => 'decimated',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'coingecko_btc' => 'decimated',
-                                                    ),
-                                 
-
-                                    "sol" => array(
-                                    	'jupiter_ag' => 'BiDB55p4G3n1fGhwKFpxsokBMqgctL4qnZpDH1bVQxMD/So11111111111111111111111111111111111111112',
-                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'decimated',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'huobi' => 'diousdt',
-                                        'gateio' => 'DIO_USDT',
-                                        'coinex' => 'DIOUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SONIC
-                    'SONIC' => array(
-                        
-                        'name' => 'Sonic SVM',
-                        'mcap_slug' => 'sonic-svm',
-                        'pair' => array(
-                                 
-
-                                    "aud" => array(
-                                        "coingecko_aud" => "sonic-svm"
-                                    ),
-                                 
-
-                                    "sol" => array(
-                                    	'jupiter_ag' => 'SonicxvLud67EceaEzCLRnMTBqzYUUYNr93DBkBdDES/So11111111111111111111111111111111111111112',
-                                    ),
-                                    
-                                    
-                                    "usd" => array(
-                                        "coingecko_usd" => "sonic-svm",
-                                    ),
-                                    
-                                    
-                                    "usdt" => array(
-                                        "gateio" => "SONIC_USDT",
-                                        'upbit' => 'USDT-SONIC',
-                                        'kucoin' => 'SONIC-USDT',
-                                        'coinex' => 'SONICUSDT',
-                                    ),
-
-                                                    
-                        ) // pair END
-                        
                     ), // Asset END
                     
                     
@@ -3006,27 +2782,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // DTGSTOCK
-                    'DTGSTOCK' => array(
-                        
-                        'name' => 'Daimler Truck Holding',
-                        'mcap_slug' => 'DTG:ETR',
-                        'pair' => array(
-
-                        
-                                    'eur' => array(
-                                        'alphavantage_stock' => 'DTG.DEX',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // IYYSTOCK
                     'IYYSTOCK' => array(
                         
@@ -3111,27 +2866,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MARASTOCK
-                    'MARASTOCK' => array(
-                        
-                        'name' => 'MARA Holdings',
-                        'mcap_slug' => 'MARA:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'MARA',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // AMZNSTOCK
                     'AMZNSTOCK' => array(
                         
@@ -3142,48 +2876,6 @@ $ct['conf']['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'AMZN',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // NVDASTOCK
-                    'NVDASTOCK' => array(
-                        
-                        'name' => 'NVIDIA Corp',
-                        'mcap_slug' => 'NVDA:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'NVDA',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // AMDSTOCK
-                    'AMDSTOCK' => array(
-                        
-                        'name' => 'Advanced Micro Devices',
-                        'mcap_slug' => 'AMD:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'AMD',
                                                     ),
 
                                                     

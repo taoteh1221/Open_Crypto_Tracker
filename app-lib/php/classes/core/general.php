@@ -3624,7 +3624,7 @@ var $ct_array = array();
 
            // Flag for UI alerts that we UPGRADED / DOWNGRADED
            // (general message about cached CSS / JS [WITHOUT VERSION NUMBERS], so shown even when NOT logged in)
-           $any_ui_any_upgrade_alert_data = array( 'run' => 'yes', 'time' => time() );
+           $any_ui_any_upgrade_alert_data = array( 'run' => 'yes', 'time' => time(), 'upgrade_mode' => 'plugin' );
                     
            $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/any_ui_any_upgrade_alert.dat', json_encode($any_ui_any_upgrade_alert_data, JSON_PRETTY_PRINT) );
 
@@ -3699,7 +3699,7 @@ var $ct_array = array();
          
            // Flag for UI alerts that we UPGRADED / DOWNGRADED
            // (general message about cached CSS / JS [WITHOUT VERSION NUMBERS], so shown even when NOT logged in)
-           $any_ui_any_upgrade_alert_data = array( 'run' => 'yes', 'time' => time() );
+           $any_ui_any_upgrade_alert_data = array( 'run' => 'yes', 'time' => time(), 'upgrade_mode' => 'app' );
           
           $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/any_ui_any_upgrade_alert.dat', json_encode($any_ui_any_upgrade_alert_data, JSON_PRETTY_PRINT) );
          			 

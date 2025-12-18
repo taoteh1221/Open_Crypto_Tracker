@@ -12,8 +12,21 @@ foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $val ) {
 
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 	$asset_dir = ( stristr($asset_cache_params[0], "-") == false ? $asset_cache_params[0] : substr( $asset_cache_params[0], 0, mb_strpos($asset_cache_params[0], "-", 0, 'utf-8') ) );
+	
 	$asset_dir = strtoupper($asset_dir);
 	
+	$exchange_check = strtolower($asset_cache_params[1]);
+	
+	$pairing_check = strtolower($asset_cache_params[2]);
+	
+	
+	// SKIP directory setup, IF the asset market does NOT exist
+	if ( !isset($ct['conf']['assets'][$asset_dir]['pair'][$pairing_check][$exchange_check]) ) {
+	continue;
+	}
+
+	
+	// Only create the directory structure, IF chart is ENABLED currently
 	if ( $asset_cache_params[3] == 'chart' || $asset_cache_params[3] == 'both' ) {
 		
 		// Archival charts
