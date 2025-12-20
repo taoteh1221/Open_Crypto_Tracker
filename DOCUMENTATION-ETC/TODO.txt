@@ -268,7 +268,20 @@ Add full redhat support for auto-installer.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Name / mcap slug should be EDITABLE on the portfolio assets admin page. Make sure to sanitize the user-inputted name (like we do when adding markets via interface).
+===============================================================================
+Step #3 in the "add asset" wizard should be a choice between "automatically choose from an exchange search" (like we already have now), and an additional option of "add / edit asset manually". 
+
+This allows advanced users to add assets with unconventional tickers / names (that may not be parsed properly by the automatic search option), and ALSO allows this form the DUAL USE of editing an EXISTING ASSET's config.
+
+This manual option should use prefilled drop-down menus for the DEFAULT (first) exchange and pairing to use (NO multi-market support initially, we can figure out multiple market support later). ALL OTHER FIELDS SHOULD BE TEXT FIELDS for manual entry, with market / any other input-sanitization and validation checks run upon submission, and our admin interface "is_notes" styled documentation for directions.
+
+After filled in and submitted, we run a market check, to make sure we get back valid data. If we do NOT get back valid market data, reshow the submission form, prefilled with what they already submitted, and show an error message the market wasn't found / valid.
+
+If valid market data IS found, show the normal "cancel / review / confirm" screen for step #4, before adding the asset to the config.
+===============================================================================
+
+
+Name / mcap slug should be EDITABLE on the portfolio assets admin page. This should be accomplished by linking to the "add / edit asset manually" wizard step, so an asset can be UPDATED using the same wizard step.
 
 
 Add pagination to the "my portfolio" section, like we already do for other sorted data tables.
@@ -299,19 +312,6 @@ Add a 'comm channels' setting to plugins: address-balance-tracker, price-target-
 
 
 For all comm channel settings, and the ability to mix-and-match whatever comms you want, instead of the current 'all or only one' structure. This can be done by switching to a comma-delimited list of all channel options a user wishes to have, and putting into a trimmed array in config-auto-adjust.php. Then we can create in_array() conditions, for queueing messages, for whatever comm channels are preffered.
-
-
-===============================================================================
-Step #3 in the "add asset" wizard should be a choice between "automatically choose from an exchange search" (like we already have now), and an additional option of "enter asset manually". 
-
-This allows advanced users to add assets with unconventional tickers / names (that may not be parsed properly by the automatic search option).
-
-This manual option should use prefilled drop-down menus for the exchange and pairing to use, BUT ALL OTHER FIELDS SHOULD BE TEXT FIELDS for manual entry, with validation checks run upon submission, and our documentation "notes" feature for directions.
-
-After filled in and submitted, we run a market check, to make sure we get back valid data. If we do NOT get back valid market data, reshow the submission form, prefilled with what they already submitted, and show an error message the market wasn't found / valid.
-
-If valid market data IS found, show the normal "cancel / review / confirm" screen for step #4, before adding the asset to the config.
-===============================================================================
 
 
 Add a third option in the 'remove asset markets' wizard, that scans ALL markets, and returns a list of MARKETS THAT DID NOT RETURN A VALID TRADE PRICE, to select the ones you want to remove (and then have a confirm page to be safe, like we normally do). Add a note on the RESULTS page to double-check that none of the markets are just offline for maintainence.
