@@ -136,6 +136,21 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Add full redhat support for auto-installer.
+
+
+Test reset of the upgrade notice upon admin login, by triggering the 'upgrade available' flagging (and confirming event cache file is set properly), BUT then trigger an upgrade check (simulating an upgrade was just done). This should now reset the upgrade notice, so it never shows upon next admin login (this was fixed AFTER the v6.01.07 release, BUT NEVER TESTED).
+
+
+If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
+
+
+Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 For app marketing, make a user account at https://buymeacoffee.com
 
 
@@ -151,13 +166,7 @@ In step #6 within the plugin development documentation, add notes on creating a 
 Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
 
 
-If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
-
-
 New FAQ entry "my text alerts aren't working, or are delayed"
-
-
-Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
 
 
 Update documentation for 2FA integrations, mentioning that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
@@ -170,9 +179,6 @@ Start creating github wiki with USER AND DEVELOPER documentation.
 
 
 Now that nearly all the bundled plugins are built out well, populate their documentation pages (that show in the admin interfaces).
-
-
-Test reset of the upgrade notice upon admin login, by triggering the 'upgrade available' flagging (and confirming event cache file is set properly), BUT then trigger an upgrade check (simulating an upgrade was just done). This should now reset the upgrade notice, so it never shows upon next admin login (this was fixed AFTER the v6.01.07 release, BUT NEVER TESTED).
 
 
 Look into laptop touchscreen zingchart js error ON SMALL LAPTOP SCREENS, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM. MAYBE IT HAS SOMETHING TO DO WITH A FIXED ELEMENT SIZE WE INITIALLY LOAD WITH?
@@ -257,12 +263,6 @@ Convert all my bash vars to lower case, as only system vars should be uppercase.
 
 
 Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
-
-
-See if Fedora 43 lets me compile PHP, with our 'linux desktop fix' script.
-
-
-Add full redhat support for auto-installer.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
