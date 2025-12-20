@@ -1018,7 +1018,7 @@ var stored_state = localStorage.getItem(js_storage);
      
      showing_footer_notice = true;
      
-     document.write('<div class="footer_banner align_center"><div class="align_center" style="margin: auto !important; max-width: 550px !important;">' + notice_html + '</div><button class="footer_banner_button">I Understand</button></div>');
+     document.write('<div class="footer_banner align_center"><div class="align_center" style="margin: 0em !important; min-width: 350px !important;">' + notice_html + '</div><button class="footer_banner_button">I Understand</button></div>');
 
      var footer_notice = $('.footer_banner');
      

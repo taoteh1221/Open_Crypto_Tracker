@@ -108,7 +108,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
                      // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
                      if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/admin_ui_app_upgrade_alert.dat') && $ct['sec']->admin_logged_in() ) {
                      $admin_ui_app_upgrade_alert = json_decode( file_get_contents($ct['base_dir'] . '/cache/events/upgrading/admin_ui_app_upgrade_alert.dat') , true);
-                     }         
+                     }    
                      
                      
                      // WAS upgraded recently UI alerts
@@ -177,9 +177,19 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
                      
                          // If it's been 3 days since last notice (or never), then show it / set time shown to local storage  
                          if ( isNaN(upgrade_cache_refresh_last_notice) || Date.now() >= (upgrade_cache_refresh_last_notice + 259200000) ) {
-
-                         // RESET info / bug report / donations banner to show again
+                         
+                         <?php
+                         // RESET info / bug report / donations banner to show again,
+                         // IF this was an APP upgrade (so we re-show any NEW general notices,
+                         // and remind on bug reports / donations)
+				     if ( $any_ui_any_upgrade_alert['upgrade_mode'] == 'app' ) {
+                         ?>
+                         
                          localStorage.setItem(general_notice_storage, "");
+
+                         <?php
+				     }
+                         ?>
 
                          $('#refresh_cache_upgrade_message').show();
 
@@ -193,11 +203,9 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 				
 			    <?php
 				
-         			      // Set to 'run' => 'no' AFTER 5 DAYS
-         			      if ( time() >= $ct['var']->num_to_str($any_ui_any_upgrade_alert['time'] + 432000) ) {
-         			      $any_ui_any_upgrade_alert['run'] = 'no';
-         			      $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/any_ui_any_upgrade_alert.dat', json_encode($any_ui_any_upgrade_alert, JSON_PRETTY_PRINT) );
-         			      }
+         			 // Set 'run' => 'no'
+         			 $any_ui_any_upgrade_alert['run'] = 'no';
+         			 $ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/any_ui_any_upgrade_alert.dat', json_encode($any_ui_any_upgrade_alert, JSON_PRETTY_PRINT) );
      					
 				 }
 				

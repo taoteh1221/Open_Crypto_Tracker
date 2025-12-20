@@ -208,7 +208,28 @@ echo " "
 
 elif [ -f "/etc/redhat-release" ]; then
 
-echo "${cyan}Your system has been detected as Redhat-based, which is compatible with this automated script."
+# Fedora version (NUMBER ONLY)
+# Declare var as an integer, and set it
+# (sets to zero, if NOT an integer)
+declare -i FEDORA_VERSION_DETECTED
+FEDORA_VERSION_DETECTED=$(rpm -E %fedora)
+
+     
+     # Fedora
+     if [ "$FEDORA_VERSION_DETECTED" -gt 0 ]; then
+     echo "${cyan}Your system has been detected as Fedora v${FEDORA_VERSION_DETECTED}, which is compatible with this automated script."
+     # Other RedHat
+     else
+     echo "${cyan}Your system has been detected as Redhat-based, which is compatible with this automated script."
+     fi
+
+     
+     # If running Fedora v42 or higher, we need to use PHP packages,
+     # instead of compiling, as the new beta compiler does NOT work
+     if [ "$FEDORA_VERSION_DETECTED" -gt 41 ]; then
+     USE_FEDORA_PACKAGES=1
+     fi
+
 
 PACKAGE_INSTALL="sudo yum install -y --skip-broken --skip-unavailable"
 PACKAGE_REMOVE="sudo yum remove"
@@ -234,10 +255,10 @@ echo "${reset} "
 
 fi
 
-if [ -f "/etc/redhat-release" ]; then
+if [ ! -z "$USE_FEDORA_PACKAGES" ]; then
 
 echo "${red} "
-echo "Using RedHat's PHP packages, as Fedora 42+ uses a beta compiler, which causes compile errors."
+echo "Using RedHat's PHP packages, as Fedora 42 and higher uses a beta compiler, which causes compile errors."
 echo "${reset} "
 
 else
@@ -800,45 +821,55 @@ sleep 2
 # libxss support
 # CASE-SENSITIVE!
 $PACKAGE_INSTALL libXScrnSaver
-				
-echo " "
-echo "${cyan}Proceeding with installation of PHP's required RedHat libraries, please wait...${reset}"
-echo " "
+	
+	
+	# If we ARE using Fedora PHP packages
+	if [ ! -z "$USE_FEDORA_PACKAGES" ]; then	
 
-sleep 2
-
-# Dev libs (including for the extensions we want to add)
-# WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
-$PACKAGE_INSTALL openssl-devel
-sleep 1
-$PACKAGE_INSTALL libcurl-devel
-sleep 1
-$PACKAGE_INSTALL libzip libzip-devel
-sleep 1
-$PACKAGE_INSTALL bzip2-libs bzip2-devel
-sleep 1
-$PACKAGE_INSTALL libxml2-devel
-sleep 1
-$PACKAGE_INSTALL sqlite-devel
-sleep 1
-$PACKAGE_INSTALL oniguruma-devel
-sleep 1
-$PACKAGE_INSTALL libpng-devel
-sleep 1
-$PACKAGE_INSTALL freetype-devel
-sleep 1
-$PACKAGE_INSTALL php-cli php-zip php-gd
-
-sleep 2
-
-sed -i "s/php-cgi-custom/\/usr\/bin\/php-cgi/g" $APP_ROOT/settings.json
-
-REDHAT_PHP_PACKAGE="yes"
-
-sudo yum group install -y --skip-broken --skip-unavailable development-tools
-
-# Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-$PACKAGE_INSTALL autoconf bison re2c
+     echo " "
+     echo "${cyan}Proceeding with installation of PHP's required RedHat libraries, please wait...${reset}"
+     echo " "
+     
+     sleep 2
+     
+     # Dev libs (including for the extensions we want to add)
+     # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
+     $PACKAGE_INSTALL openssl-devel
+     sleep 1
+     $PACKAGE_INSTALL libcurl-devel
+     sleep 1
+     $PACKAGE_INSTALL libzip libzip-devel
+     sleep 1
+     $PACKAGE_INSTALL bzip2-libs bzip2-devel
+     sleep 1
+     $PACKAGE_INSTALL libxml2-devel
+     sleep 1
+     $PACKAGE_INSTALL sqlite-devel
+     sleep 1
+     $PACKAGE_INSTALL oniguruma-devel
+     sleep 1
+     $PACKAGE_INSTALL libpng-devel
+     sleep 1
+     $PACKAGE_INSTALL freetype-devel
+     sleep 1
+     $PACKAGE_INSTALL php-cli php-zip php-gd
+     
+     sleep 2
+     
+     sed -i "s/php-cgi-custom/\/usr\/bin\/php-cgi/g" $APP_ROOT/settings.json
+     
+     # Otherwise, make sure PHP compiling tools are setup for RedHat
+     else 
+     
+     echo "${green}Making sure compiling support is enabled for RedHat, please wait...${reset}"
+     echo " "
+     
+     sudo yum group install -y --skip-broken --skip-unavailable development-tools
+     
+     # Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
+     $PACKAGE_INSTALL autoconf bison re2c
+          
+     fi
 
 
 fi
@@ -854,8 +885,8 @@ echo " "
 ######################################
 
 
-# IF we are NOT using RedHat PHP packages, then download / compile PHP from scratch
-if [ -z "$REDHAT_PHP_PACKAGE" ]; then
+# IF we are NOT using Fedora PHP packages, then download / compile PHP from scratch
+if [ -z "$USE_FEDORA_PACKAGES" ]; then
 
 echo " "
 echo "${cyan}Getting PHP source code, please wait...${reset}"
