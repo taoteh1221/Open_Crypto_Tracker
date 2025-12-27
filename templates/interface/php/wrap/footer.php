@@ -206,7 +206,7 @@ footer_banner(
               
               + '<li style="margin: 1.7em;">Exchanges / wallets / etc WILL NEVER CALL / TEXT / EMAIL YOU, asking you to give them information OR access related to your crypto! </li>'
               
-              + '<li style="margin: 1.7em;">ONLY SCAMMERS send you notices MEANT TO SCARE YOU INTO ACTING QUICKLY (before you can think about things), and ONLY SCAMMERS ask for your wallet recovery phrase!</li>'
+              + '<li style="margin: 1.7em;">ONLY SCAMMERS send you notices MEANT TO SCARE YOU INTO ACTING QUICKLY, OR OFFERING YOU FREE CRYPTO, and ONLY SCAMMERS ask for your wallet recovery phrase!</li>'
               
               + '<li style="margin: 1.7em;">Ladies contacting you online EASILY CAN BE trafficked (OR be men pretending to be ladies), to make you invest in crypto SCAMS, TO STEAL YOUR MONEY! IF they want you to DEPOSIT to a "special exchange they know", OR send crypto to them, DON\'T DO IT!</li>'
               
