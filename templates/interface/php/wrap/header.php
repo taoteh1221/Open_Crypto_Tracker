@@ -179,13 +179,14 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
                          if ( isNaN(upgrade_cache_refresh_last_notice) || Date.now() >= (upgrade_cache_refresh_last_notice + 259200000) ) {
                          
                          <?php
-                         // RESET info / bug report / donations banner to show again,
+                         // RESET info / bug report / donations banner, AND security notice banner to show again,
                          // IF this was an APP upgrade (so we re-show any NEW general notices,
                          // and remind on bug reports / donations)
 				     if ( $any_ui_any_upgrade_alert['upgrade_mode'] == 'app' ) {
                          ?>
                          
                          localStorage.setItem(general_notice_storage, "");
+                         localStorage.setItem(security_notice_storage, "");
 
                          <?php
 				     }
