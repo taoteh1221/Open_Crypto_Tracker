@@ -181,6 +181,8 @@
 	
 	general_notice_storage = storage_app_id("general_notice");
 	
+	security_notice_storage = storage_app_id("security_notice");
+	
 	refresh_cache_upgrade_notice_storage = storage_app_id("refresh_cache_upgrade_notice_storage");
 	
 	issues_page_visit_tracking_storage = storage_app_id("issues_page_visit_tracking_storage");

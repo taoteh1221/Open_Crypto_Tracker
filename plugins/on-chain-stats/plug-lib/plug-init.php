@@ -33,6 +33,9 @@ $plug['conf'][$this_plug]['selected_networks'] = $ct['var']->auto_correct_str($p
 // Put into an array, to loop with
 $onchain_stat_selected_networks = array_map('trim', explode(',', $plug['conf'][$this_plug]['selected_networks']) );
 
+// Alphabetically sort the array
+sort($onchain_stat_selected_networks);
+
 
 // Setup directory structure for network caches...
 foreach ( $onchain_stat_selected_networks as $network_name_key ) {

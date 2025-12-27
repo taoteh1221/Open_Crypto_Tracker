@@ -987,8 +987,6 @@ var $ct_array = array();
   
       // While we would like more
       while (ftell($f) > 0 && $lines >= 0) {
-  
-       gc_collect_cycles(); // Clean memory cache
     
        // Figure out how far back we should jump
        $seek = min(ftell($f), $buffer);
@@ -1004,6 +1002,8 @@ var $ct_array = array();
     
        // Decrease our line counter
        $lines -= substr_count($chunk, "\n");
+  
+       gc_collect_cycles(); // Clean memory cache
     
       }
     
@@ -4577,6 +4577,7 @@ var $ct_array = array();
   
   
   gc_collect_cycles(); // Clean memory cache
+  
   return $data;
   
   

@@ -136,7 +136,28 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Add full redhat support for auto-installer.
+
+
+Convert all my bash vars to lower case, as only system vars should be uppercase.
+
+
+Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
+
+
+Test reset of the upgrade notice upon admin login, by triggering the 'upgrade available' flagging (and confirming event cache file is set properly), BUT then trigger an upgrade check (simulating an upgrade was just done). This should now reset the upgrade notice, so it never shows upon next admin login (this was fixed AFTER the v6.01.07 release, BUT NEVER TESTED).
+
+
+Put my whole crypto safety article ( https://x.com/taoteh1221/status/1911201660623290701 ) in a modal window like the Help FAQ section, and link into my app's sidebar as a link called "Safely Holding Crypto". Add the stuff in our security footer banner too.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 For app marketing, make a user account at https://buymeacoffee.com
+
+
+If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
 
 
 On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
@@ -151,13 +172,7 @@ In step #6 within the plugin development documentation, add notes on creating a 
 Create BETTER documentation for exposing plugin settings into it's admin interface (to add to step 15 in the plugin development documentation).
 
 
-If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
-
-
 New FAQ entry "my text alerts aren't working, or are delayed"
-
-
-Link my crypto safety Twitter post ( https://x.com/taoteh1221/status/1911201660623290701 ) into my app's sidebar as a link called "Safely Holding Crypto", or put the whole article in a modal window like the Help FAQ section.
 
 
 Update documentation for 2FA integrations, mentioning that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
@@ -172,13 +187,7 @@ Start creating github wiki with USER AND DEVELOPER documentation.
 Now that nearly all the bundled plugins are built out well, populate their documentation pages (that show in the admin interfaces).
 
 
-Test reset of the upgrade notice upon admin login, by triggering the 'upgrade available' flagging (and confirming event cache file is set properly), BUT then trigger an upgrade check (simulating an upgrade was just done). This should now reset the upgrade notice, so it never shows upon next admin login (this was fixed AFTER the v6.01.07 release, BUT NEVER TESTED).
-
-
 Look into laptop touchscreen zingchart js error ON SMALL LAPTOP SCREENS, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM. MAYBE IT HAS SOMETHING TO DO WITH A FIXED ELEMENT SIZE WE INITIALLY LOAD WITH?
-
-
-Alphabetically sort the on chain stats plugin's selected networks array, near the top of plug-init.php
 
 
 Make sure we haven't missed leaving any settings alone DURING UPGRADES, that are full of user-customized stuff. PLUGIN settings should AUTOMATICALLY be FINE, as we never check any deeper than the root plugin setting key IDs.
@@ -228,9 +237,6 @@ Look into adding a file include at the end of each runtime, to run general logic
 Add the ability to allow a BLANK single array item admin user input for domains arrays IN THE INTERFACE (strict servers, etc), in the corresponding admin user input validation files in: /app-lib/php/classes/includes/admin/. Use the same logic we already do this for in other admin input arrays. TEST ALL THESE OUT BY DELETING ALL ITEMS VIA INTERFACE, INCLUDING ALL THE OTHER ONES WE ALREADY SETUP.
 
 
-Cleanup any EXTRA instances of gc_collect_cycles(), as it slows runtimes (especially in loops!)
-
-
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
@@ -251,18 +257,6 @@ https://javascript.info/class
 
 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
-
-
-Convert all my bash vars to lower case, as only system vars should be uppercase.
-
-
-Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
-
-
-See if Fedora 43 lets me compile PHP, with our 'linux desktop fix' script.
-
-
-Add full redhat support for auto-installer.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

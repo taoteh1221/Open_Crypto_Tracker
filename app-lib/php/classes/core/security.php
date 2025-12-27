@@ -166,6 +166,7 @@ var $ct_array = array();
    
    function nonce_digest($data, $custom_nonce=false) {
       
+      // BE CAREFUL WE HAVE ENOUGH RANDOMNESS FOR SECURITY, IF USING A CUSTOM NONCE!!!!!
       if ( isset($data) && $custom_nonce != false ) {
       return $this->digest( $data . $custom_nonce );
       }

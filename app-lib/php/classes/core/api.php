@@ -947,8 +947,6 @@ var $exchange_apis = array(
       $cache_time = ( $verified_only ? 180 : 60 );
       
       $response = @$ct['cache']->ext_data('url', 'https://lite-api.jup.ag/tokens/v2/tag?query=' . $tags, $cache_time);
-      
-      gc_collect_cycles(); // Clean memory cache
    
       $data = json_decode($response, true);
       
@@ -979,6 +977,9 @@ var $exchange_apis = array(
           				          
            }
           
+   
+      gc_collect_cycles(); // Clean memory cache
+   
    
            if ( isset($results[0]) ) {
                  
@@ -3027,7 +3028,7 @@ var $exchange_apis = array(
        else {
 	       
 	       if ( !$email_only ) {
-           return $html . "\n" . $show_more_less . "\n" . $html_hidden;
+            return $html . "\n" . $show_more_less . "\n" . $html_hidden;
 	       }
 	       else {
 	       return $html;

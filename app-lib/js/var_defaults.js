@@ -148,6 +148,8 @@ var desktop_windows_notice_storage;
 
 var general_notice_storage;
 
+var security_notice_storage;
+
 var refresh_cache_upgrade_notice_storage;
 
 var issues_page_visit_tracking_storage;
