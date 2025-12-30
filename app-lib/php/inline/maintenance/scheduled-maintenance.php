@@ -106,6 +106,9 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/access_stats', 
 // Delete OLD disabled RPC endpoint cache files
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/other/disabled_rpc_endpoints', 90, 'dat'); // ONLY .dat FILES
 
+// Delete OLD (non-existent / removed) stock overview files
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/assets/stocks/overviews', 90, 'dat'); // ONLY .dat FILES
+
 /////////////////////////
 // Every 30 days
 /////////////////////////
@@ -115,9 +118,6 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data',
 
 // Delete OLD external API cookie files
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data/cookies', 30, 'dat'); // ONLY .dat FILES
-
-// Delete OLD (non-existent / removed) stock overview files
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/assets/stocks/overviews', 30, 'dat'); // ONLY .dat FILES
 
 /////////////////////////
 // Every 7 days
