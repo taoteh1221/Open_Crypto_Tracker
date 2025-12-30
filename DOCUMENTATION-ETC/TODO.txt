@@ -151,13 +151,13 @@ Test reset of the upgrade notice upon admin login, by triggering the 'upgrade av
 Put my whole crypto safety article ( https://x.com/taoteh1221/status/1911201660623290701 ) in a modal window like the Help FAQ section, and link into my app's sidebar as a link called "Safely Holding Crypto". Add the stuff in our security footer banner too.
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 For app marketing, make a user account at https://buymeacoffee.com
 
 
 If plugin runtime is all | webhook, put in parentheses next to this summary to view the documentation page, for webhook usage details.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
