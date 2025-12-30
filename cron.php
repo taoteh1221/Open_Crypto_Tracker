@@ -373,8 +373,6 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/cron-runtime-lock.dat';
 $ct['cache']->log_access_stats();
 $ct['cache']->api_throttle_cache();
 $ct['cache']->registered_light_charts_cache();
-
-gc_collect_cycles(); // Clean memory cache
     
     
     // If emulated cron, show a result in json (for interface / console log)
@@ -382,11 +380,14 @@ gc_collect_cycles(); // Clean memory cache
     echo json_encode($exit_result, JSON_PRETTY_PRINT);
     }
 
+
     if ( $ct['conf']['power']['debug_mode'] == 'cron_telemetry' ) {
     // WITH newline (UNLOCKED file write)
     $ct['cache']->save_file($ct['base_dir'] . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'FULLY COMPLETED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct['gen']->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n\n\n\n", "append", false);     
     }
 
+
+gc_collect_cycles(); // Clean memory cache
 
 }
   

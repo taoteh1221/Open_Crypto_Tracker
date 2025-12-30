@@ -7093,6 +7093,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Miscellaneous user experience improvements
 
+-Crypto security practices documentation
+
 -Revised DEMO config
 
 -------------------------------------------------------------------

@@ -13,75 +13,6 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-
-
-  function price_alert_cleanup() {
-  
-  global $ct;
-  
-  $config_array = array();
-  
-  // Price alert cache files
-  $price_alert_cache_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/alerts/fiat_price', 'dat', 'desc');
-     
-     
-     foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $tracked_asset_config ) {
-          
-     $parse_array = array_map('trim', explode('||', $tracked_asset_config) );
-     
-          if ( isset($parse_array[0]) && $parse_array[0] != '' ) {
-          $config_array[] = $parse_array[0];
-          }
-
-     }
-
-     
-     foreach( $price_alert_cache_files as $price_alert_file ) {
-     
-     $price_alert_check = preg_replace("/\.dat/i", "", $price_alert_file);
-          
-          // IF the config has been removed, delete the corresponding cache file
-     	if ( !in_array($price_alert_check, $config_array) ) {
-     	unlink($ct['base_dir'] . '/cache/alerts/fiat_price/' . $price_alert_file);
-     	}
-
-     }
-  
-  
-  }
-  
-
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-
-
-  function api_is_throttled($tld_or_ip) {
-  
-  global $ct;
-     
-     // If there is no throttling profile, skip / return false
-     if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
-     return false;
-     }
-
-  $this->load_throttle_data($tld_or_ip);
-  
-     // Limits met, return TRUE
-     if (
-     isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']
-     || isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_day']
-     ) {
-     return true;
-     }
-     else {
-     return false;
-     }
-  
-  }
    
    
    ////////////////////////////////////////////////////////
@@ -99,134 +30,6 @@ var $ct_array = array();
    $store_file_contents = $this->save_file($file_path, $store_data);
    
    }
-
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function manage_light_charts($new_path=false) {
-  
-  global $ct;
-       
-  // Cache filename
-  $file_path = $ct['base_dir'] . '/cache/vars/registered_light_charts.dat';
-     
-     
-     // Load, if not done already
-     if ( sizeof($ct['registered_light_charts']) < 1 ) {
-          
-     $registered_light_charts = json_decode( trim( file_get_contents($file_path) ) , true);
-          
-          if ( is_array($registered_light_charts) ) {
-          $ct['registered_light_charts'] = $registered_light_charts;
-          }
-     
-     }
-     
-     
-     // IF we are registering a new path
-     if ( $new_path && !in_array($new_path, $ct['registered_light_charts']) ) {
-     $ct['registered_light_charts'][] = $new_path;
-     }
-  
-     
-     // Cleanup / resets
-     foreach ( $ct['registered_light_charts'] as $key => $val ) {
-          
-          // Remove any stale entries
-          if ( !is_dir($val) ) {
-          unset($ct['registered_light_charts'][$key]);
-          }
-          // If we reset light charts, delete all registered paths
-          // (this will automatically trigger a re-build)
-          elseif ( $ct['light_chart_reset'] ) {
-          $this->remove_dir($val);
-          }
-
-     }
-
-     
-     // If we reset light charts, wait 5 seconds for lower-power systems
-     if ( $ct['light_chart_reset'] ) {
-     sleep(5); 
-     }
-  
-  
-  }
-
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function load_throttle_data($tld_or_ip) {
-  
-  global $ct;
-       
-  // SAFE filename
-  $file_path = $ct['base_dir'] . '/cache/events/throttling/external/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
-  
-     
-     // If there is no throttling profile, skip / return false
-     if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
-          
-          // Remove any stale / temporary (dynamic) throttle profile count caching
-          if ( file_exists($file_path) ) {
-          unlink($file_path);
-          }
-          
-     return false;
-
-     }
-     
-  
-     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached,
-     // import it as the $ct['api_throttle_count'] array
-     // "null" in quotes as the actual value is returned sometimes
-     if ( !is_array($ct['api_throttle_count'][$tld_or_ip]) ) {
-          
-     // We wait until we are in this function, to grab any cached data at the last minute,
-     // to assure we get anything written recently by other runtimes
-       
-     $api_throttle_count_check = json_decode( trim( file_get_contents($file_path) ) , true);
-          
-          if ( is_array($api_throttle_count_check) ) {
-          $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
-          }
-          else {
-          $ct['api_throttle_count'][$tld_or_ip] = array();
-          }
-     
-     }
-  
-  }
-
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function update_cache($cache_file, $minutes, $check_mode='default') {
-       
-  global $ct;
-    
-    // Offset is ALWAYS negative (so we ADD it), BUT only if cachetime is OVER 30 minutes
-    if ( $check_mode == 'tasks_time_offset' ) {
-    $minutes = ( $minutes > 30 ? ($minutes + $ct['dev']['tasks_time_offset']) : $minutes ); 
-    }
-    
-    // We ROUND (60 * $minutes), to also support SECONDS if needed
-    // ($minutes is allowed to be DECIMALS, including BEING LESS THAN 1.00)
-    if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - round(60 * $minutes) )  ) {
-    return false; 
-    } 
-    else {
-    // Our cache is out-of-date
-    return true;
-    }
-  
-  }
    
   
   ////////////////////////////////////////////////////////
@@ -348,6 +151,61 @@ var $ct_array = array();
   return $linecount;
   
   }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function update_cache($cache_file, $minutes, $check_mode='default') {
+       
+  global $ct;
+    
+    // Offset is ALWAYS negative (so we ADD it), BUT only if cachetime is OVER 30 minutes
+    if ( $check_mode == 'tasks_time_offset' ) {
+    $minutes = ( $minutes > 30 ? ($minutes + $ct['dev']['tasks_time_offset']) : $minutes ); 
+    }
+    
+    // We ROUND (60 * $minutes), to also support SECONDS if needed
+    // ($minutes is allowed to be DECIMALS, including BEING LESS THAN 1.00)
+    if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - round(60 * $minutes) )  ) {
+    return false; 
+    } 
+    else {
+    // Our cache is out-of-date
+    return true;
+    }
+  
+  }
+  
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+
+
+  function api_is_throttled($tld_or_ip) {
+  
+  global $ct;
+     
+     // If there is no throttling profile, skip / return false
+     if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
+     return false;
+     }
+
+  $this->load_throttle_data($tld_or_ip);
+  
+     // Limits met, return TRUE
+     if (
+     isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']) && $ct['api_throttle_count'][$tld_or_ip]['minute_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_minute']
+     || isset($ct['dev']['throttled_apis'][$tld_or_ip]['per_day']) && $ct['api_throttle_count'][$tld_or_ip]['day_count']['count'] >= $ct['dev']['throttled_apis'][$tld_or_ip]['per_day']
+     ) {
+     return true;
+     }
+     else {
+     return false;
+     }
+  
+  }
    
    
    ////////////////////////////////////////////////////////
@@ -457,6 +315,148 @@ var $ct_array = array();
       
 
    }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function load_throttle_data($tld_or_ip) {
+  
+  global $ct;
+       
+  // SAFE filename
+  $file_path = $ct['base_dir'] . '/cache/events/throttling/external/' . $ct['gen']->safe_name($tld_or_ip) . '.dat';
+  
+     
+     // If there is no throttling profile, skip / return false
+     if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
+          
+          // Remove any stale / temporary (dynamic) throttle profile count caching
+          if ( file_exists($file_path) ) {
+          unlink($file_path);
+          }
+          
+     return false;
+
+     }
+     
+  
+     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached,
+     // import it as the $ct['api_throttle_count'] array
+     // "null" in quotes as the actual value is returned sometimes
+     if ( !is_array($ct['api_throttle_count'][$tld_or_ip]) ) {
+          
+     // We wait until we are in this function, to grab any cached data at the last minute,
+     // to assure we get anything written recently by other runtimes
+       
+     $api_throttle_count_check = json_decode( trim( file_get_contents($file_path) ) , true);
+          
+          if ( is_array($api_throttle_count_check) ) {
+          $ct['api_throttle_count'][$tld_or_ip] = $api_throttle_count_check;
+          }
+          else {
+          $ct['api_throttle_count'][$tld_or_ip] = array();
+          }
+     
+     }
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+
+
+  function price_alert_cleanup() {
+  
+  global $ct;
+  
+  $config_array = array();
+  
+  // Price alert cache files
+  $price_alert_cache_files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/alerts/fiat_price', 'dat', 'desc');
+     
+     
+     foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $tracked_asset_config ) {
+          
+     $parse_array = array_map('trim', explode('||', $tracked_asset_config) );
+     
+          if ( isset($parse_array[0]) && $parse_array[0] != '' ) {
+          $config_array[] = $parse_array[0];
+          }
+
+     }
+
+     
+     foreach( $price_alert_cache_files as $price_alert_file ) {
+     
+     $price_alert_check = preg_replace("/\.dat/i", "", $price_alert_file);
+          
+          // IF the config has been removed, delete the corresponding cache file
+     	if ( !in_array($price_alert_check, $config_array) ) {
+     	unlink($ct['base_dir'] . '/cache/alerts/fiat_price/' . $price_alert_file);
+     	}
+
+     }
+  
+  
+  }
+
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function manage_light_charts($new_path=false) {
+  
+  global $ct;
+       
+  // Cache filename
+  $file_path = $ct['base_dir'] . '/cache/vars/registered_light_charts.dat';
+     
+     
+     // Load, if not done already
+     if ( sizeof($ct['registered_light_charts']) < 1 ) {
+          
+     $registered_light_charts = json_decode( trim( file_get_contents($file_path) ) , true);
+          
+          if ( is_array($registered_light_charts) ) {
+          $ct['registered_light_charts'] = $registered_light_charts;
+          }
+     
+     }
+     
+     
+     // IF we are registering a new path
+     if ( $new_path && !in_array($new_path, $ct['registered_light_charts']) ) {
+     $ct['registered_light_charts'][] = $new_path;
+     }
+  
+     
+     // Cleanup / resets
+     foreach ( $ct['registered_light_charts'] as $key => $val ) {
+          
+          // Remove any stale entries
+          if ( !is_dir($val) ) {
+          unset($ct['registered_light_charts'][$key]);
+          }
+          // If we reset light charts, delete all registered paths
+          // (this will automatically trigger a re-build)
+          elseif ( $ct['light_chart_reset'] ) {
+          $this->remove_dir($val);
+          }
+
+     }
+
+     
+     // If we reset light charts, wait 5 seconds for lower-power systems
+     if ( $ct['light_chart_reset'] ) {
+     sleep(5); 
+     }
+  
+  
+  }
    
    
    ////////////////////////////////////////////////////////
@@ -635,244 +635,6 @@ var $ct_array = array();
   
   
   }
-       
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
-   
-   global $ct, $plug;
-           
-           
-        if ( is_array($conf[$cat_key][$conf_key]) ) {
-        $orig_array_size = sizeof($conf[$cat_key][$conf_key]);
-        }
-        else {
-        $orig_array_size = 0;
-        }
-   
-   
-        // New additions
-        if ( $mode == 'new' ) {
-             
-             
-           // Check for new variables, and add them
-           foreach ( $ct['default_conf'][$cat_key][$conf_key] as $setting_key => $setting_val ) {
-        
-              
-              // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)...Uses === for PHPv7.4 support
-              if (
-              $ct['active_plugins_registered']
-              && $cat_key === 'plugins'
-              && $conf_key === 'plugin_status'
-              && $conf[$cat_key][$conf_key][$setting_key] == 'on'
-              ) {
-                   
-              $this_plug = $setting_key;
-                           
-                   
-                   foreach ( $ct['default_conf']['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
-                   
-                      
-                      // If setting doesn't exist yet, OR RESET FLAGGED (AND CACHED PLUGIN VERSION DOES NOT MATCH)
-                      // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
-                      if (
-                      !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
-                      || is_array($ct['dev']['plugin_allow_resets'][$this_plug])
-                      && array_key_exists($plug_setting_key, $ct['dev']['plugin_allow_resets'][$this_plug])
-                      ) {
-                           
-                           
-                           if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
-                           $desc = 'NEW';
-                           }
-                           else {
-                           $desc = 'RESET';
-                           }
-
-                      
-                      $conf['plug_conf'][$this_plug][$plug_setting_key] = $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key];
-                       			
-                      // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-                      $conf['plug_conf'][$this_plug] = $ct['var']->assoc_array_order( $conf['plug_conf'][$this_plug], $ct['var']->assoc_array_order_map($ct['default_conf']['plug_conf'][$this_plug]) );
-                        
-                      $ct['conf_upgraded'] = true;
-                              
-                      // Uses === / !== for PHPv7.4 support
-                      $log_val_descr = ( $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key] !== null || $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key] !== false || $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key] === 0 ? $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key] : '[null / false / zero]' );
-                           
-                      // If we're resetting a subarray setting
-                      $log_val_descr = ( is_array($ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key]) ? 'default array size: ' . sizeof($ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key]) : 'default value: ' . $ct['sec']->obfusc_str($log_val_descr, 4) );
-                        
-                      $ct['gen']->log(
-                                  			'notify_error',
-                                  			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (' . $log_val_descr . ')'
-                                  			);
-                           
-                      }
-                      
-                   
-                   }
-                     
-              
-              }
-              // Check everything else (IF IT'S THE FIRST RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
-              ////
-              // If DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***, AND ACTIVE / DEFAULT ARRAYS DON'T MATCH,
-              // then import and check for duplicates after (for efficiency)
-              else if (
-              !$ct['active_plugins_registered']
-              && !$ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
-              && md5(serialize($conf[$cat_key][$conf_key])) != md5(serialize($ct['default_conf'][$cat_key][$conf_key]))
-              ) {
-                   
-              $conf[$cat_key][$conf_key][] = $ct['default_conf'][$cat_key][$conf_key][$setting_key];
-                  
-              // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS,
-              // SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
-              $conf[$cat_key][$conf_key] = array_intersect_key( $conf[$cat_key][$conf_key] , array_unique( array_map('serialize' , $conf[$cat_key][$conf_key] ) ) );
-                  
-              // WE DON'T NEED ORDERING HERE, AS IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***
-              // (we don't care about ordering here "under the hood", only in the UI [maybe])
-                        
-              $ct['conf_upgraded'] = true;
-                  
-              $no_string_keys = true;
-                   
-                  
-              }
-              // If ACTIVE (NOT DEFAULT) setting doesn't exist yet, ***ONLY IF*** DEFAULT $conf_key ARRAY KEYS ARE ***STRING-BASED***
-              // (WE ALREADY CHECK IF BOTH ACTIVE AND DEFAULT $conf_key ARE STRING-BASED IN upgrade_cached_ct_conf() BEFOREHAND)
-              // (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY)
-              // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
-              else if (
-              !$ct['active_plugins_registered']
-              && $ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
-              && !isset($conf[$cat_key][$conf_key][$setting_key])
-              ) {
-              			
-              $conf[$cat_key][$conf_key][$setting_key] = $ct['default_conf'][$cat_key][$conf_key][$setting_key];
-                  			
-              // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
-              $conf[$cat_key][$conf_key] = $ct['var']->assoc_array_order( $conf[$cat_key][$conf_key], $ct['var']->assoc_array_order_map($ct['default_conf'][$cat_key][$conf_key]) );
-                   
-              $ct['conf_upgraded'] = true;
-                         
-              // Uses === / !== for PHPv7.4 support
-              $log_val_descr = ( $ct['default_conf'][$cat_key][$conf_key][$setting_key] !== null || $ct['default_conf'][$cat_key][$conf_key][$setting_key] !== false || $ct['default_conf'][$cat_key][$conf_key][$setting_key] === 0 ? $ct['default_conf'][$cat_key][$conf_key][$setting_key] : '[null / false / zero]' );
-                   
-              $ct['gen']->log(
-                        		'notify_error',
-                        		'NEW app config, *STRING INDEXED* SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $ct['sec']->obfusc_str($log_val_descr, 4) . ')'
-                        		);
-              
-              }
-              
-                 
-           }
-           
-           
-        }
-        // Depreciated
-        else if ( $mode == 'depreciated' ) {
-        
-           
-           // Check for depreciated variables, and remove them
-           foreach ( $conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
-        
-              
-              // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              if (
-              $ct['active_plugins_registered']
-              && $cat_key === 'plugins'
-              && $conf_key === 'plugin_status'
-              && $conf[$cat_key][$conf_key][$setting_key] == 'on'
-              ) {
-                   
-              $this_plug = $setting_key;
-                   
-                   
-                   foreach ( $conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
-                   
-                   
-                      if ( !isset($ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key]) ) {
-                      
-                      unset($conf['plug_conf'][$this_plug][$plug_setting_key]);
-                   
-                      $ct['conf_upgraded'] = true;
-                   
-                      $ct['gen']->log(
-                             			'notify_error',
-                             			'NON-EXISTANT plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
-                             			);
-                   
-                      }
-
-                   
-                   }
-              
-              
-              }
-              // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
-              // (ONLY ALLOW REMOVAL OF STRING-BASED ARRAY KEYS [WE'RE BLIND FOR NOW ON NUMERIC / AUTO-INDEXING KEYS, UNLESS LOGIC IS BUILT TO SAFELY CHECK THAT])
-              else if (
-              !$ct['active_plugins_registered']
-              && $ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
-              && !isset($ct['default_conf'][$cat_key][$conf_key][$setting_key])
-              ) {
-              			
-              unset($conf[$cat_key][$conf_key][$setting_key]);
-                   
-              $ct['conf_upgraded'] = true;
-                   
-              $ct['gen']->log(
-                        	     'notify_error',
-                        		'NON-EXISTANT app config, SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
-                        		);
-              
-              }
-                 
-                 
-           }
-           
-        
-        }
-   
-        
-        if ( is_array($conf[$cat_key][$conf_key]) ) {
-        $new_array_size = sizeof($conf[$cat_key][$conf_key]);
-        }
-        else {
-        $new_array_size = 0;
-        }
-   
-   
-   $array_size_change = $new_array_size - $orig_array_size;
-   
-   
-        // Logs for upgrades to integer-based / auto-indexed subarrays
-        if ( $no_string_keys && $array_size_change > 0 ) {
-             
-        $ct['gen']->log(
-                             		'notify_error',
-                             		'NEW app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] imported (new array size: ' . $new_array_size . ' [+'.$array_size_change.'])'
-                             		);
-                             		
-        }
-        elseif ( $no_string_keys && $array_size_change < 0 ) {
-             
-        $ct['gen']->log(
-                             		'notify_error',
-                             		'NON-EXISTANT app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] removed (new array size: ' . $new_array_size . ' ['.$array_size_change.'])'
-                             		);
-        }
-        
-      
-   return $conf;
-      
-   }
    
   
   ////////////////////////////////////////////////////////
@@ -987,8 +749,6 @@ var $ct_array = array();
   
       // While we would like more
       while (ftell($f) > 0 && $lines >= 0) {
-  
-       gc_collect_cycles(); // Clean memory cache
     
        // Figure out how far back we should jump
        $seek = min(ftell($f), $buffer);
@@ -1004,6 +764,8 @@ var $ct_array = array();
     
        // Decrease our line counter
        $lines -= substr_count($chunk, "\n");
+  
+       gc_collect_cycles(); // Clean memory cache
     
       }
     
@@ -1400,6 +1162,244 @@ var $ct_array = array();
     
   
   }
+       
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
+   
+   global $ct, $plug;
+           
+           
+        if ( is_array($conf[$cat_key][$conf_key]) ) {
+        $orig_array_size = sizeof($conf[$cat_key][$conf_key]);
+        }
+        else {
+        $orig_array_size = 0;
+        }
+   
+   
+        // New additions
+        if ( $mode == 'new' ) {
+             
+             
+           // Check for new variables, and add them
+           foreach ( $ct['default_conf'][$cat_key][$conf_key] as $setting_key => $setting_val ) {
+        
+              
+              // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)...Uses === for PHPv7.4 support
+              if (
+              $ct['active_plugins_registered']
+              && $cat_key === 'plugins'
+              && $conf_key === 'plugin_status'
+              && $conf[$cat_key][$conf_key][$setting_key] == 'on'
+              ) {
+                   
+              $this_plug = $setting_key;
+                           
+                   
+                   foreach ( $ct['default_conf']['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
+                   
+                      
+                      // If setting doesn't exist yet, OR RESET FLAGGED (AND CACHED PLUGIN VERSION DOES NOT MATCH)
+                      // (OR IT IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET, BUT WE CONSIDER CORRUPT IN THE CACHED CONFIG SPEC])
+                      if (
+                      !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
+                      || is_array($ct['dev']['plugin_allow_resets'][$this_plug])
+                      && array_key_exists($plug_setting_key, $ct['dev']['plugin_allow_resets'][$this_plug])
+                      ) {
+                           
+                           
+                           if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
+                           $desc = 'NEW';
+                           }
+                           else {
+                           $desc = 'RESET';
+                           }
+
+                      
+                      $conf['plug_conf'][$this_plug][$plug_setting_key] = $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key];
+                       			
+                      // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+                      $conf['plug_conf'][$this_plug] = $ct['var']->assoc_array_order( $conf['plug_conf'][$this_plug], $ct['var']->assoc_array_order_map($ct['default_conf']['plug_conf'][$this_plug]) );
+                        
+                      $ct['conf_upgraded'] = true;
+                              
+                      // Uses === / !== for PHPv7.4 support
+                      $log_val_descr = ( $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key] !== null || $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key] !== false || $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key] === 0 ? $ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key] : '[null / false / zero]' );
+                           
+                      // If we're resetting a subarray setting
+                      $log_val_descr = ( is_array($ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key]) ? 'default array size: ' . sizeof($ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key]) : 'default value: ' . $ct['sec']->obfusc_str($log_val_descr, 4) );
+                        
+                      $ct['gen']->log(
+                                  			'notify_error',
+                                  			$desc . ' plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (' . $log_val_descr . ')'
+                                  			);
+                           
+                      }
+                      
+                   
+                   }
+                     
+              
+              }
+              // Check everything else (IF IT'S THE FIRST RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
+              ////
+              // If DEFAULT $conf_key ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***, AND ACTIVE / DEFAULT ARRAYS DON'T MATCH,
+              // then import and check for duplicates after (for efficiency)
+              else if (
+              !$ct['active_plugins_registered']
+              && !$ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
+              && md5(serialize($conf[$cat_key][$conf_key])) != md5(serialize($ct['default_conf'][$cat_key][$conf_key]))
+              ) {
+                   
+              $conf[$cat_key][$conf_key][] = $ct['default_conf'][$cat_key][$conf_key][$setting_key];
+                  
+              // REMOVE DUPLICATES (MORE EFFICIENT THEN SEARCHING FOR THEM WHILE ADDING ITEMS,
+              // SO WE MAY HAVE DUPLICATED AN ENTRY WE SHOULDN'T HAVE)
+              $conf[$cat_key][$conf_key] = array_intersect_key( $conf[$cat_key][$conf_key] , array_unique( array_map('serialize' , $conf[$cat_key][$conf_key] ) ) );
+                  
+              // WE DON'T NEED ORDERING HERE, AS IT'S ARRAY KEYS ARE ***INTEGER-BASED OR AUTO-INDEXING***
+              // (we don't care about ordering here "under the hood", only in the UI [maybe])
+                        
+              $ct['conf_upgraded'] = true;
+                  
+              $no_string_keys = true;
+                   
+                  
+              }
+              // If ACTIVE (NOT DEFAULT) setting doesn't exist yet, ***ONLY IF*** DEFAULT $conf_key ARRAY KEYS ARE ***STRING-BASED***
+              // (WE ALREADY CHECK IF BOTH ACTIVE AND DEFAULT $conf_key ARE STRING-BASED IN upgrade_cached_ct_conf() BEFOREHAND)
+              // (DEFAULT SETTING CAN BE ANOTHER SUBARRAY WITHIN THE PARENT SUBARRAY)
+              // (IF THE VALUE IS ***SPECIFICALLY*** SET TO NULL [WHICH PHP CONSIDERS NOT SET], WE CONSIDER IT CORRUPT [FOR UPGRADE COMPATIBILITY], AND WE UPGRADE IT)
+              else if (
+              !$ct['active_plugins_registered']
+              && $ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
+              && !isset($conf[$cat_key][$conf_key][$setting_key])
+              ) {
+              			
+              $conf[$cat_key][$conf_key][$setting_key] = $ct['default_conf'][$cat_key][$conf_key][$setting_key];
+                  			
+              // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+              $conf[$cat_key][$conf_key] = $ct['var']->assoc_array_order( $conf[$cat_key][$conf_key], $ct['var']->assoc_array_order_map($ct['default_conf'][$cat_key][$conf_key]) );
+                   
+              $ct['conf_upgraded'] = true;
+                         
+              // Uses === / !== for PHPv7.4 support
+              $log_val_descr = ( $ct['default_conf'][$cat_key][$conf_key][$setting_key] !== null || $ct['default_conf'][$cat_key][$conf_key][$setting_key] !== false || $ct['default_conf'][$cat_key][$conf_key][$setting_key] === 0 ? $ct['default_conf'][$cat_key][$conf_key][$setting_key] : '[null / false / zero]' );
+                   
+              $ct['gen']->log(
+                        		'notify_error',
+                        		'NEW app config, *STRING INDEXED* SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $ct['sec']->obfusc_str($log_val_descr, 4) . ')'
+                        		);
+              
+              }
+              
+                 
+           }
+           
+           
+        }
+        // Depreciated
+        else if ( $mode == 'depreciated' ) {
+        
+           
+           // Check for depreciated variables, and remove them
+           foreach ( $conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+        
+              
+              // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
+              if (
+              $ct['active_plugins_registered']
+              && $cat_key === 'plugins'
+              && $conf_key === 'plugin_status'
+              && $conf[$cat_key][$conf_key][$setting_key] == 'on'
+              ) {
+                   
+              $this_plug = $setting_key;
+                   
+                   
+                   foreach ( $conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
+                   
+                   
+                      if ( !isset($ct['default_conf']['plug_conf'][$this_plug][$plug_setting_key]) ) {
+                      
+                      unset($conf['plug_conf'][$this_plug][$plug_setting_key]);
+                   
+                      $ct['conf_upgraded'] = true;
+                   
+                      $ct['gen']->log(
+                             			'notify_error',
+                             			'NON-EXISTANT plugin config, SUBARRAY PARAMETER ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
+                             			);
+                   
+                      }
+
+                   
+                   }
+              
+              
+              }
+              // Check everything else (IF IT'S THE FIRT RUN BEFORE ACTIVE PLUGINS UPGRADE CHECK)...
+              // (ONLY ALLOW REMOVAL OF STRING-BASED ARRAY KEYS [WE'RE BLIND FOR NOW ON NUMERIC / AUTO-INDEXING KEYS, UNLESS LOGIC IS BUILT TO SAFELY CHECK THAT])
+              else if (
+              !$ct['active_plugins_registered']
+              && $ct['var']->has_string_keys($ct['default_conf'][$cat_key][$conf_key])
+              && !isset($ct['default_conf'][$cat_key][$conf_key][$setting_key])
+              ) {
+              			
+              unset($conf[$cat_key][$conf_key][$setting_key]);
+                   
+              $ct['conf_upgraded'] = true;
+                   
+              $ct['gen']->log(
+                        	     'notify_error',
+                        		'NON-EXISTANT app config, SUBARRAY PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+                        		);
+              
+              }
+                 
+                 
+           }
+           
+        
+        }
+   
+        
+        if ( is_array($conf[$cat_key][$conf_key]) ) {
+        $new_array_size = sizeof($conf[$cat_key][$conf_key]);
+        }
+        else {
+        $new_array_size = 0;
+        }
+   
+   
+   $array_size_change = $new_array_size - $orig_array_size;
+   
+   
+        // Logs for upgrades to integer-based / auto-indexed subarrays
+        if ( $no_string_keys && $array_size_change > 0 ) {
+             
+        $ct['gen']->log(
+                             		'notify_error',
+                             		'NEW app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] imported (new array size: ' . $new_array_size . ' [+'.$array_size_change.'])'
+                             		);
+                             		
+        }
+        elseif ( $no_string_keys && $array_size_change < 0 ) {
+             
+        $ct['gen']->log(
+                             		'notify_error',
+                             		'NON-EXISTANT app config, *AUTO/INTEGER INDEXED* SUBARRAY PARAMETERS for ct[conf][' . $cat_key . '][' . $conf_key . '] removed (new array size: ' . $new_array_size . ' ['.$array_size_change.'])'
+                             		);
+        }
+        
+      
+   return $conf;
+      
+   }
   
   
   ////////////////////////////////////////////////////////
@@ -2705,6 +2705,15 @@ var $ct_array = array();
     }
     
     
+    // Check if this is a NEW archival chart, with only one entry so far...
+    if ( $newest_arch_timestamp > $oldest_arch_timestamp ) {
+    $only_one_archival_entry = false;
+    }
+    else {
+    $only_one_archival_entry = true;
+    }
+    
+    
     // If we don't have any valid archival data, return false
     if ( !$oldest_arch_timestamp ) {
     $ct['gen']->log('cache_error', 'Archival chart data not found ('.$archive_path.')');
@@ -2750,7 +2759,13 @@ var $ct_array = array();
     
     // Dynamic
     if ( $days_span == 'all' ) {
-    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct['conf']['power']['light_chart_data_points_maximum'] ); 
+    
+    // IF only 1 entry (a new chart), set to a FIXED value of 5 minutes (300 seconds),
+    // OR ELSE IT IS SET TO ZERO, WHICH WILL ALLOW RE-ADDING THE SAME ENTRY MULTIPLE TIMES!
+    $new_chart_check = ( $only_one_archival_entry ? 300 : ($newest_arch_timestamp - $oldest_arch_timestamp) );         
+         
+    $min_data_interval = round( $new_chart_check / $ct['conf']['power']['light_chart_data_points_maximum'] ); 
+
     }
     // Fixed X days (86400 seconds per day)
     else {
@@ -2774,7 +2789,11 @@ var $ct_array = array();
   
     // If we are queued to update an existing light chart, get the data points we want to add 
     // (may be multiple data points, if the last update had network errors / system reboot / etc)
-    if ( is_numeric($newest_light_timestamp) && $light_data_update_thres <= $newest_arch_timestamp ) {
+    if (
+    is_numeric($newest_light_timestamp)
+    && $light_data_update_thres <= $newest_arch_timestamp
+    && !$only_one_archival_entry
+    ) {
      
         // If we are only adding the newest archival data point (passed into this function), 
         // #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
@@ -4577,6 +4596,7 @@ var $ct_array = array();
   
   
   gc_collect_cycles(); // Clean memory cache
+  
   return $data;
   
   

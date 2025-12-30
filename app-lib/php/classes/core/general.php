@@ -1476,9 +1476,11 @@ var $ct_array = array();
          $row++;
             
          }
-         fclose($handle);
+      
+      
+      fclose($handle);
    
-         gc_collect_cycles(); // Clean memory cache
+      gc_collect_cycles(); // Clean memory cache
          
       }
    

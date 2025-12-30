@@ -57,7 +57,6 @@ echo '?';
  
      
      // UX, auto-filling marketcap web page slug, FOR STOCKS WITHOUT THE SLUG ALREADY SET
-     // (ONLY IF WE CAN IDENTIFY THE EXCHANGE, BY A DISTINCT MARKET ID)
 	if ( preg_match("/stock/i", $asset_symb) && $mkcap_render_data == '' ) {
 	
 	$raw_ticker = preg_replace('/stock/i', '', $asset_symb);
@@ -69,12 +68,33 @@ echo '?';
 	         // Alphavantage
 	         if ( $stock_exchange_id == 'alphavantage_stock' ) {
 	              
+
+                   // (ONLY IF WE CAN IDENTIFY THE EXCHANGE, BY A DISTINCT MARKET ID)
 	              if ( preg_match('/\.trt/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
 	              $mkcap_render_data = $raw_ticker . ':TSE';
 	              }
 	              else if ( preg_match('/\.dex/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
 	              $mkcap_render_data = $raw_ticker . ':ETR';
 	              }
+	              // Otherwise, look for "Exchange" value, in stock overview API data
+	              else if ( !preg_match('/\./i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
+                    	              
+                   // Stock overview
+                   $stock_overview = $ct['api']->stock_overview($raw_ticker);
+                   
+                       if (
+                       isset($stock_overview['data']['Exchange']) 
+                       && trim($stock_overview['data']['Exchange']) != ''
+                       ) {
+                       $mkcap_render_data = $raw_ticker . ':' . strtoupper($stock_overview['data']['Exchange']);
+                       }
+                       // IF no exchange data found, skip, but link to google finance "did you mean?" results
+                       else {
+                       $mkcap_render_data = $raw_ticker;
+                       }
+	              
+	              }
+
 	              
 	         }
 	    
