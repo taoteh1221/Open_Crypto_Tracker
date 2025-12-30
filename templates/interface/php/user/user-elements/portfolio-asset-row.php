@@ -76,7 +76,7 @@ echo '?';
 	              else if ( preg_match('/\.dex/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
 	              $mkcap_render_data = $raw_ticker . ':ETR';
 	              }
-	              // Otherwise, look for ""Exchange" value, in stock overview API data
+	              // Otherwise, look for "Exchange" value, in stock overview API data
 	              else if ( !preg_match('/\./i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
                     	              
                    // Stock overview
