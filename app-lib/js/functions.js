@@ -647,6 +647,37 @@ return datevalues[0] + '/' + datevalues[1] + '/' + datevalues[2] + ' @ ' + datev
 /////////////////////////////////////////////////////////////
 
 
+function dynamic_footer_banner(elm) {
+
+var docViewTop = $(window).scrollTop();
+
+var elm_height = $(elm).height();
+
+     
+     // Adjust to allow scrolling, AND show top of element
+     if ( (elm_height + 50) >= $(window).height() ) {
+     
+     $(elm).css("position", "absolute", "important");
+     $(elm).css("bottom", "unset", "important");
+     $(elm).css("top", Math.round(docViewTop) + "px", "important");
+     
+     }
+     // Otherwise, use footer banner defaults
+     else {
+     
+     $(elm).css("position", "fixed", "important");
+     $(elm).css("top", "unset", "important");
+     $(elm).css("bottom", "0", "important");
+     
+     }
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function feeds_loading_check() {
      
 //console.log('feeds_loaded.length = ' + feeds_loaded.length );
@@ -1031,7 +1062,11 @@ var stored_state = localStorage.getItem(js_storage);
 
      var footer_notice = $('.footer_banner');
      
-     footer_notice.slideDown(500);
+          
+          // Slidedown animation, over 500 milliseconds
+          footer_notice.slideDown(500, function() {
+          dynamic_footer_banner(footer_notice); // Adjust, if NOT fully showing, AFTER slideDown
+          });
      
      
           $('.footer_banner .footer_banner_button').click(function () {
