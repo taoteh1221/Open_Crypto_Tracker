@@ -900,8 +900,11 @@ var $ct_array = array();
   global $ct;
   
      
-     // If there is no throttling profile, skip / return false
-     if ( !isset($ct['dev']['throttled_apis'][$tld_or_ip]) ) {
+     // If there is no throttling profile, or it's an alphavantage search, skip / return false
+     if (
+     !isset($ct['dev']['throttled_apis'][$tld_or_ip])
+     || $ct['ticker_markets_search'] && $tld_or_ip == 'alphavantage.co'
+     ) {
      return false;
      }
      
@@ -935,12 +938,8 @@ var $ct_array = array();
      // (ALL WE DO HERE BESIDES UPDATING CACHED JSON RESULTS, IS RETURN TRUE / FALSE FOR THE FUNCTION CALL)
      
      
-     // DISABLE THROTTLING FOR ALPHAVANTAGE, DURING 'ADD ASSET' SEARCHES
-     if ( $ct['ticker_markets_search'] && $tld_or_ip == 'alphavantage.co' ) {
-     return false;
-     }
      // Limits met, return TRUE
-     elseif ( $this->api_is_throttled($tld_or_ip) == true ) {
+     if ( $this->api_is_throttled($tld_or_ip) == true ) {
      return true;
      }
      // Limits NOT met, up counts, return FALSE
@@ -2379,6 +2378,11 @@ var $ct_array = array();
   function app_log() {
   
   global $ct;
+  
+  // RESET INTERFACE ERROR LOGGING VAR
+  // (MUST be done at TOP of this function, as any PREVIOUS
+  // population should have been output to the interface ALREADY)
+  $ct['alerts_gui_logs'] = '';
 
   // ERRORS 
   
@@ -2479,7 +2483,7 @@ var $ct_array = array();
       
       $this->save_file('cache/events/logging/purge-app-logs.dat', date('Y-m-d H:i:s'));
       
-      usleep(120000); // Wait 0.12 seconds
+      usleep(100000); // Wait 0.1 seconds
       
       }
       // Just RESET the logs purge event tracker, IF we recently deleted the log by hand while developing
@@ -2493,6 +2497,8 @@ var $ct_array = array();
       $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/logs/app_log.log', $app_log, "append");
       $ct['log_errors'] = array(); // RESET ERROR LOGS ARRAY (clears logs from memory, that we just wrote to disk)
       $ct['log_debugging'] = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
+      
+      usleep(100000); // Since we MAY run consecutively (IF logic requires), pause 0.1 seconds
         
           if ( $store_file_contents != true ) {
           return 'Error logs write error for "' . $ct['base_dir'] . '/cache/logs/app_log.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($app_log) . ' bytes';
@@ -4268,7 +4274,7 @@ var $ct_array = array();
             // API-specific (confirmed no price data in response)
             || $tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             || $tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
-            || $tld_or_ip == 'alphavantage.co' && !preg_match("/price/i", $data) 
+            || $tld_or_ip == 'alphavantage.co' && !preg_match("/symbol/i", $data) // WORKS FOR ALL ENDPOINTS!
             // API-specific (confirmed error in response)
             || $tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/usd/i", $data)
             || $tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 

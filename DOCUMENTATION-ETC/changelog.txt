@@ -7085,7 +7085,11 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.08
 
+-BUG FIX: Fixed data response checks for AlphaVantage API endpoints, that caused cache fallback mode (for UX), even though the data received was valid (sorry!)
+
 -BUG FIX: Privacy Mode's tab title set to 3 dots, to avoid leaking the app server domain in the tab title (the default when no title set for Chrome)
+
+-BUG FIX: Fixed "All Exchanges" search results (when adding new assets), to properly include matching AlphaVantage stock market tickers
 
 -BUG FIX: Miscellaneous
 

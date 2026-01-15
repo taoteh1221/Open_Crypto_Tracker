@@ -6,12 +6,15 @@
 
 $parse_ticker = strtoupper( preg_replace("/stock/i", "", $_GET['ticker']) );
 
-$market_pair = $ct['var']->array_key_first($ct['conf']['assets'][ $_GET['ticker'] ]['pair']);
+$market_pair = $_GET['pairing'];
 
 $market_id = $ct['conf']['assets'][ $_GET['ticker'] ]['pair'][$market_pair]['alphavantage_stock'];
 
 // Stock overview
 $stock_overview = $ct['api']->stock_overview($market_id);
+     
+// DEBUGGING (cache file name)   
+//var_dump( md5('https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$parse_ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key']) );
 			     
 ?>
 
@@ -57,7 +60,7 @@ if ( isset($stock_overview['data']['request_error']) ) {
      
           
      if ( $stock_overview['data']['request_error'] == 'no_data_available' ) {
-     $app_cache_time = 'Permanent (no stock overview available)';
+     $app_cache_time = '1 / 2 Weeks (no data available currently)';
      }
      else {
      $app_cache_time = '4 to 8 Hours until re-try (API Error: '. $ct['gen']->key_to_name($stock_overview['data']['request_error']) .')';
