@@ -45,9 +45,6 @@ if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
 $stock_cached_notice = "*Current (AlphaVantage *FREE TIER*) THROTTLING retrieves LIVE market data roughly (on average) every ~" . $stock_cached_val . " " . $stock_cached_unit . "(s), for " . $parse_ticker . ". The ACTUAL live data update time is determined by the number of STOCKS added, and any additional API throttling needed for recent asset (adding) searches / stock overview updates. This keeps the app running within your *FREE TIER* " . $ct['var']->num_pretty($ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'], 2) . " DAILY LIVE requests limit.";			     
 
 $app_cache_time = '1 to 2 Weeks (minimizes FREE Tier issues [last cache: {LAST_CACHE_TIME}])';
-
-// UX for FREE TIER cache time
-$app_cache_time = preg_replace('/\{LAST_CACHE_TIME\}/i', date('Y-M-d', $stock_overview['cache_timestamp']), $app_cache_time);
 			     
 }
 else {
@@ -60,7 +57,7 @@ if ( isset($stock_overview['data']['request_error']) ) {
      
           
      if ( $stock_overview['data']['request_error'] == 'no_data_available' ) {
-     $app_cache_time = '1 / 2 Weeks (no data available currently)';
+     $app_cache_time = '2 / 4 Weeks (no data available currently [last cache: {LAST_CACHE_TIME}])';
      }
      else {
      $app_cache_time = '4 to 8 Hours until re-try (API Error: '. $ct['gen']->key_to_name($stock_overview['data']['request_error']) .')';
@@ -115,6 +112,10 @@ else {
 
 <?php
 }
+
+// UX for cache time
+$app_cache_time = preg_replace('/\{LAST_CACHE_TIME\}/i', date('Y-M-d', $stock_overview['cache_timestamp']), $app_cache_time);
+
 ?>
 
 <p class="coin_info"><span class="bitcoin">Summary Cache Time:</span> <?=$app_cache_time?></p>

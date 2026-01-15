@@ -506,13 +506,13 @@ var $exchange_apis = array(
         ) {
                   
                   // IF no data is available for this stock asset, update the secondary cache modified
-                  // timestamp, AND set ext_data() primary cache time to 1 / 2 WEEKS
+                  // timestamp, AND set ext_data() primary cache time to 2 / 4 WEEKS
                   // (so we HARDLY bother to refresh again, as they SEEM to have no data for this asset,
                   // OR they are denying API access for an arbitrary reason...and
                   // running touch() lets us do a 30-day maintenance cleanup on stale cache files [deleted assets])
                   if ( $secondary_cache_info['request_error'] == 'no_data_available' ) {
                   touch($secondary_cache);
-                  $overview_cache_time = rand(7, 14) * 1440; // 1 / 2 WEEKS
+                  $overview_cache_time = rand(14, 28) * 1440; // 2 / 4 WEEKS
                   }
                   // If data MAY be available, BUT we hit an API limit
                   // OR got no server response LAST CHECK, we want to

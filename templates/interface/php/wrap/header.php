@@ -185,8 +185,8 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 				     if ( $any_ui_any_upgrade_alert['upgrade_mode'] == 'app' ) {
                          ?>
                          
-                         localStorage.setItem(general_notice_storage, "");
-                         localStorage.setItem(security_notice_storage, "");
+                         localStorage.setItem(general_notice_storage, "upgraded");
+                         localStorage.setItem(security_notice_storage, "upgraded");
 
                          <?php
 				     }

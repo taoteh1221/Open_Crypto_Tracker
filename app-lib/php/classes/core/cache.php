@@ -4176,7 +4176,8 @@ var $ct_array = array();
         $false_positive = true;
         }
        
-        
+       
+        // Check that we didn't detect as a false positive already
         // IF false positive, we're all set, BUT need to DELETE any previous flags on
         // previously-disabled endpoints (end user upgraded crypto RPC service, etc etc)
         if ( $false_positive ) {
@@ -4242,10 +4243,10 @@ var $ct_array = array();
         // WE DON'T WANT TO SLOW DOWN THE RUNTIME TOO MUCH, BUT WE WANT AS MUCH FALLBACK AS IS REASONABLE
         // If response is seen to NOT contain USUAL data, use cache if available
        
-        // Check that we didn't detect as a false positive already
-       
         
+            // ## DataValidationChecking ######################################################################
             // !!!!!DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!!!!
+            // !!!!!ADDITIONALLY, YOU CAN BLOCK THIS APP FROM USING VALID DATA, IF YOUR CHECKS ARE INCORRECT!!!!!
             if ( 
             // Errors / unavailable / null / throttled / maintenance
             preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)

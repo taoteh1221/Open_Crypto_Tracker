@@ -1018,7 +1018,16 @@ var stored_state = localStorage.getItem(js_storage);
      
      showing_footer_notice = true;
      
-     document.write('<div class="footer_banner align_center"><div class="align_center" style="margin: 0em !important; min-width: 350px !important;">' + notice_html + '</div><button class="footer_banner_button">I Understand</button></div>');
+     
+          if ( stored_state == 'upgraded' ) {
+          var reminder_desc = '<h2 class="red">Important Reminders After Upgrading...</h2>';
+          }
+          else {
+          var reminder_desc = '';
+          }
+     
+     
+     document.write('<div class="footer_banner align_center"><div class="align_center" style="margin: 0em !important; min-width: 350px !important;">' + reminder_desc + notice_html + '</div><button class="footer_banner_button">I Understand</button></div>');
 
      var footer_notice = $('.footer_banner');
      
