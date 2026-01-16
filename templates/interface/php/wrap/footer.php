@@ -238,7 +238,7 @@ if ( Base64.decode(app_platform) == 'linux' && Base64.decode(app_container) == '
      
                    linux_phpdesktop_notice_storage,
      
-                   'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of December 4th 2025, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.'
+                   'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of January 16th 2026, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.'
                    
                    );
 
