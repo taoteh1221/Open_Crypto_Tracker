@@ -93,7 +93,7 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
-	    	quote:"ONLY HIGHLY EXPERIENCED DAY TRADERS should attempt timing short term trade entry points (buying, to sell in a few days / weeks at a higher price). The average investor IS MUCH BETTER OFF HOLDING LONG TERM, and " + bitcoin_primary_currency_pair + "-cost averaging your cryptocurrency purchases / buys on a weekly or monthly basis (buying the same amount at regular intervals). Remember, " + bitcoin_primary_currency_pair + "-cost averaging DOES #NOT# WORK for <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
+	    	quote:"ONLY HIGHLY EXPERIENCED DAY TRADERS should attempt timing short term trade entry points (buying, to sell in a few days / weeks at a higher price). The average investor IS MUCH BETTER OFF HOLDING LONG TERM, and " + bitcoin_primary_currency_pair + "-cost averaging your cryptocurrency purchases / buys on a weekly or monthly basis (buying the same amount at regular intervals). Remember, " + bitcoin_primary_currency_pair + "-cost averaging DOES #NOT# WORK for <a href='https://x.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
@@ -125,7 +125,7 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
-	    	quote:"<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
+	    	quote:"<i><u>ALWAYS AVOID</u></i> <a href='https://x.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://x.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://x.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
@@ -161,7 +161,7 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
-	    	quote:"A good cryptocoin ages like fine wine, while a <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> ages like milk.",
+	    	quote:"A good cryptocoin ages like fine wine, while a <a href='https://x.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> ages like milk.",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {

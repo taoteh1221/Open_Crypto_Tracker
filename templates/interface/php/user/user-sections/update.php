@@ -168,7 +168,7 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
+								<i><u>ALWAYS AVOID</u></i> <a href='https://x.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://x.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://x.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
 							</li>
 						
 							<li class='bitcoin disclaimer'>
@@ -250,7 +250,7 @@
 						</ul>
 						
 						
-						<br /><a href="https://twitter.com/taoteh1221/status/1538567185232273408" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' style='margin-left: 25px;' /></a>
+						<br /><a href="https://x.com/taoteh1221/status/1538567185232273408" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' style='margin-left: 25px;' /></a>
 						
 						</div>
 	

@@ -46,7 +46,7 @@ Discord: https://discord.gg/WZVK2nm
 
 Telegram: https://t.me/dragonfrugal
 
-Twitter: https://twitter.com/taoteh1221
+X.com: https://x.com/taoteh1221
 
 Private Contact: https://dragonfrugal.org/contact
 

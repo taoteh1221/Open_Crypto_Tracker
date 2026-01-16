@@ -657,7 +657,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 		
 			$('#fiat_val').balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: fiat_val_content,
 			css: balloon_css()
@@ -747,7 +747,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 		
 			$('#portfolio_gain_loss').balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: gain_loss_content,
 			css: balloon_css()

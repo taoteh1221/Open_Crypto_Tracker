@@ -157,7 +157,7 @@
 	        
 	        <span class='bitcoin'>Telegram:</span> <a href='https://t.me/dragonfrugal' target='_blank'>https://t.me/dragonfrugal</a><br /><br />
 	        
-	        <span class='bitcoin'>Twitter:</span> <a href='https://twitter.com/taoteh1221' target='_blank'>https://twitter.com/taoteh1221</a><br /><br />
+	        <span class='bitcoin'>X.com:</span> <a href='https://x.com/taoteh1221' target='_blank'>https://x.com/taoteh1221</a><br /><br />
 	        
 	        <span class='bitcoin'>Private Contact:</span> <a href='https://dragonfrugal.org/contact' target='_blank'>https://dragonfrugal.org/contact</a>
 												
@@ -1385,7 +1385,7 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
            
            
              <div style='float:left; position: relative; padding-right: 20px; padding-bottom: 20px;'>
-	       <a href="https://twitter.com/taoteh1221/status/1562521606895050752" target="_blank"><img src='templates/interface/media/images/twitter-1562521606895050752.jpg' style='display: block;' width='425' class='image_border' alt='' /></a>
+	       <a href="https://x.com/taoteh1221/status/1562521606895050752" target="_blank"><img src='templates/interface/media/images/twitter-1562521606895050752.jpg' style='display: block;' width='425' class='image_border' alt='' /></a>
 	       </div>
 	      
 	         
