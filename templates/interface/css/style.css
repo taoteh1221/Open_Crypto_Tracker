@@ -221,7 +221,7 @@ padding: 0px;
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
-
+        
 
 /*
 IF a TITLE attribute is added to the opening UL tag
@@ -973,7 +973,7 @@ margin-top: 1.1em !important;
     font-size: 1.6em !important;   
     font-weight: 400 !important;
     line-height: 3.1em !important;
-    padding: 0.6em !important;
+    padding: 1.1em !important;
     position: fixed;
     bottom: 0;
     left: 0;

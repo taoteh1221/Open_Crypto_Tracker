@@ -2,7 +2,7 @@
     
             	<div style='display: none; margin: 3em; margin-top: 1em;' id='donate' class='align_center'>
     
-               <h4>Please show your appreciation for my crypto apps, IF you enjoy using them. Leaving a review on the <a href="https://sourceforge.net/u/taoteh1221/profile/" target="_BLANK">SourceForge project pages</a>, or buying me a coffee / beer means WAY MORE to me than large donations. It's about letting me know you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :)  </h4>
+               <h4>Please show your appreciation for my crypto apps, and <a href="https://sourceforge.net/u/taoteh1221/profile/" target="_BLANK">write a SourceForge project review</a>, or buy me a coffee / beer! It's about letting me know you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :)  </h4>
             	
             
             	<div style='padding: 15px; min-width: 100px;'>
@@ -14,7 +14,7 @@
             	
             	</div>
             	
-            	<span class='bitcoin' style='font-weight: bold;'>Open Crypto Tracker <i>WILL ALWAYS REMAIN 100% FREE / OPEN SOURCE SOFTWARE</i> (<a href='https://en.wikipedia.org/wiki/Free_and_open-source_software' target='_blank'>FOSS</a>),<br />so please let me know you appreciate my time spent, and buy me a coffee or beer! :)</span>
+            	<span class='bitcoin' style='font-weight: bold;'>Open Crypto Tracker <i>WILL ALWAYS REMAIN 100% FREE / OPEN SOURCE SOFTWARE</i> (<a href='https://en.wikipedia.org/wiki/Free_and_open-source_software' target='_blank'>FOSS</a>)!</span>
             	
             	<br /><br /><b class='btc'>Bitcoin:</b> <br /><span class='underline_pointer' id='btc_donate' title='Click to show / hide address copying details.'>3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW</span>
             	

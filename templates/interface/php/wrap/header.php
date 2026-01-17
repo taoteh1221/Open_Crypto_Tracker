@@ -185,8 +185,8 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 				     if ( $any_ui_any_upgrade_alert['upgrade_mode'] == 'app' ) {
                          ?>
                          
-                         localStorage.setItem(general_notice_storage, "");
-                         localStorage.setItem(security_notice_storage, "");
+                         localStorage.setItem(general_notice_storage, "upgraded");
+                         localStorage.setItem(security_notice_storage, "upgraded");
 
                          <?php
 				     }
@@ -237,7 +237,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
              <?php
              if ( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 ) {
              ?>
-             <p>PRO TIP: ALWAYS stay in whatever area you're in (Admin / User / Plugin), when background tasks show as running near the top of this interface.</p>
+             <p>PRO TIP: ALWAYS stay in whatever area you're in (Admin / User / Plugin), when background tasks show as running near the top of this interface (as a separate notice from this one).</p>
              <?php
              }
              ?>

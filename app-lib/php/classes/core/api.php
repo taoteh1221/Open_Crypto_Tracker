@@ -506,12 +506,13 @@ var $exchange_apis = array(
         ) {
                   
                   // IF no data is available for this stock asset, update the secondary cache modified
-                  // timestamp, AND set ext_data() primary cache time to 100 YEARS (52560000 minutes)
-                  // (so we NEVER bother to refresh again, as they have no data for this asset...and
+                  // timestamp, AND set ext_data() primary cache time to 2 / 4 WEEKS
+                  // (so we HARDLY bother to refresh again, as they SEEM to have no data for this asset,
+                  // OR they are denying API access for an arbitrary reason...and
                   // running touch() lets us do a 30-day maintenance cleanup on stale cache files [deleted assets])
                   if ( $secondary_cache_info['request_error'] == 'no_data_available' ) {
                   touch($secondary_cache);
-                  $overview_cache_time = 52560000; 
+                  $overview_cache_time = rand(14, 28) * 1440; // 2 / 4 WEEKS
                   }
                   // If data MAY be available, BUT we hit an API limit
                   // OR got no server response LAST CHECK, we want to
@@ -1726,9 +1727,19 @@ var $exchange_apis = array(
    // API response data
    $response = @$ct['cache']->ext_data('url', $url, $cache_time);
    
+   $data = json_decode($response, true);
+   
    gc_collect_cycles(); // Clean memory cache
    
-   $data = json_decode($response, true);
+   
+       // DEBUGGING
+       if ( $exchange_key == 'alphavantage_stock' ) {
+       //var_dump( md5($url) ); 
+       //var_dump($url);
+       //var_dump($data);
+       //var_dump($cache_time);
+       }
+
                 
    //$ct['gen']->array_debugging($data, true); // DEBUGGING
    
@@ -2080,17 +2091,23 @@ var $exchange_apis = array(
                 
                     if ( isset($data['bestMatches']) && is_array($data['bestMatches']) && sizeof($data['bestMatches']) > 0 ) {
                          
+                    //$ct['gen']->array_debugging($data['bestMatches'], true); // DEBUGGING
+                         
                          
                          foreach( $data['bestMatches'] as $result ) {
                                    
                          // Minimize calls
                          $market_tickers_parse  = $ct['asset']->market_tickers_parse($exchange_key, $result["1. symbol"], $result["8. currency"]);
                          
+                         //var_dump($market_tickers_parse);
+                         
+                         $asset_search_format = preg_replace("/stock/i", "", $market_tickers_parse['asset']);
+                         
                          
                               // Skip, if not relevant
                               if ( 
-                              !$search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id) 
-                              || $search_pairing && $ct['gen']->search_mode($market_tickers_parse['asset'], $dyn_id) 
+                              !$search_pairing && $ct['gen']->search_mode($asset_search_format, $dyn_id) 
+                              || $search_pairing && $ct['gen']->search_mode($asset_search_format, $dyn_id) 
                               && $ct['gen']->search_mode($market_tickers_parse['pairing'], $search_pairing)
                               ) {
                               // Do nothing
@@ -2209,7 +2226,7 @@ var $exchange_apis = array(
    $url = $exchange_api['markets_endpoint'];
    
          
-         // IF ticker search AND a LIMITED API WITH A MARKETS LIST ENDPOINT
+         // IF ticker search AND an API WITH A MARKETS LIST ENDPOINT
          if ( $ticker_search_mode && $exchange_api['search_endpoint'] ) {
          return $this->exchange_search_endpoint($exchange_key, $market_id, $ticker_search_mode);
          }

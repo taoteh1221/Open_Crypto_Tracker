@@ -69,6 +69,12 @@ if ( $ct['conf']['power']['debug_mode'] == 'setup_wizards_io' ) {
     }
 
 }
+
+
+// Run logging early (we can safely run consecutively anyway, by design),
+// as we need to populate INTERFACE error logging (for UX)
+$ct['cache']->app_log();
+
 ?>
 
 <div id="setup_wizard_error_alert" style='display: none;'><?php echo $ct['alerts_gui_logs']; ?></div>

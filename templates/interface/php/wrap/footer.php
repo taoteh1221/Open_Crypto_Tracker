@@ -180,7 +180,10 @@ footer_banner(
 
               cookies_notice_storage,
 
-              'This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.'
+              'This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.<br /><br />'
+              
+              + 'ACCESS STATS are saved INSIDE THE APP ONLY, for the admin account to see what / where the app is being accessed from (page, IP address).<br /><br />'
+              + 'The above-mentioned cookies and access stats are for internal program functionality and security ONLY. The MAIN GOAL of this app is ABSOLUTELY ZERO 3RD PARTY EXTERNAL TRACKING of user actions, to protect your portfolio privacy. There is NO MIDDLE MAN SERVER WHATSOEVER used by this app.'
 
               );
 
@@ -190,7 +193,15 @@ footer_banner(
 
               general_notice_storage,
 
-              '<h3 class="red">Small-Screen (mobile) support is coming soon&trade;</h3><h4>You can <a style="font-weight: bold; color: red !important;" href="https://github.com/taoteh1221/Open_Crypto_Tracker/issues" target="_BLANK">report issues</a>.<br />(PLEASE submit a DETAILED report)</h4>Please show your appreciation for my crypto apps, IF you enjoy using them. Leaving a review on the <a href="https://sourceforge.net/u/taoteh1221/profile/" target="_BLANK">SourceForge project pages</a>, or buying me a coffee / beer means WAY MORE to me than large donations. It\'s about <a href="https://taoteh1221.github.io/#donations" target="_BLANK">letting me know</a> you find them useful, NOT about making money. Think of it as a PRIVATE app usage survey anon! :)<br /><br /><a href="https://taoteh1221.github.io/#donations" target="_BLANK"><img width="360" src="templates/interface/media/images/donate-banner.png" alt="" class="image_border" style="margin: 0.3em;" /></a>'
+              '<h3 class="red">Small-Screen (mobile) support is coming soon&trade;</h3>'
+              
+              + '<h4>You can <a style="font-weight: bold; color: red !important;" href="https://github.com/taoteh1221/Open_Crypto_Tracker/issues" target="_BLANK">report issues</a>.<br />(PLEASE submit a DETAILED report)</h4>'
+              
+              + 'Please show your appreciation for my crypto apps, and <a href="https://sourceforge.net/u/taoteh1221/profile/" target="_BLANK">write a SourceForge project review</a>, or <a href="https://taoteh1221.github.io/#donations" target="_BLANK">buy me a coffee / beer</a>!<br />'
+              
+              + 'It\'s about <a href="https://taoteh1221.github.io/#donations" target="_BLANK">letting me know</a> you find them useful, NOT about making money. Think of it as a PRIVATE app usage survey anon! :)<br /><br />'
+              
+              + '<a href="https://taoteh1221.github.io/#donations" target="_BLANK"><img width="360" src="templates/interface/media/images/donate-banner.png" alt="" class="image_border" style="margin: 0.3em;" /></a>'
 
               );
 
@@ -227,7 +238,7 @@ if ( Base64.decode(app_platform) == 'linux' && Base64.decode(app_container) == '
      
                    linux_phpdesktop_notice_storage,
      
-                   'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of December 4th 2025, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.'
+                   'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (as of January 16th 2026, the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.'
                    
                    );
 

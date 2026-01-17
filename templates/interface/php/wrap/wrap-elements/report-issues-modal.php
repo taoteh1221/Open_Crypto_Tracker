@@ -157,13 +157,13 @@
 	        
 	        <span class='bitcoin'>Telegram:</span> <a href='https://t.me/dragonfrugal' target='_blank'>https://t.me/dragonfrugal</a><br /><br />
 	        
-	        <span class='bitcoin'>Twitter:</span> <a href='https://twitter.com/taoteh1221' target='_blank'>https://twitter.com/taoteh1221</a><br /><br />
+	        <span class='bitcoin'>X.com:</span> <a href='https://x.com/taoteh1221' target='_blank'>https://x.com/taoteh1221</a><br /><br />
 	        
 	        <span class='bitcoin'>Private Contact:</span> <a href='https://dragonfrugal.org/contact' target='_blank'>https://dragonfrugal.org/contact</a>
 												
 <br /><br />
 
-<span class='blue'>Please show your appreciation for my crypto apps, IF you enjoy using them. Buying me a coffee / beer means WAY MORE to me than large donations. It's about letting me know you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :) All crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...</span> <br /><br />
+Please show your appreciation for my crypto apps, and <a href="https://sourceforge.net/u/taoteh1221/profile/" target="_BLANK">write a SourceForge project review</a>, or buy me a coffee / beer! It's about letting me know you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :) <br /><br />
 
 <span class='bitcoin'>Bitcoin:</span>  3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW<br /><br />
 
@@ -1385,7 +1385,7 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
            
            
              <div style='float:left; position: relative; padding-right: 20px; padding-bottom: 20px;'>
-	       <a href="https://twitter.com/taoteh1221/status/1562521606895050752" target="_blank"><img src='templates/interface/media/images/twitter-1562521606895050752.jpg' style='display: block;' width='425' class='image_border' alt='' /></a>
+	       <a href="https://x.com/taoteh1221/status/1562521606895050752" target="_blank"><img src='templates/interface/media/images/twitter-1562521606895050752.jpg' style='display: block;' width='425' class='image_border' alt='' /></a>
 	       </div>
 	      
 	         

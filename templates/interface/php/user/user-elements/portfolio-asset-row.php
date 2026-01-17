@@ -67,10 +67,17 @@ echo '?';
 	         
 	         // Alphavantage
 	         if ( $stock_exchange_id == 'alphavantage_stock' ) {
-	              
-
+	         
+	         //var_dump($sel_pair);
+	         //var_dump($stock_pairing_key);
+	         
+                   
+                   // IF the selected pairing is NOT a match, skip this loop
+                   if ( $sel_pair != $stock_pairing_key ) {
+                   continue;
+                   }
                    // (ONLY IF WE CAN IDENTIFY THE EXCHANGE, BY A DISTINCT MARKET ID)
-	              if ( preg_match('/\.trt/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
+	              else if ( preg_match('/\.trt/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
 	              $mkcap_render_data = $raw_ticker . ':TSE';
 	              }
 	              else if ( preg_match('/\.dex/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
@@ -88,12 +95,16 @@ echo '?';
                        ) {
                        $mkcap_render_data = $raw_ticker . ':' . strtoupper($stock_overview['data']['Exchange']);
                        }
-                       // IF no exchange data found, skip, but link to google finance "did you mean?" results
+                       // IF no exchange data parsed, skip, but link to google finance "did you mean?" results
                        else {
                        $mkcap_render_data = $raw_ticker;
                        }
 	              
 	              }
+                   // IF no exchange data parsed, skip, but link to google finance "did you mean?" results
+                   else {
+                   $mkcap_render_data = $raw_ticker;
+                   }
 
 	              
 	         }
@@ -134,7 +145,7 @@ echo '?';
 			position: "right",
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
-  			url: 'ajax.php?type=assets&mode=stock_overview&ticker=<?=urlencode($asset_symb)?>&name=<?=urlencode($asset_name)?>',
+  			url: 'ajax.php?type=assets&mode=stock_overview&ticker=<?=urlencode($asset_symb)?>&pairing=<?=$sel_pair?>&name=<?=urlencode($asset_name)?>',
 			css: balloon_css("left", "999"),
 			ajaxComplete: function(var1, var2) {
 			                                   // var var3 = this.id;
@@ -155,7 +166,7 @@ echo '?';
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info" style="white-space: normal; "><span class="red"><?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> API may be offline / under heavy load, OR marketcap range not set high enough (current range is top <?=$ct['conf']['power']['marketcap_ranks_max']?> marketcaps, set in the "Power User" ADMIN area section), OR remote API timeout set too low (current timeout is <?=$ct['conf']['ext_apis']['remote_api_timeout']?> seconds, set in the "External APIs" ADMIN area section).</span></p>'
+			var cmc_content = '<p class="coin_info" style="white-space: normal; "><span class="red"><?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> API may be offline / under heavy load, OR marketcap range not set high enough (current range is top <?=$ct['conf']['power']['marketcap_ranks_max']?> marketcaps, set in the "Power User" ADMIN area section).</span></p>'
             
             +'<p class="coin_info bitcoin" style="white-space: normal; ">Please check back in awhile, OR <i>switch to an alternate marketcap data provider</i> in the "General" ADMIN area section, AND / OR in the "User Settings" USER area section.</p>';
 	

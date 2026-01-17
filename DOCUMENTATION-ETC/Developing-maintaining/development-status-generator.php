@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2026-1-17'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.07',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => true,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'AlphaVantage Stock Market support had a couple significant bugs (issues / errors), that have been fixed in the v6.01.08 release today, related to Stock Overview information, and adding NEW stocks with the asset SEARCH admin interface. Other fixes and improvements are also included in this release (see changelog.txt, for more details).',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2025-12-4'),
                    
                    'very_important' => true,

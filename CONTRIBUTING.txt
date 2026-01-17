@@ -98,6 +98,10 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ----------------------------------------------------------------------
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!
+===> Search for DataValidationChecking in /app-lib/php/classes/core/cache.php, to CONSERVATIVELY
+===> add / remove / modify checks on external API results (to allow graceful cache fallbacks).
+===> BE CAREFUL, AS THIS CAN BLOCK THE APP FROM USING VALID DATA, IF YOUR CHECKS ARE INCORRECT!
 !!!!                                                  
 ===> Keep an eye out for EFFECTS ON any 3rd party libraries using the 'unload' eventListener,
 ===> as it was FULLY DEPRECIATED / DISABLED in chrome at the end of 2024:
