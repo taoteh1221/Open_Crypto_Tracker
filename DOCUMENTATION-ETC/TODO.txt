@@ -140,6 +140,9 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
 
+Look at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
+
+
 Add full redhat support for auto-installer.
 
 
@@ -195,9 +198,6 @@ Look into laptop touchscreen zingchart js error ON SMALL LAPTOP SCREENS, when hi
 
 
 Make sure we haven't missed leaving any settings alone DURING UPGRADES, that are full of user-customized stuff. PLUGIN settings should AUTOMATICALLY be FINE, as we never check any deeper than the root plugin setting key IDs.
-
-
-Look at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).
