@@ -163,7 +163,7 @@
 												
 <br /><br />
 
-<span class='blue'>Please show your appreciation for my crypto apps, IF you enjoy using them. Buying me a coffee / beer means WAY MORE to me than large donations. It's about letting me know you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :) All crypto addresses are bot-monitored (for balance changes) on active / well-secured / backed-up HD wallets...</span> <br /><br />
+Please show your appreciation for my crypto apps, and <a href="https://sourceforge.net/u/taoteh1221/profile/" target="_BLANK">write a SourceForge project review</a>, or buy me a coffee / beer! It's about letting me know you appreciate them / find them useful, NOT about me making money. Think of it as a PRIVATE app usage survey anon! :) <br /><br />
 
 <span class='bitcoin'>Bitcoin:</span>  3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW<br /><br />
 
