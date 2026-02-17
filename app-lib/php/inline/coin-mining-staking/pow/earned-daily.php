@@ -7,7 +7,7 @@
 ?>				
 				<br />
 				<br />
-				<b>Current <?=$pow_asset_data['name']?> Value Per Coin:</b> 
+				<b class='blue'>Current <?=$pow_asset_data['name']?> Value Per Coin:</b> 
 				
 				<?php
 				
@@ -20,7 +20,7 @@
 				
                     $btc_unit_val = $ct['var']->num_to_str($btc_unit_val); // Cleanup any trailing zeros
 				
-				echo ( $pow_asset_data['symbol'] == 'btc' ? number_format($ct['sel_opt']['sel_btc_prim_currency_val'], 2) . ' ' . strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) : $btc_unit_val . ' BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $val_per_unit_pretty . ' '.strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).')' );
+				echo ( $pow_asset_data['symbol'] == 'btc' ? '<span class="safe_non_table_num"><span class="num_conv">' . number_format($ct['sel_opt']['sel_btc_prim_currency_val'], 2) . '</span></span> ' . strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']) : '<span class="safe_non_table_num"><span class="num_conv">' . $btc_unit_val . '</span></span> BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . $val_per_unit_pretty . '</span></span> '.strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).')' );
 				
 				?>
 				
@@ -33,13 +33,14 @@
 				<?php
 				if ( $pow_asset_data['symbol'] != 'btc' ) {
 				?>
-				<b>Average <?=strtoupper($pow_asset_data['symbol'])?> Earned Daily (block reward only):</b> 
+				<b class='blue'>Average <?=strtoupper($pow_asset_data['symbol'])?> Earned Daily (block reward only):</b> 
 				
 				
+                    <span class="safe_non_table_num"><span class="num_conv">
 				<?php
 				$mined_daily_avg = number_format($daily_avg , $ct['conf']['currency']['crypto_decimals_max']);
                     $mined_daily_avg = $ct['var']->num_to_str($mined_daily_avg); // Cleanup any trailing zeros
-				echo $mined_daily_avg . ' ' . strtoupper($pow_asset_data['symbol']);
+				echo $mined_daily_avg . '</span></span> ' . strtoupper($pow_asset_data['symbol']);
 				?>
 				
 				<br />
@@ -48,8 +49,9 @@
 				}
 				?>
 				
-				<b>Average BTC Value Earned Daily:</b> 
+				<b class='blue'>Average BTC Value Earned Daily:</b> 
 				
+                    <span class="safe_non_table_num"><span class="num_conv">
 				<?php
 				$prim_currency_daily_avg_raw = $ct['var']->num_to_str($prim_currency_daily_avg_raw); // Handle small / large numbers
 				
@@ -59,16 +61,16 @@
 				$btc_mined_daily_avg = number_format($btc_daily_avg_raw, $ct['conf']['currency']['crypto_decimals_max']);
                     $btc_mined_daily_avg = $ct['var']->num_to_str($btc_mined_daily_avg); // Cleanup any trailing zeros
                     
-				echo $btc_mined_daily_avg . ' BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . $prim_currency_daily_avg_pretty . ' '.strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).')';
+				echo $btc_mined_daily_avg . '</span></span> BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . $prim_currency_daily_avg_pretty . '</span></span> ' . strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).')';
 				?>
 				
 				<br />
 				<br />
 				
-				<span class='red'><b>Power Cost Daily:</b> 
+				<span class='red'><b class='blue'>Power Cost Daily:</b> 
 				
 				<?php
-				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . number_format($kwh_cost_daily, 2);
+				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . number_format($kwh_cost_daily, 2) . '</span></span>';
 				?>
 				
 				</span> 
@@ -76,10 +78,10 @@
 				<br />
 				<br />
 				
-				<span class='red'><b>Pool Fee Daily:</b> 
+				<span class='red'><b class='blue'>Pool Fee Daily:</b> 
 				
 				<?php
-				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . number_format($pool_fee_daily, 2);
+				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . number_format($pool_fee_daily, 2) . '</span></span>';
 				?>
 				
 				</span> 
@@ -100,10 +102,10 @@
 				
 				?>
 				
-				<b><span class="<?=$mining_daily_profit_span?>">Daily Profit:</span></b> 
+				<span class="<?=$mining_daily_profit_span?>"><b class='blue'>Daily Profit:</b></span> 
 				
 				<?php
-				echo '<span class="'.$mining_daily_profit_span.'">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . number_format($mining_daily_profit, 2) . '</span>';
+				echo '<span class="'.$mining_daily_profit_span.'">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . number_format($mining_daily_profit, 2) . '</span></span></span>';
 				?>
 				
 				<br />
@@ -115,14 +117,15 @@
 				<?php
 				if ( $pow_asset_data['symbol'] != 'btc' ) {
 				?>
-				<b>Average <?=strtoupper($pow_asset_data['symbol'])?> Earned Weekly (block reward only):</b> 
+				<b class='blue'>Average <?=strtoupper($pow_asset_data['symbol'])?> Earned Weekly (block reward only):</b> 
 				
 				
+                    <span class="safe_non_table_num"><span class="num_conv">
 				<?php
 				$mined_weekly_avg = number_format( ($daily_avg * 7) , $ct['conf']['currency']['crypto_decimals_max']);
                     $mined_weekly_avg = $ct['var']->num_to_str($mined_weekly_avg); // Cleanup any trailing zeros
                     
-				echo $mined_weekly_avg . ' ' . strtoupper($pow_asset_data['symbol']);
+				echo $mined_weekly_avg . '</span></span> ' . strtoupper($pow_asset_data['symbol']);
 				?>
 				
 				<br />
@@ -131,33 +134,23 @@
 				}
 				?>
 				
-				<b>Average BTC Value Earned Weekly:</b> 
+				<b class='blue'>Average BTC Value Earned Weekly:</b> 
 				
+                    <span class="safe_non_table_num"><span class="num_conv">
 				<?php
 				$btc_mined_weekly_avg = number_format( ($btc_daily_avg_raw * 7) , $ct['conf']['currency']['crypto_decimals_max']);
                     $btc_mined_weekly_avg = $ct['var']->num_to_str($btc_mined_weekly_avg); // Cleanup any trailing zeros
                     
-				echo $btc_mined_weekly_avg . ' BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . number_format( $prim_currency_daily_avg_raw * 7 , 2) . ' '.strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).')';
+				echo $btc_mined_weekly_avg . '</span></span> BTC (' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . number_format( $prim_currency_daily_avg_raw * 7 , 2) . '</span></span> '.strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair']).')';
 				?>
 				
 				<br />
 				<br />
 				
-				<span class='red'><b>Power Cost Weekly:</b> 
+				<span class='red'><b class='blue'>Power Cost Weekly:</b> 
 				
 				<?php
-				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . number_format($kwh_cost_daily * 7, 2);
-				?>
-				
-				</span>
-				
-				<br />
-				<br />
-				
-				<span class='red'><b>Pool Fee Weekly:</b> 
-				
-				<?php
-				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . number_format($pool_fee_daily * 7, 2);
+				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . number_format($kwh_cost_daily * 7, 2) . '</span></span>';
 				?>
 				
 				</span>
@@ -165,10 +158,21 @@
 				<br />
 				<br />
 				
-				<b><span class="<?=$mining_daily_profit_span?>">Weekly Profit:</span></b> 
+				<span class='red'><b class='blue'>Pool Fee Weekly:</b> 
 				
 				<?php
-				echo '<span class="'.$mining_daily_profit_span.'">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
+				echo $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . number_format($pool_fee_daily * 7, 2) . '</span></span>';
+				?>
+				
+				</span>
+				
+				<br />
+				<br />
+				
+				<span class="<?=$mining_daily_profit_span?>"><b class='blue'>Weekly Profit:</b></span> 
+				
+				<?php
+				echo '<span class="'.$mining_daily_profit_span.'">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '<span class="safe_non_table_num"><span class="num_conv">' . number_format( ($mining_daily_profit * 7) , 2) . '</span></span></span>';
 				?>
 				
 				<br />

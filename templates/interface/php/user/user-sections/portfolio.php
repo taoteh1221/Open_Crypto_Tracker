@@ -28,6 +28,8 @@
 				<option value='1800'> 30 Minutes </option>
 			</select> 
 			
+			&nbsp; &nbsp; <a href='https://www.coingecko.com/en/coins/bitcoin/bitcoin-halving' title='Time remaining, until next Bitcoin halving.' target='_BLANK' style='text-decoration: none !important;'><b class='bitcoin'><img alt='' src='templates/interface/media/images/auto-preloaded/bitcoin-btc-logo.png' style='position: relative; top: -0.1em !important; height: 1em !important;' border='0' /> Next Bitcoin Halving: <?=$halving_desc?></b></a>
+			
 			&nbsp; <span class='reload_notice red'></span>		
 		
 		

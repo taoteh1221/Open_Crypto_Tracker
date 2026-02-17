@@ -7105,6 +7105,21 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.01.09
+
+-BUG FIX: TBD
+
+-Bitcoin Halving data, at the top of the user area
+
+-Miscellaneous user experience improvements
+
+-Revised DEMO config
+
+-------------------------------------------------------------------
+
+
+
 
 
 

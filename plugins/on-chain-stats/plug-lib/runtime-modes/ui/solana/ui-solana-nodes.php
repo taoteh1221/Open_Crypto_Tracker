@@ -43,19 +43,19 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
           
           // Days
           if ( $sol_epoch_seconds_left > 86400 ) {
-          $sol_epoch_time_left = '(~' . round( ($sol_epoch_seconds_left / 86400) , 2) . ' days remaining)';
+          $sol_epoch_time_left = '(~<span class="safe_non_table_num"><span class="num_conv">' . round( ($sol_epoch_seconds_left / 86400) , 2) . '</span></span> days remaining)';
           }
           // Hours
           elseif ( $sol_epoch_seconds_left > 3600 ) {
-          $sol_epoch_time_left = '(~' . round( ($sol_epoch_seconds_left / 3600) , 2) . ' hours remaining)';
+          $sol_epoch_time_left = '(~<span class="safe_non_table_num"><span class="num_conv">' . round( ($sol_epoch_seconds_left / 3600) , 2) . '</span></span> hours remaining)';
           }
           // Minutes
           elseif ( $sol_epoch_seconds_left > 60 ) {
-          $sol_epoch_time_left = '(~' . round( ($sol_epoch_seconds_left / 60) , 2) . ' minutes remaining)';
+          $sol_epoch_time_left = '(~<span class="safe_non_table_num"><span class="num_conv">' . round( ($sol_epoch_seconds_left / 60) , 2) . '</span></span> minutes remaining)';
           }
           // Seconds
           else {
-          $sol_epoch_time_left = '(~' . round($sol_epoch_seconds_left, 2) . ' seconds remaining)';
+          $sol_epoch_time_left = '(~<span class="safe_non_table_num"><span class="num_conv">' . round($sol_epoch_seconds_left, 2) . '</span></span> seconds remaining)';
           }
      
      }
@@ -68,12 +68,12 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
 		    
 		
     <p>
-    <b class='yellow'>Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?> <?=( isset($sol_epoch_time_left) ? $sol_epoch_time_left : '' )?>
+    <b class='yellow'>Epoch:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?></span></span> <?=( isset($sol_epoch_time_left) ? $sol_epoch_time_left : '' )?>
     </p>
     
     
     <p>
-    <b class='yellow'>Block Height:</b> <?=$ct['var']->num_pretty($sol_epoch_info['blockHeight'], 0)?>
+    <b class='yellow'>Block Height:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($sol_epoch_info['blockHeight'], 0)?></span></span>
     </p>
 
     <?php    
@@ -81,7 +81,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
     ?>
     
     <p>
-    <b class='yellow'>All Nodes Count:</b>  <?=$ct['var']->num_pretty( sizeof($solana_nodes_info) , 0)?>
+    <b class='yellow'>All Nodes Count:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty( sizeof($solana_nodes_info) , 0)?></span></span>
     </p>
 
     <?php
@@ -92,7 +92,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
     ?>
     
     <p>
-    <b class='yellow'>Validator Nodes Count:</b>  <?=$ct['var']->num_pretty( sizeof($solana_validators_info) , 0)?>
+    <b class='yellow'>Validator Nodes Count:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty( sizeof($solana_validators_info) , 0)?></span></span>
     </p>
 
     <?php
@@ -103,7 +103,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
     ?>
     
     <p>
-    <b class='yellow'>Real TPS:</b>  <?=$ct['var']->num_pretty($solana_tps['real_tps'], 0)?>
+    <b class='yellow'>Real TPS:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($solana_tps['real_tps'], 0)?></span></span>
     </p>
 
     <?php
@@ -138,15 +138,15 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
    <div class='secondary_chart_wrapper sol_epoch_data'>
 
     <p>
-    <b class='yellow'>Absolute Slot:</b> <?=$ct['var']->num_pretty($sol_epoch_info['absoluteSlot'], 0)?>
+    <b class='yellow'>Absolute Slot:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($sol_epoch_info['absoluteSlot'], 0)?></span></span>
     </p>
 	
     <p>
-    <b class='yellow'>Block Height:</b> <?=$ct['var']->num_pretty($sol_epoch_info['blockHeight'], 0)?>
+    <b class='yellow'>Block Height:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($sol_epoch_info['blockHeight'], 0)?></span></span>
     </p>
 	
     <p>
-    <b class='yellow'>Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?> <?=( isset($sol_epoch_time_left) ? $sol_epoch_time_left : '' )?>
+    <b class='yellow'>Epoch:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($sol_epoch_info['epoch'], 0)?></span></span> <?=( isset($sol_epoch_time_left) ? $sol_epoch_time_left : '' )?>
     </p>
 
     <?php
@@ -154,7 +154,7 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
     ?>
     
     <p>
-    <b class='yellow'>Slot Time Average:</b> <?=$solana_slot_time_milliseconds?> Milliseconds
+    <b class='yellow'>Slot Time Average:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$solana_slot_time_milliseconds?></span></span> Milliseconds
     </p>
 
     <?php
@@ -162,15 +162,15 @@ $solana_slot_time = $plug['class'][$this_plug]->solana_performance('slot_time');
     ?>
     
     <p>
-    <b class='yellow'>Slot Index:</b> <?=$ct['var']->num_pretty($sol_epoch_info['slotIndex'], 0)?>
+    <b class='yellow'>Slot Index:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($sol_epoch_info['slotIndex'], 0)?></span></span>
     </p>
 	
     <p>
-    <b class='yellow'>Slots In Epoch:</b> <?=$ct['var']->num_pretty($sol_epoch_info['slotsInEpoch'], 0)?>
+    <b class='yellow'>Slots In Epoch:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($sol_epoch_info['slotsInEpoch'], 0)?></span></span>
     </p>
 	
     <p>
-    <b class='yellow'>Transactions Since Genesis:</b> <?=$ct['var']->num_pretty($sol_epoch_info['transactionCount'], 0)?>
+    <b class='yellow'>Transactions Since Genesis:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($sol_epoch_info['transactionCount'], 0)?></span></span>
     </p>
     
     

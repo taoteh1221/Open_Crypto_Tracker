@@ -17,41 +17,45 @@ $years = ( $days / 365 );
 
 if ( $minutes < 60 ) {
 ?>
-<b>Average minutes until block found:</b> 
+<b class='blue'>Average minutes until block found:</b> 
 <?php
 echo $ct['var']->num_pretty($minutes, 2);
 }
 elseif ( $hours < 24 ) {
 ?>
-<b>Average hours until block found:</b> 
+<b class='blue'>Average hours until block found:</b> 
 <?php
 echo $ct['var']->num_pretty($hours, 2);
 }
 elseif ( $days < 30 ) {
 ?>
-<b>Average days until block found:</b> 
+<b class='blue'>Average days until block found:</b> 
 <?php
 echo $ct['var']->num_pretty($days, 2);
 }
 elseif ( $days < 365 ) {
 ?>
-<b>Average months until block found:</b> 
+<b class='blue'>Average months until block found:</b> 
 <?php
 echo $ct['var']->num_pretty($months, 2);
 }
 else {
 ?>
-<b>Average years until block found:</b> 
-<?php
+<b class='blue'>Average years until block found:</b> 
+
+<span class="safe_non_table_num"><span class="num_conv"><?php
 echo $ct['var']->num_pretty($years, 2);
 }
+?>
+</span></span>
 
+<?php
 $thres_dec = $ct['gen']->thres_dec($days, 'u', 'fiat'); // Units mode
 $days_pretty = $ct['var']->num_pretty($days, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
 ?>
 <br />
 <br />
-<b class='bitcoin'>(SOLO MINING *DAILY* ODDS: 1 in <?=$days_pretty?> chance of mining a block)</b>
+<b class='bitcoin'>(SOLO MINING *DAILY* ODDS: 1 in <span class="safe_non_table_num"><span class="num_conv"><?=$days_pretty?></span></span> chance of mining a block)</b>
 <?php
 				
 $calculate_daily = ( 24 / $hours );

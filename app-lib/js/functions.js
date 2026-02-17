@@ -379,14 +379,15 @@ x = document.forms[form_id][field].value;
 /////////////////////////////////////////////////////////////
 
 
-function portfolio_number_format() {
+function locale_number_format() {
 
-// Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE
+// Converting numbers to chosen locale, BUT ONLY ON THE PORTFOLIO PAGE, UNLESS FLAGGED AS SAFE!
 // (AS WE EASILY MESS UP THE NUMBER CALCULATIONS SERVER-SIDE, IF CONVERTED IN FORM DATA TOO)
 // !!!!!!!!!!NEVER DUPLICATE A CSS PATH IN ANY WAY, OR IT CORRUPTS NUMBER DATA!!!!!!!!!!!!!
 convert_numbers('#portfolio .data .app_sort_filter', pref_number_format);
 convert_numbers('#portfolio .data .crypto_worth', pref_number_format);
 convert_numbers('#portfolio .portfolio_summary .private_data', pref_number_format);
+convert_numbers('.safe_non_table_num', pref_number_format);
 
 $('#pref_number_format').val(pref_number_format);
 

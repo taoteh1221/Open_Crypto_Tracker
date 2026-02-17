@@ -30,6 +30,8 @@ $ct['opt_conf'] = array(); // Optimized config (from interface-friendly over to 
 
 $ct['dev'] = array(); // Developer config
 
+$ct['crypto'] = array(); // Crypto config
+
 
 // Developer-only configs
 $dev_only_configs_mode = 'init'; // Flag to only run 'init' section

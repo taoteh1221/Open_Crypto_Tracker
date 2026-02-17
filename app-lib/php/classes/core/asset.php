@@ -333,7 +333,7 @@ var $ct_array = array();
            <form name='<?=$calc_form_data['symbol']?>' action='<?=$ct['gen']->start_page('mining')?>' method='post'>
            
            
-           <p><b><?=ucfirst($network_measure)?>:</b> 
+           <p><b class='blue'><?=ucfirst($network_measure)?>:</b> 
            <?php
            if ( $hash_unit == 'hash' ) {
            ?>
@@ -346,7 +346,7 @@ var $ct_array = array();
            </p>
            
            
-           <p><b>Your Hashrate:</b>  
+           <p><b class='blue'>Your Hashrate:</b>  
            <input type='text' value='<?=( $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' /> 
            
            
@@ -372,16 +372,16 @@ var $ct_array = array();
            </p>
            
            
-           <p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['block_reward'] : $calc_form_data['block_reward'] )?>' name='block_reward' /> (MAY be static from dynamic-config.php, verify manually)</p>
+           <p><b class='blue'>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['block_reward'] : $calc_form_data['block_reward'] )?>' name='block_reward' /> (MAY be static from dynamic-config.php, verify manually)</p>
            
            
-           <p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
+           <p><b class='blue'>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
            
            
-           <p><b>kWh Rate (<?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+           <p><b class='blue'>kWh Rate (<?=$ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
            
            
-           <p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
+           <p><b class='blue'>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calc_form_data['symbol'].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
                
                
             <input type='hidden' value='1' name='<?=$calc_form_data['symbol']?>_submitted' />

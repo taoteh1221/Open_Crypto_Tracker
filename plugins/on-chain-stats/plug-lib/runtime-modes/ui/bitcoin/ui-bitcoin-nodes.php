@@ -10,11 +10,6 @@ if ( $ct['conf']['charts_alerts']['enable_price_charts'] == 'on' ) {
 // Used digest hash for security / short filename
 $disabled_rpc_getnodeaddresses = $ct['base_dir'] . '/cache/other/disabled_rpc_endpoints/' . $ct['sec']->digest($ct['conf']['ext_apis']['bitcoin_rpc_server'], 10) . '-bitcoin-method-getnodeaddresses.dat';
 
-// Bitcoin mining data (5 minute cache)
-$bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
-
-//var_dump($bitcoin_mining);
-
 // Bitcoin get latest block hash (5 minute cache)
 $bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
 
@@ -49,22 +44,22 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
 		    
 	
     <?php    
-    if ( isset($bitcoin_mining['difficulty']) && is_numeric($bitcoin_mining['difficulty']) ) {
+    if ( isset($ct['crypto']['bitcoin']['mining']['difficulty']) && is_numeric($ct['crypto']['bitcoin']['mining']['difficulty']) ) {
     ?>
     
     <p>
-    <b class='yellow'>Difficulty:</b>  <?=$ct['var']->num_pretty($bitcoin_mining['difficulty'], 0)?>
+    <b class='yellow'>Difficulty:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($ct['crypto']['bitcoin']['mining']['difficulty'], 0)?></span></span>
     </p>
     
     <?php
     }
     
     
-    if ( isset($bitcoin_mining['blocks']) && is_numeric($bitcoin_mining['blocks']) ) {
+    if ( isset($ct['crypto']['bitcoin']['mining']['blocks']) && is_numeric($ct['crypto']['bitcoin']['mining']['blocks']) ) {
     ?>
     
     <p>
-    <b class='yellow'>Block Height:</b>  <?=$ct['var']->num_pretty($bitcoin_mining['blocks'], 0)?>
+    <b class='yellow'>Block Height:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($ct['crypto']['bitcoin']['mining']['blocks'], 0)?></span></span>
     </p>
     
     <?php
@@ -75,7 +70,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
     ?>
     
     <p>
-    <b class='yellow'>Node Count:</b>  <?=$ct['var']->num_pretty( sizeof($bitcoin_nodes_info) , 0)?>
+    <b class='yellow'>Node Count:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty( sizeof($bitcoin_nodes_info) , 0)?></span></span>
     </p>
 
     <?php
@@ -86,7 +81,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
     ?>
     
     <p>
-    <b class='yellow'>TPS:</b> <?=$bitcoin_tps?>
+    <b class='yellow'>TPS:</b> <span class="safe_non_table_num"><span class="num_conv"><?=$bitcoin_tps?></span></span>
     </p>
 
     <?php
@@ -119,7 +114,7 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
 
 	
     <?php    
-    if ( isset($bitcoin_mining['blocks']) && is_numeric($bitcoin_mining['blocks']) ) {
+    if ( isset($ct['crypto']['bitcoin']['mining']['blocks']) && is_numeric($ct['crypto']['bitcoin']['mining']['blocks']) ) {
     ?>
     
 	
@@ -129,23 +124,23 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
     
 
     <p>
-    <b class='yellow'>Hashes Per Second:</b>  <?=$ct['var']->num_pretty($bitcoin_mining['networkhashps'], 0)?>
+    <b class='yellow'>Hashes Per Second:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($ct['crypto']['bitcoin']['mining']['networkhashps'], 0)?></span></span>
     </p>
 
     <p>
-    <b class='yellow'>Difficulty:</b>  <?=$ct['var']->num_pretty($bitcoin_mining['difficulty'], 0)?>
+    <b class='yellow'>Difficulty:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($ct['crypto']['bitcoin']['mining']['difficulty'], 0)?></span></span>
     </p>
     
     <p>
-    <b class='yellow'>Block Height:</b>  <?=$ct['var']->num_pretty($bitcoin_mining['blocks'], 0)?>
+    <b class='yellow'>Block Height:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($ct['crypto']['bitcoin']['mining']['blocks'], 0)?></span></span>
     </p>
 
     <p>
-    <b class='yellow'>MemPool Size:</b>  <?=$ct['var']->num_pretty($bitcoin_mining['pooledtx'], 0)?> (queued transactions)
+    <b class='yellow'>MemPool Size:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($ct['crypto']['bitcoin']['mining']['pooledtx'], 0)?></span></span> (queued transactions)
     </p>
 
     <p>
-    <b class='yellow'>Transactions in Last Block:</b>  <?=$ct['var']->num_pretty($bitcoin_last_block_stats['txs'], 0)?> (<?=$bitcoin_tps?> TPS)
+    <b class='yellow'>Transactions in Last Block:</b>  <span class="safe_non_table_num"><span class="num_conv"><?=$ct['var']->num_pretty($bitcoin_last_block_stats['txs'], 0)?></span></span> (<span class="safe_non_table_num"><span class="num_conv"><?=$bitcoin_tps?></span></span> TPS)
     </p>
     
     
