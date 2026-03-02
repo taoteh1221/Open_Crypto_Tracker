@@ -18,6 +18,92 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function bitcoin_halving() {
+        
+   global $ct;
+   
+
+      // Get next bitcoin halving
+      if (
+      isset($ct['crypto']['bitcoin']['mining']['blocks'])
+      && $ct['crypto']['bitcoin']['mining']['blocks'] > 0
+      ) {
+          
+          // Bitcoin halving is every 210,000 blocks
+          $set_halving = 0;
+          while ( $ct['crypto']['bitcoin']['mining']['blocks'] > $set_halving ) {
+          $set_halving = $set_halving + 210000;
+          }
+     
+     
+     // Set next halving data...
+     
+     $ct['crypto']['bitcoin']['halving']['threshold'] = $ct['var']->num_to_str($set_halving);
+     
+     $ct['crypto']['bitcoin']['halving']['blocks_until'] = $ct['var']->num_to_str($set_halving - $ct['crypto']['bitcoin']['mining']['blocks']);
+     
+     $ct['crypto']['bitcoin']['halving']['minutes_until'] = $ct['var']->num_to_str($ct['crypto']['bitcoin']['halving']['blocks_until'] * 10);
+     
+     $ct['crypto']['bitcoin']['halving']['months_until'] = $ct['var']->num_to_str($ct['crypto']['bitcoin']['halving']['minutes_until'] / 43200);
+     
+          
+          // 1+ years
+          if ( $ct['crypto']['bitcoin']['halving']['minutes_until'] >= 525600 ) {
+          $halving_interval = $ct['crypto']['bitcoin']['halving']['minutes_until'] / 525600;
+          $ct['crypto']['bitcoin']['halving']['description'] = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> year(s)';
+          }
+          // 1+ months
+          elseif ( $ct['crypto']['bitcoin']['halving']['minutes_until'] >= 43200 ) {
+          $halving_interval = $ct['crypto']['bitcoin']['halving']['months_until'];
+          $ct['crypto']['bitcoin']['halving']['description'] = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> month(s)';
+          }
+          // 1+ weeks
+          elseif ( $ct['crypto']['bitcoin']['halving']['minutes_until'] >= 10080 ) {
+          $halving_interval = $ct['crypto']['bitcoin']['halving']['minutes_until'] / 10080;
+          $ct['crypto']['bitcoin']['halving']['description'] = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> week(s)';
+          }
+          // 1+ days
+          elseif ( $ct['crypto']['bitcoin']['halving']['minutes_until'] >= 1440 ) {
+          $halving_interval = $ct['crypto']['bitcoin']['halving']['minutes_until'] / 1440;
+          $ct['crypto']['bitcoin']['halving']['description'] = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> day(s)';
+          }
+          // Minutes
+          else {
+          $halving_interval = $ct['crypto']['bitcoin']['halving']['minutes_until'];
+          $ct['crypto']['bitcoin']['halving']['description'] = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> minute(s)';
+          }
+     
+     
+          // Historical market cycle data
+          //$ct['crypto']['bitcoin']['halving']['months_until'] = 30; // DEBUGGING ONLY
+          
+          if ( 
+          $ct['crypto']['bitcoin']['halving']['months_until'] < 2 // Less than 2 months BEFORE
+          || $ct['crypto']['bitcoin']['halving']['months_until'] > 30 // Within the 18 months AFTER
+          ) {
+          $ct['crypto']['bitcoin']['halving']['description'] .= ' <span class="green">(bullish historically)</span>';
+          }
+          elseif ( 
+          $ct['crypto']['bitcoin']['halving']['months_until'] > 12 // Greater than 12 months BEFORE
+          && $ct['crypto']['bitcoin']['halving']['months_until'] < 30 // OVER the 18 months AFTER
+          ) {
+          $ct['crypto']['bitcoin']['halving']['description'] .= ' <span class="red">(bearish historically)</span>';
+          }
+          else {
+          $ct['crypto']['bitcoin']['halving']['description'] .= ' <span class="yellow">(accumulation historically)</span>';
+          }
+          
+          
+      }
+
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function test_ipv4($str) {
    return filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
    }

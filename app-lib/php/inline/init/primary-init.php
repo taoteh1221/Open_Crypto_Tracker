@@ -143,53 +143,8 @@ $ct['coingecko_currencies'] = $ct['api']->coingecko_currencies();
 // Bitcoin mining data (5 minute cache)
 $ct['crypto']['bitcoin']['mining'] = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
 
-     
-     // Get next bitcoin halving
-     if (
-     isset($ct['crypto']['bitcoin']['mining']['blocks'])
-     && $ct['crypto']['bitcoin']['mining']['blocks'] > 0
-     ) {
-          
-          // Bitcoin halving is every 210,000 blocks
-          $set_halving = 0;
-          while ( $ct['crypto']['bitcoin']['mining']['blocks'] > $set_halving ) {
-          $set_halving = $set_halving + 210000;
-          }
-     
-     
-     // Set next halving data...
-     
-     $ct['crypto']['bitcoin']['halving']['threshold'] = $ct['var']->num_to_str($set_halving);
-     
-     $ct['crypto']['bitcoin']['halving']['blocks_until'] = $ct['var']->num_to_str($set_halving - $ct['crypto']['bitcoin']['mining']['blocks']);
-     
-     $ct['crypto']['bitcoin']['halving']['minutes_until'] = $ct['var']->num_to_str($ct['crypto']['bitcoin']['halving']['blocks_until'] * 10);
-     
-          
-          // 1+ years
-          if ( $ct['crypto']['bitcoin']['halving']['minutes_until'] >= 525600 ) {
-          $halving_interval = $ct['crypto']['bitcoin']['halving']['minutes_until'] / 525600;
-          $halving_desc = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> years';
-          }
-          // 1+ months
-          elseif ( $ct['crypto']['bitcoin']['halving']['minutes_until'] >= 43200 ) {
-          $halving_interval = $ct['crypto']['bitcoin']['halving']['minutes_until'] / 43200;
-          $halving_desc = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> months';
-          }
-          // 1+ weeks
-          elseif ( $ct['crypto']['bitcoin']['halving']['minutes_until'] >= 10080 ) {
-          $halving_interval = $ct['crypto']['bitcoin']['halving']['minutes_until'] / 10080;
-          $halving_desc = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> weeks';
-          }
-          // 1+ days
-          else {
-          $halving_interval = $ct['crypto']['bitcoin']['halving']['minutes_until'];
-          $halving_desc = '~<span class="safe_non_table_num"><span class="num_conv">' . $ct['var']->num_pretty($halving_interval, 2) . '</span></span> minutes';
-          }
-     
-     
-     }
-
+// Bitcoin halving data
+$ct['gen']->bitcoin_halving();
 
 // Development status DATA SET from github file (get data after 'strict_curl_user_agent'):
 // https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json
