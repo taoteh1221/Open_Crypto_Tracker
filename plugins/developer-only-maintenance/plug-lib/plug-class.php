@@ -48,8 +48,13 @@ var $array1 = array();
      $results = 'system,light,temp,'; // Don't include system and any light charts as well
      						
           foreach( $ct['conf']['assets'] as $key => $unused ) {
-          
-               if ( !isset($ct['default_conf']['assets'][$key]) ) {
+               
+               // Exclude any assets that are NOT in default config,
+               // AND assets flagged as stocks (due to probable redistribution license restrictions)
+               if (
+               !isset($ct['default_conf']['assets'][$key])
+               || preg_match("/^[a-zA-Z]+(?=stock)/i", $key)
+               ) {
                $results .= $key . ',';
                }
           
