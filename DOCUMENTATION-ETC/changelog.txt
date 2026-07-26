@@ -7114,6 +7114,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Miscellaneous user experience improvements
 
+-Removed bitmex / loopring markets support
+
 -Revised DEMO config
 
 -------------------------------------------------------------------

@@ -2200,7 +2200,6 @@ render = render.replace(/swap/gi, "Swap");
 render = render.replace(/iearn/gi, "iEarn");
 render = render.replace(/pulse/gi, "Pulse");
 render = render.replace(/defi/gi, "DeFi");
-render = render.replace(/loopring/gi, "LoopRing");
 render = render.replace(/amm/gi, "AMM");
 render = render.replace(/ico/gi, "ICO");
 render = render.replace(/erc20/gi, "ERC-20");

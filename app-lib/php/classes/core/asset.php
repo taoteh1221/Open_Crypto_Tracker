@@ -1443,10 +1443,7 @@ var $ct_array = array();
                        
                    // IF WE NEED SOME REGEX MAGIC TO PARSE THE VALUES WE WANT
                    // https://www.threesl.com/blog/special-characters-regular-expressions-escape/
-                   if ( $exchange_key == 'loopring' ) {
-                   $cleaned_market_id = preg_replace("/AMM-/i", "", $cleaned_market_id);
-                   }
-                   elseif ( $exchange_key == 'bitmex' || $exchange_key == 'luno' ) {
+                   if ( $exchange_key == 'luno' ) {
                    $cleaned_market_id = preg_replace("/XBT/i", "BTC", $cleaned_market_id);
                    }
                    elseif ( $exchange_key == 'aevo' ) {

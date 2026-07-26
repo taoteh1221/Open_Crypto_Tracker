@@ -95,18 +95,6 @@ var $exchange_apis = array(
                                                   ),
 
 
-                           // GET NEWEST DATA SETS (25 one hour buckets, SINCE WE #NEED# THE CURRENT PARTIAL DATA SET, 
-                           // OTHERWISE WE DON'T GET THE LATEST TRADE VALUE AND CAN'T CALCULATE REAL-TIME VOLUME)
-                           // Sort NEWEST first, 'all_markets_support' MUST BE FALSE,
-                           // (as we need to CUSTOM parse 25 different 1-hour data sets, AFTER generic data retrieval)
-                           'bitmex' => array(
-                                                   'markets_endpoint' => 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol=[MARKET]&reverse=true',
-                                                   'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
-                                                  ),
-
-
                            'bitso' => array(
                                                    'markets_endpoint' => 'https://api.bitso.com/v3/ticker/?book=[MARKET]',
                                                    'markets_nested_path' => 'payload', // Delimit multiple depths with >
@@ -298,15 +286,6 @@ var $exchange_apis = array(
                                                    'markets_endpoint' => 'https://api.kucoin.com/api/v1/market/allTickers',
                                                    'markets_nested_path' => 'data>ticker', // Delimit multiple depths with >
                                                    'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
-                                                  ),
-
-
-                           // 'markets_nested_path' MUST BE FALSE, as it varies dynamically (we set it dynamically later on in logic)
-                           'loopring' => array(
-                                                   'markets_endpoint' => 'https://api3.loopring.io/api/v3/allTickers',
-                                                   'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
@@ -2385,16 +2364,6 @@ var $exchange_apis = array(
               }
 
          }
-         elseif ( $exchange_key == 'loopring' ) {
-         
-              if ( substr($dyn_id, 0, 4) == "AMM-" ) {
-              $exchange_api['markets_nested_path'] = 'pools';
-              }
-              else {
-              $exchange_api['markets_nested_path'] = 'markets';
-              }
-              
-         }
          elseif ( $exchange_key == 'luno' ) {
          
              if ( $ticker_search_mode && strtolower($dyn_id) == 'btc' ) {
@@ -3330,47 +3299,6 @@ var $exchange_apis = array(
 	                    		  );
       
       }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-      elseif ( $sel_exchange == 'bitmex' || $sel_exchange == 'bitmex_u20' || $sel_exchange == 'bitmex_z20' ) {
-      
-       
-	        foreach ($data as $hourly_data) {
-	                
-			         
-			         if ( isset($hourly_data['symbol']) && $hourly_data['symbol'] == $mrkt_id ) {
-			              
-			         // We only want the FIRST data set for trade value
-			         $last_trade = ( !$last_trade ? $hourly_data['close'] : $last_trade );
-
-			         $asset_vol = $ct['var']->num_to_str($asset_vol + $hourly_data['homeNotional']);
-			         $pair_vol = $ct['var']->num_to_str($pair_vol + $hourly_data['foreignNotional']);
-			                 
-			         // Average of 24 hours, since we are always between 23.5 and 24.5
-			         // (least resource-intensive way to get close enough to actual 24 hour volume,
-			         // overwrites until it's the last values)
-			         $half_oldest_hour_asset_vol = round($hourly_data['homeNotional'] / 2);
-			         $half_oldest_hour_pair_vol = round($hourly_data['foreignNotional'] / 2);
-			                 
-			         }
-	              
-	        }
-	          
-	          
-	  $result = array(
-	                           'last_trade' => $last_trade,
-	                           // Average of 24 hours, since we are always between 23.5 and 24.5
-	                           // (least resource-intensive way to get close enough to actual 24 hour volume)
-	                           '24hr_asset_vol' => ($asset_vol - $half_oldest_hour_asset_vol),
-	                           '24hr_pair_vol' =>  ($pair_vol - $half_oldest_hour_pair_vol)
-	                    	   );
-      
-      }
       
      
      
@@ -3844,23 +3772,6 @@ var $exchange_apis = array(
                               '24hr_asset_vol' => $data["vol"],
                               '24hr_pair_vol' => $data["volValue"]
                      		  );
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-     // https://github.com/Loopring/protocols/wiki/Loopring-Exchange-Data-API
-     
-      elseif ( $sel_exchange == 'loopring' || $sel_exchange == 'loopring_amm' ) {
-           
-	 $result = array(
-	                              'last_trade' => $data["last_price"],
-	                              '24hr_asset_vol' => $data["base_volume"],
-	                              '24hr_pair_vol' => $data["quote_volume"]
-	                     	       );
       
       }
      

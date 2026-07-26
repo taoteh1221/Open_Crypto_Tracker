@@ -51,12 +51,9 @@
 		$supported_prim_currency_list = trim($supported_prim_currency_list);
 		
 		foreach ( $ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']] as $key => $unused ) {
-		
-			if( stristr($key, 'bitmex_') == false ) { // Futures markets not allowed
-			$supported_exchange_list .= $ct['gen']->key_to_name($key) . ' / ';
-			}
-			
+		$supported_exchange_list .= $ct['gen']->key_to_name($key) . ' / ';
 		}
+		
 		$supported_exchange_list = trim($supported_exchange_list);
 		$supported_exchange_list = rtrim($supported_exchange_list,'/');
 		$supported_exchange_list = trim($supported_exchange_list);
