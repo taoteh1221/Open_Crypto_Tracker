@@ -84,7 +84,7 @@ foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
      foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
      	
      	// Detects better with side space included
-     	if ( !preg_match("/" . $exchange_key . " \//i", $active_btc_exchange_list) && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
+     	if ( !preg_match("/" . $exchange_key . " \//i", $active_btc_exchange_list) ) {
      	$active_exchange_count = $active_exchange_count + 1;
      	$active_btc_exchange_list .= ' ' . $exchange_key . ' /';
      	}

@@ -3,7 +3,7 @@
  * Copyright 2014-2026 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 			
-echo ( isset($pow_asset_data['height']) ? '<p><b>Block height:</b> ' . number_format( $pow_asset_data['height'] ) . '</p>' : '' );
+echo ( isset($pow_asset_data['height']) ? '<p><b class="blue">Block height:</b> <span class="safe_non_table_num"><span class="num_conv">' . number_format( $pow_asset_data['height'] ) . '</span></span></p>' : '' );
 echo ( isset($pow_asset_data['other_network_data']) ? $pow_asset_data['other_network_data'] : '' );
 				
 				

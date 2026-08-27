@@ -140,6 +140,12 @@ if ( !$ct['fast_runtime'] ) {
 // Set the array of available currencies for coingecko (set after 'strict_curl_user_agent')
 $ct['coingecko_currencies'] = $ct['api']->coingecko_currencies();
      
+// Bitcoin mining data (5 minute cache)
+$ct['crypto']['bitcoin']['mining'] = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
+
+// Bitcoin halving data
+$ct['gen']->bitcoin_halving();
+
 // Development status DATA SET from github file (get data after 'strict_curl_user_agent'):
 // https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/.dev-status.json
 $ct['dev']['status'] = @$ct['api']->dev_status();

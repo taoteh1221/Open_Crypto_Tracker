@@ -133,11 +133,7 @@ elseif ( !isset( $ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_prima
 
 
 	foreach ( $ct['conf']['assets']['BTC']['pair'][$ct['default_bitcoin_primary_currency_pair']] as $pair_key => $unused ) {
-		
-		if( stristr($pair_key, 'bitmex_') == false ) { // Futures markets not allowed
-		$avialable_bitcoin_primary_currency_exchanges .= strtolower($pair_key) . ', ';
-		}
-		
+	$avialable_bitcoin_primary_currency_exchanges .= strtolower($pair_key) . ', ';
 	}
 	
 
@@ -440,11 +436,7 @@ elseif ( !isset( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['currency']['
 
 
 	foreach ( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] as $pair_key => $unused ) {
-		
-		if( stristr($pair_key, 'bitmex_') == false ) { // Futures markets not allowed
-		$avialable_bitcoin_primary_currency_exchanges .= strtolower($pair_key) . ', ';
-		}
-		
+	$avialable_bitcoin_primary_currency_exchanges .= strtolower($pair_key) . ', ';
 	}
 	
 

@@ -46,7 +46,7 @@ foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 	foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 		// Detects better with side space included
-		if ( stristr($active_btc_exchange_scan, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
+		if ( stristr($active_btc_exchange_scan, ' ' . $exchange_key . ' ') == false ) {
           $ct['admin_render_settings']['bitcoin_primary_currency_exchange']['is_select'][] = $exchange_key;
 		$active_btc_exchange_scan .= ' ' . $exchange_key . ' /';
 		}

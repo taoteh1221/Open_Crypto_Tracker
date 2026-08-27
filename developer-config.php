@@ -17,7 +17,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 // Application version
 // PLEASE ALSO UPDATE TIMESTAMP, TO DATE OF LATEST VERSION BUMP:
-$ct['app_version'] = '6.01.08'; // 2025/DECEMBER/9TH
+$ct['app_version'] = '6.01.09'; // 2026/FEBRUARY/17TH
 
 
 // #PHP# ERROR LOGGING
@@ -160,15 +160,6 @@ $ct['dev']['throttled_apis'] = array(
                                                       ),
 
 
-                                     // https://www.bitmex.com/app/restAPI#Request-Rate-Limits
-                                     'bitmex.com' => array(
-                                                       'min_cache_time' => null,
-                                                       'per_day' => null,
-                                                       'per_minute' => 30,
-                                                       'per_second' => 10, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
-                                                      ),
-
-
                                      // https://www.bitstamp.net/api/#section/Response-codes
                                      'bitstamp.net' => array(
                                                        'min_cache_time' => null,
@@ -203,8 +194,8 @@ $ct['dev']['throttled_apis'] = array(
                                      'coingecko.com' => array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
-                                                       'per_minute' => 5, // As they are OFTEN under heavy load, less than spec
-                                                       'per_second' => 0.5, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                       'per_minute' => 4, // As they are OFTEN under heavy load, less than spec
+                                                       'per_second' => 0.4, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 
@@ -342,7 +333,6 @@ $ct['dev']['limited_apis'] = array(
                           		'aevo.xyz',
                           		'anchor.fm',
                           		'bitflyer.com',
-                          		'bitmex.com',
                           		'bitso.com',
                           		'blockchain.info',
                           		'btcmarkets.net',
@@ -376,7 +366,6 @@ $ct['dev']['hyphen_delimited_markets'] = array(
                                                  'okex_perps',
                                                  'kucoin',
                                                  'okcoin',
-                                                 'loopring',
                                                  'kuma',
                                                  'zebpay',
                                                  'aevo',
@@ -429,7 +418,6 @@ $ct['dev']['markets_uppercase_search'] = array(
                                                  'binance_us',
                                                  'bitbns',
                                                  'bitflyer',
-                                                 'bitmex',
                                                  'btcmarkets',
                                                  'btcturk',
                                                  'buyucoin',
@@ -438,7 +426,6 @@ $ct['dev']['markets_uppercase_search'] = array(
                                                  'coindcx',
                                                  'hitbtc',
                                                  'kraken',
-                                                 'loopring',
                                                  'luno',
                                                  'okcoin',
                                                  'okex',

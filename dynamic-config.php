@@ -43,9 +43,6 @@ $ct['opt_conf']['mining_calculators'] = array(
 
 // BTC
 
-// Bitcoin mining data (5 minute cache)
-$bitcoin_mining = $ct['api']->blockchain_rpc('bitcoin', 'getmininginfo', false, 5)['result'];
-
 // Bitcoin get latest block hash (5 minute cache)
 $bitcoin_last_block_hash = $ct['api']->blockchain_rpc('bitcoin', 'getbestblockhash', false, 5)['result'];
 
@@ -58,8 +55,8 @@ $bitcoin_last_block_stats = $ct['api']->blockchain_rpc('bitcoin', 'getblockstats
      }
      
      
-$ct['opt_conf']['mining_calculators']['pow']['btc']['height'] = $bitcoin_mining['blocks'];
-$ct['opt_conf']['mining_calculators']['pow']['btc']['difficulty'] = $bitcoin_mining['difficulty'];
+$ct['opt_conf']['mining_calculators']['pow']['btc']['height'] = $ct['crypto']['bitcoin']['mining']['blocks'];
+$ct['opt_conf']['mining_calculators']['pow']['btc']['difficulty'] = $ct['crypto']['bitcoin']['mining']['difficulty'];
 
 
 /* // ETH (NO LONGER USED, BUT LEAVE AS EXAMPLE FOR FUTURE POW CALCS)

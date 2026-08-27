@@ -436,13 +436,13 @@ $ct['conf']['currency']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE 
 
 // Default BITCOIN market exchanges (60+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitso / bitstamp / btcmarkets / btcturk
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitso / bitstamp / btcmarkets / btcturk
 // buyucoin / cex / coinbase / coindcx / coingecko_aed / coingecko_ars / coingecko_bdt / coingecko_clp / coingecko_czk
 // coingecko_dkk / coingecko_gel / coingecko_hkd / coingecko_huf / coingecko_idr / coingecko_inr / coingecko_kwd
 // coingecko_lkr / coingecko_myr / coingecko_ngn / coingecko_nis / coingecko_nok / coingecko_nzd / coingecko_php
 // coingecko_pkr / coingecko_pln / coingecko_rmb / coingecko_rub / coingecko_sar / coingecko_sek / coingecko_sgd
 // coingecko_thb / coingecko_twd / coingecko_uah / coingecko_usd / coingecko_vnd / coinspot / gemini / hitbtc
-// huobi / jupiter_ag / korbit / kraken / loopring_amm / luno / okcoin / okex / unocoin / upbit / wazirx
+// huobi / jupiter_ag / korbit / kraken / luno / okcoin / okex / unocoin / upbit / wazirx
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct['conf']['currency']['bitcoin_primary_currency_pair'] directly above)
 $ct['conf']['currency']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
@@ -742,7 +742,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					// BTC
 					'btc-2||binance||usdt||chart',
 					'btc-3||bitstamp||usd||none',
-					'btc-4||kraken||usd||chart',
+					'btc-4||kraken||usd||both',
 					'btc-5||gemini||usd||none',
 					'btc-6||bitfinex||usd||none',
 					'btc-8||kraken||eur||chart',
@@ -758,7 +758,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'btc-24||btcturk||try||none',
 					'btc-25||coingecko_twd||twd||none',
 					'btc-26||luno||zar||none',
-					'btc-28||bitmex||usd||both',
 					
 					
 					// ZBTC
@@ -770,7 +769,7 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// ETH
-					'eth-3||kraken||btc||chart',
+					'eth-3||kraken||btc||both',
 					'eth-4||binance||usdt||chart',
 					'eth-5||binance_us||btc||none',
 					'eth-7||kraken||usd||none',
@@ -778,7 +777,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'eth-9||gemini||usd||none',
 					'eth-10||coinbase||gbp||none',
 					'eth-13||bitbns||inr||none',
-					'eth-14||bitmex||usd||both',
 					'eth-15||coingecko_hkd||hkd||chart',
 					
 					
@@ -795,11 +793,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// Near
 					'near||coinbase||usd||both',
-					
-					
-					// Monad
-					'mon||coinbase||usd||both',
-					'mon-2||jupiter_ag||sol||chart',
 					
 					
 					// USDC
@@ -1157,12 +1150,6 @@ $ct['conf']['news']['feeds'] = array(
         				array(
             			      "title" => "Blog - BitcoinCore.org",
             			      "url" => "https://bitcoincore.org/en/rss.xml"
-        				     ),
-        
-        
-        				array(
-            			      "title" => "Blog - Bitmex",
-            			      "url" => "https://blog.bitmex.com/feed/?lang=en_us"
         				     ),
         
         
@@ -1690,11 +1677,6 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
-                                    'eth' => array(
-                                          'loopring_amm' => 'AMM-WBTC-ETH',
-                                                    ),
-
-                                                    
                                     'eur' => array(
                                           'coinbase' => 'BTC-EUR',
                                           'binance' => 'BTCEUR',
@@ -1870,9 +1852,6 @@ $ct['conf']['assets'] = array(
                                           'bitstamp' => 'btcusd',
                                           'kraken' => 'XXBTZUSD',
                                           'gemini' => 'btcusd',
-                                          'bitmex' => 'XBTUSD',
-                                          'bitmex_u20' => 'XBTU20',
-                                          'bitmex_z20' => 'XBTZ20',
                                           'bitfinex' => 'tBTCUSD',
                                           'bitflyer' => 'BTC_USD',
                                           'hitbtc' => 'BTCUSD',
@@ -2004,7 +1983,6 @@ $ct['conf']['assets'] = array(
                                           'gemini' => 'ethbtc',
                                           'kraken' => 'XETHXXBT',
                                           'bitfinex' => 'tETHBTC',
-                                          'bitmex_u20' => 'ETHU20',
                                     	  'jupiter_ag' => '7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs/3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh',
                                           'hitbtc' => 'ETHBTC',
                                           'upbit' => 'BTC-ETH',
@@ -2111,8 +2089,6 @@ $ct['conf']['assets'] = array(
                                           'bitstamp' => 'ethusd',
                                           'gemini' => 'ethusd',
                                           'bitfinex' => 'tETHUSD',
-                                          'bitmex' => 'ETHUSD',
-                                          'bitmex_u20' => 'ETHUSDU20',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
                                           'kuma' => 'ETH-USD',
@@ -2130,7 +2106,6 @@ $ct['conf']['assets'] = array(
                                           'upbit' => 'USDT-ETH',
                                        	  'kucoin' => 'ETH-USDT',
                                           'okex' => 'ETH-USDT',
-                                          'loopring_amm' => 'AMM-ETH-USDT',
                                           'poloniex' => 'ETH_USDT',
                                           'bitbns' => 'ETHUSDT',
                                           'wazirx' => 'ethusdt',
@@ -2141,7 +2116,6 @@ $ct['conf']['assets'] = array(
                                           'kraken' => 'ETHUSDC',
                                           'binance_us' => 'ETHUSDC',
                                           'kucoin' => 'ETH-USDC',
-                                          'loopring_amm' => 'AMM-ETH-USDC',
                                           'poloniex' => 'ETH_USDC',
                                                     ),
 
@@ -2401,74 +2375,6 @@ $ct['conf']['assets'] = array(
                                                     
                         ) // pair END
                                         
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MON
-                    'MON' => array(
-                        
-                        'name' => 'Monad',
-                        'mcap_slug' => 'monad',
-                        'pair' => array(
-                        
-                        
-                                    "btc" => array(
-                                        "coingecko_btc" => "monad",
-                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/zBTCug3er3tLyffELcvDNrKkCymbPWysGcWihESYfLg",
-                                        "upbit" => "BTC-MON",
-                                    ),
-                                    
-                                    
-                                    "eth" => array(
-                                        "coingecko_eth" => "monad",
-                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs",
-                                    ),
-                                    
-                                    
-                                    "eur" => array(
-                                        "kraken" => "MONEUR",
-                                    ),
-                                    
-                                    
-                                    "krw" => array(
-                                        "upbit" => "KRW-MON",
-                                    ),
-                                    
-                                    
-                                    "sol" => array(
-                                        "coingecko_sol" => "monad",
-                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/So11111111111111111111111111111111111111112",
-                                    ),
-                                    
-                                    
-                                    "usd" => array(
-                                        "coinbase" => "MON-USD",
-                                        "crypto.com" => "MON_USD",
-                                        "kraken" => "MONUSD",
-                                    ),
-                                    
-                                    
-                                    "usdc" => array(
-                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-                                    ),
-
-                        
-                                    'usdt' => array(
-                                        "bitmart" => "MON_USDT",
-                                        "coinex" => "MONUSDT",
-                                        "gateio" => "MON_USDT",
-                                        "gateio_usdt_futures" => "MON_USDT",
-                                        "jupiter_ag" => "CrAr4RRJMBVwRsZtT62pEhfA9H5utymC2mVx8e7FreP2/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
-                                        "kucoin" => "MON-USDT",
-                                        "okex_perps" => "MON-USDT-SWAP",
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
                     ), // Asset END
                     
                     

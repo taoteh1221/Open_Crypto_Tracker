@@ -1434,7 +1434,7 @@ nav_menu('.user-nav');
          
          insert_before_text_fields();
          
-         portfolio_number_format();
+         locale_number_format();
          
          
               $('textarea[data-autoresize]').each(function(){

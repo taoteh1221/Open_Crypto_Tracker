@@ -137,7 +137,28 @@ Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
 If new testing was added, add it to the package testing notes. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+Add documentation on the asset search admin page, saying the "all exchanges" search will automatically fill in a better description name, for AlphaVantage STOCK MARKET TICKERS.
+
+
+See why searching for 'tao' (Bittensor) does not yield coingecko results.
+
+
+Find out why the jup.ag 'name' meta data is NOT being used, WHEN NO COINGECKO NAME IS AVAILABLE, when searching for assets to add. 
+
+
+Coingecko asset overview data (rank stats) higher than 400 seem to NOT update the cache FOR MONTHS see BP (Backpack) as an example. We batch into multiple API calls for this data, so maybe we need to up the API throttling in developer config for the coingecko API? I HAVE ALREADY TWEAKED THE THROTTLING CONFIG ONCE, so check back in on the demo asset BP again after awhile, and tweak further if needed (check the 'data timestamp' field [we want a RECENT date]).
+
+
+Add the new Fedora setup logic to prevent system sleeping / hibernating, to the auto-installers for my apps. It seems like a more reliable way, than what we currently use, for Red Hat detected systems.
+
+
+Remove ZEUS demo token, it's officially died.
+
+
+Look at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
 Add full redhat support for auto-installer.
@@ -162,6 +183,9 @@ If plugin runtime is all | webhook, put in parentheses next to this summary to v
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Convert all my bash vars to lower case, as only system vars should be uppercase.
 
 
 On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
@@ -195,9 +219,6 @@ Look into laptop touchscreen zingchart js error ON SMALL LAPTOP SCREENS, when hi
 
 
 Make sure we haven't missed leaving any settings alone DURING UPGRADES, that are full of user-customized stuff. PLUGIN settings should AUTOMATICALLY be FINE, as we never check any deeper than the root plugin setting key IDs.
-
-
-Look at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 
 See if we can use a more efficient coingecko marketcap data call, than what we use now. On a Raspberry Pi v4, we add at least 1.3 seconds to the UI runtime, IF marketcap asset max is set to the 1000 top coins. Maybe we can build a BATCHED single call, that includes mcap data (like we do for their 'simple price' API).

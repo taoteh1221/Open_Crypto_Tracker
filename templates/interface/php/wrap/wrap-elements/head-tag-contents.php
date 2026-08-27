@@ -420,10 +420,6 @@
 
 	limited_apis = <?=$js_limited_apis?>;
 	
-	// Add secondary bitmex perp markets (as we just derive from TLD domains for the base names)
-	limited_apis.push("bitmex_u20");
-	limited_apis.push("bitmex_z20");
-	
 	<?php
 	
 	foreach ( $ct['opt_conf']['crypto_pair_preferred_markets'] as $key => $unused ) {

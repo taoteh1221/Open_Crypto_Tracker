@@ -211,7 +211,7 @@ footer_banner(
 
               security_notice_storage,
 
-              '<h3 class="red">Pro Tips, For Best Crypto Security Practices:</h3><h5 class="red">(IF you do NOT practice these, you EASILY could lose EVERYTHING!)</h5>'
+              '<h3 class="red">Pro Tips, For Best Crypto Security Practices:</h3><h5 class="red">(🚨🚨🚨 IF you do NOT practice these, you EASILY could lose EVERYTHING! 🚨🚨🚨)</h5>'
               
               + '<ul style="display: inline-block; max-width: 950px;">'
               
@@ -219,7 +219,7 @@ footer_banner(
               
               + '<li style="margin: 1.7em;">ONLY SCAMMERS send you notices MEANT TO SCARE YOU INTO ACTING QUICKLY, OR OFFERING YOU FREE CRYPTO, and ONLY SCAMMERS ask for your wallet recovery phrase!</li>'
               
-              + '<li style="margin: 1.7em;">Ladies contacting you online EASILY CAN BE trafficked (OR be men pretending to be ladies), to make you invest in crypto SCAMS, TO STEAL YOUR MONEY! IF they want you to DEPOSIT to a "special exchange they know", OR send crypto to them, DON\'T DO IT!</li>'
+              + '<li style="margin: 1.7em;">Ladies (OR men pretending to be ladies) contacting you online, CAN EASILY BE trafficking victims enslaved by Southeast Asian gangs, to make you invest in crypto SCAMS, TO STEAL YOUR MONEY! IF they want you to DEPOSIT to a "special exchange they know", OR send crypto to them  directly, DON\'T DO IT!</li>'
               
               + '<li style="margin: 1.7em;">North Korean hackers make TONS of money trying to get you CLICKING malicious web links (posing as VCs, IT workers / employers), to STEAL your crypto wallet on your computer, OR if you are a DEVELOPER, steal access to your crypto-related projects on your computer! </li>'
               
