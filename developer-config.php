@@ -386,7 +386,6 @@ $ct['dev']['underscore_delimited_markets'] = array(
                                                       'crypto.com',
                                                       'gateio',
                                                       'gateio_usdt_futures',
-                                                      'bitmart',
                                                      );
         
         

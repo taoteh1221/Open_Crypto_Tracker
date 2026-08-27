@@ -7110,11 +7110,11 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: TBD
 
+-Removed bitmex / loopring / bitmart market support
+
 -Bitcoin Halving data, at the top of the user area
 
 -Miscellaneous user experience improvements
-
--Removed bitmex / loopring markets support
 
 -Revised DEMO config
 
