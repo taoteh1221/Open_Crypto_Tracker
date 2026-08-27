@@ -669,16 +669,12 @@ var $ct_array = array();
    $check_decoded_input = html_entity_decode($check_decoded_input, ENT_QUOTES | ENT_XML1, 'UTF-8');
    
    $open_tags = substr_count($check_decoded_input, '<');
-   
-   $close_tags = substr_count($check_decoded_input, '>');
-   
-   $all_tags = $open_tags + $close_tags;
 
    
-       // If code tags appear present
-       // (NOT JUST A SINGLE TAG, WHICH COULD BE VALID HEX FORMAT DECODED, ***CREATING A FALSE POSITIVE***)
-       if ( $open_tags > 0 && $close_tags > 0  ) {
-       $attack_signature_count = $all_tags;
+       // If OPEN code tags are present (BROWSERS WILL STILL EXECUTE WITHOUT A CLOSING TAG!)
+       // (NOTE THIS CAN CREATE A FALSE POSITIVE!)
+       if ( $open_tags > 0 ) {
+       $attack_signature_count = $open_tags;
        }
        // Scan for ADDITIONAL malicious content, ONLY IF CODE TAGS CHECK PASSED
        else {
@@ -1051,7 +1047,7 @@ var $ct_array = array();
    
    
    // RECURSIVELY USED VIA malware_scan_requests() (scans all subarray values too)
-   function malware_scan_string($method, $ext_key, $data, $mysqli_connection=false) {
+   function malware_scan_string($method, $ext_key, $data, $mysqli_connection=false, $force_scan=false) {
    
    global $ct;
 
@@ -1060,7 +1056,10 @@ var $ct_array = array();
         // AND WE MUST LEAVE ANYTHING THAT'S FLAGGED AS A CRYPTO ADDRESS ALONE TOO
         // (AS THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening and closing tag symbols <>,
         // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
-        if (
+        if ( $force_scan ) {
+        // DO NOTHING (CONTINUES SCANNING, NO MATTER WHAT)
+        }
+        elseif (
         stristr($ext_key, 'nonce')
         || stristr($ext_key, 'crypto_address')
         || in_array($ext_key, $ct['dev']['skip_injection_scanner'])
@@ -1114,8 +1113,9 @@ var $ct_array = array();
         elseif ( $mysqli_connection ) {
         $data = mysqli_real_escape_string($mysqli_connection, $data);
         }
+        // Otherwise, presume data MAY be output on a webpage, and sanitize with htmlspecialchars()
         else {
-        $data = $data;
+        $data = htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         }
         
         

@@ -543,23 +543,27 @@ $ct['dev']['script_injection_checks'] = array(
                                                "href=", // HTML
                                                "src=", // HTML
                                                // ALL javascript 'on' events
-                                               "onclick",
-                                               "onmouse",
-                                               "onresize",
-                                               "onchange",
+                                               "onanim",
                                                "onabort",
                                                "onblur",
+                                               "onclick",
+                                               "onchange",
                                                "ondblclick",
                                                "ondragdrop",
                                                "onerror",
                                                "onfocus",
                                                "onkey",
                                                "onload",
+                                               "onmouse",
                                                "onmove",
+                                               "onpoint",
+                                               "onresize",
                                                "onreset",
                                                "onselect",
                                                "onsubmit",
+                                               "ontoggle",
                                                "onunload",
+                                               "onwheel",
                                              );
                                              
 
