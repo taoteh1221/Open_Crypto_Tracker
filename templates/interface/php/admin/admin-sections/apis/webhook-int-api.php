@@ -534,7 +534,6 @@ var_dump($api_data_array);
         "bitbns",
         "bitfinex",
         "bitflyer",
-        "bitmart",
         "bitso",
         "bitstamp",
         "btcmarkets",

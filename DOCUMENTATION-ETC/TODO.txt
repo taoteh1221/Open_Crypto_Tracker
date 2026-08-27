@@ -155,9 +155,6 @@ Coingecko asset overview data (rank stats) higher than 400 seem to NOT update th
 Add the new Fedora setup logic to prevent system sleeping / hibernating, to the auto-installers for my apps. It seems like a more reliable way, than what we currently use, for Red Hat detected systems.
 
 
-Remove ZEUS demo token, it's officially died.
-
-
 Look at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
 
 

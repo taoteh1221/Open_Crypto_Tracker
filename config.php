@@ -2220,7 +2220,6 @@ $ct['conf']['assets'] = array(
                                         'kucoin' => 'SOL-USDT',
                                         'coinex' => 'SOLUSDT',
                                         'gateio' => 'SOL_USDT',
-                                        'bitmart' => 'SOL_USDT',
                                         'wazirx' => 'solusdt',
                                                     ),
 
@@ -2357,7 +2356,6 @@ $ct['conf']['assets'] = array(
                                          "usdt" => array(
                                              "binance" => "NEARUSDT",
                                              "binance_us" => "NEARUSDT",
-                                             "bitmart" => "NEAR_USDT",
                                              "btcturk" => "NEARUSDT",
                                              "coinbase" => "NEAR-USDT",
                                              "coindcx" => "NEARUSDT",
@@ -2510,7 +2508,6 @@ $ct['conf']['assets'] = array(
                                     'usdt' => array(
                                         'gateio' => 'POLIS_USDT',
                                         'coinex' => 'POLISUSDT',
-                                        'bitmart' => 'ATLAS_USDT',
                                                     ),
 
                                                     
@@ -2537,41 +2534,6 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                     	 'coingecko_terminal' => 'solana||GUWM1arUyDnkMGCHvJu3yt1qomJ988utqC3dFN2AUCDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // ZEUS
-                    'ZEUS' => array(
-                        
-                        'name' => 'ZEUS',
-                        'mcap_slug' => 'zeus-network',
-                        'pair' => array(
-                                 
-
-                                    "sol" => array(
-                                    	'jupiter_ag' => 'ZEUS1aR7aX8DFFJf5QjWj2ftDDdNTroMNGo8YoQm3Gq/So11111111111111111111111111111111111111112',
-                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coingecko_terminal' => 'solana||exmN8ua4Y7qKXUZ2n8JugTNgFWrLGJAUkEBYeTKPNCX',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'ZEUS_USDT',
-                                        'okex' => 'ZEUS-USDT',
-                                        'kucoin' => 'ZEUS-USDT',
-                                        'bitmart' => 'ZEUS_USDT',
-                                        'coinex' => 'ZEUSUSDT',
                                                     ),
 
                                                     
@@ -2614,7 +2576,6 @@ $ct['conf']['assets'] = array(
                                     'usdt' => array(
                                         'huobi' => 'bonkusdt',
                                         'gateio' => 'BONK_USDT',
-                                        'bitmart' => 'BONK_USDT',
                                         'coinex' => 'BONKUSDT',
                                                     ),
 

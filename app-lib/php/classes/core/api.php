@@ -87,14 +87,6 @@ var $exchange_apis = array(
                                                   ),
 
 
-                           'bitmart' => array(
-                                                   'markets_endpoint' => 'https://api-cloud.bitmart.com/spot/v1/ticker',
-                                                   'markets_nested_path' => 'data>tickers', // Delimit multiple depths with >
-                                                   'all_markets_support' => 'symbol', // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
-                                                  ),
-
-
                            'bitso' => array(
                                                    'markets_endpoint' => 'https://api.bitso.com/v3/ticker/?book=[MARKET]',
                                                    'markets_nested_path' => 'payload', // Delimit multiple depths with >
@@ -3281,22 +3273,6 @@ var $exchange_apis = array(
                      '24hr_asset_vol' => $data["volume_by_product"],
                      '24hr_pair_vol' => null // Seems to be an EXACT duplicate of asset volume in MANY cases, skipping to be safe
                	     );
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-      
-      
-    
-      elseif ( $sel_exchange == 'bitmart' ) {
-         
-      $result = array(
-	                              'last_trade' => $data["last_price"],
-	                              '24hr_asset_vol' => $data["base_volume_24h"],
-	                              '24hr_pair_vol' => $data["quote_volume_24h"]
-	                    		  );
       
       }
       
