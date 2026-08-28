@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2026-8-30'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.08',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => true,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'MODERATE security vulnerabilities have been fixed in /classes/core/security.php. IF a social attacker gets a target to click on a specially-crafted malicious phishing email / text link (pointing to a KNOWN installation of Open Crypto Tracker v6.01.08 or lower, which the target has interacted with), any browser data the target saved in this specific page / section is at high risk of being manipulated via code injection. PLEASE UPGRADE NOW to v6.01.09 or higher, to stay safe!',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2026-1-17'),
                    
                    'very_important' => true,

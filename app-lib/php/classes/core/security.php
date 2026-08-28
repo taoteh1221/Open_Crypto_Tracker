@@ -672,7 +672,7 @@ var $ct_array = array();
 
    
        // If OPEN code tags are present (BROWSERS WILL STILL EXECUTE WITHOUT A CLOSING TAG!)
-       // (NOTE THIS CAN CREATE A FALSE POSITIVE!)
+       // (NOTE THIS CAN CREATE A FALSE POSITIVE on hashes / digests!)
        if ( $open_tags > 0 ) {
        $attack_signature_count = $open_tags;
        }
@@ -1054,7 +1054,7 @@ var $ct_array = array();
         
         // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* / HARD-CODE-SANITIZED ARE *ALREADY* HEAVILY CHECKED, SO WE CAN SAFELY EXCLUDE THEM,
         // AND WE MUST LEAVE ANYTHING THAT'S FLAGGED AS A CRYPTO ADDRESS ALONE TOO
-        // (AS THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening and closing tag symbols <>,
+        // (AS THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening tag symbol <,
         // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
         if ( $force_scan ) {
         // DO NOTHING (CONTINUES SCANNING, NO MATTER WHAT)
@@ -1078,7 +1078,10 @@ var $ct_array = array();
    
    
         // Scan for malicious content in any POSSIBLE hexadecimal encoding (IF plaintext scan revealed nothing)
-        if ( $plaintext_attack_signature_count == 0 && $this->possible_hex_encoding( trim($data) ) ) {
+        if (
+        $plaintext_attack_signature_count == 0 
+        && $this->possible_hex_encoding( trim($data) )
+        ) {
         // ONLY TRIM *EN*CODED DATA (OTHERWISE WE RISK DELETING *DE*CODED DATA CONTAINING SPECIAL CHARACTERS!)
         $check_decoded_hex = hex2bin( trim($data) );
         $hex_attack_signature_count = $this->malware_scan($check_decoded_hex);
@@ -1088,8 +1091,13 @@ var $ct_array = array();
         }
         
         
-        // Scan for malicious content in any POSSIBLE base64 encoding (IF plaintext / hexidecimal scans revealed nothing)
-        if ( $plaintext_attack_signature_count == 0 && $hex_attack_signature_count == 0 && $this->possible_base64_encoding( trim($data) ) ) {
+        // Scan for malicious content in any POSSIBLE base64 encoding
+        // (IF plaintext / hexidecimal scans revealed nothing)
+        if (
+        $plaintext_attack_signature_count == 0
+        && $hex_attack_signature_count == 0
+        && $this->possible_base64_encoding( trim($data) )
+        ) {
         // ONLY TRIM *EN*CODED DATA (OTHERWISE WE RISK DELETING *DE*CODED DATA CONTAINING SPECIAL CHARACTERS!)
         $check_decoded_base64 = base64_decode( trim($data) );
         $base64_attack_signature_count = $this->malware_scan($check_decoded_base64);
@@ -1105,19 +1113,26 @@ var $ct_array = array();
         || $hex_attack_signature_count > 0
         || $base64_attack_signature_count > 0
         ) {
-        $ct['gen']->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs');
-        $ct['possible_input_injection'] = true; // GLOBAL flag, to IMMEADIATELY HALT RUNTIME ON ANY UPCOMING SECURITY CHECKS!
+
+        // GLOBAL flag, to IMMEADIATELY HALT RUNTIME ON ANY UPCOMING SECURITY CHECKS!
+        $ct['possible_input_injection'] = true;
+        
         $data = 'possible_attack_blocked';
+             
+        $ct['gen']->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs'); 
+
         }
-        // mySQLi connection is required, for escaping special characters in a string before storing any data
-        elseif ( $mysqli_connection ) {
-        $data = mysqli_real_escape_string($mysqli_connection, $data);
-        }
-        // Otherwise, presume data MAY be output on a webpage, and sanitize with htmlspecialchars()
+        // Otherwise, presume request data MAY output on a webpage, and sanitize with htmlspecialchars()
         else {
         $data = htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         }
         
+        
+        // IF mySQLi connection is required, escape special characters before storing any data
+        if ( $mysqli_connection ) {
+        $data = mysqli_real_escape_string($mysqli_connection, $data);
+        }
+
         
    return $data;
         
