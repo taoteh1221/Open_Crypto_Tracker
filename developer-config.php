@@ -519,10 +519,6 @@ $ct['dev']['config_deny_removals'] = array(
 // WE ALREADY AUTOMATICALLY SKIP DATA KEYS CONTAINING 'nonce' / 'crypto_address' IN THE NAME (CASE-INSENSITIVE)
 $ct['dev']['skip_injection_scanner'] = array(
                                                // GET / POST key
-                                               // Allow ANYTHING in admin_password / set_password[2]
-                                               'admin_password',
-                                               'set_password',
-                                               'set_password2',
                                                // Add markets searches MAY contain crypto addresses
                                                'add_markets_search', 
                                                // Market IDs containing crypto addresses

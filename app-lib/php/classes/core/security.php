@@ -631,7 +631,7 @@ var $ct_array = array();
                                     'domain' => $ct['app_host'],
                                     'secure' => $secure,
                                     'httponly' => false,
-                     	            'samesite' => 'Strict', // Strict for high privacy
+                     	           'samesite' => 'Strict', // Strict for high privacy
                                     );
       
       
@@ -1049,13 +1049,16 @@ var $ct_array = array();
    // RECURSIVELY USED VIA malware_scan_requests() (scans all subarray values too)
    function malware_scan_string($method, $ext_key, $data, $mysqli_connection=false, $force_scan=false) {
    
-   global $ct;
+   global $ct, $is_admin;
 
         
-        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* / HARD-CODE-SANITIZED ARE *ALREADY* HEAVILY CHECKED, SO WE CAN SAFELY EXCLUDE THEM,
-        // AND WE MUST LEAVE ANYTHING THAT'S FLAGGED AS A CRYPTO ADDRESS ALONE TOO
-        // (AS THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening tag symbol <,
-        // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
+        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* ARE *ALREADY* HEAVILY CHECKED,
+        // SO WE CAN SAFELY EXCLUDE THEM, AND WE MUST LEAVE ANYTHING FLAGGED AS A CRYPTO ADDRESS ALONE TOO.
+        // ALSO, ADMIN AREA POST REQUESTS HAVE CSRF ATTACK PROTECTION VIA SECURITY NONCES, AND HAVE INPUT VALIDATION,
+        // SO WE CAN EXCLUDE THOSE TOO (AS THESE ALL CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES***
+        // on code opening tag symbol <, ***WHEN HASHES / DIGESTS / PASSWORDS / TOKENS ARE RUN THROUGH
+        // PLAINTEXT OR DECODER SCANS FURTHER DOWN IN THIS FUNCTION***, AND WE DON'T WANT TO RUN PASSWORDS AND
+        // TOKENS WITH <> ' " SYMBOLS IN THEM THROUGH htmlspecialchars() [WHICH WOULD MODIFY THEM!])
         if ( $force_scan ) {
         // DO NOTHING (CONTINUES SCANNING, NO MATTER WHAT)
         }
@@ -1063,8 +1066,9 @@ var $ct_array = array();
         stristr($ext_key, 'nonce')
         || stristr($ext_key, 'crypto_address')
         || in_array($ext_key, $ct['dev']['skip_injection_scanner'])
+        || $is_admin && $this->admin_logged_in() && $method == 'post'
         ) {
-        return $data;
+        return $data; // RETURN RAW DATA, FOR THESE SAFE EXEMPTIONS
         }
 
 
