@@ -152,6 +152,18 @@ not stop a javascript: URL in an href, and JS-string breakout can
 survive depending on quoting). If none of your outputs place request
 data in those contexts, you are covered; it is just worth a quick
 grep for values printed into script blocks or href/src.
+........
+Why it matters here: a number of admin set config values are echoed
+into the interface with no per output escaping, relying entirely on
+the input time htmlspecialchars for safety. The clearest example is
+in
+`templates/interface/php/wrap/wrap-elements/head-tag-contents.php`,
+where `charts_background` and `charts_border` (lines 140 and 142) are
+printed raw inside a single quoted JavaScript string in a `<script>`
+block. With admin POST now returning raw, a value like
+`';alert(document.cookie);'` stored in one of those fields would
+break straight out into script context on the next render. Several
+other `$ct['conf'][...]` values are output the same way.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

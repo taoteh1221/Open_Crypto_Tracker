@@ -525,6 +525,20 @@ $ct['dev']['skip_injection_scanner'] = array(
                                                // (when adding new markets, via interface)
                                                'jupiter_ag',
                                                'coingecko_terminal',
+                                               // Admin inputs that could cause a false
+                                               // positive, during the input malware scanner
+                                               // KEYS CONTAINING 'key' / 'token' / 'login' / 'password'
+                                               // ARE ALREADY SKIPPED!
+                                               'twilio_sid',
+                                               'notifyme_access_code',
+                                               );
+
+        
+// ADMIN input keys to EXCLUDE FROM htmlspecialchars() SANITIZATION ENCODING
+// (THAT ARE NOT ALREADY IN 'skip_injection_scanner' ABOVE)
+$ct['dev']['skip_sanitizing_other'] = array(
+                                               // GET / POST keys that are passwords / tokens
+                                               // 'keyname',
                                                );
 
         

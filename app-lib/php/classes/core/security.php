@@ -662,7 +662,7 @@ var $ct_array = array();
    
    $attack_signature_count = 0;
    
-   // Replace any backslash entity: &bsol; (PHP does NOT detect it)
+   // Replace any backslash entity &bsol with compatible equivelent; (PHP does NOT detect it)
    $check_decoded_input = preg_replace('/&bsol;/', '&#92;', $input);
    
    // Decode ALL HTML entities
@@ -1053,9 +1053,9 @@ var $ct_array = array();
 
         
         // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* ARE *ALREADY* HEAVILY CHECKED,
-        // SO WE CAN SAFELY EXCLUDE THEM, AND WE MUST LEAVE ANYTHING FLAGGED AS A CRYPTO ADDRESS ALONE TOO.
-        // ALSO, ADMIN AREA POST REQUESTS HAVE CSRF ATTACK PROTECTION VIA SECURITY NONCES, AND HAVE INPUT VALIDATION,
-        // SO WE CAN EXCLUDE THOSE TOO (AS THESE ALL CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES***
+        // SO WE CAN SAFELY EXCLUDE THEM, AND WE MUST LEAVE ANYTHING FLAGGED AS A
+        // CRYPTO ADDRESS / PASSWORD / API KEY / TOKEN ALONE TOO
+        // (AS THESE ALL CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES***
         // on code opening tag symbol <, ***WHEN HASHES / DIGESTS / PASSWORDS / TOKENS ARE RUN THROUGH
         // PLAINTEXT OR DECODER SCANS FURTHER DOWN IN THIS FUNCTION***, AND WE DON'T WANT TO RUN PASSWORDS AND
         // TOKENS WITH <> ' " SYMBOLS IN THEM THROUGH htmlspecialchars() [WHICH WOULD MODIFY THEM!])
@@ -1064,11 +1064,21 @@ var $ct_array = array();
         }
         elseif (
         stristr($ext_key, 'nonce')
+        || stristr($ext_key, 'password')
+        || stristr($ext_key, 'token')
+        || stristr($ext_key, 'login')
+        || stristr($ext_key, 'key')
         || stristr($ext_key, 'crypto_address')
         || in_array($ext_key, $ct['dev']['skip_injection_scanner'])
-        || $is_admin && $this->admin_logged_in() && $method == 'post'
         ) {
+             
+             // IF mySQLi connection is required, escape special characters before storing any data
+             if ( $mysqli_connection ) {
+             $data = mysqli_real_escape_string($mysqli_connection, $data);
+             }
+             
         return $data; // RETURN RAW DATA, FOR THESE SAFE EXEMPTIONS
+        
         }
 
 
@@ -1126,8 +1136,9 @@ var $ct_array = array();
         $ct['gen']->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs'); 
 
         }
-        // Otherwise, presume request data MAY output on a webpage, and sanitize with htmlspecialchars()
-        else {
+        // Otherwise, presume request data MAY output on a webpage, and sanitize with htmlspecialchars(),
+        // UNLESS THE KEY IS FLAGGED TO SKIP ENCODING IN 'skip_sanitizing_other'
+        elseif ( !in_array($ext_key, $ct['dev']['skip_sanitizing_other']) ) {
         $data = htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         }
         
