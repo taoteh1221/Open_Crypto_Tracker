@@ -31,6 +31,7 @@ isset($_GET['plugin'])
 && $plug['conf'][ $_GET['plugin'] ]['ui_location'] == 'nav_menu_page'
 ) {
 
+// Safe, as we verify the GET data directly above
 $this_plug = $_GET['plugin'];
 
 ?>

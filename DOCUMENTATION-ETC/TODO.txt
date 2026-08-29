@@ -140,6 +140,21 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Consult with archnexus707 (red team dev on github):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+htmlspecialchars is the correct encoding for HTML text and HTML
+attribute contexts, but not for JavaScript-string or URL/href
+contexts. If a request value is ever printed inside a <script> block,
+an inline event handler value, or an href/src attribute,
+htmlspecialchars alone does not neutralize it (for example it does
+not stop a javascript: URL in an href, and JS-string breakout can
+survive depending on quoting). If none of your outputs place request
+data in those contexts, you are covered; it is just worth a quick
+grep for values printed into script blocks or href/src.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Add documentation on the asset search admin page, saying the "all exchanges" search will automatically fill in a better description name, for AlphaVantage STOCK MARKET TICKERS.
 
 
