@@ -183,7 +183,7 @@ footer_banner(
               'This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.<br /><br />'
               
               + 'ACCESS STATS are saved INSIDE THE APP ONLY, for the admin account to see what / where the app is being accessed from (page, IP address).<br /><br />'
-              + 'The above-mentioned cookies and access stats are for internal program functionality and security ONLY. The MAIN GOAL of this app is ABSOLUTELY ZERO 3RD PARTY EXTERNAL TRACKING of user actions, to protect your portfolio privacy. There is NO MIDDLE MAN SERVER WHATSOEVER used by this app.'
+              + 'The above-mentioned cookies and access stats are for internal program functionality and security ONLY. The MAIN GOAL of this app is to MINIMIZE 3RD PARTY EXTERNAL TRACKING of user portfolios, to protect your privacy. There is NO MIDDLE MAN SERVER WHATSOEVER used by this app.'
 
               );
 

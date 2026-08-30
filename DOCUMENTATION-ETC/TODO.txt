@@ -167,6 +167,14 @@ other `$ct['conf'][...]` values are output the same way.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+CLARIFY this type of error log message:
+ notify (error): the trade value of "" seems invalid for market ID ""
+
+
+Stocks - AlphaStreet
+Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.
+
+
 Add documentation on the asset search admin page, saying the "all exchanges" search will automatically fill in a better description name, for AlphaVantage STOCK MARKET TICKERS.
 
 

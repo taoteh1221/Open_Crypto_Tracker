@@ -809,10 +809,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'neon-2||coingecko_terminal||usd||both',
 					
 					
-					// ZEUS
-					'zeus||coingecko_terminal||usd||both',
-					
-					
 					// BONK
 					'bonk||huobi||usdt||chart',
 					'bonk-2||gateio||usdt||both',
@@ -1559,7 +1555,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'googlefi||msg.fi.google.com',
                         'nextech||sms.ntwls.net',
                         'pioneer||zsend.com',
-                        'rogers_us||pcs.rogers.com',
                         'simple_mobile||smtext.com',
                         'southern_linc||page.southernlinc.com',
                         'south_central_comm||rinasms.com',
