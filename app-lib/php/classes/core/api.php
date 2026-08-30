@@ -239,14 +239,6 @@ var $exchange_apis = array(
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
-
-                           'kuma' => array(
-                                                   'markets_endpoint' => 'https://api.kuma.bid/v1/tickers',
-                                                   'markets_nested_path' => false, // Delimit multiple depths with >
-                                                   'all_markets_support' => 'market', // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
-                                                  ),
-
                            
                            'jupiter_ag' => array(
                                                   // EVEN THOUGH V3 DOES ***NOT*** SUPPORT THE 'vsToken' PARAM, 
@@ -3643,24 +3635,6 @@ var $exchange_apis = array(
                               '24hr_asset_vol' => $data["amount"],
                               '24hr_pair_vol' => $data["vol"]
                               );
-      
-      }
-     
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-      elseif ( $sel_exchange == 'kuma' ) {
-      
-      $result = array(
-                              'last_trade' => $data["close"],
-                              // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-                              '24hr_asset_vol' => $data["quoteVolume"],
-                              '24hr_pair_vol' => $data["baseVolume"]
-                     		  );
       
       }
      

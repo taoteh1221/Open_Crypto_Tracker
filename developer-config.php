@@ -366,7 +366,6 @@ $ct['dev']['hyphen_delimited_markets'] = array(
                                                  'okex_perps',
                                                  'kucoin',
                                                  'okcoin',
-                                                 'kuma',
                                                  'zebpay',
                                                  'aevo',
                                                 );
