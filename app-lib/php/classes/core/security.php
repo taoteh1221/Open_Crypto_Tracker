@@ -669,12 +669,16 @@ var $ct_array = array();
    $check_decoded_input = html_entity_decode($check_decoded_input, ENT_QUOTES | ENT_XML1, 'UTF-8');
    
    $open_tags = substr_count($check_decoded_input, '<');
+   
+   $css_open_tags = substr_count($check_decoded_input, '{');
+   
+   $all_open_tags = $open_tags + $css_open_tags;
 
    
        // If OPEN code tags are present (BROWSERS WILL STILL EXECUTE WITHOUT A CLOSING TAG!)
        // (NOTE THIS CAN CREATE A FALSE POSITIVE on hashes / digests!)
-       if ( $open_tags > 0 ) {
-       $attack_signature_count = $open_tags;
+       if ( $all_open_tags > 0 ) {
+       $attack_signature_count = $all_open_tags;
        }
        // Scan for ADDITIONAL malicious content, ONLY IF CODE TAGS CHECK PASSED
        else {
@@ -1063,12 +1067,15 @@ var $ct_array = array();
         // DO NOTHING (CONTINUES SCANNING, NO MATTER WHAT)
         }
         elseif (
-        stristr($ext_key, 'nonce')
+        // Blanket pattern matches
+        stristr($ext_key, 'nonce') 
         || stristr($ext_key, 'password')
-        || stristr($ext_key, 'token')
-        || stristr($ext_key, 'login')
-        || stristr($ext_key, 'key')
+        // Tight pattern matches
+        || stristr($ext_key, '_token') 
+        || stristr($ext_key, '_login')
+        || stristr($ext_key, '_key')
         || stristr($ext_key, 'crypto_address')
+        // Attack signature matches
         || in_array($ext_key, $ct['dev']['skip_injection_scanner'])
         ) {
              

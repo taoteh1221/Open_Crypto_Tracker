@@ -164,6 +164,8 @@ block. With admin POST now returning raw, a value like
 `';alert(document.cookie);'` stored in one of those fields would
 break straight out into script context on the next render. Several
 other `$ct['conf'][...]` values are output the same way.
+~~~~~~~~~
+NOTE TO SELF: THIS APPLIES TO ANY CSS TOO!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
