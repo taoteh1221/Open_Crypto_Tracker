@@ -140,6 +140,44 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Consult with archnexus707 (red team dev on github):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+htmlspecialchars is the correct encoding for HTML text and HTML
+attribute contexts, but not for JavaScript-string or URL/href
+contexts. If a request value is ever printed inside a <script> block,
+an inline event handler value, or an href/src attribute,
+htmlspecialchars alone does not neutralize it (for example it does
+not stop a javascript: URL in an href, and JS-string breakout can
+survive depending on quoting). If none of your outputs place request
+data in those contexts, you are covered; it is just worth a quick
+grep for values printed into script blocks or href/src.
+........
+Why it matters here: a number of admin set config values are echoed
+into the interface with no per output escaping, relying entirely on
+the input time htmlspecialchars for safety. The clearest example is
+in
+`templates/interface/php/wrap/wrap-elements/head-tag-contents.php`,
+where `charts_background` and `charts_border` (lines 140 and 142) are
+printed raw inside a single quoted JavaScript string in a `<script>`
+block. With admin POST now returning raw, a value like
+`';alert(document.cookie);'` stored in one of those fields would
+break straight out into script context on the next render. Several
+other `$ct['conf'][...]` values are output the same way.
+~~~~~~~~~
+NOTE TO SELF: THIS APPLIES TO ANY CSS TOO!
+(attacker physically present AFTER owner logins in, or steals login with no 2FA protection, but has no file write access, so they inject malicious code into an admin text field that renders in the interface)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+CLARIFY this type of error log message:
+ notify (error): the trade value of "" seems invalid for market ID ""
+
+
+Stocks - AlphaStreet
+Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.
+
+
 Add documentation on the asset search admin page, saying the "all exchanges" search will automatically fill in a better description name, for AlphaVantage STOCK MARKET TICKERS.
 
 

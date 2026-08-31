@@ -484,14 +484,14 @@ $ct['conf']['currency']['price_rounding_fixed_decimals'] = 'on'; // 'off', 'on'
 // Jupiter aggregator market pairings searched for, when adding new assets / coins (comma-separated, CASE-SENSITIVE!)
 // We have a HARD CAP OF 100 asset search results maximum PER-PAIRING (to avoid search timeouts [taking too long]),
 // AND each pairing MUST be a VERIFIED token (for your SAFETY!)
-$ct['conf']['currency']['jupiter_ag_pairings_search'] = 'SOL,USDC,ETH,WBTC,zBTC,USDT'; 
+$ct['conf']['currency']['jupiter_ag_pairings_search'] = 'SOL,USDC,ETH,WBTC,USDT'; 
 ////
 // Upbit market pairings searched for, when adding new assets / coins (comma-separated)
 $ct['conf']['currency']['upbit_pairings_search'] = 'BTC,ETH,USDT,KRW'; 
 ////
 // OTHER upcoming / semi-popular market pairings searched for, when adding new assets / coins (comma-separated)
 // BE CAREFUL, AND ONLY ADD FIAT / STABLECOINS / ***MAJOR*** BLUECHIPS HERE, OR YOU RISK MESSING UP 'ADD MARKETS' SEARCH RESULTS!
-$ct['conf']['currency']['additional_pairings_search'] = 'BUSD,BNB,WBTC,ZBTC,WETH,FDUSD,CBBTC,USDD,WRX'; 
+$ct['conf']['currency']['additional_pairings_search'] = 'BUSD,BNB,WBTC,WETH,FDUSD,CBBTC,USDD,WRX'; 
 
 
 // Static values in USD for token presales, like during crowdsale / VC funding periods etc (before exchange listings)
@@ -522,7 +522,6 @@ $ct['conf']['currency']['conversion_currency_symbols'] = array(
                               						'rmb = ¥',
                               						'czk = Kč ',
                               						'dkk = Kr. ',
-                              						'eth = Ξ ',
                               						'eur = €',
                               						'gbp = £',
                               						'gel = ლ',
@@ -760,10 +759,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'btc-26||luno||zar||none',
 					
 					
-					// ZBTC
-					'zbtc||coingecko_btc||btc||both',
-					
-					
 					// FBTCSTOCK (Fidelity Bitcoin ETF)
 					'fbtcstock||alphavantage_stock||usd||both',
 					
@@ -812,10 +807,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// NEON
 					'neon-2||coingecko_terminal||usd||both',
-					
-					
-					// ZEUS
-					'zeus||coingecko_terminal||usd||both',
 					
 					
 					// BONK
@@ -1473,7 +1464,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'mobitel||sms.mobitel.lk',          // Sri Lanka
                         'tele2_se||sms.tele2.se',           // Sweden
                         'sunrise_ch||gsm.sunrise.ch',       // Switzerland
-                        'movistar_uy||sms.movistar.com.uy', // Uruguay
                         
                         
                         // [AUSTRALIA]
@@ -1490,13 +1480,9 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         
                         
                         // [CANADA]
-                        'bell||txt.bell.ca',
                         'koodo||msg.telus.com',
-                        'pc_telecom_ca||mobiletxt.ca',
-                        'rogers_ca||pcs.rogers.com',
                         'sasktel||pcs.sasktelmobility.com',
                         'telus_ca||mms.telusmobility.com',
-                        'virgin_ca||vmobile.ca',
                         'wind||txt.windmobile.ca',
                         
                         
@@ -1569,7 +1555,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'googlefi||msg.fi.google.com',
                         'nextech||sms.ntwls.net',
                         'pioneer||zsend.com',
-                        'rogers_us||pcs.rogers.com',
                         'simple_mobile||smtext.com',
                         'southern_linc||page.southernlinc.com',
                         'south_central_comm||rinasms.com',
@@ -1896,43 +1881,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // ZBTC
-                    'ZBTC' => array(
-                        
-                        'name' => 'Zeus Network zBTC',
-                        'mcap_slug' => 'zeus-netwok-zbtc',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'coingecko_btc' => 'zeus-netwok-zbtc',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                        'coingecko_eur' => 'zeus-netwok-zbtc',
-                                                    ),
-                                 
-
-                                    "sol" => array(
-                                    	'jupiter_ag' => 'zBTCug3er3tLyffELcvDNrKkCymbPWysGcWihESYfLg/So11111111111111111111111111111111111111112',
-                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'zeus-netwok-zbtc',
-                                    	'coingecko_terminal' => 'solana||ek5qUSH3qws3FjLVko1kqkKopFw6SUNtr5jijrcR9pi',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // FBTCSTOCK
                     'FBTCSTOCK' => array(
                         
@@ -2091,7 +2039,6 @@ $ct['conf']['assets'] = array(
                                           'bitfinex' => 'tETHUSD',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
-                                          'kuma' => 'ETH-USD',
                                           'presale_usd_value' => 'eth',
                                                     ),
 

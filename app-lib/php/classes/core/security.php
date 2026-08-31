@@ -631,7 +631,7 @@ var $ct_array = array();
                                     'domain' => $ct['app_host'],
                                     'secure' => $secure,
                                     'httponly' => false,
-                     	            'samesite' => 'Strict', // Strict for high privacy
+                     	           'samesite' => 'Strict', // Strict for high privacy
                                     );
       
       
@@ -662,7 +662,7 @@ var $ct_array = array();
    
    $attack_signature_count = 0;
    
-   // Replace any backslash entity: &bsol; (PHP does NOT detect it)
+   // Replace any backslash entity &bsol with compatible equivelent; (PHP does NOT detect it)
    $check_decoded_input = preg_replace('/&bsol;/', '&#92;', $input);
    
    // Decode ALL HTML entities
@@ -670,15 +670,15 @@ var $ct_array = array();
    
    $open_tags = substr_count($check_decoded_input, '<');
    
-   $close_tags = substr_count($check_decoded_input, '>');
+   $css_open_tags = substr_count($check_decoded_input, '{');
    
-   $all_tags = $open_tags + $close_tags;
+   $all_open_tags = $open_tags + $css_open_tags;
 
    
-       // If code tags appear present
-       // (NOT JUST A SINGLE TAG, WHICH COULD BE VALID HEX FORMAT DECODED, ***CREATING A FALSE POSITIVE***)
-       if ( $open_tags > 0 && $close_tags > 0  ) {
-       $attack_signature_count = $all_tags;
+       // If OPEN code tags are present (BROWSERS WILL STILL EXECUTE WITHOUT A CLOSING TAG!)
+       // (NOTE THIS CAN CREATE A FALSE POSITIVE on hashes / digests!)
+       if ( $all_open_tags > 0 ) {
+       $attack_signature_count = $all_open_tags;
        }
        // Scan for ADDITIONAL malicious content, ONLY IF CODE TAGS CHECK PASSED
        else {
@@ -1051,21 +1051,41 @@ var $ct_array = array();
    
    
    // RECURSIVELY USED VIA malware_scan_requests() (scans all subarray values too)
-   function malware_scan_string($method, $ext_key, $data, $mysqli_connection=false) {
+   function malware_scan_string($method, $ext_key, $data, $mysqli_connection=false, $force_scan=false) {
    
-   global $ct;
+   global $ct, $is_admin;
 
         
-        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* / HARD-CODE-SANITIZED ARE *ALREADY* HEAVILY CHECKED, SO WE CAN SAFELY EXCLUDE THEM,
-        // AND WE MUST LEAVE ANYTHING THAT'S FLAGGED AS A CRYPTO ADDRESS ALONE TOO
-        // (AS THEY CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES*** on code opening and closing tag symbols <>,
-        // ***WHEN HASHES / DIGESTS ARE RUN THROUGH THE HEXIDECIMAL DECODER FURTHER DOWN IN THIS FUNCTION***)
-        if (
-        stristr($ext_key, 'nonce')
+        // INPUTS THAT ARE *SECURITY (NONCE) TOKENS* ARE *ALREADY* HEAVILY CHECKED,
+        // SO WE CAN SAFELY EXCLUDE THEM, AND WE MUST LEAVE ANYTHING FLAGGED AS A
+        // CRYPTO ADDRESS / PASSWORD / API KEY / TOKEN ALONE TOO
+        // (AS THESE ALL CAN ***TRIGGER ATTACK SIGNATURE FALSE POSITIVES***
+        // on code opening tag symbol <, ***WHEN HASHES / DIGESTS / PASSWORDS / TOKENS ARE RUN THROUGH
+        // PLAINTEXT OR DECODER SCANS FURTHER DOWN IN THIS FUNCTION***, AND WE DON'T WANT TO RUN PASSWORDS AND
+        // TOKENS WITH <> ' " SYMBOLS IN THEM THROUGH htmlspecialchars() [WHICH WOULD MODIFY THEM!])
+        if ( $force_scan ) {
+        // DO NOTHING (CONTINUES SCANNING, NO MATTER WHAT)
+        }
+        elseif (
+        // Blanket pattern matches
+        stristr($ext_key, 'nonce') 
+        || stristr($ext_key, 'password')
+        // Tight-ish pattern matches
+        || stristr($ext_key, '_token') 
+        || stristr($ext_key, '_login')
+        || stristr($ext_key, '_key')
         || stristr($ext_key, 'crypto_address')
+        // Array of specific pattern matches
         || in_array($ext_key, $ct['dev']['skip_injection_scanner'])
         ) {
-        return $data;
+             
+             // IF mySQLi connection is required, escape special characters before storing any data
+             if ( $mysqli_connection ) {
+             $data = mysqli_real_escape_string($mysqli_connection, $data);
+             }
+             
+        return $data; // RETURN RAW DATA, FOR THESE SAFE EXEMPTIONS
+        
         }
 
 
@@ -1079,7 +1099,10 @@ var $ct_array = array();
    
    
         // Scan for malicious content in any POSSIBLE hexadecimal encoding (IF plaintext scan revealed nothing)
-        if ( $plaintext_attack_signature_count == 0 && $this->possible_hex_encoding( trim($data) ) ) {
+        if (
+        $plaintext_attack_signature_count == 0 
+        && $this->possible_hex_encoding( trim($data) )
+        ) {
         // ONLY TRIM *EN*CODED DATA (OTHERWISE WE RISK DELETING *DE*CODED DATA CONTAINING SPECIAL CHARACTERS!)
         $check_decoded_hex = hex2bin( trim($data) );
         $hex_attack_signature_count = $this->malware_scan($check_decoded_hex);
@@ -1089,8 +1112,13 @@ var $ct_array = array();
         }
         
         
-        // Scan for malicious content in any POSSIBLE base64 encoding (IF plaintext / hexidecimal scans revealed nothing)
-        if ( $plaintext_attack_signature_count == 0 && $hex_attack_signature_count == 0 && $this->possible_base64_encoding( trim($data) ) ) {
+        // Scan for malicious content in any POSSIBLE base64 encoding
+        // (IF plaintext / hexidecimal scans revealed nothing)
+        if (
+        $plaintext_attack_signature_count == 0
+        && $hex_attack_signature_count == 0
+        && $this->possible_base64_encoding( trim($data) )
+        ) {
         // ONLY TRIM *EN*CODED DATA (OTHERWISE WE RISK DELETING *DE*CODED DATA CONTAINING SPECIAL CHARACTERS!)
         $check_decoded_base64 = base64_decode( trim($data) );
         $base64_attack_signature_count = $this->malware_scan($check_decoded_base64);
@@ -1106,18 +1134,27 @@ var $ct_array = array();
         || $hex_attack_signature_count > 0
         || $base64_attack_signature_count > 0
         ) {
-        $ct['gen']->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs');
-        $ct['possible_input_injection'] = true; // GLOBAL flag, to IMMEADIATELY HALT RUNTIME ON ANY UPCOMING SECURITY CHECKS!
+
+        // GLOBAL flag, to IMMEADIATELY HALT RUNTIME ON ANY UPCOMING SECURITY CHECKS!
+        $ct['possible_input_injection'] = true;
+        
         $data = 'possible_attack_blocked';
+             
+        $ct['gen']->log('security_error', 'POSSIBLE code injection attack blocked in (' . strtoupper($method) . ') request data "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT inject ANY scripting / HTML into user inputs'); 
+
         }
-        // mySQLi connection is required, for escaping special characters in a string before storing any data
-        elseif ( $mysqli_connection ) {
-        $data = mysqli_real_escape_string($mysqli_connection, $data);
-        }
-        else {
-        $data = $data;
+        // Otherwise, presume request data MAY output on a webpage, and sanitize with htmlspecialchars(),
+        // UNLESS THE KEY IS FLAGGED TO SKIP ENCODING IN 'skip_sanitizing_other'
+        elseif ( !in_array($ext_key, $ct['dev']['skip_sanitizing_other']) ) {
+        $data = htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         }
         
+        
+        // IF mySQLi connection is required, escape special characters before storing any data
+        if ( $mysqli_connection ) {
+        $data = mysqli_real_escape_string($mysqli_connection, $data);
+        }
+
         
    return $data;
         

@@ -366,7 +366,6 @@ $ct['dev']['hyphen_delimited_markets'] = array(
                                                  'okex_perps',
                                                  'kucoin',
                                                  'okcoin',
-                                                 'kuma',
                                                  'zebpay',
                                                  'aevo',
                                                 );
@@ -525,6 +524,22 @@ $ct['dev']['skip_injection_scanner'] = array(
                                                // (when adding new markets, via interface)
                                                'jupiter_ag',
                                                'coingecko_terminal',
+                                               // Inputs that could cause a false
+                                               // positive, during the input malware scanner
+                                               // KEYS CONTAINING
+                                               // '_key' / '_token' / '_login'
+                                               // 'password' / 'nonce' / 'crypto_address'
+                                               // ARE ALREADY SKIPPED!
+                                               'twilio_sid',
+                                               'notifyme_access_code',
+                                               );
+
+        
+// ADMIN input keys to EXCLUDE FROM htmlspecialchars() SANITIZATION ENCODING
+// (THAT ARE NOT ALREADY IN 'skip_injection_scanner' ABOVE)
+$ct['dev']['skip_sanitizing_other'] = array(
+                                               // GET / POST keys that are passwords / tokens
+                                               // 'keyname',
                                                );
 
         
@@ -532,34 +547,45 @@ $ct['dev']['skip_injection_scanner'] = array(
 // (via malware_scan_string() [which is called in malware_scan_requests()] in early-security-logic.php, when scanning all POST / GET data submissions)
 // (NOT CASE SENSITIVE, JUST GET THE SIGNATURES RIGHT)
 $ct['dev']['script_injection_checks'] = array(
-                                               "base64", // base64 PHP ENCODE / DECODE
-                                               "btoa(", // base64 javascript ENCODE
-                                               "atob(", // base64 javascript DECODE
-                                               "bin2hex", // hex PHP ENCODE
-                                               "hex2bin", // hex PHP DECODE
-                                               "char(", // SQL CHAR() function
-                                               "javascript", // Javascript
-                                               "script", // Javascript
-                                               "href=", // HTML
-                                               "src=", // HTML
-                                               // ALL javascript 'on' events
-                                               "onclick",
-                                               "onmouse",
-                                               "onresize",
-                                               "onchange",
+                                               // ENCODE / DECODE signatures
+                                               "base64", // base64 PHP
+                                               "bin2hex", // hex PHP
+                                               "hex2bin", // hex PHP
+                                               "btoa", // base64 javascript
+                                               "atob", // base64 javascript
+                                               // SQL
+                                               "char(",
+                                               // HTML
+                                               "href",
+                                               "src",
+                                               // CSS
+                                               "style",
+                                               "@import",
+                                               // Javascript
+                                               "appendchild", 
+                                               "javascript",
+                                               "script",
+                                               "onanim",
                                                "onabort",
                                                "onblur",
+                                               "onclick",
+                                               "onchange",
                                                "ondblclick",
                                                "ondragdrop",
                                                "onerror",
                                                "onfocus",
                                                "onkey",
                                                "onload",
+                                               "onmouse",
                                                "onmove",
+                                               "onpoint",
+                                               "onresize",
                                                "onreset",
                                                "onselect",
                                                "onsubmit",
+                                               "ontoggle",
                                                "onunload",
+                                               "onwheel",
                                              );
                                              
 

@@ -491,7 +491,7 @@ Support for over 40 trading pairs (country fiat currency or secondary crypto, co
 Support for over 50 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>aevo / alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_aud / coingecko_btc / coingecko_cad / coingecko_chf / coingecko_cny / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_hkd / coingecko_ils / coingecko_inr / coingecko_jpy / coingecko_rub / coingecko_sgd / coingecko_terminal / coingecko_try / coingecko_twd / coingecko_usd / coinspot / crypto.com / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / kuma / luno / okcoin / okex / poloniex / tradeogre / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>aevo / alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_aud / coingecko_btc / coingecko_cad / coingecko_chf / coingecko_cny / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_hkd / coingecko_ils / coingecko_inr / coingecko_jpy / coingecko_rub / coingecko_sgd / coingecko_terminal / coingecko_try / coingecko_twd / coingecko_usd / coinspot / crypto.com / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / luno / okcoin / okex / poloniex / tradeogre / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 

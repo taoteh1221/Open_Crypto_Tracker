@@ -7108,13 +7108,17 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.09
 
--BUG FIX: TBD
+-BUG FIX: MODERATE security vulnerabilities have been fixed in /classes/core/security.php. IF a social attacker gets a target to click on a specially-crafted malicious phishing email / text link (pointing to a KNOWN installation of Open Crypto Tracker v6.01.08 or lower, which the target has interacted with), any browser data the target saved in this specific page / section is at high risk of being manipulated via code injection. PLEASE UPGRADE NOW to v6.01.09 or higher, to stay safe! (MANK THANKS to red-teamer archnexus707 for reporting this!)
 
--Removed bitmex / loopring / bitmart market support
+-Better reliability with the input malware scanner, at detecting more code injection attempt signatures, and SAFE exemption for a small subset of key values that cause problematic false positives (BUT never render to HTML, so exemption is SAFE)
+
+-Removed bitmex / loopring / bitmart / kuma market support
 
 -Bitcoin Halving data, at the top of the user area
 
 -Miscellaneous user experience improvements
+
+-Upgrade to Bitfinex API logic
 
 -Revised DEMO config
 
