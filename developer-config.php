@@ -551,13 +551,13 @@ $ct['dev']['script_injection_checks'] = array(
                                                "base64", // base64 PHP
                                                "bin2hex", // hex PHP
                                                "hex2bin", // hex PHP
-                                               "btoa(", // base64 javascript
-                                               "atob(", // base64 javascript
+                                               "btoa", // base64 javascript
+                                               "atob", // base64 javascript
                                                // SQL
                                                "char(",
                                                // HTML
-                                               "href=",
-                                               "src=",
+                                               "href",
+                                               "src",
                                                // CSS
                                                "style",
                                                "@import",

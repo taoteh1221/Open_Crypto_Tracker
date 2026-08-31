@@ -166,6 +166,7 @@ break straight out into script context on the next render. Several
 other `$ct['conf'][...]` values are output the same way.
 ~~~~~~~~~
 NOTE TO SELF: THIS APPLIES TO ANY CSS TOO!
+(attacker physically present AFTER owner logins in, or steals login with no 2FA protection, but has no file write access, so they inject malicious code into an admin text field that renders in the interface)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
