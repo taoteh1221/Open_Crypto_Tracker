@@ -3223,9 +3223,9 @@ var $exchange_apis = array(
     
       elseif ( $sel_exchange == 'bitfinex' ) {
       
-      $finex_price = $data[( sizeof($data) - 4 )];
+      $finex_price = $data[7];
       
-      $finex_vol = $data[( sizeof($data) - 3 )];
+      $finex_vol = $data[8];
            
            
            // Bitfinex is a VERY funky data structure to parse for RESULTS VALIDITY,

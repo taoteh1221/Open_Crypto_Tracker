@@ -7118,6 +7118,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Miscellaneous user experience improvements
 
+-Upgrade to Bitfinex API logic
+
 -Revised DEMO config
 
 -------------------------------------------------------------------
