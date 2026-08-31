@@ -1070,12 +1070,12 @@ var $ct_array = array();
         // Blanket pattern matches
         stristr($ext_key, 'nonce') 
         || stristr($ext_key, 'password')
-        // Tight pattern matches
+        // Tight-ish pattern matches
         || stristr($ext_key, '_token') 
         || stristr($ext_key, '_login')
         || stristr($ext_key, '_key')
         || stristr($ext_key, 'crypto_address')
-        // Attack signature matches
+        // Array of specific pattern matches
         || in_array($ext_key, $ct['dev']['skip_injection_scanner'])
         ) {
              
