@@ -171,7 +171,7 @@ NOTE TO SELF: THIS APPLIES TO ANY CSS TOO!
 
 
 CLARIFY this type of error log message:
- notify (error): the trade value of "" seems invalid for market ID ""
+notify (error): the trade value of "" seems invalid for market ID ""
 
 
 Stocks - AlphaStreet
