@@ -108,7 +108,7 @@ $ct['dev']['throttled_apis']['sifting.io']['per_day'] = floor($ct['conf']['ext_a
      }
 
 
-$siftingio_cache_time =  floor( ( ( 24 / $ct['dev']['throttled_apis']['sifting.io']['per_day']) * 60 ) * $ct['siftingio_pairs']);
+$siftingio_cache_time =  floor( ( (24 / $ct['dev']['throttled_apis']['sifting.io']['per_day']) * 60 ) * $ct['siftingio_pairs']);
 
 // Throttled based on how many times a day each asset can get LIVE data,
 // AND STILL NOT GO OVER THE MONTHLY LIMIT

@@ -531,6 +531,7 @@ var $exchange_apis = array(
             
             
             // Store error status, if no valid data detected
+            // Alhavantage
             if (
             $exchange == 'alphavantage_stock' && !isset($data['Symbol'])
             ) {
@@ -548,6 +549,7 @@ var $exchange_apis = array(
             $data = json_decode($response, true);
 
             }
+            // SiftingIO
             elseif (
             stristr($exchange, 'siftingio') && !isset($data['ticker'])
             ) {
