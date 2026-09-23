@@ -2208,7 +2208,8 @@ render = render.replace(/mart/gi, "Mart");
 render = render.replace(/gateio/gi, "Gate.io");
 render = render.replace(/dex/gi, "DEX");
 render = render.replace(/coingecko/gi, "CoinGecko.com");
-render = render.replace(/alphavantage/gi, "AlphaVantage");
+render = render.replace(/alphavantage/gi, "AlphaVantage.co");
+render = render.replace(/siftingio/gi, "Sifting.io");
 
 return render;
 
@@ -3928,7 +3929,10 @@ range_inputs = document.querySelectorAll('.range-wrap');
          if ( (rangeUiMetaData.textContent).includes("zero_is_disabled") ) {
          var metaDataToUi = 'Disabled';
          }
-         else if ( (rangeUiMetaData.textContent).includes("zero_is_unlimited") ) {
+         else if (
+         (rangeUiMetaData.textContent).includes("zero_is_unlimited")
+         || (rangeUiMetaData.textContent).includes("9999999_is_unlimited")
+         ) {
          var metaDataToUi = 'Unlimited';
          }
          else {

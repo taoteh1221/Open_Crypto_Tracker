@@ -3495,6 +3495,18 @@ var $ct_array = array();
     return false;
     
     }
+    elseif ( $tld_or_ip == 'sifting.io' && $ct['conf']['ext_apis']['siftingio_api_key'] == '' ) {
+    
+    $ct['gen']->log(
+          		    'notify_error',
+          		    '"siftingio_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
+          		    false,
+          		    'siftingio_api_key'
+          		    );
+    
+    return false;
+    
+    }
     elseif ( $tld_or_ip == 'etherscan.io' && $ct['conf']['ext_apis']['etherscan_api_key'] == '' ) {
     
     $ct['gen']->log(
@@ -4276,6 +4288,7 @@ var $ct_array = array();
             || $tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             || $tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
             || $tld_or_ip == 'alphavantage.co' && !preg_match("/symbol/i", $data) // WORKS FOR ALL ENDPOINTS!
+            || $tld_or_ip == 'sifting.io' && preg_match("/\"error\":\"/i", $data) // WORKS FOR ALL ENDPOINTS!
             // API-specific (confirmed error in response)
             || $tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/usd/i", $data)
             || $tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 

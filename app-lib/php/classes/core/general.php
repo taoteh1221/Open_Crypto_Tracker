@@ -2757,6 +2757,7 @@ var $ct_array = array();
    $pretty_str = preg_replace("/coingecko/i", 'CoinGecko.com', $pretty_str);
    $pretty_str = preg_replace("/coinmarketcap/i", 'CoinMarketCap.com', $pretty_str);
    $pretty_str = preg_replace("/alphavantage stock/i", 'AlphaVantage.co', $pretty_str);
+   $pretty_str = preg_replace("/siftingio/i", 'Sifting.io', $pretty_str);
    $pretty_str = preg_replace("/anti proxy/i", 'Anti-Proxy', $pretty_str);
    $pretty_str = preg_replace("/price alerts charts/i", 'Price Alerts / Charts', $pretty_str);
    $pretty_str = preg_replace("/webhook internal api/i", 'Internal API / Webhook', $pretty_str);

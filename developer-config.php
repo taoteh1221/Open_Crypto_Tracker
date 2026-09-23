@@ -297,6 +297,15 @@ $ct['dev']['throttled_apis'] = array(
                                                        'per_minute' => null,
                                                        'per_second' => 4, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
+                                     
+                                     
+                                     // DYNAMIC (set in dynamic-throttling-config.php)
+                                     'sifting.io' => array(
+                                                       'min_cache_time' => null,
+                                                       'per_day' => null,
+                                                       'per_minute' => null,
+                                                       'per_second' => null, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                      ),
 
 
                                      // https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this
@@ -355,6 +364,7 @@ $ct['dev']['no_trade_volume_api_data'] = array(
                                                 'alt_nfts',
                                                 'coinspot',
                                                 'unocoin',
+                                                'siftingio_stock',
                                                );
 
         
@@ -687,6 +697,7 @@ $ct['dev']['data_obfuscating'] = array(
                                       $ct['conf']['ext_apis']['google_fonts_api_key'],
                                       $ct['conf']['ext_apis']['etherscan_api_key'],
                                       $ct['conf']['ext_apis']['alphavantage_api_key'],
+                                      $ct['conf']['ext_apis']['siftingio_api_key'],
                                       $ct['conf']['ext_apis']['bitcoin_rpc_server'],
                                       $ct['conf']['ext_apis']['solana_rpc_server'],
                                      );

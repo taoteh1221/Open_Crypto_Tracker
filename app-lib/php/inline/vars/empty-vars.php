@@ -174,6 +174,8 @@ $ct['auth_secret'] = false;
 $ct['smtp_server_ok'] = true; // true, in case we are NOT using it
         
 $ct['alphavantage_pairs'] = 0;
+        
+$ct['siftingio_pairs'] = 0;
 
 $ct['precache_feeds_count'] = 0; 
 

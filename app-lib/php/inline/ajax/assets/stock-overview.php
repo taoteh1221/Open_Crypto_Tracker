@@ -8,24 +8,32 @@ $parse_ticker = strtoupper( preg_replace("/stock/i", "", $_GET['ticker']) );
 
 $market_pair = $_GET['pairing'];
 
-$market_id = $ct['conf']['assets'][ $_GET['ticker'] ]['pair'][$market_pair]['alphavantage_stock'];
+$market_id = $ct['conf']['assets'][ $_GET['ticker'] ]['pair'][$market_pair][ $_GET['exchange'] ];
 
+
+// Validate input data, for security...
+if ( trim($market_id) == '' ) {
+exit;
+}
 // Stock overview
-$stock_overview = $ct['api']->stock_overview($market_id);
-     
-// DEBUGGING (cache file name)   
-//var_dump( md5('https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$parse_ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key']) );
+else {
+$stock_overview = $ct['api']->stock_overview($market_id, $_GET['exchange']);
+}
+
 			     
 ?>
 
 
-<h5 class="yellow align_center tooltip_title">AlphaVantage.co Summary For: <?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
+<h5 class="yellow align_center tooltip_title"><?=$ct['gen']->key_to_name($_GET['exchange'])?> Summary For: <?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
  
 <?php
 
 			     
 // IF we do NOT have a PREMIUM PLAN (determined by the per-minute setting)
-if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
+if (
+$_GET['exchange'] == 'alphavantage_stock'
+&& $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5
+) {
 			     
 			     
      if ( $ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'] >= 1440 ) {
@@ -66,12 +74,13 @@ if ( isset($stock_overview['data']['request_error']) ) {
 
      if (
      $stock_overview['data']['request_error'] == 'api_limit'
+     && $_GET['exchange'] == 'alphavantage_stock'
      && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5
      ) {
      $stock_cached_notice .= '<br /><br /> You have gone over your AlphaVantage DAILY LIMITS. After the "Summary Cache Time" ABOVE has passed, the Stock Overview MAY show here (IF available for ' . $parse_ticker . ' [not all stocks have overviews]).';  
      }
      elseif ( $stock_overview['data']['request_error'] == 'api_limit' ) {
-     $stock_cached_notice .= '<br /><br /> You have gone over your AlphaVantage PER-MINUTE LIMITS. After the "Summary Cache Time" ABOVE has passed, the Stock Overview MAY show here (IF available for ' . $parse_ticker . ' [not all stocks have overviews]).';     
+     $stock_cached_notice .= '<br /><br /> You seem to have gone over your ' . $ct['gen']->key_to_name($_GET['exchange']) . ' API LIMITS. After the "Summary Cache Time" ABOVE has passed, the Stock Overview MAY show here (IF available for ' . $parse_ticker . ' [not all stocks have overviews]).';     
      }
 
 
@@ -90,27 +99,44 @@ if ( isset($stock_overview['data']['request_error']) ) {
 }
 // Otherwise, render the overview
 else {
-?>
+     
+     
+     if ( $_GET['exchange'] == 'alphavantage_stock' ) {
+     ?>
+     
+     <p class="coin_info"><span class="bitcoin">Name:</span> <?=$stock_overview['data']['Name']?></p>
+     
+     <p class="coin_info"><span class="bitcoin">Asset Type:</span> <?=$stock_overview['data']['AssetType']?></p>
+     
+     <p class="coin_info"><span class="bitcoin">Exchange:</span> <?=$stock_overview['data']['Exchange']?></p>
+     
+     <p class="coin_info"><span class="bitcoin">Sector:</span> <?=$stock_overview['data']['Sector']?></p>
+     
+     <p class="coin_info"><span class="bitcoin">Industry:</span> <?=$stock_overview['data']['Industry']?></p>
+     
+     <p class="coin_info"><span class="bitcoin">MarketCap:</span> <?=$ct['var']->num_pretty($stock_overview['data']['MarketCapitalization'], 0)?> (<?=$stock_overview['data']['Currency']?>)</p>
+     
+     <p class="coin_info"><span class="bitcoin">52 Week High:</span> <?=$ct['var']->num_pretty($stock_overview['data']['52WeekHigh'], 2)?> (<?=$stock_overview['data']['Currency']?>)</p>
+     
+     <p class="coin_info"><span class="bitcoin">52 Week Low:</span> <?=$ct['var']->num_pretty($stock_overview['data']['52WeekLow'], 2)?> (<?=$stock_overview['data']['Currency']?>)</p>
+     
+     <p class="coin_info"><span class="bitcoin">Description:</span> <br /><?=$stock_overview['data']['Description']?></p>
 
-<p class="coin_info"><span class="bitcoin">Name:</span> <?=$stock_overview['data']['Name']?></p>
+     <?php
+     }
+     elseif ( stristr($_GET['exchange'], 'siftingio') ) {
+     ?>
+     
+     <p class="coin_info"><span class="bitcoin">Name:</span> <?=$stock_overview['data']['name']?></p>
+     
+     <p class="coin_info"><span class="bitcoin">Exchange:</span> <?=$stock_overview['data']['exchange'][0]?></p>
+     
+     <p class="coin_info"><span class="bitcoin">Description:</span> <br /><?=$stock_overview['data']['sic_description']?></p>
 
-<p class="coin_info"><span class="bitcoin">Asset Type:</span> <?=$stock_overview['data']['AssetType']?></p>
+     <?php
+     }
 
-<p class="coin_info"><span class="bitcoin">Exchange:</span> <?=$stock_overview['data']['Exchange']?></p>
 
-<p class="coin_info"><span class="bitcoin">Sector:</span> <?=$stock_overview['data']['Sector']?></p>
-
-<p class="coin_info"><span class="bitcoin">Industry:</span> <?=$stock_overview['data']['Industry']?></p>
-
-<p class="coin_info"><span class="bitcoin">MarketCap:</span> <?=$ct['var']->num_pretty($stock_overview['data']['MarketCapitalization'], 0)?> (<?=$stock_overview['data']['Currency']?>)</p>
-
-<p class="coin_info"><span class="bitcoin">52 Week High:</span> <?=$ct['var']->num_pretty($stock_overview['data']['52WeekHigh'], 2)?> (<?=$stock_overview['data']['Currency']?>)</p>
-
-<p class="coin_info"><span class="bitcoin">52 Week Low:</span> <?=$ct['var']->num_pretty($stock_overview['data']['52WeekLow'], 2)?> (<?=$stock_overview['data']['Currency']?>)</p>
-
-<p class="coin_info"><span class="bitcoin">Description:</span> <br /><?=$stock_overview['data']['Description']?></p>
-
-<?php
 }
 
 // UX for cache time

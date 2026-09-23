@@ -377,6 +377,49 @@ $ct['admin_render_settings']['alphavantage_free_plan_daily_limit']['is_notes'] =
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+$ct['admin_render_settings']['siftingio_api_key']['is_text'] = true;
+
+$ct['admin_render_settings']['siftingio_api_key']['is_password'] = true;
+
+$ct['admin_render_settings']['siftingio_api_key']['text_field_size'] = 40;
+
+$ct['admin_render_settings']['siftingio_api_key']['is_notes'] = '<a href="https://sifting.io/pricing" target="_BLANK">Get a FREE SiftingIO API Key</a>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$ct['admin_render_settings']['siftingio_monthly_limit']['is_range'] = true;
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['range_min'] = 10000;
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['range_max'] = 9999999;
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['range_ui_prefix'] = 'MAXIMUM of ';
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['range_ui_suffix'] = ' LIVE updates PER MONTH';
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['range_ui_meta_data'] .= 'is_custom_steps;';
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['range_ui_meta_data'] .= '9999999_is_unlimited;';
+     
+$ct['admin_render_settings']['siftingio_monthly_limit']['is_custom_steps'] = array(
+                                                                                   '10000',
+                                                                                   '250000',
+                                                                                   '5000000',
+                                                                                   '9999999',
+                                                                                  );
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['range_min'] = $ct['admin_render_settings']['siftingio_monthly_limit']['is_custom_steps'][0];
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['range_max'] = $ct['admin_render_settings']['siftingio_monthly_limit']['is_custom_steps'][ sizeof($ct['admin_render_settings']['siftingio_monthly_limit']['is_custom_steps']) - 1 ];
+
+$ct['admin_render_settings']['siftingio_monthly_limit']['is_notes'] = 'The requests-per-*MONTH* limit on your SiftingIO API key (varies depending on your member level).<br />LEAVE SET TO "10,000" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://sifting.io/pricing" target="_BLANK">See SiftingIO\'s PREMUIM Plans</a>, to increase your limits.';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
      
 $ct['admin_render_settings']['jupiter_ag_search_results_max_per_cpu_core']['is_range'] = true;
 

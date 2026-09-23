@@ -79,7 +79,7 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($parsed_asset, $exchange,
            
            // UX for stocks
            if (
-           $exchange == 'alphavantage_stock'
+           stristr($exchange, '_stock')
            && !preg_match("/stock/i", $parsed_asset)
            ) {
            $ct['update_config_error'] .= $update_config_error_seperator . 'You forgot to append "stock" to the end of the ticker (to flag this asset as a stock [NOT crypto], eg: tickerstock)';
