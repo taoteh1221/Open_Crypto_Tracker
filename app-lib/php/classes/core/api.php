@@ -522,7 +522,7 @@ var $exchange_apis = array(
                   
              $siftingio_params['X-API-Key'] = $ct['conf']['ext_apis']['siftingio_api_key'];
              
-             $response = @$ct['cache']->->ext_data('params', $siftingio_params, $overview_cache_time, $url, 2);
+             $response = @$ct['cache']->->ext_data('params', $siftingio_params, $overview_cache_time, 'https://api.sifting.io/v1/fnd/stocks/'.$ticker.'/profile', 2);
              
              }
         
@@ -531,7 +531,7 @@ var $exchange_apis = array(
             
             
             // Store error status, if no valid data detected
-            // Alhavantage
+            // Alphavantage
             if (
             $exchange == 'alphavantage_stock' && !isset($data['Symbol'])
             ) {

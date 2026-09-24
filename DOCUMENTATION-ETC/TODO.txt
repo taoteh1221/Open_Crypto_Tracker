@@ -143,6 +143,10 @@ If new testing was added, add it to the package testing notes.
 Find out what 'alphavantage_asset' does, and see if we need it for siftingio. REMOVE / MODIFY api.php:3921, after figuring this out!
 
 
+Find out WHY openstreetmap 'tile usage' is NOT compliant with their rules (map tile images are being BLOCKED):
+https://operations.osmfoundation.org/policies/tiles/
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Consult with archnexus707 (red team dev on github):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
