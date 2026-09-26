@@ -382,7 +382,7 @@ $ct['admin_render_settings']['siftingio_api_key']['is_text'] = true;
 
 $ct['admin_render_settings']['siftingio_api_key']['is_password'] = true;
 
-$ct['admin_render_settings']['siftingio_api_key']['text_field_size'] = 40;
+$ct['admin_render_settings']['siftingio_api_key']['text_field_size'] = 50;
 
 $ct['admin_render_settings']['siftingio_api_key']['is_notes'] = '<a href="https://sifting.io/pricing" target="_BLANK">Get a FREE SiftingIO API Key</a>';
 

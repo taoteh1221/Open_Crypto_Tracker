@@ -7131,6 +7131,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: TBD
 
+-Miscellaneous user experience improvements
+
 -Added Sifting.io markets support
 
 -------------------------------------------------------------------

@@ -2763,8 +2763,8 @@ var $ct_array = array();
    $pretty_str = preg_replace("/alphavantage stock/i", 'AlphaVantage.co', $pretty_str);
    $pretty_str = preg_replace("/siftingio stock/i", 'Sifting.io', $pretty_str);
    // Catch any non-stock names (crypto, forex, etc etc), for ABOVE stock service APIs
-   $pretty_str = preg_replace("/alphavantage/i", 'AlphaVantage.co', $pretty_str);
-   $pretty_str = preg_replace("/siftingio/i", 'Sifting.io', $pretty_str);
+   $pretty_str = preg_replace("/alphavantage /i", 'AlphaVantage.co', $pretty_str);
+   $pretty_str = preg_replace("/siftingio /i", 'Sifting.io', $pretty_str);
    
    
    return trim($pretty_str);

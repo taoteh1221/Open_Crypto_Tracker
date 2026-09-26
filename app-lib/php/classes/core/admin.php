@@ -1384,11 +1384,43 @@ var $ct_array = array();
                  
               <div class="range-tooltip"></div>
               
-              <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['range_min'], 0)?></div>
+              <div class="range-min light_sea_green">
+              
+              <?php
+              
+              if (
+              $render_params[$passed_key]['range_min'] == '0'
+              && preg_match("/zero_is_unlimited/i", $render_params[$passed_key]['range_ui_meta_data'])
+              ) {
+              echo 'Unlimited';
+              }
+              else {
+              echo $ct['var']->num_pretty($render_params[$passed_key]['range_min'], 0);
+              }
+              
+              ?>
+              
+              </div>
               
               <input type='range' class='range-field' min="<?=$render_params[$passed_key]['range_min']?>" max="<?=$render_params[$passed_key]['range_max']?>" step="<?=$render_params[$passed_key]['range_step']?>" data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' <?=( isset($render_params[$passed_key]['is_readonly']) ? 'readonly="readonly" title="' . $render_params[$passed_key]['is_readonly'] . '"' : '' )?> <?=( is_array($render_params[$passed_key]['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '"' : '' )?> />
          
-              <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['range_max'], 0)?></div>
+              <div class="range-max light_sea_green">
+              
+              <?php
+              
+              if (
+              $render_params[$passed_key]['range_max'] == '9999999'
+              && preg_match("/9999999_is_unlimited/i", $render_params[$passed_key]['range_ui_meta_data'])
+              ) {
+              echo 'Unlimited';
+              }
+              else {
+              echo $ct['var']->num_pretty($render_params[$passed_key]['range_max'], 0);
+              }
+              
+              ?>
+              
+              </div>
               
               <div class="range-value light_sea_green"><?=$passed_val?></div>
               
@@ -1460,11 +1492,43 @@ var $ct_array = array();
                  
                <div class="range-tooltip"></div>
               
-               <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_subarray'][$subarray_key]['range_min'], 0)?></div>
+               <div class="range-min light_sea_green">
+                        
+                        <?php
+                        
+                        if (
+                        $render_params[$passed_key]['is_subarray'][$subarray_key]['range_min'] == '0'
+                        && preg_match("/zero_is_unlimited/i", $render_params[$passed_key]['is_subarray'][$subarray_key]['range_ui_meta_data'])
+                        ) {
+                        echo 'Unlimited';
+                        }
+                        else {
+                        echo $ct['var']->num_pretty($render_params[$passed_key]['is_subarray'][$subarray_key]['range_min'], 0);
+                        }
+                        
+                        ?>
+                        
+                  </div>
                   
                <input data-track-index='<?=$subarray_key?>' type='range' class='range-field' min="<?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_min']?>" max="<?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_max']?>" step="<?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_step']?>" name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=( isset($passed_val[$subarray_key]) ? $passed_val[$subarray_key] : '' )?>' <?=( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '_' . $subarray_key . '"' : '' )?> />
          
-               <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_subarray'][$subarray_key]['range_max'], 0)?></div>
+               <div class="range-max light_sea_green">
+               
+                        <?php
+                        
+                        if (
+                        $render_params[$passed_key]['is_subarray'][$subarray_key]['range_max'] == '9999999'
+                        && preg_match("/9999999_is_unlimited/i", $render_params[$passed_key]['is_subarray'][$subarray_key]['range_ui_meta_data'])
+                        ) {
+                        echo 'Unlimited';
+                        }
+                        else {
+                        echo $ct['var']->num_pretty($render_params[$passed_key]['is_subarray'][$subarray_key]['range_max'], 0);
+                        }
+                        
+                        ?>
+                        
+               </div>
               
                <div class="range-value light_sea_green"><?=( isset($passed_val[$subarray_key]) ? $passed_val[$subarray_key] : '' )?></div>
               
@@ -1535,11 +1599,43 @@ var $ct_array = array();
                  
                <div class="range-tooltip"></div>
               
-               <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['has_subarray'][$subarray_key]['range_min'], 0)?></div>
+               <div class="range-min light_sea_green">
+                        
+                        <?php
+                        
+                        if (
+                        $render_params[$passed_key]['has_subarray'][$subarray_key]['range_min'] == '0'
+                        && preg_match("/zero_is_unlimited/i", $render_params[$passed_key]['has_subarray'][$subarray_key]['range_ui_meta_data'])
+                        ) {
+                        echo 'Unlimited';
+                        }
+                        else {
+                        echo $ct['var']->num_pretty($render_params[$passed_key]['has_subarray'][$subarray_key]['range_min'], 0);
+                        }
+                        
+                        ?>
+                        
+                  </div>
                   
                <input data-track-index='<?=$subarray_key?>' type='range' class='range-field' min="<?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_min']?>" max="<?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_max']?>" step="<?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_step']?>" name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?>' <?=( is_array($render_params[$passed_key]['has_subarray'][$subarray_key]['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '_' . $subarray_key . '_' . $sub_key . '"' : '' )?>  />
          
-               <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['has_subarray'][$subarray_key]['range_max'], 0)?></div>
+               <div class="range-max light_sea_green">
+               
+                        <?php
+                        
+                        if (
+                        $render_params[$passed_key]['has_subarray'][$subarray_key]['range_max'] == '9999999'
+                        && preg_match("/9999999_is_unlimited/i", $render_params[$passed_key]['has_subarray'][$subarray_key]['range_ui_meta_data'])
+                        ) {
+                        echo 'Unlimited';
+                        }
+                        else {
+                        echo $ct['var']->num_pretty($render_params[$passed_key]['has_subarray'][$subarray_key]['range_max'], 0);
+                        }
+                        
+                        ?>
+                        
+               </div>
               
                <div class="range-value light_sea_green"><?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?></div>
               
@@ -2108,11 +2204,43 @@ var $ct_array = array();
                       
                           <div class="range-tooltip"></div>
                         
-                          <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_min'], 0)?></div>
+                          <div class="range-min light_sea_green">
+                        
+                        <?php
+                        
+                        if (
+                        $render_params[$passed_key]['is_repeatable']['range_min'] == '0'
+                        && preg_match("/zero_is_unlimited/i", $render_params[$passed_key]['is_repeatable']['range_ui_meta_data'])
+                        ) {
+                        echo 'Unlimited';
+                        }
+                        else {
+                        echo $ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_min'], 0);
+                        }
+                        
+                        ?>
+                        
+                          </div>
                    
                           <input data-track-index='{?}' type='range' class='range-field' min="<?=$render_params[$passed_key]['is_repeatable']['range_min']?>" max="<?=$render_params[$passed_key]['is_repeatable']['range_max']?>" step="<?=$render_params[$passed_key]['is_repeatable']['range_step']?>" name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub_key2?>]' value='' <?=( is_array($render_params[$passed_key]['is_repeatable']['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '_{?}_' . $sub_key2 . '"' : '' )?> /> 
          
-                          <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_max'], 0)?></div>
+                          <div class="range-max light_sea_green">
+              
+                        <?php
+                        
+                        if (
+                        $render_params[$passed_key]['is_repeatable']['range_max'] == '9999999'
+                        && preg_match("/9999999_is_unlimited/i", $render_params[$passed_key]['is_repeatable']['range_ui_meta_data'])
+                        ) {
+                        echo 'Unlimited';
+                        }
+                        else {
+                        echo $ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_max'], 0);
+                        }
+                        
+                        ?>
+                        
+                          </div>
                         
                           <div class="range-value light_sea_green"></div>
                         
@@ -2171,11 +2299,43 @@ var $ct_array = array();
                       
                           <div class="range-tooltip"></div>
                         
-                          <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_min'], 0)?></div>
+                          <div class="range-min light_sea_green">
+                        
+                        <?php
+                        
+                        if (
+                        $render_params[$passed_key]['is_repeatable']['range_min'] == '0'
+                        && preg_match("/zero_is_unlimited/i", $render_params[$passed_key]['is_repeatable']['range_ui_meta_data'])
+                        ) {
+                        echo 'Unlimited';
+                        }
+                        else {
+                        echo $ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_min'], 0);
+                        }
+                        
+                        ?>
+                        
+                          </div>
                     
                           <input data-track-index='{?}' type='range' class='range-field' min="<?=$render_params[$passed_key]['is_repeatable']['range_min']?>" max="<?=$render_params[$passed_key]['is_repeatable']['range_max']?>" step="<?=$render_params[$passed_key]['is_repeatable']['range_step']?>" name='<?=$field_array_base?>[<?=$passed_key?>][{?}]' value='' <?=( is_array($render_params[$passed_key]['is_repeatable']['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '_{?}"' : '' )?> /> 
          
-                          <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_max'], 0)?></div>
+                          <div class="range-max light_sea_green">
+              
+                        <?php
+                        
+                        if (
+                        $render_params[$passed_key]['is_repeatable']['range_max'] == '9999999'
+                        && preg_match("/9999999_is_unlimited/i", $render_params[$passed_key]['is_repeatable']['range_ui_meta_data'])
+                        ) {
+                        echo 'Unlimited';
+                        }
+                        else {
+                        echo $ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_max'], 0);
+                        }
+                        
+                        ?>
+                        
+                          </div>
                         
                           <div class="range-value light_sea_green"></div>
                         

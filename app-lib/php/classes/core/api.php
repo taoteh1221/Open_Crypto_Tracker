@@ -461,7 +461,7 @@ var $exchange_apis = array(
    
    $results = array();
    
-   $secondary_cache = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$ticker.'.dat';
+   $secondary_cache = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$exchange.'-'.$ticker.'.dat';
    
         
         // Check any secondary cache data (from previous data request)
@@ -519,10 +519,12 @@ var $exchange_apis = array(
              
              }
              elseif ( stristr($exchange, 'siftingio') ) {
-                  
-             $siftingio_params['X-API-Key'] = $ct['conf']['ext_apis']['siftingio_api_key'];
              
-             $response = @$ct['cache']->->ext_data('params', $siftingio_params, $overview_cache_time, 'https://api.sifting.io/v1/fnd/stocks/'.$ticker.'/profile', 2);
+             $siftingio_params = [
+                   'X-API-Key: ' . $ct['conf']['ext_apis']['siftingio_api_key']
+             ];
+             
+             $response = @$ct['cache']->ext_data('params', $siftingio_params, $overview_cache_time, 'https://api.sifting.io/v1/fnd/stocks/'.$ticker.'/profile', 4);
              
              }
         
@@ -551,7 +553,7 @@ var $exchange_apis = array(
             }
             // SiftingIO
             elseif (
-            stristr($exchange, 'siftingio') && !isset($data['ticker'])
+            stristr($exchange, 'siftingio') && !isset($data['name'])
             ) {
                  
                  if ( !isset($data['error']) ) {
@@ -1739,8 +1741,20 @@ var $exchange_apis = array(
        }
        
    
-   // API response data
-   $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+        // API response data
+        if ( stristr($exchange_key, 'siftingio') ) {
+             
+        $siftingio_params = [
+              'X-API-Key: ' . $ct['conf']['ext_apis']['siftingio_api_key']
+        ];
+             
+        $response = @$ct['cache']->ext_data('params', $siftingio_params, $cache_time, $url, 4);
+        
+        }
+        else {
+        $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+        }
+        
    
    $data = json_decode($response, true);
    
@@ -2477,9 +2491,11 @@ var $exchange_apis = array(
         // API response data
         if ( stristr($exchange_key, 'siftingio') ) {
              
-        $siftingio_params['X-API-Key'] = $ct['conf']['ext_apis']['siftingio_api_key'];
-        
-        $response = @$ct['cache']->->ext_data('params', $siftingio_params, $cache_time, $url, 2);
+        $siftingio_params = [
+              'X-API-Key: ' . $ct['conf']['ext_apis']['siftingio_api_key']
+        ];
+             
+        $response = @$ct['cache']->ext_data('params', $siftingio_params, $cache_time, $url, 4);
         
         }
         else {
