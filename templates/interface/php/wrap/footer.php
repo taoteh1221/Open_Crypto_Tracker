@@ -175,6 +175,36 @@ echo nl2br($admin_ui_app_upgrade_alert['message']);
 // (IF ONE IS SHOWING ALREADY, THE REST WILL BE SUPPRESSED, UNTIL NOTHING IS ALREADY SHOWING [ON INITIAL PAGE LOAD])
 
 
+// LINUX Desktop Edition still SUCKS HARD (beyond our control [as we use SEVERELY OUTDATED 3rd party container PHPdesktop])
+if ( Base64.decode(app_platform) == 'linux' && Base64.decode(app_container) == 'phpdesktop' ) {
+
+
+     footer_banner(
+     
+                   linux_phpdesktop_notice_storage,
+     
+                   'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.'
+                   
+                   );
+
+
+}
+// Creates Safari notice footer banner (Safari on OLDER Macs SUCKS HARD)
+else if ( is_safari ) {
+
+
+     footer_banner(
+     
+                   safari_notice_storage,
+     
+                   'This web app MAY NOT FULLY FUNCTION / DISPLAY PROPERLY, on some OLDER WebKit / Apple Safari web browsers. IF YOU ENCOUNTER ISSUES, FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are HIGHLY RECOMMENDED for the best user experience.'
+                   
+                   );
+
+
+}
+
+
 // Creates Cookie notice footer banner
 footer_banner(
 
@@ -228,36 +258,6 @@ footer_banner(
               + '</ul>'
 
               );
-
-
-// LINUX Desktop Edition SUCKS HARD (as of 2025/5/25, beyond our control [as we use SEVERELY OUTDATED 3rd party container PHPdesktop])
-if ( Base64.decode(app_platform) == 'linux' && Base64.decode(app_container) == 'phpdesktop' ) {
-
-
-     footer_banner(
-     
-                   linux_phpdesktop_notice_storage,
-     
-                   'This web app MAY NOT WORK PROPERLY on the LINUX Desktop Edition (the 3rd party "PHPdesktop" container we use has not been updated for LINUX since February 8th 2019). Automatically setting up the Server Edition by running the "FOLIO-INSTALL.bash" script (inside the Desktop Edition subdirectory "INSTALL_CRYPTO_TRACKER_HERE") is highly recommended for the best user experience.'
-                   
-                   );
-
-
-}
-// Creates Safari notice footer banner (Safari on OLDER Macs SUCKS HARD)
-else if ( is_safari ) {
-
-
-     footer_banner(
-     
-                   safari_notice_storage,
-     
-                   'This web app MAY NOT FULLY FUNCTION / DISPLAY PROPERLY, on some WebKit or Apple Safari web browsers. IF YOU ENCOUNTER ISSUES, FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are HIGHLY RECOMMENDED for the best user experience.'
-                   
-                   );
-
-
-}
 
 
 </script>

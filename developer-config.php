@@ -438,6 +438,7 @@ $ct['dev']['markets_uppercase_search'] = array(
                                                  'okcoin',
                                                  'okex',
                                                  'okex_perps',
+                                                 'siftingio_stock',
                                                  'unocoin',
                                                  'upbit',
                                                 );
