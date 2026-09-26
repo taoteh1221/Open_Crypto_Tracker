@@ -65,12 +65,6 @@ echo '?';
 	    
 	    $stock_exchange_id = $ct['var']->array_key_first($ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key]);
 	         
-	         // Alphavantage
-	         if ( $stock_exchange_id == 'alphavantage_stock' ) {
-	         
-	         //var_dump($sel_pair);
-	         //var_dump($stock_pairing_key);
-	         
                    
                    // IF the selected pairing is NOT a match, skip this loop
                    if ( $sel_pair != $stock_pairing_key ) {
@@ -87,13 +81,22 @@ echo '?';
 	              else if ( !preg_match('/\./i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
                     	              
                    // Stock overview
-                   $stock_overview = $ct['api']->stock_overview($raw_ticker);
-                   
+                   $stock_overview = $ct['api']->stock_overview($raw_ticker, $stock_exchange_id);
+                       
+                       
+                       // Alphavantage
                        if (
                        isset($stock_overview['data']['Exchange']) 
                        && trim($stock_overview['data']['Exchange']) != ''
                        ) {
                        $mkcap_render_data = $raw_ticker . ':' . strtoupper($stock_overview['data']['Exchange']);
+                       }
+                       // SiftingIO
+                       elseif (
+                       is_array($stock_overview['data']['exchanges']) 
+                       && trim($stock_overview['data']['exchanges'][0]) != ''
+                       ) {
+                       $mkcap_render_data = $raw_ticker . ':' . strtoupper($stock_overview['data']['exchanges'][0]);
                        }
                        // IF no exchange data parsed, skip, but link to google finance "did you mean?" results
                        else {
@@ -106,8 +109,6 @@ echo '?';
                    $mkcap_render_data = $raw_ticker;
                    }
 
-	              
-	         }
 	    
 	    }
 	
@@ -145,7 +146,7 @@ echo '?';
 			position: "right",
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
-  			url: 'ajax.php?type=assets&mode=stock_overview&ticker=<?=urlencode($asset_symb)?>&pairing=<?=$sel_pair?>&name=<?=urlencode($asset_name)?>',
+  			url: 'ajax.php?type=assets&mode=stock_overview&exchange=<?=$stock_exchange_id?>&ticker=<?=urlencode($asset_symb)?>&pairing=<?=$sel_pair?>&name=<?=urlencode($asset_name)?>',
 			css: balloon_css("left", "999"),
 			ajaxComplete: function(var1, var2) {
 			                                   // var var3 = this.id;

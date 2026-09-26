@@ -256,7 +256,8 @@ $ct['conf']['ext_apis']['etherscan_api_key'] = '';
 
 
 // API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
-// (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
+// (required unfortunately, but a FREE level is available [paid premium also available]):
+// https://www.alphavantage.co/support/#api-key
 $ct['conf']['ext_apis']['alphavantage_api_key'] = '';
 ////
 // The requests-per-*MINUTE* limit on your Alpha Vantage API key (varies depending on your member level)
@@ -269,6 +270,18 @@ $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] = 5;
 // https://www.alphavantage.co/premium/
 // (they have been known to change this amount occasionally for the free plan, so we have this setting)
 $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
+
+
+// API key for SiftingIO (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
+// (required unfortunately, but a FREE level is available [paid premium also available]):
+// https://sifting.io/pricing
+$ct['conf']['ext_apis']['siftingio_api_key'] = '';
+////
+// The requests-per-*MONTH* limit on your SiftingIO API key (varies depending on your member level)
+// Default = 10000 [FOR FREE SERVICE], and 250000,5000000,9999999 (9999999 flags unlimited),
+// [FOR THE VARIOUS PREMIUM PLANS]:
+// https://sifting.io/pricing
+$ct['conf']['ext_apis']['siftingio_monthly_limit'] = 10000;
 
 
 // We limit how many search results Jupiter Aggregator is allowed to process PER CPU CORE (when adding coin markets),

@@ -2208,7 +2208,8 @@ render = render.replace(/mart/gi, "Mart");
 render = render.replace(/gateio/gi, "Gate.io");
 render = render.replace(/dex/gi, "DEX");
 render = render.replace(/coingecko/gi, "CoinGecko.com");
-render = render.replace(/alphavantage/gi, "AlphaVantage");
+render = render.replace(/alphavantage/gi, "AlphaVantage.co");
+render = render.replace(/siftingio/gi, "Sifting.io");
 
 return render;
 
@@ -3923,12 +3924,17 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
      var rangeUiMetaData = range_wrap.getElementsByClassName('range-ui-meta-data')[0];
      
+     //console.log('rangeUiMetaData.textContent = ' + rangeUiMetaData.textContent);
+     
      
          // Dynamic interface UX
          if ( (rangeUiMetaData.textContent).includes("zero_is_disabled") ) {
          var metaDataToUi = 'Disabled';
          }
-         else if ( (rangeUiMetaData.textContent).includes("zero_is_unlimited") ) {
+         else if (
+         (rangeUiMetaData.textContent).includes("zero_is_unlimited")
+         || (rangeUiMetaData.textContent).includes("9999999_is_unlimited")
+         ) {
          var metaDataToUi = 'Unlimited';
          }
          else {
@@ -3953,11 +3959,24 @@ range_inputs = document.querySelectorAll('.range-wrap');
      // INITIAL: Pretty numbers, with prefix / suffix added
      var uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
      
-     // INITIAL: Process some different meta data values (if they exist)
-     uiValue = Number(rangeField.value) == 0 && metaDataToUi ? ucfirst(metaDataToUi) : uiValue;
-     
      // Strip HTML tags, for security
      uiValue = remove_tags(uiValue);
+             
+             
+          // INITIAL: Process some different meta data values (if they exist)
+          if ( metaDataToUi ) {
+               
+               if (
+               Number(rangeField.value) == 0
+               && (rangeUiMetaData.textContent).includes("zero_is_unlimited")
+               || Number(rangeField.value) == 9999999
+               && (rangeUiMetaData.textContent).includes("9999999_is_unlimited")
+               ) {
+               uiValue = ucfirst(metaDataToUi);
+               }
+               
+          }
+     
      
      rangeValue.innerHTML = `${uiValue}`;
      
@@ -4030,6 +4049,22 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
          // Strip HTML tags, for security
          uiValue = remove_tags(uiValue);
+             
+             
+               // INITIAL: Process some different meta data values (if they exist)
+               if ( metaDataToUi ) {
+                    
+                    if (
+                    Number(rangeField.value) == 0
+                    && (rangeUiMetaData.textContent).includes("zero_is_unlimited")
+                    || Number(rangeField.value) == 9999999
+                    && (rangeUiMetaData.textContent).includes("9999999_is_unlimited")
+                    ) {
+                    uiValue = ucfirst(metaDataToUi);
+                    }
+                    
+               }
+              
               
          rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
        

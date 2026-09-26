@@ -3458,7 +3458,7 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
+  function ext_data($mode, $request_params, $ttl, $api_server=null, $data_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
   global $ct, $htaccess_username, $htaccess_password;
   
@@ -3490,6 +3490,18 @@ var $ct_array = array();
           		    '"alphavantage_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
           		    false,
           		    'alphavantage_api_key'
+          		    );
+    
+    return false;
+    
+    }
+    elseif ( $tld_or_ip == 'sifting.io' && $ct['conf']['ext_apis']['siftingio_api_key'] == '' ) {
+    
+    $ct['gen']->log(
+          		    'notify_error',
+          		    '"siftingio_api_key" (free API key) is not configured in Admin Config EXTERNAL APIS section',
+          		    false,
+          		    'siftingio_api_key'
           		    );
     
     return false;
@@ -3813,18 +3825,25 @@ var $ct_array = array();
       curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
       }
       
-     
-      if ( $mode == 'params' && $post_encoding == 1 ) {
+      
+      // NON encoded POST
+      if ( $mode == 'params' && $data_encoding == 1 ) {
       curl_setopt($ch, CURLOPT_POST, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $request_params); // Works fine so far not encoded
       }
-      elseif ( $mode == 'params' && $post_encoding == 2 ) {
+      // http_build_query() encoded POST
+      elseif ( $mode == 'params' && $data_encoding == 2 ) {
       curl_setopt($ch, CURLOPT_POST, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($request_params) ); // Encode post data with http_build_query()
       }
-      elseif ( $mode == 'params' && $post_encoding == 3 ) {
+      // JSON encoded POST
+      elseif ( $mode == 'params' && $data_encoding == 3 ) {
       curl_setopt($ch, CURLOPT_POST, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_params) ); // json encoded
+      }
+      // Header fields
+      elseif ( $mode == 'params' && $data_encoding == 4 ) {
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $request_params);
       }
       elseif ( $mode == 'url' || $mode == 'proxy-check' ) {
       curl_setopt($ch, CURLOPT_URL, $api_endpoint); // Not encoded
@@ -4276,6 +4295,7 @@ var $ct_array = array();
             || $tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             || $tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
             || $tld_or_ip == 'alphavantage.co' && !preg_match("/symbol/i", $data) // WORKS FOR ALL ENDPOINTS!
+            || $tld_or_ip == 'sifting.io' && preg_match("/\"error\":\"/i", $data) // WORKS FOR ALL ENDPOINTS!
             // API-specific (confirmed error in response)
             || $tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/usd/i", $data)
             || $tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 

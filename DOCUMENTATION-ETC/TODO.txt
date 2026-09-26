@@ -140,6 +140,41 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Change the black hat notice to let them know I am mostly in crypto equities at a brokerage, to discourage idiots from spamming / attacking me.
+
+
+coinex is shutting down.
+
+
+Sifting.io is fully intergated, EXCEPT for stock overview integration at api.php:556, as the API started throwing this error:
+{"error":"upstream_error"}
+
+
+Use the num_to_str() function, in the dynamic throttle calculations for SiftingIO, as the large numbers may auto-convert to scientific format, which is buggy when used in math within PHP.
+
+
+Currently we use the FIRST stock exchange provider in the pairing=>market IDs array, when determining WHICH provider to use for 'stock overviews' data. Maybe we can use a foreach() loop INSTEAD, to check any ADDITIONAL providers, IF no data was found?
+
+
+Find out what 'alphavantage_asset' does, and see if we need it for siftingio. REMOVE / MODIFY api.php:3937, after figuring this out!
+
+
+For enabling plugins via interface, have a prompt when clicking to enable, that reminds people 3rd party plugins MAY contain malware, and only install plugins created by a developer they trust / have reviewed the code for security.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+OpenStreetMap Tile Blocking Issue:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Find out WHY openstreetmap 'tile usage' is NOT compliant with their rules (map tile images are being BLOCKED...I'm guessing because we BLOCK referrers in the doc head for privacy?):
+https://operations.osmfoundation.org/policies/tiles/
+----
+Regarding options for openstreetmaps PRIVACY options, that avoid blocking tile images:
+https://www.google.com/search?q=open+street+map+privacy+without+violating+tile+image+rules
+---
+See if they will allow us to use a proxy.php file, to run these data requests through, IF we include our app user agent string, and any other data they want (like my dev email, etc etc).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Consult with archnexus707 (red team dev on github):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

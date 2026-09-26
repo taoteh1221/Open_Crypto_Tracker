@@ -314,6 +314,14 @@ var $exchange_apis = array(
                                                   ),
 
 
+                           'siftingio_stock' => array(
+                                                   'markets_endpoint' => 'https://api.sifting.io/v1/last/trade/stocks/[MARKET]',
+                                                   'markets_nested_path' => false, // Delimit multiple depths with >
+                                                   'all_markets_support' => false, // false|true[IF key name is the ID]|market_info_key_name
+                                                   'search_endpoint' => 'https://api.sifting.io/v1/fnd/stocks/search?q=[SEARCH_QUERY]', // false|[API endpoint with all market pairings]
+                                                  ),
+
+
                            // 'all_markets_support' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
                            'tradeogre' => array(
                                                    'markets_endpoint' => 'https://tradeogre.com/api/v1/markets',
@@ -447,13 +455,13 @@ var $exchange_apis = array(
    ////////////////////////////////////////////////////////
    
    
-   function stock_overview($ticker) {
+   function stock_overview($ticker, $exchange) {
     
    global $ct;
    
    $results = array();
    
-   $secondary_cache = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$ticker.'.dat';
+   $secondary_cache = $ct['base_dir'] . '/cache/assets/stocks/overviews/'.$exchange.'-'.$ticker.'.dat';
    
         
         // Check any secondary cache data (from previous data request)
@@ -485,11 +493,14 @@ var $exchange_apis = array(
                   }
                   
         }
-        // IF we do NOT have a PREMIUM PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS
-        elseif ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5 ) {
+        // IF we do NOT have a PREMIUM alphavantage PLAN, SPREAD UPDATES OVER 1 / 2 WEEKS...
+        elseif (
+        $exchange == 'alphavantage_stock'
+        && $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] <= 5
+        ) {
         $overview_cache_time = rand(7, 14) * 1440;
         }
-        // 1 DAY FOR ANY PREMIUM PLAN
+        // 1 DAY FOR ANYTHING ELSE
         else {
         $overview_cache_time = 1440; 
         }
@@ -498,16 +509,34 @@ var $exchange_apis = array(
         // WE SAVE TO A SECONDARY CACHE, AS WE MAY STORE IT A LONG TIME,
         // IF WE ARE USING THE FREE API TIER, OR NO OVERVIEW DATA IS AVAILABLE
         if ( $ct['cache']->update_cache($secondary_cache, $overview_cache_time) == true ) {
-         
-        $url = 'https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
-              
-        $response = @$ct['cache']->ext_data('url', $url, $overview_cache_time);
+        
+             
+             if ( $exchange == 'alphavantage_stock' ) {
+                  
+             $url = 'https://www.alphavantage.co/query?function=OVERVIEW&symbol='.$ticker.'&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
+                   
+             $response = @$ct['cache']->ext_data('url', $url, $overview_cache_time);
+             
+             }
+             elseif ( stristr($exchange, 'siftingio') ) {
+             
+             $siftingio_params = [
+                   'X-API-Key: ' . $ct['conf']['ext_apis']['siftingio_api_key']
+             ];
+             
+             $response = @$ct['cache']->ext_data('params', $siftingio_params, $overview_cache_time, 'https://api.sifting.io/v1/fnd/stocks/'.$ticker.'/profile', 4);
+             
+             }
+        
         
         $data = json_decode($response, true);
             
             
             // Store error status, if no valid data detected
-            if ( !isset($data['Symbol']) ) {
+            // Alphavantage
+            if (
+            $exchange == 'alphavantage_stock' && !isset($data['Symbol'])
+            ) {
                  
                  if ( isset($data['Information']) ) {
                  $response = '{ "request_error": "api_limit" }';
@@ -517,6 +546,25 @@ var $exchange_apis = array(
                  }
                  else {
                  $response = '{ "request_error": "no_response" }';
+                 }
+
+            $data = json_decode($response, true);
+
+            }
+            // SiftingIO
+            elseif (
+            stristr($exchange, 'siftingio') && !isset($data['name'])
+            ) {
+                 
+                 if ( !isset($data['error']) ) {
+                 $response = '{ "request_error": "no_response" }';
+                 }
+                 elseif ( preg_match("/unknown_ticker/i", $response) ) {
+                 $response = '{ "request_error": "no_data_available" }';
+                 }
+                 // Otherwise, presume we were throttled
+                 else {
+                 $response = '{ "request_error": "api_limit" }';
                  }
 
             $data = json_decode($response, true);
@@ -1674,7 +1722,7 @@ var $exchange_apis = array(
    //var_dump($url);
    
        
-       // IF it's an alphavantage API request, AND it's minimum cache time
+       // IF it's an alphavantage / siftingio API request, AND it's minimum cache time
        // is higher than our global exchange search cache time, use that instead
        if (
        $exchange_key == 'alphavantage_stock'
@@ -1682,13 +1730,31 @@ var $exchange_apis = array(
        ) {
        $cache_time = $ct['dev']['throttled_apis']['alphavantage.co']['min_cache_time'];
        }
+       elseif (
+       $exchange_key == 'siftingio_stock'
+       && $ct['dev']['throttled_apis']['sifting.io']['min_cache_time'] > $ct['conf']['power']['exchange_search_cache_time']
+       ) {
+       $cache_time = $ct['dev']['throttled_apis']['sifting.io']['min_cache_time'];
+       }
        else {
        $cache_time = $ct['conf']['power']['exchange_search_cache_time'];
        }
        
    
-   // API response data
-   $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+        // API response data
+        if ( stristr($exchange_key, 'siftingio') ) {
+             
+        $siftingio_params = [
+              'X-API-Key: ' . $ct['conf']['ext_apis']['siftingio_api_key']
+        ];
+             
+        $response = @$ct['cache']->ext_data('params', $siftingio_params, $cache_time, $url, 4);
+        
+        }
+        else {
+        $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+        }
+        
    
    $data = json_decode($response, true);
    
@@ -2129,6 +2195,65 @@ var $exchange_apis = array(
                     }
                 
                 }
+                elseif ( $exchange_key == 'siftingio_stock' ) {
+                
+                
+                    if ( isset($data['data']) && is_array($data['data']) && sizeof($data['data']) > 0 ) {
+                         
+                    //$ct['gen']->array_debugging($data['data'], true); // DEBUGGING
+                         
+                         
+                         foreach( $data['data'] as $result ) {
+                                   
+                         // Minimize calls
+                         $market_tickers_parse  = $ct['asset']->market_tickers_parse($exchange_key, $result["ticker"]);
+                         
+                         //var_dump($market_tickers_parse);
+                         
+                         $asset_search_format = preg_replace("/stock/i", "", $market_tickers_parse['asset']);
+                         
+                         
+                              // Skip, if not relevant
+                              if ( 
+                              !$search_pairing && $ct['gen']->search_mode($asset_search_format, $dyn_id) 
+                              || $search_pairing && $ct['gen']->search_mode($asset_search_format, $dyn_id) 
+                              && $ct['gen']->search_mode($market_tickers_parse['pairing'], $search_pairing)
+                              ) {
+                              // Do nothing
+                              }
+                              else {
+                              continue; // Skip
+                              }
+                              
+
+                         $check_market_data = $this->market($dyn_id, $exchange_key, $result["ticker"]);
+                                             
+                                             
+                              if ( isset($check_market_data['last_trade']) && $check_market_data['last_trade'] > 0 ) {
+                                                  
+                              $possible_market_ids[] = array(
+                                                             'name' => $result["name"],
+                                                             'id' => $result["ticker"],
+                                           // Even though we know the pairing, we still need to replace any MULTI-TICKER CURRENCY (NIS/CNY) with ticker used in-app
+                                           // (for pairing UX in the app)
+                                                             'asset' => $market_tickers_parse['asset'],
+                                                             'pairing' => $market_tickers_parse['pairing'],
+                                                             'flagged_market' => $market_tickers_parse['flagged_market'],
+                                                             'data' => $check_market_data,
+                                                                                  );
+                                                                                  
+                              }
+                              
+                         
+                         }
+                     
+   
+                    gc_collect_cycles(); // Clean memory cache
+
+                    }
+                
+                }
+
 
        
        }
@@ -2363,8 +2488,20 @@ var $exchange_apis = array(
          }
           
           
-   // API response data
-   $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+        // API response data
+        if ( stristr($exchange_key, 'siftingio') ) {
+             
+        $siftingio_params = [
+              'X-API-Key: ' . $ct['conf']['ext_apis']['siftingio_api_key']
+        ];
+             
+        $response = @$ct['cache']->ext_data('params', $siftingio_params, $cache_time, $url, 4);
+        
+        }
+        else {
+        $response = @$ct['cache']->ext_data('url', $url, $cache_time);
+        }
+   
    
    gc_collect_cycles(); // Clean memory cache
           
@@ -3787,6 +3924,22 @@ var $exchange_apis = array(
                               '24hr_asset_vol' => $data["quantity"],
                               '24hr_pair_vol' => $data["amount"]
                      	     );
+      
+      }
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+      
+      
+      elseif ( $sel_exchange == 'siftingio_stock' ) {
+	      
+	 $result = array(
+     	                         'alphavantage_asset' => preg_replace("/\.(.*)/i", "", $data["01. symbol"]),
+	                              'last_trade' => $data["p"],
+	                              '24hr_asset_vol' => null,
+	                              '24hr_pair_vol' => null // Volume unavailable
+	                     		    );
+      
       
       }
      
