@@ -60,40 +60,35 @@ echo '?';
 	if ( preg_match("/stock/i", $asset_symb) && $mkcap_render_data == '' ) {
 	
 	$raw_ticker = preg_replace('/stock/i', '', $asset_symb);
-	
-	    foreach ( $ct['conf']['assets'][$asset_symb]['pair'] as $stock_pairing_key => $unused ) {
-	    
-	    $stock_exchange_id = $ct['var']->array_key_first($ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key]);
-	         
-	         // Alphavantage
-	         if ( $stock_exchange_id == 'alphavantage_stock' ) {
-	         
-	         //var_dump($sel_pair);
-	         //var_dump($stock_pairing_key);
 	         
                    
-                   // IF the selected pairing is NOT a match, skip this loop
-                   if ( $sel_pair != $stock_pairing_key ) {
-                   continue;
-                   }
-                   // (ONLY IF WE CAN IDENTIFY THE EXCHANGE, BY A DISTINCT MARKET ID)
-	              else if ( preg_match('/\.trt/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
+                   // CAN WE IDENTIFY THE EXCHANGE, BY A DISTINCT MARKET ID
+	              if ( preg_match('/\.trt/i', $sel_exchange) ) {
 	              $mkcap_render_data = $raw_ticker . ':TSE';
 	              }
-	              else if ( preg_match('/\.dex/i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
+	              else if ( preg_match('/\.dex/i', $sel_exchange) ) {
 	              $mkcap_render_data = $raw_ticker . ':ETR';
 	              }
 	              // Otherwise, look for "Exchange" value, in stock overview API data
-	              else if ( !preg_match('/\./i', $ct['conf']['assets'][$asset_symb]['pair'][$stock_pairing_key][$stock_exchange_id]) ) {
+	              else if ( !preg_match('/\./i', $sel_exchange) ) {
                     	              
                    // Stock overview
-                   $stock_overview = $ct['api']->stock_overview($raw_ticker);
-                   
+                   $stock_overview = $ct['api']->stock_overview($raw_ticker, $sel_exchange);
+                       
+                       
+                       // Alphavantage
                        if (
                        isset($stock_overview['data']['Exchange']) 
                        && trim($stock_overview['data']['Exchange']) != ''
                        ) {
-                       $mkcap_render_data = $raw_ticker . ':' . strtoupper($stock_overview['data']['Exchange']);
+                       $mkcap_render_data = $raw_ticker . ':' . $ct['asset']->google_finance_ids($stock_overview['data']['Exchange']);
+                       }
+                       // SiftingIO
+                       elseif (
+                       is_array($stock_overview['data']['exchanges']) 
+                       && trim($stock_overview['data']['exchanges'][0]) != ''
+                       ) {
+                       $mkcap_render_data = $raw_ticker . ':' . $ct['asset']->google_finance_ids($stock_overview['data']['exchanges'][0]);
                        }
                        // IF no exchange data parsed, skip, but link to google finance "did you mean?" results
                        else {
@@ -106,10 +101,6 @@ echo '?';
                    $mkcap_render_data = $raw_ticker;
                    }
 
-	              
-	         }
-	    
-	    }
 	
 	}
 	
@@ -145,7 +136,7 @@ echo '?';
 			position: "right",
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
-  			url: 'ajax.php?type=assets&mode=stock_overview&ticker=<?=urlencode($asset_symb)?>&pairing=<?=$sel_pair?>&name=<?=urlencode($asset_name)?>',
+  			url: 'ajax.php?type=assets&mode=stock_overview&exchange=<?=$sel_exchange?>&ticker=<?=urlencode($asset_symb)?>&pairing=<?=$sel_pair?>&name=<?=urlencode($asset_name)?>',
 			css: balloon_css("left", "999"),
 			ajaxComplete: function(var1, var2) {
 			                                   // var var3 = this.id;

@@ -256,7 +256,8 @@ $ct['conf']['ext_apis']['etherscan_api_key'] = '';
 
 
 // API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
-// (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
+// (required unfortunately, but a FREE level is available [paid premium also available]):
+// https://www.alphavantage.co/support/#api-key
 $ct['conf']['ext_apis']['alphavantage_api_key'] = '';
 ////
 // The requests-per-*MINUTE* limit on your Alpha Vantage API key (varies depending on your member level)
@@ -269,6 +270,18 @@ $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] = 5;
 // https://www.alphavantage.co/premium/
 // (they have been known to change this amount occasionally for the free plan, so we have this setting)
 $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
+
+
+// API key for SiftingIO (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
+// (required unfortunately, but a FREE level is available [paid premium also available]):
+// https://sifting.io/pricing
+$ct['conf']['ext_apis']['siftingio_api_key'] = '';
+////
+// The requests-per-*MONTH* limit on your SiftingIO API key (varies depending on your member level)
+// Default = 10000 [FOR FREE SERVICE], and 250000,5000000,9999999 (9999999 flags unlimited),
+// [FOR THE VARIOUS PREMIUM PLANS]:
+// https://sifting.io/pricing
+$ct['conf']['ext_apis']['siftingio_monthly_limit'] = 10000;
 
 
 // We limit how many search results Jupiter Aggregator is allowed to process PER CPU CORE (when adding coin markets),
@@ -782,8 +795,9 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'sol-4||binance||eth||chart',
 					
 					
-					// FSOLSTOCK (Fidelity Solana Fund)
-					'fsolstock||alphavantage_stock||usd||both',
+					// BSOLSTOCK (Bitwise Solana Staking ETF)
+					'bsolstock||alphavantage_stock||usd||both',
+					'bsolstock-2||siftingio_stock||usd||none',
 					
 					
 					// Near
@@ -792,6 +806,10 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// USDC
 					'usdc||kraken||usd||both',
+					
+					
+					// BP
+					'bp||coingecko_btc||btc||both',
 					
 					
 					// JUP
@@ -832,12 +850,9 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'amznstock||alphavantage_stock||usd||both',
 					
 					
-					// NFLXSTOCK (Netflix stock)
-					'nflxstock||alphavantage_stock||usd||both',
-					
-					
-					// MCDSTOCK (McDonalds stock)
-					'mcdstock||alphavantage_stock||usd||both',
+					// SPCXSTOCK (SpaceX stock)
+					'spcxstock||alphavantage_stock||usd||both',
+					'spcxstock-2||siftingio_stock||usd||none',
 					
 					
 					);
@@ -1891,6 +1906,7 @@ $ct['conf']['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'FBTC',
+                                        'siftingio_stock' => 'FBTC',
                                                     ),
 
                                                     
@@ -2179,16 +2195,17 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // FSOLSTOCK
-                    'FSOLSTOCK' => array(
+                    // BSOLSTOCK
+                    'BSOLSTOCK' => array(
                         
-                        'name' => 'Fidelity Solana Fund',
-                        'mcap_slug' => 'FSOL:NYSEARCA',
+                        'name' => 'Bitwise Solana Staking ETF',
+                        'mcap_slug' => 'BSOL:NYSEARCA',
                         'pair' => array(
 
                         
                                     'usd' => array(
-                                        'alphavantage_stock' => 'FSOL',
+                                        'alphavantage_stock' => 'BSOL',
+                                        'siftingio_stock' => 'BSOL',
                                                     ),
 
                                                     
@@ -2363,6 +2380,37 @@ $ct['conf']['assets'] = array(
                                     	'kraken' => 'USDCUSDT',
                                         'huobi' => 'usdcusdt',
                                         'kucoin' => 'USDC-USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // BP
+                    'BP' => array(
+                        
+                        'name' => 'Backpack',
+                        'mcap_slug' => 'backpack',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                    	 'coingecko_btc' => 'backpack',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'coingecko_sol' => 'backpack',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_usd' => 'backpack',
                                                     ),
 
                                                     
@@ -2606,6 +2654,7 @@ $ct['conf']['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'IYY',
+                                        'siftingio_stock' => 'IYY',
                                                     ),
 
                                                     
@@ -2627,6 +2676,7 @@ $ct['conf']['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'ONEQ',
+                                        'siftingio_stock' => 'ONEQ',
                                                     ),
 
                                                     
@@ -2648,6 +2698,7 @@ $ct['conf']['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'IVV',
+                                        'siftingio_stock' => 'IVV',
                                                     ),
 
                                                     
@@ -2669,6 +2720,7 @@ $ct['conf']['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'COIN',
+                                        'siftingio_stock' => 'COIN',
                                                     ),
 
                                                     
@@ -2683,13 +2735,14 @@ $ct['conf']['assets'] = array(
                     // AMZNSTOCK
                     'AMZNSTOCK' => array(
                         
-                        'name' => 'Amazon',
+                        'name' => 'Amazon.com Inc',
                         'mcap_slug' => 'AMZN:NASDAQ',
                         'pair' => array(
 
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'AMZN',
+                                        'siftingio_stock' => 'AMZN',
                                                     ),
 
                                                     
@@ -2701,37 +2754,17 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // NFLXSTOCK
-                    'NFLXSTOCK' => array(
+                    // SPCXSTOCK
+                    'SPCXSTOCK' => array(
                         
-                        'name' => 'Netflix',
-                        'mcap_slug' => 'NFLX:NASDAQ',
+                        'name' => 'SpaceX Tech Corp',
+                        'mcap_slug' => 'SPCX:NASDAQ',
                         'pair' => array(
 
                         
                                     'usd' => array(
-                                        'alphavantage_stock' => 'NFLX',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MCDSTOCK
-                    'MCDSTOCK' => array(
-                        
-                        'name' => 'McDonalds',
-                        'mcap_slug' => 'MCD:NYSE',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'MCD',
+                                        'alphavantage_stock' => 'SPCX',
+                                        'siftingio_stock' => 'SPCX',
                                                     ),
 
                                                     

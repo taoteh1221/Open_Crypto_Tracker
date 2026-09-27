@@ -79,6 +79,26 @@ var $ct_array = array();
    return $result;
    
    }
+
+    
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function google_finance_ids($val) {
+   
+   $val = strtolower($val);
+   
+   
+       if ( $val == 'nyse' ) {
+       return 'NYSEARCA';
+       }
+       else {
+       return strtoupper($val);
+       }
+
+    
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -1403,6 +1423,10 @@ var $ct_array = array();
               elseif ( $exchange_key == 'coinspot' ) {
               $results['pairing'] = 'aud';
               }
+              // SiftingIO seems to be only USD-denominated?
+              elseif ( $exchange_key == 'siftingio_stock' ) {
+              $results['pairing'] = 'usd';
+              }
               // Alphavantage still needs pairing determination for SINGLE-EXCHANGE SEARCHES
               elseif ( $exchange_key == 'alphavantage_stock' ) {
                    
@@ -1679,7 +1703,7 @@ var $ct_array = array();
         
         
         // We flag stocks in this app with the suffix: STOCK [TICKERSTOCK]
-        if ( $exchange_key == 'alphavantage_stock' ) {
+        if ( stristr($exchange_key, '_stock') ) {
         $results['asset'] = preg_replace("/\.(.*)/i", "", $market_id) . 'STOCK'; 
         }
         
@@ -1780,8 +1804,11 @@ var $ct_array = array();
       // RUN BASIC CHECKS FIRST...
       
       
-      // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
-      if ( $exchange == 'alphavantage_stock' && trim($ct['conf']['ext_apis']['alphavantage_api_key']) == '' ) {
+      // Skip completely, if it's a market through a service with no API key
+      if (
+      $exchange == 'alphavantage_stock' && trim($ct['conf']['ext_apis']['alphavantage_api_key']) == ''
+      || $exchange == 'siftingio_stock' && trim($ct['conf']['ext_apis']['siftingio_api_key']) == ''
+      ) {
       return false;
       }      
       

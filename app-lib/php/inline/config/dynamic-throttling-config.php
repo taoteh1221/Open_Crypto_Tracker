@@ -62,6 +62,75 @@ $ct['dev']['throttled_apis']['alphavantage.co']['per_minute'] = $ct['conf']['ext
 // ALPHAVANTAGE - END
 
 
+// SIFTINGIO - START
+
+
+// IF we do NOT have an UNLIMITED PLAN
+if ( $ct['conf']['ext_apis']['siftingio_monthly_limit'] <= 5000000 ) {
+
+$ct['siftingio_pairs'] = 0; // RESET, since we reload this logic on config resets / user updates
+
+// SiftingIO DAILY limit for NON-UNLIMITED tiers (to avoid going over our MONTHLY limits)
+$ct['dev']['throttled_apis']['sifting.io']['per_day'] = floor($ct['conf']['ext_apis']['siftingio_monthly_limit'] / 30);
+
+// Convert from possible scientific format (can cause calculation errors in PHP)
+$ct['dev']['throttled_apis']['sifting.io']['per_day'] = $ct['var']->num_to_str($ct['dev']['throttled_apis']['sifting.io']['per_day']);
+
+
+     // Per minute / second
+     if ( $ct['conf']['ext_apis']['siftingio_monthly_limit'] <= 10000 ) {
+     $ct['dev']['throttled_apis']['sifting.io']['per_minute'] = 60;
+     }
+     elseif ( $ct['conf']['ext_apis']['siftingio_monthly_limit'] <= 250000 ) {
+     $ct['dev']['throttled_apis']['sifting.io']['per_second'] = 100;
+     }
+     elseif ( $ct['conf']['ext_apis']['siftingio_monthly_limit'] <= 5000000 ) {
+     $ct['dev']['throttled_apis']['sifting.io']['per_second'] = 150;
+     }
+
+
+     // Figure out what our throttled cache time has to be for siftingio asset API calls
+     foreach ( $ct['conf']['assets'] as $markets ) {
+
+         foreach ( $markets['pair'] as $pairing ) {
+                   
+              foreach ( $pairing as $exchange_pairs_key => $exchange_pairs_val ) {
+                       
+                  // In case user messes up Admin Config, this CONDITION CHECK helps
+                  if ( stristr($exchange_pairs_key, 'siftingio') && $exchange_pairs_val != '' ) { 
+                  $ct['siftingio_pairs'] = $ct['siftingio_pairs'] + 1;
+                  }
+                        	            
+              }
+         
+         }
+                     
+     }
+
+
+$siftingio_cache_time =  floor( ( (24 / $ct['dev']['throttled_apis']['sifting.io']['per_day']) * 60 ) * $ct['siftingio_pairs']);
+
+// Convert from possible scientific format (can cause calculation errors in PHP)
+$siftingio_cache_time = $ct['var']->num_to_str($siftingio_cache_time);
+
+// Throttled based on how many times a day each asset can get LIVE data,
+// AND STILL NOT GO OVER THE MONTHLY LIMIT
+$ct['dev']['throttled_apis']['sifting.io']['min_cache_time'] = ( $siftingio_cache_time > $ct['conf']['power']['last_trade_cache_time'] ? $siftingio_cache_time : $ct['conf']['power']['last_trade_cache_time'] );
+
+}
+// Otherwise, we have an UNLIMITED monthly plan
+else {
+
+$ct['dev']['throttled_apis']['sifting.io']['per_second'] = 250;
+
+$ct['dev']['throttled_apis']['sifting.io']['min_cache_time'] = $ct['conf']['power']['last_trade_cache_time'];
+
+}
+
+
+// SIFTINGIO - END
+
+
 //////////////////////////////////////////////////////////////////
 // END DYNAMIC THROTTLED MARKET SETTINGS
 //////////////////////////////////////////////////////////////////

@@ -140,6 +140,39 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Move leverage info onto a seperate line in the data table, as it makes data rows waaay too long.
+
+
+Change the black hat notice to let them know I am mostly in crypto equities at a brokerage, to discourage idiots from spamming / attacking me.
+
+
+coinex is shutting down.
+
+
+Stocks - AlphaStreet
+Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.
+
+
+For enabling plugins via interface, have a prompt when clicking to enable, that reminds people 3rd party plugins MAY contain malware, and only install plugins created by a developer they trust / have reviewed the code for security.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+OpenStreetMap Tile Blocking Issue:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Find out WHY openstreetmap 'tile usage' is NOT compliant with their rules (map tile images are being BLOCKED...I'm guessing because we BLOCK referrers in the doc head for privacy?):
+https://operations.osmfoundation.org/policies/tiles/
+----
+Regarding options for openstreetmaps PRIVACY options, that avoid blocking tile images:
+https://www.google.com/search?q=open+street+map+privacy+without+violating+tile+image+rules
+---
+See if they will allow us to use a proxy.php file, to run these data requests through, IF we include our app user agent string, and any other data they want (like my dev email, etc etc).
+---
+Any proxy.php file we possibly build for openstreetmaps tile retrieval, MUST use an (un-authenticated) nonce / token, like we do for portfolio exports. Otherwise, it can be highjacked by anybody! 
+---
+ADDITIONALLY, it must expire VERY QUICKLY, to avoid any scraping of an Open Crypto Tracker install, and then running it for something else. We can do this by not only concatenating a secret hash with a token ID (for our secure public digest hash), but additionally concatenate in the current unix timestamp minus the last three digits, so the token expires every 1000 seconds (16.67 minutes).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Consult with archnexus707 (red team dev on github):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -172,10 +205,6 @@ NOTE TO SELF: THIS APPLIES TO ANY CSS TOO!
 
 CLARIFY this type of error log message:
 notify (error): the trade value of "" seems invalid for market ID ""
-
-
-Stocks - AlphaStreet
-Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.
 
 
 Add documentation on the asset search admin page, saying the "all exchanges" search will automatically fill in a better description name, for AlphaVantage STOCK MARKET TICKERS.
