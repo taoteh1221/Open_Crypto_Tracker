@@ -2761,9 +2761,6 @@ var $ct_array = array();
    $pretty_str = preg_replace("/webhook internal api/i", 'Internal API / Webhook', $pretty_str);
    $pretty_str = preg_replace("/alphavantage/i", 'AlphaVantage.co', $pretty_str);
    $pretty_str = preg_replace("/siftingio/i", 'Sifting.io', $pretty_str);
-   // Remove 'stock' from stock service interface names (AFTER reformatting directly ABOVE)
-   $pretty_str = preg_replace("/alphavantage\.co stock/i", 'AlphaVantage.co', $pretty_str);
-   $pretty_str = preg_replace("/sifting\.io stock/i", 'Sifting.io', $pretty_str);
    
    
    return trim($pretty_str);
