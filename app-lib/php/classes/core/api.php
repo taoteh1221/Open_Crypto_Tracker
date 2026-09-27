@@ -556,16 +556,24 @@ var $exchange_apis = array(
             stristr($exchange, 'siftingio') && !isset($data['name'])
             ) {
                  
-                 if ( !isset($data['error']) ) {
-                 $response = '{ "request_error": "no_response" }';
-                 }
-                 elseif ( preg_match("/unknown_ticker/i", $response) ) {
+                 
+                 // If ticker info not found
+                 if ( preg_match("/unknown_ticker/i", $response) ) {
                  $response = '{ "request_error": "no_data_available" }';
                  }
-                 // Otherwise, presume we were throttled
-                 else {
-                 $response = '{ "request_error": "api_limit" }';
+                 // Any other error message
+                 elseif ( isset($data['error']) && trim($data['error']) != '' ) {
+                 $response = '{ "request_error": "'.$data['error'].'" }';
                  }
+                 // If no response
+                 elseif ( strlen($response) < 1 ) {
+                 $response = '{ "request_error": "no_response" }';
+                 }
+                 // Otherwise, unknown
+                 else {
+                 $response = '{ "request_error": "unknown_error" }';
+                 }
+
 
             $data = json_decode($response, true);
 
@@ -1429,13 +1437,17 @@ var $exchange_apis = array(
                     else {
                                 
                                 
-                         // Get / set coingecko terminal asset / pair tickers
+                         // Preset some asset / pair tickers
                          if ( isset($check_market_data['coingecko_terminal_asset']) ) {
                          $set_asset = $check_market_data['coingecko_terminal_asset'];
                          $set_pairing = 'usd';
                          }
                          elseif ( isset($check_market_data['alphavantage_asset']) ) {
                          $set_asset = $check_market_data['alphavantage_asset'];
+                         $set_pairing = false;
+                         }
+                         elseif ( isset($check_market_data['siftingio_asset']) ) {
+                         $set_asset = $check_market_data['siftingio_asset'];
                          $set_pairing = false;
                          }
                          else {
@@ -3934,7 +3946,7 @@ var $exchange_apis = array(
       elseif ( $sel_exchange == 'siftingio_stock' ) {
 	      
 	 $result = array(
-     	                         'alphavantage_asset' => preg_replace("/\.(.*)/i", "", $data["01. symbol"]),
+     	                         'siftingio_asset' => $data["s"],
 	                              'last_trade' => $data["p"],
 	                              '24hr_asset_vol' => null,
 	                              '24hr_pair_vol' => null // Volume unavailable

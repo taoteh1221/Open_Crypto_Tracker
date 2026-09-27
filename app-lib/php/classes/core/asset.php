@@ -79,6 +79,26 @@ var $ct_array = array();
    return $result;
    
    }
+
+    
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function google_finance_ids($val) {
+   
+   $val = strtolower($val);
+   
+   
+       if ( $val == 'nyse' ) {
+       return 'NYSEARCA';
+       }
+       else {
+       return strtoupper($val);
+       }
+
+    
+   }
    
    
    ////////////////////////////////////////////////////////

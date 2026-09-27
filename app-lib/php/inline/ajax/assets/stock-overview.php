@@ -24,7 +24,7 @@ $stock_overview = $ct['api']->stock_overview($market_id, $_GET['exchange']);
 ?>
 
 
-<h5 class="yellow align_center tooltip_title"><?=$ct['gen']->key_to_name($_GET['exchange'])?> Summary For: <?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
+<h5 class="yellow align_center tooltip_title"><?=$ct['gen']->key_to_name($_GET['exchange'])?> Summary For:<br /><?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
  
 <?php
 
@@ -68,7 +68,7 @@ if ( isset($stock_overview['data']['request_error']) ) {
      $app_cache_time = '2 / 4 Weeks (no data available currently [last cache: {LAST_CACHE_TIME}])';
      }
      else {
-     $app_cache_time = '4 to 8 Hours until re-try (API Error: '. $ct['gen']->key_to_name($stock_overview['data']['request_error']) .')';
+     $app_cache_time = '4 to 8 Hours until re-try (API Error: '.  htmlspecialchars( $ct['gen']->key_to_name($stock_overview['data']['request_error']) , ENT_QUOTES, 'UTF-8') .')';
      }
 
 
@@ -129,7 +129,7 @@ else {
      
      <p class="coin_info"><span class="bitcoin">Name:</span> <?=$stock_overview['data']['name']?></p>
      
-     <p class="coin_info"><span class="bitcoin">Exchange:</span> <?=$stock_overview['data']['exchange'][0]?></p>
+     <p class="coin_info"><span class="bitcoin">Exchange:</span> <?=$stock_overview['data']['exchanges'][0]?></p>
      
      <p class="coin_info"><span class="bitcoin">Description:</span> <br /><?=$stock_overview['data']['sic_description']?></p>
 

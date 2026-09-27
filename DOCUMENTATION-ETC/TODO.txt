@@ -140,23 +140,17 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Move leverage info onto a seperate line in the data table, as it makes data rows waaay too long.
+
+
 Change the black hat notice to let them know I am mostly in crypto equities at a brokerage, to discourage idiots from spamming / attacking me.
 
 
 coinex is shutting down.
 
 
-Sifting.io is fully intergated, EXCEPT for stock overview integration at api.php:556, as the API started throwing this error:
-{"error":"upstream_error"}
-
-
-Use the num_to_str() function, in the dynamic throttle calculations for SiftingIO, as the large numbers may auto-convert to scientific format, which is buggy when used in math within PHP.
-
-
-Currently we use the FIRST stock exchange provider in the pairing=>market IDs array, when determining WHICH provider to use for 'stock overviews' data. Maybe we can use a foreach() loop INSTEAD, to check any ADDITIONAL providers, IF no data was found?
-
-
-Find out what 'alphavantage_asset' does, and see if we need it for siftingio. REMOVE / MODIFY api.php:3937, after figuring this out!
+Stocks - AlphaStreet
+Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.
 
 
 For enabling plugins via interface, have a prompt when clicking to enable, that reminds people 3rd party plugins MAY contain malware, and only install plugins created by a developer they trust / have reviewed the code for security.
@@ -172,6 +166,10 @@ Regarding options for openstreetmaps PRIVACY options, that avoid blocking tile i
 https://www.google.com/search?q=open+street+map+privacy+without+violating+tile+image+rules
 ---
 See if they will allow us to use a proxy.php file, to run these data requests through, IF we include our app user agent string, and any other data they want (like my dev email, etc etc).
+---
+Any proxy.php file we possibly build for openstreetmaps tile retrieval, MUST use an (un-authenticated) nonce / token, like we do for portfolio exports. Otherwise, it can be highjacked by anybody! 
+---
+ADDITIONALLY, it must expire VERY QUICKLY, to avoid any scraping of an Open Crypto Tracker install, and then running it for something else. We can do this by not only concatenating a secret hash with a token ID (for our secure public digest hash), but additionally concatenate in the current unix timestamp minus the last three digits, so the token expires every 1000 seconds (16.67 minutes).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -207,10 +205,6 @@ NOTE TO SELF: THIS APPLIES TO ANY CSS TOO!
 
 CLARIFY this type of error log message:
 notify (error): the trade value of "" seems invalid for market ID ""
-
-
-Stocks - AlphaStreet
-Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.
 
 
 Add documentation on the asset search admin page, saying the "all exchanges" search will automatically fill in a better description name, for AlphaVantage STOCK MARKET TICKERS.

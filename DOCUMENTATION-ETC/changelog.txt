@@ -7135,6 +7135,8 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 
 -Added Sifting.io markets support
 
+-Interface runtime optimizations
+
 -------------------------------------------------------------------
 
 

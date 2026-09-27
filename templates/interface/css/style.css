@@ -781,6 +781,7 @@ EVERYWHERE ACROSS THE APP FOR AN ORANGE-LIKE COLOR!
 position: relative; 
 white-space: nowrap; 
 text-align:center;
+margin-bottom: 0.6em !important;
 }
 
 
