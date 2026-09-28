@@ -81,14 +81,14 @@ echo '?';
                        isset($stock_overview['data']['Exchange']) 
                        && trim($stock_overview['data']['Exchange']) != ''
                        ) {
-                       $mkcap_render_data = $raw_ticker . ':' . $ct['asset']->google_finance_ids($stock_overview['data']['Exchange']);
+                       $mkcap_render_data = $raw_ticker . ':' . $ct['asset']->goog_finance_exch_ids($stock_overview['data']['Exchange']);
                        }
                        // SiftingIO
                        elseif (
                        is_array($stock_overview['data']['exchanges']) 
                        && trim($stock_overview['data']['exchanges'][0]) != ''
                        ) {
-                       $mkcap_render_data = $raw_ticker . ':' . $ct['asset']->google_finance_ids($stock_overview['data']['exchanges'][0]);
+                       $mkcap_render_data = $raw_ticker . ':' . $ct['asset']->goog_finance_exch_ids($stock_overview['data']['exchanges'][0]);
                        }
                        // IF no exchange data parsed, skip, but link to google finance "did you mean?" results
                        else {

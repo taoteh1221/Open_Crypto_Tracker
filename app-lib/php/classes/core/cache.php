@@ -4291,11 +4291,11 @@ var $ct_array = array();
             || preg_match("/missing a valid API key/i", $data) // Google / generic
             || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
             || preg_match("/block access from your country/i", $data)  // ByBit (via Amazon CloudFront)
-            // API-specific (confirmed no price data in response)
+            // API-specific (confirmed no asset data in response)
             || $tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             || $tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
             || $tld_or_ip == 'alphavantage.co' && !preg_match("/symbol/i", $data) // WORKS FOR ALL ENDPOINTS!
-            || $tld_or_ip == 'sifting.io' && preg_match("/\"error\":\"/i", $data) // WORKS FOR ALL ENDPOINTS!
+            || $tld_or_ip == 'sifting.io' && preg_match("/\"error\":\"/i", $data) && !preg_match("/profile/i", $request_params) // (skips stock overview endpoint, so secondary cache handles it)
             // API-specific (confirmed error in response)
             || $tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/usd/i", $data)
             || $tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 
