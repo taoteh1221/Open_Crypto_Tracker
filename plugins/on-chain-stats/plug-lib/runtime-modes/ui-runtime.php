@@ -13,11 +13,15 @@
 
 <link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-style.css" type="text/css" />
 
+
 <script>
 
 plugin_assets_path['<?=$this_plug?>'] = '<?=$ct['plug']->plug_dir(true)?>/plug-assets';
 
+var osm_tiles_nonce = '<?=$ct['sec']->nonce_digest('osm_tiles')?>';
+
 </script>
+
     
 <script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-init.js"></script>
 

@@ -11,6 +11,32 @@ margin: 0.75em !important;
 }
 
 
+.map_loading_osm {
+    display: none;
+    position: absolute;
+    top: 1em;
+    left: 5em;
+    z-index: 999;
+    background-color: #808080;
+    border: 1px solid black;
+    min-height: 3.75em;
+    border-radius: 0.5em;
+    opacity: 0.75;    
+    padding-bottom: 1em;
+    padding-right: 1.5em;
+}
+
+
+.osm_map_loading_span {
+    font-size: 1.7em !important;
+    top: 0.3em;
+    position: relative;
+    margin: 0.65em;    
+    z-index: 1000;
+    color: black;
+}
+
+
 .sol_epoch_data {
 padding: 1.5em !important;
 }

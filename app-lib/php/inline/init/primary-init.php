@@ -83,6 +83,7 @@ $is_csv_export
 || $is_logs 
 || $ct['runtime_mode'] == 'captcha' 
 || $ct['runtime_mode'] == 'qr_code' 
+|| $ct['runtime_mode'] == 'osm_tiles' 
 || isset($_GET['mode']) && $_GET['mode'] == 'stock_overview'
 ) {
 $ct['fast_runtime'] = true;

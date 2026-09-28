@@ -7,6 +7,8 @@
 
 var geo_map_init = new Object();
 
+var geo_map_layers = new Object();
+
 var geo_map_locations = new Object();
 
 var geo_map_clusters = new Object();
@@ -22,7 +24,7 @@ geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2);
 
     
     // Map configs
-    L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    geo_map_layers[map_key] = L.tileLayer( plugin_assets_path['on-chain-stats'] + '/osm-tiles.php?z={z}&x={x}&y={y}&r=mapnik&tiles_nonce=' + osm_tiles_nonce, {
     attribution: '&copy; <a href="https://openstreetmap.org" target="_BLANK">OpenStreetMap</a> Contributors | <span class="bitcoin" id="'+map_key+'_zoom">Zoom: '+geo_map_init[map_key].getZoom()+'</span> | <span class="bitcoin" id="'+map_key+'_alert">Loading, please wait...</span> | <span class="bitcoin">Last Update: ' + last_update + ' (UTC)</span>',
     maxZoom: 18,
     }).addTo(geo_map_init[map_key]);
@@ -38,7 +40,22 @@ geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2);
     load_geolocation_map(result, map_key);
     });
 
-    
+
+     geo_map_layers[map_key].on('loading', function(e) {
+     $('#' + map_key + '_loading_osm').show(250);
+     //console.log('Loading tiles');
+     });
+     
+     geo_map_layers[map_key].on('load', function(e) {
+     $('#' + map_key + '_loading_osm').delay(1000).hide(250);
+     //console.log('Finished loading tiles');
+     });
+     
+     geo_map_layers[map_key].on('tileerror', function(e) {
+     console.log('Error loading tile:', e.tile);
+     });
+
+
 resize_geolocation_maps();
     
 }

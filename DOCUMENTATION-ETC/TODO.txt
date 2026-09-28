@@ -156,23 +156,6 @@ Stocks - AlphaStreet
 Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-OpenStreetMap Tile Blocking Issue:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Find out WHY openstreetmap 'tile usage' is NOT compliant with their rules (map tile images are being BLOCKED...I'm guessing because we BLOCK referrers in the doc head for privacy?):
-https://operations.osmfoundation.org/policies/tiles/
-----
-Regarding options for openstreetmaps PRIVACY options, that avoid blocking tile images:
-https://www.google.com/search?q=open+street+map+privacy+without+violating+tile+image+rules
----
-See if they will allow us to use a proxy.php file, to run these data requests through, IF we include our app user agent string, and any other data they want (like my dev email, etc etc).
----
-Any proxy.php file we possibly build for openstreetmaps tile retrieval, MUST use an (un-authenticated) nonce / token, like we do for portfolio exports. Otherwise, it can be highjacked by anybody! 
----
-ADDITIONALLY, it must expire VERY QUICKLY, to avoid any scraping of an Open Crypto Tracker install, and then running it for something else. We can do this by not only concatenating a secret hash with a token ID (for our secure public digest hash), but additionally concatenate in the current unix timestamp minus the last three digits, so the token expires every 1000 seconds (16.67 minutes).
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 ~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~
 
 
