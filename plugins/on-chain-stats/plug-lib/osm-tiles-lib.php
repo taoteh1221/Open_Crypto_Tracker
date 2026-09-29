@@ -115,7 +115,7 @@ $tries = 0;
 	}
 
 
-$exp_gmt = gmdate("D, d M Y H:i:s", $ct['var']->num_to_str( time() + $day_interval * $days_to_cache ) ) ." GMT";
+$exp_gmt = gmdate("D, d M Y H:i:s", $ct['var']->num_to_str( time() + ($day_interval * $days_to_cache) ) ) ." GMT";
 $mod_gmt = gmdate("D, d M Y H:i:s", filemtime($file)) ." GMT";
     
 header("Expires: " . $exp_gmt);
