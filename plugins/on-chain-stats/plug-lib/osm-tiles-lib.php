@@ -20,7 +20,9 @@ exit;
 *	Modified to use directory structure matching the OSM urls and retries on a failure
 */
 
-$ttl = 86400; // cache timeout in seconds (1 day)
+$day_interval = 86400; // cache inverval timeout in seconds (1 day)
+
+$days_to_cache = 45;
 
 $x = intval($_GET['x']);
 $y = intval($_GET['y']);
@@ -47,15 +49,26 @@ $z = intval($_GET['z']);
 
 
 $file = $ct['plug']->other_cache(false, 'on-chain-stats') . "/osm-tiles/$r/$z/$x/$y.png";
-$img = null;
+
+$img = false;
+
 $tries = 0;
     
     
-    // Use cache for 30 days
-    if ( !is_file($file) || filemtime($file) < time() - (86400*30) ) {
+    // Use cache for X days
+    if (
+    !is_file($file)
+    || filemtime($file) < $ct['var']->num_to_str( time() - ($day_interval * $days_to_cache) )
+    ) {
+         
+         
 		do {
-			$server = array();
+		     
+		$server = array();
+			
+			
 			switch ($r) {
+			     
 				case 'mapnik':
 					$server[] = 'a.tile.openstreetmap.org';
 					$server[] = 'b.tile.openstreetmap.org';
@@ -74,36 +87,43 @@ $tries = 0;
 					$url = 'http://'.$server[array_rand($server)].'/Tiles/tile.php';
 					$url .= "/".$z."/".$x."/".$y.".png";
 					break;
+					
 			}
 
-			@mkdir(dirname($file), 0755, true);
+			
+	     @mkdir(dirname($file), 0755, true);
 
-            $opts = array('http'=>array('header' => "User-Agent:TileProxy/1.0\r\n"));
-            $context = stream_context_create($opts);
-            $img = file_get_contents($url,false,$context);
+          $opts = array('http'=>array('header' => "User-Agent:TileProxy/1.0\r\n"));
+          $context = stream_context_create($opts);
+          $img = file_get_contents($url,false,$context);
+
 
 			if ($img) {
-				$fp = fopen($file, "w");
-				fwrite($fp, $img);
-				fclose($fp);
+			$tile_saved = file_put_contents($file, $img, LOCK_EX);
 			}
 
-			if ($tries++ > 5) exit();	// Give up after five tries
-		} while (!$img); 	// If curl has returned a broken file, then try downloading again
-	} else {
+
+	     $tries = $tries + 1;
+	     
+	     // If caching FAILS, then try downloading again (no more than 3 times)
+		} while ( !$tile_saved && $tries < 3 ); 
+		
+		
+	}
+	else {
 		$img = file_get_contents($file);
 	}
 
 
-$exp_gmt = gmdate("D, d M Y H:i:s", time() + $ttl * 60) ." GMT";
+$exp_gmt = gmdate("D, d M Y H:i:s", $ct['var']->num_to_str( time() + $day_interval * $days_to_cache ) ) ." GMT";
 $mod_gmt = gmdate("D, d M Y H:i:s", filemtime($file)) ." GMT";
     
 header("Expires: " . $exp_gmt);
 header("Last-Modified: " . $mod_gmt);
-header("Cache-Control: public, max-age=" . $ttl * 60);
+header("Cache-Control: public, max-age=" . $ct['var']->num_to_str($day_interval * $days_to_cache) );
 
 // for MSIE 5
-header("Cache-Control: pre-check=" . $ttl * 60, FALSE);
+header("Cache-Control: pre-check=" . $ct['var']->num_to_str($day_interval * $days_to_cache), FALSE);
 header ('Content-Type: image/png');
 
 //readfile($file);
