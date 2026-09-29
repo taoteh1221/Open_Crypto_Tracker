@@ -143,7 +143,7 @@ If new testing was added, add it to the package testing notes.
 For enabling plugins via interface, have a prompt when clicking to enable, that reminds people 3rd party plugins MAY contain malware, and only install plugins created by a developer they trust / have reviewed the code for security.
 
 
-Move leverage info onto a seperate line in the data table, as it makes data rows waaay too long.
+Move leverage info onto a seperate line in the data table, as it makes data rows waaay too long. Also change 'Holdings Value' table header to 'Value', and '(in [CURRENCY])' TO '([CURRENCY])', to shorten the base table width...don't forget to change on the user settings page too.
 
 
 Change the black hat notice to let them know I am mostly in crypto equities at a brokerage, to discourage idiots from spamming / attacking me.
