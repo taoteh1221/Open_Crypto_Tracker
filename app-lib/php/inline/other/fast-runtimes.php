@@ -26,7 +26,7 @@ require_once('app-lib/php/inline/ajax/logs.php');
 exit;
 }
 // If we are running a flagged fast runtime library, for runtime speed (exit after)
-elseif ( is_file($fast_runtime_lib) ) {
+elseif ( isset($fast_runtime_lib) && is_file($fast_runtime_lib) ) {
 require_once($fast_runtime_lib);
 exit;
 }
