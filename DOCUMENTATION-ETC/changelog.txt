@@ -7129,7 +7129,7 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.10
 
--BUG FIX: Fixed issue with OpenStreetMaps blocking tile image loading (now using the approved ProxySimplePHP on thier Wiki, to FULLY maintain user privacy)
+-BUG FIX: Fixed issue with OpenStreetMaps (used in the On-Chain Stats bundled plugin) blocking tile image loading (now using the approved ProxySimplePHP on thier Wiki, to FULLY maintain user privacy)
 
 -Miscellaneous user experience improvements
 

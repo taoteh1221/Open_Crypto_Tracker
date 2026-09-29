@@ -5,13 +5,10 @@
 
 ?>
 
-<link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.css" />
-    
-<link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/MarkerCluster.css" />
 
-<link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet-css-combined.php" />
 
-<link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-style.css" type="text/css" />
+<link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/root-css-combined.php" type="text/css" />
 
 
 <script>
@@ -23,13 +20,10 @@ var osm_tiles_nonce = '<?=$ct['sec']->nonce_digest('osm_tiles')?>';
 </script>
 
     
-<script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/plug-init.js"></script>
-
-<script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.js"></script>
-
-<script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet-color-markers.js"></script>	
+<script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/root-javascript-combined.php"></script>
 	
-<script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet.markercluster.js"></script>
+<script src="<?=$ct['plug']->plug_dir(true)?>/plug-assets/leaflet/leaflet-javascript-combined.php"></script>
+	
 	
 <?php
 

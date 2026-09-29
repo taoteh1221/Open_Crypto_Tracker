@@ -719,7 +719,7 @@ zingchart.bind('solana_node_count_chart', 'label_click', function(e){
     
          <div id="solana_map_loading_osm" class="map_loading_osm">
          
-         <span class='osm_map_loading_span'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='<?=round($set_ajax_loading_size * 20)?>' alt="" style='vertical-align: middle;' /> Loading Map (through private local proxy),<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; please wait during initial caching...</span>
+         <span class='osm_map_loading_span'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='<?=round($set_ajax_loading_size * 20)?>' alt="" style='vertical-align: middle;' /> Loading Map (via private local proxy),<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; please wait during initial caching...</span>
          
          </div>
     

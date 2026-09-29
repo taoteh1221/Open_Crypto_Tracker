@@ -25,6 +25,11 @@ elseif ( $is_logs ) {
 require_once('app-lib/php/inline/ajax/logs.php');
 exit;
 }
+// If we are running a flagged fast runtime library, for runtime speed (exit after)
+elseif ( is_file($fast_runtime_lib) ) {
+require_once($fast_runtime_lib);
+exit;
+}
 // If we are just running CSV exporting, ONLY run csv export libraries for runtime speed / avoiding excess logic (exit after)
 elseif ( $is_csv_export ) {
 

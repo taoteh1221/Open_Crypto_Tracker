@@ -42,12 +42,12 @@ geo_map_init[map_key] = L.map(map_key).setView([18, 0], 2);
 
 
      geo_map_layers[map_key].on('loading', function(e) {
-     $('#' + map_key + '_loading_osm').show(250);
+     $('#' + map_key + '_loading_osm').show(200);
      //console.log('Loading tiles');
      });
      
      geo_map_layers[map_key].on('load', function(e) {
-     $('#' + map_key + '_loading_osm').delay(1000).hide(250);
+     $('#' + map_key + '_loading_osm').delay(450).hide(200);
      //console.log('Finished loading tiles');
      });
      
