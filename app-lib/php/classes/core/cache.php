@@ -3458,7 +3458,7 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function ext_data($mode, $request_params, $ttl, $api_server=null, $data_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
+  function ext_data($mode, $request_params, $ttl, $api_server=null, $params_format=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
   global $ct, $htaccess_username, $htaccess_password;
   
@@ -3827,22 +3827,22 @@ var $ct_array = array();
       
       
       // NON encoded POST
-      if ( $mode == 'params' && $data_encoding == 1 ) {
+      if ( $mode == 'params' && $params_format == 1 ) {
       curl_setopt($ch, CURLOPT_POST, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $request_params); // Works fine so far not encoded
       }
       // http_build_query() encoded POST
-      elseif ( $mode == 'params' && $data_encoding == 2 ) {
+      elseif ( $mode == 'params' && $params_format == 2 ) {
       curl_setopt($ch, CURLOPT_POST, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($request_params) ); // Encode post data with http_build_query()
       }
       // JSON encoded POST
-      elseif ( $mode == 'params' && $data_encoding == 3 ) {
+      elseif ( $mode == 'params' && $params_format == 3 ) {
       curl_setopt($ch, CURLOPT_POST, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_params) ); // json encoded
       }
       // Header fields
-      elseif ( $mode == 'params' && $data_encoding == 4 ) {
+      elseif ( $mode == 'params' && $params_format == 4 ) {
       curl_setopt($ch, CURLOPT_HTTPHEADER, $request_params);
       }
       elseif ( $mode == 'url' || $mode == 'proxy-check' ) {
@@ -4291,11 +4291,11 @@ var $ct_array = array();
             || preg_match("/missing a valid API key/i", $data) // Google / generic
             || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
             || preg_match("/block access from your country/i", $data)  // ByBit (via Amazon CloudFront)
-            // API-specific (confirmed no price data in response)
+            // API-specific (confirmed no asset data in response)
             || $tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             || $tld_or_ip == 'jup.ag' && !preg_match("/price/i", $data) && !preg_match("/symbol/i", $data)
             || $tld_or_ip == 'alphavantage.co' && !preg_match("/symbol/i", $data) // WORKS FOR ALL ENDPOINTS!
-            || $tld_or_ip == 'sifting.io' && preg_match("/\"error\":\"/i", $data) // WORKS FOR ALL ENDPOINTS!
+            || $tld_or_ip == 'sifting.io' && preg_match("/\"error\":\"/i", $data) && !preg_match("/profile/i", $request_params) // (skips stock overview endpoint, so secondary cache handles it)
             // API-specific (confirmed error in response)
             || $tld_or_ip == 'coingecko.com' && preg_match("/supported_vs_currencies/i", $request_params) && !preg_match("/usd/i", $data)
             || $tld_or_ip == 'coingecko.com' && preg_match("/simple\/price/i", $request_params) && !preg_match("/24h_vol/i", $data) 

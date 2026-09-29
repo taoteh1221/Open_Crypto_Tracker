@@ -85,13 +85,16 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function google_finance_ids($val) {
+   function goog_finance_exch_ids($val) {
    
    $val = strtolower($val);
    
    
        if ( $val == 'nyse' ) {
        return 'NYSEARCA';
+       }
+       elseif ( $val == 'cboe' ) {
+       return 'BATS';
        }
        else {
        return strtoupper($val);

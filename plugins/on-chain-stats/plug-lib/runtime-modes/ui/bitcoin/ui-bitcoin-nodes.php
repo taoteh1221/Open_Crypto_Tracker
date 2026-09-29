@@ -720,7 +720,17 @@ zingchart.bind('bitcoin_node_count_chart', 'label_click', function(e){
     
     &nbsp; <img class="tooltip_style_control geolocation_filter" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
-    <div id="bitcoin_map" class="secondary_chart_wrapper geolocation_map leaflet_zindex_fix" style="width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important;"></div>
+    
+    <div id="bitcoin_map" class="secondary_chart_wrapper geolocation_map leaflet_zindex_fix" style="width: 100%; height: <?=$node_geolocation_map_height_default?>px; margin-top: 1.5em !important;">
+    
+    
+         <div id="bitcoin_map_loading_osm" class="map_loading_osm">
+         
+         <span class='osm_map_loading_span'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='<?=round($set_ajax_loading_size * 20)?>' alt="" style='vertical-align: middle;' /> Loading Map (via private local proxy),<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; please wait during initial caching...</span>
+         
+         </div>
+    
+    </div>
 
 	
   </div>

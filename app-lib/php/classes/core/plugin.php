@@ -215,6 +215,39 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function other_cache($child_path=false, $passed_plug=false) {
+      
+   global $ct, $this_plug;
+   
+      
+      if ( $passed_plug ) {
+      $set_plug = $passed_plug;
+      }
+      elseif ( isset($this_plug) && $this_plug != '' ) {
+      $set_plug = $this_plug;
+      }
+
+   
+      // This plugin's charts cache directory
+      if ( $ct['gen']->dir_struct($ct['base_dir'] . '/cache/other/plugin_other/'.$set_plug.'/') != true ) {
+      $ct['gen']->log('system_error', 'Could not create directory: /cache/other/plugin_other/'.$set_plug.'/');
+      }
+      
+      
+      if ( $child_path == false ) {
+      return $ct['base_dir'] . '/cache/other/plugin_other/'.$set_plug;
+      }
+      else {
+      return $ct['base_dir'] . '/cache/other/plugin_other/'.$set_plug.'/' . $child_path;
+      }
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function debug_cache($child_path=false, $passed_plug=false) {
       
    global $ct, $this_plug;
