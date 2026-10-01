@@ -144,7 +144,7 @@
 	        
 	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets you can trade on Ethereum)</span></li>
 	        
-	        <li class='links_list'><a href='https://jup.ag/' target='_blank'>Jupiter Aggregator</a>  <span class='yellow'>(#AUTOMATIC BEST SPOT PRICE# NON-CUSTODIAL markets ANYBODY can trade on Solana)</span></li>
+	        <li class='links_list'><a href='https://jup.ag/' target='_blank'>Jupiter Aggregator</a>  <span class='yellow'>(#AUTOMATIC BEST MARKET VALUE# NON-CUSTODIAL markets ANYBODY can trade on Solana)</span></li>
 	        
 	        
 	        

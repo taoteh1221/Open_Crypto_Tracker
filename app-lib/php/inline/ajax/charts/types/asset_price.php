@@ -238,7 +238,7 @@ graphset:[
     plotLabel:{
       backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_background']?>",
       fontColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_text']?>",
-      text: "Spot Price: <?=$currency_symb?>%v",
+      text: "Market Value: <?=$currency_symb?>%v",
 	 fontSize: "20",
       fontFamily: "Open Sans",
     	"thousands-separator":",",
@@ -383,7 +383,7 @@ graphset:[
   	barsSpaceRight: "0px"
   },
   source: {
-    text: "24 Hour Volume",
+    text: "",
     fontColor:"<?=$ct['conf']['charts_alerts']['charts_text']?>",
     fontSize: "13",
     fontFamily: "Open Sans",
@@ -393,7 +393,7 @@ graphset:[
   },
   tooltip:{
     visible: false,
-    text: "24 Hour Volume: <?=$currency_symb?>%v",
+    text: "Volume: <?=$currency_symb?>%v",
     fontColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_text']?>",
     fontSize: "20",
     backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_background']?>",
@@ -413,7 +413,7 @@ graphset:[
       backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_background']?>",
       fontColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
-      text: "24 Hour Volume: <?=$currency_symb?>%v",
+      text: "Volume: <?=$currency_symb?>%v",
 	 fontSize: "20",
       y:0,
       "thousands-separator":","
@@ -443,7 +443,7 @@ graphset:[
 	series : [
 		{
 			values: [<?=$chart_data['volume']?>],
-			text: "24hr Volume",
+			text: "Volume",
 			backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
     		     offsetX: 0
 		}

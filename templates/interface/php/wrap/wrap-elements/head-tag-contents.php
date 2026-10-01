@@ -609,14 +609,14 @@
      <?=$ct['dev']['small_font_size_css_selector']?> {
      font-size: <?=$set_small_font_size?>em !important;
      line-height: <?=$set_small_font_line_height?>em !important;
-     font-weight: <?=$ct['dev']['global_font_weight']?> !important;
+     font-weight: <?=$ct['dev']['small_font_weight']?> !important;
      }
 
      /* tiny font size CSS selector */
      <?=$ct['dev']['tiny_font_size_css_selector']?> {
      font-size: <?=$set_tiny_font_size?>em !important;
      line-height: <?=$set_tiny_font_line_height?>em !important;
-     font-weight: <?=$ct['dev']['global_font_weight']?> !important;
+     font-weight: <?=$ct['dev']['small_font_weight']?> !important;
      }
 	
 

@@ -113,51 +113,6 @@ $ct['gen']->log(
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-NOTES TO HELP AVOID ALL-NIGHTERS (as much as possible):
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER the next app release, AND should broken up into milestones as much as possible. Maybe even setup a testing environment separate from this app, if it's a new concept with a learning curve for you (so you can easily take breaks at anytime, without worrying about messing up the codebase in this app). THIS TAKES DISCIPLINE, BUT allows you to still code heavily, even when you're old enough to be your coworker's parent! ;)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-BEFORE RELEASE...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Use the developer-only plugin to:
-
-1) Update github charts bootstrap download
-
-2) Run debug mode that prints all the btc / crypto exchanges and base pairs, to update the docs (project page / README / FAQ / config file / etc).
-
-ALWAYS TEST UPGRADING the 'normal' security mode CACHED config on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING GOES SMOOTHLY (downgrades should be fine, as we ALWAYS RESET everything [or the whole plugin only])!
-
-Check Youtube channels and podcasts on the resources page, and news feed's latest posts timestamp, to see any that MAY BE DYING OFF.
-
-Post on Telegram, Discord, Twitter, and Facebook whenever there is a new release of the app.
-
-Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
-
-If new testing was added, add it to the package testing notes. 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-For enabling plugins via interface, have a prompt when clicking to enable, that reminds people 3rd party plugins MAY contain malware, and only install plugins created by a developer they trust / have reviewed the code for security.
-
-
-Move leverage info onto a seperate line in the data table, as it makes data rows waaay too long.
-
-
-Change the black hat notice to let them know I am mostly in crypto equities at a brokerage, to discourage idiots from spamming / attacking me.
-
-
-coinex is shutting down.
-
-
-Stocks - AlphaStreet
-Error reading news feed data (XML error), SEARCH admin app logs for "XML" details.
-
-
-~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Consult with archnexus707 (red team dev on github):
@@ -187,6 +142,43 @@ other `$ct['conf'][...]` values are output the same way.
 NOTE TO SELF: THIS APPLIES TO ANY CSS TOO!
 (attacker physically present AFTER owner logins in, or steals login with no 2FA protection, but has no file write access, so they inject malicious code into an admin text field that renders in the interface)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+NOTES TO HELP AVOID ALL-NIGHTERS (as much as possible):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Any "new feature / architecture ideas" should AT THE EARLIEST be worked on AFTER the next app release, AND should broken up into milestones as much as possible. Maybe even setup a testing environment separate from this app, if it's a new concept with a learning curve for you (so you can easily take breaks at anytime, without worrying about messing up the codebase in this app). THIS TAKES DISCIPLINE, BUT allows you to still code heavily, even when you're old enough to be your coworker's parent! ;)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+BEFORE RELEASE...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Use the developer-only plugin to:
+
+1) Update github charts bootstrap download
+
+2) Run debug mode that prints all the btc / crypto exchanges and base pairs, to update the docs (project page / README / FAQ / config file / etc).
+
+ALWAYS TEST UPGRADING the 'normal' security mode CACHED config on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING GOES SMOOTHLY (downgrades should be fine, as we ALWAYS RESET everything [or the whole plugin only])!
+
+Check Youtube channels and podcasts on the resources page, and news feed's latest posts timestamp, to see any that MAY BE DYING OFF.
+
+Post on Telegram, Discord, Twitter, and Facebook whenever there is a new release of the app.
+
+Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
+
+If new testing was added, add it to the package testing notes. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+Stocks - AlphaStreet
+Error reading news feed data (XML error), because AWS Cloudfront BLOCKS base on referrer or something else. See if us adding the RSS domain to "Admin Area => News Feeds => Strict News Feed Servers" fixed the issue (which adds "RSS_Feed_Parser/1.1" to our user agent string), after a day or so.
+
+
+~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~
+
+
+Maybe add the ability for a plugin developer to have feature specs for checking for plugin upgrades, and manually / automatically update the plugin?
 
 
 CLARIFY this type of error log message:

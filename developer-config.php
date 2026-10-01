@@ -44,6 +44,10 @@ $ct['dev']['max_font_resize'] = 2.0; // 200%
 $ct['dev']['global_font_weight'] = 400; // 400 for ANY font size
 
 
+// FONT WEIGHT for SMALL text in app (as a CSS value)
+$ct['dev']['small_font_weight'] = 1000; // 1000 for SMALL font size
+
+
 // LINE HEIGHT PERCENTAGE for ALL text in app (as a decimal)
 $ct['dev']['global_line_height_percent'] = 1.50; // 150% line height for ANY font size
 
@@ -195,7 +199,7 @@ $ct['dev']['throttled_apis'] = array(
                                                        'min_cache_time' => null,
                                                        'per_day' => null,
                                                        'per_minute' => 4, // As they are OFTEN under heavy load, less than spec
-                                                       'per_second' => 0.4, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
+                                                       'per_second' => 0.3, // 100000 max, 0.25 minimum (below 1 will slow runtime!)
                                                       ),
 
 

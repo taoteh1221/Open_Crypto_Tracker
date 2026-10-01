@@ -31,7 +31,7 @@ $market_value_check = $ct['api']->market('BTC', $_POST['currency']['bitcoin_prim
      // All set, do nothing
      }
      else {
-     $ct['update_config_error'] .= '<br />The Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['currency']['bitcoin_primary_currency_exchange']) . '" did NOT return a valid trade value, for the "' . strtoupper($_POST['currency']['bitcoin_primary_currency_pair']) . '" market (trade value: "' . $market_value_check['last_trade'] . '"). It is POSSIBLE this MAY be from a network error, OR exchange MAINTENANCE temporarily taking the market offline. IF either of these are the reason for the market error, trying again in a few minutes / hours may fix the issue.';
+     $ct['update_config_error'] .= '<br />The Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['currency']['bitcoin_primary_currency_exchange']) . '" did NOT return a valid market value, for the "' . strtoupper($_POST['currency']['bitcoin_primary_currency_pair']) . '" market (market value: "' . $market_value_check['last_trade'] . '"). It is POSSIBLE this MAY be from a network error, OR exchange MAINTENANCE temporarily taking the market offline. IF either of these are the reason for the market error, trying again in a few minutes / hours may fix the issue.';
      }
 
 

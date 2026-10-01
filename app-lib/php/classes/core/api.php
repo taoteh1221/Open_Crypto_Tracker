@@ -158,14 +158,6 @@ var $exchange_apis = array(
                                                    'search_endpoint' => false, // false|[API endpoint with all market pairings]
                                                   ),
 
-
-                           'coinex' => array(
-                                                   'markets_endpoint' => 'https://api.coinex.com/v1/market/ticker/all',
-                                                   'markets_nested_path' => 'data>ticker', // Delimit multiple depths with >
-                                                   'all_markets_support' => true, // false|true[IF key name is the ID]|market_info_key_name
-                                                   'search_endpoint' => false, // false|[API endpoint with all market pairings]
-                                                  ),
-
                            
                            // 'all_markets_support' MUST BE FALSE, as we have to CUSTOM parse through funky data structuring 
                            'coingecko' => array(
@@ -3570,22 +3562,6 @@ var $exchange_apis = array(
     
     
     
-      elseif ( $sel_exchange == 'coinex' ) {
-      
-	 $result = array(
-	                              'last_trade' => $data["last"],
-	                              '24hr_asset_vol' => $data["vol"],
-	                              '24hr_pair_vol' => null // Unavailable, set null
-	                     		  );
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
       elseif ( stristr( $sel_exchange , 'coingecko_') ) {
      
       $coingecko_route = explode('_', $sel_exchange );
@@ -4338,7 +4314,7 @@ var $exchange_apis = array(
       
       $ct['gen']->log(
                    		    'notify_error',
-                   		    'the '.$asset_symb.' trade value "'.$result['last_trade'].'" for the "' . $sel_exchange . '" exchange market ID "'.$mrkt_id.'" is LESS THAN THE ALLOWED "'.$ct['min_crypto_val_test'].'" VALUE (adjustable in: Admin Area => Asset Tracking => Currency Support => Crypto Decimals Maximum)',
+                   		    'the '.$asset_symb.' market value "'.$result['last_trade'].'" for the "' . $sel_exchange . '" exchange market ID "'.$mrkt_id.'" is LESS THAN THE ALLOWED "'.$ct['min_crypto_val_test'].'" VALUE (adjustable in: Admin Area => Asset Tracking => Currency Support => Crypto Decimals Maximum)',
                    		    false,
                    		    'low_market_value_' . $mrkt_id
                    		    );
@@ -4358,7 +4334,7 @@ var $exchange_apis = array(
                                     
       $ct['gen']->log(
                        'notify_error',
-                       'the trade value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
+                       'the market value of "'.$result['last_trade'].'" seems invalid for market ID "'.$mrkt_id.'". IF THIS MESSAGE PERSISTS IN THE FUTURE, make sure your markets for the "' . $sel_exchange . '" exchange are up-to-date (exchange APIs can go temporarily / permanently offline, OR have markets permanently removed / offline temporarily for maintenance [review their API status page / currently-available markets])',
                        false,
                        'no_market_data_' . $sel_exchange
                        );

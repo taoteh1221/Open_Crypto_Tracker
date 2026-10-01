@@ -794,18 +794,44 @@ var $ct_array = array();
                    }
         
              
-                   if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+                   if (
+                   isset($render_params[$passed_key]['is_confirm']['specific_unselected'])
+                   || isset($render_params[$passed_key]['is_confirm']['specific_unselected_secondary'])
+                   ) {
                        
-                   $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
-                   
-                   // Escape any double quotes
-                   $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
-                  
+                       
+                        if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+                             
+                        $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+                        
+                        // Escape any double quotes
+                        $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
+                       
                    ?>
                    <script>
                    select_confirm("id_<?=md5($field_array_base . $passed_key . $radio_val)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
                    </script>
-                   <?php
+                        
+                        <?php
+                        }
+                        
+                        
+                        if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected_secondary']) ) {
+                             
+                        $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected_secondary']) );
+                        
+                        // Escape any double quotes
+                        $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
+                       
+                   ?>
+                   <script>
+                   select_confirm("id_<?=md5($field_array_base . $passed_key . $radio_val)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
+                   </script>
+                        
+                        <?php
+                        }
+
+
                    }
                    elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
                    
@@ -864,18 +890,42 @@ var $ct_array = array();
                }
         
              
-                   if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+                   if (
+                   isset($render_params[$passed_key]['is_confirm']['specific_unselected'])
+                   || isset($render_params[$passed_key]['is_confirm']['specific_unselected_secondary'])
+                   ) {
                        
-                   $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
-                   
-                   // Escape any double quotes
-                   $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
-                  
-                   ?>
-                   <script>
-                   select_confirm("id_<?=md5($field_array_base . $passed_key . $subarray_key . $setting_val)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
-                   </script>
-                   <?php
+                       
+                        if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+     
+                        $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+                        
+                        // Escape any double quotes
+                        $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
+                       
+                        ?>
+                        <script>
+                        select_confirm("id_<?=md5($field_array_base . $passed_key . $subarray_key . $setting_val)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
+                        </script>
+                        <?php
+                        }
+                       
+                       
+                        if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected_secondary']) ) {
+     
+                        $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected_secondary']) );
+                        
+                        // Escape any double quotes
+                        $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
+                       
+                        ?>
+                        <script>
+                        select_confirm("id_<?=md5($field_array_base . $passed_key . $subarray_key . $setting_val)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
+                        </script>
+                        <?php
+                        }
+                        
+                        
                    }
                    elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
                    
@@ -1740,18 +1790,42 @@ var $ct_array = array();
         </select>
         
              <?php
-             if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+             if (
+             isset($render_params[$passed_key]['is_confirm']['specific_unselected'])
+             || isset($render_params[$passed_key]['is_confirm']['specific_unselected_secondary'])
+             ) {
                   
-             $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
-                   
-             // Escape any double quotes
-             $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
-             
-             ?>
-             <script>
-             select_confirm("id_<?=md5($field_array_base . $passed_key)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
-             </script>
-             <?php
+                  
+                  if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected']) ) {
+                  
+                  $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected']) );
+                        
+                  // Escape any double quotes
+                  $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
+                  
+                  ?>
+                  <script>
+                  select_confirm("id_<?=md5($field_array_base . $passed_key)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
+                  </script>
+                  <?php
+                  }
+                  
+                  
+                  if ( isset($render_params[$passed_key]['is_confirm']['specific_unselected_secondary']) ) {
+                  
+                  $confirm_array = array_map( "trim", explode('||', $render_params[$passed_key]['is_confirm']['specific_unselected_secondary']) );
+                        
+                  // Escape any double quotes
+                  $confirm_array[1] = preg_replace("/\"/", '\"', $confirm_array[1]);
+                  
+                  ?>
+                  <script>
+                  select_confirm("id_<?=md5($field_array_base . $passed_key)?>", "<?=$confirm_array[1]?>", "<?=$confirm_array[0]?>");
+                  </script>
+                  <?php
+                  }
+                  
+                  
              }
              elseif ( isset($render_params[$passed_key]['is_confirm']) ) {
                    
