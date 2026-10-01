@@ -2406,7 +2406,7 @@ var $ct_array = array();
                
                
                // Mobile text
-               $has_volume_data_text_mobile = ' 24hr Volume: ' . $vol_prim_currency_text . ' (' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '%' . $vol_describe_mobile . ')';
+               $has_volume_data_text_mobile = ' Volume: ' . $vol_prim_currency_text . ' (' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '%' . $vol_describe_mobile . ')';
                         
                $vol_change_text_mobile = ( $no_volume_history ? '' : $has_volume_data_text_mobile );
                         
@@ -2414,8 +2414,8 @@ var $ct_array = array();
                      // If -1 from exchange API error not reporting any volume data (not even zero)
                      // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
                      if ( $cached_prim_currency_vol == -1 || $vol_prim_currency_raw == -1 ) {
-                     $vol_change_text = ' 24 hour volume not detected, due to exchange API error.';
-                     $vol_change_text_mobile = ' 24hr Volume: Exchange API Error';
+                     $vol_change_text = ' Volume not detected, due to exchange API error.';
+                     $vol_change_text_mobile = ' Volume: Exchange API Error';
                      }
                     
                     
@@ -2443,7 +2443,7 @@ var $ct_array = array();
                         
                // Build the different messages, configure comm methods, and send messages
                         
-               $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset_text . ' trade value in the ' . strtoupper($pair) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' value to ' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['default_bitcoin_primary_currency_pair'] ] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '.' . $email_vol_summary;
+               $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset_text . ' market value in the ' . strtoupper($pair) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' value to ' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['default_bitcoin_primary_currency_pair'] ] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '.' . $email_vol_summary;
                         
                         
                // Were're just adding a human-readable timestamp to smart home (audio) alerts

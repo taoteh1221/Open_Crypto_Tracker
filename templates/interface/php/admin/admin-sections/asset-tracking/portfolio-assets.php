@@ -56,9 +56,9 @@ else {
                <table id='portfolio_assets' border='0' cellpadding='10' cellspacing='0' class="data_table align_center" style='width: 100% !important;'>
                 <thead>
                    <tr>
-                    <th class="filter-match" data-placeholder="Filter Results">Asset Name <span class='bitcoin'>(EDITABLE soon&trade;)</span></th>
-                    <th class="filter-match" data-placeholder="Filter Results">Asset Ticker</th>
-                    <th class="filter-match" data-placeholder="Filter Results">MarketCap Page Slug <span class='bitcoin'>(EDITABLE soon&trade;)</span></th>
+                    <th class="filter-match" data-placeholder="Filter Results">Asset <span class='bitcoin'>(EDITABLE soon&trade;)</span></th>
+                    <th class="filter-match" data-placeholder="Filter Results">Ticker</th>
+                    <th class="filter-match" data-placeholder="Filter Results">Overview Page Slug <span class='bitcoin'>(EDITABLE soon&trade;)</span></th>
                     <th class="filter-match" data-placeholder="Filter Results">Trading Pairs</th>
                     <th class="filter-match" data-placeholder="Filter Results">Exchange Markets</th>
                    </tr>

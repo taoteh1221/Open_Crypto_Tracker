@@ -1141,6 +1141,7 @@ $ct['conf']['news']['strict_news_feed_servers'] = array(
                                                       'medium.com',
                                                       'reddit.com',
                                                       'simplecast.com',
+                                                      'alphastreet.com',
                                                      );
 
 
@@ -2120,7 +2121,6 @@ $ct['conf']['assets'] = array(
                                     	'crypto.com' => 'SOL_BTC',
                                     	'jupiter_ag' => 'So11111111111111111111111111111111111111112/3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh',
                                         'hitbtc' => 'SOLBTC',
-                                        'coinex' => 'SOLBTC',
                                                     ),
 
                                                     
@@ -2181,7 +2181,6 @@ $ct['conf']['assets'] = array(
                                     	'binance_us' => 'SOLUSDT',
                                     	'crypto.com' => 'SOL_USDT',
                                         'kucoin' => 'SOL-USDT',
-                                        'coinex' => 'SOLUSDT',
                                         'gateio' => 'SOL_USDT',
                                         'wazirx' => 'solusdt',
                                                     ),
@@ -2240,7 +2239,6 @@ $ct['conf']['assets'] = array(
                                          "btc" => array(
                                              "binance" => "NEARBTC",
                                              "coindcx" => "NEARBTC",
-                                             "coinex" => "NEARBTC",
                                              "coingecko_btc" => "near",
                                              "hitbtc" => "NEARBTC",
                                              "kucoin" => "NEAR-BTC",
@@ -2311,7 +2309,6 @@ $ct['conf']['assets'] = array(
 
                                          "usdc" => array(
                                              "binance" => "NEARUSDC",
-                                             "coinex" => "NEARUSDC",
                                              "gateio" => "NEAR_USDC",
                                              "kucoin" => "NEAR-USDC"
                                          ),
@@ -2323,7 +2320,6 @@ $ct['conf']['assets'] = array(
                                              "btcturk" => "NEARUSDT",
                                              "coinbase" => "NEAR-USDT",
                                              "coindcx" => "NEARUSDT",
-                                             "coinex" => "NEARUSDT",
                                              "crypto.com" => "NEAR_USDT",
                                              "gateio" => "NEAR_USDT",
                                              "huobi" => "nearusdt",
@@ -2502,7 +2498,6 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usdt' => array(
                                         'gateio' => 'POLIS_USDT',
-                                        'coinex' => 'POLISUSDT',
                                                     ),
 
                                                     
@@ -2571,7 +2566,6 @@ $ct['conf']['assets'] = array(
                                     'usdt' => array(
                                         'huobi' => 'bonkusdt',
                                         'gateio' => 'BONK_USDT',
-                                        'coinex' => 'BONKUSDT',
                                                     ),
 
                                                     

@@ -75,7 +75,7 @@
     			
     			<p><b>Token Amount:</b> <input type='text' id='to_trade_amnt' name='to_trade_amnt' value='0' size='20' /> </p>
     			
-    			<p><b>BTC Trade Value:</b> <input type='text' id='sat_target' name='sat_target' value='0.00000001' minlength="10" maxlength="10" size="11" /> </p>
+    			<p><b>BTC Market Value:</b> <input type='text' id='sat_target' name='sat_target' value='0.00000001' minlength="10" maxlength="10" size="11" /> </p>
     			
     			<p><button class='force_button_style' onclick='
     				document.getElementById("sat_target").value = (0.00000001).toFixed(8);

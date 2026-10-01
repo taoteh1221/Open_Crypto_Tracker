@@ -50,14 +50,14 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 			
 			 &nbsp; <span class='blue' style='font-weight: bold;'>Layout:</span> <select title='Select which portfolio view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange='
 			 
-			 if ( this.value = "tall" ) {
+			 if ( this.value = "mobile" ) {
 			 alert("Coming Soon&trade;");
-			 $(this).val("wide");   
+			 $(this).val("desktop");   
 			 }
 			 
 			 '>
-				<option value='wide'> Wide </option>
-				<option value='tall'> Tall </option>
+				<option value='desktop'> Laptop / Desktop </option>
+				<option value='mobile'> Mobile </option>
 			</select> 
 			
          
@@ -126,16 +126,16 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
     </tr>
     <tr>
 <th class='border_lb num-sort'> &nbsp; Rank &nbsp; </th>
-<th class='border_lb blue al_right'><span> &nbsp;&nbsp; Asset Name</span></th>
-<th class='border_b num-sort'> &nbsp; Unit Value &nbsp; </th>
-<th class='border_lb num-sort al_right'> &nbsp; Trade Value &nbsp; </th>
+<th class='border_lb blue al_right'><span> &nbsp;&nbsp; Asset</span></th>
+<th class='border_b num-sort'> &nbsp; <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?> Value &nbsp; </th>
+<th class='border_lb num-sort al_right'> &nbsp; Market Value &nbsp; </th>
 <th class='border_b blue'> &nbsp; Market &nbsp; </th>
 <th class='border_b blue'> &nbsp; Exchange &nbsp; </th>
-<th class='border_b num-sort'> &nbsp; 24hr Volume &nbsp; </th>
+<th class='border_b num-sort'> &nbsp; Volume &nbsp; </th>
 <th class='border_lb blue num-sort al_right'> &nbsp; Holdings &nbsp; </th>
 <th class='border_b'> &nbsp; Ticker &nbsp; </th>
-<th class='border_b blue num-sort'> &nbsp; Holdings Value &nbsp; </th>
-<th class='border_rb blue num-sort'> &nbsp; (in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) &nbsp; </th>
+<th class='border_b blue num-sort'> &nbsp; Value &nbsp; </th>
+<th class='border_rb blue num-sort'> &nbsp; (<?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) &nbsp; </th>
     </tr>
   </thead>
  <tbody>

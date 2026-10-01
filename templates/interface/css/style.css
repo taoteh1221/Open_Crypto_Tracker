@@ -1175,15 +1175,14 @@ max-width: 350px;
 }
 
 
-table.data_table th, table.data_table  td.data {
+table.data_table th, table.data_table td.data {
 margin: 0px !important;
 padding-top: 0.2em !important;
 padding-bottom: 0.2em !important;
-padding-left: 0.2em !important;
+padding-left: 0.5em !important;
 padding-right: 1.05em !important;   
 white-space: nowrap !important;
 vertical-align: middle !important;
-line-height: 1em !important;
 }
 
 

@@ -2964,7 +2964,7 @@ var $ct_array = array();
    
    $text_msg = $count . ' ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_msg = 'The following ' . $count . ' ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' price alert fixed resets (run every ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($ct['default_bitcoin_primary_currency_pair']) . ' price alert fixed resets (run every ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest market value data: ' . $reset_list;
    
    $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
    

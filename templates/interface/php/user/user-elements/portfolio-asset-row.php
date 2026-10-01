@@ -224,7 +224,7 @@ echo '?';
             }
             ?>
         +'<p class="coin_info"><span class="bitcoin">Unit Value (global average):</span> <?=$mcap_prim_currency_symb?><?=$mcap_data['price']?></p>'
-        +'<p class="coin_info"><span class="bitcoin">24 Hour Volume (global):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['vol_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="bitcoin">Volume (global):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['vol_24h'],0,".",",")?></p>'
         <?php
             if ( $mcap_data['percent_change_1h'] != null ) {
             ?>
@@ -764,13 +764,14 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 <?php
 
 $thres_dec = $ct['gen']->thres_dec($asset_prim_currency_worth_raw, 'u', 'fiat'); // Units mode
-echo '<span class="private_data ' . ( $purchase_price >= $ct['min_fiat_val_test'] && $lvrg_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct['var']->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
+
+echo '<span class="private_data blue">' . $ct['opt_conf']['conversion_currency_symbols'][ $ct['conf']['currency']['bitcoin_primary_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct['var']->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 
   if ( $purchase_price >= $ct['min_fiat_val_test'] && $lvrg_level >= 2 ) {
 
   $asset_worth_inc_lvrg = $asset_prim_currency_worth_raw + $only_lvrg_gain_loss;
-  
-  echo ' <span class="extra_data private_data">(' . $lvrg_level . 'x ' . $sel_mrgntyp . ')</span>';
+
+  echo '<br /><span class="extra_data private_data ' . ( $purchase_price >= $ct['min_fiat_val_test'] && $lvrg_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">(' . $lvrg_level . 'x ' . $sel_mrgntyp . ')</span></span>';
 
   $thres_dec = $ct['gen']->thres_dec($gain_loss, 'u', 'fiat'); // Units mode
   // Here we parse out negative symbols

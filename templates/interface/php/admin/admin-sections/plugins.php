@@ -91,7 +91,11 @@ else {
 
      ////////////////////////////////////////////////////////////////////////////////////////////////
      
+     
      $ct['admin_render_settings']['plugin_status']['is_confirm']['specific_unselected'] = 'on||DISABLING a plugin will DELETE ANY CUSTOM SETTINGS you added in NORMAL / MEDIUM Security Mode. Do you want to proceed?';
+     
+     
+     $ct['admin_render_settings']['plugin_status']['is_confirm']['specific_unselected_secondary'] = 'off||3rd party plugins MAY contain malware. Only enable plugins created by a developer you trust, or if you have reviewed the code for security. Do you want to proceed?';
      
      
          foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {

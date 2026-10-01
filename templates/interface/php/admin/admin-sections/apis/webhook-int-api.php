@@ -543,7 +543,6 @@ var_dump($api_data_array);
         "cex",
         "coinbase",
         "coindcx",
-        "coinex",
         "coingecko_btc",
         "coingecko_eth",
         "coingecko_eur",

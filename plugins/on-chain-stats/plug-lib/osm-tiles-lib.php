@@ -115,42 +115,44 @@ $cache_time = $ct['var']->num_to_str($day_interval * $days_to_cache);
 	else {
 		$img = file_get_contents($file);
 	}
-     
+
+
+     // IF we just cached this tile,
+     // wait 0.01 seconds before filemtime() AFTER
+     if ( $tile_saved ) {
+     usleep(10000);
+     }
+
+
+     // Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
+     if ( $ct['conf']['sec']['access_control_origin'] == 'any' ) {
+     header('Access-Control-Allow-Origin: *');
+     }
+     // Strict access from THIS APP SERVER ONLY (provides tighter security)
+     else {
+     header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
+     }
+
+          
+$expires_gmt = gmdate("D, d M Y H:i:s", $ct['var']->num_to_str( filemtime($file) + $cache_time ) ) ." GMT";
+
+$modified_gmt = gmdate( "D, d M Y H:i:s", filemtime($file) ) ." GMT";
+
+
+header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 
 // Make browser cache IGNORE the 'tiles_nonce' security parameter
 header('No-Vary-Search: params=("tiles_nonce")');
 
-
-     if ( $tile_saved ) {
-          
-     $exp_gmt = gmdate("D, d M Y H:i:s", $ct['var']->num_to_str( time() + $cache_time ) ) ." GMT";
-         
-     header("Expires: " . $exp_gmt);
-
-     }
-
-
-$mod_gmt = gmdate("D, d M Y H:i:s", filemtime($file)) ." GMT";
-
-header("Last-Modified: " . $mod_gmt);
-
+// Any depreciated pragma no-cache header is IGNORED, since we are using Cache-Control
 header("Cache-Control: public, max-age=" . $cache_time);
+         
+header("Expires: " . $expires_gmt);
+
+header("Last-Modified: " . $modified_gmt);
 
 header ('Content-Type: image/png');
-
-// Access control headers MUST be AFTER init.php!!!
-
-header('Access-Control-Allow-Headers: *'); // Allow ALL headers
-
-// Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
-if ( $ct['conf']['sec']['access_control_origin'] == 'any' ) {
-header('Access-Control-Allow-Origin: *');
-}
-// Strict access from THIS APP SERVER ONLY (provides tighter security)
-else {
-header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
-}
-
+    
     
 echo $img;
 

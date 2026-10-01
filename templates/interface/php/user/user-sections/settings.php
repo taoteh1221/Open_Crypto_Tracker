@@ -139,16 +139,16 @@
                    local_storage_saved_notice("Portfolio Sort Order");
 			    '>
 				<option value='0'> Rank </option>
-				<option value='1'> Asset Name </option>
-				<option value='2'> Unit Value </option>
-				<option value='3'> Trade Value </option>
+				<option value='1'> Asset </option>
+				<option value='2'> <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?> Value </option>
+				<option value='3'> Market Value </option>
 				<option value='4'> Market </option>
 				<option value='5'> Exchange </option>
-				<option value='6'> 24hr Volume </option>
+				<option value='6'> Volume </option>
 				<option value='7'> Holdings </option>
 				<option value='8'> Ticker </option>
-				<option value='9'> Holdings Value </option>
-				<option value='10'> (in <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) </option>
+				<option value='9'> Value </option>
+				<option value='10'> (<?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) </option>
 			    </select> 
 			    
 			     <select class='browser-default custom-select' id='sorted_direction' onchange='
@@ -171,7 +171,7 @@
 		 
 
 				    if ( localStorage.getItem(priv_toggle_storage) == 'on' ) {
-				    $("#sorting_alert").html("Sorting by the Holdings / Holdings Value / Subtotal columns is currently disabled, as Privacy Mode is turned ON.");
+				    $("#sorting_alert").html("Sorting by the Holdings / Value / (<?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?>) columns is currently disabled, as Privacy Mode is turned ON.");
 				    $("#sorting_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {

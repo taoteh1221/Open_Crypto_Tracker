@@ -148,7 +148,7 @@ $ct['admin_render_settings']['whale_alert_thresholds']['is_text'] = true;
 
 $ct['admin_render_settings']['whale_alert_thresholds']['text_field_size'] = 35;
 
-$ct['admin_render_settings']['whale_alert_thresholds']['is_notes'] = 'Detect LARGE trade volume swings, that HEAVILY affect trade values.<br />This format MUST be used: max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg';
+$ct['admin_render_settings']['whale_alert_thresholds']['is_notes'] = 'Detect LARGE trade volume swings, that HEAVILY affect market values.<br />This format MUST be used: max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

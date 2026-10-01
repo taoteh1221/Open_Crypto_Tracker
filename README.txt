@@ -22,9 +22,9 @@ Please review the possible solutions below for any issues you may have, before c
 Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Teams / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
 
-NOTES FOR BLACKHATS:
+NOTES FOR BLACKHATS / THIEVES:
 
-P̵̫̊h̴̪̑ì̶̯s̵̫̀h̸̠̆i̶̔͜n̸̞͒g̶̳̏ ̸̺͐a̴͎̓n̷̜̕d̴̻͆ ̵̙̕b̶͓͝ř̵̗u̵̼̔t̷͖͐e̴̢͑ ̵̦͊f̸̱̃ö̶̦́r̷͉͌c̴̍͜ê̸͈ ̶̬̍l̴̙̾ō̸̗g̵̫̿ḯ̴̱ṅ̸̖ ̴̘́/̴̣̅ ̸̳̈d̶̡̃ẹ̶̈c̸̲͂r̶̰̋ỹ̵̨p̶̥͂t̷͍̎i̶̮̕o̸̝̎n̸̟͑ ̴͎͑/̶̹̑ ̶͉̎O̵̦̿T̵̜̄H̶̗̓Ę̶͗R̸̪̋ ̸̦̾ȃ̷̰t̸̪̂ṯ̸̐ä̶͈́c̸̫̈k̶͈̍s̴̳̀ ̸͇̎w̸̢͝i̶͕̍l̵̦͗l̵̗̽ ̷̱̀Ň̴͍Ō̶͓T̶̙́ ̸̺̆w̶̖̓o̸̠͝r̴̪̃k̵̞͠ ̴̪̎o̴͎̽n̸͎͘ ̸̗͘m̴̖͗ẽ̸̠,̴̨̆ ̴͙̇G̵̬̿Ĭ̴͍V̶͉̇E̸̳̐ ̴̯̾U̸̺͂P̶̩̀ ̴̨͌A̵͋͜L̴̤̎R̷̖͘Ē̸͕Â̸͍D̸̨̒Ÿ̶͜!̶͖͛
+Ḿ̵̻y̷̬͋ ̵̜͝ľ̵̲ỉ̵̢f̸͉̾e̴͐ͅ ̵̤̇s̸̛͉å̷̼v̶̭̇i̵̳̊ń̶̙g̴̘͊s̵͕͊ ̶̰́í̸̟s̶̪̑ ̶̥͒N̷̤͊Ŏ̷̯T̵͈͠ ̵̞͝ó̶͔n̸̹̈c̶͈̕h̷̪͐a̷͜͠i̵͎͊n̵̫̈́ ̶̖̋O̴̦͝R̴͔̎ ̷̮̂a̴̪̅t̵͚̒ ̶͓̈́ă̶̘ ̴̙͋c̶̦̓r̴̤̀y̵̯͑p̸̺͊t̴̲̕ọ̶̀ ̶̝̿é̸̹x̷̡̓ć̸̙h̶̘́ȁ̶͕ṋ̴̓g̵̦͘e̸̛̩,̸̫́ ̸̥͌b̶͇͑ṳ̴̃t̷͉͂ ̵͖́Í̸̥ ̵̬̾Ḓ̵͛O̵̜͐ ̶̦͗h̵̻̅ȧ̵̧v̸̱͘ę̶͑ ̸̜͆ȁ̷̺ ̶̯̃1̸̻͘-̵̣̓ẅ̷̤́a̶̹̋y̶͎͋ ̸̙̊t̴̘̃i̵͕̐c̴̻̈́k̴̺̓e̷̟͋ẗ̵̘́ ̷̼́ṯ̵̑ő̷̮ ̵̝̅J̷̨̑A̵͇͋I̶̫̽L̴̮̒ ̴̱̿w̸͕̚à̴ͅḯ̶̯t̷͜͠i̵̢͛n̵̠͋g̸̭̓ ̵̳͆f̸͔͝o̸̺̚r̸̫̒ ̶̹̅y̴̮͂o̶̮̕u̷̫͛!̵̦̂ ̷̠͝
 
 GITHUB SECURITY NOTICE:
 
@@ -128,7 +128,7 @@ FEATURES
 -External resources page, includes links to marketcap stats sites / news sites / wallets / exchanges / block explorers / developer resources / newsletters / podcasts / social media / etc.
 
 
--Detailed price charts (base values in crypto and your local primary currency), with spot price / 24 hour volume, zooming, and crosshair hovering.
+-Detailed price charts (base values in crypto and your local primary currency), with market value / volume, zooming, and crosshair hovering.
 
 
 -Detailed portfolio statistics, including Asset Performance side-by-side comparision charts with user-defined time periods, and Portfolio Balance pie charts to get a better feel for your asset allocations.
@@ -379,7 +379,7 @@ AED / ARS / AUD / BDT / BRL / BTC / CAD / CHF / CLP / CZK / DKK / ETH / EUR / GB
 
 Support for over 50 exchanges (contact me to request more): 
 
-aevo / alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_aud / coingecko_btc / coingecko_cad / coingecko_chf / coingecko_cny / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_hkd / coingecko_ils / coingecko_inr / coingecko_jpy / coingecko_rub / coingecko_sgd / coingecko_terminal / coingecko_try / coingecko_twd / coingecko_usd / coinspot / crypto.com / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / luno / okcoin / okex / poloniex / siftingio_stock / tradeogre / unocoin / upbit / wazirx / zebpay
+aevo / alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitso / bitstamp / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coingecko_aud / coingecko_btc / coingecko_cad / coingecko_chf / coingecko_cny / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_hkd / coingecko_ils / coingecko_inr / coingecko_jpy / coingecko_rub / coingecko_sgd / coingecko_terminal / coingecko_try / coingecko_twd / coingecko_usd / coinspot / crypto.com / gateio / gemini / hitbtc / huobi / jupiter_ag / korbit / kraken / kucoin / luno / okcoin / okex / poloniex / siftingio_stock / tradeogre / unocoin / upbit / wazirx / zebpay
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).
