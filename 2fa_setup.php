@@ -6,9 +6,6 @@
 // Runtime mode
 $runtime_mode = '2fa_setup';
 
-// Change directory
-chdir("../../../../");
-
 
 require("app-lib/php/init.php");
  

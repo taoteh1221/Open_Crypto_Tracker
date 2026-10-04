@@ -1474,7 +1474,6 @@ $ct['conf']['mobile_network']['text_gateways'] = array(
                         'telcel||itelcel.com',              // Mexico
                         'tmobile_nl||gin.nl',               // Netherlands
                         'mas_movil||cwmovil.com',           // Panama
-                        'claro_pr||vtexto.com',             // Puerto Rico
                         'beeline||sms.beemail.ru',          // Russia
                         'm1||m1.com.sg',                    // Singapore
                         'mobitel||sms.mobitel.lk',          // Sri Lanka
