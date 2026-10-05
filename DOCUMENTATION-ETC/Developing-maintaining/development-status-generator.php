@@ -14,6 +14,29 @@ $dev_status[] = array('dummy_entry' => true);
 $dev_status[] = array(
 
                    // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
+                   'timestamp' => strtotime('2026-10-5'),
+                   
+                   'very_important' => true,
+
+                   // HIGHEST VERSION AFFECTED
+                   'affected_version' => '6.01.09',
+
+                   // DOES THIS AFFECT EARLIER VERSIONS
+                   'affected_earlier' => true,
+                   
+                   // DESCRIPTION
+                   'affected_desc' => 'An issue in the OpenStreetMaps integration (used in the On-Chain Stats bundled plugin) has been fixed in the v6.01.10 release today, that blocked map tile image loading (we are now using their approved "ProxySimplePHP" caching proxy from thier Wiki, to STILL FULLY maintain user privacy). ADDITIONALLY, we have added a SECOND stock prices provider Sifting.io, for US-based markets (besides our AlphaVantage.co support for GLOBAL stock markets).',
+
+                   );
+
+
+///////////////////////////////////////////////////////////////////
+
+
+// NEW ENTRY
+$dev_status[] = array(
+
+                   // HUMAN-READABLE DATE, CONVERTED TO A TIMESTAMP
                    'timestamp' => strtotime('2026-8-31'),
                    
                    'very_important' => true,
