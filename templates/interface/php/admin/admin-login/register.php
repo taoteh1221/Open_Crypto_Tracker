@@ -275,13 +275,13 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
   
   	 <div class='align_center' style='display: inline-block;'>
   	 
-  	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
+  	 <p><img id='captcha_image' src='captcha.php' alt='' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
 
 Custom TTF fonts can be automatically added by placing them in the /templates/interface/media/fonts/ folder.
 
 Google Fonts is supported (fonts.google.com).' class='image_border' />
   	 <br />
-  	 <a href='javascript: refresh_image("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
+  	 <a href='javascript: refresh_image("captcha_image", "captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
 
 Custom TTF fonts can be automatically added by placing them in the /templates/interface/media/fonts/ folder.
 

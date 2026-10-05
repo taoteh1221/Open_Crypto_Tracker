@@ -2711,8 +2711,13 @@ var $ct_array = array();
     }
     
     
-    // Check if this is a NEW archival chart, with only one entry so far...
-    if ( $newest_arch_timestamp > $oldest_arch_timestamp ) {
+    // EXPLICITY / STRICTLY check if this is a NEW archival chart, with ONLY ONE VALID ENTRY so far...
+    // $newest_arch_timestamp - $oldest_arch_timestamp MUST BE GREATER THAN ZERO,
+    // OR THE RUNTIME WILL CRASH TRYING TO DIVIDE BY ZERO!
+    if (
+    $newest_arch_timestamp > $oldest_arch_timestamp
+    && ($newest_arch_timestamp - $oldest_arch_timestamp) > 0
+    ) {
     $only_one_archival_entry = false;
     }
     else {
@@ -3870,7 +3875,7 @@ var $ct_array = array();
      
       // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
       if ( in_array($tld_or_ip, $strict_news_feed_servers) ) {
-      curl_setopt($ch, CURLOPT_USERAGENT, 'RSS_Feed_Parser/1.1 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
+      curl_setopt($ch, CURLOPT_USERAGENT, 'News_Feed_Parser/1.0 ('.PHP_OS.'; compatible;)');
       }
       // Strict user agent
       elseif ( in_array($tld_or_ip, $anti_proxy_servers) ) {

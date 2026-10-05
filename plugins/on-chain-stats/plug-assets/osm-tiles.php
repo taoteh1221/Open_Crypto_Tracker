@@ -10,7 +10,8 @@ $runtime_mode = 'osm_tiles';
 // Change directory
 chdir("../../../");
 
-// Set a library to run, and exit after, to speed up runtime
+// FLAG a fast runtime library to run (that we auto-exit after running),
+// to speed up runtime
 $fast_runtime_lib = "plugins/on-chain-stats/plug-lib/osm-tiles-lib.php";
 
 require('app-lib/php/init.php');

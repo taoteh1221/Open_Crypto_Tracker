@@ -7129,15 +7129,19 @@ AND MIGRATE YOUR EXISTING CUSTOM SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.01.10
 
--BUG FIX: Fixed issue with OpenStreetMaps (used in the On-Chain Stats bundled plugin) blocking tile image loading (now using the approved ProxySimplePHP on thier Wiki, to FULLY maintain user privacy)
+-BUG FIX: Fixed issue with OpenStreetMaps (used in the On-Chain Stats bundled plugin) blocking map tile image loading (we are now using their approved "ProxySimplePHP" caching proxy from thier Wiki, to STILL FULLY maintain user privacy)
+
+-BUG FIX: Fixed edge-case, where first run of price charts crashed background tasks
 
 -Narrower 'Laptop / Desktop' portfolio layout mode ('Mobile' layout coming soon™)
+
+-Improved web server compatibility, for Server Edition
 
 -Miscellaneous user experience improvements
 
 -Added Sifting.io markets support
 
--Interface runtime optimizations
+-Runtime optimizations
 
 -------------------------------------------------------------------
 

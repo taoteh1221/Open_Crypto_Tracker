@@ -689,9 +689,23 @@ echo "<span class='app_sort_filter blue private_data'>" . ( $pretty_asset_amnt !
 
 
 
-<td class='data border_b'><span class='app_sort_filter'>
+<td class='data border_b'>
 
-<?php echo $asset_symb; ?></span>
+<span class='app_sort_filter'>
+
+<?php
+
+$ui_ticker = $asset_symb;
+
+$ui_ticker = preg_replace("/miscassets/i", "N/A<span style='display: block;' class='extra_data bitcoin'>(Misc. Assets)</span>", $ui_ticker);
+
+$ui_ticker = preg_replace("/stock/i", "<span style='display: block;' class='extra_data bitcoin'>(stock)</span>", $ui_ticker);
+
+echo $ui_ticker; 
+
+?>
+
+</span>
 
 </td>
 

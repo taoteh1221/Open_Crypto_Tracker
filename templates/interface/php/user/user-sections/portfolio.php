@@ -1821,7 +1821,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 			
 
 
-  <h3 class='bitcoin'>(<?=$ct['conf']['power']['access_stats_delete_old']?> Day Report)</h3>
+  <h3 class='red'>(<?=$ct['conf']['power']['access_stats_delete_old']?> Day Report)</h3>
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
 	

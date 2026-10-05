@@ -34,6 +34,8 @@ Project Website: https://taoteh1221.github.io
 
 LIVE PUBLIC DEMO: https://dragonfrugal.org/open-crypto-tracker
 
+SECONDARY LIVE PUBLIC DEMO: https://dragonfrugal.co.network/demos/crypto-tracker
+
 Download Latest Version: https://github.com/taoteh1221/Open_Crypto_Tracker/releases
 
 

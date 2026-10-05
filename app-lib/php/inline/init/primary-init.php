@@ -33,8 +33,13 @@ $php_ini_path = preg_replace("/php\.ini/", "php-tpl.ini", $php_ini_path);
 
 // ESSENTIAL REQUIRED LIB FILES...
 
-// Config file check (MUST RUN *BEFORE* LOADING CONFIG.PHP [TO CHECK FOR PARSE / FATAL ERRORS])
+
+// Config file check (MUST RUN *BEFORE* LOADING CONFIG.PHP [TO CHECK FOR PARSE / FATAL ERRORS]),
+// ONLY IF NOT A FAST / AJAX RUNTIME
+if ( !$ct['fast_runtime'] && $ct['runtime_mode'] != 'ajax' ) {
 require_once($ct['base_dir'] . '/app-lib/php/inline/debugging/config-check.php');
+}
+
 
 // Load the hard-coded (default) config BEFORE #ANYTHING ELSE#
 require_once("config.php");
@@ -72,21 +77,6 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/init/session-init.php');
 // Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
 if ( $ct['runtime_mode'] != 'cron' && !isset( $_SESSION['nonce'] ) ) {
 $_SESSION['nonce'] = $ct['sec']->rand_hash(32); // 32 byte
-}
-	
-	
-// Flag this as a fast runtime if it is, to skip certain logic later in the runtime
-// (among other things, skips setting $ct['system_info'] / some secured cache vars, and skips doing system resource usage alerts)
-if (
-$is_csv_export
-|| $is_charts
-|| $is_logs 
-|| $ct['runtime_mode'] == 'captcha' 
-|| $ct['runtime_mode'] == 'qr_code' 
-|| $ct['runtime_mode'] == 'osm_tiles' 
-|| isset($_GET['mode']) && $_GET['mode'] == 'stock_overview'
-) {
-$ct['fast_runtime'] = true;
 }
 
 

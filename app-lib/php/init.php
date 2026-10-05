@@ -33,6 +33,27 @@ $ct['dev'] = array(); // Developer config
 $ct['crypto'] = array(); // Crypto config
 
 
+// IMPORTANT GLOBALS
+
+// Include runtime mode in our $ct array (for easily importing globals into functions, etc)
+$ct['runtime_mode'] = $runtime_mode;
+	
+	
+// Flag this as a fast runtime if it is, to skip certain logic later in the runtime
+// (among other things, skips setting $ct['system_info'] / some secured cache vars, and skips doing system resource usage alerts)
+if (
+$is_csv_export
+|| $is_charts
+|| $is_logs 
+|| $ct['runtime_mode'] == 'captcha' 
+|| $ct['runtime_mode'] == 'qr_code' 
+|| isset($_GET['mode']) && $_GET['mode'] == 'stock_overview'
+|| isset($fast_runtime_lib) && is_file($fast_runtime_lib)
+) {
+$ct['fast_runtime'] = true;
+}
+
+
 // Developer-only configs
 $dev_only_configs_mode = 'init'; // Flag to only run 'init' section
 require('developer-config.php');
@@ -50,10 +71,6 @@ error_reporting($ct['dev']['debug_php_errors']); // PHP error reporting
 if ( $ct['dev']['debug_php_errors'] != 0 && function_exists('opcache_reset') ) {
 opcache_reset();
 }
-
-
-// Include runtime mode in our $ct array (for easily importing globals into functions, etc)
-$ct['runtime_mode'] = $runtime_mode;
 
 
 // Detect the edition / platform we are running in

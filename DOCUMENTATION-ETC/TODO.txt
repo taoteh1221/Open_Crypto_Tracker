@@ -178,6 +178,15 @@ Error reading news feed data (XML error), because AWS Cloudfront BLOCKS base on 
 ~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~
 
 
+Add full redhat support for auto-installer.
+
+
+Look into PHP class private / public difference, and see if it would help in security.php.
+
+
+Test server edition on bluehost and 1and1 shared hosting.
+
+
 Maybe add the ability for a plugin developer to have feature specs for checking for plugin upgrades, and manually / automatically update the plugin?
 
 
@@ -201,9 +210,6 @@ Add the new Fedora setup logic to prevent system sleeping / hibernating, to the 
 
 
 Look at which exchange APIs have a 'search' API endpoint (for exchanges we haven't yet 'registered' as such, in this app).
-
-
-Add full redhat support for auto-installer.
 
 
 Convert all my bash vars to lower case, as only system vars should be uppercase.
