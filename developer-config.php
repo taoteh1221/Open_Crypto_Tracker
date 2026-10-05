@@ -45,7 +45,7 @@ $ct['dev']['global_font_weight'] = 400; // 400 for ANY font size
 
 
 // FONT WEIGHT for SMALL text in app (as a CSS value)
-$ct['dev']['small_font_weight'] = 1000; // 1000 for SMALL font size
+$ct['dev']['small_font_weight'] = 500; // 500 for SMALL font size
 
 
 // LINE HEIGHT PERCENTAGE for ALL text in app (as a decimal)
