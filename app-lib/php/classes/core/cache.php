@@ -2711,8 +2711,9 @@ var $ct_array = array();
     }
     
     
-    // Check if this is a NEW archival chart, with only one entry so far...
-    // AND $newest_arch_timestamp - $oldest_arch_timestamp MUST BE GREATER THAN ZERO!
+    // EXPLICITY / STRICTLY check if this is a NEW archival chart, with ONLY ONE VALID ENTRY so far...
+    // $newest_arch_timestamp - $oldest_arch_timestamp MUST BE GREATER THAN ZERO,
+    // OR THE RUNTIME WILL CRASH TRYING TO DIVIDE BY ZERO!
     if (
     $newest_arch_timestamp > $oldest_arch_timestamp
     && ($newest_arch_timestamp - $oldest_arch_timestamp) > 0
