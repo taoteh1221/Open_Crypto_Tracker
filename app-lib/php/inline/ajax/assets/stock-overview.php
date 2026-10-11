@@ -24,7 +24,7 @@ $stock_overview = $ct['api']->stock_overview($market_id, $_GET['exchange']);
 ?>
 
 
-<h5 class="yellow align_center tooltip_title"><?=$ct['gen']->key_to_name($_GET['exchange'])?> Summary For:<br /><?=$_GET['name']?> (<?=$_GET['ticker']?>)</h5>
+<h5 class="yellow align_center tooltip_title"><?=$ct['gen']->key_to_name($_GET['exchange'])?> Summary For:<br /><?=$_GET['name']?> (<?=preg_replace("/stock/i", " [stock]", $_GET['ticker'])?>)</h5>
  
 <?php
 

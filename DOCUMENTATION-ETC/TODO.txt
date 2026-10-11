@@ -171,13 +171,6 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Stocks - AlphaStreet
-Error reading news feed data (XML error), because AWS Cloudfront BLOCKS base on referrer or something else. See if us adding the RSS domain to "Admin Area => News Feeds => Strict News Feed Servers" fixed the issue (which adds "RSS_Feed_Parser/1.1" to our user agent string), after a day or so.
-
-
-~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~
-
-
 Add full redhat support for auto-installer.
 
 

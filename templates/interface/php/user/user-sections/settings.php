@@ -138,10 +138,10 @@
 			    localStorage.setItem(folio_sorting_storage,  this.value + "|" + $("#sorted_direction").val() );
                    local_storage_saved_notice("Portfolio Sort Order");
 			    '>
-				<option value='0'> Rank </option>
+				<option value='0'> 👑 </option>
 				<option value='1'> Asset </option>
 				<option value='2'> <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?> Value </option>
-				<option value='3'> Market Value </option>
+				<option value='3'> Trading </option>
 				<option value='4'> Market </option>
 				<option value='5'> Exchange </option>
 				<option value='6'> Volume </option>
