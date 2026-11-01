@@ -50,6 +50,9 @@ padding: .07rem 1.4rem .07rem .5rem !important;
 
 td .custom-select {
 min-width: 100% !important;
+max-width: 10em !important;
+overflow: hidden !important;
+text-overflow: ellipsis !important;
 }
 
 
@@ -221,6 +224,21 @@ padding: 0px;
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+
+.asset_name {
+float: left;
+text-align: left !important;
+max-width: 8em !important;
+white-space: normal !important;
+}
+
+
+.asset_info {
+float: right;
+text-align: left !important;
+max-width: 2em !important;
+}
         
 
 /*

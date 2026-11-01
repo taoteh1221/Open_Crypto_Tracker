@@ -171,11 +171,10 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Stocks - AlphaStreet
-Error reading news feed data (XML error), because AWS Cloudfront BLOCKS base on referrer or something else. See if us adding the RSS domain to "Admin Area => News Feeds => Strict News Feed Servers" fixed the issue (which adds "RSS_Feed_Parser/1.1" to our user agent string), after a day or so.
+Update DESKTOP EDITIONS TO PHP v8.3.36, to patch remote securty vulnerabilities. Also update the FIX-LINUX-DESKTOP.bash file in the PHPdesktop main directory (with the one from the APP main directory).
 
 
-~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~
+See why the recurring reminder plugin immediately re-sends entry's alerts (during allowed hours), when entries have been updated.
 
 
 Add full redhat support for auto-installer.

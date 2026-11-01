@@ -17,8 +17,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 // Application version
 // PLEASE ALSO UPDATE TIMESTAMP, TO DATE OF LATEST VERSION BUMP:
-$ct['app_version'] = '6.01.10'; // 2026/SEPTEMBER/25TH
-
+$ct['app_version'] = '6.02.00'; // 2026/OCTOBER/11TH
 
 // #PHP# ERROR LOGGING
 // Can take any setting shown here: https://www.php.net/manual/en/function.error-reporting.php
