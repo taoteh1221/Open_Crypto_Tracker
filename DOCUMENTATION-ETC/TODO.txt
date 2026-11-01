@@ -171,6 +171,12 @@ If new testing was added, add it to the package testing notes.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+Update DESKTOP EDITIONS TO PHP v8.3.36, to patch remote securty vulnerabilities. Also update the FIX-LINUX-DESKTOP.bash file in the PHPdesktop main directory (with the one from the APP main directory).
+
+
+See why the recurring reminder plugin immediately re-sends entry's alerts (during allowed hours), when entries have been updated.
+
+
 Add full redhat support for auto-installer.
 
 
