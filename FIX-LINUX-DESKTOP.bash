@@ -9,7 +9,7 @@
 # https://www.cvedetails.com/vulnerability-list/vendor_id-74/PHP.html
 # NOT USED ON REDHAT SYSTEMS, AS THE NEW COMPILER IN FEDORA 42 CAUSES ISSUES
 # (WE USE REDHAT PHP PACKAGES INSTEAD)
-PHP_GITHUB_RELEASE_TAG="php-8.3.8"
+PHP_GITHUB_RELEASE_TAG="php-8.3.36"
 
 
 ISSUES_URL="https://github.com/taoteh1221/Open_Crypto_Tracker/issues"

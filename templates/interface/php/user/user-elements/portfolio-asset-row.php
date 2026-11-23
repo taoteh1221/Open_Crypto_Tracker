@@ -46,7 +46,7 @@ echo '?';
 
 
 
-<td class='data border_lb' align='right' style='position: relative; white-space: nowrap;'>
+<td class='data border_lb' align='right' style='position: relative; min-width: 12em; max-width: 12em; text-align: left; white-space: nowrap;'>
  
  
  <?php
@@ -121,7 +121,18 @@ echo '?';
  	
  		?>
  		
- <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>' target='_blank' class='blue app_sort_filter' title='View Information Page For <?=$asset_symb?>'><?=$asset_name?></a> <img class='tooltip_style_control' id='<?=preg_replace("/\:/", "", $mkcap_render_data)?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+<span class='asset_name'>
+ 
+ <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>' target='_blank' class='blue app_sort_filter' title='View Information Page For <?=$asset_symb?>'><?=$asset_name?></a>
+ 
+</span>
+ 
+<span class='asset_info'>
+
+ <img class='tooltip_style_control' id='<?=preg_replace("/\:/", "", $mkcap_render_data)?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+ 
+ </span>
+ 
  <script>
 
 		<?php
@@ -188,7 +199,7 @@ echo '?';
         		
         ?> 
     
-        var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?>.com Summary For: <?=$asset_name?> (<?=$asset_symb?>)</h5>'
+        var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?>.com Summary For:<br /><?=$asset_name?> (<?=$asset_symb?>)</h5>'
         
         		<?php
             if ( isset($mcap_data['app_notice']) && $mcap_data['app_notice'] != '' ) {
@@ -350,15 +361,21 @@ echo '?';
 		
   ?>
   
-  <span class='blue app_sort_filter'><?=$asset_name?></span> <img id='<?=$rand_id?>' class='tooltip_style_control' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
-  
+<span class='blue app_sort_filter asset_name'><?=$asset_name?></span> 
+
+<span class='asset_info'>
+ 
+ <img id='<?=$rand_id?>' class='tooltip_style_control' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+ 
+</span> 
+
  <script>
  
  			<?php
 			if ( $asset_symb == 'MISCASSETS' ) {
 			?>
 
-			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
+			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?></h5>'
     
         +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Miscellaneous <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
         
@@ -423,7 +440,7 @@ echo '?';
 			else {
 			?>
 			
-			var cmc_content = '<p class="coin_info"><span class="red">No <?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symb?>) has been configured yet.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red">No <?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=preg_replace("/stock/i", " [stock]", $asset_symb)?>) has been configured yet.</span></p>';
 	
 			<?php
 			}

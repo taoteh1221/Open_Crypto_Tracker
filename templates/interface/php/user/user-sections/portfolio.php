@@ -125,10 +125,10 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
          </th>
     </tr>
     <tr>
-<th class='border_lb num-sort'> &nbsp; Rank &nbsp; </th>
-<th class='border_lb blue al_right'><span> &nbsp;&nbsp; Asset</span></th>
+<th class='border_lb num-sort' style='max-width: 1px !important; padding-left: 0px !important;'> &nbsp; 👑 &nbsp; </th>
+<th class='border_lb blue al_right' style='text-align: left !important; padding-left: 0px !important;'><span> &nbsp;&nbsp; Asset</span></th>
 <th class='border_b num-sort'> &nbsp; <?=strtoupper($ct['conf']['currency']['bitcoin_primary_currency_pair'])?> Value &nbsp; </th>
-<th class='border_lb num-sort al_right'> &nbsp; Market Value &nbsp; </th>
+<th class='border_lb num-sort al_right'> &nbsp; Trading &nbsp; </th>
 <th class='border_b blue'> &nbsp; Market &nbsp; </th>
 <th class='border_b blue'> &nbsp; Exchange &nbsp; </th>
 <th class='border_b num-sort'> &nbsp; Volume &nbsp; </th>
